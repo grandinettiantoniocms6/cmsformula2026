@@ -8,3 +8,5 @@ Homestead.yaml
 /nbproject
 /vendor/
 /public/plugins/pluginProducts/
+/public/uploads/
+/public/thumb/
