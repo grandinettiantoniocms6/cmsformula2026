@@ -598,7 +598,9 @@
     </div>
 
     @if(env('LOCAL') == 0)
-    <!-- Messaggi da Webisland Gest -->
+
+    <!-- commento tutto new per il momento
+Messaggi da Webisland Gest
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
@@ -635,9 +637,9 @@
                 </div>
             </div>
         </div>
-    <!-- / Messaggi da Webisland Gest -->
-@endif
+     / Messaggi da Webisland Gest -->
 
+@endif
 
 
 @endsection
