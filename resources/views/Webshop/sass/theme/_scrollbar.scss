@@ -1,0 +1,17 @@
+@include media-breakpoint-up(sm) {
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: $white;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: var(--scrollbar-color);
+    }
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--scrollbar-color);
+    }
+}

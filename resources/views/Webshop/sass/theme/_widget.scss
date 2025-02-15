@@ -1,0 +1,20 @@
+.widget-search.widget-topbar {
+    .btn {
+        border-right: 1px solid $input-border-color;
+        border-top: 1px solid $input-border-color;
+        border-bottom: 1px solid $input-border-color;
+        border-left: 0;
+        background-color: #fff;
+        color: var(--bs-body-color);
+        &:hover, &:focus {
+            color: var(--bs-body-color);
+            opacity: .75;
+        }
+    }
+    .form-control {
+        border-right: 0;
+        background-color: #fff;
+        line-height: 1;
+        height: 44px;
+    }
+}

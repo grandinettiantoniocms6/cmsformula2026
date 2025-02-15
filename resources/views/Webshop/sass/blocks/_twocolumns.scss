@@ -1,0 +1,18 @@
+.block-twocolumns {
+    padding: 3.75rem 0;
+    background-color: var(--twocolumns-block-bg, $body-bg);
+    color: var(--twocolumns-block-text-color, $body-color);
+
+    .card {
+        border: 0;
+        background-color: transparent;
+    }
+    .card-body {
+        padding: 0;
+    }
+    .title {
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: var(--twocolumns-block-title-color, $body-color);
+    }
+}

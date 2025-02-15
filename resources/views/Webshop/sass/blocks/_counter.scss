@@ -1,0 +1,29 @@
+.block-counter {
+    padding: 1.5rem 0;
+    background-color: var(--counter-block-bg);
+    color: var(--counter-block-text-color);
+
+    .title {
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        font-size: 2.5rem;
+    }
+    .title, .subtitle, .description {
+        color: var(--counter-block-title-color);
+    }
+    .subtitle {
+        margin-bottom: 0;
+        font-weight: 700;
+        color: var(--counter-block-subtitle-color);
+        font-size: 1.35rem;
+    }
+    .card {
+        box-shadow: none;
+        border: 0;
+        border-radius: $border-radius;
+        background-color: var(--counter-block-box-bg);
+    }
+    .card-body {
+        padding: 1.5rem;
+    }
+}

@@ -1,0 +1,43 @@
+@function tint($color, $percentage) {
+    @return mix(#ffffff, $color, $percentage);
+}
+@function shade($color, $percentage) {
+    @return mix(black, $color, $percentage);
+}
+
+$colors: map-merge(
+        (
+            'primary': $primary,
+            'secondary': $secondary,
+            'success': $success,
+            'danger': $danger,
+            'warning': $warning
+        ),
+        $colors
+);
+
+@each $name, $value in $colors {
+    .bg-darken-#{$name} {
+        background: shade($value, 10%);
+    }
+    .bg-soft-#{$name} {
+        background: tint($value, 94%);
+    }
+    .bg-pale-#{$name} {
+        background: tint($value, 86%);
+    }
+    .bg-light-#{$name} {
+        background-color: rgba($value, .075);
+    }
+    .bg-gradient-#{$name} {
+        @include gradient-y(tint($value, 80%), tint($value, 95%), 25%, 100%);
+    }
+
+    .btn-soft-#{$name} {
+        background-color: tint($value, 94%);
+        color: $value;
+        &:hover {
+            color: $value;
+        }
+    }
+}

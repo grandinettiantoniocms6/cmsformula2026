@@ -1,0 +1,40 @@
+.block-document {
+    padding: 3.75rem 0;
+    background-color: var(--document-block-bg);
+    color: var(--document-block-text-color);
+
+    .title {
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1rem;
+        color: var(--document-block-title-color);
+    }
+    .card {
+        text-align: center;
+        border: 0;
+        background-color: transparent;
+        box-shadow: $box-shadow-lg;
+    }
+    .icon {
+        padding: 0;
+        border-radius: 100%;
+        width: 3.5rem;
+        min-width: 3.5rem;
+        height: 3.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        background: tint($primary, 94%);
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: $primary;
+        margin-bottom: .5rem;
+    }
+    .card-text {
+        font-weight: 700;
+        text-align: center;
+    }
+}

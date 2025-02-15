@@ -1,0 +1,180 @@
+/*  Fix Basic
+Questo fix contiene alcune correzioni di tutti i css del tema Basic. Oltre ad avere settaggi responsive a fine coda.
+*/
+/*************************************
+         Messaggio Sito Offile
+**************************************/
+
+#offline {
+    border-radius: 0px;
+    position:fixed;
+    z-index:20000000;
+    float:left;
+    bottom: 0px;
+    /*border:1px solid #06457B;
+    padding-top: 7px;*/
+    margin:0px;
+    padding:0;
+    width:100%;
+    height:27px;
+    background-color:#e5ecf2;
+    color: #900;
+    size: 14px;
+}
+
+/*  Sfondo rosso icona carrello in topbar **/
+.badge-cart { background-color: #f60a0a; }
+
+/** Adjust logo in PC lcd */
+.mega-menu .menu-logo { padding: 25px 0 25px; }
+
+/* Effetti extra - Magazine */
+/*service*/
+.marketing-service .feature-text .feature-icon span, .marketing-service .feature-text .feature-icon i { padding-left: 0; }
+.marketing-service .feature-text { padding: 60px 40px; border:1px solid #eeeeee; height: 100%; background: #ffffff; -webkit-transition: all 0.5s ease-in-out; -o-transition: all 0.5s ease-in-out; -ms-transition: all 0.5s ease-in-out; -moz-transition: all 0.5s ease-in-out; transition: all 0.5s ease-in-out; }
+.marketing-service .feature-text:hover { box-shadow: 0 0 50px rgba(0, 0, 0, .2); position: relative; z-index: 1;  }
+
+/*step*/
+.marketing-step .step-box { height: 230px; width: 230px; box-shadow: 0px 0px 0 10px #d12326;  border-radius: 50%; overflow: hidden; -webkit-transition: all 0.5s ease-in-out; -o-transition: all 0.5s ease-in-out; -ms-transition: all 0.5s ease-in-out; -moz-transition: all 0.5s ease-in-out; transition: all 0.5s ease-in-out; }
+.marketing-step .step-box h4 { text-align: center; line-height: 230px; position: relative; }
+.marketing-step .step-box:hover { box-shadow: 0px 0px 0 15px #d12326; }
+
+/*testimonial*/
+.marketing-testimonial .testimonial-info { font-size: 18px; line-height: 34px; }
+
+/*sidebar*/
+ul.menu-sidebar { position: relative; z-index: 1; }
+ul.menu-sidebar li { display: block; }
+ul.menu-sidebar li a { text-transform: capitalize; display: block; background: #f6f7f8; padding: 16px 30px; color: #323232; font-weight: 600; border-bottom: 1px solid #ffffff; border-left: 5px solid transparent;  }
+ul.menu-sidebar li a:hover, ul.menu-sidebar li.active a { border-left: 5px solid #d12326; color: #d12326; }
+
+/*action-box*/
+.marketing-action-box .action-box { padding: 40px 50px; }
+.marketing-action-box .popup-video-image a i { left: inherit; top: -14px; }
+
+/*timeline*/
+.our-history.timeline-left .timeline > li > .timeline-badge { left: 15%; }
+.our-history.timeline-left .timeline:before { left: 15%; }
+.our-history.timeline-left .timeline > li > .timeline-panel{ width: 79%; }
+.our-history.timeline-left .timeline-arrow { width: inherit; left : 14.3%; right: inherit; }
+.our-history.timeline-left .timeline > li > .timeline-badge p { margin-top: -6px; }
+
+/*team*/
+.marketing-team .team.team-list h5 { font-size: 18px; text-transform: capitalize; }
+.marketing-team .team.team-list .team-info span { font-size: 14px; text-transform: capitalize; }
+
+/*work*/
+.marketing-work .portfolio-item a.popup { width: auto; height: inherit; padding: 0px 20px; border-radius: 3px; display: inline-block; }
+
+/*overlay*/
+.bg-overlay-theme-20:before {  background: rgba(22, 24, 44, 0.2) !important; content: ""; height: 100%; left: 0; position: absolute; top: 0; width: 100%; z-index: -1; }
+.bg-overlay-theme-50:before {  background: rgba(22, 24, 44, 0.5) !important; content: ""; height: 100%; left: 0; position: absolute; top: 0; width: 100%; z-index: -1; }
+.bg-overlay-theme-70:before {  background: rgba(22, 24, 44, 0.7) !important; content: ""; height: 100%; left: 0; position: absolute; top: 0; width: 100%; z-index: -1; }
+.bg-overlay-theme-80:before {  background: rgba(22, 24, 44, 0.8) !important; content: ""; height: 100%; left: 0; position: absolute; top: 0; width: 100%; z-index: -1; }
+.bg-overlay-theme-90:before {  background: rgba(22, 24, 44, 0.9) !important; content: ""; height: 100%; left: 0; position: absolute; top: 0; width: 100%; z-index: -1; }
+
+
+
+
+/** R E S P O N S I V E \\\\\
+@media (min-width: 350px) and (max-width: 474px) {
+@media (min-width: 475px) and (max-width: 767x) {
+@media (min-width: 768px) and (max-width: 1024px) {
+**/
+
+/** Adjust logo in mobile lcd */
+@media (min-width: 320px) and (max-width: 474px) {
+
+    .mega-menu .menu-logo {
+        padding: 25px 0 5px 0px;
+    }
+    #logo_img {
+        margin-left: -25px;
+        width: 90%;
+        margin-top: 5px;
+    }
+
+}
+
+/** Adjust logo in mobile/tablet lcd */
+@media (min-width: 475px) and (max-width: 767px) {
+
+    .mega-menu .menu-logo {
+        padding: 25px 0 5px 5px;
+    }
+}
+
+/** Adjust logo in mobile/tablet lcd */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    .mega-menu .menu-logo {
+        padding: 25px 0 5px 5px;
+    }
+}
+
+/* Fixato movimento a scatto tra una slide e l'altra, x slideshow e caroselli */
+
+#slider-home #slider-carosello .item picture {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+#slider-home #slider-carosello .item picture img {
+    width: 100%;
+    /*height: 100%;*/
+    /*aspect-ratio: 16 / 9;*/
+    object-fit: cover;
+}
+#slider-home #slider-carosello .item .caption {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+#slider-home #slider-carosello .item .caption h3 p {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+#slider-home #slider-carosello .owl-dots {
+    position: absolute;
+    bottom: 15px;
+}
+@media screen and (max-width: 767px) {
+    .animated {
+        margin-top: 0;
+    }
+
+}
+@media (max-width: 575px) {
+    #slider-home .item picture img {
+        aspect-ratio: 1 / 1.2;
+    }
+}
+
+/* Blocco Contact Form */
+@media only screen and (min-width: 290px) and (max-width: 991px) {
+    #formpro {
+        margin-top: 20px;
+    }
+
+.row-form {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: 5px!important;
+    margin-left: 5px!important;
+}
+
+
+
+}
+

@@ -1,0 +1,30 @@
+.block-parallax {
+    background-color: var(--parallax-block-bg);
+    .descrition {
+        color: var(--parallax-block--text-color);
+    }
+    .title {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--parallax-block--title-color);
+    }
+}
+
+.jarallax {
+    position: relative;
+    z-index: 0;
+    background-color: var(--parallax-block-bg);
+    color: var(--parallax-block-text-color);
+}
+.jarallax > .jarallax-img {
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+
+

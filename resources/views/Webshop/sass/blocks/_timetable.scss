@@ -1,0 +1,64 @@
+.block-timetable {
+    padding: 3.75rem 0;
+    background-color: var(--timetable-block-bg);
+    color: var(--timetable-block-text-color);
+
+    .logo {
+        max-height: 100px;
+        width: auto;
+    }
+    .title {
+        font-weight: 700;
+        margin-bottom: 0;
+        color: var(--timetable-block-title-color);
+    }
+    .description {
+        color: var(--timetable-block-title-color);
+        margin-bottom: 1rem;
+    }
+
+    .card {
+        height: 100%;
+        margin: 0;
+        background-color: transparent;
+        --bs-card-border-color: var(--timetable-border-color);
+        .table {
+            --bs-table-border-color: var(--timetable-border-color);
+            tr {
+                td:first-child {
+                    padding-left: 1rem;
+                }
+                td:last-child {
+                    padding-right: 1rem;
+                }
+                td {
+                    line-height: 1.3;
+                    font-weight: 400;
+                    p {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+        .table-hover > tbody > tr:hover > * {
+            --bs-table-accent-bg: var(--timetable-color);
+        }
+    }
+    .card + .card {
+       border-top: 0;
+    }
+    .card-header {
+        font-weight: 700;
+        font-size: 1.25rem;
+        background: transparent;
+    }
+    .card-footer {
+        background-color: var(--timetable-color);
+    }
+
+    .card.style_1 {
+        .card-header {
+            background-color: var(--timetable-color);
+        }
+    }
+}

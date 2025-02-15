@@ -1,0 +1,25 @@
+.block-contact {
+    padding: 3.75rem 0;
+    color: var(--formpro-block-text-color);
+
+    .subtitle {
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        color: var(--formpro-block-text-color);
+    }
+    .title {
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: var(--formpro-block-title-color);
+    }
+    .card {
+        border: 0;
+        background-color: transparent;
+    }
+    .card-body {
+        padding: 0;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+}

@@ -1,0 +1,66 @@
+.block-one-photo {
+    color: var(--onephoto-block-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--onephoto-block-height, 500px);
+    &.bg-overlay:before {
+        background: var(--onephoto-block-bg);
+    }
+
+    .caption {
+        position: absolute;
+        bottom: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        left: 0;
+        right: 0;
+        z-index: 3;
+
+        &.alignment-1, &.alignment-2, &.alignment-3 {
+            justify-content: flex-start;
+        }
+        &.alignment-4, &.alignment-5, &.alignment-6 {
+            justify-content: center;
+        }
+        &.alignment-7, &.alignment-8, &.alignment-9 {
+            justify-content: flex-end;
+        }
+
+        &.alignment-1, &.alignment-4, &.alignment-7 {
+            text-align: left;
+            align-items: flex-start;
+        }
+        &.alignment-2, &.alignment-5, &.alignment-8 {
+            text-align: center;
+            align-items: center;
+        }
+        &.alignment-3, &.alignment-6, &.alignment-9 {
+            text-align: right;
+            align-items: flex-end;
+        }
+    }
+    .caption-inner {
+        display: block;
+        padding: var(--onephoto-block-caption-padding, 0px);
+    }
+
+    .title {
+        color: transparent;
+    }
+    .subtitle {
+        color: transparent;
+    }
+    .description {
+        color: transparent;
+    }
+    .btn {
+        visibility: hidden;
+        &:hover, &:focus {
+            opacity: .5;
+        }
+    }
+}

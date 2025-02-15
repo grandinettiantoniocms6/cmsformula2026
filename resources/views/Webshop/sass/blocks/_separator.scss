@@ -1,0 +1,15 @@
+.block-separator {
+    color: var(--separator-block-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.bg-overlay:before {
+        background: var(--separator-block-bg);
+    }
+    .btn {
+        margin-top: 1rem;
+        &:hover, &:focus {
+            opacity: .5;
+        }
+    }
+}

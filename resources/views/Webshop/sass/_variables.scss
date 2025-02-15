@@ -1,0 +1,105 @@
+// Grid breakpoints
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    2xl: 1400px,
+    3xl: 1680px
+);
+
+// Grid containers
+$container-max-widths: (
+        sm: 540px,
+        md: 720px,
+        lg: 960px,
+        xl: 1140px,
+        2xl: 1320px,
+        3xl: 1600px,
+);
+
+// Spacers
+$spacer: 1rem;
+$spacers: (
+    0: 0,
+    1: $spacer * .25,
+    2: $spacer * .5,
+    3: $spacer,
+    4: $spacer * 1.5,
+    5: $spacer * 3,
+    6: ($spacer * 4.5),
+    7: ($spacer * 6),
+    8: ($spacer * 9),
+    9: ($spacer * 12)
+);
+
+// Font
+$font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$headings-font-family: var(--headings-font-family);
+
+$font-weight-light:     400;
+$font-weight-normal:    500;
+$font-weight-bold:      700;
+
+// Modals
+$modal-header-border-width:     0;
+$modal-footer-border-width:     0;
+$modal-content-border-width:    0;
+$modal-inner-padding:           $spacer * 1.5;
+
+//----------------------------------------------------------//
+//	COLOR SYSTEM
+//----------------------------------------------------------//
+$white:         #fff;
+$black:         #000;
+$gray-100:      #f8f9fa;
+$gray-200:      #e9ecef;
+$gray-300:      #dee2e6;
+$gray-400:      #ced4da;
+$gray-500:      #adb5bd;
+$gray-600:      #6c757d;
+$gray-700:      #495057;
+$gray-800:      #343a40;
+$gray-900:      #212529;
+$error:         #de4747;
+$dark:          #262b32;
+
+$primary:       #0F69D7;
+$secondary:     $gray-600;
+$success:       #45c4a0;
+$info:          #54a8c7;
+$warning:       #fab758;
+$danger:        #e2626b;
+$light:         $gray-100;
+$dark:          $gray-900;
+
+$border-color:  $gray-300;
+//----------------------------------------------------------//
+//	BODY
+//----------------------------------------------------------//
+$body-bg:               $gray-100;
+$body-color:            $gray-900;
+
+// Font
+$headings-font-weight:  700;
+
+// Pagination
+$pagination-disabled-color:         $gray-500;
+$pagination-border-width:           0;
+
+// Shadows
+$input-btn-focus-box-shadow:    none;
+$border-radius:                 3px;
+$border-radius-sm:              3px;
+$border-radius-lg:              3px;
+$border-color:                  #eee;
+
+    // Cards
+$card-border-color:  $border-color;
+
+// Accordion
+
+// Form
+$form-label-margin-bottom:      .25rem;
+$form-label-font-weight:        600;

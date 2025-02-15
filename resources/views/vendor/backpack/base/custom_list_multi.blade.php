@@ -1,0 +1,227 @@
+@extends(backpack_view('blank'))
+
+@section('header')
+
+ <?php
+    $showDropzone = 0;
+    $itemBlock = null;
+    if(request()->has('block')){
+        $adminBlock = \App\Models\AdminBlock::where("name", request()->get('block'))->first();
+        $itemBlock = \DB::table($adminBlock->name_table)->where("id", request()->get('block_id'))->first();
+
+        if($adminBlock->name_table == "blocks_gallerys"){
+            $showDropzone = 1;
+        }
+    }
+ ?>
+  <div class="container-fluid">
+    <h2>
+      <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}
+          @if($itemBlock)
+              <span class="badge badge-secondary">{{ $itemBlock->name }}</span>
+          @endif
+      </span>
+      <small id="datatable_info_stack"></small>
+    </h2>
+  </div>
+@endsection
+
+@section('content')
+  <!-- Default box -->
+  <div class="row">
+
+    <!-- THE ACTUAL CONTENT -->
+    <div class="{{ $crud->getListContentClass() }}">
+
+        <form method="post" action="{{ route('actions') }}" id="formSave">
+            {{ csrf_field() }}
+            <input type="hidden" name="type" value="{{ request()->get('block') }}">
+
+         <div class="row mb-0">
+          <div class="col-sm-6">
+            @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
+
+              <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
+                <a href="/admin/{{ request()->get('block') }}/create?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi nuovo</span></a>
+                @if($showDropzone)
+                <a href="/admin/dropzone?table={{ $adminBlock->name_table }}&id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-warning" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi multi</span></a>
+                @endif
+                <a href="/admin/{{ request()->get('block') }}/reorder?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-outline-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
+
+                  <?php
+                    $page = \App\Models\Page::where("id", request()->get('page_id'))->first();
+                  ?>
+                  @if($page->slug == "/")
+                      <a href="/" target="_blank" class="btn btn-sm btn-info">
+                          <span><i class="la la-eye"></i></span>
+                          <span class="d-none d-md-inline">Anteprima</span>
+                      </a>
+                  @else
+                      <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-info">
+                          <span><i class="la la-eye"></i></span>
+                          <span class="d-none d-md-inline">Anteprima</span>
+                      </a>
+                  @endif
+                <a href="/admin/pages_blocks/{{ request()->get('page_id') }}" class="btn btn-sm btn-outline-primary" data-style="zoom-in"><span class="ladda-label"> < Torna alla pagina</span></a>
+
+              </div>
+            @endif
+
+                <div class="row no-gutters my-3">
+                    <div class="col-auto mr-1">
+                        <div class="dropdown show">
+                            <a class="btn btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Azioni
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="esporta">
+                                <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
+          <div class="col-sm-6">
+            <div id="datatable_search_stack" class="mt-sm-0 mt-2 d-print-none"></div>
+          </div>
+        </div>
+
+
+        {{-- Backpack List Filters --}}
+        @if ($crud->filtersEnabled())
+          @include('crud::inc.filters_navbar')
+        @endif
+
+        <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2" cellspacing="0">
+            <thead>
+              <tr>
+                {{-- Table columns --}}
+                @foreach ($crud->columns() as $column)
+                  <th
+                    data-orderable="{{ var_export($column['orderable'], true) }}"
+                    data-priority="{{ $column['priority'] }}"
+                     {{--
+
+                        data-visible-in-table => if developer forced field in table with 'visibleInTable => true'
+                        data-visible => regular visibility of the field
+                        data-can-be-visible-in-table => prevents the column to be loaded into the table (export-only)
+                        data-visible-in-modal => if column apears on responsive modal
+                        data-visible-in-export => if this field is exportable
+                        data-force-export => force export even if field are hidden
+
+                    --}}
+
+                    {{-- If it is an export field only, we are done. --}}
+                    @if(isset($column['exportOnlyField']) && $column['exportOnlyField'] === true)
+                      data-visible="false"
+                      data-visible-in-table="false"
+                      data-can-be-visible-in-table="false"
+                      data-visible-in-modal="false"
+                      data-visible-in-export="true"
+                      data-force-export="true"
+                    @else
+                      data-visible-in-table="{{var_export($column['visibleInTable'] ?? false)}}"
+                      data-visible="{{var_export($column['visibleInTable'] ?? true)}}"
+                      data-can-be-visible-in-table="true"
+                      data-visible-in-modal="{{var_export($column['visibleInModal'] ?? true)}}"
+                      @if(isset($column['visibleInExport']))
+                         @if($column['visibleInExport'] === false)
+                           data-visible-in-export="false"
+                           data-force-export="false"
+                         @else
+                           data-visible-in-export="true"
+                           data-force-export="true"
+                         @endif
+                       @else
+                         data-visible-in-export="true"
+                         data-force-export="false"
+                       @endif
+                    @endif
+                  >
+                    {!! $column['label'] !!}
+                  </th>
+                @endforeach
+
+                @if ( $crud->buttons()->where('stack', 'line')->count() )
+                  <th data-orderable="false"
+                      data-priority="{{ $crud->getActionsColumnPriority() }}"
+                      data-visible-in-export="false"
+                      >{{ trans('backpack::crud.actions') }}</th>
+                @endif
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+              <tr>
+                {{-- Table columns --}}
+                @foreach ($crud->columns() as $column)
+                  <th>{!! $column['label'] !!}</th>
+                @endforeach
+
+                @if ( $crud->buttons()->where('stack', 'line')->count() )
+                  <th>{{ trans('backpack::crud.actions') }}</th>
+                @endif
+              </tr>
+            </tfoot>
+          </table>
+
+          @if ( $crud->buttons()->where('stack', 'bottom')->count() )
+          <div id="bottom_buttons" class="d-print-none text-center text-sm-left">
+            @include('crud::inc.button_stack', ['stack' => 'bottom'])
+
+            <div id="datatable_button_stack" class="float-right text-right hidden-xs"></div>
+          </div>
+          @endif
+        </form>
+    </div>
+
+  </div>
+
+@endsection
+
+@section('after_styles')
+  <!-- DATA TABLES -->
+  <link rel="stylesheet" type="text/css" href="{{ asset('packages/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('packages/datatables.net-fixedheader-bs4/css/fixedHeader.bootstrap4.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('packages/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}">
+
+  <link rel="stylesheet" href="{{ asset('packages/backpack/crud/css/crud.css') }}">
+  <link rel="stylesheet" href="{{ asset('packages/backpack/crud/css/form.css') }}">
+  <link rel="stylesheet" href="{{ asset('packages/backpack/crud/css/list.css') }}">
+
+  <!-- CRUD LIST CONTENT - crud_list_styles stack -->
+  @stack('crud_list_styles')
+@endsection
+
+@section('after_scripts')
+  @include('crud::inc.datatables_logic')
+  <script src="{{ asset('packages/backpack/crud/js/crud.js') }}"></script>
+  <script src="{{ asset('packages/backpack/crud/js/form.js') }}"></script>
+  <script src="{{ asset('packages/backpack/crud/js/list.js') }}"></script>
+
+  <!-- CRUD LIST CONTENT - crud_list_scripts stack -->
+  @stack('crud_list_scripts')
+
+  <script type="text/javascript">
+      //select all checkboxes
+      $("#select_all").change(function(){  //"select all" change
+          var status = this.checked; // "select all" checked status
+          $('.checkbox').each(function(){ //iterate all listed checkbox items
+              this.checked = status; //change ".checkbox" checked status
+          });
+      });
+
+      $('.checkbox').change(function(){ //".checkbox" change
+          //uncheck "select all", if one of the listed checkbox item is unchecked
+          if(this.checked == false){ //if this item is unchecked
+              $("#select_all")[0].checked = false; //change "select all" checked status to false
+          }
+
+          //check "select all" if all checkbox items are checked
+          if ($('.checkbox:checked').length == $('.checkbox').length ){
+              $("#select_all")[0].checked = true; //change "select all" checked status to true
+          }
+      });
+  </script>
+@endsection

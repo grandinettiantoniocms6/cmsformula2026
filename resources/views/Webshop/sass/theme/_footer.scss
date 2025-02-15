@@ -1,0 +1,122 @@
+#footer {
+    margin-top: auto;
+    background-color: var(--footer-bg);
+    color: var(--footer-text-color);
+    a {
+        color: var(--footer-link-color);
+        text-decoration: none;
+        @include transition(all 0.2s ease);
+        &:hover, &:focus {
+            opacity: .5;
+            color: var(--footer-link-hover-color);
+        }
+    }
+    .footer-top {
+        background-color: var(--footer-bg);
+        padding: var(--footer-top-padding-y) 0;
+        .nav-link {
+            padding: 0.25rem 0;
+            opacity: 1;
+            &:hover, &:focus {
+                opacity: .5;
+            }
+        }
+        h4, h5 {
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--footer-text-color);
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            li a {
+                line-height: 2;
+            }
+        }
+    }
+
+    .footer-bottom {
+        background-color: var(--footer-bg);
+        padding: var(--footer-bottom-padding-y) 0;
+        a {
+            color: var(--footer-link-color);
+            text-decoration: none;
+        }
+        .nav-social {
+            .nav-link {
+                padding: var(--bs-nav-link-padding-y) calc(var(--bs-nav-link-padding-x) / 2);
+            }
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+  #footer {
+    .navbar-expand-lg {
+      .btn {
+        display: none;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  #footer {
+    .footer-top {
+      padding: 1.5rem 0 0;
+      h4, h5 {
+        display: none;
+      }
+    }
+    .footer-bottom {
+      .navbar-brand {
+        display: block;
+        margin: 0 0 0.5rem;
+      }
+      .nav-links, .nav-social {
+          justify-content: center;
+      }
+      .copyright {
+        display: block;
+        text-align: center;
+      }
+    }
+    .navbar-expand-lg {
+      border-bottom: 1px solid rgba(white, 0.1);
+    }
+    .navbar-expand-lg .btn {
+      font-weight: 600;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.35rem 0;
+      font-size: 1.15rem;
+      color: white;
+      display: flex;
+      width: 100%;
+      &:focus, &.focus {
+        outline: 0;
+        box-shadow: none;
+      }
+      &:after {
+        content: '';
+        font-family: 'Font Awesome 5 Pro';
+        font-weight: 300;
+
+      }
+      &[aria-expanded="false"]:after {
+        content: "\f067";
+      }
+      &[aria-expanded="true"]:after {
+        content: "\f068";
+      }
+    }
+    .navbar-collapse.show {
+      padding-bottom: 1rem;
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+
+}

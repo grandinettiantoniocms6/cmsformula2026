@@ -1,0 +1,173 @@
+.sidebar-content {
+    padding: .5rem 0;
+}
+
+.widget-collapsible {
+    margin-bottom: 1.5rem;
+    .widget-title {
+        position: relative;
+        margin-bottom: 0;
+        padding: 0 0 0.75rem;
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--bs-body-color);
+        letter-spacing: 0;
+        border-bottom: 1px solid rgba(var(--bs-body-color-rgba), 0.075);
+        cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        i {
+            cursor: pointer;
+        }
+    }
+    .widget-title[aria-expanded="false"] i {
+        transform: rotate(90deg);
+    }
+    .widget-body {
+        transition: all .3s;
+        padding: 0.75rem 0;
+        .btn-arrow {
+            background: transparent;
+            color: var(--bs-body-color);
+            border: 0;
+            &[aria-expanded="false"] {
+                transform: rotate(90deg);
+            }
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            li a {
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: .35rem 0;
+                color: var(--bs-body-color);
+                strong {
+                    flex-grow: 1;
+                }
+                i[aria-expanded="false"] {
+                    transform: rotate(90deg);
+                }
+            }
+            ul {
+                list-style: none;
+                padding-left: 0;
+                & > li {
+                    padding-left: 1rem;
+                }
+            }
+        }
+    }
+    .form-check {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        line-height: 1.5;
+    }
+    .tag-element {
+        margin: 0 5px 5px 0;
+        display: inline-block;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    #sidebar-shop {
+        transition: all 0.2s ease;
+        .sidebar-title {
+            display: none;
+        }
+        &.collapsing {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        &:not(.show-lg) {
+            padding: 0;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        &.sidebar-right {
+            order: 2;
+        }
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    #sidebar-shop {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 320px;
+        z-index: 999;
+        height: 100vh;
+        display: flex;
+        padding: 0;
+        flex-direction: column;
+        background-color: $white;
+        transition: left 0.2s ease;
+        .sidebar-backdrop {
+            @include transition(all 0.5s ease);
+        }
+        &.show {
+            left: 0;
+            .sidebar-title {
+                position: relative;
+                top: 0;
+                width: 100%;
+                z-index: 11;
+                padding: .75rem 1.5rem;
+                font-size: 1.25rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-weight: 600;
+                background: $white;
+                color: var(--bs-btn-bg);
+                cursor: pointer;
+                border-bottom: 1px solid $border-color;
+            }
+            .sidebar-content {
+                position: relative;
+                width: 100%;
+                top: 0;
+                z-index: 10;
+                background: white;
+                flex-grow: 1;
+                overflow-y: auto;
+                padding: 15px 15px 60px;
+                display: flex;
+                flex-direction: column;
+            }
+            .sidebar-footer {
+                position: relative;
+                bottom: 0;
+                width: 100%;
+                padding: .75rem 1.5rem;
+                background: white;
+                z-index: 11;
+            }
+            .sidebar-backdrop {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba($black, 0.5);
+                z-index: 9;
+            }
+        }
+    }
+    .widget-collapsible {
+        margin-bottom: 1rem;
+    }
+}

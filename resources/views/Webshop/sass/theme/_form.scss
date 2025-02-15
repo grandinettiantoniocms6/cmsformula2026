@@ -1,0 +1,79 @@
+.form-group {
+    margin-bottom: 1rem;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.input-spinner {
+    .button-minus {
+        border: 1px solid $input-border-color;
+        border-right: 0;
+        border-radius: 0;
+        font-size: .875rem;
+    }
+    .form-control-qty {
+        background: transparent;
+        border-left: 0;
+        border-right: 0;
+        max-width: 30px;
+        padding: 0.25rem 0.25rem;
+        text-align: right;
+        &:focus, &:hover {
+            border-color: $input-border-color;
+        }
+    }
+    .button-plus {
+        border: 1px solid $input-border-color;
+        border-left: 0;
+        border-radius: 0;
+        font-size: .875rem;
+    }
+    .btn-default {
+        &:focus, &:hover {
+            transform: translateY(0);
+            background-color: transparent;
+            border-color: $input-border-color;
+            color: var(--bs-btn-bg);
+        }
+    }
+}
+
+.card-check {
+    position: relative;
+    padding-left: 0;
+    margin-bottom: 0.5rem;
+    .form-check-input {
+        position: absolute;
+        left: 1.25rem;
+        top: 1.35rem;
+        margin-left: 0;
+        z-index: 1;
+        margin-top: 0;
+    }
+    .card {
+        padding-left: 3rem;
+    }
+    .form-check-input:checked ~ .card {
+        border: 1px solid $primary;
+        box-shadow: $box-shadow-sm;
+    }
+}
+
+.form-control-variant {
+    display: inline-block;
+    width: 50px;
+}
+
+.form-check-input:checked {
+    background-color: var(--bs-btn-bg);
+    border-color: var(--bs-btn-bg);
+}

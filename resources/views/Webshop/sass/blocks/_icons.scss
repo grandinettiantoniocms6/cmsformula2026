@@ -1,0 +1,115 @@
+.block-icons {
+    padding: 3.75rem 0;
+    background-color: var(--icons-block-bg);
+    color: var(--icons-block-text-color);
+    .title {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--icons-block-title-color);
+    }
+    .description {
+        color: var(--icons-block-text-color);
+    }
+    .icon {
+        padding: 0;
+        border-radius: 100%;
+        width: 3rem;
+        min-width: 3rem;
+        height: 3rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        background: var(--icons-block-icon-bg);
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: var(--icons-block-icon-color);
+        margin-bottom: 1rem;
+    }
+    .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-shadow: $box-shadow-lg;
+        border: 0;
+        padding: 1.5rem;
+        border-radius: $border-radius;
+        background-color: transparent;
+    }
+    .card-body {
+        padding: 0;
+    }
+
+    &.style-2 {
+        .card {
+            text-align: center;
+            align-items: center;
+            background-color: transparent;
+        }
+        .icon {
+            border-width: 2px;
+            border-style: solid;
+        }
+    }
+    &.style-3 {
+        .card {
+            flex-direction: row;
+            background-color: transparent;
+            align-items: center;
+            gap: 15px;
+        }
+        .icon {
+            margin-right: 1rem;
+            margin-bottom: 0;
+        }
+    }
+    &.style-4 {
+        .card {
+            padding: 0;
+        }
+    }
+    &.style-9 {
+        padding: 0;
+        .card {
+            border-radius: 0;
+            background-color: var(--ibox-bg);
+            transition: background 0.4s ease 0s;
+            h5, .h5 {
+                transition: all 0.4s ease 0s;
+                color: var(--ibox-txt-color);
+            }
+            .description {
+                transition: all 0.4s ease 0s;
+                opacity: 0;
+                color: var(--ibox-txt-color);
+            }
+            a {
+                text-decoration: none;
+            }
+            .icon {
+                margin: 50px 0 20px;
+                transition: all 0.4s ease 0s;
+                color: var(--icon-color);
+                background-color: var(--icon-bg-color);
+                border-color: var(--icon-border-color);
+                a {
+                    color: var(--icon-color);
+                }
+            }
+            &:hover, &:focus {
+                background-color: var(--ibox-bg-h);
+                .icon {
+                    margin: 30px 0 10px 0;
+                }
+                .description {
+                    opacity: 1;
+                }
+            }
+        }
+        .container-fluid {
+            padding: 0;
+        }
+    }
+}

@@ -1,0 +1,266 @@
+/* Webshop custom senza passare dal SAAS */
+
+/* Varie */
+
+/* nasconde badge di google reca
+.grecaptcha-badge { visibility: hidden; }
+*/
+
+
+/* Blocco Image Link
+
+.block-imagelink .container { max-width: 1140px; }
+.col-lg-7 { padding: 40px; position: relative;left:-30px;top: 20px; }
+.block-imagelink .title { font-size: 2rem; }
+#second { padding: 40px; position: relative;left:30px;top: 20px; }
+/*#btn-imagelink-1 { background: transparent; background-color: transparent; border: 2px solid; text-transform: uppercase; padding: 10px 15px;}*/
+
+/* Blocco Icon */
+
+#icon-foto { height: 160px!important; }
+
+/* Block HTML */
+
+.col-lg-9 { flex: 0 0 auto; width: 82%; }
+
+
+/* REGOLE RESPONSIVE **********/
+
+/**********************************************************************
+       da 300 a 449px
+***********************************************************************/
+
+@media only screen and (min-width: 300px) and (max-width: 449px) {
+
+    /* Questo valore potrebbe far apparire la scrollbar orizzontale  */
+    .block-imagelink .container { max-width: 90%; }
+
+    /* Qui alterno i due box foto e testo su stessa riga */
+    .block-imagelink .col-lg-5 { width:100%; position: unset; padding-right:0; padding-left: 0; }
+    .block-imagelink .col-lg-6 { padding: 12px; position: unset; margin: -20px 0px 5px 0px; }
+    .block-imagelink .col-lg-7 { padding: 20px!important; margin: -24px 0px 0px 0px; }
+    .block-imagelink #second { padding: 20px; position: relative;left:0px;top: 0px; }
+
+    /* Titolo Slideshow */
+    .owl-block-slideshow.owl-theme .item .title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.7rem;
+    }
+    /* Descrizione Slideshow */
+    .owl-block-slideshow.owl-theme .item .caption .description {
+        line-height: 1;
+        font-size: 13px;
+    }
+
+    /* Testo Topbar */
+    #topbar .nav-contacts .nav-link {
+        --bs-nav-link-padding-x: .25rem;
+        --bs-nav-link-padding-y: .5rem;
+        text-align: center;
+        font-size: 13px;
+    }
+
+
+    /* Block HTML */
+
+    .block-html .col-lg-9 { flex: 0 0 auto; width: 82%; }
+
+    /* Testo footer */
+
+    .copyright { font-size: 0.9rem; }
+
+    /* Icona WhatsApp */
+
+    .wcs_button {
+        padding: 4px 9px!important;
+        border-radius: 40px!important;
+        background: #26C281;
+        color: #fff;
+        display: inline-block;
+        margin-right: -20px!important;
+        margin-bottom: -100px!important;
+    }
+
+    #back-to-top {
+        margin-bottom: 44px!important;
+    }
+
+
+}
+
+
+/****************************************************
+       da 450 a 809px
+*****************************************************/
+@media only screen and (min-width: 450px) and (max-width: 809px) {
+
+
+    /* Blocco Image Link */
+
+    .block-imagelink .col-lg-5 { width:100%; position: unset; padding-right:0; padding-left: 0; }
+    .block-imagelink .col-lg-6 { padding: 20px; position: relative;margin-left:-24px;top: 20px; }
+    .block-imagelink .col-lg-7 { padding: 20px; position: relative; left:-30px;top: 20px; }
+    .block-imagelink .title { font-size: 2rem; }
+
+    .block-imagelink #second { padding: 40px; position: relative;left:30px;top: 20px; }
+    .block-imagelink #second20 { padding: 40px; position: relative;left:2px;top: -6px; padding-right: 20px !important; }
+    .block-imagelink #btn-imagelink-1 { background: transparent; background-color: transparent; border: 2px solid; text-transform: uppercase; padding: 10px 15px;}
+
+    /* Qui alterno i due box foto e testo su stessa riga */
+
+    .block-imagelink .col-lg-6 { padding: 12px; position: unset; margin: -20px 0px 5px 0px; }
+    .block-imagelink .col-lg-7 { padding: 40px!important; position: unset; margin: -24px 0px 0px 0px; }
+    .block-imagelink #second { padding: 40px; position: relative;left:0px;top: 0px; }
+
+    /* Titolo Slideshow */
+    .owl-block-slideshow.owl-theme .item .title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.7rem;
+    }
+    /* Descrizione Slideshow */
+    .owl-block-slideshow.owl-theme .item .caption .description {
+        line-height: 1;
+        font-size: 14px;
+    }
+
+    /* Testo Topbar */
+    #topbar .nav-contacts .nav-link {
+        --bs-nav-link-padding-x: .25rem;
+        --bs-nav-link-padding-y: .5rem;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    /* Icona WhatsApp */
+
+    .wcs_button {
+        padding: 4px 9px!important;
+        border-radius: 40px!important;
+        background: #26C281;
+        color: #fff;
+        display: inline-block;
+        margin-right: -20px!important;
+        margin-bottom: -100px!important;
+    }
+
+    #back-to-top {
+        margin-bottom: 64px!important;
+    }
+
+
+}
+
+/*************************
+       da 810 a 991px
+*************************/
+@media only screen and (min-width: 810px) and (max-width: 991px) {
+
+    /* Questo valore potrebbe far apparire la scrollbar orizzontale  */
+
+
+    /* Blocco Image Link */
+
+    .block-imagelink .col-lg-6 { padding: 20px; position: relative;margin-left:0px;top: 20px; }
+    .block-imagelink .col-lg-7 { padding: 20px; position: relative;left:0px;top: 20px; }
+    .block-imagelink .title { font-size: 2rem; }
+    .block-imagelink #second { padding: 40px; position: relative;left:0px;top: 20px; }
+    .block-imagelink #second20 { padding: 40px position: relative; padding-right: 50px; }
+    .block-imagelink #btn-imagelink-1 { background: transparent; background-color: transparent; border: 2px solid; text-transform: uppercase; padding: 10px 15px;}
+
+    /* Qui alterno i due box foto e testo su stessa riga */
+    .block-imagelink .col-lg-5 { width:100%; position: unset; padding-right:0; padding-left: 0; }
+    .block-imagelink .col-lg-6 { padding: 12px; position: unset; margin: -20px 0px 5px 0px; }
+    .block-imagelink .col-lg-7 { padding: 40px; position: unset; margin: -24px 0px 5px 0px; }
+    .block-imagelink #second { padding: 40px; position: relative;left:0px;top: -1px; }
+
+
+    /* Titolo Slideshow */
+    .owl-block-slideshow.owl-theme .item .title {
+        font-size: 2.3rem;
+        font-weight: 400;
+        margin-bottom: 1rem;
+    }
+    /* Descrizione Slideshow */
+    .owl-block-slideshow.owl-theme .item .caption .description {
+        line-height: 1;
+        font-size: 16px;
+    }
+
+    /* Testo Topbar */
+    #topbar .nav-contacts .nav-link {
+        --bs-nav-link-padding-x: .25rem;
+        --bs-nav-link-padding-y: .5rem;
+        text-align: center;
+        font-size: 15px;
+    }
+
+
+}
+
+/*************************
+       da 992px a 1199
+*************************/
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+
+    /* Questo valore potrebbe far apparire la scrollbar orizzontale  */
+
+
+    /* Blocco Image Link */
+
+    .block-imagelink .col-lg-6 { padding: 20px; position: relative;margin-left:0px;top: 20px; }
+    .block-imagelink .col-lg-7 { padding: 20px; position: relative;left:0px;top: 20px; }
+    .block-imagelink .title { font-size: 2rem; }
+    .block-imagelink #second { padding: 40px; position: relative;left:0px;top: 20px; }
+    .block-imagelink #second20 { padding: 40px position: relative; padding-right: 50px; }
+    .block-imagelink #btn-imagelink-1 { background: transparent; background-color: transparent; border: 2px solid; text-transform: uppercase; padding: 10px 15px;}
+
+    /* Qui alterno i due box foto e testo su stessa riga */
+    .block-imagelink .col-lg-5 { width:40%; position: unset; padding-right:0; padding-left: 0; }
+    .block-imagelink .col-lg-6 { padding: 12px; position: unset; margin: -20px 0px 5px 0px; }
+    .block-imagelink .col-lg-7 { padding: 40px; position: unset; margin: -24px 0px 5px 0px; }
+    .block-imagelink #second { padding: 40px; position: relative;left:0px;top: -1px; }
+
+    /* Titolo Slideshow */
+    .owl-block-slideshow.owl-theme .item .title {
+        font-size: 2.5rem;
+        font-weight: 400;
+        margin-bottom: 1rem;
+    }
+    /* Descrizione Slideshow */
+    .owl-block-slideshow.owl-theme .item .caption .description {
+        line-height: 1;
+        font-size: 18px;
+    }
+
+
+}
+
+/*************************
+       1200px 1400 px
+*************************/
+@media only screen and (min-width: 1200px) and (max-width: 2400px) {
+
+    /* Questo valore potrebbe far apparire la scrollbar orizzontale  */
+    .block-imagelink .container { max-width: 1400px; }
+
+    /* Blocco Image Link */
+
+    .block-imagelink .col-lg-6 { padding: 20px; position: relative;margin-left:0px;top: 20px; }
+    .block-imagelink .col-lg-7 { padding: 40px; position: relative;left:0px;top: 20px; }
+    .block-imagelink .title { font-size: 2rem; }
+    .block-imagelink #second { padding: 40px; position: relative;left:0px;top: 20px; }
+    .block-imagelink #second20 { padding: 40px position: relative; padding-right: 50px; }
+    .block-imagelink #btn-imagelink-1 { background: transparent; background-color: transparent; border: 2px solid; text-transform: uppercase; padding: 10px 15px;}
+
+    /* Qui alterno i due box foto e testo su stessa riga */
+    .block-imagelink .col-lg-5 { width:40%; position: unset; padding-right:0; padding-left: 0; }
+    .block-imagelink .col-lg-6 { padding: 12px; position: unset; margin: -20px 0px 5px 0px; }
+    .block-imagelink .col-lg-7 { padding: 40px; position: unset; margin: -24px 0px 5px 0px; }
+    .block-imagelink #second { padding: 40px; position: relative;left:0px;top: -1px; }
+
+
+}
+
+

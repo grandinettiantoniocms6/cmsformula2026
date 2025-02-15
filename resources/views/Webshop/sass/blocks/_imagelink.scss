@@ -1,0 +1,13 @@
+.block-imagelink {
+    padding: 3.75rem 0;
+    background-color: var(--imagelink-block-bg);
+    color: var(--imagelink-block-text-color);
+    .title {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--imagelink-block-title-color);
+    }
+    .description {
+        color: var(--imagelink-block-text-color);
+    }
+}

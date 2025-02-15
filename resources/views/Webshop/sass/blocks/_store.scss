@@ -1,0 +1,62 @@
+.block-store {
+    padding: 3.75rem 0;
+    background-color: var(--store-block-bg);
+    color: var(--store-block-text-color);
+
+    .title {
+        color: var(--store-block-title-color);
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+    }
+    .subtitle {
+        font-weight: 700;
+    }
+    .card {
+        text-align: center;
+        min-height: 160px;
+        background-color: var(--store-block-card-bg);
+        box-shadow: $box-shadow;
+    }
+    .phone {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.25rem 0;
+        a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            color: var(--store-block-icon-color);
+        }
+        .icon {
+            margin-right: .5rem;
+            color: var(--store-block-icon-color);
+        }
+    }
+    .whatsapp {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.25rem 0;
+        a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            color: var(--store-block-iconw-color);
+        }
+        .icon {
+            margin-right: 1rem;
+            color: var(--store-block-iconw-color);
+        }
+    }
+    .store-filters {
+        margin-bottom: 1.5rem;
+        display: flex;
+        justify-content: center;
+        button {
+            margin: 0 0.5rem;
+        }
+    }
+}

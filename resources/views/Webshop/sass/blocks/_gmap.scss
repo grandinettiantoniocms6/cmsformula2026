@@ -1,0 +1,21 @@
+.block-contact-map {
+    background-color: var(--gmap-block-bg);
+    color: var(--gmap-block-text-color);
+
+    .pretitle {
+        color: var(--gmap-block-text-color);
+    }
+    .title {
+        color: var(--gmap-block-title-color);
+        font-weight: 700;
+    }
+    .address {
+        color: var(--gmap-block-text-color);
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .block-contact-map iframe {
+        max-height: 60vh;
+    }
+}

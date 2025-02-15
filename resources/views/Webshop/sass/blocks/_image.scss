@@ -1,0 +1,27 @@
+.block-image {
+    padding: 3.75rem 0;
+    height: var(--image-block-height);
+    background-color: var(--image-block-bg);
+    .page-title {
+        color: var(--image-block-title-color);
+        margin: 0;
+        font-size: var(--image-block-title-font-size);
+    }
+    .page-description {
+        margin-top: 0.5rem;
+        color: var(--image-block-description-color);
+    }
+    .page-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+    }
+
+    img.kenburns-effect {
+        animation-name: kenburns;
+        animation-duration: 15s;
+        -webkit-animation-fill-mode: forwards; /* Safari 4.0 - 8.0 */
+        animation-fill-mode: forwards;
+    }
+}

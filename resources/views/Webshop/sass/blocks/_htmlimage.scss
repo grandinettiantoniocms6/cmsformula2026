@@ -1,0 +1,41 @@
+.block-htmlimage {
+    padding: 0;
+    background-color: var(--htmlimage-block-bg);
+    color: var(--htmlimage-block-text-color);
+
+    .title {
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: var(--htmlimage-block-title-color);
+    }
+    .card {
+        border: 0;
+        background-color: transparent;
+    }
+    .card-body {
+        padding: 0;
+    }
+    .owl-block-carousel.owl-theme {
+        .owl-dots {
+            position: absolute;
+            margin-top: 0;
+            bottom: 0;
+            width: 100%;
+            .owl-dot span {
+                width: 20px;
+                background-color: rgba($gray-600, 1);
+                height: 5px;
+                margin: 5px;
+            }
+            .owl-dot.active span,
+            .owl-dot:hover span {
+                background-color: var(--button-color);
+            }
+        }
+        &.owl-autoheight {
+            .owl-dots {
+                position: relative;
+            }
+        }
+    }
+}

@@ -1,0 +1,13 @@
+@keyframes marquee {
+    0% { left: 0; }
+    100% { left: -100%; }
+}
+
+@keyframes pulse-animation {
+    0% {
+        box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+    }
+    100% {
+        box-shadow: 0 0 0 8px rgba(0, 0, 0, 0);
+    }
+}

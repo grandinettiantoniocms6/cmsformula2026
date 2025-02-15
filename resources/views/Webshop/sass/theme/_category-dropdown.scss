@@ -1,0 +1,422 @@
+.menu {
+    display: flex;
+    align-items: center;
+    a {
+        display: inline-block;
+        color: inherit;
+    }
+    .menu-title {
+        margin-bottom: 2rem;
+        font-size: 1.4rem;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: -0.025em;
+        text-transform: uppercase;
+    }
+    .submenu {
+        padding: 2rem 0;
+        background: #fff;
+        font-size: 1.4rem;
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: 0;
+    }
+    li {
+        position: relative;
+        line-height: 1;
+        a {
+            padding: 8px 0;
+            text-decoration: none;
+        }
+        ul, .megamenu {
+            position: absolute;
+            top: -9999px;
+            left: 100%;
+            margin: 0;
+            box-shadow: 0 2px 35px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            visibility: hidden;
+            opacity: 1;
+            list-style: none;
+        }
+        .megamenu {
+            padding: 0 1rem;
+        }
+        & > .submenu {
+            min-width: 21.5rem;
+            li {
+                padding: 0 20px;
+            }
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+        & > a {
+            position: relative;
+            padding: 1.75rem 0;
+            line-height: 1.1;
+            text-transform: capitalize;
+            &:after {
+                margin-left: 0.6rem;
+            }
+        }
+    }
+    li:hover > .submenu,
+    li:hover .megamenu,
+    .show > .submenu,
+    .show .megamenu {
+        visibility: visible;
+        top: -2rem;
+    }
+    & > li > .submenu,
+    & > li .megamenu {
+        left: -1.5rem;
+    }
+    & > li:hover > .submenu,
+    & > li:hover .megamenu, .menu > li.show > .submenu,
+    & > li.show .megamenu {
+        top: 100%;
+    }
+    & .has-submenu > a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        &:after {}
+    }
+    & .megamenu ul {
+        position: static;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        visibility: visible;
+        opacity: 1;
+        list-style: none;
+    }
+}
+
+.has-submenu > a:after {
+    display: inline-block;
+    font-size: 1rem;
+    color: inherit;
+}
+
+.category-dropdown > button {
+    padding: 0 0.75rem;
+    width: 100%;
+    display: flex;
+    transition: all 0.4s;
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: var(--drop-categories-btn-bg);
+    color: var(--drop-categories-btn-color, #fff);
+    font-size: var(--drop-categories-btn-font-size);
+    height: 44px;
+    line-height: 44px;
+    align-items: center;
+    border: 0;
+    svg {
+        fill: var(--drop-categories-btn-color, #fff);
+    }
+}
+.category-dropdown > button span {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin-left: 0.7rem;
+}
+.category-dropdown > button::after {
+    font-family: 'bootstrap-icons';
+    content: '\f282';
+    font-weight: normal;
+}
+.category-dropdown > button:not(.btn):hover {
+    color: var(--drop-categories-btn-color, #fff);
+}
+.category-dropdown li > a {
+    color: var(--drop-categories-dropdown-color);
+    font-size: var(--drop-categories-dropdown-font-size);
+}
+.category-dropdown .dropdown-box {
+    padding: 0;
+    left: 0;
+    min-width: 200px;
+    background-color: var(--drop-categories-dropdown-bg);
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: -9999px;
+    color: #666;
+    -webkit-box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px -8px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: transform 0.1s ease-out, -webkit-transform 0.1s ease-out;
+}
+.category-dropdown.dropdown.show .dropdown-box {
+    -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.category-dropdown.dropdown.show .dropdown-box, .category-dropdown.dropdown.show::after {
+    visibility: visible;
+    opacity: 1;
+}
+.category-dropdown.show-dropdown .dropdown-box {
+    border-radius: 0.5rem;
+}
+.category-dropdown.show-dropdown .dropdown-box::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 1.7rem;
+    border: 10px solid transparent;
+    border-bottom: 10px solid #f5f5f5;
+}
+.category-dropdown.show-dropdown .dropdown-box .category-menu {
+    background-color: #f5f5f5;
+    border-radius: 0.5rem;
+}
+
+.category-dropdown .dropdown-box a {
+    padding: 10px 0;
+    font-size: inherit;
+    line-height: 1;
+}
+
+/* Category Menu */
+.category-menu {
+    padding: 10px 0;
+    list-style: none;
+}
+.category-menu i {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 0;
+    margin-right: 0.7rem;
+    font-size: 1.7rem;
+    width: 1.7rem;
+}
+.category-menu > li > a {
+    display: block;
+    padding: 12px 0;
+    text-transform: capitalize;
+    text-decoration: none;
+    line-height: 1.1;
+}
+.category-menu > li > a::before {
+    content: none;
+}
+.category-menu > li:not(:last-child) > a {
+    border-bottom: 1px solid rgba(#fff, 0.3);
+}
+.category-menu > li:last-child > a i {
+    margin: 0 0 0 0.4rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.category-menu li .megamenu {
+    padding: 10px 0;
+}
+.category-menu li .megamenu.columns-1 {
+    columns: 1;
+    display: block;
+}
+.category-menu li .megamenu.columns-2 {
+    columns: 2;
+    display: block;
+}
+.category-menu .megamenu.columns-1 > li,
+.category-menu .megamenu.columns-2 > li {
+    padding: 0 1rem;
+}
+.category-menu li:hover > a:not(.menu-title) i {
+    color: inherit;
+}
+.category-menu .megamenu {
+    min-width: 300px;
+    background-color: var(--drop-categories-dropdown-bg);
+}
+.category-menu .megamenu .menu-title {
+    color: var(--drop-categories-dropdown-color);
+    font-size: 14px;
+    margin: 10px 20px;
+    border-bottom: 1px solid rgba($white, 0.3);
+    & > a:not(.btn) {
+        padding: 10px 0;
+    }
+}
+.category-menu .megamenu li {
+    a:not(.btn) {
+        padding: 10px 0;
+        display: block;
+        font-weight: 400;
+        border-bottom: 1px solid rgba($white, 0.3);
+        &:hover, &:focus {
+            background-color: transparent;
+            color: var(--drop-categories-dropdown-color);
+        }
+    }
+    &:last-child {
+        a:not(.btn) {
+            border-bottom: 0;
+        }
+    }
+}
+
+/* Vertical Menu */
+.vertical-menu {
+    display: block;
+    margin: 0;
+}
+.vertical-menu > li {
+    margin-right: 0;
+    padding: 0 1rem;
+}
+.vertical-menu > li > ul,
+.vertical-menu > li .megamenu {}
+.vertical-menu > li > a {
+    display: block;
+}
+.vertical-menu > li > a::after {
+    content: none;
+}
+.vertical-menu > li:hover > ul,
+.vertical-menu > li:hover .megamenu, .vertical-menu > li.active > ul,
+.vertical-menu > li.active .megamenu {
+    left: 100%;
+    top: -10px;
+}
+.vertical-menu > li.active .megamenu {
+    min-width: 240px;
+}
+
+.vertical-menu > li:first-child:hover > ul,
+.vertical-menu > li:first-child:hover .megamenu, .vertical-menu > li:first-child.active > ul,
+.vertical-menu > li:first-child.active .megamenu {
+    top: -10px;
+}
+.vertical-menu > .has-submenu > a::after {
+    font-family: "bootstrap-icons";
+    content: "\F284";
+    font-weight: normal;
+}
+
+@include media-breakpoint-up(lg) {
+    .dropdown-box {
+        transition: -webkit-transform 0.4s ease-out;
+        transition: transform 0.1s ease-out;
+        transform: translateY(-15px);
+    }
+    .dropdown:hover .dropdown-box,
+    .dropdown.show .dropdown-box {
+        visibility: visible;
+        opacity: 1;
+        top: 100%;
+        transform: translateY(0);
+    }
+    .menu li > .submenu, .menu li .megamenu, .menu > .submenu {
+        transform: translateX(-15px);
+        transition: transform 0.1s ease-out;
+    }
+    .menu li:hover > .submenu, .menu li:hover .megamenu, .menu .show > .submenu {
+        transform: translateX(0);
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    .category-dropdown > button {
+        span, &::after {
+            display: none;
+        }
+    }
+    .category-dropdown .dropdown-box {
+        @include transition(left .4s ease);
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 320px;
+        min-width: 320px;
+        max-width: 320px;
+        overflow-y: auto;
+        z-index: 101;
+        margin: 0;
+        visibility: visible;
+        opacity: 1;
+        padding: 0 1rem;
+        & ~ .dropdown-box-backdrop {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+        &.opened {
+            left: 0;
+            & ~ .dropdown-box-backdrop {
+                background-color: rgba(0, 0, 0, 0.5);
+                display: block;
+                z-index: 100;
+            }
+        }
+        li {
+            margin: 0;
+            padding: 1px;
+        }
+        & > ul > li {
+            border-bottom: 1px solid rgba($white, 0.3);
+        }
+        .category-menu {
+            width: 100%;
+            list-style: none;
+        }
+        .category-menu li .megamenu {
+            position: static;
+            left: 0;
+            top: 0;
+            padding: 0;
+            box-shadow: none;
+            display: none;
+            min-width: auto;
+        }
+        .category-menu > .has-submenu:hover > a::after {
+            right: 0;
+        }
+        .category-menu li a.expanded:after {
+            transform: rotate(-90deg);
+        }
+        .category-menu li .megamenu {
+            @include transition(all .4s ease);
+        }
+        .category-menu li .megamenu.show {
+            display: block;
+            visibility: visible;
+        }
+        .category-menu li .megamenu.columns-2 {
+            columns: 1;
+        }
+        .category-menu > li:not(:last-child) > a {
+            border-bottom: 0;
+        }
+        .category-menu .megamenu .menu-title {
+            padding-bottom: 0;
+        }
+    }
+    .vertical-menu > .has-submenu > a::after {
+        width: 20px;
+        border: 1px solid var(--drop-categories-menu-border, #eee);
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+    }
+    .category-menu .megamenu.columns-1 > li,
+    .category-menu .megamenu.columns-2 > li {
+        padding: 0;
+    }
+}

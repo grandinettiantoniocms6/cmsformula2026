@@ -1,0 +1,77 @@
+.page-register {
+    padding: 3rem 0;
+    .card-register {
+        .card-body {
+            padding: 2rem;
+        }
+    }
+}
+.page-title-block {
+    align-items: center;
+    display: flex;
+    height: var(--page-title-height);
+    .page-title {
+        color: var(--page-title);
+    }
+    .page-subtitle {
+        color: var(--page-subtitle);
+    }
+    .page-category {
+        color: var(--page-category);
+    }
+}
+.page-login {
+    padding: 3rem 0;
+    .card-register {
+        height: 100%;
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 2rem;
+        }
+    }
+    .card-login {
+        height: 100%;
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 2rem;
+        }
+    }
+}
+.page-recovery {
+    padding: 3rem 0;
+    flex-grow: 1;
+    .card-links {
+        border: 0;
+        height: 100%;
+    }
+}
+.page-shop {
+    padding: 3rem 0;
+}
+.page-myarea {
+    background-color: var(--myarea-bg);
+    color: var(--myarea-text, $body-color);
+    h3 {
+        margin-bottom: 0;
+    }
+    a:not(.btn), .breadcrumb-item {
+        color: var(--myarea-link);
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: var(--myarea-link);
+        opacity: .75;
+    }
+    .breadcrumb {
+        margin: 0;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .page-shop {
+        padding: 1.5rem 0;
+    }
+}

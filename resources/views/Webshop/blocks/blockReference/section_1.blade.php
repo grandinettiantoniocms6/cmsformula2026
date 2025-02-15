@@ -1,0 +1,165 @@
+<?php
+$website = \App\Models\WebsiteSetting::first();
+$labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
+?>
+<section class="block-referenze">
+    <div class="{{ $item->fullwidth }}">
+        @if($array)
+                <?php
+                $categories = [];
+                foreach($array as $value){
+
+                    $category = json_decode($value->category, true);
+                    if($category === null){
+                        $category = [];
+                    }
+
+                    $categories[] = $category[\App::getLocale()];
+                }
+
+                $categories = array_unique($categories);
+                asort($categories);
+                ?>
+
+            <style>
+                .btn.active { background-color: {!! $item->background_color !!}!important; color: {!! $item->text_color !!}!important; border-color: {!! $item->border_color !!}!important; }
+            </style>
+
+
+            <div class="referenze-filters">
+                <button data-filter="*" class="btn btn-primary active">{{ @$labels['all'] }}</button>
+                @if($categories)
+                    @foreach($categories as $cat)
+                        <button data-filter=".{{ \Str::slug($cat, '-') }}" class="btn btn-primary">{{ $cat }}</button>
+                    @endforeach
+                @endif
+            </div>
+
+            <div class="referenze-grid row row-cols-1 row-cols-sm-2 row-cols-md-{{ $item->col }}">
+
+                @foreach($array as $value)
+                        <?php
+
+                        $title = json_decode($value->title, true);
+                        if($title === null){
+                            $title = [];
+                        }
+
+                        $category = json_decode($value->category, true);
+                        if($category === null){
+                            $category = [];
+                        }
+
+                        $description = json_decode($value->description, true);
+                        if($description === null){
+                            $description = [];
+                        }
+
+                        $url_interno = json_decode($value->url_interno, true);
+                        if($url_interno === null){
+                            $url_interno = [];
+                        }
+
+                        $url_esterno = json_decode($value->url, true);
+                        if($url_esterno === null){
+                            $url_esterno = [];
+                        }
+
+                        $button = json_decode($value->button, true);
+                        if($button === null){
+                            $button = [];
+                        }
+
+                        $type_href = $value->type_href;
+
+                        $url = "#";
+                        if(trim($url_interno[\App::getLocale()]) != ""){
+                            $url = "/{$url_interno[\App::getLocale()]}";
+                        }else{
+                            if(trim($url_esterno[\App::getLocale()]) != ""){
+                                $url = $url_esterno[\App::getLocale()];
+                            }
+                        }
+
+                        if(!key_exists(\App::getLocale(), $category)){
+                            $category[\App::getLocale()] = "";
+                        }
+
+                        if(!key_exists(\App::getLocale(), $description)){
+                            $description[\App::getLocale()] = "";
+                        }
+
+                        if(!key_exists(\App::getLocale(), $title)){
+                            $title[\App::getLocale()] = "";
+                        }
+
+                        if(!key_exists(\App::getLocale(), $button)){
+                            $button[\App::getLocale()] = "";
+                        }
+
+                        if(!key_exists(\App::getLocale(), $url_interno)){
+                            $url_interno[\App::getLocale()] = "";
+                        }
+
+                        if(!key_exists(\App::getLocale(), $url_esterno)){
+                            $url_esterno[\App::getLocale()] = "";
+                        }
+
+                        // serve per le thumb
+                        $photo = $value->foto;
+
+                        if($photo){
+                            $basename = basename($photo);
+                            $temp = explode(".", $basename);
+
+                            $check = "thumb/blocks_references/$temp[0]-large.webp";
+                            if(file_exists($check)){
+                                $foto = url($check);
+                            }else{
+                                $foto = url($photo);
+                            }
+                        }
+
+                        ?>
+
+                    <div class="grid-item {{ \Str::slug($category[\App::getLocale()], '-')  }}">
+                        <div class="card mb-4">
+                            @if(trim($foto) != "")
+                                <a target="{{ $type_href }}" href="{{ $url }}">
+                                    <img class="img-fluid" src="{{ $foto }}" alt="{{ $description[\App::getLocale()] }}" loading="lazy">
+                                </a>
+                            @endif
+
+                            @if(($url) !="#")
+
+                                <div class="card-overlay" style="background-color:{{ $item->box_color }}!important;">
+                                    <h4 class="title" style="color:{{ $item->title_color }}!important;">{{ $title[\App::getLocale()] }}</h4>
+                                    <div class="subtitle" style="color:{{ $item->subtitle_color }}!important;">{{ $description[\App::getLocale()] }}
+                                        </div>
+                                    <a class="btn btn-primary" style="background-color: {{ $item->background_color_btn }}; border-color: {{ $item->border_color_btn }}; color: {{ $item-> text_color_btn }};" target="{{ $type_href }}" href="{{ $url }}">  {{ $button[\App::getLocale()] }}</a>
+                                </div>
+                                <a class="glightbox" data-src="{{ $value->foto }}" href="{{ $value->foto }}"><i class="bi bi-search"></i></a>
+
+                            @else
+
+                                <div class="card-overlay" style="background-color:{{ $item->box_color }}!important;">
+                                    <h4 class="title" style="color:{{ $item->title_color }}!important;">{{ $title[\App::getLocale()] }}</h4>
+                                    <div class="subtitle" style="color:{{ $item->subtitle_color }}!important;">{{ $description[\App::getLocale()] }}</div>
+
+
+                                </div>
+                                <a class="glightbox" data-src="{{ $value->foto }}" href="{{ $value->foto }}"><i class="bi bi-search"></i></a>
+
+                            @endif
+
+
+                        </div>
+                    </div>
+
+
+                @endforeach
+            </div>
+        @endif
+    </div>
+
+</section>

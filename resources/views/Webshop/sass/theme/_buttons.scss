@@ -1,0 +1,84 @@
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-hover-color: #fff;
+}
+.btn {
+    --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), .125);
+}
+
+button.btn, a.btn {
+    @include transition(all 0.2s ease);
+    &:hover, &:focus {
+        outline: none;
+        -webkit-transform: translateY(-1px);
+        transform: translateY(-1px);
+    }
+}
+
+.btn.btn-white {
+    &:hover, &:focus {
+        background-color: #fff;
+    }
+}
+.btn.btn-blank {
+    border: 0;
+    background-color: transparent;
+    &:hover, &:focus {
+       background-color: transparent;
+       opacity: .5;
+    }
+}
+
+.btn.btn-circle {
+    padding: 0;
+    border: 0;
+    border-radius: 100%;
+    width: 2.2rem;
+    height: 2.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    line-height: 1;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    &.btn-lg {
+        width: 3rem;
+        height: 3rem;
+        font-size: calc(1.255rem + .06vw);
+    }
+    .number {
+        display: table-cell;
+        text-align: center;
+        margin: 0 auto;
+        vertical-align: middle;
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+}
+
+.btn-check:checked + .btn, :not(.btn-check) + .btn:active, .btn:first-child:active, .btn.active, .btn.show {
+    color: var(--bs-btn-active-color);
+    background-color: var(--bs-btn-color);
+    border-color: var(--bs-btn-color);
+}
+
+$social-colors: (
+    facebook:     #3b5998,
+    twitter:      #00aced,
+    google:       #dd4b39,
+    linkedin:     #007bb6,
+    youtube:      #bb0000,
+    vimeo:        #aad450,
+    instagram:    #517fa4,
+) !default;
+
+@each $media, $color in $social-colors {
+    .btn-#{$media} {
+        @include button-variant($color, $color);
+        color: $white;
+    }
+    .btn-outline-#{$media} {
+        @include button-outline-variant($color);
+    }
+}

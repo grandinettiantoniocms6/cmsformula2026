@@ -1,0 +1,119 @@
+.bg-black {
+  background-color: black;
+}
+.bg-white {
+  background-color: white;
+}
+.bg-transparent {
+  background-color: transparent;
+}
+.bg-body-color {
+  background-color: $body-color;
+}
+.text-body-color {
+  color: $body-color;
+}
+.text-gray {
+  color: $gray-500;
+}
+.text-button-color {
+    color: var(--button-color, $primary);
+}
+
+.rotate--45 {
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.rotate-45 {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.rotate-90 {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.rotate-180 {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.rotate-270 {
+  -webkit-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+
+.rounded-none {
+  border-radius: 0;
+}
+.rounded-sm {
+  border-radius: 0.25rem;
+}
+.rounded-md {
+  border-radius: 0.5rem;
+}
+.rounded-lg {
+  border-radius: 1rem;
+}
+
+.pointer {
+    cursor: pointer;
+}
+.pointer-none {
+    pointer-events: none;
+}
+
+.object-fit-fill {object-fit: fill;}
+.object-fit-contain {object-fit: contain;}
+.object-fit-cover {object-fit: cover;}
+.object-fit-scale-down {object-fit: scale-down;}
+.object-fit-none {object-fit: none;}
+
+.img-ratio-4-3 {
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+.img-ratio-16-9 {
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+@for $i from 1 through 9 {
+  .z-index-#{$i*10} {
+    z-index: $i*10;
+  }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    .visibility#{$infix}-hidden {
+      visibility: hidden;
+    }
+    .width#{$infix}-auto {
+      width: auto;
+    }
+    .width#{$infix}-100 {
+      width: 100%;
+    }
+    .of#{$infix}-visible {
+      overflow: visible;
+    }
+    .of#{$infix}-hidden {
+      overflow: hidden;
+    }
+
+    @for $i from 1 through 5 {
+      .grid-columns#{$infix}-#{$i} {
+        columns: $i;
+      }
+    }
+  }
+}
+
+@each $breakpoint, $maxwidth in $container-max-widths {
+  @include media-breakpoint-up($breakpoint) {
+    .container-half {
+      max-width: $maxwidth/2;
+    }
+  }
+}

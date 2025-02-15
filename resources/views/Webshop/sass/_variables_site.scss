@@ -1,0 +1,181 @@
+:root {
+    // colori
+    --bs-primary: #{$primary};
+    --bs-secondary: #{$secondary};
+
+    --gmap-block-bg: #{$primary};
+    --gmap-block-text-color: #fff;
+    --gmap-block-title-color: #fff;
+
+    --slideshow-block-title-color: #fff;
+    --slideshow-block-text-color: #fff;
+    --slideshow-overlay-bg: rgba(20,20,20,.4);
+
+    --hero-block-bg: #fff;
+    --hero-block-title-color: #fff;
+    --hero-block-text-color: #fff;
+    --hero-overlay-bg: rgba(20,20,20,.4);
+
+    --carousel-block-bg: #fff;
+    --carousel-block-title-color: #fff;
+    --carousel-block-text-color: #000000;
+
+    --collage-block-title-sx-color: #{$body-color};
+    --collage-block-title-dx-color: #{$body-color};
+
+    --counter-block-bg: #fff;
+    --counter-block-text-color: #{$body-color};
+    --counter-block-title-color: #{$body-color};
+    --counter-block-subtitle-color: #{$body-color};
+    --counter-block-box-bg: transparent;
+
+    --document-block-bg: #fff;
+    --document-block-text-color: #{$body-color};
+    --document-block-title-color: #{$body-color};
+
+    --brand-block-bg: #fff;
+    --brand-block-text-color: #{$body-color};
+    --brand-block-title-color: #{$body-color};
+
+    --faq-block-bg: #fff;
+    --faq-block-text-color: #{$body-color};
+    --faq-block-title-color: #{$body-color};
+
+    --timetable-block-bg: #fff;
+    --timetable-block-text-color: #{$body-color};
+    --timetable-block-title-color: #{$body-color};
+
+    --flusso-block-bg: #fff;
+    --flusso-block-text-color: #{$body-color};
+    --flusso-block-title-color: #{$body-color};
+
+    --formpro-block-bg: #fff;
+    --formpro-block-text-color: #{$body-color};
+    --formpro-block-title-color: #{$body-color};
+
+    --caccia-block-bg: #fff;
+    --caccia-block-text-color: #{$body-color};
+    --caccia-block-title-color: #{$body-color};
+
+    --gallery-block-bg: #fff;
+    --gallery-block-text-color: #{$body-color};
+    --gallery-block-title-color: #{$body-color};
+
+    --htmlimage-block-bg: #fff;
+    --htmlimage-block-text-color: #{$body-color};
+    --htmlimage-block-title-color: #{$body-color};
+
+    --highlight-block-bg: #fff;
+    --highlight-block-text-color: #{$body-color};
+    --highlight-block-title-color: #{$body-color};
+
+    --icons-block-bg: #fff;
+    --icons-block-text-color: #{$body-color};
+    --icons-block-title-color: #{$body-color};
+
+    --imagelink-block-bg: #fff;
+    --imagelink-block-text-color: #{$body-color};
+    --imagelink-block-title-color: #{$body-color};
+
+    --parallax-block-bg: #fff;
+    --parallax-block-text-color: #fff;
+    --parallax-block-title-color: #fff;
+
+    --portfolio-block-bg: #fff;
+    --portfolio-block-text-color: #{$body-color};
+    --portfolio-block-title-color: #fff;
+
+    --referenze-block-bg: #fff;
+    --referenze-block-text-color: #fff;
+    --referenze-block-title-color: #fff;
+
+    --search-block-bg: #fff;
+    --search-block-text-color: #fff;
+
+    --staff-block-bg: #fff;
+    --staff-block-text-color: #{$body-color};
+    --staff-block-title-color: #{$body-color};
+
+    --store-block-bg: #fff;
+    --store-block-text-color: #{$body-color};
+    --store-block-title-color: #{$body-color};
+    --store-block-card-bg: #fff;
+    --store-block-icon-color: #{$body-color};
+
+    --tabs-block-bg: #fff;
+    --tabs-block-text-color: #{$body-color};
+
+    --timeline-block-bg: #fff;
+    --timeline-block-text-color: #{$body-color};
+
+    --twocolumns-block-bg: #fff;
+    --twocolumns-block-text-color: #{$body-color};
+
+    --videotutorial-block-bg: #fff;
+    --videotutorial-block-text-color: #{$body-color};
+    --videotutorial-block-title-color: #{$body-color};
+
+    --image-block-title-color: #{$body-color};
+    --image-block-title-font-size: 32px;
+    --image-block-description-color: #{$body-color};
+    --image-block-height: 150px;
+    --image-block-bg: #ffffff;
+
+    --banner-block-title-color: #ffffff;
+    --banner-block-description-color: #ffffff;
+
+    // Dropdown categories ecommerce
+    --drop-categories-bg: #ffffff;
+    --drop-categories-border: transparent;
+    --drop-categories-color: #ffffff;
+    --drop-categories--font-size: 14px;
+    --drop-categories-dropdown-bg: #fff;
+    --drop-categories-dropdown-color: #ffffff;
+    --drop-categories-dropdown-font-size: 14px;
+
+    // Product
+    --product-label-custom-color-1: #{$black};
+    --product-label-custom-color-2: #{$danger};
+
+    // Page titles
+    --page-title:#ffffff;
+    --page-title-height:  200px;
+    --page-subtitle: #ffffff;
+    --page-category: #ffffff;
+
+    // Button
+    --button-color: #{$primary};
+
+    // Topbar
+    --topbar-bg: #f5f6f8;
+    --topbar-font-size: 12px;
+    --topbar-text-color: #333;
+    --topbar-icon-color: #333;
+    --topbar-container-max-width: 100%;
+
+    --topbar-ecommerce-container-max-width: 100%;
+    --topbar-ecommerce-padding-y: 10px;
+
+    --topbar-link-color: #ffffff;
+    --topbar-link-hover-color: #ffffff;
+
+    // Header
+    --header-container-max-width: 100%;
+    --header-padding-y: 0;
+    --header-logo-padding-y: 10px;
+    --header-link-color: #333;
+    --header-link-hover-color: #333;
+    --header-link-font-size: 16px;
+    --header-link-font-weight: 500;
+
+    --header-height: 100px;
+    --header-mobile-height: auto;
+    --header-logo-mobile-padding-y: 0;
+
+    // Mobile menu
+    --menu-mobile-bg: #fff;
+
+    // Footer
+    --footer-top-padding-y: 3rem;
+    --footer-bottom-padding-y: 1rem;
+}

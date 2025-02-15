@@ -1,0 +1,966 @@
+<!-- ORIGINALE ITALIANO PER CAPIRE QUALI SONO LA LABEL DA TRADURRE E POI DA INCOLLARE -->
+<script type="text/javascript">
+    var _iub = _iub || [];
+    _iub.csConfiguration = {"askConsentAtCookiePolicyUpdate":true,"ccpaAcknowledgeOnDisplay":true,"consentOnContinuedBrowsing":false,"countryDetection":true,"enableCcpa":true,"enableLgpd":true,"floatingPreferencesButtonDisplay":"bottom-left","invalidateConsentWithoutLog":true,"lgpdAppliesGlobally":false,"perPurposeConsent":true,"siteId":2875783,"whitelabel":false,"cookiePolicyId":62804712,
+        "lang":"it",
+        "cookiePolicyUrl": "https://stage.specialagri.it/iubenda/srb.html", "banner":{ "acceptButtonDisplay":true,"backgroundOverlay":true,"closeButtonDisplay":false,"customizeButtonDisplay":true,"explicitWithdrawal":true,"listPurposes":true,"position":"bottom","rejectButtonDisplay":true },
+        // qui incollo le label straniere iubenda
+        i18n: {
+            "it": {
+                "2nd_layer": {
+                    "widget_intro": "Questo pannello ti permette di esprimere alcune preferenze relative al trattamento delle tue informazioni personali.<br>Puoi rivedere e modificare le tue scelte in qualsiasi momento accedendo al presente pannello tramite l’apposito link.<br>Per rifiutare il tuo consenso a[if usprApplies] o, ove applicabile, fare opt-out dalle[/if] attività di trattamento descritte di seguito, disattiva i singoli comandi o utilizza il pulsante “Rifiuta tutto” e conferma di voler salvare le scelte effettuate.",
+                    "widget_title": "Le tue preferenze relative alla privacy"
+                },
+                "banner": {
+                    "accept_button_caption": "Accetta[if banner.showPurposesToggles] tutto[/if]",
+                    "advertising_preferences_caption": "pannello delle preferenze pubblicitarie",
+                    "continue_acception_button_caption": "Continua senza accettare →",
+                    "cookie_policy_caption": "cookie policy",
+                    "customize_button_caption": "Scopri di più[if perPurposeConsent or (enableTcf and gdprApplies) or usprApplies] e personalizza[/if]",
+                    "do_not_sell_caption": "Non vendere le mie informazioni personali",
+                    "dynamic": {
+                        "and": "e",
+                        "body": "Noi[if banner.useThirdParties] e terze parti selezionate[/if] [if usprApplies or ccpaApplies]raccogliamo informazioni personali[if usprApplies and hasPrivacyPolicy] come specificato nella %{privacy_policy}[/if][/if][if not gdprApplies and not lgpdApplies and (usprApplies or ccpaApplies)].[/if][if gdprApplies or lgpdApplies][if usprApplies or ccpaApplies] e [/if][/if][if gdprApplies or lgpdApplies]utilizziamo cookie o tecnologie simili per finalità tecniche e, con il tuo consenso, anche per[if not banner.listPurposes] altre finalità[/if][if banner.listPurposes] le finalità di %{purposes}[/if][if hasCookiePolicy] come specificato nella [link cookie_policy]cookie policy[/link][/if]. Il rifiuto del consenso può rendere non disponibili le relative funzioni.[if enableTcf and gdprApplies]\nPer quanto riguarda la pubblicità, noi e [link vendors]terze parti[/link] selezionate, potremmo utilizzare <em>dati di geolocalizzazione precisi e l’identificazione attraverso la scansione del dispositivo</em>, al fine di <em>archiviare e/o accedere a informazioni su un dispositivo</em> e trattare dati personali come i tuoi dati di utilizzo, per le seguenti [link adv_pref]finalità pubblicitarie[/link]: <em>annunci e contenuti personalizzati, valutazione degli annunci e del contenuto, osservazioni del pubblico e sviluppo di prodotti</em>.[/if][if gdprApplies or lgpdApplies][if banner.explicitWithdrawal]\nPuoi liberamente prestare, rifiutare o revocare il tuo consenso, in qualsiasi momento[if enableTcf and gdprApplies] , accedendo al pannello delle preferenze[/if].[/if][/if][/if][if ccpaApplies and not usprApplies]\nIn caso di vendita di informazioni personali, puoi fare opt-out utilizzando il link \"%{do_not_sell}\".\n[if hasPrivacyPolicy]\nPer saperne di più sulle categorie di informazioni personali raccolte e sulle finalità per le quali tali informazioni saranno utilizzate, si prega di fare riferimento alla nostra %{privacy_policy}.[/if][/if]\n[if gdprApplies or lgpdApplies][if banner.acceptButtonDisplay][list o][if banner.acceptButtonDisplay]\nUsa il pulsante “[= banner.acceptButtonCaption]”[/if][if banner.closeButtonDisplay and not banner.closeButtonRejects and not banner.continueWithoutAcceptingButtonDisplay][or] chiudi questa informativa[/if][/list] per acconsentire. [/if][if not banner.acceptButtonDisplay and banner.closeButtonDisplay and not banner.closeButtonRejects]Chiudi questa informativa per acconsentire.[/if][if banner.rejectButtonDisplay][list o][if banner.rejectButtonDisplay]Usa il pulsante “[= banner.rejectButtonCaption]” [/if][if (banner.closeButtonDisplay and banner.closeButtonRejects) or banner.continueWithoutAcceptingButtonDisplay][or] chiudi questa informativa[/if][/list][if banner.rejectButtonDisplay] per continuare senza accettare.[/if][/if][if not banner.rejectButtonDisplay and ((banner.closeButtonDisplay and banner.closeButtonRejects) or banner.continueWithoutAcceptingButtonDisplay)]Chiudi questa informativa per continuare senza accettare.[/if][/if][if usprApplies and hasSensitiveData][if gdprApplies or lgpdApplies]\n<b>Nota per gli utenti che risiedono negli Stati Uniti</b>: y[/if][if not gdprApplies and not lgpdApplies]\nP[/if]uoi prestare o rifiutare il consenso al trattamento delle tue informazioni personali sensibili, in qualsiasi momento, tramite i pulsanti “[= banner.acceptButtonCaption]” e “[= banner.rejectButtonCaption]” oppure in modo più granulare accedendo al pannello per le [link second_layer]preferenze relative alla privacy[/link].[/if]",
+                        "endQuote": "”",
+                        "or": "o",
+                        "startQuote": "“"
+                    },
+                    "page_counter_caption": "Premi ancora per continuare",
+                    "paragraph_1": "Questo sito o gli strumenti terzi da questo utilizzati si avvalgono di cookie necessari al funzionamento ed utili alle finalità illustrate nella cookie policy. Se vuoi saperne di più o negare il consenso a tutti o ad alcuni cookie, consulta la %{cookie_policy_link}.",
+                    "paragraph_2": "Chiudendo questo banner, scorrendo questa pagina, cliccando su un link o proseguendo la navigazione in altra maniera, acconsenti all’uso dei cookie.",
+                    "privacy_policy_caption": "privacy policy",
+                    "reject_button_caption": "Rifiuta[if banner.showPurposesToggles] tutto[/if]",
+                    "title": "Informativa",
+                    "vendor_list_caption": "terze parti"
+                },
+                "blocked_overlay": {
+                    "accept_button": "Aggiorna",
+                    "paragraph": "Hai rifiutato il tuo consenso all'utilizzo di cookie e tecnologie simili per la finalità %{purposes}. Per visualizzare questo contenuto, modifica le tue preferenze relative al consenso.",
+                    "title": "Il contenuto è bloccato"
+                },
+                "ccpa": {
+                    "opt_out_cancel": "Annulla",
+                    "opt_out_confirm": "Conferma",
+                    "opt_out_prompt": "Sei sicuro di voler fare opt-out?"
+                },
+                "floating_preferences_button": {
+                    "caption": "Preferenze privacy"
+                },
+                "footer": {
+                    "btnCaption": "Salva e continua",
+                    "message": "Proseguendo la navigazione o chiudendo questa finestra in altro modo, accetti le attuali impostazioni relative ai cookie."
+                },
+                "google_additional_consent": {
+                    "gac_widget": {
+                        "description": "I fornitori di tecnologia pubblicitaria di Google elencati di seguito utilizzano tecnologie di tracciamento per scopi pubblicitari. Per saperne di più, fai riferimento alle loro rispettive privacy policy. Puoi gestire le tue preferenze relative al consenso per ciascuno di essi o per tutti loro, in una volta sola, tramite i comandi a disposizione.",
+                        "title": "Le tue preferenze relative a Google"
+                    },
+                    "per_purpose_widget": {
+                        "customize": "Personalizza le preferenze relative a Google",
+                        "description": "I fornitori di tecnologia pubblicitaria di Google utilizzano tecnologie di trattamento per scopi pubblicitari. Puoi esprimere le tue preferenze per ciascuno di essi.",
+                        "title": "Pubblicità personalizzata da parte dei fornitori di tecnologia pubblicitaria di Google"
+                    },
+                    "tcf_widget": {
+                        "description": "I fornitori di tecnologia pubblicitaria di Google elencati di seguito non aderiscono al Transparency and Consent Framework di IAB. Puoi personalizzare le tue impostazioni relative al tracciamento pubblicitario per ciascuno di essi. Per saperne di più, fai riferimento alle loro rispettive privacy policy.",
+                        "manage_preferences": "Gestione delle preferenze per singolo fornitore di tecnologia pubblicitaria di Google",
+                        "title": "Pubblicità personalizzata da parte dei fornitori di tecnologia pubblicitaria di Google che non aderiscono al TCF"
+                    }
+                },
+                "modal": {
+                    "back": "Indietro",
+                    "cookie_policy": "Cookie Policy",
+                    "privacy_policy": "Privacy Policy",
+                    "save_and_go_back": "Salva e torna indietro",
+                    "see_full_cookie_policy": "Visualizza Cookie Policy completa",
+                    "see_full_privacy_policy": "Visualizza Privacy Policy completa"
+                },
+                "per_purpose": {
+                    "adopts_tcf": "Adotta il Transparency and Consent Framework di IAB",
+                    "approve_all": "Accetta tutto",
+                    "customize_advertising_tracking": "Personalizza le preferenze relative al TCF",
+                    "general_advertising_services": "Altri servizi di Targeting e Pubblicità",
+                    "hide_description": "Nascondi descrizione",
+                    "not_necessary": {
+                        "description": "Alcune tecnologie di tracciamento sono strettamente necessarie per garantire il funzionamento e la fornitura del servizio che ci hai richiesto. Questa opzione ti permette di prestare o rifiutare il consenso a tecnologie <b>non</b> strettamente necessarie.",
+                        "name": "Cookie e altre tecnologie di tracciamento non strettamente necessarie"
+                    },
+                    "purposes": {
+                        "1": {
+                            "bannerName": "necessarie",
+                            "description": "Questi strumenti di tracciamento sono strettamente necessari per garantire il funzionamento e la fornitura del servizio che ci hai richiesto e, pertanto, non richiedono il tuo consenso.",
+                            "name": "Necessari"
+                        },
+                        "2": {
+                            "bannerName": "funzionalità",
+                            "description": "Questi strumenti di tracciamento abilitano semplici interazioni e funzionalità che ti permettono di accedere a determinate risorse del nostro servizio e ti consentono di comunicare più facilmente con noi.",
+                            "name": "Funzionalità"
+                        },
+                        "3": {
+                            "bannerName": "esperienza",
+                            "description": "Questi strumenti di tracciamento ci permettono di migliorare la qualità della tua esperienza utente e consentono le interazioni con piattaforme, reti e contenuti esterni.",
+                            "name": "Esperienza"
+                        },
+                        "4": {
+                            "bannerName": "misurazione",
+                            "description": "Questi strumenti di tracciamento ci permettono di misurare il traffico e analizzare il tuo comportamento per migliorare il nostro servizio.",
+                            "name": "Misurazione"
+                        },
+                        "5": {
+                            "bannerName": "marketing[if adPersonalization] (con annunci personalizzati)[/if]",
+                            "description": "Questi strumenti di tracciamento ci permettono di fornirti contenuti marketing o annunci [if adPersonalization] personalizzati[/if] e di misurarne la performance.",
+                            "name": "Marketing"
+                        },
+                        "googleAdsPersonalized": {
+                            "description": "Google e i suoi partner fornitori di tecnologia pubblicitaria utilizzano strumenti di tracciamento per scopi di personalizzazione e misurazione. Puoi esprimere le tue preferenze di consenso sia per Google sia per i suoi partner. Per saperne di più, fai riferimento alla <a target=\"_blank\" rel=\"noopener\" href='https://support.google.com/admanager/answer/9012903?hl=en'>privacy policy di ciascun servizio</a>.",
+                            "name": "Pubblicità personalizzata di Google e dei suoi partner"
+                        }
+                    },
+                    "reject_all": "Rifiuta tutto",
+                    "see_description": "Mostra descrizione",
+                    "see_description_customize": "Mostra descrizione e personalizza",
+                    "tcf_adhering_services": "Servizi che aderiscono al Transparency and Consent Framework di IAB",
+                    "tcf_adhering_services_description": "Questi servizi aderiscono al <a target=\"_blank\" rel=\"noopener\" href=\"https://iabeurope.eu/transparency-consent-framework/\">IAB Transparency and Consent Framework</a> (TCF). Il TCF è un’iniziativa di imprese del settore della pubblicità digitale che promuove pratiche responsabili di trattamento dei dati ed offre maggior trasparenza e controllo sulle impostazioni di tracciamento della pubblicità.",
+                    "widget_intro": "Le opzioni disponibili in questa sezione ti permettono di personalizzare le preferenze relative al consenso per qualsiasi tecnologia di tracciamento utilizzata per le finalità descritte di seguito.[if hasCookiePolicy] Per ottenere ulteriori informazioni in merito all'utilità e al funzionamento di tali strumenti di tracciamento, fai riferimento alla <button style=\"cursor: pointer; text-decoration: underline !important;\" class=\"open-cp\">cookie policy</button>.[/if] Tieni presente che il rifiuto del consenso per una finalità particolare può rendere le relative funzioni non disponibili.",
+                    "widget_title": "Le tue preferenze relative al consenso per le tecnologie di tracciamento",
+                    "without_purposes": "L’opzione disponibile in questa sezione ti permette di prestare o rifiutare, liberamente ed in qualsiasi momento, il tuo consenso all’utilizzo di cookie e di altre tecnologie di tracciamento non strettamente necessarie a garantire il funzionamento e la fornitura del servizio che ci hai richiesto. [if hasCookiePolicy]<b>Per ottenere ulteriori informazioni in merito all'utilità e al funzionamento di tali strumenti di tracciamento, fai riferimento alla [link cookie_policy]cookie policy[/link].</b>[/if]"
+                },
+                "tcf_v2": {
+                    "activate_all_purposes_button": "Accetta tutto",
+                    "deactivate_all_purposes_button": "Rifiuta tutto",
+                    "features": {
+                        "1": {
+                            "description": "I dati provenienti da fonti offline possono essere combinati con l’attività online dell’utente a supporto di una o varie finalità.",
+                            "descriptionLegal": "I vendor possono: Combinare i dati ottenuti offline con i dati raccolti online, a supporto di una o varie Finalità o Finalità Speciali.",
+                            "name": "Abbinare e combinare fonti di dati offline"
+                        },
+                        "2": {
+                            "description": "Sarà possibile determinare l’appartenenza di diversi dispositivi allo stesso utente o al suo nucleo familiare, a supporto di una o varie finalità.",
+                            "descriptionLegal": "I vendor possono:<br/><br/>- Determinare con certezza in modo deterministico che due o più dispositivi appartengono allo stesso utente o al suo nucleo familiare.<br/>- Determinare in modo probabilistico l’appartenenza di due o più dispositivi allo stesso utente o allo stesso nucleo familiare.<br/>- Effettuare una scansione attiva delle caratteristiche del dispositivo per l’identificazione probabilistica, previo consenso degli utenti (Funzionalità speciale 2).",
+                            "name": "Collegare diversi dispositivi"
+                        },
+                        "3": {
+                            "description": "Un dispositivo può essere distinto da altri dispositivi in base alle informazioni che invia automaticamente, come l’indirizzo IP o il tipo di browser.",
+                            "descriptionLegal": "I vendor possono:<br/><br/>- Creare un identificatore, utilizzando i dati che un dispositivo raccoglie automaticamente in base alle sue caratteristiche, ad es. indirizzo IP, stringa dell’utente.<br/>- Utilizzare il suddetto identificatore per provare a identificare nuovamente un dispositivo.<br/><br/>I vendor non possono:<br/><br/>- Creare un identificatore, utilizzando i dati raccolti tramite uno scanning attivo di caratteristiche specifiche un dispositivo, come ad esempio la risoluzione dello schermo o i caratteri installati, senza l’opt-in dell’utente in merito alla scansionare attiva delle caratteristiche del dispositivo per la sua identificazione.<br/>- Utilizzare tale identificatore per individuare ripetutamente un dispositivo.",
+                            "name": "Ricevere e usare le caratteristiche che il dispositivo invia automaticamente ai fini dell’identificazione"
+                        }
+                    },
+                    "features_label": "Caratteristiche:",
+                    "hide_tracking_button": "Salva e torna alla cookie policy",
+                    "learn_more": "Scopri di più",
+                    "leg_int_purpose_label": "Permetti che il trattamento dei tuoi dati avvenga sulla base di un [tip pref_legitimate_interest]interesse legittimo[/tip] per questa finalità.",
+                    "leg_int_vendor_label": "Permetti a questo servizio di trattare i tuoi dati sulla base di un [tip pref_legitimate_interest]interesse legittimo[/tip].",
+                    "legit_purposes_label": "Finalità (interesse legittimo):",
+                    "privacy_policy": "Privacy Policy",
+                    "purposes": {
+                        "1": {
+                            "description": "I cookie, gli identificatori del dispositivo o altre informazioni possono essere archiviati o reperiti sul dispositivo dell’utente per le finalità presentate.",
+                            "descriptionLegal": "I vendor possono: Archiviare e accedere alle informazioni sul dispositivo, quali cookie e identificatori del dispositivo stesso, per le finalità presentate a un utente.",
+                            "name": "Archiviare e/o accedere a informazioni su un dispositivo"
+                        },
+                        "2": {
+                            "description": "Gli annunci possono essere mostrati in base al contenuto visualizzato dall’utente, all’app utilizzata, alla posizione approssimativa, oppure al tipo di dispositivo.",
+                            "descriptionLegal": "Per effettuare una selezione degli annunci di base, i vendor possono:<br/><br/>- Utilizzare, in tempo reale, informazioni sul contesto in cui verrà mostrato l’annuncio, quali contenuto e dispositivo; ad esempio: tipo di dispositivo e capacità, user agent, URL, indirizzo IP.<br/>- Utilizzare i dati di geolocalizzazione approssimativa di un utente.<br/>- Controllare la frequenza degli annunci mostrati ad un utente.<br/>- Mettere in sequenza gli annunci presentati ad un utente.<br/>- Impedire la fruizione di un annuncio in un contesto editoriale (non sicuro per il marchio) non idoneo.<br/>I vendor non possono:<br/>Creare un profilo di annunci personalizzati utilizzando le informazioni raccolte per la selezione di annunci futuri senza una base giuridica separata per la creazione di un profilo di annunci personalizzati.<br/><br/>N.B.: “approssimativo” indica unicamente la facoltà di individuare una posizione approssimativa che coinvolga almeno un raggio di 500 metri.",
+                            "name": "Selezionare annunci di base (basic ads)"
+                        },
+                        "3": {
+                            "description": "Sarà possibile creare un profilo relativo all’utente e ai suoi interessi, al fine di mostrare annunci personalizzati.",
+                            "descriptionLegal": "Per creare un profilo di annunci personalizzati, i vendor possono:<br/><br/>- Raccogliere informazioni su un utente, come attività, interessi, visite a siti o app, informazioni demografiche o sua ubicazione, per creare o modificare un profilo utente da utilizzare ai fini della pubblicità personalizzata.<br/>- Combinare queste informazioni con altre informazioni precedentemente raccolte, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella pubblicità personalizzata.",
+                            "name": "Creare un profilo di annunci personalizzati"
+                        },
+                        "4": {
+                            "description": "Annunci personalizzati possono essere mostrati in base al profilo relativo all’utente.",
+                            "descriptionLegal": "Per selezionare gli annunci personalizzati, i vendor possono: Selezionare annunci personalizzati basati su un profilo utente o altri dati storici sull’utente utilizzando informazioni quali attività, interessi, visite a siti o applicazioni, posizione geografica o informazioni demografiche dell’utente.",
+                            "name": "Selezionare annunci personalizzati"
+                        },
+                        "5": {
+                            "description": "Un profilo relativo all’utente e ai suoi interessi può essere creato per mostrargli contenuti personalizzati pertinenti.",
+                            "descriptionLegal": "Per creare un profilo di contenuto personalizzato, i vendor possono: <br/><br/>- Raccogliere informazioni su un utente, comprese attività, interessi, visite a siti o app, informazioni demografiche o posizione geografica, per creare o modificare un profilo utente al fine di personalizzarne il contenuto.<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti.",
+                            "name": "Creare un profilo di contenuto personalizzato"
+                        },
+                        "6": {
+                            "description": "I contenuti personalizzati possono essere mostrati sulla base di un profilo relativo all’utente.",
+                            "descriptionLegal": "Per selezionare i contenuti personalizzati, i vendor possono: Selezionare i contenuti personalizzati in base a un profilo utente o ad altri dati storici dell’utente, tra cui precedenti attività, interessi, visite a siti o applicazioni, posizione geografica o informazioni demografiche dell’utente.",
+                            "name": "Selezionare contenuti personalizzati"
+                        },
+                        "7": {
+                            "description": "È possibile valutare le performance e l’efficacia degli annunci visualizzati dall’utente o con cui lo stesso interagisce.",
+                            "descriptionLegal": "Per valutare le performance degli annunci, i vendor possono:<br/><br/>- Valutare se e come gli annunci siano stati forniti a un utente e come lo stesso ha interagito.<br/>- Fornire report sugli annunci, ivi comprese efficacia e prestazioni degli stessi.<br/>- Fornire report sugli utenti che hanno interagito con gli annunci utilizzando i dati osservati nel corso dell’interazione dell’utente con tale annuncio.<br/>- Fornire report agli editori sugli annunci visualizzati sulla loro proprietà.<br/>- Valutare se la fruizione di un annuncio avvenga in un contesto editoriale idoneo (sicuro per il marchio).<br/>- Determinare la percentuale dell’ad che ha avuto la possibilità di essere visualizzata e per quanto tempo.<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti.<br/><br/>I vendor non possono:<br/><br/>Applicare dati di approfondimento sul pubblico derivati da panel o prodotti simili ai dati di misurazione degli annunci senza una base giuridica per applicare ricerche di mercato per generare approfondimenti sul pubblico stesso.",
+                            "name": "Valutare le performance degli annunci"
+                        },
+                        "8": {
+                            "description": "È possibile valutare le performance e l’efficacia dei contenuti visualizzati dall’utente o con cui lo stesso interagisce.",
+                            "descriptionLegal": "Per valutare le performance dei contenuti, i vendor possono:<br/><br/>- Valutare e segnalare il modo in cui i contenuti sono stati forniti e l’interazione degli utenti con gli stessi.<br/>- Fornire report utilizzando informazioni direttamente valutabili o note sugli utenti che hanno interagito con il contenuto.<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti.<br/><br/>I vendor non possono:<br/><br/>- Valutare se e come gli annunci (compresi gli annunci nativi) siano stati forniti e l’interazione dell’utente con gli stessi.<br/>- Applicare dati di approfondimento sul pubblico derivati da panel o prodotti simili ai dati di misurazione degli annunci senza una base giuridica separata per applicare ricerche di mercato per generare approfondimenti sul pubblico stesso.",
+                            "name": "Valutare le performance dei contenuti"
+                        },
+                        "9": {
+                            "description": "La ricerca di mercato può essere utilizzata per saperne di più sul pubblico che visita siti/app e visualizza annunci.",
+                            "descriptionLegal": "Per applicare ricerche di mercato per generare approfondimenti sul pubblico, i vendor possono:<br/><br/>- Fornire agli inserzionisti o ai loro rappresentanti report aggregati sul pubblico raggiunto dai propri annunci mediante osservazioni basate su panel e di derivazione analoga.<br/>- Fornire report aggregati agli editori riguardo al pubblico che ha fruito dei contenuti e/o degli annunci o che ha interagito con gli stessi nella proprietà di tali editori applicando osservazioni basate su panel e di analoga derivazione.<br/>- Associare i dati offline con quelli di un utente online ai fini della ricerca di mercato, per generare informazioni sul pubblico se i vendor hanno dichiarato di abbinare e combinare fonti di dati offline (Funzionalità 1).<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti. <br/><br/>I vendor non possono:<br/><br/>- Misurare le performance e l’efficacia degli annunci presentati a un utente specifico o con cui lo stesso vendor abbia interagito, senza una base giuridica specifica relativa alla misurazione delle performance di tali annunci.<br/>- Misurare di quali contenuti abbia fruito un determinato utente e come abbia interagito con gli stessi, senza una base giuridica specifica relativa alla misurazione delle performance di tali annunci.",
+                            "name": "Applicare ricerche di mercato per generare approfondimenti sul pubblico"
+                        },
+                        "10": {
+                            "description": "I dati dell’utente possono essere utilizzati per perfezionare sistemi e software esistenti e per sviluppare nuovi prodotti.",
+                            "descriptionLegal": "Per sviluppare nuovi prodotti e perfezionare quelli esistenti, i vendor possono:<br/><br/>- Utilizzare le informazioni per perfezionare i prodotti esistenti mediante l’aggiunta di nuove funzionalità e per sviluppare nuovi prodotti.<br/>- Creare nuovi modelli e algoritmi attraverso il machine learning.<br/><br/>I vendor non possono: Condurre altre operazioni di trattamento dei dati rispondenti a una finalità diversa dalla presente.",
+                            "name": "Sviluppare e perfezionare i prodotti"
+                        }
+                    },
+                    "purposes_label": "Finalità:",
+                    "show_tracking_button": "Personalizza tracciamento pubblicitario",
+                    "specialFeatures": {
+                        "1": {
+                            "description": "I dati di geolocalizzazione precisi possono essere utilizzati a supporto di una o varie finalità. Ciò significa che la posizione dell’utente potrà determinarsi con esattezza nel raggio di alcuni metri.",
+                            "descriptionLegal": "I vendor possono: Raccogliere e trattare dati relativi alla posizione geografica esatta, a supporto di una o varie finalità.<br/><br/>N.B.: Esatta geolocalizzazione significa che non esistono restrizioni sulla determinazione precisa della posizione geografica di un utente; il margine di precisione può avere un raggio di alcuni metri.",
+                            "name": "Utilizzare dati di geolocalizzazione precisi"
+                        },
+                        "2": {
+                            "description": "Il dispositivo può essere identificato in base a una scansione della combinazione unica di caratteristiche del dispositivo.",
+                            "descriptionLegal": "I vendor possono:<br/><br/>- Creare un identificatore utilizzando i dati raccolti mediante la scansione attiva di un dispositivo ai fini dell’individuazione di caratteristiche specifiche, ad es., tipi di caratteri installati o risoluzione dello schermo.<br/>- Utilizzare tale identificatore per individuare ripetutamente un dispositivo.",
+                            "name": "Scansione attiva delle caratteristiche del dispositivo ai fini dell’identificazione"
+                        }
+                    },
+                    "specialPurposes": {
+                        "1": {
+                            "description": "I dati possono essere utilizzati per monitorare e prevenire attività fraudolente e garantire che i sistemi e i processi funzionino correttamente e in modo sicuro.",
+                            "descriptionLegal": "Per garantire la sicurezza, prevenire frodi e debug, i vendor possono:<br/><br/>- Assicurarsi che i dati siano trasmessi in modo sicuro.<br/>- Rilevare e prevenire attività dannose, fraudolente, non valide o illegali.<br/>- Garantire un funzionamento corretto ed efficiente dei sistemi e dei processi, compreso il monitoraggio e il miglioramento delle prestazioni dei sistemi e dei processi coinvolti nelle finalità consentite.<br/><br/>I vendor non possono: Condurre altre operazioni di trattamento dei dati rispondenti a una finalità diversa dalla presente.",
+                            "name": "Garantire la sicurezza, prevenire frodi e debug"
+                        },
+                        "2": {
+                            "description": "Il dispositivo dell’utente può ricevere e inviare informazioni per consentirgli di visualizzare annunci e contenuti e di interagire con gli stessi.",
+                            "descriptionLegal": "Per fornire informazioni e rispondere a richieste tecniche, i vendor possono:<br/><br/>- Utilizzare l’indirizzo IP di un utente per fornire un annuncio su Internet.<br/>- Reagire all’interazione di un utente con un annuncio indirizzando l’utente a una pagina di destinazione.<br/>- Utilizzare l’indirizzo IP di un utente per fornire contenuti su Internet.<br/>- Reagire all’interazione di un utente con un contenuto indirizzando l’utente a una pagina di destinazione.<br/>- Utilizzare le informazioni sul tipo di dispositivo e sulle capacità dello stesso per la fornitura di annunci o contenuti, ad esempio, per mettere a disposizione annunci creativi o file video di dimensioni corrette e in un formato supportato dal dispositivo.<br/><br/>I vendor non possono: Condurre altre operazioni di trattamento dei dati rispondenti a una finalità diversa dalla presente.",
+                            "name": "Pubblicare tecnicamente annunci o contenuti"
+                        }
+                    },
+                    "special_features_label": "Caratteristiche speciali:",
+                    "special_purposes_label": "Finalità speciali:",
+                    "storage_info": {
+                        "detailed": {
+                            "domain": "Dominio:",
+                            "duration": "Durata:",
+                            "identifier": "Identificativo:",
+                            "method_title": "Modalità di accesso o archiviazione:",
+                            "purposes": "Finalità:",
+                            "type": {
+                                "app": "archiviazione sul dispositivo (device storage)",
+                                "cookie": "cookie",
+                                "web": "archiviazione sul web (browser storage)"
+                            }
+                        },
+                        "heading": "Informazioni riguardo l’archiviazione e l’accesso sul dispositivo",
+                        "intro": {
+                            "cookie_refresh": "dalla tua ultima interazione",
+                            "day": "giorno",
+                            "days": "giorni",
+                            "hour": "ora",
+                            "hours": "ore",
+                            "indefinite": "non definita",
+                            "session": "durata della sessione",
+                            "up_to": "fino a"
+                        },
+                        "label": "Durata massima di archiviazione:",
+                        "learn_label": "Maggiori informazioni"
+                    },
+                    "vendors_section_title": "Gestione delle preferenze per singolo servizio pubblicitario",
+                    "widget_features_intro": "Per perseguire una o più di queste finalità, i servizi di terze parti possono inoltre fare uso delle seguenti caratteristiche.",
+                    "widget_features_title": "Caratteristiche",
+                    "widget_iab_title": "Gestione delle preferenze per finalità",
+                    "widget_intro": "I servizi pubblicitari elencati di seguito - indicati anche come vendor - aderiscono al [link iab_tcf]Transparency and Consent Framework di IAB[/link] e ti permettono di personalizzare le tue impostazioni di tracciamento della pubblicità. [if not LIRestricted]Alcuni di essi [/if][if LIRestricted]Essi [/if]trattano i tuoi dati personali solo sulla base del tuo [tip consent]consenso[/tip][if not LIRestricted], mentre altri in virtù di un [tip legitimate_interest]interesse legittimo[/tip][/if]. Tieni presente che il rifiuto del consenso per una finalità particolare può rendere le relative funzioni non disponibili.<br/><br/>Puoi esprimere le tue preferenze per tutte le finalità e i servizi in una sola volta tramite i comandi sottostanti.<br/>Queste preferenze sono raccolte in un segnale digitale (tramite la cosiddetta TC String) per garantire e dimostrare che hai validamente acconsentito [if not LIRestricted]o non ti sei opposto [/if]agli scopi pubblicitari. Questo segnale digitale è limitato ai dati strettamente necessari per raggiungere tale scopo.",
+                    "widget_other_providers": "Altri fornitori",
+                    "widget_purposes_title": "Finalità",
+                    "widget_special_features_intro": "Per le seguenti caratteristiche puoi esprimere le tue preferenze separatamente rispetto a quelle relative alle finalità. Tieni presente che le caratteristiche speciali possono essere utilizzate, indipendentemente dalle preferenze che hai indicato, se risultano necessarie per garantire la sicurezza, prevenire frodi e debug.",
+                    "widget_special_features_title": "Caratteristiche speciali",
+                    "widget_special_purposes_title": "Finalità speciali",
+                    "widget_title": "Le tue preferenze relative al TCF"
+                },
+                "tooltips": {
+                    "advertising_related_purposes": {
+                        "body": "<p>Noi e alcuni [link vendors]partner selezionati[/link], potremmo <em>abbinare e combinare fonti di dati offline; collegare diversi dispositivi; ricevere e usare le caratteristiche che il dispositivo invia automaticamente ai fini dell’identificazione; utilizzare dati di geolocalizzazione precisi; fare una scansione attiva delle caratteristiche del dispositivo ai fini dell’identificazione,</em> al fine di <em>archiviare e/o accedere a informazioni su un dispositivo</em> e trattare dati personali (es. dati di navigazione, indirizzi IP, dati di utilizzo o identificativi univoci) per le seguenti finalità: <em>selezionare annunci basici (basic ads); creare un profilo di annunci personalizzati ; selezionare annunci personalizzati ; creare un profilo di contenuto personalizzato; selezionare contenuti personalizzati; valutare le performance degli annunci; valutare le performance dei contenuti; applicare ricerche di mercato per generare approfondimenti sul pubblico; sviluppare e perfezionare i prodotti; garantire la sicurezza, prevenire frodi e debug; selezionare contenuti personalizzati</em>.</p><p>Puoi modificare le tue preferenze relative agli annunci pubblicitari in qualsiasi momento senza incorrere in limitazioni sostanziali accedendo al [link adv_pref]pannello delle preferenze pubblicitarie[/link].</p>",
+                        "title": "Finalità e caratteristiche relative alla pubblicità"
+                    },
+                    "consent": {
+                        "body": "<p>I servizi che decidono di basarsi sul tuo consenso non possono trattare i tuoi dati personali a meno che tu non presti liberamente il tuo consenso. Hai il diritto di rifiutare o revocare il tuo consenso senza incorrere in limitazioni sostanziali e di modificare le tue scelte in qualsiasi momento. Attivando qualsiasi finalità pubblicitaria o singolo servizio, acconsenti a tale trattamento dei tuoi dati.</p>",
+                        "title": "Trattamento sulla base del consenso"
+                    },
+                    "legitimate_interest": {
+                        "body": "<p>Il trattamento dei tuoi dati personali (es. dati di navigazione, indirizzi IP, dati di utilizzo o identificativi univoci) da parte di un servizio può essere giustificato dalla presenza di uno specifico interesse considerato “legittimo” dalla legislazione applicabile. Pertanto, ogni volta che un servizio decide di basarsi su di un interesse legittimo il tuo consenso non è necessario. Per maggiori informazioni riguardo lo specifico interesse legittimo perseguito da ciascun servizio, ti invitiamo a consultare la rispettiva privacy policy.</p><p><strong>Hai il diritto di opporti a qualsiasi trattamento basato sul legittimo interesse senza incorrere in limitazioni sostanziali e puoi esercitare tale diritto in qualsiasi momento direttamente all’interno di questo pannello deselezionando le rispettive caselle per singole finalità o per singolo servizio.</strong></p>",
+                        "title": "Trattamento sulla base di un interesse legittimo"
+                    },
+                    "pref_legitimate_interest": {
+                        "body": "<p>Un \"interesse legittimo\" è un interesse che, in base alla legislazione applicabile, giustifica il trattamento di dati personali.<br/>I servizi che decidono di fare affidamento su di un interesse legittimo possono processare i tuoi dati a meno che tu non ti opponga a tale trattamento.</p><p><strong>Deselezionando questa casella eserciti il tuo diritto di opposizione.</strong></p>",
+                        "title": "Interesse legittimo"
+                    },
+                    "your_rights": {
+                        "body": "<h3>Il tuo diritto di revoca del consenso</h3><p>Quando il trattamento dei tuoi dati avviene sulla base del consenso, puoi liberamente prestare, rifiutare o revocare il tuo consenso senza incorrere in limitazioni sostanziali. Per quanto riguarda le finalità relative agli annunci pubblicitari, puoi modificare le tue preferenze in qualsiasi momento accedendo al [link adv_pref]pannello delle preferenze pubblicitarie[/link].</p>[if not legitimateInterestRestricted]<h3>Il tuo diritto di opposizione</h3><p>Quando noi o alcuni partner selezionati trattiamo i tuoi dati personali sulla base di un interesse legittimo (e quindi non sulla base del tuo consenso), hai il diritto di opporti a tale trattamento. Maggiori informazioni sul “legittimo interesse” e su come esercitare il tuo diritto di opposizione rispetto alle finalità relative agli annunci pubblicitari sono disponibili all’interno del [link adv_pref]pannello delle preferenze pubblicitarie[/link].</p>[/if]",
+                        "title": "I tuoi diritti"
+                    }
+                },
+                "uspr": {
+                    "gpc_signal": "Il tuo segnale di preferenza relativo all’opt-out (GPC) è stato rispettato. Per modificarlo, utilizza le impostazioni del tuo dispositivo.  ",
+                    "preference_widget": {
+                        "notice_caption": "Informativa sulla raccolta",
+                        "preference_caption": "Le tue preferenze relative alla privacy",
+                        "preference_img_alt": "Icona dell’opt-out secondo il California Consumer Privacy Act (CCPA)"
+                    },
+                    "privacy_policy": "privacy policy",
+                    "purposes": {
+                        "adv": "Trattamento delle mie informazioni personali per la <b>pubblicità personalizzata</b>",
+                        "s": "<b>Vendita</b> delle mie informazioni personali",
+                        "sd5": "Trattamento di informazioni sulla mia <b>cittadinanza</b> o<b>status di immigrato</b>",
+                        "sd8": "Trattamento dei miei <b>dati di geolocalizzazione precisa</b>",
+                        "sd9": "Trattamento del mio <b>numero di previdenza sociale, della patente di guida, della carta di identità o del passaporto</b>",
+                        "sh": "<b>Condivisione</b> delle mie informazioni personali"
+                    },
+                    "widget_intro": "Le opzioni fornite in questa sezione consentono di semplificare l’esercizio di alcuni <b>diritti relativi alla privacy a cui hai diritto in quanto utente che risiede negli Stati Uniti.</b><br>Per ottenere ulteriori informazioni sui tuoi diritti relativi alla privacy e su come esercitarli consulta la nostra %{privacy_policy}.",
+                    "widget_title": "I tuoi diritti relativi alla privacy secondo le leggi US sulla privacy "
+                }
+            },
+        }
+
+//
+    };
+</script>
+<script type="text/javascript" src="//cdn.iubenda.com/cs/ccpa/stub.js"></script>
+<script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
+
+
+<!-- TRADUZIONE IN SERBO -->
+<script type="text/javascript">
+    var _iub = _iub || [];
+    _iub.csConfiguration = {"askConsentAtCookiePolicyUpdate":true,"ccpaAcknowledgeOnDisplay":true,"consentOnContinuedBrowsing":false,"countryDetection":true,"enableCcpa":true,"enableLgpd":true,"floatingPreferencesButtonDisplay":"bottom-left","invalidateConsentWithoutLog":true,"lgpdAppliesGlobally":false,"perPurposeConsent":true,"siteId":2875783,"whitelabel":false,"cookiePolicyId":62804712,
+        "lang":"it",
+        "cookiePolicyUrl": "https://stage.specialagri.it/iubenda/srb.html", "banner":{ "acceptButtonDisplay":true,"backgroundOverlay":true,"closeButtonDisplay":false,"customizeButtonDisplay":true,"explicitWithdrawal":true,"listPurposes":true,"position":"bottom","rejectButtonDisplay":true },
+        // qui incollo le label straniere iubenda
+        i18n: {
+            "it": {
+                "2nd_layer": {
+                    "widget_intro": "Ovaj panel vam omogućava da izrazite neke preferencije u vezi sa tretmanom vaših ličnih podataka.<br>Možete pregledati i izmeniti svoje izbore u bilo kom trenutku tako što ćete pristupiti ovoj tabli preko odgovarajuće veze.<br>Da odbijete vašu saglasnost a[if usprApplies] ili, gde je primenljivo, odustati od[/if] dole opisane aktivnosti obrade, deaktivirajte pojedinačne komande ili koristite dugme “Odbaci sve” i potvrdite da želite da sačuvate napravljene izbore.",
+                    "widget_title": "Le tue preferenze relative alla privacy"
+                },
+                "banner": {
+                    "accept_button_caption": "Accetta[if banner.showPurposesToggles] tutto[/if]",
+                    "advertising_preferences_caption": "pannello delle preferenze pubblicitarie",
+                    "continue_acception_button_caption": "Continua senza accettare →",
+                    "cookie_policy_caption": "cookie policy",
+                    "customize_button_caption": "Scopri di più[if perPurposeConsent or (enableTcf and gdprApplies) or usprApplies] e personalizza[/if]",
+                    "do_not_sell_caption": "Non vendere le mie informazioni personali",
+                    "dynamic": {
+                        "and": "e",
+                        "body": "Noi[if banner.useThirdParties] e terze parti selezionate[/if] [if usprApplies or ccpaApplies]raccogliamo informazioni personali[if usprApplies and hasPrivacyPolicy] come specificato nella %{privacy_policy}[/if][/if][if not gdprApplies and not lgpdApplies and (usprApplies or ccpaApplies)].[/if][if gdprApplies or lgpdApplies][if usprApplies or ccpaApplies] e [/if][/if][if gdprApplies or lgpdApplies]utilizziamo cookie o tecnologie simili per finalità tecniche e, con il tuo consenso, anche per[if not banner.listPurposes] altre finalità[/if][if banner.listPurposes] le finalità di %{purposes}[/if][if hasCookiePolicy] come specificato nella [link cookie_policy]cookie policy[/link][/if]. Il rifiuto del consenso può rendere non disponibili le relative funzioni.[if enableTcf and gdprApplies]\nPer quanto riguarda la pubblicità, noi e [link vendors]terze parti[/link] selezionate, potremmo utilizzare <em>dati di geolocalizzazione precisi e l’identificazione attraverso la scansione del dispositivo</em>, al fine di <em>archiviare e/o accedere a informazioni su un dispositivo</em> e trattare dati personali come i tuoi dati di utilizzo, per le seguenti [link adv_pref]finalità pubblicitarie[/link]: <em>annunci e contenuti personalizzati, valutazione degli annunci e del contenuto, osservazioni del pubblico e sviluppo di prodotti</em>.[/if][if gdprApplies or lgpdApplies][if banner.explicitWithdrawal]\nPuoi liberamente prestare, rifiutare o revocare il tuo consenso, in qualsiasi momento[if enableTcf and gdprApplies] , accedendo al pannello delle preferenze[/if].[/if][/if][/if][if ccpaApplies and not usprApplies]\nIn caso di vendita di informazioni personali, puoi fare opt-out utilizzando il link \"%{do_not_sell}\".\n[if hasPrivacyPolicy]\nPer saperne di più sulle categorie di informazioni personali raccolte e sulle finalità per le quali tali informazioni saranno utilizzate, si prega di fare riferimento alla nostra %{privacy_policy}.[/if][/if]\n[if gdprApplies or lgpdApplies][if banner.acceptButtonDisplay][list o][if banner.acceptButtonDisplay]\nUsa il pulsante “[= banner.acceptButtonCaption]”[/if][if banner.closeButtonDisplay and not banner.closeButtonRejects and not banner.continueWithoutAcceptingButtonDisplay][or] chiudi questa informativa[/if][/list] per acconsentire. [/if][if not banner.acceptButtonDisplay and banner.closeButtonDisplay and not banner.closeButtonRejects]Chiudi questa informativa per acconsentire.[/if][if banner.rejectButtonDisplay][list o][if banner.rejectButtonDisplay]Usa il pulsante “[= banner.rejectButtonCaption]” [/if][if (banner.closeButtonDisplay and banner.closeButtonRejects) or banner.continueWithoutAcceptingButtonDisplay][or] chiudi questa informativa[/if][/list][if banner.rejectButtonDisplay] per continuare senza accettare.[/if][/if][if not banner.rejectButtonDisplay and ((banner.closeButtonDisplay and banner.closeButtonRejects) or banner.continueWithoutAcceptingButtonDisplay)]Chiudi questa informativa per continuare senza accettare.[/if][/if][if usprApplies and hasSensitiveData][if gdprApplies or lgpdApplies]\n<b>Nota per gli utenti che risiedono negli Stati Uniti</b>: y[/if][if not gdprApplies and not lgpdApplies]\nP[/if]uoi prestare o rifiutare il consenso al trattamento delle tue informazioni personali sensibili, in qualsiasi momento, tramite i pulsanti “[= banner.acceptButtonCaption]” e “[= banner.rejectButtonCaption]” oppure in modo più granulare accedendo al pannello per le [link second_layer]preferenze relative alla privacy[/link].[/if]",
+                        "endQuote": "”",
+                        "or": "o",
+                        "startQuote": "“"
+                    },
+                    "page_counter_caption": "Premi ancora per continuare",
+                    "paragraph_1": "Questo sito o gli strumenti terzi da questo utilizzati si avvalgono di cookie necessari al funzionamento ed utili alle finalità illustrate nella cookie policy. Se vuoi saperne di più o negare il consenso a tutti o ad alcuni cookie, consulta la %{cookie_policy_link}.",
+                    "paragraph_2": "Chiudendo questo banner, scorrendo questa pagina, cliccando su un link o proseguendo la navigazione in altra maniera, acconsenti all’uso dei cookie.",
+                    "privacy_policy_caption": "privacy policy",
+                    "reject_button_caption": "Rifiuta[if banner.showPurposesToggles] tutto[/if]",
+                    "title": "Informativa",
+                    "vendor_list_caption": "terze parti"
+                },
+                "blocked_overlay": {
+                    "accept_button": "Aggiorna",
+                    "paragraph": "Hai rifiutato il tuo consenso all'utilizzo di cookie e tecnologie simili per la finalità %{purposes}. Per visualizzare questo contenuto, modifica le tue preferenze relative al consenso.",
+                    "title": "Il contenuto è bloccato"
+                },
+                "ccpa": {
+                    "opt_out_cancel": "Annulla",
+                    "opt_out_confirm": "Conferma",
+                    "opt_out_prompt": "Sei sicuro di voler fare opt-out?"
+                },
+                "floating_preferences_button": {
+                    "caption": "Preferenze privacy"
+                },
+                "footer": {
+                    "btnCaption": "Salva e continua",
+                    "message": "Proseguendo la navigazione o chiudendo questa finestra in altro modo, accetti le attuali impostazioni relative ai cookie."
+                },
+                "google_additional_consent": {
+                    "gac_widget": {
+                        "description": "I fornitori di tecnologia pubblicitaria di Google elencati di seguito utilizzano tecnologie di tracciamento per scopi pubblicitari. Per saperne di più, fai riferimento alle loro rispettive privacy policy. Puoi gestire le tue preferenze relative al consenso per ciascuno di essi o per tutti loro, in una volta sola, tramite i comandi a disposizione.",
+                        "title": "Le tue preferenze relative a Google"
+                    },
+                    "per_purpose_widget": {
+                        "customize": "Personalizza le preferenze relative a Google",
+                        "description": "I fornitori di tecnologia pubblicitaria di Google utilizzano tecnologie di trattamento per scopi pubblicitari. Puoi esprimere le tue preferenze per ciascuno di essi.",
+                        "title": "Pubblicità personalizzata da parte dei fornitori di tecnologia pubblicitaria di Google"
+                    },
+                    "tcf_widget": {
+                        "description": "I fornitori di tecnologia pubblicitaria di Google elencati di seguito non aderiscono al Transparency and Consent Framework di IAB. Puoi personalizzare le tue impostazioni relative al tracciamento pubblicitario per ciascuno di essi. Per saperne di più, fai riferimento alle loro rispettive privacy policy.",
+                        "manage_preferences": "Gestione delle preferenze per singolo fornitore di tecnologia pubblicitaria di Google",
+                        "title": "Pubblicità personalizzata da parte dei fornitori di tecnologia pubblicitaria di Google che non aderiscono al TCF"
+                    }
+                },
+                "modal": {
+                    "back": "Indietro",
+                    "cookie_policy": "Cookie Policy",
+                    "privacy_policy": "Privacy Policy",
+                    "save_and_go_back": "Salva e torna indietro",
+                    "see_full_cookie_policy": "Visualizza Cookie Policy completa",
+                    "see_full_privacy_policy": "Visualizza Privacy Policy completa"
+                },
+                "per_purpose": {
+                    "adopts_tcf": "Adotta il Transparency and Consent Framework di IAB",
+                    "approve_all": "Accetta tutto",
+                    "customize_advertising_tracking": "Personalizza le preferenze relative al TCF",
+                    "general_advertising_services": "Altri servizi di Targeting e Pubblicità",
+                    "hide_description": "Nascondi descrizione",
+                    "not_necessary": {
+                        "description": "Alcune tecnologie di tracciamento sono strettamente necessarie per garantire il funzionamento e la fornitura del servizio che ci hai richiesto. Questa opzione ti permette di prestare o rifiutare il consenso a tecnologie <b>non</b> strettamente necessarie.",
+                        "name": "Cookie e altre tecnologie di tracciamento non strettamente necessarie"
+                    },
+                    "purposes": {
+                        "1": {
+                            "bannerName": "necessarie",
+                            "description": "Questi strumenti di tracciamento sono strettamente necessari per garantire il funzionamento e la fornitura del servizio che ci hai richiesto e, pertanto, non richiedono il tuo consenso.",
+                            "name": "Necessari"
+                        },
+                        "2": {
+                            "bannerName": "funzionalità",
+                            "description": "Questi strumenti di tracciamento abilitano semplici interazioni e funzionalità che ti permettono di accedere a determinate risorse del nostro servizio e ti consentono di comunicare più facilmente con noi.",
+                            "name": "Funzionalità"
+                        },
+                        "3": {
+                            "bannerName": "esperienza",
+                            "description": "Questi strumenti di tracciamento ci permettono di migliorare la qualità della tua esperienza utente e consentono le interazioni con piattaforme, reti e contenuti esterni.",
+                            "name": "Esperienza"
+                        },
+                        "4": {
+                            "bannerName": "misurazione",
+                            "description": "Questi strumenti di tracciamento ci permettono di misurare il traffico e analizzare il tuo comportamento per migliorare il nostro servizio.",
+                            "name": "Misurazione"
+                        },
+                        "5": {
+                            "bannerName": "marketing[if adPersonalization] (con annunci personalizzati)[/if]",
+                            "description": "Questi strumenti di tracciamento ci permettono di fornirti contenuti marketing o annunci [if adPersonalization] personalizzati[/if] e di misurarne la performance.",
+                            "name": "Marketing"
+                        },
+                        "googleAdsPersonalized": {
+                            "description": "Google e i suoi partner fornitori di tecnologia pubblicitaria utilizzano strumenti di tracciamento per scopi di personalizzazione e misurazione. Puoi esprimere le tue preferenze di consenso sia per Google sia per i suoi partner. Per saperne di più, fai riferimento alla <a target=\"_blank\" rel=\"noopener\" href='https://support.google.com/admanager/answer/9012903?hl=en'>privacy policy di ciascun servizio</a>.",
+                            "name": "Pubblicità personalizzata di Google e dei suoi partner"
+                        }
+                    },
+                    "reject_all": "Rifiuta tutto",
+                    "see_description": "Mostra descrizione",
+                    "see_description_customize": "Mostra descrizione e personalizza",
+                    "tcf_adhering_services": "Servizi che aderiscono al Transparency and Consent Framework di IAB",
+                    "tcf_adhering_services_description": "Questi servizi aderiscono al <a target=\"_blank\" rel=\"noopener\" href=\"https://iabeurope.eu/transparency-consent-framework/\">IAB Transparency and Consent Framework</a> (TCF). Il TCF è un’iniziativa di imprese del settore della pubblicità digitale che promuove pratiche responsabili di trattamento dei dati ed offre maggior trasparenza e controllo sulle impostazioni di tracciamento della pubblicità.",
+                    "widget_intro": "Le opzioni disponibili in questa sezione ti permettono di personalizzare le preferenze relative al consenso per qualsiasi tecnologia di tracciamento utilizzata per le finalità descritte di seguito.[if hasCookiePolicy] Per ottenere ulteriori informazioni in merito all'utilità e al funzionamento di tali strumenti di tracciamento, fai riferimento alla <button style=\"cursor: pointer; text-decoration: underline !important;\" class=\"open-cp\">cookie policy</button>.[/if] Tieni presente che il rifiuto del consenso per una finalità particolare può rendere le relative funzioni non disponibili.",
+                    "widget_title": "Le tue preferenze relative al consenso per le tecnologie di tracciamento",
+                    "without_purposes": "L’opzione disponibile in questa sezione ti permette di prestare o rifiutare, liberamente ed in qualsiasi momento, il tuo consenso all’utilizzo di cookie e di altre tecnologie di tracciamento non strettamente necessarie a garantire il funzionamento e la fornitura del servizio che ci hai richiesto. [if hasCookiePolicy]<b>Per ottenere ulteriori informazioni in merito all'utilità e al funzionamento di tali strumenti di tracciamento, fai riferimento alla [link cookie_policy]cookie policy[/link].</b>[/if]"
+                },
+                "tcf_v2": {
+                    "activate_all_purposes_button": "Accetta tutto",
+                    "deactivate_all_purposes_button": "Rifiuta tutto",
+                    "features": {
+                        "1": {
+                            "description": "I dati provenienti da fonti offline possono essere combinati con l’attività online dell’utente a supporto di una o varie finalità.",
+                            "descriptionLegal": "I vendor possono: Combinare i dati ottenuti offline con i dati raccolti online, a supporto di una o varie Finalità o Finalità Speciali.",
+                            "name": "Abbinare e combinare fonti di dati offline"
+                        },
+                        "2": {
+                            "description": "Sarà possibile determinare l’appartenenza di diversi dispositivi allo stesso utente o al suo nucleo familiare, a supporto di una o varie finalità.",
+                            "descriptionLegal": "I vendor possono:<br/><br/>- Determinare con certezza in modo deterministico che due o più dispositivi appartengono allo stesso utente o al suo nucleo familiare.<br/>- Determinare in modo probabilistico l’appartenenza di due o più dispositivi allo stesso utente o allo stesso nucleo familiare.<br/>- Effettuare una scansione attiva delle caratteristiche del dispositivo per l’identificazione probabilistica, previo consenso degli utenti (Funzionalità speciale 2).",
+                            "name": "Collegare diversi dispositivi"
+                        },
+                        "3": {
+                            "description": "Un dispositivo può essere distinto da altri dispositivi in base alle informazioni che invia automaticamente, come l’indirizzo IP o il tipo di browser.",
+                            "descriptionLegal": "I vendor possono:<br/><br/>- Creare un identificatore, utilizzando i dati che un dispositivo raccoglie automaticamente in base alle sue caratteristiche, ad es. indirizzo IP, stringa dell’utente.<br/>- Utilizzare il suddetto identificatore per provare a identificare nuovamente un dispositivo.<br/><br/>I vendor non possono:<br/><br/>- Creare un identificatore, utilizzando i dati raccolti tramite uno scanning attivo di caratteristiche specifiche un dispositivo, come ad esempio la risoluzione dello schermo o i caratteri installati, senza l’opt-in dell’utente in merito alla scansionare attiva delle caratteristiche del dispositivo per la sua identificazione.<br/>- Utilizzare tale identificatore per individuare ripetutamente un dispositivo.",
+                            "name": "Ricevere e usare le caratteristiche che il dispositivo invia automaticamente ai fini dell’identificazione"
+                        }
+                    },
+                    "features_label": "Caratteristiche:",
+                    "hide_tracking_button": "Salva e torna alla cookie policy",
+                    "learn_more": "Scopri di più",
+                    "leg_int_purpose_label": "Permetti che il trattamento dei tuoi dati avvenga sulla base di un [tip pref_legitimate_interest]interesse legittimo[/tip] per questa finalità.",
+                    "leg_int_vendor_label": "Permetti a questo servizio di trattare i tuoi dati sulla base di un [tip pref_legitimate_interest]interesse legittimo[/tip].",
+                    "legit_purposes_label": "Finalità (interesse legittimo):",
+                    "privacy_policy": "Privacy Policy",
+                    "purposes": {
+                        "1": {
+                            "description": "I cookie, gli identificatori del dispositivo o altre informazioni possono essere archiviati o reperiti sul dispositivo dell’utente per le finalità presentate.",
+                            "descriptionLegal": "I vendor possono: Archiviare e accedere alle informazioni sul dispositivo, quali cookie e identificatori del dispositivo stesso, per le finalità presentate a un utente.",
+                            "name": "Archiviare e/o accedere a informazioni su un dispositivo"
+                        },
+                        "2": {
+                            "description": "Gli annunci possono essere mostrati in base al contenuto visualizzato dall’utente, all’app utilizzata, alla posizione approssimativa, oppure al tipo di dispositivo.",
+                            "descriptionLegal": "Per effettuare una selezione degli annunci di base, i vendor possono:<br/><br/>- Utilizzare, in tempo reale, informazioni sul contesto in cui verrà mostrato l’annuncio, quali contenuto e dispositivo; ad esempio: tipo di dispositivo e capacità, user agent, URL, indirizzo IP.<br/>- Utilizzare i dati di geolocalizzazione approssimativa di un utente.<br/>- Controllare la frequenza degli annunci mostrati ad un utente.<br/>- Mettere in sequenza gli annunci presentati ad un utente.<br/>- Impedire la fruizione di un annuncio in un contesto editoriale (non sicuro per il marchio) non idoneo.<br/>I vendor non possono:<br/>Creare un profilo di annunci personalizzati utilizzando le informazioni raccolte per la selezione di annunci futuri senza una base giuridica separata per la creazione di un profilo di annunci personalizzati.<br/><br/>N.B.: “approssimativo” indica unicamente la facoltà di individuare una posizione approssimativa che coinvolga almeno un raggio di 500 metri.",
+                            "name": "Selezionare annunci di base (basic ads)"
+                        },
+                        "3": {
+                            "description": "Sarà possibile creare un profilo relativo all’utente e ai suoi interessi, al fine di mostrare annunci personalizzati.",
+                            "descriptionLegal": "Per creare un profilo di annunci personalizzati, i vendor possono:<br/><br/>- Raccogliere informazioni su un utente, come attività, interessi, visite a siti o app, informazioni demografiche o sua ubicazione, per creare o modificare un profilo utente da utilizzare ai fini della pubblicità personalizzata.<br/>- Combinare queste informazioni con altre informazioni precedentemente raccolte, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella pubblicità personalizzata.",
+                            "name": "Creare un profilo di annunci personalizzati"
+                        },
+                        "4": {
+                            "description": "Annunci personalizzati possono essere mostrati in base al profilo relativo all’utente.",
+                            "descriptionLegal": "Per selezionare gli annunci personalizzati, i vendor possono: Selezionare annunci personalizzati basati su un profilo utente o altri dati storici sull’utente utilizzando informazioni quali attività, interessi, visite a siti o applicazioni, posizione geografica o informazioni demografiche dell’utente.",
+                            "name": "Selezionare annunci personalizzati"
+                        },
+                        "5": {
+                            "description": "Un profilo relativo all’utente e ai suoi interessi può essere creato per mostrargli contenuti personalizzati pertinenti.",
+                            "descriptionLegal": "Per creare un profilo di contenuto personalizzato, i vendor possono: <br/><br/>- Raccogliere informazioni su un utente, comprese attività, interessi, visite a siti o app, informazioni demografiche o posizione geografica, per creare o modificare un profilo utente al fine di personalizzarne il contenuto.<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti.",
+                            "name": "Creare un profilo di contenuto personalizzato"
+                        },
+                        "6": {
+                            "description": "I contenuti personalizzati possono essere mostrati sulla base di un profilo relativo all’utente.",
+                            "descriptionLegal": "Per selezionare i contenuti personalizzati, i vendor possono: Selezionare i contenuti personalizzati in base a un profilo utente o ad altri dati storici dell’utente, tra cui precedenti attività, interessi, visite a siti o applicazioni, posizione geografica o informazioni demografiche dell’utente.",
+                            "name": "Selezionare contenuti personalizzati"
+                        },
+                        "7": {
+                            "description": "È possibile valutare le performance e l’efficacia degli annunci visualizzati dall’utente o con cui lo stesso interagisce.",
+                            "descriptionLegal": "Per valutare le performance degli annunci, i vendor possono:<br/><br/>- Valutare se e come gli annunci siano stati forniti a un utente e come lo stesso ha interagito.<br/>- Fornire report sugli annunci, ivi comprese efficacia e prestazioni degli stessi.<br/>- Fornire report sugli utenti che hanno interagito con gli annunci utilizzando i dati osservati nel corso dell’interazione dell’utente con tale annuncio.<br/>- Fornire report agli editori sugli annunci visualizzati sulla loro proprietà.<br/>- Valutare se la fruizione di un annuncio avvenga in un contesto editoriale idoneo (sicuro per il marchio).<br/>- Determinare la percentuale dell’ad che ha avuto la possibilità di essere visualizzata e per quanto tempo.<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti.<br/><br/>I vendor non possono:<br/><br/>Applicare dati di approfondimento sul pubblico derivati da panel o prodotti simili ai dati di misurazione degli annunci senza una base giuridica per applicare ricerche di mercato per generare approfondimenti sul pubblico stesso.",
+                            "name": "Valutare le performance degli annunci"
+                        },
+                        "8": {
+                            "description": "È possibile valutare le performance e l’efficacia dei contenuti visualizzati dall’utente o con cui lo stesso interagisce.",
+                            "descriptionLegal": "Per valutare le performance dei contenuti, i vendor possono:<br/><br/>- Valutare e segnalare il modo in cui i contenuti sono stati forniti e l’interazione degli utenti con gli stessi.<br/>- Fornire report utilizzando informazioni direttamente valutabili o note sugli utenti che hanno interagito con il contenuto.<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti.<br/><br/>I vendor non possono:<br/><br/>- Valutare se e come gli annunci (compresi gli annunci nativi) siano stati forniti e l’interazione dell’utente con gli stessi.<br/>- Applicare dati di approfondimento sul pubblico derivati da panel o prodotti simili ai dati di misurazione degli annunci senza una base giuridica separata per applicare ricerche di mercato per generare approfondimenti sul pubblico stesso.",
+                            "name": "Valutare le performance dei contenuti"
+                        },
+                        "9": {
+                            "description": "La ricerca di mercato può essere utilizzata per saperne di più sul pubblico che visita siti/app e visualizza annunci.",
+                            "descriptionLegal": "Per applicare ricerche di mercato per generare approfondimenti sul pubblico, i vendor possono:<br/><br/>- Fornire agli inserzionisti o ai loro rappresentanti report aggregati sul pubblico raggiunto dai propri annunci mediante osservazioni basate su panel e di derivazione analoga.<br/>- Fornire report aggregati agli editori riguardo al pubblico che ha fruito dei contenuti e/o degli annunci o che ha interagito con gli stessi nella proprietà di tali editori applicando osservazioni basate su panel e di analoga derivazione.<br/>- Associare i dati offline con quelli di un utente online ai fini della ricerca di mercato, per generare informazioni sul pubblico se i vendor hanno dichiarato di abbinare e combinare fonti di dati offline (Funzionalità 1).<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti. <br/><br/>I vendor non possono:<br/><br/>- Misurare le performance e l’efficacia degli annunci presentati a un utente specifico o con cui lo stesso vendor abbia interagito, senza una base giuridica specifica relativa alla misurazione delle performance di tali annunci.<br/>- Misurare di quali contenuti abbia fruito un determinato utente e come abbia interagito con gli stessi, senza una base giuridica specifica relativa alla misurazione delle performance di tali annunci.",
+                            "name": "Applicare ricerche di mercato per generare approfondimenti sul pubblico"
+                        },
+                        "10": {
+                            "description": "I dati dell’utente possono essere utilizzati per perfezionare sistemi e software esistenti e per sviluppare nuovi prodotti.",
+                            "descriptionLegal": "Per sviluppare nuovi prodotti e perfezionare quelli esistenti, i vendor possono:<br/><br/>- Utilizzare le informazioni per perfezionare i prodotti esistenti mediante l’aggiunta di nuove funzionalità e per sviluppare nuovi prodotti.<br/>- Creare nuovi modelli e algoritmi attraverso il machine learning.<br/><br/>I vendor non possono: Condurre altre operazioni di trattamento dei dati rispondenti a una finalità diversa dalla presente.",
+                            "name": "Sviluppare e perfezionare i prodotti"
+                        }
+                    },
+                    "purposes_label": "Finalità:",
+                    "show_tracking_button": "Personalizza tracciamento pubblicitario",
+                    "specialFeatures": {
+                        "1": {
+                            "description": "I dati di geolocalizzazione precisi possono essere utilizzati a supporto di una o varie finalità. Ciò significa che la posizione dell’utente potrà determinarsi con esattezza nel raggio di alcuni metri.",
+                            "descriptionLegal": "I vendor possono: Raccogliere e trattare dati relativi alla posizione geografica esatta, a supporto di una o varie finalità.<br/><br/>N.B.: Esatta geolocalizzazione significa che non esistono restrizioni sulla determinazione precisa della posizione geografica di un utente; il margine di precisione può avere un raggio di alcuni metri.",
+                            "name": "Utilizzare dati di geolocalizzazione precisi"
+                        },
+                        "2": {
+                            "description": "Il dispositivo può essere identificato in base a una scansione della combinazione unica di caratteristiche del dispositivo.",
+                            "descriptionLegal": "I vendor possono:<br/><br/>- Creare un identificatore utilizzando i dati raccolti mediante la scansione attiva di un dispositivo ai fini dell’individuazione di caratteristiche specifiche, ad es., tipi di caratteri installati o risoluzione dello schermo.<br/>- Utilizzare tale identificatore per individuare ripetutamente un dispositivo.",
+                            "name": "Scansione attiva delle caratteristiche del dispositivo ai fini dell’identificazione"
+                        }
+                    },
+                    "specialPurposes": {
+                        "1": {
+                            "description": "I dati possono essere utilizzati per monitorare e prevenire attività fraudolente e garantire che i sistemi e i processi funzionino correttamente e in modo sicuro.",
+                            "descriptionLegal": "Per garantire la sicurezza, prevenire frodi e debug, i vendor possono:<br/><br/>- Assicurarsi che i dati siano trasmessi in modo sicuro.<br/>- Rilevare e prevenire attività dannose, fraudolente, non valide o illegali.<br/>- Garantire un funzionamento corretto ed efficiente dei sistemi e dei processi, compreso il monitoraggio e il miglioramento delle prestazioni dei sistemi e dei processi coinvolti nelle finalità consentite.<br/><br/>I vendor non possono: Condurre altre operazioni di trattamento dei dati rispondenti a una finalità diversa dalla presente.",
+                            "name": "Garantire la sicurezza, prevenire frodi e debug"
+                        },
+                        "2": {
+                            "description": "Il dispositivo dell’utente può ricevere e inviare informazioni per consentirgli di visualizzare annunci e contenuti e di interagire con gli stessi.",
+                            "descriptionLegal": "Per fornire informazioni e rispondere a richieste tecniche, i vendor possono:<br/><br/>- Utilizzare l’indirizzo IP di un utente per fornire un annuncio su Internet.<br/>- Reagire all’interazione di un utente con un annuncio indirizzando l’utente a una pagina di destinazione.<br/>- Utilizzare l’indirizzo IP di un utente per fornire contenuti su Internet.<br/>- Reagire all’interazione di un utente con un contenuto indirizzando l’utente a una pagina di destinazione.<br/>- Utilizzare le informazioni sul tipo di dispositivo e sulle capacità dello stesso per la fornitura di annunci o contenuti, ad esempio, per mettere a disposizione annunci creativi o file video di dimensioni corrette e in un formato supportato dal dispositivo.<br/><br/>I vendor non possono: Condurre altre operazioni di trattamento dei dati rispondenti a una finalità diversa dalla presente.",
+                            "name": "Pubblicare tecnicamente annunci o contenuti"
+                        }
+                    },
+                    "special_features_label": "Caratteristiche speciali:",
+                    "special_purposes_label": "Finalità speciali:",
+                    "storage_info": {
+                        "detailed": {
+                            "domain": "Dominio:",
+                            "duration": "Durata:",
+                            "identifier": "Identificativo:",
+                            "method_title": "Modalità di accesso o archiviazione:",
+                            "purposes": "Finalità:",
+                            "type": {
+                                "app": "archiviazione sul dispositivo (device storage)",
+                                "cookie": "cookie",
+                                "web": "archiviazione sul web (browser storage)"
+                            }
+                        },
+                        "heading": "Informazioni riguardo l’archiviazione e l’accesso sul dispositivo",
+                        "intro": {
+                            "cookie_refresh": "dalla tua ultima interazione",
+                            "day": "giorno",
+                            "days": "giorni",
+                            "hour": "ora",
+                            "hours": "ore",
+                            "indefinite": "non definita",
+                            "session": "durata della sessione",
+                            "up_to": "fino a"
+                        },
+                        "label": "Durata massima di archiviazione:",
+                        "learn_label": "Maggiori informazioni"
+                    },
+                    "vendors_section_title": "Gestione delle preferenze per singolo servizio pubblicitario",
+                    "widget_features_intro": "Per perseguire una o più di queste finalità, i servizi di terze parti possono inoltre fare uso delle seguenti caratteristiche.",
+                    "widget_features_title": "Caratteristiche",
+                    "widget_iab_title": "Gestione delle preferenze per finalità",
+                    "widget_intro": "I servizi pubblicitari elencati di seguito - indicati anche come vendor - aderiscono al [link iab_tcf]Transparency and Consent Framework di IAB[/link] e ti permettono di personalizzare le tue impostazioni di tracciamento della pubblicità. [if not LIRestricted]Alcuni di essi [/if][if LIRestricted]Essi [/if]trattano i tuoi dati personali solo sulla base del tuo [tip consent]consenso[/tip][if not LIRestricted], mentre altri in virtù di un [tip legitimate_interest]interesse legittimo[/tip][/if]. Tieni presente che il rifiuto del consenso per una finalità particolare può rendere le relative funzioni non disponibili.<br/><br/>Puoi esprimere le tue preferenze per tutte le finalità e i servizi in una sola volta tramite i comandi sottostanti.<br/>Queste preferenze sono raccolte in un segnale digitale (tramite la cosiddetta TC String) per garantire e dimostrare che hai validamente acconsentito [if not LIRestricted]o non ti sei opposto [/if]agli scopi pubblicitari. Questo segnale digitale è limitato ai dati strettamente necessari per raggiungere tale scopo.",
+                    "widget_other_providers": "Altri fornitori",
+                    "widget_purposes_title": "Finalità",
+                    "widget_special_features_intro": "Per le seguenti caratteristiche puoi esprimere le tue preferenze separatamente rispetto a quelle relative alle finalità. Tieni presente che le caratteristiche speciali possono essere utilizzate, indipendentemente dalle preferenze che hai indicato, se risultano necessarie per garantire la sicurezza, prevenire frodi e debug.",
+                    "widget_special_features_title": "Caratteristiche speciali",
+                    "widget_special_purposes_title": "Finalità speciali",
+                    "widget_title": "Le tue preferenze relative al TCF"
+                },
+                "tooltips": {
+                    "advertising_related_purposes": {
+                        "body": "<p>Noi e alcuni [link vendors]partner selezionati[/link], potremmo <em>abbinare e combinare fonti di dati offline; collegare diversi dispositivi; ricevere e usare le caratteristiche che il dispositivo invia automaticamente ai fini dell’identificazione; utilizzare dati di geolocalizzazione precisi; fare una scansione attiva delle caratteristiche del dispositivo ai fini dell’identificazione,</em> al fine di <em>archiviare e/o accedere a informazioni su un dispositivo</em> e trattare dati personali (es. dati di navigazione, indirizzi IP, dati di utilizzo o identificativi univoci) per le seguenti finalità: <em>selezionare annunci basici (basic ads); creare un profilo di annunci personalizzati ; selezionare annunci personalizzati ; creare un profilo di contenuto personalizzato; selezionare contenuti personalizzati; valutare le performance degli annunci; valutare le performance dei contenuti; applicare ricerche di mercato per generare approfondimenti sul pubblico; sviluppare e perfezionare i prodotti; garantire la sicurezza, prevenire frodi e debug; selezionare contenuti personalizzati</em>.</p><p>Puoi modificare le tue preferenze relative agli annunci pubblicitari in qualsiasi momento senza incorrere in limitazioni sostanziali accedendo al [link adv_pref]pannello delle preferenze pubblicitarie[/link].</p>",
+                        "title": "Finalità e caratteristiche relative alla pubblicità"
+                    },
+                    "consent": {
+                        "body": "<p>I servizi che decidono di basarsi sul tuo consenso non possono trattare i tuoi dati personali a meno che tu non presti liberamente il tuo consenso. Hai il diritto di rifiutare o revocare il tuo consenso senza incorrere in limitazioni sostanziali e di modificare le tue scelte in qualsiasi momento. Attivando qualsiasi finalità pubblicitaria o singolo servizio, acconsenti a tale trattamento dei tuoi dati.</p>",
+                        "title": "Trattamento sulla base del consenso"
+                    },
+                    "legitimate_interest": {
+                        "body": "<p>Il trattamento dei tuoi dati personali (es. dati di navigazione, indirizzi IP, dati di utilizzo o identificativi univoci) da parte di un servizio può essere giustificato dalla presenza di uno specifico interesse considerato “legittimo” dalla legislazione applicabile. Pertanto, ogni volta che un servizio decide di basarsi su di un interesse legittimo il tuo consenso non è necessario. Per maggiori informazioni riguardo lo specifico interesse legittimo perseguito da ciascun servizio, ti invitiamo a consultare la rispettiva privacy policy.</p><p><strong>Hai il diritto di opporti a qualsiasi trattamento basato sul legittimo interesse senza incorrere in limitazioni sostanziali e puoi esercitare tale diritto in qualsiasi momento direttamente all’interno di questo pannello deselezionando le rispettive caselle per singole finalità o per singolo servizio.</strong></p>",
+                        "title": "Trattamento sulla base di un interesse legittimo"
+                    },
+                    "pref_legitimate_interest": {
+                        "body": "<p>Un \"interesse legittimo\" è un interesse che, in base alla legislazione applicabile, giustifica il trattamento di dati personali.<br/>I servizi che decidono di fare affidamento su di un interesse legittimo possono processare i tuoi dati a meno che tu non ti opponga a tale trattamento.</p><p><strong>Deselezionando questa casella eserciti il tuo diritto di opposizione.</strong></p>",
+                        "title": "Interesse legittimo"
+                    },
+                    "your_rights": {
+                        "body": "<h3>Il tuo diritto di revoca del consenso</h3><p>Quando il trattamento dei tuoi dati avviene sulla base del consenso, puoi liberamente prestare, rifiutare o revocare il tuo consenso senza incorrere in limitazioni sostanziali. Per quanto riguarda le finalità relative agli annunci pubblicitari, puoi modificare le tue preferenze in qualsiasi momento accedendo al [link adv_pref]pannello delle preferenze pubblicitarie[/link].</p>[if not legitimateInterestRestricted]<h3>Il tuo diritto di opposizione</h3><p>Quando noi o alcuni partner selezionati trattiamo i tuoi dati personali sulla base di un interesse legittimo (e quindi non sulla base del tuo consenso), hai il diritto di opporti a tale trattamento. Maggiori informazioni sul “legittimo interesse” e su come esercitare il tuo diritto di opposizione rispetto alle finalità relative agli annunci pubblicitari sono disponibili all’interno del [link adv_pref]pannello delle preferenze pubblicitarie[/link].</p>[/if]",
+                        "title": "I tuoi diritti"
+                    }
+                },
+                "uspr": {
+                    "gpc_signal": "Il tuo segnale di preferenza relativo all’opt-out (GPC) è stato rispettato. Per modificarlo, utilizza le impostazioni del tuo dispositivo.  ",
+                    "preference_widget": {
+                        "notice_caption": "Informativa sulla raccolta",
+                        "preference_caption": "Le tue preferenze relative alla privacy",
+                        "preference_img_alt": "Icona dell’opt-out secondo il California Consumer Privacy Act (CCPA)"
+                    },
+                    "privacy_policy": "privacy policy",
+                    "purposes": {
+                        "adv": "Trattamento delle mie informazioni personali per la <b>pubblicità personalizzata</b>",
+                        "s": "<b>Vendita</b> delle mie informazioni personali",
+                        "sd5": "Trattamento di informazioni sulla mia <b>cittadinanza</b> o<b>status di immigrato</b>",
+                        "sd8": "Trattamento dei miei <b>dati di geolocalizzazione precisa</b>",
+                        "sd9": "Trattamento del mio <b>numero di previdenza sociale, della patente di guida, della carta di identità o del passaporto</b>",
+                        "sh": "<b>Condivisione</b> delle mie informazioni personali"
+                    },
+                    "widget_intro": "Le opzioni fornite in questa sezione consentono di semplificare l’esercizio di alcuni <b>diritti relativi alla privacy a cui hai diritto in quanto utente che risiede negli Stati Uniti.</b><br>Per ottenere ulteriori informazioni sui tuoi diritti relativi alla privacy e su come esercitarli consulta la nostra %{privacy_policy}.",
+                    "widget_title": "I tuoi diritti relativi alla privacy secondo le leggi US sulla privacy "
+                }
+            },
+        }
+
+//
+    };
+</script>
+<script type="text/javascript" src="//cdn.iubenda.com/cs/ccpa/stub.js"></script>
+<script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
+
+<!-- TRADUZIONE IN ROMENO -->
+<script type="text/javascript">
+    var _iub = _iub || [];
+    _iub.csConfiguration = {"askConsentAtCookiePolicyUpdate":true,"ccpaAcknowledgeOnDisplay":true,"consentOnContinuedBrowsing":false,"countryDetection":true,"enableCcpa":true,"enableLgpd":true,"floatingPreferencesButtonDisplay":"bottom-left","invalidateConsentWithoutLog":true,"lgpdAppliesGlobally":false,"perPurposeConsent":true,"siteId":2875783,"whitelabel":false,"cookiePolicyId":62804712,
+        "lang":"it",
+        "cookiePolicyUrl": "https://stage.specialagri.it/iubenda/srb.html", "banner":{ "acceptButtonDisplay":true,"backgroundOverlay":true,"closeButtonDisplay":false,"customizeButtonDisplay":true,"explicitWithdrawal":true,"listPurposes":true,"position":"bottom","rejectButtonDisplay":true },
+        // qui incollo le label straniere iubenda
+        i18n: {
+            "it": {
+                "2nd_layer": {
+                    "widget_intro": "Questo pannello ti permette di esprimere alcune preferenze relative al trattamento delle tue informazioni personali.<br>Puoi rivedere e modificare le tue scelte in qualsiasi momento accedendo al presente pannello tramite l’apposito link.<br>Per rifiutare il tuo consenso a[if usprApplies] o, ove applicabile, fare opt-out dalle[/if] attività di trattamento descritte di seguito, disattiva i singoli comandi o utilizza il pulsante “Rifiuta tutto” e conferma di voler salvare le scelte effettuate.",
+                    "widget_title": "Le tue preferenze relative alla privacy"
+                },
+                "banner": {
+                    "accept_button_caption": "Accetta[if banner.showPurposesToggles] tutto[/if]",
+                    "advertising_preferences_caption": "pannello delle preferenze pubblicitarie",
+                    "continue_acception_button_caption": "Continua senza accettare →",
+                    "cookie_policy_caption": "cookie policy",
+                    "customize_button_caption": "Scopri di più[if perPurposeConsent or (enableTcf and gdprApplies) or usprApplies] e personalizza[/if]",
+                    "do_not_sell_caption": "Non vendere le mie informazioni personali",
+                    "dynamic": {
+                        "and": "e",
+                        "body": "Noi[if banner.useThirdParties] e terze parti selezionate[/if] [if usprApplies or ccpaApplies]raccogliamo informazioni personali[if usprApplies and hasPrivacyPolicy] come specificato nella %{privacy_policy}[/if][/if][if not gdprApplies and not lgpdApplies and (usprApplies or ccpaApplies)].[/if][if gdprApplies or lgpdApplies][if usprApplies or ccpaApplies] e [/if][/if][if gdprApplies or lgpdApplies]utilizziamo cookie o tecnologie simili per finalità tecniche e, con il tuo consenso, anche per[if not banner.listPurposes] altre finalità[/if][if banner.listPurposes] le finalità di %{purposes}[/if][if hasCookiePolicy] come specificato nella [link cookie_policy]cookie policy[/link][/if]. Il rifiuto del consenso può rendere non disponibili le relative funzioni.[if enableTcf and gdprApplies]\nPer quanto riguarda la pubblicità, noi e [link vendors]terze parti[/link] selezionate, potremmo utilizzare <em>dati di geolocalizzazione precisi e l’identificazione attraverso la scansione del dispositivo</em>, al fine di <em>archiviare e/o accedere a informazioni su un dispositivo</em> e trattare dati personali come i tuoi dati di utilizzo, per le seguenti [link adv_pref]finalità pubblicitarie[/link]: <em>annunci e contenuti personalizzati, valutazione degli annunci e del contenuto, osservazioni del pubblico e sviluppo di prodotti</em>.[/if][if gdprApplies or lgpdApplies][if banner.explicitWithdrawal]\nPuoi liberamente prestare, rifiutare o revocare il tuo consenso, in qualsiasi momento[if enableTcf and gdprApplies] , accedendo al pannello delle preferenze[/if].[/if][/if][/if][if ccpaApplies and not usprApplies]\nIn caso di vendita di informazioni personali, puoi fare opt-out utilizzando il link \"%{do_not_sell}\".\n[if hasPrivacyPolicy]\nPer saperne di più sulle categorie di informazioni personali raccolte e sulle finalità per le quali tali informazioni saranno utilizzate, si prega di fare riferimento alla nostra %{privacy_policy}.[/if][/if]\n[if gdprApplies or lgpdApplies][if banner.acceptButtonDisplay][list o][if banner.acceptButtonDisplay]\nUsa il pulsante “[= banner.acceptButtonCaption]”[/if][if banner.closeButtonDisplay and not banner.closeButtonRejects and not banner.continueWithoutAcceptingButtonDisplay][or] chiudi questa informativa[/if][/list] per acconsentire. [/if][if not banner.acceptButtonDisplay and banner.closeButtonDisplay and not banner.closeButtonRejects]Chiudi questa informativa per acconsentire.[/if][if banner.rejectButtonDisplay][list o][if banner.rejectButtonDisplay]Usa il pulsante “[= banner.rejectButtonCaption]” [/if][if (banner.closeButtonDisplay and banner.closeButtonRejects) or banner.continueWithoutAcceptingButtonDisplay][or] chiudi questa informativa[/if][/list][if banner.rejectButtonDisplay] per continuare senza accettare.[/if][/if][if not banner.rejectButtonDisplay and ((banner.closeButtonDisplay and banner.closeButtonRejects) or banner.continueWithoutAcceptingButtonDisplay)]Chiudi questa informativa per continuare senza accettare.[/if][/if][if usprApplies and hasSensitiveData][if gdprApplies or lgpdApplies]\n<b>Nota per gli utenti che risiedono negli Stati Uniti</b>: y[/if][if not gdprApplies and not lgpdApplies]\nP[/if]uoi prestare o rifiutare il consenso al trattamento delle tue informazioni personali sensibili, in qualsiasi momento, tramite i pulsanti “[= banner.acceptButtonCaption]” e “[= banner.rejectButtonCaption]” oppure in modo più granulare accedendo al pannello per le [link second_layer]preferenze relative alla privacy[/link].[/if]",
+                        "endQuote": "”",
+                        "or": "o",
+                        "startQuote": "“"
+                    },
+                    "page_counter_caption": "Premi ancora per continuare",
+                    "paragraph_1": "Questo sito o gli strumenti terzi da questo utilizzati si avvalgono di cookie necessari al funzionamento ed utili alle finalità illustrate nella cookie policy. Se vuoi saperne di più o negare il consenso a tutti o ad alcuni cookie, consulta la %{cookie_policy_link}.",
+                    "paragraph_2": "Chiudendo questo banner, scorrendo questa pagina, cliccando su un link o proseguendo la navigazione in altra maniera, acconsenti all’uso dei cookie.",
+                    "privacy_policy_caption": "privacy policy",
+                    "reject_button_caption": "Rifiuta[if banner.showPurposesToggles] tutto[/if]",
+                    "title": "Informativa",
+                    "vendor_list_caption": "terze parti"
+                },
+                "blocked_overlay": {
+                    "accept_button": "Aggiorna",
+                    "paragraph": "Hai rifiutato il tuo consenso all'utilizzo di cookie e tecnologie simili per la finalità %{purposes}. Per visualizzare questo contenuto, modifica le tue preferenze relative al consenso.",
+                    "title": "Il contenuto è bloccato"
+                },
+                "ccpa": {
+                    "opt_out_cancel": "Annulla",
+                    "opt_out_confirm": "Conferma",
+                    "opt_out_prompt": "Sei sicuro di voler fare opt-out?"
+                },
+                "floating_preferences_button": {
+                    "caption": "Preferenze privacy"
+                },
+                "footer": {
+                    "btnCaption": "Salva e continua",
+                    "message": "Proseguendo la navigazione o chiudendo questa finestra in altro modo, accetti le attuali impostazioni relative ai cookie."
+                },
+                "google_additional_consent": {
+                    "gac_widget": {
+                        "description": "I fornitori di tecnologia pubblicitaria di Google elencati di seguito utilizzano tecnologie di tracciamento per scopi pubblicitari. Per saperne di più, fai riferimento alle loro rispettive privacy policy. Puoi gestire le tue preferenze relative al consenso per ciascuno di essi o per tutti loro, in una volta sola, tramite i comandi a disposizione.",
+                        "title": "Le tue preferenze relative a Google"
+                    },
+                    "per_purpose_widget": {
+                        "customize": "Personalizza le preferenze relative a Google",
+                        "description": "I fornitori di tecnologia pubblicitaria di Google utilizzano tecnologie di trattamento per scopi pubblicitari. Puoi esprimere le tue preferenze per ciascuno di essi.",
+                        "title": "Pubblicità personalizzata da parte dei fornitori di tecnologia pubblicitaria di Google"
+                    },
+                    "tcf_widget": {
+                        "description": "I fornitori di tecnologia pubblicitaria di Google elencati di seguito non aderiscono al Transparency and Consent Framework di IAB. Puoi personalizzare le tue impostazioni relative al tracciamento pubblicitario per ciascuno di essi. Per saperne di più, fai riferimento alle loro rispettive privacy policy.",
+                        "manage_preferences": "Gestione delle preferenze per singolo fornitore di tecnologia pubblicitaria di Google",
+                        "title": "Pubblicità personalizzata da parte dei fornitori di tecnologia pubblicitaria di Google che non aderiscono al TCF"
+                    }
+                },
+                "modal": {
+                    "back": "Indietro",
+                    "cookie_policy": "Cookie Policy",
+                    "privacy_policy": "Privacy Policy",
+                    "save_and_go_back": "Salva e torna indietro",
+                    "see_full_cookie_policy": "Visualizza Cookie Policy completa",
+                    "see_full_privacy_policy": "Visualizza Privacy Policy completa"
+                },
+                "per_purpose": {
+                    "adopts_tcf": "Adotta il Transparency and Consent Framework di IAB",
+                    "approve_all": "Accetta tutto",
+                    "customize_advertising_tracking": "Personalizza le preferenze relative al TCF",
+                    "general_advertising_services": "Altri servizi di Targeting e Pubblicità",
+                    "hide_description": "Nascondi descrizione",
+                    "not_necessary": {
+                        "description": "Alcune tecnologie di tracciamento sono strettamente necessarie per garantire il funzionamento e la fornitura del servizio che ci hai richiesto. Questa opzione ti permette di prestare o rifiutare il consenso a tecnologie <b>non</b> strettamente necessarie.",
+                        "name": "Cookie e altre tecnologie di tracciamento non strettamente necessarie"
+                    },
+                    "purposes": {
+                        "1": {
+                            "bannerName": "necessarie",
+                            "description": "Questi strumenti di tracciamento sono strettamente necessari per garantire il funzionamento e la fornitura del servizio che ci hai richiesto e, pertanto, non richiedono il tuo consenso.",
+                            "name": "Necessari"
+                        },
+                        "2": {
+                            "bannerName": "funzionalità",
+                            "description": "Questi strumenti di tracciamento abilitano semplici interazioni e funzionalità che ti permettono di accedere a determinate risorse del nostro servizio e ti consentono di comunicare più facilmente con noi.",
+                            "name": "Funzionalità"
+                        },
+                        "3": {
+                            "bannerName": "esperienza",
+                            "description": "Questi strumenti di tracciamento ci permettono di migliorare la qualità della tua esperienza utente e consentono le interazioni con piattaforme, reti e contenuti esterni.",
+                            "name": "Esperienza"
+                        },
+                        "4": {
+                            "bannerName": "misurazione",
+                            "description": "Questi strumenti di tracciamento ci permettono di misurare il traffico e analizzare il tuo comportamento per migliorare il nostro servizio.",
+                            "name": "Misurazione"
+                        },
+                        "5": {
+                            "bannerName": "marketing[if adPersonalization] (con annunci personalizzati)[/if]",
+                            "description": "Questi strumenti di tracciamento ci permettono di fornirti contenuti marketing o annunci [if adPersonalization] personalizzati[/if] e di misurarne la performance.",
+                            "name": "Marketing"
+                        },
+                        "googleAdsPersonalized": {
+                            "description": "Google e i suoi partner fornitori di tecnologia pubblicitaria utilizzano strumenti di tracciamento per scopi di personalizzazione e misurazione. Puoi esprimere le tue preferenze di consenso sia per Google sia per i suoi partner. Per saperne di più, fai riferimento alla <a target=\"_blank\" rel=\"noopener\" href='https://support.google.com/admanager/answer/9012903?hl=en'>privacy policy di ciascun servizio</a>.",
+                            "name": "Pubblicità personalizzata di Google e dei suoi partner"
+                        }
+                    },
+                    "reject_all": "Rifiuta tutto",
+                    "see_description": "Mostra descrizione",
+                    "see_description_customize": "Mostra descrizione e personalizza",
+                    "tcf_adhering_services": "Servizi che aderiscono al Transparency and Consent Framework di IAB",
+                    "tcf_adhering_services_description": "Questi servizi aderiscono al <a target=\"_blank\" rel=\"noopener\" href=\"https://iabeurope.eu/transparency-consent-framework/\">IAB Transparency and Consent Framework</a> (TCF). Il TCF è un’iniziativa di imprese del settore della pubblicità digitale che promuove pratiche responsabili di trattamento dei dati ed offre maggior trasparenza e controllo sulle impostazioni di tracciamento della pubblicità.",
+                    "widget_intro": "Le opzioni disponibili in questa sezione ti permettono di personalizzare le preferenze relative al consenso per qualsiasi tecnologia di tracciamento utilizzata per le finalità descritte di seguito.[if hasCookiePolicy] Per ottenere ulteriori informazioni in merito all'utilità e al funzionamento di tali strumenti di tracciamento, fai riferimento alla <button style=\"cursor: pointer; text-decoration: underline !important;\" class=\"open-cp\">cookie policy</button>.[/if] Tieni presente che il rifiuto del consenso per una finalità particolare può rendere le relative funzioni non disponibili.",
+                    "widget_title": "Le tue preferenze relative al consenso per le tecnologie di tracciamento",
+                    "without_purposes": "L’opzione disponibile in questa sezione ti permette di prestare o rifiutare, liberamente ed in qualsiasi momento, il tuo consenso all’utilizzo di cookie e di altre tecnologie di tracciamento non strettamente necessarie a garantire il funzionamento e la fornitura del servizio che ci hai richiesto. [if hasCookiePolicy]<b>Per ottenere ulteriori informazioni in merito all'utilità e al funzionamento di tali strumenti di tracciamento, fai riferimento alla [link cookie_policy]cookie policy[/link].</b>[/if]"
+                },
+                "tcf_v2": {
+                    "activate_all_purposes_button": "Accetta tutto",
+                    "deactivate_all_purposes_button": "Rifiuta tutto",
+                    "features": {
+                        "1": {
+                            "description": "I dati provenienti da fonti offline possono essere combinati con l’attività online dell’utente a supporto di una o varie finalità.",
+                            "descriptionLegal": "I vendor possono: Combinare i dati ottenuti offline con i dati raccolti online, a supporto di una o varie Finalità o Finalità Speciali.",
+                            "name": "Abbinare e combinare fonti di dati offline"
+                        },
+                        "2": {
+                            "description": "Sarà possibile determinare l’appartenenza di diversi dispositivi allo stesso utente o al suo nucleo familiare, a supporto di una o varie finalità.",
+                            "descriptionLegal": "I vendor possono:<br/><br/>- Determinare con certezza in modo deterministico che due o più dispositivi appartengono allo stesso utente o al suo nucleo familiare.<br/>- Determinare in modo probabilistico l’appartenenza di due o più dispositivi allo stesso utente o allo stesso nucleo familiare.<br/>- Effettuare una scansione attiva delle caratteristiche del dispositivo per l’identificazione probabilistica, previo consenso degli utenti (Funzionalità speciale 2).",
+                            "name": "Collegare diversi dispositivi"
+                        },
+                        "3": {
+                            "description": "Un dispositivo può essere distinto da altri dispositivi in base alle informazioni che invia automaticamente, come l’indirizzo IP o il tipo di browser.",
+                            "descriptionLegal": "I vendor possono:<br/><br/>- Creare un identificatore, utilizzando i dati che un dispositivo raccoglie automaticamente in base alle sue caratteristiche, ad es. indirizzo IP, stringa dell’utente.<br/>- Utilizzare il suddetto identificatore per provare a identificare nuovamente un dispositivo.<br/><br/>I vendor non possono:<br/><br/>- Creare un identificatore, utilizzando i dati raccolti tramite uno scanning attivo di caratteristiche specifiche un dispositivo, come ad esempio la risoluzione dello schermo o i caratteri installati, senza l’opt-in dell’utente in merito alla scansionare attiva delle caratteristiche del dispositivo per la sua identificazione.<br/>- Utilizzare tale identificatore per individuare ripetutamente un dispositivo.",
+                            "name": "Ricevere e usare le caratteristiche che il dispositivo invia automaticamente ai fini dell’identificazione"
+                        }
+                    },
+                    "features_label": "Caratteristiche:",
+                    "hide_tracking_button": "Salva e torna alla cookie policy",
+                    "learn_more": "Scopri di più",
+                    "leg_int_purpose_label": "Permetti che il trattamento dei tuoi dati avvenga sulla base di un [tip pref_legitimate_interest]interesse legittimo[/tip] per questa finalità.",
+                    "leg_int_vendor_label": "Permetti a questo servizio di trattare i tuoi dati sulla base di un [tip pref_legitimate_interest]interesse legittimo[/tip].",
+                    "legit_purposes_label": "Finalità (interesse legittimo):",
+                    "privacy_policy": "Privacy Policy",
+                    "purposes": {
+                        "1": {
+                            "description": "I cookie, gli identificatori del dispositivo o altre informazioni possono essere archiviati o reperiti sul dispositivo dell’utente per le finalità presentate.",
+                            "descriptionLegal": "I vendor possono: Archiviare e accedere alle informazioni sul dispositivo, quali cookie e identificatori del dispositivo stesso, per le finalità presentate a un utente.",
+                            "name": "Archiviare e/o accedere a informazioni su un dispositivo"
+                        },
+                        "2": {
+                            "description": "Gli annunci possono essere mostrati in base al contenuto visualizzato dall’utente, all’app utilizzata, alla posizione approssimativa, oppure al tipo di dispositivo.",
+                            "descriptionLegal": "Per effettuare una selezione degli annunci di base, i vendor possono:<br/><br/>- Utilizzare, in tempo reale, informazioni sul contesto in cui verrà mostrato l’annuncio, quali contenuto e dispositivo; ad esempio: tipo di dispositivo e capacità, user agent, URL, indirizzo IP.<br/>- Utilizzare i dati di geolocalizzazione approssimativa di un utente.<br/>- Controllare la frequenza degli annunci mostrati ad un utente.<br/>- Mettere in sequenza gli annunci presentati ad un utente.<br/>- Impedire la fruizione di un annuncio in un contesto editoriale (non sicuro per il marchio) non idoneo.<br/>I vendor non possono:<br/>Creare un profilo di annunci personalizzati utilizzando le informazioni raccolte per la selezione di annunci futuri senza una base giuridica separata per la creazione di un profilo di annunci personalizzati.<br/><br/>N.B.: “approssimativo” indica unicamente la facoltà di individuare una posizione approssimativa che coinvolga almeno un raggio di 500 metri.",
+                            "name": "Selezionare annunci di base (basic ads)"
+                        },
+                        "3": {
+                            "description": "Sarà possibile creare un profilo relativo all’utente e ai suoi interessi, al fine di mostrare annunci personalizzati.",
+                            "descriptionLegal": "Per creare un profilo di annunci personalizzati, i vendor possono:<br/><br/>- Raccogliere informazioni su un utente, come attività, interessi, visite a siti o app, informazioni demografiche o sua ubicazione, per creare o modificare un profilo utente da utilizzare ai fini della pubblicità personalizzata.<br/>- Combinare queste informazioni con altre informazioni precedentemente raccolte, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella pubblicità personalizzata.",
+                            "name": "Creare un profilo di annunci personalizzati"
+                        },
+                        "4": {
+                            "description": "Annunci personalizzati possono essere mostrati in base al profilo relativo all’utente.",
+                            "descriptionLegal": "Per selezionare gli annunci personalizzati, i vendor possono: Selezionare annunci personalizzati basati su un profilo utente o altri dati storici sull’utente utilizzando informazioni quali attività, interessi, visite a siti o applicazioni, posizione geografica o informazioni demografiche dell’utente.",
+                            "name": "Selezionare annunci personalizzati"
+                        },
+                        "5": {
+                            "description": "Un profilo relativo all’utente e ai suoi interessi può essere creato per mostrargli contenuti personalizzati pertinenti.",
+                            "descriptionLegal": "Per creare un profilo di contenuto personalizzato, i vendor possono: <br/><br/>- Raccogliere informazioni su un utente, comprese attività, interessi, visite a siti o app, informazioni demografiche o posizione geografica, per creare o modificare un profilo utente al fine di personalizzarne il contenuto.<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti.",
+                            "name": "Creare un profilo di contenuto personalizzato"
+                        },
+                        "6": {
+                            "description": "I contenuti personalizzati possono essere mostrati sulla base di un profilo relativo all’utente.",
+                            "descriptionLegal": "Per selezionare i contenuti personalizzati, i vendor possono: Selezionare i contenuti personalizzati in base a un profilo utente o ad altri dati storici dell’utente, tra cui precedenti attività, interessi, visite a siti o applicazioni, posizione geografica o informazioni demografiche dell’utente.",
+                            "name": "Selezionare contenuti personalizzati"
+                        },
+                        "7": {
+                            "description": "È possibile valutare le performance e l’efficacia degli annunci visualizzati dall’utente o con cui lo stesso interagisce.",
+                            "descriptionLegal": "Per valutare le performance degli annunci, i vendor possono:<br/><br/>- Valutare se e come gli annunci siano stati forniti a un utente e come lo stesso ha interagito.<br/>- Fornire report sugli annunci, ivi comprese efficacia e prestazioni degli stessi.<br/>- Fornire report sugli utenti che hanno interagito con gli annunci utilizzando i dati osservati nel corso dell’interazione dell’utente con tale annuncio.<br/>- Fornire report agli editori sugli annunci visualizzati sulla loro proprietà.<br/>- Valutare se la fruizione di un annuncio avvenga in un contesto editoriale idoneo (sicuro per il marchio).<br/>- Determinare la percentuale dell’ad che ha avuto la possibilità di essere visualizzata e per quanto tempo.<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti.<br/><br/>I vendor non possono:<br/><br/>Applicare dati di approfondimento sul pubblico derivati da panel o prodotti simili ai dati di misurazione degli annunci senza una base giuridica per applicare ricerche di mercato per generare approfondimenti sul pubblico stesso.",
+                            "name": "Valutare le performance degli annunci"
+                        },
+                        "8": {
+                            "description": "È possibile valutare le performance e l’efficacia dei contenuti visualizzati dall’utente o con cui lo stesso interagisce.",
+                            "descriptionLegal": "Per valutare le performance dei contenuti, i vendor possono:<br/><br/>- Valutare e segnalare il modo in cui i contenuti sono stati forniti e l’interazione degli utenti con gli stessi.<br/>- Fornire report utilizzando informazioni direttamente valutabili o note sugli utenti che hanno interagito con il contenuto.<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti.<br/><br/>I vendor non possono:<br/><br/>- Valutare se e come gli annunci (compresi gli annunci nativi) siano stati forniti e l’interazione dell’utente con gli stessi.<br/>- Applicare dati di approfondimento sul pubblico derivati da panel o prodotti simili ai dati di misurazione degli annunci senza una base giuridica separata per applicare ricerche di mercato per generare approfondimenti sul pubblico stesso.",
+                            "name": "Valutare le performance dei contenuti"
+                        },
+                        "9": {
+                            "description": "La ricerca di mercato può essere utilizzata per saperne di più sul pubblico che visita siti/app e visualizza annunci.",
+                            "descriptionLegal": "Per applicare ricerche di mercato per generare approfondimenti sul pubblico, i vendor possono:<br/><br/>- Fornire agli inserzionisti o ai loro rappresentanti report aggregati sul pubblico raggiunto dai propri annunci mediante osservazioni basate su panel e di derivazione analoga.<br/>- Fornire report aggregati agli editori riguardo al pubblico che ha fruito dei contenuti e/o degli annunci o che ha interagito con gli stessi nella proprietà di tali editori applicando osservazioni basate su panel e di analoga derivazione.<br/>- Associare i dati offline con quelli di un utente online ai fini della ricerca di mercato, per generare informazioni sul pubblico se i vendor hanno dichiarato di abbinare e combinare fonti di dati offline (Funzionalità 1).<br/>- Combinare queste informazioni con altre informazioni raccolte in precedenza, anche da siti Web e app, per creare o modificare un profilo utente da utilizzare nella personalizzazione dei contenuti. <br/><br/>I vendor non possono:<br/><br/>- Misurare le performance e l’efficacia degli annunci presentati a un utente specifico o con cui lo stesso vendor abbia interagito, senza una base giuridica specifica relativa alla misurazione delle performance di tali annunci.<br/>- Misurare di quali contenuti abbia fruito un determinato utente e come abbia interagito con gli stessi, senza una base giuridica specifica relativa alla misurazione delle performance di tali annunci.",
+                            "name": "Applicare ricerche di mercato per generare approfondimenti sul pubblico"
+                        },
+                        "10": {
+                            "description": "I dati dell’utente possono essere utilizzati per perfezionare sistemi e software esistenti e per sviluppare nuovi prodotti.",
+                            "descriptionLegal": "Per sviluppare nuovi prodotti e perfezionare quelli esistenti, i vendor possono:<br/><br/>- Utilizzare le informazioni per perfezionare i prodotti esistenti mediante l’aggiunta di nuove funzionalità e per sviluppare nuovi prodotti.<br/>- Creare nuovi modelli e algoritmi attraverso il machine learning.<br/><br/>I vendor non possono: Condurre altre operazioni di trattamento dei dati rispondenti a una finalità diversa dalla presente.",
+                            "name": "Sviluppare e perfezionare i prodotti"
+                        }
+                    },
+                    "purposes_label": "Finalità:",
+                    "show_tracking_button": "Personalizza tracciamento pubblicitario",
+                    "specialFeatures": {
+                        "1": {
+                            "description": "I dati di geolocalizzazione precisi possono essere utilizzati a supporto di una o varie finalità. Ciò significa che la posizione dell’utente potrà determinarsi con esattezza nel raggio di alcuni metri.",
+                            "descriptionLegal": "I vendor possono: Raccogliere e trattare dati relativi alla posizione geografica esatta, a supporto di una o varie finalità.<br/><br/>N.B.: Esatta geolocalizzazione significa che non esistono restrizioni sulla determinazione precisa della posizione geografica di un utente; il margine di precisione può avere un raggio di alcuni metri.",
+                            "name": "Utilizzare dati di geolocalizzazione precisi"
+                        },
+                        "2": {
+                            "description": "Il dispositivo può essere identificato in base a una scansione della combinazione unica di caratteristiche del dispositivo.",
+                            "descriptionLegal": "I vendor possono:<br/><br/>- Creare un identificatore utilizzando i dati raccolti mediante la scansione attiva di un dispositivo ai fini dell’individuazione di caratteristiche specifiche, ad es., tipi di caratteri installati o risoluzione dello schermo.<br/>- Utilizzare tale identificatore per individuare ripetutamente un dispositivo.",
+                            "name": "Scansione attiva delle caratteristiche del dispositivo ai fini dell’identificazione"
+                        }
+                    },
+                    "specialPurposes": {
+                        "1": {
+                            "description": "I dati possono essere utilizzati per monitorare e prevenire attività fraudolente e garantire che i sistemi e i processi funzionino correttamente e in modo sicuro.",
+                            "descriptionLegal": "Per garantire la sicurezza, prevenire frodi e debug, i vendor possono:<br/><br/>- Assicurarsi che i dati siano trasmessi in modo sicuro.<br/>- Rilevare e prevenire attività dannose, fraudolente, non valide o illegali.<br/>- Garantire un funzionamento corretto ed efficiente dei sistemi e dei processi, compreso il monitoraggio e il miglioramento delle prestazioni dei sistemi e dei processi coinvolti nelle finalità consentite.<br/><br/>I vendor non possono: Condurre altre operazioni di trattamento dei dati rispondenti a una finalità diversa dalla presente.",
+                            "name": "Garantire la sicurezza, prevenire frodi e debug"
+                        },
+                        "2": {
+                            "description": "Il dispositivo dell’utente può ricevere e inviare informazioni per consentirgli di visualizzare annunci e contenuti e di interagire con gli stessi.",
+                            "descriptionLegal": "Per fornire informazioni e rispondere a richieste tecniche, i vendor possono:<br/><br/>- Utilizzare l’indirizzo IP di un utente per fornire un annuncio su Internet.<br/>- Reagire all’interazione di un utente con un annuncio indirizzando l’utente a una pagina di destinazione.<br/>- Utilizzare l’indirizzo IP di un utente per fornire contenuti su Internet.<br/>- Reagire all’interazione di un utente con un contenuto indirizzando l’utente a una pagina di destinazione.<br/>- Utilizzare le informazioni sul tipo di dispositivo e sulle capacità dello stesso per la fornitura di annunci o contenuti, ad esempio, per mettere a disposizione annunci creativi o file video di dimensioni corrette e in un formato supportato dal dispositivo.<br/><br/>I vendor non possono: Condurre altre operazioni di trattamento dei dati rispondenti a una finalità diversa dalla presente.",
+                            "name": "Pubblicare tecnicamente annunci o contenuti"
+                        }
+                    },
+                    "special_features_label": "Caratteristiche speciali:",
+                    "special_purposes_label": "Finalità speciali:",
+                    "storage_info": {
+                        "detailed": {
+                            "domain": "Dominio:",
+                            "duration": "Durata:",
+                            "identifier": "Identificativo:",
+                            "method_title": "Modalità di accesso o archiviazione:",
+                            "purposes": "Finalità:",
+                            "type": {
+                                "app": "archiviazione sul dispositivo (device storage)",
+                                "cookie": "cookie",
+                                "web": "archiviazione sul web (browser storage)"
+                            }
+                        },
+                        "heading": "Informazioni riguardo l’archiviazione e l’accesso sul dispositivo",
+                        "intro": {
+                            "cookie_refresh": "dalla tua ultima interazione",
+                            "day": "giorno",
+                            "days": "giorni",
+                            "hour": "ora",
+                            "hours": "ore",
+                            "indefinite": "non definita",
+                            "session": "durata della sessione",
+                            "up_to": "fino a"
+                        },
+                        "label": "Durata massima di archiviazione:",
+                        "learn_label": "Maggiori informazioni"
+                    },
+                    "vendors_section_title": "Gestione delle preferenze per singolo servizio pubblicitario",
+                    "widget_features_intro": "Per perseguire una o più di queste finalità, i servizi di terze parti possono inoltre fare uso delle seguenti caratteristiche.",
+                    "widget_features_title": "Caratteristiche",
+                    "widget_iab_title": "Gestione delle preferenze per finalità",
+                    "widget_intro": "I servizi pubblicitari elencati di seguito - indicati anche come vendor - aderiscono al [link iab_tcf]Transparency and Consent Framework di IAB[/link] e ti permettono di personalizzare le tue impostazioni di tracciamento della pubblicità. [if not LIRestricted]Alcuni di essi [/if][if LIRestricted]Essi [/if]trattano i tuoi dati personali solo sulla base del tuo [tip consent]consenso[/tip][if not LIRestricted], mentre altri in virtù di un [tip legitimate_interest]interesse legittimo[/tip][/if]. Tieni presente che il rifiuto del consenso per una finalità particolare può rendere le relative funzioni non disponibili.<br/><br/>Puoi esprimere le tue preferenze per tutte le finalità e i servizi in una sola volta tramite i comandi sottostanti.<br/>Queste preferenze sono raccolte in un segnale digitale (tramite la cosiddetta TC String) per garantire e dimostrare che hai validamente acconsentito [if not LIRestricted]o non ti sei opposto [/if]agli scopi pubblicitari. Questo segnale digitale è limitato ai dati strettamente necessari per raggiungere tale scopo.",
+                    "widget_other_providers": "Altri fornitori",
+                    "widget_purposes_title": "Finalità",
+                    "widget_special_features_intro": "Per le seguenti caratteristiche puoi esprimere le tue preferenze separatamente rispetto a quelle relative alle finalità. Tieni presente che le caratteristiche speciali possono essere utilizzate, indipendentemente dalle preferenze che hai indicato, se risultano necessarie per garantire la sicurezza, prevenire frodi e debug.",
+                    "widget_special_features_title": "Caratteristiche speciali",
+                    "widget_special_purposes_title": "Finalità speciali",
+                    "widget_title": "Le tue preferenze relative al TCF"
+                },
+                "tooltips": {
+                    "advertising_related_purposes": {
+                        "body": "<p>Noi e alcuni [link vendors]partner selezionati[/link], potremmo <em>abbinare e combinare fonti di dati offline; collegare diversi dispositivi; ricevere e usare le caratteristiche che il dispositivo invia automaticamente ai fini dell’identificazione; utilizzare dati di geolocalizzazione precisi; fare una scansione attiva delle caratteristiche del dispositivo ai fini dell’identificazione,</em> al fine di <em>archiviare e/o accedere a informazioni su un dispositivo</em> e trattare dati personali (es. dati di navigazione, indirizzi IP, dati di utilizzo o identificativi univoci) per le seguenti finalità: <em>selezionare annunci basici (basic ads); creare un profilo di annunci personalizzati ; selezionare annunci personalizzati ; creare un profilo di contenuto personalizzato; selezionare contenuti personalizzati; valutare le performance degli annunci; valutare le performance dei contenuti; applicare ricerche di mercato per generare approfondimenti sul pubblico; sviluppare e perfezionare i prodotti; garantire la sicurezza, prevenire frodi e debug; selezionare contenuti personalizzati</em>.</p><p>Puoi modificare le tue preferenze relative agli annunci pubblicitari in qualsiasi momento senza incorrere in limitazioni sostanziali accedendo al [link adv_pref]pannello delle preferenze pubblicitarie[/link].</p>",
+                        "title": "Finalità e caratteristiche relative alla pubblicità"
+                    },
+                    "consent": {
+                        "body": "<p>I servizi che decidono di basarsi sul tuo consenso non possono trattare i tuoi dati personali a meno che tu non presti liberamente il tuo consenso. Hai il diritto di rifiutare o revocare il tuo consenso senza incorrere in limitazioni sostanziali e di modificare le tue scelte in qualsiasi momento. Attivando qualsiasi finalità pubblicitaria o singolo servizio, acconsenti a tale trattamento dei tuoi dati.</p>",
+                        "title": "Trattamento sulla base del consenso"
+                    },
+                    "legitimate_interest": {
+                        "body": "<p>Il trattamento dei tuoi dati personali (es. dati di navigazione, indirizzi IP, dati di utilizzo o identificativi univoci) da parte di un servizio può essere giustificato dalla presenza di uno specifico interesse considerato “legittimo” dalla legislazione applicabile. Pertanto, ogni volta che un servizio decide di basarsi su di un interesse legittimo il tuo consenso non è necessario. Per maggiori informazioni riguardo lo specifico interesse legittimo perseguito da ciascun servizio, ti invitiamo a consultare la rispettiva privacy policy.</p><p><strong>Hai il diritto di opporti a qualsiasi trattamento basato sul legittimo interesse senza incorrere in limitazioni sostanziali e puoi esercitare tale diritto in qualsiasi momento direttamente all’interno di questo pannello deselezionando le rispettive caselle per singole finalità o per singolo servizio.</strong></p>",
+                        "title": "Trattamento sulla base di un interesse legittimo"
+                    },
+                    "pref_legitimate_interest": {
+                        "body": "<p>Un \"interesse legittimo\" è un interesse che, in base alla legislazione applicabile, giustifica il trattamento di dati personali.<br/>I servizi che decidono di fare affidamento su di un interesse legittimo possono processare i tuoi dati a meno che tu non ti opponga a tale trattamento.</p><p><strong>Deselezionando questa casella eserciti il tuo diritto di opposizione.</strong></p>",
+                        "title": "Interesse legittimo"
+                    },
+                    "your_rights": {
+                        "body": "<h3>Il tuo diritto di revoca del consenso</h3><p>Quando il trattamento dei tuoi dati avviene sulla base del consenso, puoi liberamente prestare, rifiutare o revocare il tuo consenso senza incorrere in limitazioni sostanziali. Per quanto riguarda le finalità relative agli annunci pubblicitari, puoi modificare le tue preferenze in qualsiasi momento accedendo al [link adv_pref]pannello delle preferenze pubblicitarie[/link].</p>[if not legitimateInterestRestricted]<h3>Il tuo diritto di opposizione</h3><p>Quando noi o alcuni partner selezionati trattiamo i tuoi dati personali sulla base di un interesse legittimo (e quindi non sulla base del tuo consenso), hai il diritto di opporti a tale trattamento. Maggiori informazioni sul “legittimo interesse” e su come esercitare il tuo diritto di opposizione rispetto alle finalità relative agli annunci pubblicitari sono disponibili all’interno del [link adv_pref]pannello delle preferenze pubblicitarie[/link].</p>[/if]",
+                        "title": "I tuoi diritti"
+                    }
+                },
+                "uspr": {
+                    "gpc_signal": "Il tuo segnale di preferenza relativo all’opt-out (GPC) è stato rispettato. Per modificarlo, utilizza le impostazioni del tuo dispositivo.  ",
+                    "preference_widget": {
+                        "notice_caption": "Informativa sulla raccolta",
+                        "preference_caption": "Le tue preferenze relative alla privacy",
+                        "preference_img_alt": "Icona dell’opt-out secondo il California Consumer Privacy Act (CCPA)"
+                    },
+                    "privacy_policy": "privacy policy",
+                    "purposes": {
+                        "adv": "Trattamento delle mie informazioni personali per la <b>pubblicità personalizzata</b>",
+                        "s": "<b>Vendita</b> delle mie informazioni personali",
+                        "sd5": "Trattamento di informazioni sulla mia <b>cittadinanza</b> o<b>status di immigrato</b>",
+                        "sd8": "Trattamento dei miei <b>dati di geolocalizzazione precisa</b>",
+                        "sd9": "Trattamento del mio <b>numero di previdenza sociale, della patente di guida, della carta di identità o del passaporto</b>",
+                        "sh": "<b>Condivisione</b> delle mie informazioni personali"
+                    },
+                    "widget_intro": "Le opzioni fornite in questa sezione consentono di semplificare l’esercizio di alcuni <b>diritti relativi alla privacy a cui hai diritto in quanto utente che risiede negli Stati Uniti.</b><br>Per ottenere ulteriori informazioni sui tuoi diritti relativi alla privacy e su come esercitarli consulta la nostra %{privacy_policy}.",
+                    "widget_title": "I tuoi diritti relativi alla privacy secondo le leggi US sulla privacy "
+                }
+            },
+        }
+
+//
+    };
+</script>
+<script type="text/javascript" src="//cdn.iubenda.com/cs/ccpa/stub.js"></script>
+<script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>

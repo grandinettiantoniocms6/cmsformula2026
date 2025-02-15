@@ -1,0 +1,57 @@
+.block-highlight {
+    padding: 3.75rem 0;
+    background-color: var(--highlight-block-bg, $body-bg);
+    color: var(--highlight-block-text-color, $body-color);
+
+    .title {
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: var(--highlight-block-title-color, $body-color);
+    }
+    .card {
+        border: 0;
+        background-color: transparent;
+    }
+    .card-footer {
+        border: 0;
+        background-color: transparent;
+    }
+
+    .owl-block-carousel.owl-theme {
+        .owl-dots {
+            position: absolute;
+            margin-top: 0;
+            bottom: -2rem;
+            width: 100%;
+            .owl-dot span {
+                width: 20px;
+                background-color: rgba($gray-600, 1);
+                height: 5px;
+                margin: 5px;
+            }
+            .owl-dot.active span,
+            .owl-dot:hover span {
+                background-color: var(--button-color);
+            }
+        }
+    }
+
+    &.style-1 {
+        /** se vuoi differenziare inserisci le regole quì */
+    }
+    &.style-2 {
+        .card-body {
+            padding-top: 0;
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .block-highlight {
+        &.style-2 {
+            .card-body {
+                padding-top: 2rem;
+            }
+        }
+    }
+}

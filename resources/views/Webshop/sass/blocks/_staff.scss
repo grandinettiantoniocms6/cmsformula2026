@@ -1,0 +1,82 @@
+.block-staff {
+    padding: 3.75rem 0;
+    background-color: var(--staff-block-bg);
+    color: var(--staff-block-text-color);
+
+    .title {
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: var(--staff-block-title-color);
+        a {
+            text-decoration: none;
+        }
+    }
+    .avatar {
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        object-fit: cover;
+        max-width: 150px;
+        margin-bottom: 1rem;
+    }
+    .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-shadow: $box-shadow-lg;
+        border: 1px solid rgba(164,174,198,.2);
+        border-radius: $border-radius;
+        text-align: center;
+    }
+    .card-body {
+        padding: 1.5rem;
+    }
+    .role {
+        text-transform: uppercase;
+        letter-spacing: .02rem;
+        font-weight: 700;
+        color: var(--bs-body-color);
+        margin-bottom: 1rem;
+    }
+    .nav {
+        justify-content: center;
+        a:hover, a:focus {
+            opacity: .5;
+        }
+    }
+    .nav-contacts {}
+    .nav-social {
+        margin-top: 1rem;
+        .nav-link {
+            font-size: 1.25rem;
+            color: $white;
+            border-radius: $border-radius;
+            margin: 0 0.125rem;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+$brand-colors: (
+    "facebook": #4470cf,
+    "instagram": #d53581,
+    "messenger": #007ff8,
+    "linkedin": #3393c1,
+    "youtube": #c8312b,
+    "twitter": #5daed5,
+    "snapchat": #f7c31a,
+    "slack": #d4135c,
+    "whatsapp": #00a859,
+    "google": #e44134,
+    "skype": #2ebbf0,
+);
+
+@each $color,
+$value in $brand-colors {
+    .card-staff .nav-social a[class*="#{$color}"] {
+        background-color: $value;
+    }
+}

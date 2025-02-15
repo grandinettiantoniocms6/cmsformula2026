@@ -1,0 +1,105 @@
+.block-referenze {
+    padding: 3.75rem 0;
+    background-color: var(--referenze-block-bg);
+    color: var(--referenze-block-text-color);
+
+    .title {
+        font-weight: 700;
+        margin-bottom: 0;
+        color: var(--referenze-block-title-color);
+    }
+    .text {
+        font-weight: 600;
+        color: var(--referenze-block-text-color);
+    }
+    .card {
+        overflow: hidden;
+        color: #fff;
+        width: 100%;
+        border: 0;
+        position: relative;
+        box-shadow: $box-shadow;
+        background-color: transparent;
+        img {
+            transition: transform 0.35s;
+        }
+        &:hover {
+            img {
+                transform: scale(1.20);
+            }
+            .card-overlay {
+                bottom: 0;
+            }
+            .glightbox {
+                opacity: 1;
+                top: 20px;
+            }
+        }
+    }
+    .card-overlay {
+        width: 100%;
+        background: $primary;
+        padding: 1rem;
+        position: absolute;
+        bottom: -100%;
+        display: block;
+        margin-top: 0;
+        float: left;
+        z-index: 9;
+        text-align: left;
+        left: 0;
+        transition: all 0.5s ease-in-out;
+        -webkit-transition: all 0.5s ease-in-out;
+    }
+    .glightbox {
+        position: absolute;
+        right: 20px;
+        top: -20px;
+        z-index: 9;
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background: $white;
+        color: $primary;
+        border-radius: 50%;
+        margin-right: 0;
+        padding-left: 0;
+        text-align: center;
+        line-height: 40px;
+        opacity: 0;
+        transition: all 0.5s ease-in-out;
+        -webkit-transition: all 0.5s ease-in-out;
+    }
+
+    .referenze-filters {
+        margin-bottom: 1.5rem;
+        display: flex;
+        justify-content: center;
+        button {
+            margin: 0 0.5rem;
+        }
+    }
+
+    &.style-2 {
+        .card {
+            &:hover {
+                background-color: $primary;
+                img {
+                    opacity: 0;
+                }
+                .glightbox {
+                    opacity: 1;
+                    bottom: 20px;
+                    top: auto;
+                }
+            }
+        }
+        .card-overlay {
+            background-color: transparent;
+        }
+        .glightbox {
+            top: auto;
+            bottom: -20px;
+        }
+    }
+}

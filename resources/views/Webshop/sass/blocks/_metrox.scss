@@ -1,0 +1,15 @@
+.block-metrox {
+  .title {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--metrox-block-title-color, #000);
+  }
+  .subtitle {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--metrox-block-subtitle-color, #000);
+  }
+  .description {
+    color: var(--metrox-block-text-color, #000);
+  }
+}

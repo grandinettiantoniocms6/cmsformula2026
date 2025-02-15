@@ -1,0 +1,41 @@
+<?php
+
+return [
+
+	'cart_rule'						=> 'Regola carrello',
+	'cart_rules'					=> 'Regole carrello',
+	'name'							=> 'Nome',
+	'code'							=> 'Codice',
+	'priority'						=> 'Priority',
+	'start_date'					=> 'Data inizio',
+	'expiration_date'				=> 'Data fine',
+	'status'						=> 'Stato',
+	'highlight'						=> 'Highlight',
+	'minimum_amount'				=> 'Minimo spesa carrello',
+	'total_available'				=> 'Totali disponibili',
+	'total_available_each_user' 	=> 'Totali disponibili per ogni cliente',
+	'promo_label'					=> 'Promo label',
+	'promo_text'					=> 'Promo text',
+	'multiply_gift'					=> 'Multiply gift',
+	'limit_to_one_customer'			=> 'Limit to a single customer',
+	'gift'							=> 'Gift',
+	'min_nr_products'				=> 'Minimo nr. di prodotti',
+	'discount_type'					=> 'Discount type',
+	'reduction_amount'				=> 'Reduction amount',
+	'reduction_percent'				=> 'Reduction percent',
+	'reduction_value'				=> 'Riduzione',
+	'currency'						=> 'Currency',
+	'compatible_with'				=> 'Compatible with',
+	'information_tab'				=> 'Informazioni',
+	'actions_tab'					=> 'Azioni',
+	'conditions_tab'				=> 'Condizioni',
+	'free_delivery'					=> 'Spedizione gratuita',
+	'compatible_with_rules'			=> 'Compatible with rules',
+	'send_free_gift'				=> 'Send free gift',
+	'categories_rule'				=> 'Il carrello deve contenere prodotti di una di queste categorie:',
+	'products_rule'					=> 'Il carrello deve contenere uno di questi prodotti:',
+	'customer_groups_rule'			=> 'Apply rule to customers:',
+	'product_groups_rule'			=> 'Apply rule to product groups:',
+
+
+];

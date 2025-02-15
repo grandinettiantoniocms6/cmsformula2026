@@ -1,0 +1,221 @@
+#header {
+    &:not(.sticky-header) {
+        position: relative;
+    }
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    padding: var(--header-padding-y) 0;
+    background-color: var(--header-bg);
+    color: var(--header-text-color);
+    .container-fluid {
+        max-width: var(--header-container-max-width);
+    }
+    .navbar-brand {
+        height: var(--header-height);
+        font-weight: 700;
+        color: $body-color;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        img {
+            max-height: calc(100% - var(--header-logo-padding-y));
+            width: auto;
+            padding: var(--header-logo-padding-y) 0;
+        }
+    }
+    .nav-link {
+        --bs-nav-link-font-weight: 700;
+        @include transition(all 0.2s ease);
+        color: var(--header-link-color);
+        font-size: var(--header-link-font-size);
+        font-weight: var(--header-link-font-weight);
+        white-space: nowrap;
+        &:hover, &:focus {
+            color: var(--header-link-hover-color);
+        }
+        &.active {
+            color: var(--header-link-hover-color);
+        }
+    }
+    .navbar-toggler {
+        border: 0;
+        outline: none;
+        box-shadow: none;
+        color: var(--header-link-color);
+        @include transition(all 0.2s ease);
+        svg {
+            @include transition(all 0.2s ease);
+            fill: var(--hamburger-menu-mobile);
+        }
+        &:hover, &:focus {
+            outline: none;
+            border: 0;
+            box-shadow: none;
+            color: var(--header-link-hover-color);
+            svg {
+                fill: var(--header-link-hover-color);
+            }
+            .lines, .lines::before, .lines::after {
+                background-color: var(--header-link-hover-color);
+            }
+        }
+
+        .lines {
+            display: inline-block;
+            height: 2px;
+            width: 20px;
+            border-radius: 4px;
+            transition: 0.3s;
+            position: relative;
+            top: -4px;
+            background-color: var(--hamburger-menu-mobile);
+        }
+        .lines::before, .lines::after {
+            display: inline-block;
+            height: 2px;
+            border-radius: 4px;
+            transition: 0.3s;
+            content: '';
+            position: absolute;
+            left: 0;
+            transform-origin: 2.85714px center;
+            width: 100%;
+            background-color: var(--hamburger-menu-mobile);
+        }
+        .lines::before {
+            top: 6px;
+        }
+        .lines::after {
+            top: -6px;
+        }
+
+        &[aria-expanded="true"] {
+            .lines {
+                transform: scale3d(0.8, 0.8, 0.8);
+                background: transparent;
+            }
+            .lines::before {
+                transform-origin: 50% 50%;
+                top: 0;
+                width: 26px;
+                transform: rotate3d(0, 0, 1, 45deg);
+            }
+            .lines::after {
+                transform-origin: 50% 50%;
+                top: 0;
+                width: 26px;
+                transform: rotate3d(0, 0, 1, -45deg);
+            }
+        }
+    }
+    .dropdown-menu {
+        border: 0;
+        background-color: var(--submenu-desktop-bg);
+        &.dropdown-menu-end {
+            right: 0;
+            left: auto;
+        }
+    }
+    .dropdown-item {
+        width: 100%;
+        &.active {
+            background-color: var(--header-link-hover-color);
+        }
+    }
+    .nav-item-lang {
+        .dropdown-menu {
+            min-width: auto;
+        }
+    }
+    .navbar-backdrop {
+        position: fixed;
+    }
+    #navbar-user {
+        margin-left: auto;
+        flex-wrap: nowrap;
+        .nav-link {
+            padding: 0.5rem;
+        }
+        .badge {
+            background-color: var(--bs-btn-bg);
+            top: 5px;
+            position: absolute;
+            right: -5px;
+            font-size: 11px;
+            padding: 3px 6px;
+        }
+    }
+    .navbar-expanded {
+        height: var(--header-height);
+        flex-wrap: nowrap;
+    }
+}
+
+$header-breakpoints: (
+    lg: 992px,
+    xl: 1200px,
+    2xl: 1400px
+);
+
+@each $breakpoint in map-keys($header-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $header-breakpoints);
+    @include media-breakpoint-up($breakpoint) {
+
+        #header.header-expand-#{$infix} {
+            &.sticky-header.sticky-header-desktop {
+                @include transition(all 0.2s ease);
+                position: fixed;
+                -webkit-animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
+                animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
+                box-shadow: $box-shadow-sm;
+                .navbar-expanded {
+                    height: auto;
+                }
+                .navbar-brand img {
+                    width: auto;
+                }
+                &.in-view {
+                    #topbar-ecommerce {
+                        display: none;
+                    }
+                }
+            }
+            &.transparent-header-desktop {
+                box-shadow: none;
+                &:not(.in-view) {
+                    background-color: transparent;
+                    box-shadow: none;
+                    position: fixed;
+                }
+            }
+        }
+
+    }
+    @include media-breakpoint-down($breakpoint) {
+
+        #header.header-expand-#{$infix} {
+            &.sticky-header.sticky-header-mobile {
+                position: fixed;
+                -webkit-animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
+                animation: 300ms ease-in-out 0s normal none 1 running fadeInDown;
+                box-shadow: $box-shadow-sm;
+                &.in-view {
+                    #topbar-ecommerce {
+                        display: none;
+                    }
+                }
+            }
+            &.transparent-header-mobile {
+                box-shadow: none;
+                &:not(.in-view) {
+                    background-color: transparent;
+                    box-shadow: none;
+                    position: fixed;
+                }
+            }
+        }
+
+    }
+}

@@ -1,0 +1,11 @@
+.block-caccia {
+    padding: 3.75rem 0;
+    background-color: var(--caccia-block-bg);
+    color: var(--caccia-block-text-color);
+
+    .title {
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--formpro-block-title-color);
+    }
+}

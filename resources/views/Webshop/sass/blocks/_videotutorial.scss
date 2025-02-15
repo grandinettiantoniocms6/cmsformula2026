@@ -1,0 +1,20 @@
+.block-videotutorial {
+    padding: 3.75rem 0;
+    background-color: var(--videotutorial-block-bg);
+    color: var(--videotutorial-block-text-color);
+
+    .card {
+        background-color: transparent;
+        border: 0;
+    }
+    .card-body {
+        padding: 0;
+    }
+    .pretitle {
+        font-weight: 700;
+    }
+    .title {
+        font-weight: 700;
+        color: var(--videotutorial-block-title-color);
+    }
+}

@@ -1,0 +1,107 @@
+.block-lastwork {
+    background-color: var(--lastwork-block-bg);
+    color: var(--lastwork-block-text-color);
+
+    .lastwork-textblock {
+        padding: 3rem;
+        height: 100%;
+    }
+    .section-title {
+        font-weight: 700;
+        color: var(--lastwork-block-title-color);
+    }
+    .section-subtitle {
+        font-weight: 700;
+        color: var(--lastwork-block-subtitle-color);
+    }
+    .section-description {
+        margin-bottom: 1.5rem;
+        color: var(--lastwork-block-text-color);
+    }
+    .title {
+        font-weight: 700;
+        margin-bottom: 0;
+        color: var(--portfolio-block-title-color);
+    }
+    .text {
+        font-weight: 600;
+        color: $white;
+    }
+    .card {
+        overflow: hidden;
+        color: #fff;
+        width: 100%;
+        border: 0;
+        border-radius: 0;
+        position: relative;
+        box-shadow: $box-shadow;
+        background-color: transparent;
+        img {
+            transition: transform 0.35s;
+        }
+        &:hover {
+            img {
+                transform: scale(1.20);
+            }
+            .card-overlay {
+                bottom: 0;
+            }
+            .glightbox-p {
+                opacity: 1;
+                top: 20px;
+            }
+        }
+    }
+    .card-overlay {
+        width: 100%;
+        background: $primary;
+        padding: 1rem;
+        position: absolute;
+        bottom: -100%;
+        display: block;
+        margin-top: 0;
+        float: left;
+        z-index: 9;
+        text-align: left;
+        left: 0;
+        transition: all 0.5s ease-in-out;
+        -webkit-transition: all 0.5s ease-in-out;
+    }
+    .glightbox-p {
+        position: absolute;
+        right: 20px;
+        top: -20px;
+        z-index: 9;
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background: $white;
+        color: $primary;
+        border-radius: 50%;
+        margin-right: 0;
+        padding-left: 0;
+        text-align: center;
+        line-height: 40px;
+        opacity: 0;
+        transition: all 0.5s ease-in-out;
+        -webkit-transition: all 0.5s ease-in-out;
+    }
+
+    .owl-theme.owl-block-lastwork {
+        .owl-dots {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            .owl-dot span {
+                width: 20px;
+                background-color: rgba($white, 1);
+                height: 5px;
+                margin: 5px;
+            }
+            .owl-dot.active span,
+            .owl-dot:hover span {
+                background-color: var(--button-color);
+            }
+        }
+    }
+}

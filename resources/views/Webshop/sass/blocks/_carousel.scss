@@ -1,0 +1,47 @@
+.block-carousel {
+    padding: 2rem 0;
+    background-color: var(--carousel-block-bg);
+    color: var(--carousel-block-text-color);
+
+    .owl-block-carousel.owl-theme {
+        .card {
+            border: 0;
+            background-color: transparent;
+        }
+        .card-img-overlay {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .title {
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--carousel-block-title-color);
+        }
+        img {
+            opacity: .80;
+        }
+        .description {
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        .owl-dots {
+            position: absolute;
+            margin-top: 0;
+            bottom: 0;
+            width: 100%;
+            .owl-dot span {
+                width: 20px;
+                background-color: rgba($gray-600, 1);
+                height: 5px;
+                margin: 5px;
+            }
+            .owl-dot.active span,
+            .owl-dot:hover span {
+                background-color: var(--button-color);
+            }
+        }
+    }
+}
+

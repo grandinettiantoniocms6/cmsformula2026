@@ -1,0 +1,101 @@
+/* ===================================
+    Branding CSS
+====================================== */
+/* font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+/* variable */
+:root {
+    --base-color: #e99022;
+    --medium-gray: #7b7a7a;
+    --dark-gray: #1d1d1d;
+    --charcoal-blue: #232323;
+    --alt-font: 'Space Grotesk', sans-serif;
+    --primary-font: 'Inter', sans-serif;
+}
+body {
+    line-height: 30px;
+}
+h1, .h1 {
+    line-height: 4rem;
+}
+h3, .h3 {
+    line-height: 2.813rem;
+}
+h4 {
+    line-height: 2.6rem;
+}
+/* header */
+
+/*margin*/
+.ms-100px {
+    margin-left: 100px;
+}
+.ms-80px {
+    margin-left: 80px;
+}
+.mb-minus-50px {
+    margin-bottom: -50px;
+}
+
+/* left right top bottom */
+.left-minus-45 {
+    left: -45%;
+}
+.bottom-minus-200px {
+    bottom: -200px;
+}
+.one-half-screen {
+    height: 550px !important;
+}
+.swiper-pagination-progress .swiper-progress {
+    background-color: var(--dark-gray);
+}
+.magic-drag-cursor #ball-cursor:before {
+    font-weight: 500;
+}
+
+/* footer */
+footer ul li {
+    margin-bottom: 0;
+    line-height: 28px;
+}
+footer .footer-logo img {
+    max-height: 34px;
+}
+/* z-index */
+.z-index-99 {
+    z-index: 99;
+}
+@media (min-width: 992px) {
+    .navbar .navbar-nav .dropdown.dropdown-with-icon-style02 .dropdown-menu li a {
+        padding: 20px 30px;
+    }
+    .navbar .navbar-nav .dropdown.dropdown-with-icon-style02 .dropdown-menu {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        width: 285px;
+    }
+}
+@media (max-width: 1199px) {
+    .left-minus-45 {
+        left: -78%;
+    }
+    .lg-ms-70px {
+        margin-left: 70px;
+    }
+    .lg-bg-transparent {
+        background-color: transparent;
+    }
+    .one-half-screen {
+        height: auto !important;
+    }
+}
+@media (max-width: 991px) {
+    [data-mobile-nav-style=modern] .navbar-modern-inner .navbar-nav .nav-item .dropdown-menu a i {
+        font-size: 19px;
+        vertical-align: middle;
+    }
+    .md-top-auto {
+        top: auto;
+    }
+}

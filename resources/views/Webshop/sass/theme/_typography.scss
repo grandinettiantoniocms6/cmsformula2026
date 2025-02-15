@@ -1,0 +1,88 @@
+.font-weight-300 {
+  font-weight: 300;
+}
+.font-weight-400 {
+  font-weight: 400;
+}
+.font-weight-500 {
+  font-weight: 500;
+}
+.font-weight-600 {
+  font-weight: 600;
+}
+.font-weight-700 {
+  font-weight: 700;
+}
+.font-weight-800 {
+  font-weight: 800;
+}
+
+.font-base {
+    font-family: $font-family-base;
+}
+.font-heading {
+    font-family: $headings-font-family;
+}
+
+.pointer {
+    cursor: pointer;
+}
+.text-underline {
+    text-decoration: underline;
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        .font#{$infix}-xxs {
+            font-size: .625rem !important;
+        }
+        .font#{$infix}-xs {
+            font-size: .75rem !important;
+        }
+        .font#{$infix}-sm {
+            font-size: .875rem !important;
+        }
+        .font#{$infix}-md {
+            font-size: 1rem !important;
+        }
+        .font#{$infix}-lg {
+            font-size: 1.125rem !important;
+        }
+        .font#{$infix}-xl {
+            font-size: 1.25rem !important;
+        }
+        .font#{$infix}-2xl {
+            font-size: 1.5rem !important;
+        }
+        .font#{$infix}-3xl {
+            font-size: 1.75rem !important;
+        }
+        .font#{$infix}-4xl {
+            font-size: 2rem !important;
+        }
+        .font#{$infix}-5xl {
+            font-size: 2.5rem !important;
+        }
+        .font#{$infix}-6xl {
+            font-size: 3rem !important;
+        }
+
+        .line-height#{$infix}-xs {
+            line-height: 1;
+        }
+        .line-height#{$infix}-sm {
+            line-height: 1.2;
+        }
+        .line-height#{$infix}-md {
+            line-height: 1.4;
+        }
+        .line-height#{$infix}-lg {
+            line-height: 1.7;
+        }
+        .line-height#{$infix}-xl {
+            line-height: 2;
+        }
+    }
+}

@@ -1,0 +1,13 @@
+.block-tabs {
+    padding: 0;
+    background-color: var(--tabs-block-bg);
+    color: var(--tabs-block-text-color);
+
+    &.style-3 {
+        .nav-pills .nav-item {
+            background-color: #FFFFFF;
+            flex-grow: 1;
+            text-align: center;
+        }
+    }
+}

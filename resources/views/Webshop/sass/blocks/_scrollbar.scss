@@ -1,0 +1,43 @@
+.block-scrollbar {
+    position: relative;
+    overflow: hidden;
+    .title {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--icons-block-title-color);
+    }
+    .description {
+        color: var(--icons-block-text-color);
+    }
+    .icon {
+        padding: 0;
+        border-radius: 100%;
+        width: 3rem;
+        min-width: 3rem;
+        height: 3rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        background: var(--icons-block-icon-bg);
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: var(--icons-block-icon-color);
+        margin-bottom: 1rem;
+    }
+    .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-shadow: $box-shadow-lg;
+        border: 0;
+        padding: 1.5rem;
+        border-radius: $border-radius;
+        background-color: transparent;
+    }
+    .card-body {
+        padding: 0;
+    }
+}

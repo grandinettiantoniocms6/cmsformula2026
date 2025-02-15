@@ -1,0 +1,106 @@
+#footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text-color);
+    a {
+        color: var(--footer-link-color);
+        @include transition(all 0.2s ease);
+        &:hover, &:focus {
+            opacity: .5;
+            color: var(--footer-link-hover-color);
+        }
+    }
+    .footer-top {
+        background-color: var(--footer-bg);
+        padding: var(--footer-top-padding-y) 0;
+        &:blank {
+            padding: 0;
+        }
+        .nav-link {
+            padding: 0.25rem 0;
+            opacity: 1;
+            &:hover, &:focus {
+                opacity: .5;
+            }
+        }
+        h5 {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--footer-text-color);
+        }
+    }
+    .footer-bottom {
+        background-color: var(--footer-bg);
+        padding: var(--footer-bottom-padding-y) 0;
+        a {
+            color: var(--footer-link-color);
+            text-decoration: none;
+        }
+        .nav-link {
+            padding: 0.5rem;
+        }
+        .nav.social a {
+            padding: 0.5rem 0;
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+  #footer {
+    .navbar-expand-lg {
+      .btn {
+        display: none;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  #footer {
+    .footer-top {
+      h5 {
+        display: none;
+      }
+    }
+    .footer-bottom {
+      .navbar-brand {
+        display: block;
+      }
+      .nav.social, .nav-links {
+        justify-content: center;
+      }
+      .copyright {
+        display: block;
+        text-align: center;
+      }
+    }
+    .navbar-expand-lg .btn {
+      font-weight: 600;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.35rem 0;
+      font-size: 1.15rem;
+      display: flex;
+      width: 100%;
+      color: var(--footer-link-color);
+      &:hover, &:focus, &.focus {
+        outline: 0;
+        box-shadow: none;
+        color: var(--footer-link-color);
+      }
+      &:after {
+        content: '';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+      }
+      &[aria-expanded="false"]:after {
+        content: "\f067";
+      }
+      &[aria-expanded="true"]:after {
+        content: "\f068";
+      }
+    }
+    .navbar-collapse.show {
+      padding-bottom: 1rem;
+    }
+  }
+}
