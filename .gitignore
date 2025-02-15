@@ -1,5 +1,4 @@
 /node_modules
-/public/uploads
 /public/robots.txt
 /vendor
 /.idea
@@ -8,5 +7,4 @@ Homestead.yaml
 .env
 /nbproject
 /vendor/
-/public/thumb/
 /public/plugins/pluginProducts/
