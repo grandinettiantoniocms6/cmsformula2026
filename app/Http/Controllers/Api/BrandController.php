@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Models\Brand;
+use App\Models\PluginProductsBrands;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class BrandController extends Controller
+{
+    public function index(Request $request)
+    {
+        $search_term = $request->input('q');
+
+        if ($search_term)
+        {
+            $results = PluginProductsBrands::where('name', 'LIKE', '%'.$search_term.'%')->paginate(10);
+        }
+        else
+        {
+            $results = PluginProductsBrands::paginate(10);
+        }
+
+        $results->getCollection()->transform(function($product, $key) {
+            $name = $product->name;
+            $temp = json_decode($product->name, true);
+            if($temp){
+                if(count($temp)){
+                    if(key_exists("it", $temp))
+                        $name = $temp['it'];
+                }
+            }
+
+            return [
+                'id' => $product->id,
+                'name' => "$name",
+            ];
+        });
+
+        return $results;
+    }
+
+    public function show($id)
+    {
+        return PluginProductsBrands::find($id);
+    }
+}
