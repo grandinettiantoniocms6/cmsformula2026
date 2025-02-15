@@ -28,7 +28,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
     @include('common.engine_footer_style')
     {!! \NoCaptcha::renderJs() !!}
 
-    <!-- Css per personalizzazioni extra commons -->
+    <!-- Css per personalizzazioni extra commons  -->
     @if($website->custom_css)
         <link rel="stylesheet" href="{{ url("$website->custom_css") }}">
     @endif
