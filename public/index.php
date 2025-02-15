@@ -1,5 +1,6 @@
 <?php
 die("nuovo");
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
