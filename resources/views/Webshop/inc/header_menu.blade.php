@@ -25,14 +25,16 @@
                     if(env('LOCAL') == 0){
                         list($width, $height, $type, $attr) = getimagesize("$website->logo");
                     }
-                    if(file_exists(public_path($website->logo))){
-                        echo "1";
-                    }else{
-                        echo "0";
-                    }
 
+                    $logo_exist = false;
+                    if(file_exists(public_path($website->logo))){
+                        $logo_exist = true;
+                    }
                     ?>
-                    <img id="header-logo" src="{{ url($website->logo) }}" class="img-fluid" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+
+                    @if($logo_exist)
+                        <img id="header-logo" src="{{ url($website->logo) }}" class="img-fluid" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+                    @endif
                 @else
                     {{ $website->title }}
                 @endif
