@@ -597,6 +597,7 @@
 
     </div>
 
+
     @if(env('LOCAL') == 0)
         <?php
             $url = "https://gest.webisland.it/news.xml";
