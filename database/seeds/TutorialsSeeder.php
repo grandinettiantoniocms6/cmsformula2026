@@ -20,7 +20,7 @@ class TutorialsSeeder extends Seeder
             $xml = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
 
             if($xml->channel){
-                foreach ($xml->channel as $tutorial){
+                foreach ($xml->channel->item as $tutorial){
                     echo "$tutorial->title";
 
                     $check = \App\Models\PluginTutorial::where("url", $tutorial->description)->first();
