@@ -25,7 +25,7 @@
                     if(env('LOCAL') == 0){
                         list($width, $height, $type, $attr) = getimagesize("$website->logo");
                     }
-                    if(file_exists(url($website->logo))){
+                    if(file_exists(public_path($website->logo))){
                         echo "1";
                     }else{
                         echo "0";
