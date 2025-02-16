@@ -16,20 +16,18 @@ class TutorialsSeeder extends Seeder
         try{
             \App\Models\PluginTutorial::where("from_gest", 1)->delete();
 
-            $tutorials = \DB::connection('mysql_2')->table('tutorials')
-                ->whereNull("deleted_at")
-                ->orderBy("id", "asc")
-                ->get();
+            $url = "https://gest.webisland.it/tutorials.xml";
+            $xml = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-            if($tutorials){
-                foreach ($tutorials as $tutorial){
-                    $check = \App\Models\PluginTutorial::where("url", $tutorial->url)->first();
+            if($xml->channel){
+                foreach ($xml->channel as $tutorial){
+                    $check = \App\Models\PluginTutorial::where("url", $tutorial->description)->first();
                     if($check){
                         $check->from_gest = 1;
                         $check->save();
                     }
 
-                    \App\Models\PluginTutorial::firstOrCreate(["url" => $tutorial->url],[
+                    \App\Models\PluginTutorial::firstOrCreate(["url" => $tutorial->description],[
                         "title" => $tutorial->title,
                         "from_gest" => 1
                     ]);

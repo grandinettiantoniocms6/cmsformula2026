@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
          $this->call(LabelsSeeder::class);
          $this->call(LanguageSeeder::class);
          $this->call(TemplateSeeder::class);
-         //$this->call(TutorialsSeeder::class);  fatto sistema XML
+         $this->call(TutorialsSeeder::class);
 
         //$this->call(CitiesSeeder::class);
         $this->call(CarriersTableSeeder::class);
