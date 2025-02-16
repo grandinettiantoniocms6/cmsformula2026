@@ -21,7 +21,7 @@ class TutorialsSeeder extends Seeder
 
             if($xml->channel){
                 foreach ($xml->channel as $tutorial){
-                    $this->info("$tutorial->title");
+                    echo "$tutorial->title";
 
                     $check = \App\Models\PluginTutorial::where("url", $tutorial->description)->first();
                     if($check){
