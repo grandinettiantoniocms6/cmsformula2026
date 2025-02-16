@@ -597,16 +597,19 @@
 
     </div>
 
+
     @if(env('LOCAL') == 0)
+        <?php
+            $url = "https://gest.webisland.it/news.xml";
+            $xml = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
+        ?>
+
     <!-- Messaggi da Webisland Gest -->
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">News da Webisland.it</div>
-                    <?php $messages = \DB::connection('mysql_2')->table('news')
-                        ->whereNull("deleted_at")
-                        ->where("is_active", 1)->orderBy("id", "asc")->get(); ?>
-                    @if($messages)
+                    @if($xml->channel)
                         <div class="card-body p-0">
                             <table class="table table-responsive-sm table-striped my-0">
                                 <thead class="thead-light">
@@ -616,9 +619,9 @@
                                 </tr>
                                 </thead>
                                 <tbody id="accordion">
-                                @foreach($messages as $message)
+                                @foreach($xml->channel->item as $message)
                                     <tr data-toggle="collapse" data-target="#collapse-news-{{ $loop->index }}" @if($loop->first) aria-expanded="true" @else aria-expanded="false" @endif>
-                                        <td>{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $message->created_at)->format("d/m/Y") }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($message->pubDate)->format("d/m/Y H:i") }}</td>
                                         <td><strong>{{ $message->title }}</strong></td>
                                         <td><i class="la la-angle-down la-lg"></i></td>
                                     </tr>

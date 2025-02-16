@@ -149,7 +149,7 @@ if($descriptionBlocco){
 
                     <p class="w-50 mb-10px">{!! $descriptionBlocco[\App::getLocale()] !!}</p>
                 </div>
-                <!-- box bianco fisso -->
+                <!-- box bianco fisso  123-->
             </div>
         </div>
     </div>
