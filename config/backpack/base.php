@@ -286,4 +286,7 @@ return [
     */
 
     'license_code' => env('BACKPACK_LICENSE', false),
+    'password_recovery_throttle_notifications' => 600,
+    'password_recovery_throttle_access' => '3,10',
+
 ];
