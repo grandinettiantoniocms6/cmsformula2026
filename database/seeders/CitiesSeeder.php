@@ -1,10 +1,10 @@
 <?php
-
+namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class AdminThumbSeeder extends Seeder
+class CitiesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,11 +14,9 @@ class AdminThumbSeeder extends Seeder
     public function run()
     {
         $dumps = Storage::disk('sqldumps');
+        DB::unprepared($dumps->get('cities-table.sql'));
 
-        $check = \App\Models\AdminThumb::first();
-        if(!$check){
-            //\App\Models\AdminThumb::truncate();
-            DB::unprepared($dumps->get('admin_thumbs.sql'));
-        }
+        \App\Models\City::truncate();
+        DB::unprepared($dumps->get('cities-data.sql'));
     }
 }

@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use http\Client\Request;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -30,24 +34,41 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->configureRateLimiting();
 
-        parent::boot();
+        $this->routes(function () {
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+
+            Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
+        });
     }
+
+    protected function configureRateLimiting()
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        });
+    }
+
 
     /**
      * Define the routes for the application.
      *
      * @return void
      */
-    public function map()
+    /*public function map()
     {
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
 
         //
-    }
+    }*/
 
     /**
      * Define the "web" routes for the application.
@@ -56,12 +77,12 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapWebRoutes()
+   /* protected function mapWebRoutes()
     {
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
-    }
+    }*/
 
     /**
      * Define the "api" routes for the application.
