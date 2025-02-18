@@ -12,7 +12,7 @@
         "anhskohbo/no-captcha": "^3.3",
         "backpack/backupmanager": "^3.0",
         "backpack/crud": "4.1.*",
-        "backpack/filemanager": "^1.1",
+        "backpack/filemanager": "*",
         "backpack/permissionmanager": "^6.0",
         "barryvdh/laravel-snappy": "^0.4.8",
         "biscolab/laravel-recaptcha": "^4.4",
