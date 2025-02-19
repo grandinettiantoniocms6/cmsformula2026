@@ -34,7 +34,9 @@ Route::get('/test/email/send', function() {
         $m->subject("Test");
     });
 
-    die("Inviato");
+    $data = null;
+    $html = view("common.emails.contact", compact('data'))->render();
+    die($html);
 });
 
 
