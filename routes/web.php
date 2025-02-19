@@ -26,6 +26,20 @@ Route::get('/test/email/contact', function() {
 
 });
 
+Route::get('/test/email/send', function() {
+    $dest = \request()->get("email");
+    \Mail::send("common.emails.test", ['data' => null], function ($m) use ($dest) {
+        $m->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+        $m->to($dest);
+        $m->subject("Test");
+    });
+
+    die("Inviato");
+});
+
+
+
+
 
 Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => ['admin'], 'namespace' => 'Admin'], function()
 {
