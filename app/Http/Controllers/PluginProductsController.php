@@ -52,7 +52,7 @@ class PluginProductsController extends Controller
         return redirect()->to("{$page->slug}?q=$q");
     }
 
-    public function pluginProducts($slug = null, Request $request)
+    public function pluginProducts(Request $request, $slug = null)
     {
         $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
 
@@ -67,7 +67,6 @@ class PluginProductsController extends Controller
                 }
             }
         }
-
 
         $lang = \App::getLocale();
         $lang_ = strtoupper($lang);
