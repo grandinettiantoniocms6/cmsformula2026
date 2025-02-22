@@ -137,10 +137,22 @@
                                 @else
 
                                     <!-- primo item -->
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 popup-gallery">
                                         <div class="skill-img wow fadeInLeft" data-wow-delay=".25s">
                                             @if(trim($foto) != "")
-                                                <img src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy" >
+
+                                                <div class="gallery-item wow fadeInUp" data-wow-delay=".25s">
+                                                    <div class="gallery-img">
+                                                        <img src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy" >
+                                                    </div>
+                                                    <div class="gallery-content">
+                                                        <a class="popup-img gallery-link" href="{{ $foto }}"><i
+                                                                class="fal fa-plus"></i></a>
+                                                    </div>
+                                                </div>
+
+
+
                                             @endif
                                         </div>
                                     </div>

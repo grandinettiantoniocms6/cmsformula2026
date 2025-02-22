@@ -3981,7 +3981,7 @@ label {
   top: 10px;
   right: 10px;
   bottom: 10px;
-  background: var(--theme-color);
+  background: #7B7B7AB2;
   border-radius: 40px;
   opacity: 0;
   visibility: hidden;
