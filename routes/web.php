@@ -208,8 +208,8 @@ Route::get('xml/facebook', array('as' => 'xml.facebook','uses' => 'XmlController
 
 Route::get('error_facebook', array('as' => 'error_facebook','uses' => 'AccountController@error_facebook'));
 Route::post('google_sign', ['as' => 'google_sign', 'uses' => 'AccountController@google_sign']);
-Route::post('/registerProcess', ['as' => 'index.registerProcess', 'namespace' => 'Front', 'uses'=>'AccountController@registerProcess']);
-Route::post('/registerProcessFull', ['as' => 'index.registerProcessFull', 'namespace' => 'Front', 'uses'=>'AccountController@registerProcessFull']);
+Route::post('/registerProcess', ['as' => 'index.registerProcess', 'namespace' => 'Front', 'uses'=>'AccountController@registerProcess'])->middleware(ProtectAgainstSpam::class);
+Route::post('/registerProcessFull', ['as' => 'index.registerProcessFull', 'namespace' => 'Front', 'uses'=>'AccountController@registerProcessFull'])->middleware(ProtectAgainstSpam::class);
 
 Route::post('/loginProcess', ['as' => 'index.loginProcess', 'namespace' => 'Front', 'uses'=>'AccountController@loginProcess']);
 Route::get('/activate/{code}', ['as' => 'index.activate', 'namespace' => 'Front', 'uses'=>'AccountController@activate']);
