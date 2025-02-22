@@ -177,7 +177,7 @@ class BlockImageLinkCrudController extends CrudController
                 'options'     =>
                     [
                         1 => 'Style 1: immagine a sx e testo a dx',
-                        2 => 'Style 2: due immagini a sx e testo a dx',
+                        2 => 'Style 2: testo a sx e immagine a dx',
                         //3 => 'Style 3: xxxx ',
 
                     ],

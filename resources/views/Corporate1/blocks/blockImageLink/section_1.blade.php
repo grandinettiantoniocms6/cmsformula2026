@@ -1,4 +1,7 @@
-<?php $website = \App\Models\WebsiteSetting::first(); ?>
+<?php
+    $website = \App\Models\WebsiteSetting::first();
+    $labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
+?>
 
 <div class="skill-area py-120">
     <div class="{{ $item->fullwidth }}">
@@ -122,6 +125,9 @@
                                                     {{ $button[\App::getLocale()] }}<i class="fas fa-arrow-right"></i></a>
                                             @endif
 
+                                                 <a id="btn-imagelink-1" class="theme-btn mt-5" style="background-color:{{ $website-> btn_background }}; color:{{ $website-> btn_txt_color }}; border-color:{{ $website-> btn_colorborder }};"
+                                                    href="javascript:history.back()"> {{ @$labels['back-to-page'] }}<i class="fas fa-arrow-left"></i></a>
+
                                     </div>
 
                                     <div class="col-lg-6">
@@ -183,6 +189,9 @@
                                                 <a target="{{ $type_href }}" id="btn-imagelink-1" class="theme-btn mt-5" style="background-color:{{ $website-> btn_background }}; color:{{ $website-> btn_txt_color }}; border-color:{{ $website-> btn_colorborder }};" href="{{ $url }}">
                                                     {{ $button[\App::getLocale()] }}<i class="fas fa-arrow-right"></i></a>
                                             @endif
+
+                                                <a id="btn-imagelink-1" class="theme-btn mt-5" style="background-color:{{ $website-> btn_background }}; color:{{ $website-> btn_txt_color }}; border-color:{{ $website-> btn_colorborder }};"
+                                                   href="javascript:history.back()"> {{ @$labels['back-to-page'] }}<i class="fas fa-arrow-left"></i></a>
 
                                     </div>
 
