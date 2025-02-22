@@ -42,7 +42,7 @@ class DashboardController extends Controller
                 return redirect()->to(env('DASHBOARD_ADMIN'));
             }
 
-            return view("vendor.backpack.base.$website_setting->bacheca");
+            return view(backpack_view("$website_setting->bacheca"));
         }
 
         if(backpack_user()->roles[0]->id == 6) {
