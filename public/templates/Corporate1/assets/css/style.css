@@ -3099,9 +3099,9 @@ label {
 
 .pricing-item {
   background: var(--color-white);
-  border-radius: 40px;
+  border-radius: 20px;
   position: relative;
-  padding: 40px;
+  padding: 16px;
   box-shadow: var(--box-shadow);
   transition: var(--transition);
 }
