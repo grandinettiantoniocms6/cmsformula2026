@@ -227,7 +227,7 @@ class AccountController extends Controller
                 "plugin_product_id" => $request->input('plugin_product_id'),
                 "check_privacy" => $request->input('check_privacy'),
                 "check_newsletter" => $request->input('check_newsletter'),
-                "active" => 1,
+                "active" => 0,
                 "type_client" => $request->input('type_client')
             ]);
 
