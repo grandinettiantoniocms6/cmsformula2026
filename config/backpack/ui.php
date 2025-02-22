@@ -76,13 +76,14 @@ return [
     'developer_name' => 'Farweb',
 
     // Developer website. Link in footer. Type false if you want to hide it.
-    'developer_link' => 'http://tabacitu.ro',
+    'developer_link' => 'https://farweb.i',
 
     // Show powered by Laravel Backpack in the footer? true/false
-    'show_powered_by' => true,
+    'show_powered_by' => false,
 
     // ---------
     // DASHBOARD
+
     // ---------
 
     // Show "Getting Started with Backpack" info block?
