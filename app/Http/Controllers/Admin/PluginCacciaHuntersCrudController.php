@@ -293,7 +293,7 @@ class PluginCacciaHuntersCrudController extends CrudController
         $request = $this->crud->validateRequest();
 
         // insert item in the db
-        $item = $this->crud->create($this->crud->getStrippedSaveRequest());
+        $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
         $this->data['entry'] = $this->crud->entry = $item;
 
         $number = 1000 + $item->id;

@@ -139,7 +139,7 @@ class PluginProductsImagesCrudController extends CrudController
         $request = $this->crud->validateRequest();
 
         // insert item in the db
-        $item = $this->crud->create($this->crud->getStrippedSaveRequest());
+        $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
         $this->data['entry'] = $this->crud->entry = $item;
 
         $list = PluginProductsImages::where("product_id", $request['product_id'])->orderBy("order", "desc")->first();

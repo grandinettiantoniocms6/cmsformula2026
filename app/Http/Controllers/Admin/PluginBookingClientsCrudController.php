@@ -351,7 +351,7 @@ class PluginBookingClientsCrudController extends CrudController
             $request['code'] = unique_random("users", "code", 25);
 
             // insert item in the db
-            $item = $this->crud->create($this->crud->getStrippedSaveRequest());
+            $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
             $this->data['entry'] = $this->crud->entry = $item;
 
             $this->crud->entry->password = bcrypt($request['password']);

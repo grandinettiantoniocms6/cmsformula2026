@@ -793,7 +793,7 @@ class PluginBookingReservationCrudController extends CrudController
         $request = $this->crud->validateRequest();
 
         // insert item in the db
-        $item = $this->crud->create($this->crud->getStrippedSaveRequest());
+        $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
         $this->data['entry'] = $this->crud->entry = $item;
 
         $date_start = Carbon::createFromFormat('Y-m-d', $this->crud->entry->date_start);
@@ -846,7 +846,7 @@ class PluginBookingReservationCrudController extends CrudController
 
         // update the row in the db
         $item = $this->crud->update($request->get($this->crud->model->getKeyName()),
-            $this->crud->getStrippedSaveRequest());
+            $this->crud->getStrippedSaveRequest($request));
         $this->data['entry'] = $this->crud->entry = $item;
 
         // show a success message

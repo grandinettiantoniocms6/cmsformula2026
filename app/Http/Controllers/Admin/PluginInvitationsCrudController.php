@@ -430,7 +430,7 @@ class PluginInvitationsCrudController extends CrudController
         }
 
         if(!$check){
-            $item = $this->crud->create($this->crud->getStrippedSaveRequest());
+            $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
         }else{
             $item = $check;
         }
@@ -586,7 +586,7 @@ class PluginInvitationsCrudController extends CrudController
 
         // update the row in the db
         $item = $this->crud->update($request->get($this->crud->model->getKeyName()),
-            $this->crud->getStrippedSaveRequest());
+            $this->crud->getStrippedSaveRequest($request));
 
         $this->data['entry'] = $this->crud->entry = $item;
 
