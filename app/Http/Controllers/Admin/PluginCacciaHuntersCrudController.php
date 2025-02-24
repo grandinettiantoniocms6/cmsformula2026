@@ -37,8 +37,8 @@ class PluginCacciaHuntersCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/plugin-caccia-hunters');
         CRUD::setEntityNameStrings('cacciatore', 'cacciatori');
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginCaccia.list');
-        $this->crud->setEditView('vendor.backpack.base.plugins.pluginCaccia.edit');
+        $this->crud->setListView(backpack_view('plugins.pluginCaccia.list'));
+        $this->crud->setEditView(backpack_view('plugins.pluginCaccia.edit'));
     }
 
     /**
@@ -236,7 +236,7 @@ class PluginCacciaHuntersCrudController extends CrudController
             ->orderBy("tot", "desc")
             ->toSql();
 
-        return view("vendor.backpack.base.plugins.pluginCaccia.graduatoria", compact('list', 'year', 'sql'));
+        return view(backpack_view("plugins.pluginCaccia.graduatoria"), compact('list', 'year', 'sql'));
     }
 
     public function import(){

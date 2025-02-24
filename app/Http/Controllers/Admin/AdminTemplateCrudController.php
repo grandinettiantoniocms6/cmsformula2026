@@ -33,7 +33,7 @@ class AdminTemplateCrudController extends CrudController
         CRUD::setModel(\App\Models\AdminTemplate::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/adminTemplate');
         CRUD::setEntityNameStrings('template', 'templates');
-        $this->crud->setListView('vendor.backpack.base.admin_templates');
+        $this->crud->setListView(backpack_view('admin_templates'));
 
     }
 

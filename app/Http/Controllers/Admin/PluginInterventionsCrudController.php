@@ -57,9 +57,9 @@ class PluginInterventionsCrudController extends CrudController
         //$this->crud->query->orderBy("plugins_interventions.date_intervention", "desc");
         //$this->crud->query->orderBy("plugins_interventions.start", "asc");
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginInterventions.list');
-        $this->crud->setEditView('vendor.backpack.base.plugins.pluginInterventions.edit');
-        $this->crud->setCreateView('vendor.backpack.base.plugins.pluginInterventions.create');
+        $this->crud->setListView(backpack_view('plugins.pluginInterventions.list'));
+        $this->crud->setEditView(backpack_view('plugins.pluginInterventions.edit'));
+        $this->crud->setCreateView(backpack_view('plugins.pluginInterventions.create'));
     }
 
     public function search()
@@ -960,7 +960,7 @@ class PluginInterventionsCrudController extends CrudController
             return Excel::download(new \App\Exports\PluginInterventionsMonitorExport($reservations, $date_en), "panoramica.xlsx");
         }
 
-        return view('vendor.backpack.base.plugins.pluginInterventions.monitor', compact('date_en', 'reservations','vehicle_select', 'start', 'end'));
+        return view(backpack_view('plugins.pluginInterventions.monitor'), compact('date_en', 'reservations','vehicle_select', 'start', 'end'));
     }
 
     public function check(Request $request){
@@ -1098,7 +1098,7 @@ class PluginInterventionsCrudController extends CrudController
 
         $list = PluginInterventions::where("id", $id)->get();
 
-        $html = view('vendor.backpack.base.plugins.pluginInterventions.pdf', compact( 'list'))->render();
+        $html = view(backpack_view('plugins.pluginInterventions.pdf'), compact( 'list'))->render();
         $pdf->loadHTML($html)->setPaper('a4');
         return $pdf->download("Intervento_$id.pdf");
 
@@ -1172,7 +1172,7 @@ class PluginInterventionsCrudController extends CrudController
                     ->orderBy("plugins_interventions.start", "asc")
                     ->get();
 
-                $html = view('vendor.backpack.base.plugins.pluginInterventions.pdf', compact('list'))->render();
+                $html = view(backpack_view('plugins.pluginInterventions.pdf'), compact('list'))->render();
                 $pdf->loadHTML($html)->setPaper('a4');
                 return $pdf->download("Interventi.pdf");
                 break;

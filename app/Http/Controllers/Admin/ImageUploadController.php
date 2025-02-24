@@ -20,7 +20,7 @@ class ImageUploadController extends Controller
             $images = \DB::table("$table")->where("block_id", $id)->get();
         }
 
-        return view('vendor.backpack.base.dropzone', compact('table','id', 'images'));
+        return view(backpack_view('dropzone'), compact('table','id', 'images'));
     }
 
     public function fileStore(Request $request)

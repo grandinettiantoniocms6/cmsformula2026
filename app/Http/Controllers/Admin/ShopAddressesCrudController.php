@@ -34,9 +34,9 @@ class ShopAddressesCrudController extends CrudController
         CRUD::setModel(\App\Models\Address::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/shopAddresses');
         CRUD::setEntityNameStrings('Indirizzo di spedizione', 'Indirizzi di spedizione');
-        $this->crud->setListView('vendor.backpack.base.plugins.ecommerce.Address');
-        $this->crud->setCreateView('vendor.backpack.base.plugins.ecommerce.AddressCreate');
-        $this->crud->setEditView('vendor.backpack.base.plugins.ecommerce.AddressEdit');
+        $this->crud->setListView(backpack_view('plugins.ecommerce.Address'));
+        $this->crud->setCreateView(backpack_view('plugins.ecommerce.AddressCreate'));
+        $this->crud->setEditView(backpack_view('plugins.ecommerce.AddressEdit'));
 
         if(request()->get('user_id')){
             $this->crud->query->where("user_id", request()->get('user_id'));

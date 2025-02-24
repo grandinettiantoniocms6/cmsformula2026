@@ -432,7 +432,7 @@ class ShopOrdersCrudController extends CrudController
         $templates = null;
         $messages = [];
 
-        $html = view('vendor.backpack.base.plugins.ecommerce.pdf', compact('crud', 'order', 'orderStatuses','templates','messages','payment','payments', 'history', 'price'))->render();
+        $html = view(backpack_view('plugins.ecommerce.pdf'), compact('crud', 'order', 'orderStatuses','templates','messages','payment','payments', 'history', 'price'))->render();
 
         if($request->has('print')) {
             die($html);

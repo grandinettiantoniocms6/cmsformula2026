@@ -169,7 +169,7 @@ class PluginOrdersProductsCrudController extends CrudController
         $product = PluginOrdersProducts::find($id);
         if($product){
             $rand = rand(3000,9999);
-            $html = view("vendor.backpack.base.plugins.pluginOrders.row_table_new_reservation", compact('rand','product','units', 'resourceId'))->render();
+            $html = view(backpack_view("plugins.pluginOrders.row_table_new_reservation"), compact('rand','product','units', 'resourceId'))->render();
             return response()->json(['html' => $html]);
         }
         return response()->json(['html' => ""]);
@@ -180,7 +180,7 @@ class PluginOrdersProductsCrudController extends CrudController
         $units = PluginOrdersCategories::where("type_id", 0)->get();
 
         $rand = rand(3000,9999);
-        $html = view("vendor.backpack.base.plugins.pluginOrders.row_table_new_reservation_new_product", compact('rand','units', 'resourceId'))->render();
+        $html = view(backpack_view("plugins.pluginOrders.row_table_new_reservation_new_product"), compact('rand','units', 'resourceId'))->render();
         return response()->json(['html' => $html]);
     }
 }

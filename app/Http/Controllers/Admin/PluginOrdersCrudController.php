@@ -197,7 +197,7 @@ class PluginOrdersCrudController extends CrudController
         $units = PluginOrdersCategories::where("type_id", 0)->get();
         $setting = PluginOrdersSettings::first();
 
-        return view('vendor.backpack.base.plugins.pluginOrders.planning', compact('units','setting'));
+        return view(backpack_view('plugins.pluginOrders.planning'), compact('units','setting'));
     }
 
     public function open_reservation_new(Request $request){
@@ -209,7 +209,7 @@ class PluginOrdersCrudController extends CrudController
         $day = substr($date_str, 0, 10);
         $hour = substr($date_str, 11, 5);
 
-        $html_modal = view("vendor.backpack.base.plugins.pluginOrders.new_reservation", compact("day", "hour", "products", "resourceId"))->render();
+        $html_modal = view(backpack_view("plugins.pluginOrders.new_reservation"), compact("day", "hour", "products", "resourceId"))->render();
         return response()->json([
             "modal" => $html_modal
         ]);
@@ -237,7 +237,7 @@ class PluginOrdersCrudController extends CrudController
         $status = PluginOrdersStatuses::get();
 
         $reservation_detail = PluginOrdersDetail::where("plugin_order_id", $reservation->id)->get();
-        $html_modal = view("vendor.backpack.base.plugins.pluginOrders.reservation", compact("reservation", "client", "products", "units", "reservation_detail", "status"))->render();
+        $html_modal = view(backpack_view("plugins.pluginOrders.reservation"), compact("reservation", "client", "products", "units", "reservation_detail", "status"))->render();
 
         return response()->json([
             "modal" => $html_modal
@@ -596,7 +596,7 @@ class PluginOrdersCrudController extends CrudController
         $status = PluginOrdersStatuses::find($order->plugin_order_status_id);
         $client = PluginOrdersClients::find($order->plugin_order_client_id);
 
-        $html = view('vendor.backpack.base.plugins.pluginOrders.pdf', compact('order','details','status','client','setting'))->render();
+        $html = view(backpack_view('plugins.pluginOrders.pdf'), compact('order','details','status','client','setting'))->render();
 
         $pdf->loadHTML($html)->setPaper('a4');
         return $pdf->download("Ordine_$id.pdf");

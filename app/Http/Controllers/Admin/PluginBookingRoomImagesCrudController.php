@@ -35,8 +35,8 @@ class PluginBookingRoomImagesCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/plugin-booking-room-images');
         CRUD::setEntityNameStrings('foto', 'gallery');
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginBooking.room_images.list');
-        $this->crud->setReorderView('vendor.backpack.base.plugins.pluginBooking.room_images.reorder');
+        $this->crud->setListView(backpack_view('plugins.pluginBooking.room_images.list'));
+        $this->crud->setReorderView(backpack_view('plugins.pluginBooking.room_images.reorder'));
 
         if(request()->has('room_id')){
             $this->crud->query->where("plugin_booking_room_id", request()->get('room_id'));

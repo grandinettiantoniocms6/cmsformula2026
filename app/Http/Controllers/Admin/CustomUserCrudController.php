@@ -30,7 +30,7 @@ class CustomUserCrudController extends CrudController
         $this->crud->setModel(config('backpack.permissionmanager.models.user'));
         $this->crud->setEntityNameStrings(trans('backpack::permissionmanager.user'), trans('backpack::permissionmanager.users'));
         $this->crud->setRoute(backpack_url('userCustom'));
-        $this->crud->setListView('vendor.backpack.base.users.list');
+        $this->crud->setListView(backpack_view('users.list'));
 
         if(backpack_user()->roles[0]->id == 2){
             $usersID = \DB::table("model_has_roles")

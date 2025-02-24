@@ -34,8 +34,8 @@ class PluginProductsAttachmentsCrudController extends CrudController
             $this->crud->query->where("product_id", request()->get('id'));
         }
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginProducts.custom_plugin_products_attachments');
-        $this->crud->setReorderView('vendor.backpack.base.plugins.pluginProducts.custom_reorder_plugin_products_attachments');
+        $this->crud->setListView(backpack_view('plugins.pluginProducts.custom_plugin_products_attachments'));
+        $this->crud->setReorderView(backpack_view('plugins.pluginProducts.custom_reorder_plugin_products_attachments'));
         $this->crud->query->orderBy("lft", "asc");
 
         $this->crud->isReorderEnabled();

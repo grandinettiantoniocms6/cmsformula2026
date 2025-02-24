@@ -68,7 +68,7 @@ class PluginTimetablesCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/plugin-timetables');
         CRUD::setEntityNameStrings('orario', 'orari');
 
-        $this->crud->setEditView('vendor.backpack.base.plugins.pluginTimetable.edit');
+        $this->crud->setEditView(backpack_view('plugins.pluginTimetable.edit'));
 
         if(backpack_user()->roles[0]->id >= 4){
             die;

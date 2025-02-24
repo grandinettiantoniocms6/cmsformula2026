@@ -38,7 +38,7 @@ class PluginFormsRequestsCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/pluginFormsRequests');
         CRUD::setEntityNameStrings('richiesta', 'richieste');
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginFormsRequests.list');
+        $this->crud->setListView(backpack_view('plugins.pluginFormsRequests.list'));
     }
 
     /**

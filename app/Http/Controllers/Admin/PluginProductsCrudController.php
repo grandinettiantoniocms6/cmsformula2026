@@ -605,10 +605,10 @@ class PluginProductsCrudController extends CrudController
             die;
         }
 
-        $this->crud->setReorderView('vendor.backpack.base.custom_reorder_plugin_products');
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginProducts.list');
-        $this->crud->setCreateView('vendor.backpack.base.plugins.pluginProducts.create');
-        $this->crud->setEditView('vendor.backpack.base.plugins.pluginProducts.edit');
+        $this->crud->setReorderView(backpack_view('custom_reorder_plugin_products'));
+        $this->crud->setListView(backpack_view('plugins.pluginProducts.list'));
+        $this->crud->setCreateView(backpack_view('plugins.pluginProducts.create'));
+        $this->crud->setEditView(backpack_view('plugins.pluginProducts.edit'));
 
         $pluginSetting = PluginProductsSettings::first();
         $this->crud->query->orderBy($pluginSetting->order_field, $pluginSetting->order_type);

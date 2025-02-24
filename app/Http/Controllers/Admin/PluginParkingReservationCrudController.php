@@ -31,7 +31,7 @@ class PluginParkingReservationCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/plugin-parking-reservation');
         CRUD::setEntityNameStrings('prenotazione', 'prenotazioni');
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginParking.list');
+        $this->crud->setListView(backpack_view('plugins.pluginParking.list'));
 
         $this->crud->orderBy("created_at", "desc");
     }
@@ -438,7 +438,7 @@ class PluginParkingReservationCrudController extends CrudController
     }
 
     public function panoramica(){
-        return view('vendor.backpack.base.plugins.pluginParking.planning');
+        return view(backpack_view('plugins.pluginParking.planning'));
     }
 
     public function monitor(Request $request){
@@ -458,6 +458,6 @@ class PluginParkingReservationCrudController extends CrudController
             return Excel::download(new \App\Exports\PluginParkingMonitorExport($reservations_in, $reservations_out, $date_en), "monitor.xlsx");
         }
 
-        return view('vendor.backpack.base.plugins.pluginParking.monitor', compact('date_en', 'reservations_in', 'reservations_out'));
+        return view(backpack_view('plugins.pluginParking.monitor'), compact('date_en', 'reservations_in', 'reservations_out'));
     }
 }

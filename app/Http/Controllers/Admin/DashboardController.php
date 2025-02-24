@@ -74,11 +74,11 @@ class DashboardController extends Controller
     }
 
     public function tutorials(Request $request){
-        return view('vendor.backpack.base.tutorials');
+        return view(backpack_view('tutorials'));
     }
 
     public function pages_blocks(Page $page){
-        return view('vendor.backpack.base.pages_blocks', compact('page'));
+        return view(backpack_view('pages_blocks'), compact('page'));
     }
 
     public function pages_blocks_switch(Page $page, Request $request){

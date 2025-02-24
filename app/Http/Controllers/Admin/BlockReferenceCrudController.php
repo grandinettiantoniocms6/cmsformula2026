@@ -33,9 +33,9 @@ class BlockReferenceCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/blockReference');
         CRUD::setEntityNameStrings('blocco referenza', 'blocco referenze');
 
-        $this->crud->setListView('vendor.backpack.base.custom_list_multi');
-        $this->crud->setReorderView('vendor.backpack.base.custom_reorder_multi');
-        $this->crud->setCreateView('vendor.backpack.base.custom_create_multi');
+        $this->crud->setListView(backpack_view('custom_list_multi'));
+        $this->crud->setReorderView(backpack_view('custom_reorder_multi'));
+        $this->crud->setCreateView(backpack_view('custom_create_multi'));
 
         if(request()->has('block_id')){
             $this->crud->query->where("block_id", request()->get('block_id'));

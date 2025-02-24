@@ -41,9 +41,9 @@ class PluginProductsImagesCrudController extends CrudController
             $this->crud->query->where("product_id", request()->get('id'));
         }
 
-        $this->crud->setListView('vendor.backpack.base.custom_products_images');
-        $this->crud->setCreateView('vendor.backpack.base.custom_products_images_create');
-        $this->crud->setEditView('vendor.backpack.base.custom_products_images_edit');
+        $this->crud->setListView(backpack_view('custom_products_images'));
+        $this->crud->setCreateView(backpack_view('custom_products_images_create'));
+        $this->crud->setEditView(backpack_view('custom_products_images_edit'));
 
 
     }

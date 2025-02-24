@@ -36,9 +36,9 @@ class PluginProductsCategoriesCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/pluginProductsCategories');
         CRUD::setEntityNameStrings('categoria', 'categorie');
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginProducts.categories_list');
-        $this->crud->setEditView('vendor.backpack.base.plugins.pluginProducts.categories_edit');
-        $this->crud->setCreateView('vendor.backpack.base.plugins.pluginProducts.categories_create');
+        $this->crud->setListView(backpack_view('plugins.pluginProducts.categories_list'));
+        $this->crud->setEditView(backpack_view('plugins.pluginProducts.categories_edit'));
+        $this->crud->setCreateView(backpack_view('plugins.pluginProducts.categories_create'));
 
         $this->crud->query->orderBy("lft", "asc");
     }

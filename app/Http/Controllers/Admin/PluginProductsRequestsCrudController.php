@@ -40,7 +40,7 @@ class PluginProductsRequestsCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/pluginProductsRequests');
         CRUD::setEntityNameStrings('richiesta', 'richieste');
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginProductsRequests.list');
+        $this->crud->setListView(backpack_view('plugins.pluginProductsRequests.list'));
 
         $this->crud->query->whereNotNull("product_id");
     }

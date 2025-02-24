@@ -147,6 +147,6 @@ class PluginTutorialCrudController extends CrudController
 
     public function view(Request $request){
         $tutorials = PluginTutorial::orderBy("lft", "asc")->get();
-        return view('vendor.backpack.base.plugins.pluginTutorials.index', compact('tutorials'));
+        return view(backpack_view('plugins.pluginTutorials.index'), compact('tutorials'));
     }
 }

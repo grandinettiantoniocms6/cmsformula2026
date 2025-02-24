@@ -35,7 +35,7 @@ class ShopProductsVariantsCrudController extends CrudController
         CRUD::setModel(\App\Models\ShopProductsVariants::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/shopProductsVariants');
         CRUD::setEntityNameStrings('variante', 'varianti');
-        $this->crud->setListView('vendor.backpack.base.custom_products_variants');
+        $this->crud->setListView(backpack_view('custom_products_variants'));
 
         $this->crud->query->where("group_id", request()->get('group_id'));
         $this->crud->query->where("is_variant", 1);

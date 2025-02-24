@@ -34,7 +34,7 @@ class PluginProductsBrandsCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/pluginProductsBrands');
         CRUD::setEntityNameStrings('brand', 'brands');
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginProducts.brands_list');
+        $this->crud->setListView(backpack_view('plugins.pluginProducts.brands_list'));
     }
 
     /**

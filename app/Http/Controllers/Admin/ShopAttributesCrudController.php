@@ -42,8 +42,8 @@ class ShopAttributesCrudController extends CrudController
 
         $this->crud->query->orderBy("lft", "asc");
 
-        $this->crud->setCreateView('vendor.backpack.base.custom_attributes_create');
-        $this->crud->setEditView('vendor.backpack.base.custom_attributes_edit');
+        $this->crud->setCreateView(backpack_view('custom_attributes_create'));
+        $this->crud->setEditView(backpack_view('custom_attributes_edit'));
 
     }
 

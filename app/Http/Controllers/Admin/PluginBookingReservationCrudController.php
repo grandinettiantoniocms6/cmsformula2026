@@ -61,8 +61,8 @@ class PluginBookingReservationCrudController extends CrudController
             $this->crud->addClause('whereIn', 'plugin_booking_status_id', $status);
         }
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginBooking.list');
-        $this->crud->setEditView('vendor.backpack.base.plugins.pluginBooking.reservation_edit');
+        $this->crud->setListView(backpack_view('plugins.pluginBooking.list'));
+        $this->crud->setEditView(backpack_view('plugins.pluginBooking.reservation_edit'));
     }
 
     /**
@@ -1007,7 +1007,7 @@ class PluginBookingReservationCrudController extends CrudController
             $units = PluginBookingRoom::get();
         }
 
-        return view("vendor.backpack.base.plugins.pluginBooking.planning", compact('units'));
+        return view(backpack_view("plugins.pluginBooking.planning"), compact('units'));
     }
 
     public function events(Request $request){

@@ -35,7 +35,7 @@ class PluginInterventionsNoteCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/plugin-interventions-note');
         CRUD::setEntityNameStrings('Nota', 'Note');
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginInterventions.listNote');
+        $this->crud->setListView(backpack_view('plugins.pluginInterventions.listNote'));
     }
 
     /**

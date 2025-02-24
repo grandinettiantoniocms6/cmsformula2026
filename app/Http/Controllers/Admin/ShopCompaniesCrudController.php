@@ -35,9 +35,9 @@ class ShopCompaniesCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/shopCompanies');
         CRUD::setEntityNameStrings('Indirizzo di fatturazione', 'Indirizzi di fatturazione');
 
-        $this->crud->setListView('vendor.backpack.base.plugins.ecommerce.Companies');
-        $this->crud->setCreateView('vendor.backpack.base.plugins.ecommerce.CompaniesCreate');
-        $this->crud->setEditView('vendor.backpack.base.plugins.ecommerce.CompaniesEdit');
+        $this->crud->setListView(backpack_view('plugins.ecommerce.Companies'));
+        $this->crud->setCreateView(backpack_view('plugins.ecommerce.CompaniesCreate'));
+        $this->crud->setEditView(backpack_view('plugins.ecommerce.CompaniesEdit'));
 
         if(request()->get('user_id')){
             $this->crud->query->where("user_id", request()->get('user_id'));

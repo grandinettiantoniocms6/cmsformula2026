@@ -31,8 +31,8 @@ class PluginParkingPriceCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/plugin-parking-price');
         CRUD::setEntityNameStrings('tariffa', 'tariffe parcheggio');
 
-        $this->crud->setCreateView('vendor.backpack.base.plugins.pluginParking.create');
-        $this->crud->setEditView('vendor.backpack.base.plugins.pluginParking.edit');
+        $this->crud->setCreateView(backpack_view('plugins.pluginParking.create'));
+        $this->crud->setEditView(backpack_view('plugins.pluginParking.edit'));
 
         $this->crud->query->orderBy("day", "asc");
     }

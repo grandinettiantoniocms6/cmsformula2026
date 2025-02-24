@@ -35,8 +35,8 @@ class PluginProductsOptionsCrudController extends CrudController
             $this->crud->query->where("product_id", request()->get('id'));
         }
 
-        $this->crud->setListView('vendor.backpack.base.custom_plugin_products_options');
-        $this->crud->setReorderView('vendor.backpack.base.custom_reorder_plugin_products_options');
+        $this->crud->setListView(backpack_view('custom_plugin_products_options'));
+        $this->crud->setReorderView(backpack_view('custom_reorder_plugin_products_options'));
         $this->crud->query->orderBy("lft", "asc");
 
         $this->crud->isReorderEnabled();

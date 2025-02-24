@@ -52,9 +52,9 @@ class PluginBookingRoomCrudController extends CrudController
 
         CRUD::setEntityNameStrings('', "$type->name");
 
-        $this->crud->setListView('vendor.backpack.base.plugins.pluginBooking.rooms');
-        $this->crud->setCreateView('vendor.backpack.base.plugins.pluginBooking.room_create');
-        $this->crud->setEditView('vendor.backpack.base.plugins.pluginBooking.room_edit');
+        $this->crud->setListView(backpack_view('plugins.pluginBooking.rooms'));
+        $this->crud->setCreateView(backpack_view('plugins.pluginBooking.room_create'));
+        $this->crud->setEditView(backpack_view('plugins.pluginBooking.room_edit'));
 
         if($type){
             $this->crud->query->where("plugin_booking_type_id", $type->id);
