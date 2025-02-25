@@ -48,18 +48,37 @@
                         @if($website->logo2)
                             <?php
                             if(env('LOCAL') == 0){
-                                list($width, $height, $type, $attr) = getimagesize("$website->logo2");
+                                if(file_exists(public_path($website->logo2))) {
+                                    list($width, $height, $type, $attr) = getimagesize("$website->logo2");
+                                }
+                            }
+
+                            $logo_exist = false;
+                            if(file_exists(public_path($website->logo2))){
+                                $logo_exist = true;
                             }
                             ?>
-                            <img id="header-logo-mobile" src="{{ url($website->logo2) }}" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+                            @if($logo_exist)
+                                <img id="header-logo-mobile" src="{{ url($website->logo2) }}" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+                            @endif
                         @else
                             @if($website->logo)
                                     <?php
                                     if(env('LOCAL') == 0){
-                                        list($width, $height, $type, $attr) = getimagesize("$website->logo");
+                                       if(file_exists(public_path($website->logo))) {
+                                           list($width, $height, $type, $attr) = getimagesize("$website->logo");
+                                       }
                                     }
+
+                                    $logo_exist = false;
+                                    if(file_exists(public_path($website->logo))){
+                                        $logo_exist = true;
+                                    }
+
                                     ?>
+                                @if($logo_exist)
                                 <img id="header-logo-mobile" src="{{ url($website->logo) }}" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+                                @endif
                             @else
                                 {{ $website->title }}
                             @endif
