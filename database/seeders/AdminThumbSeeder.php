@@ -19,7 +19,7 @@ class AdminThumbSeeder extends Seeder
         $check = \App\Models\AdminThumb::first();
         if(!$check){
             //\App\Models\AdminThumb::truncate();
-            DB::unprepared($dumps->get('admin_thumbs.sql'));
+            \DB::unprepared($dumps->get('admin_thumbs.sql'));
         }
     }
 }

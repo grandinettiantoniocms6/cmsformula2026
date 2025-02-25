@@ -11,7 +11,7 @@ class CurrenciesTableSeeder extends Seeder
      */
     public function run()
     {
-    	DB::table('shop_currencies')->truncate();
+    	\DB::table('shop_currencies')->truncate();
 
     	$currencies = [
     		[
@@ -28,6 +28,6 @@ class CurrenciesTableSeeder extends Seeder
             ],
     	];
 
-    	DB::table('shop_currencies')->insert($currencies);
+    	\DB::table('shop_currencies')->insert($currencies);
     }
 }

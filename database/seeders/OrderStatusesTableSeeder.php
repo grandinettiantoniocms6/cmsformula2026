@@ -11,7 +11,7 @@ class OrderStatusesTableSeeder extends Seeder
      */
     public function run()
     {
-    	DB::table('shop_order_statuses')->truncate();
+    	\DB::table('shop_order_statuses')->truncate();
 
     	$statuses = [
     		[
@@ -40,6 +40,6 @@ class OrderStatusesTableSeeder extends Seeder
             ],
     	];
 
-    	DB::table('shop_order_statuses')->insert($statuses);
+    	\DB::table('shop_order_statuses')->insert($statuses);
     }
 }

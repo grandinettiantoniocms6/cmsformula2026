@@ -13,7 +13,7 @@ class RolesSeeder extends Seeder
     {
         $check = \DB::table('roles')->where("name", "SuperAdmin")->first();
         if(!$check){
-            DB::table('roles')->insert([
+            \DB::table('roles')->insert([
                 "name" => "SuperAdmin",
                 "guard_name" => "web"
             ]);
@@ -21,7 +21,7 @@ class RolesSeeder extends Seeder
 
         $check = \DB::table('roles')->where("name", "Amministratore")->first();
         if(!$check){
-            DB::table('roles')->insert([
+            \DB::table('roles')->insert([
                 "name" => "Amministratore",
                 "guard_name" => "web"
             ]);
@@ -29,7 +29,7 @@ class RolesSeeder extends Seeder
 
         $check = \DB::table('roles')->where("name", "Editore")->first();
         if(!$check){
-            DB::table('roles')->insert([
+            \DB::table('roles')->insert([
                 "name" => "Editore",
                 "guard_name" => "web"
             ]);
@@ -37,7 +37,7 @@ class RolesSeeder extends Seeder
 
         $check = \DB::table('roles')->where("name", "Lettore")->first();
         if(!$check){
-            DB::table('roles')->insert([
+            \DB::table('roles')->insert([
                 "name" => "Lettore",
                 "guard_name" => "web"
             ]);

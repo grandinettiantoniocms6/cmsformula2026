@@ -14,9 +14,9 @@ class CitiesSeeder extends Seeder
     public function run()
     {
         $dumps = Storage::disk('sqldumps');
-        DB::unprepared($dumps->get('cities-table.sql'));
+        \DB::unprepared($dumps->get('cities-table.sql'));
 
         \App\Models\City::truncate();
-        DB::unprepared($dumps->get('cities-data.sql'));
+        \DB::unprepared($dumps->get('cities-data.sql'));
     }
 }
