@@ -23,7 +23,8 @@
                 @if($website->logo)
                     <?php
                     if(env('LOCAL') == 0){
-                        dd("test");
+
+                        dd(file_exists(public_path($website->logo)), file_exists(url($website->logo)));
                         if(file_exists(public_path($website->logo))){
                             list($width, $height, $type, $attr) = getimagesize("$website->logo");
                         }
