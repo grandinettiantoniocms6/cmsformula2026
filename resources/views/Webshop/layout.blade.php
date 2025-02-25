@@ -12,7 +12,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
     @include('Webshop.inc.engine_style')
 
-    @if(is_numeric(strpos(env('APP_URL'), "stage")))
+    @if(is_numeric(strpos(env('APP_URL'), "stage")) || is_numeric(strpos(env('APP_URL'), "dev")))
         <meta name="robots" content="noindex, nofollow">
     @else
         <meta name="robots" content="index, follow">
