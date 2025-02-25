@@ -77,7 +77,7 @@ return [
     */
 
     'options' => [
-        "tmbPath" => "ciao"
+        "tmbPath" => "tmb"
     ],
 
     /*
@@ -90,6 +90,6 @@ return [
     |
     */
     'root_options' => [
-        "tmbPath" => "ciao"
+        "tmbPath" => "tmb"
     ],
 ];
