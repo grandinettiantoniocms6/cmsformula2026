@@ -52,7 +52,7 @@ class PluginProductsCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 
 
-    //use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation { clone as traitClone; }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation { clone as traitClone; }
 
     public function create_combinations(Request $request){
         $padre_id = $request->get('padre_id');
