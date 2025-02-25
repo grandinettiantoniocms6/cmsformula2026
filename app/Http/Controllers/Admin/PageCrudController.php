@@ -272,8 +272,8 @@ class PageCrudController extends CrudController
             $number = $website->number_max_page - $pages_count;
         }
 
-        if($number == 0){
-            die;
+        if($number <= 0){
+            dd("Hai raggiunto il numero di pagine max. Cambia in IMPOSTAZIONI > SITO");
         }
 
         CRUD::setValidation(PageRequest::class);
