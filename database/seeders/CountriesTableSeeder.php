@@ -253,6 +253,6 @@ class CountriesTableSeeder extends Seeder {
 			['code' => 'ZW', 'name' => 'Zimbabwe']
 		];
 
-		DB::table('shop_countries')->insert($countries);
+		\DB::table('shop_countries')->insert($countries);
 	}
 }
