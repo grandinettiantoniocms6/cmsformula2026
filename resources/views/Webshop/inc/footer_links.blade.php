@@ -33,7 +33,9 @@
     @if($website->photo_credits)
             <?php
             if(env('LOCAL') == 0){
-                 list($width, $height, $type, $attr) = getimagesize("$website->photo_credits");
+                if(file_exists(public_path($website->photo_credits))){
+                    list($width, $height, $type, $attr) = getimagesize("$website->photo_credits");
+                }
             }
             ?>
         <a class="nav-link" href="{{ $website->link_credits }}" target="_blank" title="Sito realizzato da Webisland.it">
