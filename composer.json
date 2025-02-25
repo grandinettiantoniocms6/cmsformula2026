@@ -54,6 +54,7 @@
         }
     },
     "autoload": {
+
         "files": [
             "app/Helpers/string.php",
             "app/classes/PaypalExpress.class.php",
