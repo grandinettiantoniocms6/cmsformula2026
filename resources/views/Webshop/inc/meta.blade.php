@@ -25,7 +25,7 @@
 
 @endif
 
-@if(is_numeric(strpos(env('APP_URL'), "stage")))
+@if(is_numeric(strpos(env('APP_URL'), "stage")) || is_numeric(strpos(env('APP_URL'), "dev")))
     <meta name="robots" content="noindex, nofollow">
 @else
     <meta name="robots" content="index, follow">
