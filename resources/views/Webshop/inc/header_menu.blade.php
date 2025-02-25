@@ -24,8 +24,9 @@
                     <?php
                     if(env('LOCAL') == 0){
 
-                        dd(file_exists(public_path($website->logo)), file_exists(url($website->logo)));
-                        if(file_exists(public_path($website->logo))){
+
+                        if(file_exists(public_path($website->logo)) === true){
+                            dd("aaa");
                             list($width, $height, $type, $attr) = getimagesize("$website->logo");
                         }
                     }
@@ -34,6 +35,8 @@
                     if(file_exists(public_path($website->logo))){
                         $logo_exist = true;
                     }
+
+                    dd($logo_exist);
                     ?>
 
                     @if($logo_exist)
