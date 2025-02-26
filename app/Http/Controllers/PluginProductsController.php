@@ -620,6 +620,7 @@ class PluginProductsController extends Controller
 
     public function pluginProductsDetail($category, $slug)
     {
+        dd("test");
         $website = WebsiteSetting::first();
 
         $currenturl = url()->full();
