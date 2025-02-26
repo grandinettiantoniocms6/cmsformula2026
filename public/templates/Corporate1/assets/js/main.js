@@ -216,9 +216,11 @@
     $(".popup-gallery").magnificPopup({
         delegate: '.popup-img',
         type: 'image',
+        closeOnContentClick: true,
         gallery: {
             enabled: true
         },
+
     });
 
     $(".popup-youtube, .popup-vimeo, .popup-gmaps").magnificPopup({

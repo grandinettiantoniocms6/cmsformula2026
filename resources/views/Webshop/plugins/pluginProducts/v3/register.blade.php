@@ -146,6 +146,8 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                             @else
 
                            <form method="post" action="{{ route('index.registerProcessFull') }}" id="form">
+                               @honeypot
+
                                @if(\request()->has('plugin_product_id'))
                                    <input type="hidden" name="plugin_product_id" value="{{ \request()->get('plugin_product_id') }}">
                                @endif

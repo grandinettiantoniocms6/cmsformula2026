@@ -10,10 +10,24 @@
 
   $dashboard_class = new \App\Http\Controllers\Admin\DashboardController();
   $vCheckSlug = $dashboard_class->check_duplicate_slug("pages");
+
+$pages_count = \App\Models\Page::count();
+$website = \App\Models\WebsiteSetting::first();
+$number = null;
+if($website->number_max_page){
+    $number = $website->number_max_page - $pages_count;
+}
+
+
 @endphp
 
 @section('header')
   <div class="container-fluid">
+      @if($number <= 0)
+          <div class="alert alert-warning text-dark">
+              Hai superato il limite di pagine acquistato. Per sbloccare il limite contatta Webisland.
+          </div>
+      @endif
       @if(count($vCheckSlug) > 0)
           <p>
               <a class="btn btn-danger" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">

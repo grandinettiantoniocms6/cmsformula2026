@@ -164,7 +164,7 @@ class PageCrudController extends CrudController
             $number = $website->number_max_page - $pages_count;
         }
 
-        if($number == 0){
+        if($number <= 0){
             $this->crud->removeButton("create");
         }
 
@@ -266,16 +266,16 @@ class PageCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $pages_count = Page::count();
+        /*$pages_count = Page::count();
         $website = WebsiteSetting::first();
         $number = null;
         if($website->number_max_page){
             $number = $website->number_max_page - $pages_count;
         }
 
-        if($number == 0){
-            die;
-        }
+        if($number <= 0){
+            dd("Hai superato il limite di pagine acquistato. Per sbloccare il limite contatta Webisland.");
+        }*/
 
         CRUD::setValidation(PageRequest::class);
 

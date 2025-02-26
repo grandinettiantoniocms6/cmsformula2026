@@ -5,18 +5,42 @@ use App\Models\AdminLanguage;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
-Route::get('/test_email_order', function() {
+Route::get('/test/email/order', function() {
     //'order' => $order, 'send_psw' => $send_psw, 'code_psw'=>$code_psw, 'user'=> $user
     $order = \App\Models\Order::first();
     $user = \App\User::first();
     $send_psw = 0;
     $code_psw = "aaa";
-
-
     $html = view("common.emails.order", compact('order','user', 'send_psw', 'code_psw'))->render();
     die($html);
 
 });
+
+Route::get('/test/email/contact', function() {
+    $data = ["request" => [
+        "first_name" => "Keivan"
+    ]];
+
+    $html = view("common.emails.contact", compact('data'))->render();
+    die($html);
+
+});
+
+Route::get('/test/email/send', function() {
+    $dest = \request()->get("email");
+    \Mail::send("common.emails.test", ['data' => null], function ($m) use ($dest) {
+        $m->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+        $m->to($dest);
+        $m->subject("Test");
+    });
+
+    $data = null;
+    $html = view("common.emails.test", compact('data'))->render();
+    die($html);
+});
+
+
+
 
 
 Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => ['admin'], 'namespace' => 'Admin'], function()
@@ -184,8 +208,8 @@ Route::get('xml/facebook', array('as' => 'xml.facebook','uses' => 'XmlController
 
 Route::get('error_facebook', array('as' => 'error_facebook','uses' => 'AccountController@error_facebook'));
 Route::post('google_sign', ['as' => 'google_sign', 'uses' => 'AccountController@google_sign']);
-Route::post('/registerProcess', ['as' => 'index.registerProcess', 'namespace' => 'Front', 'uses'=>'AccountController@registerProcess']);
-Route::post('/registerProcessFull', ['as' => 'index.registerProcessFull', 'namespace' => 'Front', 'uses'=>'AccountController@registerProcessFull']);
+Route::post('/registerProcess', ['as' => 'index.registerProcess', 'namespace' => 'Front', 'uses'=>'AccountController@registerProcess'])->middleware(ProtectAgainstSpam::class);
+Route::post('/registerProcessFull', ['as' => 'index.registerProcessFull', 'namespace' => 'Front', 'uses'=>'AccountController@registerProcessFull'])->middleware(ProtectAgainstSpam::class);
 
 Route::post('/loginProcess', ['as' => 'index.loginProcess', 'namespace' => 'Front', 'uses'=>'AccountController@loginProcess']);
 Route::get('/activate/{code}', ['as' => 'index.activate', 'namespace' => 'Front', 'uses'=>'AccountController@activate']);

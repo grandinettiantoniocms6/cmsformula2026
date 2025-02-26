@@ -153,12 +153,15 @@
                                         <div class="portfolio-content">
                                             <div class="portfolio-info">
                                                 <h4 style="color: {{ $item->title_color }}!important;"><a href="{{ $url }}" target="{{ $type_href }}" >{{ $title[\App::getLocale()] }}</a></h4>
-                                                <small>{{ $title[\App::getLocale()] }}</small>
+                                                <p><br>{!! $description[\App::getLocale()] !!}<br> </p>
+
+                                                @if(trim($button[\App::getLocale()])!="")
+                                                    <a target="{{ $type_href }}" href="{{ $url }}" class="btn btn-very-small " style="background-color:{{ $website-> btn_background }}; color:{{  $website-> btn_txt_color }}; border-color:{{ $website-> btn_colorborder }};"><span>{{ $button[\App::getLocale()] }}</span></a>
+                                                @endif
+
                                             </div>
 
-                                            @if(trim($button[\App::getLocale()])!="")
-                                                <a target="{{ $type_href }}" href="{{ $url }}" class="btn btn-very-small " style="background-color:{{ $website-> btn_background }}; color:{{  $website-> btn_txt_color }}; border-color:{{ $website-> btn_colorborder }};"><span>{{ $button[\App::getLocale()] }}</span></a>
-                                            @endif
+
 
                                             <!-- If PDF exist -->
                                             @if(trim($value->file) != "" || $value->file)
