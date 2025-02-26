@@ -620,7 +620,7 @@ class PluginProductsController extends Controller
 
     public function pluginProductsDetail($category, $slug)
     {
-        dd("test");
+
         $website = WebsiteSetting::first();
 
         $currenturl = url()->full();
@@ -661,6 +661,8 @@ class PluginProductsController extends Controller
         if(!$itemProduct){
             return redirect()->route("pluginProducts.404.$lang");
         }
+
+        dd("test", $itemProduct);
 
         $check_lang = PluginProductsLangs::where("product_id", $itemProduct->id)->where("lang", $lang)
             ->where("is_active", 1)
