@@ -662,7 +662,7 @@ class PluginProductsController extends Controller
             return redirect()->route("pluginProducts.404.$lang");
         }
 
-        dd("test", $itemProduct);
+
 
         $check_lang = PluginProductsLangs::where("product_id", $itemProduct->id)->where("lang", $lang)
             ->where("is_active", 1)
@@ -690,6 +690,8 @@ class PluginProductsController extends Controller
 
                 //prendo il primo attribute in ordine
                 $attribute_first = ShopAttributes::orderBy("lft", "asc")->first();
+
+                dd("test", $itemProduct, $temp_ids);
 
                 $vet_ids = ShopAttributesProducts::selectRaw("GROUP_CONCAT(product_id) as ids, option_id")
                     ->whereRaw("product_id IN ({$temp_ids[0]->ids})")
