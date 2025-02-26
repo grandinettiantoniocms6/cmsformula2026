@@ -24,7 +24,7 @@ if($website->number_max_page){
 @section('header')
   <div class="container-fluid">
       @if($number <= 0)
-          <div class="alert alert-warning">
+          <div class="alert alert-warning text-dark">
               Hai superato il limite di pagine acquistato. Per sbloccare il limite contatta Webisland.
           </div>
       @endif
