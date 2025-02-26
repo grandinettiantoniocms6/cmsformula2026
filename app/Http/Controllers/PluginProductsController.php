@@ -691,8 +691,6 @@ class PluginProductsController extends Controller
                 //prendo il primo attribute in ordine
                 $attribute_first = ShopAttributes::orderBy("lft", "asc")->first();
 
-                dd("test", $itemProduct, $temp_ids);
-
                 $vet_ids = ShopAttributesProducts::selectRaw("GROUP_CONCAT(product_id) as ids, option_id")
                     ->whereRaw("product_id IN ({$temp_ids[0]->ids})")
                     ->join("shop_attributes_options", "shop_attributes_options.id", "=", "shop_attributes_products.option_id")
