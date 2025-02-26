@@ -265,7 +265,7 @@ class PageCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        $pages_count = Page::count();
+        /*$pages_count = Page::count();
         $website = WebsiteSetting::first();
         $number = null;
         if($website->number_max_page){
@@ -274,7 +274,7 @@ class PageCrudController extends CrudController
 
         if($number <= 0){
             dd("Hai superato il limite di pagine acquistato. Per sbloccare il limite contatta Webisland.");
-        }
+        }*/
 
         CRUD::setValidation(PageRequest::class);
 

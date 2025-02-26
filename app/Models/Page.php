@@ -163,6 +163,19 @@ class Page extends Model
 
         $url_edit = "/admin/page/$this->id/edit";
 
+        $pages_count = Page::count();
+        $website = WebsiteSetting::first();
+        $number = null;
+        if($website->number_max_page){
+            $number = $website->number_max_page - $pages_count;
+        }
+
+        $link_duplica = "";
+        if($number > 0){
+            $link_duplica = '<a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="/admin/page/'.$this->id.'/clone" class="dropdown-item" data-button-type="clone">Duplica</a>';
+        }
+
+
         $icon_editing = "";
         $link_editing = "<a class=\"dropdown-item\" href=\"$url_edit\">Modifica</a>";
         $editing = UserNavigation::where("user_id", "!=", backpack_user()->id)->where("url", $url_edit)->first();
@@ -199,7 +212,7 @@ class Page extends Model
                     '.$htmlLinkBlocchi.'
                     <a class="dropdown-item" href="'.$linkAnteprima.'" target="_blank">Anteprima</a>
                     '.$link_editing.'
-                    <a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="/admin/page/'.$this->id.'/clone" class="dropdown-item" data-button-type="clone">Duplica</a>
+                    '.$link_duplica.'
                     <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="/admin/page/'.$this->id.'" class="dropdown-item" data-button-type="delete">Elimina</a>
                   </div>
                 </div><script>
