@@ -9,6 +9,7 @@ if($cat_prod){
     $cat_prod_slug = $cat_prod->slug;
 }
 $shopSetting = \App\Models\ShopSettings::first();
+dd($itemProduct);
 ?>
 @extends("$thema.layout")
 
