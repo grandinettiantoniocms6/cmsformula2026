@@ -79,6 +79,7 @@
 
                 $itemProd = \App\Models\PluginProducts::find($product->id);
 
+                $cat_prod = null;
                 $first_cat = \DB::table("plugins_products_categories_products")->where("plugin_product_product_id", $product->id)->first();
                 if($first_cat){
                     $cat_prod = \DB::table("plugins_products_categories")->where("id", $first_cat->plugin_product_category_id)->first();
