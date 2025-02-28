@@ -76,3 +76,48 @@ function iubenda_system( $html, $type = 'page' ) {
     // finished
     return $html;
 }
+
+if( ! function_exists('formatSize') ) {
+    function formatSize($bytes)
+    {
+        $kb = 1024;
+        $mb = $kb * 1024;
+        $gb = $mb * 1024;
+        $tb = $gb * 1024;
+        if (($bytes >= 0) && ($bytes < $kb)) {
+            return $bytes . ' B';
+        } elseif (($bytes >= $kb) && ($bytes < $mb)) {
+            return ceil($bytes / $kb) . ' KB';
+        } elseif (($bytes >= $mb) && ($bytes < $gb)) {
+            return ceil($bytes / $mb) . ' MB';
+        } elseif (($bytes >= $gb) && ($bytes < $tb)) {
+            return ceil($bytes / $gb) . ' GB';
+        } elseif ($bytes >= $tb) {
+            return ceil($bytes / $tb) . ' TB';
+        } else {
+            return $bytes . ' B';
+        }
+    }
+}
+
+if( ! function_exists('folderSize') ) {
+    function folderSize($dir)
+    {
+        $total_size = 0;
+        $count = 0;
+        $dir_array = scandir($dir);
+        foreach ($dir_array as $key => $filename) {
+            if ($filename != ".." && $filename != ".") {
+                if (is_dir($dir . "/" . $filename)) {
+                    $new_foldersize = foldersize($dir . "/" . $filename);
+                    $total_size = $total_size + $new_foldersize;
+                } else if (is_file($dir . "/" . $filename)) {
+                    $total_size = $total_size + filesize($dir . "/" . $filename);
+                    $count++;
+                }
+            }
+        }
+        return $total_size;
+    }
+
+}
