@@ -31,19 +31,12 @@
     @endif
 
     @if($website->photo_credits)
-            <?php
-            if(env('LOCAL') == 0){
-                if(file_exists(public_path($website->photo_credits))){
-                    list($width, $height, $type, $attr) = getimagesize(public_path("$website->photo_credits"));
-                }
-            }
-            ?>
         <a class="nav-link" href="{{ $website->link_credits }}" target="_blank" title="Sito realizzato da Webisland.it">
             <?php
                 $exists = file_exists($website->photo_credits);
             ?>
             @if($exists)
-                <img class="img-fluid mx-auto" alt="Sito realizzato da webisland.it" src="{{ url($website->photo_credits) }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+                <img class="img-fluid mx-auto" alt="Sito realizzato da webisland.it" src="{{ url($website->photo_credits) }}">
             @else
                 Sito realizzato da webisland.it
             @endif
