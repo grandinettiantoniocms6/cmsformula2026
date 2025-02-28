@@ -18,14 +18,14 @@
                 if(file_exists($check)){
                     $foto = url($check);
                     if(env('LOCAL') == 0){
-                        list($width, $height, $type, $attr) = getimagesize("$check");
+                        list($width, $height, $type, $attr) = getimagesize(public_path("$check"));
                     }
 
                 }else{
                     $foto = url($brand->image);
 
                     if(env('LOCAL') == 0){
-                        list($width, $height, $type, $attr) = getimagesize("$brand->image");
+                        list($width, $height, $type, $attr) = getimagesize(public_path("$brand->image"));
                     }
 
                 }

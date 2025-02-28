@@ -34,7 +34,7 @@
             <?php
             if(env('LOCAL') == 0){
                 if(file_exists(public_path($website->photo_credits))){
-                    list($width, $height, $type, $attr) = getimagesize("$website->photo_credits");
+                    list($width, $height, $type, $attr) = getimagesize(public_path("$website->photo_credits"));
                 }
             }
             ?>

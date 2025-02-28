@@ -24,7 +24,7 @@
                     <?php
                     if(env('LOCAL') == 0){
                         if(file_exists(public_path($website->logo)) === true){
-                            list($width, $height, $type, $attr) = getimagesize("$website->logo");
+                            list($width, $height, $type, $attr) = getimagesize(public_path("$website->logo"));
                         }
                     }
 
@@ -49,7 +49,7 @@
                             <?php
                             if(env('LOCAL') == 0){
                                 if(file_exists(public_path($website->logo2))) {
-                                    list($width, $height, $type, $attr) = getimagesize("$website->logo2");
+                                    list($width, $height, $type, $attr) = getimagesize(public_path("$website->logo2"));
                                 }
                             }
 
@@ -66,7 +66,7 @@
                                     <?php
                                     if(env('LOCAL') == 0){
                                        if(file_exists(public_path($website->logo))) {
-                                           list($width, $height, $type, $attr) = getimagesize("$website->logo");
+                                           list($width, $height, $type, $attr) = getimagesize(public_path("$website->logo"));
                                        }
                                     }
 
