@@ -22,12 +22,25 @@ if($descriptionBlocco){
 
 ?>
 
-<section class="background-position-center-top pb-0" style="background-color: {{ $item->bgcolor }}; margin-top: 0px">
+@if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
+
+<div class="portfolio-area py-120">
+    <div class="pa-bg" style="background-color: {{ $item->bgcolor }}; margin-top: 0px"></div>
     <div class="{{ $item->fullwidth }}">
-        <div class="row mb-0 xs-mb-10 overlap-section">
-            <div class="col-12 position-relative">
-                <div class="swiper position-relative text-slider-style-04" data-slider-options='{ "autoHeight": true, "loop": true, "allowTouchMove": true, "autoplay": { "delay": 4000, "disableOnInteraction": false }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "effect": "fade" }'>
-                    <div class="swiper-wrapper">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <div class="site-heading text-center">
+                    <span class="site-title-tagline"><i class="far fa-arrow-alt-circle-down"></i> {{ $titleBlocco[\App::getLocale()] }}</span>
+                    <h2 class="site-title text-white">{!! $descriptionBlocco[\App::getLocale()] !!}</h2>
+                </div>
+            </div>
+        </div>
+
+@endif
+
+        <div class="row popup-gallery">
+            <div class="portfolio-slider owl-carousel">
+
                         @if($array)
                             @foreach($array as $value)
                                     <?php
@@ -105,53 +118,35 @@ if($descriptionBlocco){
 
                                     ?>
 
-                                    <!-- start ciclo -->
-                                <div class="swiper-slide">
+                                <!-- ciclo -->
 
-                                    <!-- gallery 1 -->
-                                    <div class="gallery-box">
-                                        <a href="{{ $value->foto }}" data-group="lightbox-group-gallery-item-6" title="">
-                                            <div class="position-relative gallery-image bg-slate-blue">
-                                                <img src="{{ $value->foto }}" alt="" />
-                                                <div class="d-flex align-items-center justify-content-center position-absolute top-0px left-0px w-100 h-100 gallery-hover move-bottom-top">
-                                                    <i class="bi bi-camera icon-medium text-white"></i>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
+                                    <div class="portfolio-item">
+                                        <div class="portfolio-img">
+                                            @if(trim($value->foto) != "")
+                                                <img class="img-fluid" src="{{ $foto }}" alt="">
+                                                <a class="popup-img portfolio-link" href="{{ $foto }}"> <i
+                                                        class="far fa-plus"></i></a>
+                                            @endif
+                                        </div>
 
-                                    <div class="container position-absolute sm-position-relative bottom-0 right-0px z-index-1 swiper-slide-content">
-                                        <div class="row justify-content-end align-items-end h-100">
-                                            <div class="col-lg-5 col-md-7 p-0">
-                                                <div class="bg-white p-12 lg-p-12" style="background-color: #f7f6f6!important;">
-                                                    <h5 class="alt-font text-dark-gray fw-300 mb-20px ls-minus-2px">{{ $titleBlocco[\App::getLocale()] }}</h5>
-                                                </div>
+                                        <div class="portfolio-content">
+                                            <div class="portfolio-info">
+                                                @if($url != "#")
+                                                    <h4><a href="{{ $url }}" target="{{ $type_href }}">{{ $title[\App::getLocale()] }}</a></h4>
                                             </div>
+
+                                            <a href="{{ $url }}" target="{{ $type_href }}" class="portfolio-arrow"><i
+                                                    class="fas fa-arrow-right"></i></a>
+                                            @endif
                                         </div>
                                     </div>
-                                </div>
-                                <!-- end ciclo -->
+
                             @endforeach
                         @endif
 
                     </div>
-
-                    <!-- start slider navigation -->
-                    <div class="slider-one-slide-prev-1 icon-small swiper-button-prev slider-navigation-style-07 bg-dark-gray text-white box-shadow-small"><i class="bi bi-arrow-down-left"></i></div>
-                    <div class="slider-one-slide-next-1 icon-small swiper-button-next slider-navigation-style-07 bg-dark-gray text-white box-shadow-small"><i class="bi bi-arrow-up-right"></i></div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12">
-                <!-- box bianco fisso -->
-                <div class="bg-white p-6 lg-p-6">
-
-                    <p class="w-50 mb-10px">{!! $descriptionBlocco[\App::getLocale()] !!}</p>
-                </div>
-                <!-- box bianco fisso  123-->
-            </div>
         </div>
     </div>
-</section>
+</div>
+
 

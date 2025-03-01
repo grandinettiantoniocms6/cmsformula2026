@@ -1,80 +1,150 @@
+<?php
+$website = \App\Models\WebsiteSetting::first();
+$labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
-<!--
+$titleBlocco = json_decode($item->title, true);
+if($titleBlocco){
+    if(!key_exists(\App::getLocale(), $titleBlocco)){
+        $titleBlocco[\App::getLocale()] = "";
+    }
+}else{
+    $titleBlocco[\App::getLocale()] = "";
+}
 
-Per il momento non uso gli style 2 , 3 e 4 in quando su Crafto non riesco a far funzionare il ciclo if con le 10 immagini
+$descriptionBlocco = json_decode($item->description, true);
+if($descriptionBlocco){
+    if(!key_exists(\App::getLocale(), $descriptionBlocco)){
+        $descriptionBlocco[\App::getLocale()] = "";
+    }
+}else{
+    $descriptionBlocco[\App::getLocale()] = "";
+}
 
--->
+?>
 
+@if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
 
-
-    <div class="row space-{{ $item->pb }} wow animate__fadeInUp" data-wow-duration=".3s">
-        <div class="col-lg-12">
-            <div class="section-title">
-                <h2>{{ $title[\App::getLocale()] }}</h2>
-                <p>{!! $description[\App::getLocale()] !!}</p>
+    <div class="portfolio-area py-120">
+        <div class="pa-bg" style="background-color: {{ $item->bgcolor }}; margin-top: 0px"></div>
+        <div class="{{ $item->fullwidth }}">
+            <div class="row">
+                <div class="col-lg-6 mx-auto">
+                    <div class="site-heading text-center">
+                        <span class="site-title-tagline"><i class="far fa-arrow-alt-circle-down"></i> {{ $titleBlocco[\App::getLocale()] }}</span>
+                        <h2 class="site-title text-white">{!! $descriptionBlocco[\App::getLocale()] !!}</h2>
+                    </div>
+                </div>
             </div>
-            @if(trim($button[\App::getLocale()])!="")
-                <a target="{{ $type_href }}" class="button button-border-white mt-20 button mt-30 mb-30" href="{{ $url }}">
-                    <span>{{ $button[\App::getLocale()] }}</span>
-                </a><p></p>
+
             @endif
-        </div>
-    </div>
 
-    <div class="row justify-content-center space-{{ $item->pb }} wow animate__fadeInUp" data-wow-duration=".3s">
-        <div class="col-lg-8">
-            <div class="owl-carousel" id="slider-carosello" data-autoheight="true" data-nav-dots="true" data-items="1" data-md-items="1" data-sm-items="1" data-xs-items="1" data-xx-items="1" data-space="20">
-                @if($value->foto)
-                    <div class="item">
-                        <img src="{{ $value->foto }}" class="img-fluid full-width" alt="" loading="lazy">
-                    </div>
-                @endif
-                @if($value->foto2)
-                    <div class="item">
-                        <img src="{{ $value->foto2 }}" class="img-fluid full-width" alt="" loading="lazy">
-                    </div>
-                @endif
-                @if(@$value->foto3)
-                    <div class="item">
-                        <img src="{{ $value->foto3 }}" class="img-fluid full-width" alt="" loading="lazy">
-                    </div>
-                @endif
-                @if(@$value->foto4)
-                    <div class="item">
-                        <img src="{{ $value->foto4 }}" class="img-fluid full-width" alt="" loading="lazy">
-                    </div>
-                @endif
-                @if(@$value->foto5)
-                    <div class="item">
-                        <img src="{{ $value->foto5 }}" class="img-fluid full-width" alt="" loading="lazy">
-                    </div>
-                @endif
-                @if(@$value->foto6)
-                    <div class="item">
-                        <img src="{{ $value->foto6 }}" class="img-fluid full-width" alt="" loading="lazy">
-                    </div>
-                @endif
-                @if(@$value->foto7)
-                    <div class="item">
-                        <img src="{{ $value->foto7 }}" class="img-fluid full-width" alt="" loading="lazy">
-                    </div>
-                @endif
-                @if(@$value->foto8)
-                    <div class="item">
-                        <img src="{{ $value->foto8 }}" class="img-fluid full-width" alt="" loading="lazy">
-                    </div>
-                @endif
-                @if(@$value->foto9)
-                    <div class="item">
-                        <img src="{{ $value->foto9 }}" class="img-fluid full-width" alt="" loading="lazy">
-                    </div>
-                @endif
-                @if(@$value->foto10)
-                    <div class="item">
-                        <img src="{{ $value->foto10 }}" class="img-fluid full-width" alt="" loading="lazy">
-                    </div>
-                @endif
+            <div class="row popup-gallery">
+                <div class="portfolio-slider owl-carousel">
 
+                    @if($array)
+                        @foreach($array as $value)
+                                <?php
+                                $title = json_decode($value->title, true);
+                                if($title === null){
+                                    $title = [];
+                                }
+
+                                $description = json_decode($value->description, true);
+                                if($description === null){
+                                    $description = [];
+                                }
+
+                                $url_interno = json_decode($value->url_interno, true);
+                                if($url_interno === null){
+                                    $url_interno = [];
+                                }
+
+                                $url_esterno = json_decode($value->url, true);
+                                if($url_esterno === null){
+                                    $url_esterno = [];
+                                }
+
+                                $button = json_decode($value->button, true);
+                                if($button === null){
+                                    $button = [];
+                                }
+
+                                $type_href = $value->type_href;
+
+                                $url = "#";
+                                if(trim($url_interno[\App::getLocale()]) != ""){
+                                    $url = "/{$url_interno[\App::getLocale()]}";
+                                }else{
+                                    if(trim($url_esterno[\App::getLocale()]) != ""){
+                                        $url = $url_esterno[\App::getLocale()];
+                                    }
+                                }
+
+                                if(!key_exists(\App::getLocale(), $description)){
+                                    $description[\App::getLocale()] = "";
+                                }
+
+                                if(!key_exists(\App::getLocale(), $title)){
+                                    $title[\App::getLocale()] = "";
+                                }
+
+                                if(!key_exists(\App::getLocale(), $button)){
+                                    $button[\App::getLocale()] = "";
+                                }
+
+                                if(!key_exists(\App::getLocale(), $url_interno)){
+                                    $url_interno[\App::getLocale()] = "";
+                                }
+
+                                if(!key_exists(\App::getLocale(), $url_esterno)){
+                                    $url_esterno[\App::getLocale()] = "";
+                                }
+
+
+                                // serve per le thumb
+                                $photo = $value->foto;
+
+                                if($photo){
+                                    $basename = basename($photo);
+                                    $temp = explode(".", $basename);
+
+                                    $check = "thumb/blocks_htmlimages/$temp[0]-large.webp";
+                                    if(file_exists($check)){
+                                        $foto = url($check);
+                                    }else{
+                                        $foto = url($photo);
+                                    }
+                                }
+
+                                ?>
+
+                                <!-- ciclo -->
+
+                            <div class="portfolio-item">
+                                <div class="portfolio-img">
+                                    @if(trim($value->foto) != "")
+                                        <img class="img-fluid" src="{{ $foto }}" alt="">
+                                        <a class="popup-img portfolio-link" href="{{ $foto }}"> <i
+                                                class="far fa-plus"></i></a>
+                                    @endif
+                                </div>
+
+                                <div class="portfolio-content">
+                                    <div class="portfolio-info">
+                                        @if($url != "#")
+                                            <h4><a href="{{ $url }}" target="{{ $type_href }}">{{ $title[\App::getLocale()] }}</a></h4>
+                                    </div>
+
+                                    <a href="{{ $url }}" target="{{ $type_href }}" class="portfolio-arrow"><i
+                                            class="fas fa-arrow-right"></i></a>
+                                    @endif
+                                </div>
+                            </div>
+
+                        @endforeach
+                    @endif
+
+                </div>
             </div>
         </div>
     </div>
