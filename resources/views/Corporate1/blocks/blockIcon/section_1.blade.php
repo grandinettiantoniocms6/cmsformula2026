@@ -121,8 +121,8 @@ if($descriptionBlocco){
                                     <div class="col-md-{{ $item->col }}" >
                                         <div class="contact-info" style="background-color: {{ $value->bgcolor }}!important;">
                                             @if($value->icon)
-                                                <div>
-                                                    {!! $value->icon !!}
+                                                <div style="color: {{ $value->color_icon }}!important;">
+                                                    <span style="color: {{ $item->color_icon }}!important;"> {!! $value->icon !!}</span>
                                                 </div>
                                             @else
                                                 @if(trim($value->foto) != "")
