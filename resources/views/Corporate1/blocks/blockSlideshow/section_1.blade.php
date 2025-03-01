@@ -126,9 +126,9 @@ $agent = new \Jenssegers\Agent\Agent();
                         }
                         ?>
 
-                        <!-- start slider item -->
-                        <div class="hero-single layer" style="background-image: url({{ $foto }}); height: {!! $slide_height !!}; ">
 
+                        <!-- start slider item -->
+                        <div class="hero-single" style="background-image: url({{ $foto }}); height: {!! $slide_height !!}; ">
                             <div class="container">
                                 <div class="row align-items-center">
                                     <div class="col-md-12 col-lg-6">
