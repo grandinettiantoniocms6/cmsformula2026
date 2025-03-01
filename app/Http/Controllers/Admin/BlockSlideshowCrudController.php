@@ -135,9 +135,29 @@ class BlockSlideshowCrudController extends CrudController
                             ]);
 
 
-
-
                     } // fine perso input Corporate1
+
+////////// SETTAGGI VISIBILE SU TUTTI I TEMPLATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'slide_height',
+                'label' => 'Altezza immagini slideshow su PC in pixel (es: 350px)',
+                'type'  => 'text',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-6'
+                ],
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'slide_height_mobile',
+                'label' => 'Altezza immagini slideshow su Mobile in pixel (es: 350px)',
+                'type'  => 'text',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-6'
+                ],
+            ]);
+
 
 
 
@@ -357,8 +377,6 @@ class BlockSlideshowCrudController extends CrudController
                             ]);
 
                         }
-
-
 
                     } // FINE CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP
 
