@@ -126,13 +126,6 @@ $agent = new \Jenssegers\Agent\Agent();
                         }
                         ?>
 
-                        <!-- Foto slider Mobile -->
-                        @if($agent->isMobile() || $agent->isTablet())
-                            @if($value->foto_mobile)
-                                <div class="hero-single layer" style="background-image: url({{ $value->foto_mobile }}); height: {!! $slide_height !!}; ">
-                            @endif
-                        @endif
-
                         <!-- start slider item -->
                         <div class="hero-single layer" style="background-image: url({{ $foto }}); height: {!! $slide_height !!}; ">
 
