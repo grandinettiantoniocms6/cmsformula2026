@@ -28,10 +28,10 @@ if($descriptionBlocco){
     <div class="pa-bg" style="background-color: {{ $item->bgcolor }}; margin-top: 0px"></div>
     <div class="{{ $item->fullwidth }}">
         <div class="row">
-            <div class="col-lg-6 mx-auto">
+            <div class="col-lg-12 mx-auto">
                 <div class="site-heading text-center">
                     <span class="site-title-tagline"><i class="far fa-arrow-alt-circle-down"></i> {{ $titleBlocco[\App::getLocale()] }}</span>
-                    <h2 class="site-title text-white">{!! $descriptionBlocco[\App::getLocale()] !!}</h2>
+                    <h3 class="text-white">{!! $descriptionBlocco[\App::getLocale()] !!}</h3>
                 </div>
             </div>
         </div>
