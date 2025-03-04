@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PluginProductsCategoriesRequest;
 use App\Models\AdminPlugin;
+use App\Models\Page;
 use App\Models\PluginProductsBrands;
 use App\Models\PluginProductsCategories;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -69,7 +70,7 @@ class PluginProductsCategoriesCrudController extends CrudController
         if($adminPlugin->version == 3){
             $addColumn =  [
                 'name'  => 'is_purchasable',
-                'label' => 'Acquistabile',
+                'label' => 'Acq.',
                 'type'  => 'check',
             ];
         }
@@ -119,6 +120,24 @@ class PluginProductsCategoriesCrudController extends CrudController
                 'label' => 'Visibile', // Table column heading
                 'type'  => 'model_function',
                 'function_name' => 'getIsActive', // the method in your Model
+                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
+                'limit' => 10000, // Limit the number of characters shown
+            ],
+            [
+                // run a function on the CRUD model and show its return value
+                'name'  => 'is_in_list_shop_page',
+                'label' => env("PLUGIN_PRODUCTS_URL_IT"), // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'getInList', // the method in your Model
+                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
+                'limit' => 10000, // Limit the number of characters shown
+            ],
+            [
+                // run a function on the CRUD model and show its return value
+                'name'  => 'list_pages',
+                'label' => 'Pagine', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'getListPages', // the method in your Model
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
                 'limit' => 10000, // Limit the number of characters shown
             ],
@@ -201,6 +220,13 @@ class PluginProductsCategoriesCrudController extends CrudController
             'default' => 1
         ]);
 
+        $this->crud->addField([   // Checkbox
+            'name'  => 'is_in_list_shop_page',
+            'label' => 'Rendere questa categoria visibile nel lista dei prodotti?',
+            'type'  => 'switch',
+            'default' => 1
+        ]);
+
         $adminPlugin = AdminPlugin::where("name", "pluginProducts")->first();
         if($adminPlugin->version == 3){
             $this->crud->addField([   // Checkbox
@@ -215,12 +241,37 @@ class PluginProductsCategoriesCrudController extends CrudController
         $trans = new AdminLanguageController();
         $trans->fields_lang("pluginProductsCategories", $this->crud);
 
+        $slug_shop_formula = config('config.slug_shop_formula');
 
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
+        $pages = Page::where("is_active", 1)
+            ->orderBy("name", "asc")
+            ->whereNotIn("name", $slug_shop_formula)
+            ->get()->pluck("name", "slug")->toArray();
+
+        $this->crud->addField([   // repeatable
+            'name'  => 'list_pages',
+            'label' => 'Lista delle pagine che mostrano questa categoria nella lista dei prodotti '.env("PLUGIN_PRODUCTS_URL_IT"),
+            'type'  => 'repeatable',
+            'fields' => [
+                [   // select_from_array
+                    'name' => 'page_id',
+                    'label' => "Pagina",
+                    'type' => 'select_from_array',
+                    'options' => $pages,
+                    'allows_null' => false,
+                    'default' => 'text',
+                    'wrapper' => ['class' => 'form-group col-md-4'],
+                ],
+            ],
+            'default' => "[]",
+            // optional
+            'new_item_label'  => 'Nuova',
+            'init_rows' => 0, // number of empty rows to be initialized, by default 1
+            'min_rows' => 1, // minimum rows allowed, when reached the "delete" buttons will be hidden
+            'max_rows' => 10, // maximum rows allowed, when reached the "new item" button will be hidden
+            'tab' => 'Pagine che contengono questa categoria'
+        ]);
+
     }
 
     /**
@@ -289,6 +340,26 @@ class PluginProductsCategoriesCrudController extends CrudController
             return redirect()->back();
         }
         switch ($button){
+            case "no_in_list":
+                PluginProductsCategories::withTrashed()->whereIn("id", $ids)->update([
+                    "is_in_list_shop_page" => 0
+                ]);
+                break;
+            case "in_list":
+                PluginProductsCategories::withTrashed()->whereIn("id", $ids)->update([
+                    "is_in_list_shop_page" => 1
+                ]);
+                break;
+            case "purchable":
+                PluginProductsCategories::withTrashed()->whereIn("id", $ids)->update([
+                    "is_purchasable" => 1
+                ]);
+                break;
+            case "unpurchable":
+                PluginProductsCategories::withTrashed()->whereIn("id", $ids)->update([
+                    "is_purchasable" => 0
+                ]);
+                break;
             case "delete":
                 PluginProductsCategories::withTrashed()->whereIn("id", $ids)->update([
                     "deleted_at" => Carbon::now()->toDateTimeString()

@@ -44,6 +44,12 @@
                               </a>
 
                               <div class="dropdown-menu" aria-labelledby="esporta">
+                                  <button type="submit" class="dropdown-item" name="button" value="purchable" form="formSave">Acquistabile</button>
+                                  <button type="submit" class="dropdown-item" name="button" value="unpurchable" form="formSave">Non acquistabile</button>
+
+                                  <button type="submit" class="dropdown-item" name="button" value="in_list" form="formSave">In Lista Prodotti</button>
+                                  <button type="submit" class="dropdown-item" name="button" value="no_in_list" form="formSave">Non in Lista Prodotti</button>
+
                                   <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
                               </div>
                           </div>

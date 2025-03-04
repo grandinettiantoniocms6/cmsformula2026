@@ -503,32 +503,31 @@ if($url_plugin_product) {
     Route::get("$url_plugin_product/{category}/{slug}", ['as' => "pluginProducts.detail.it", 'uses' => 'PluginProductsController@pluginProductsDetail', 'middleware' => ['plugin_products']]);
 }
 
-if((env("PROJECT_NAME") == "Manega") && strpos( \URL::current(),"luxury")){
-    $url_plugin_product = "luxury";
-    Route::get("$url_plugin_product", ['as' => "pluginProducts.it", 'uses'=>'PluginProductsController@pluginProducts', 'middleware' => ['plugin_products']]);
-    Route::any("$url_plugin_product/404", ['as' => "pluginProducts.404.it", 'uses' => 'PluginProductsController@not_found', 'middleware' => ['plugin_products']]);
-    Route::any("$url_plugin_product/search", ['as' => "pluginProducts.search.it", 'uses' => 'PluginProductsController@search', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/search_results", ['as' => "pluginProducts.search_results.it", 'uses' => 'PluginProductsController@search_results', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/productPdf/{id}", ['as' => "pluginProducts.pdf.it", 'uses'=>'PluginProductsController@createPdf', 'middleware' => ['plugin_products']]);
-    Route::post("$url_plugin_product/contact_form/send", ['as'=> "pluginProducts.contact_form.send.it", 'uses'=>'PluginProductsController@contact_form_send', 'middleware' => ['plugin_products', ProtectAgainstSpam::class]]);
-    Route::get("$url_plugin_product/tag/{slug}", ['as' => "pluginProductsTags.it", 'uses'=>'PluginProductsController@pluginProductsTags', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/brand/{slug}", ['as' => "pluginProductsBrands.it", 'uses'=>'PluginProductsController@pluginProductsBrands', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/choose/{slug}/{id}", ['as' => "pluginProducts.choose.it", 'uses'=>'PluginProductsController@chooseDetail', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/{slug?}", ['as' => "pluginProducts.it", 'uses'=>'PluginProductsController@pluginProducts', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/{category}/{slug}", ['as' => "pluginProducts.detail.it", 'uses'=>'PluginProductsController@pluginProductsDetail', 'middleware' => ['plugin_products']]);
+if(env('PLUGIN_PRODUCTS_SPECIAL_URL') != ""){
+    $adminLangs = AdminLanguage::where("is_active", 1)->where("is_frontend", 1)->get();
+    $special_urls = explode(",", env('PLUGIN_PRODUCTS_SPECIAL_URL'));
 
-    $url_plugin_product = "luxury-en";
-    Route::get("$url_plugin_product", ['as' => "pluginProducts.en", 'uses'=>'PluginProductsController@pluginProducts', 'middleware' => ['plugin_products']]);
-    Route::any("$url_plugin_product/404", ['as' => "pluginProducts.404.en", 'uses' => 'PluginProductsController@not_found', 'middleware' => ['plugin_products']]);
-    Route::any("$url_plugin_product/search", ['as' => "pluginProducts.search.en", 'uses' => 'PluginProductsController@search', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/search_results", ['as' => "pluginProducts.search_results.en", 'uses' => 'PluginProductsController@search_results', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/productPdf/{id}", ['as' => "pluginProducts.pdf.en", 'uses'=>'PluginProductsController@createPdf', 'middleware' => ['plugin_products']]);
-    Route::post("$url_plugin_product/contact_form/send", ['as'=> "pluginProducts.contact_form.send.en", 'uses'=>'PluginProductsController@contact_form_send', 'middleware' => ['plugin_products', ProtectAgainstSpam::class]]);
-    Route::get("$url_plugin_product/tag/{slug}", ['as' => "pluginProductsTags.en", 'uses'=>'PluginProductsController@pluginProductsTags', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/brand/{slug}", ['as' => "pluginProductsBrands.en", 'uses'=>'PluginProductsController@pluginProductsBrands', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/choose/{slug}/{id}", ['as' => "pluginProducts.choose.en", 'uses'=>'PluginProductsController@chooseDetail', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/{slug?}", ['as' => "pluginProducts.it", 'uses'=>'PluginProductsController@pluginProducts', 'middleware' => ['plugin_products']]);
-    Route::get("$url_plugin_product/{category}/{slug}", ['as' => "pluginProducts.detail.en", 'uses'=>'PluginProductsController@pluginProductsDetail', 'middleware' => ['plugin_products']]);
+    if($special_urls){
+        foreach ($special_urls as $special){
+            if(is_numeric(strpos(\Request::url(), "/$special"))){
+                $url_plugin_product = $special;
+                break;
+            }
+
+        }
+
+        Route::get("$url_plugin_product", ['as' => "pluginProducts.it", 'uses'=>'PluginProductsController@pluginProducts', 'middleware' => ['plugin_products']]);
+        Route::any("$url_plugin_product/404", ['as' => "pluginProducts.404.it", 'uses' => 'PluginProductsController@not_found', 'middleware' => ['plugin_products']]);
+        Route::any("$url_plugin_product/search", ['as' => "pluginProducts.search.it", 'uses' => 'PluginProductsController@search', 'middleware' => ['plugin_products']]);
+        Route::get("$url_plugin_product/search_results", ['as' => "pluginProducts.search_results.it", 'uses' => 'PluginProductsController@search_results', 'middleware' => ['plugin_products']]);
+        Route::get("$url_plugin_product/productPdf/{id}", ['as' => "pluginProducts.pdf.it", 'uses'=>'PluginProductsController@createPdf', 'middleware' => ['plugin_products']]);
+        Route::post("$url_plugin_product/contact_form/send", ['as'=> "pluginProducts.contact_form.send.it", 'uses'=>'PluginProductsController@contact_form_send', 'middleware' => ['plugin_products', ProtectAgainstSpam::class]]);
+        Route::get("$url_plugin_product/tag/{slug}", ['as' => "pluginProductsTags.it", 'uses'=>'PluginProductsController@pluginProductsTags', 'middleware' => ['plugin_products']]);
+        Route::get("$url_plugin_product/brand/{slug}", ['as' => "pluginProductsBrands.it", 'uses'=>'PluginProductsController@pluginProductsBrands', 'middleware' => ['plugin_products']]);
+        Route::get("$url_plugin_product/choose/{slug}/{id}", ['as' => "pluginProducts.choose.it", 'uses'=>'PluginProductsController@chooseDetail', 'middleware' => ['plugin_products']]);
+        Route::get("$url_plugin_product/{slug?}", ['as' => "pluginProducts.it", 'uses'=>'PluginProductsController@pluginProducts', 'middleware' => ['plugin_products']]);
+        Route::get("$url_plugin_product/{category}/{slug}", ['as' => "pluginProducts.detail.it", 'uses'=>'PluginProductsController@pluginProductsDetail', 'middleware' => ['plugin_products']]);
+    }
 }
 
 

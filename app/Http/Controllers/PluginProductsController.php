@@ -58,6 +58,7 @@ class PluginProductsController extends Controller
 
         $currenturl = url()->full();
         $currentSlug = basename($currenturl);
+
         $adminLangs = AdminLanguage::where("is_active", 1)->where("is_frontend", 1)->get();
         if($adminLangs){
             foreach ($adminLangs as $item_lang){
@@ -68,6 +69,17 @@ class PluginProductsController extends Controller
             }
         }
 
+        $special_urls = [];
+        if(env('PLUGIN_PRODUCTS_SPECIAL_URL') != ""){
+            $special_urls = explode(",", env('PLUGIN_PRODUCTS_SPECIAL_URL'));
+            if($special_urls){
+                foreach ($special_urls as $special){
+                    foreach ($adminLangs as $item_lang){
+                        $special_urls[] = "$special-{$item_lang->name}";
+                    }
+                }
+            }
+        }
 
         $lang = \App::getLocale();
         $lang_ = strtoupper($lang);
@@ -85,17 +97,18 @@ class PluginProductsController extends Controller
             }
         }
 
-
-        if(env("PROJECT_NAME") == "Manega"){
-           if(strpos( \URL::current(),"luxury")){
-               if(!$slug){
-                   $slug = "luxury";
-                   if(\App::getLocale() != "it"){
-                       $slug = "luxury-".\App::getLocale();
-                   }
-
-               }
-           }
+        if($special_urls){
+            foreach ($special_urls as $special){
+                if(strpos( \URL::current(),$special)){
+                    if(!$slug){
+                        $slug = $special;
+                        if(\App::getLocale() != "it"){
+                            $slug = "$special-".\App::getLocale();
+                        }
+                    }
+                    break;
+                }
+            }
         }
 
         $page = Page::whereRaw("slug like '%$slug_prodotti%'")->where("is_active", 1)->first();
@@ -106,8 +119,6 @@ class PluginProductsController extends Controller
                 return response()->json(['error' => 'page']);
             }
         }
-
-
 
         $website = WebsiteSetting::first();
 
@@ -122,8 +133,6 @@ class PluginProductsController extends Controller
         }
 
         $plugin = PluginProductsSettings::first();
-
-
         $select_order_by = "$plugin->order_field|$plugin->order_type";
         $agent = new \Jenssegers\Agent\Agent();
         if($agent->isMobile() || $agent->isTablet()){
@@ -158,30 +167,6 @@ class PluginProductsController extends Controller
         $v_padri = [];
         $sql_padri = "1=1";
 
-
-        /*if($request->has('attribute')){
-            //prendo tutti i prodotti con questo attributo
-            $p_ids = ShopAttributesProducts::where("attribute_id", $request->get('attribute'))->where("option_id", $request->get('option'))->get()
-                ->pluck("product_id")->toArray();
-            //poichè sono tutti varianti devo risalire a prendere id del padre
-            if(count($p_ids)){
-                 foreach ($p_ids as $pid){
-                     $temp_prod = PluginProducts::find($pid);
-                     if($temp_prod){
-                         $temp_padre = PluginProducts::where("is_variant", 0)->where("group_id", $temp_prod->group_id)->first();
-                         if($temp_padre){
-                             $v_padri[] = $temp_padre->id;
-                         }
-                     }
-                 }
-            }
-
-            if(count($v_padri)){
-                $v_padri = array_unique($v_padri);
-                $sql_padri = "plugins_products.id IN (".implode(",", $v_padri).")";
-            }
-        }*/
-
         if($request->has('options_check')){
             $options_check = explode(",", $request->get('options_check'));
 
@@ -205,31 +190,12 @@ class PluginProductsController extends Controller
                     $v_padri[] = $idt;
                 }
             }
-            /*
-            //prendo tutti i prodotti con questo attributo
-            $p_ids = ShopAttributesProducts::whereIn("option_id", [$request->get('options_check')])->get()
-                ->pluck("product_id")->toArray();
-
-            //poichè sono tutti varianti devo risalire a prendere id del padre
-            if(count($p_ids)){
-                foreach ($p_ids as $pid){
-                    $temp_prod = PluginProducts::find($pid);
-                    if($temp_prod){
-                        $temp_padre = PluginProducts::where("is_variant", 0)->where("group_id", $temp_prod->group_id)->first();
-                        if($temp_padre){
-                            $v_padri[] = $temp_padre->id;
-                        }
-                    }
-                }
-            }
-            */
 
             if(count($v_padri)){
                 $v_padri = array_unique($v_padri);
                 $sql_padri = "plugins_products.id IN (".implode(",", $v_padri).")";
             }
         }
-
 
 
         $sql_brands = "";
@@ -281,20 +247,14 @@ class PluginProductsController extends Controller
             $sqlCondition = "AND qty > 0";
         }
 
-        /*$products_processed_total = PluginProducts::selectRaw("plugins_products.*")
-            //->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
-            //->join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-            //->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-            ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sqlCondition $sql_search")
-            ->where("plugins_products.is_active", 1)
-            ->groupBy("plugins_products.id")
-            ->get()->pluck("id")->toArray();*/
-
         $products_processed_total = null;
 
+        $sql_categories = "1=1";
         $category = null;
         if($slug){
-            $category = PluginProductsCategories::whereRaw("slug LIKE '%\"$lang\":\"$slug\"%'")->first();
+            $category = PluginProductsCategories::where("is_active", 1)
+                ->whereRaw("slug LIKE '%\"$lang\":\"$slug\"%'")
+                ->first();
             if(!$category){
                 if($ajax_mode == 0){
                     return redirect()->to("/");
@@ -306,7 +266,7 @@ class PluginProductsController extends Controller
             $v_cat = [];
             $v_cat[] = $category->id;
 
-            $figli = PluginProductsCategories::where("parent_id", $category->id)->get();
+            $figli = PluginProductsCategories::where("is_active", 1)->where("parent_id", $category->id)->get();
             if($figli){
                 if($figli){
                     foreach($figli as $figlio){
@@ -315,175 +275,76 @@ class PluginProductsController extends Controller
                 }
             }
 
-            /*$products = PluginProducts::selectRaw("plugins_products.*")
-                //->join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-                //->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-                ->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
-                ->whereIn("plugins_products_categories_products.plugin_product_category_id", $v_cat)
-                ->where("is_variant", 0)
-                ->where("plugins_products.is_active", 1)
-                ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sql_search")
-                ->orderBy("is_evidenza", "DESC")
-                //->orderBy("lft", "asc")
-                ->orderBy("plugins_products.$field_order_by", $field_order_type)
-                ->groupBy("plugins_products.id")
-                ->paginate($select_show_number);*/
-
-            $sql_categories = "1=1";
             if($v_cat){
                 foreach ($v_cat as $item_cat_id){
                    $v_sql_categories[] = "categories LIKE '%,$item_cat_id,%'";
                 }
                 $sql_categories = "(".implode(" OR ", $v_sql_categories).")";
             }
-
-            $products = PluginProducts::selectRaw("plugins_products.*")
-                ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%'")
-                ->where("plugins_products.is_variant", 0)
-                ->where("plugins_products.is_active", 1)
-                ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sqlCondition $sql_search")
-                ->orderBy("is_evidenza", "DESC")
-                ->orderBy("plugins_products.$field_order_by", $field_order_type)
-                ->groupBy("plugins_products.id")
-                ->paginate($select_show_number);
-
-            $products_processed = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.attributes, plugins_products_search.options as search_options, plugins_products_search.price as search_price, plugins_products_search.brands as search_brands, plugins_products_search.tags as search_tags")
-                ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%'")
-                ->where("plugins_products.is_active", 1)
-                ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sqlCondition $sql_search")
-                ->orderBy("is_evidenza", "DESC")
-                ->orderBy("plugins_products.$field_order_by", $field_order_type)
-                ->groupBy("plugins_products.id")
-                ->get();
-
-            /*$products_processed = PluginProducts::selectRaw("plugins_products.*")
-                    ->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
-                    //->join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-                    //->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-                    ->whereIn("plugins_products_categories_products.plugin_product_category_id", $v_cat)
-                    ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sqlCondition $sql_search")
-                    ->where("plugins_products.is_active", 1)
-                    ->groupBy("plugins_products.id")
-                    ->get();*/
-
-        }else{
-
-            if(env("PROJECT_NAME") == "Manega" && $slug != "luxury"){
-                //prendo tutti i prodotti non presenti nella categoria luxury e figli
-                $v_exclude_cat = [];
-
-                $cat_lux = PluginProductsCategories::where("is_purchasable", 0)->where("parent_id", null)->get();
-                if($cat_lux){
-                    foreach ($cat_lux as $cl){
-                        $v_exclude_cat = $cl->get_tree_categories($cl->id);
-                    }
-                }
-
-                $all_products_ok = PluginProductsCategoriesProducts::whereNotIn("plugin_product_category_id", $v_exclude_cat)
-                    ->get()
-                    ->pluck("plugin_product_product_id")
-                    ->toArray();
-
-                if(count($all_products_ok)){
-                    $all_products_ok = array_unique($all_products_ok);
-
-                    $products = PluginProducts::selectRaw("plugins_products.*")
-                        ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                        ->whereRaw("langs LIKE '%,$lang,%'")
-                        //->join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-                        //->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-                        ->where("plugins_products.is_variant", 0)
-                        ->where("plugins_products.is_active", 1)
-                        ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sql_search")
-                        ->whereIn("plugins_products.id", $all_products_ok)
-                        ->orderBy("is_evidenza", "DESC")
-                        ->orderBy("lft", "asc")
-                        ->groupBy("plugins_products.id")
-                        ->orderBy("plugins_products.$field_order_by", $field_order_type)
-                        ->paginate($select_show_number);
-
-                    $products_processed = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.attributes, plugins_products_search.options as search_options, plugins_products_search.price as search_price, plugins_products_search.brands as search_brands, plugins_products_search.tags as search_tags")
-                        //join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-                        ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                        ->whereRaw("langs LIKE '%,$lang,%'")
-
-                        //->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-                        ->where("plugins_products.is_active", 1)
-                        ->where("qty", ">", 0)
-                        ->groupBy("plugins_products.id")
-                        ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sql_search")
-                        ->whereIn("plugins_products.id", $all_products_ok)
-                        ->get();
-
-                }else{
-                    $products = PluginProducts::selectRaw("plugins_products.*")
-                        //->join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-                        //->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-                        ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                        ->whereRaw("langs LIKE '%,$lang,%'")
-                        ->where("plugins_products.is_active", 1)
-                        ->where("plugins_products.is_variant", 0)
-                        ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sql_search")
-                        ->orderBy("is_evidenza", "DESC")
-                        ->orderBy("lft", "asc")
-                        ->orderBy("plugins_products.$field_order_by", $field_order_type)
-                        ->groupBy("plugins_products.id")
-                        ->paginate($select_show_number);
-
-                    $products_processed = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.attributes, plugins_products_search.options as search_options, plugins_products_search.price as search_price, plugins_products_search.brands as search_brands, plugins_products_search.tags as search_tags")
-                        ->where("plugins_products.is_active", 1)
-                        ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                        ->whereRaw("langs LIKE '%,$lang,%'")
-                        ->where("qty", ">", 0)
-                        ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sql_search")
-                        ->get();
-                }
-
-
-
-            }else{
-                $products = PluginProducts::selectRaw("plugins_products.*")
-                    //->join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-                    //->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-                    ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                    ->whereRaw("langs LIKE '%,$lang,%'")
-                    ->where("plugins_products.is_active", 1)
-                    ->where("plugins_products.is_variant", 0)
-                    ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sql_search")
-                    ->orderBy("is_evidenza", "DESC")
-                    ->orderBy("lft", "asc")
-                    ->orderBy("plugins_products.$field_order_by", $field_order_type)
-                    ->groupBy("plugins_products.id")
-                    ->paginate($select_show_number);
-
-
-                if($adminPlugin->version == 3){
-                    $products_processed = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.attributes, plugins_products_search.options as search_options, plugins_products_search.price as search_price, plugins_products_search.brands as search_brands, plugins_products_search.tags as search_tags")
-                        ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                        ->whereRaw("langs LIKE '%,$lang,%'")
-                        //->join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-                        //->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-                        ->where("plugins_products.is_active", 1)
-                        ->where("qty", ">", 0)
-                        ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sql_search")
-                        ->groupBy("plugins_products.id")
-                        ->get();
-                }else{
-                    $products_processed = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.attributes, plugins_products_search.options as search_options, plugins_products_search.price as search_price, plugins_products_search.brands as search_brands, plugins_products_search.tags as search_tags")
-                        ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                        ->whereRaw("langs LIKE '%,$lang,%'")
-                        //->join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-                        //->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-                        ->where("plugins_products.is_active", 1)
-                        ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sql_search")
-                        ->groupBy("plugins_products.id")
-                        ->get();
-                }
-            }
         }
 
+        $products = PluginProducts::selectRaw("plugins_products.*")
+            ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
+            ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%'")
+            ->where("plugins_products.is_variant", 0)
+            ->where("plugins_products.is_active", 1)
+            ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sqlCondition $sql_search")
+            ->orderBy("is_evidenza", "DESC")
+            ->orderBy("plugins_products.$field_order_by", $field_order_type)
+            ->groupBy("plugins_products.id")
+            ->paginate($select_show_number);
+
+        $products_processed = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.attributes, plugins_products_search.options as search_options, plugins_products_search.price as search_price, plugins_products_search.brands as search_brands, plugins_products_search.tags as search_tags")
+            ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
+            ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%'")
+            ->where("plugins_products.is_active", 1)
+            ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sqlCondition $sql_search")
+            ->orderBy("is_evidenza", "DESC")
+            ->orderBy("plugins_products.$field_order_by", $field_order_type)
+            ->groupBy("plugins_products.id")
+            ->get();
+
+        if($slug){
+            if(in_array($slug, $special_urls)){
+                $categories = PluginProductsCategories::where("is_active", 1)
+                    ->where("parent_id", null)
+                    ->where("is_in_list_shop_page", 0)
+                    ->whereRaw("list_pages LIKE '%$slug%'")
+                    ->where("is_purchasable", 1)
+                    ->orderBy("lft", "asc")
+                    ->get();
+            }else{
+                if(is_numeric(strpos(\Request::url(), "/$slug_prodotti/"))){
+                    $categories = PluginProductsCategories::where("is_active", 1)
+                        ->where("parent_id", null)
+                        ->where("is_purchasable", 1)
+                        ->where("is_in_list_shop_page", 1)
+                        ->orderBy("lft", "asc")
+                        ->get();
+                }else{
+                    foreach ($special_urls as $special){
+                        if(is_numeric(strpos(\Request::url(), "/$special/"))){
+                            $categories = PluginProductsCategories::where("is_active", 1)
+                                ->where("parent_id", null)
+                                ->where("is_in_list_shop_page", 0)
+                                ->whereRaw("list_pages LIKE '%$special%'")
+                                ->where("is_purchasable", 1)
+                                ->orderBy("lft", "asc")
+                                ->get();
+
+                            break;
+                        }
+                    }
+                }
+            }
+        }else{
+            $categories = PluginProductsCategories::where("is_active", 1)
+                ->where("parent_id", null)
+                ->where("is_purchasable", 1)
+                ->where("is_in_list_shop_page", 1)
+                ->orderBy("lft", "asc")
+                ->get();
+        }
 
         $variable = $this->get_all_products_sidebar($products_processed);
 
@@ -492,56 +353,7 @@ class PluginProductsController extends Controller
         $attributes_v = $variable['attributes_v'];
         $prices = $variable['prices'];
 
-        $now = Carbon::now();
-
-
-        /*if($products){
-            foreach ($products as $k=>$product){
-                $product->category = $product->category();
-                $product->cover = $product->getCover();
-
-                if($request->has('price_max')){
-                    if(key_exists($product->id, $prices)){
-                        if($prices[$product->id] > $request->get('price_max')){
-                            unset($products[$k]);
-                        }
-                    }
-                }
-
-                $product->in_promo = 0;
-                if($product->data_promo_end){
-                    $data_end = Carbon::createFromFormat("Y-m-d", $product->data_promo_end);
-                    if($now->lte($data_end)){
-                        $product->in_promo = 1;
-                    }
-                }else{
-                    if($product->promo_price < $product->price && ($product->promo_price != "" && $product->promo_price != "")){
-                        $product->in_promo = 1;
-                    }
-                }
-            }
-        }*/
-
-
-        $categories = null;
-
-        //$productsAllVet_Temp = $products_processed->pluck("id")->toArray();
-
         if($ajax_mode == 0){
-            if(env("PROJECT_NAME") == "Manega" && strpos( \URL::current(),"luxury")){
-                $categories = PluginProductsCategories::where("is_active", 1)
-                    ->where("parent_id", null)
-                    ->where("is_purchasable", 0)
-                    ->orderBy("lft", "asc")
-                    ->get();
-            }else{
-                $categories = PluginProductsCategories::where("is_active", 1)
-                    ->where("parent_id", null)
-                    ->where("is_purchasable", 1)
-                    ->orderBy("lft", "asc")
-                    ->get();
-            }
-
             $categories = $this->get_categories_sidebar($categories, $products_processed_total);
         }
 
