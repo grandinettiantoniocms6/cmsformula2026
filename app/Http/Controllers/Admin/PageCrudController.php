@@ -35,6 +35,7 @@ class PageCrudController extends CrudController
 
         // whatever you want
 
+
         $old = Page::find($id);
         // if you still want to call the old clone method
         $this->traitClone($id);
