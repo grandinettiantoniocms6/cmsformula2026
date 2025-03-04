@@ -3572,4 +3572,23 @@ class PluginProductsCrudController extends CrudController
 
         return redirect()->back();
     }
+
+    public function saveReorder()
+    {
+        $this->crud->hasAccessOrFail('reorder');
+
+        $all_entries = \Request::input('tree');
+
+        if(!is_array($all_entries)){
+            $all_entries = json_decode($all_entries, true);
+        }
+
+        if (count($all_entries)) {
+            $count = $this->crud->updateTreeOrder($all_entries);
+        } else {
+            return false;
+        }
+
+        return 'success for '.$count.' items';
+    }
 }
