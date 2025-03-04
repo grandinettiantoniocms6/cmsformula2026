@@ -34,13 +34,6 @@ $p_family = [];
     @endif
 @endif
 
-<?php
-function hex2rgb( $color ) {
-    list($r, $g, $b) = sscanf($color, "#%02x%02x%02x");
-    $output = "$r, $g, $b";
-    return $output;
-}
-?>
 
 <style>
     :root {
