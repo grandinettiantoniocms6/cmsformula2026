@@ -452,6 +452,41 @@ body .swal-modal .swal-icon--info:before {
   border-color: #467fd0;
 }
 
+.row.gutter-1 {
+  margin-right: -2.5px;
+  margin-left: -2.5px;
+}
+
+.row.gutter-1 > [class*=col] {
+  padding-right: 2.5px;
+  padding-left: 2.5px;
+}
+
+.row.gutter-2 {
+  margin-right: -5px;
+  margin-left: -5px;
+}
+
+.row.gutter-2 > [class*=col] {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.row.gutter-3 {
+  margin-right: -10px;
+  margin-left: -10px;
+}
+
+.row.gutter-3 > [class*=col] {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.table-md th,
+.table-md td {
+  padding: 0.5rem 0.75rem;
+}
+
 /** Responsive */
 
 @media (max-width: 1199px) {

@@ -341,6 +341,37 @@ body .swal-modal {
     border-color: #467fd0;
 }
 
+.row {
+    &.gutter-1 {
+        margin-right: -2.5px;
+        margin-left: -2.5px;
+        & > [class*='col'] {
+            padding-right: 2.5px;
+            padding-left: 2.5px;
+        }
+    }
+    &.gutter-2 {
+        margin-right: -5px;
+        margin-left: -5px;
+        & > [class*='col'] {
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+    }
+    &.gutter-3 {
+        margin-right: -10px;
+        margin-left: -10px;
+        & > [class*='col'] {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+    }
+}
+
+.table-md th, .table-md td {
+    padding: 0.5rem 0.75rem;
+}
+
 /** Responsive */
 @include respond-below(lg) {
     #calendar {

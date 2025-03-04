@@ -21,7 +21,7 @@
 
     <!-- Add by Antonio -->
     @if(env('NASCONDI_FRONTEND') == 0)
-    <div class="row mt-4">
+    <div class="row gutter-2 mt-4">
         @if(backpack_user()->roles[0]->id != 4)
             <div class="col-sm-4 col-xl-2">
                 <div class="card text-white">
@@ -103,7 +103,7 @@
     </div>
     <!-- / Antonio -->
 
-    <div class="row">
+    <div class="row gutter-2">
 
         <div class="col-sm-4">
             <div class="card">
@@ -115,11 +115,11 @@
         </div>
 
         <div class="col-sm-8">
-            <div class="row">
+            <div class="row gutter-2">
 
                 <div class="col-sm-6">
 
-                    <div class="card text-white bg-dark">
+                    <div class="card text-white bg-dark mb-2">
                         <div class="card-body">
                             <?php
                             function formatSize($bytes){
@@ -176,7 +176,7 @@
                         ->count();
                     ?>
                     @if($adminPlugin)
-                        <div class="card text-white bg-info">
+                        <div class="card text-white bg-info mb-2">
                             @if($adminPlugin->version == 3)
                                 <div class="card-body">
                                     <?php
@@ -207,7 +207,7 @@
                         </div>
 
                         @if($adminPlugin->version == 3)
-                            <div class="card text-white bg-success">
+                            <div class="card text-white bg-success mb-2">
                                 <div class="card-body">
                                     <?php
                                     $order_count = \App\Models\Order::count();
@@ -219,7 +219,7 @@
                                 </div>
                             </div>
 
-                            <div class="card text-white bg-success">
+                            <div class="card text-white bg-success mb-2">
                                 <div class="card-body">
                                     <?php
                                     $order_sum = \App\Models\Order::sum("total_tax");
@@ -235,7 +235,7 @@
 
 
                     @if($adminPluginBooking)
-                        <div class="card text-white bg-success">
+                        <div class="card text-white bg-success mb-2">
                             <div class="card-body">
                                 <?php
                                 $year = \Carbon\Carbon::now()->format("Y");
@@ -258,7 +258,7 @@
                             </div>
                         </div>
 
-                        <div class="card text-white bg-success">
+                        <div class="card text-white bg-success mb-2">
                             <div class="card-body">
                                     <?php
                                     $year = \Carbon\Carbon::now()->format("Y");
@@ -286,7 +286,7 @@
 
                 <!-- /.col-->
                 <div class="col-sm-6">
-                    <div class="card text-white bg-dark">
+                    <div class="card text-white bg-dark mb-2">
                         <div class="card-body">
                             <?php
                             $page_count = \App\Models\Page::count();
@@ -302,7 +302,7 @@
                     </div>
 
                     @if($adminPlugin)
-                        <div class="card text-white bg-info">
+                        <div class="card text-white bg-info mb-2">
                             <div class="card-body">
                                 @if($adminPlugin->version == 3)
                                     <?php
@@ -329,7 +329,7 @@
 
 
                         @if($adminPlugin->version == 3)
-                            <div class="card text-white bg-success">
+                            <div class="card text-white bg-success mb-2">
                                 <div class="card-body">
                                     <?php
                                     $product_count = \App\Models\PluginProducts::count();
@@ -344,7 +344,7 @@
                     @endif
 
                     @if($adminPluginBooking)
-                        <div class="card text-white bg-success">
+                        <div class="card text-white bg-success mb-2">
                             <div class="card-body">
                                 <?php
                                 $client_count = \App\User::join("model_has_roles", "model_has_roles.model_id", "=", "users.id")
@@ -369,14 +369,14 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">Ultimi 5 ordini <span class="text float-right"><a href="/admin/shopOrders">Visualizza tutti</a></span></div>
-                    <div class="card-body">
+                    <div class="card-body p-2">
                         <?php
                         $list = \App\Models\Order::with("user")->orderBy("created_at", "desc")->take(5)->get();
                         ?>
                         @if($list)
-                            <table class="table" width="100%">
+                            <table class="table table-md mb-0">
                                 <thead>
-                                <tr><th>ID</th><th>Cliente</th><th>Stato</th><th>Totale</th><th>Spedizione</th><th>Data ordine</th><th></th></tr>
+                                    <tr><th>ID</th><th>Cliente</th><th>Stato</th><th>Totale</th><th>Spedizione</th><th>Data ordine</th><th></th></tr>
                                 </thead>
                                 @foreach($list as $order)
                                     <tr>
@@ -417,7 +417,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">Statistiche</div>
-                    <div class="card-body">
+                    <div class="card-body p-2">
                         <?php
 
                         $month = \Carbon\Carbon::now()->format("m-Y");
@@ -444,25 +444,36 @@
                         ?>
 
 
-                        <div class="row">
+                        <div class="row gutter-2">
                             <div class="col-sm-3">
-                                <h5>Ultimi 7 giorni</h5>
-                                <table width="100%" class="table table-responsive">
-                                    @foreach($last_7_days as $k=> $v)
-                                        <tr>
-                                            <td>
-                                                {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $k)->format("d/m/Y") }}
-                                            </td>
-                                            <td class="float-right">
-                                                {{ number_format($v, 2, ",", ".") }} &euro;
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table table-md mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Ultimi 7 giorni</th>
+                                            </tr>
+                                        </thead>
+                                        @foreach($last_7_days as $k=> $v)
+                                            <tr>
+                                                <td>
+                                                    {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $k)->format("d/m/Y") }}
+                                                </td>
+                                                <td class="text-right">
+                                                    {{ number_format($v, 2, ",", ".") }} &euro;
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </div>
                             </div>
                             <div class="col-sm-3">
-                                <h5>Andamento mensile</h5>
-                                <table width="100%" class="table table-responsive">
+                                <div class="table-responsive">
+                                <table class="table table-md mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">Andamento mensile</th>
+                                    </tr>
+                                    </thead>
                                     @foreach($list as $k=> $v)
                                         <tr>
                                             <td>
@@ -476,6 +487,7 @@
                                         </tr>
                                     @endforeach
                                 </table>
+                                </div>
                             </div>
                             <div class="col-sm-3">
                                 <?php
@@ -489,24 +501,29 @@
                                     ->take(10)
                                     ->get();
                                 ?>
-
-                                <h5>Top 10 prodotti</h5>
                                 @if($list)
-                                    <table width="100%" class="table table-responsive">
-                                        @foreach($list as $v)
-                                            <?php
-                                            $name = json_decode($v->name, true);
-                                            ?>
+                                    <div class="table-responsive">
+                                        <table class="table table-md mb-0">
+                                            <thead>
                                             <tr>
-                                                <td>
-                                                    {{ $name['it'] }}
-                                                </td>
-                                                <td class="text-right">
-                                                    {{ $v->tot }}
-                                                </td>
+                                                <th colspan="2">Top 10 prodotti</th>
                                             </tr>
-                                        @endforeach
-                                    </table>
+                                            </thead>
+                                            @foreach($list as $v)
+                                                <?php
+                                                $name = json_decode($v->name, true);
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        {{ $name['it'] }}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        {{ $v->tot }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    </div>
                                 @endif
                             </div>
 
@@ -521,21 +538,26 @@
                                     ->take(10)
                                     ->get();
                                 ?>
-
-                                <h5>Top 10 clienti</h5>
                                 @if($list)
-                                    <table width="100%" class="table table-responsive">
-                                        @foreach($list as $v)
+                                    <div class="table-responsive">
+                                        <table class="table table-md mb-0">
+                                            <thead>
                                             <tr>
-                                                <td>
-                                                    {{ $v->name }}
-                                                </td>
-                                                <td class="text-right">
-                                                    {{ $v->tot }}
-                                                </td>
+                                                <th colspan="2">Top 10 clienti</th>
                                             </tr>
-                                        @endforeach
-                                    </table>
+                                            </thead>
+                                            @foreach($list as $v)
+                                                <tr>
+                                                    <td>
+                                                        {{ $v->name }}
+                                                    </td>
+                                                    <td class="text-right">
+                                                        {{ $v->tot }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                    </div>
                                 @endif
                             </div>
                         </div>
@@ -550,45 +572,44 @@
                 <div class="card">
                     <div class="card-header">Ultime 5 prenotazioni <span class="text float-right"><a href="/admin/plugin-parking-reservation">Visualizza tutti</a></span></div>
                     <div class="card-body">
-                        <?php
-                        $list = \App\Models\PluginParkingReservation::orderBy("created_at", "desc")->take(5)->get();
-                        ?>
+                        <?php $list = \App\Models\PluginParkingReservation::orderBy("created_at", "desc")->take(5)->get(); ?>
                         @if($list)
-                            <table class="table" width="100%">
-                                <thead>
-                                <tr><th>ID</th><th>Cliente</th><th>Ingresso</th><th>Uscita</th><th>Tipo</th><th>N.GG</th><th>Totale</th><th></th></tr>
-                                </thead>
-                                @foreach($list as $order)
-                                    <tr>
-                                        <td>
-                                            {{ $order->id }}
-                                        </td>
-                                        <td>
-                                            {{ $order->name }}
-                                        </td>
-                                        <td>
-                                            {!! $order->getStart() !!}
-                                        </td>
-                                        <td>
-                                            {!! $order->getEnd() !!}
-                                        </td>
-                                        <td>
-                                            {!! $order->getType()  !!}
-                                        </td>
-                                        <td>
-                                            {{ $order->number_days }}
-                                        </td>
+                            <div class="table-responsive">
+                                <table class="table table-md mb-0">
+                                    <thead>
+                                        <tr><th>ID</th><th>Cliente</th><th>Ingresso</th><th>Uscita</th><th>Tipo</th><th>N.GG</th><th>Totale</th><th></th></tr>
+                                    </thead>
+                                    @foreach($list as $order)
+                                        <tr>
+                                            <td>
+                                                {{ $order->id }}
+                                            </td>
+                                            <td>
+                                                {{ $order->name }}
+                                            </td>
+                                            <td>
+                                                {!! $order->getStart() !!}
+                                            </td>
+                                            <td>
+                                                {!! $order->getEnd() !!}
+                                            </td>
+                                            <td>
+                                                {!! $order->getType()  !!}
+                                            </td>
+                                            <td>
+                                                {{ $order->number_days }}
+                                            </td>
 
-                                        <td>
-                                            {!! $order->getTotal() !!}
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-default btn-sm" href="/admin/plugin-parking-reservation/{{ $order->id }}/edit">Visualizza</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </table>
-
+                                            <td>
+                                                {!! $order->getTotal() !!}
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-default btn-sm" href="/admin/plugin-parking-reservation/{{ $order->id }}/edit">Visualizza</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -605,34 +626,36 @@
         ?>
 
     <!-- Messaggi da Webisland Gest -->
-        <div class="row">
+        <div class="row gutter-2">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">News da Webisland.it</div>
                     @if($xml->channel)
                         <div class="card-body p-0">
-                            <table class="table table-responsive-sm table-striped my-0">
-                                <thead class="thead-light">
-                                <tr>
-                                    <th width="100" class="py-1">Data</th>
-                                    <th class="py-1">News</th>
-                                </tr>
-                                </thead>
-                                <tbody id="accordion">
-                                @foreach($xml->channel->item as $message)
-                                    <tr data-toggle="collapse" data-target="#collapse-news-{{ $loop->index }}" @if($loop->first) aria-expanded="true" @else aria-expanded="false" @endif>
-                                        <td>{{ \Carbon\Carbon::parse($message->pubDate)->format("d/m/Y H:i") }}</td>
-                                        <td><strong>{{ $message->title }}</strong></td>
-                                        <td><i class="la la-angle-down la-lg"></i></td>
+                            <div class="table-responsive table-responsive-sm">
+                                <table class="table table-md table-striped mb-0">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th width="100" class="py-1">Data</th>
+                                        <th class="py-1">News</th>
                                     </tr>
-                                    <tr id="collapse-news-{{ $loop->index }}" class="collapse @if($loop->first) show @endif" data-parent="#accordion">
-                                        <td colspan="3">
-                                            {!! $message->description !!}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody id="accordion">
+                                    @foreach($xml->channel->item as $message)
+                                        <tr data-toggle="collapse" data-target="#collapse-news-{{ $loop->index }}" @if($loop->first) aria-expanded="true" @else aria-expanded="false" @endif>
+                                            <td>{{ \Carbon\Carbon::parse($message->pubDate)->format("d/m/Y H:i") }}</td>
+                                            <td><strong>{{ $message->title }}</strong></td>
+                                            <td><i class="la la-angle-down la-lg"></i></td>
+                                        </tr>
+                                        <tr id="collapse-news-{{ $loop->index }}" class="collapse @if($loop->first) show @endif" data-parent="#accordion">
+                                            <td colspan="3">
+                                                {!! $message->description !!}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     @endif
                 </div>

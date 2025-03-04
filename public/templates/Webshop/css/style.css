@@ -19855,7 +19855,7 @@ input[type=number] {
   background: transparent;
   border-left: 0;
   border-right: 0;
-  max-width: 40px;
+  max-width: 30px;
   padding: 0.25rem 0.25rem;
   text-align: right;
 }
