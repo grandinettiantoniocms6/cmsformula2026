@@ -137,7 +137,63 @@
                         @if(count($vet_ids) > 0 && $shopSetting->view_variants_in_list == 2)
                             @foreach($vet_ids as $attribute_name => $options)
 
-                                <div class="box_variants_list">
+                                 {{--PLC--}}
+                                 <button type="button" class="btn btn-primary btn-sm w-100 my-1" data-bs-toggle="modal" data-bs-target="#modal-varianti-{{ $product->id }}">{{ $attribute_name }}: <strong>{{ count($options) }} disponibili</strong></button>
+                                 <div class="modal fade" id="modal-varianti-{{ $product->id }}" aria-hidden="true">
+                                     <div class="modal-dialog modal-dialog-centered" role="document">
+                                         <div class="modal-content">
+                                             <div class="modal-header pb-0">
+                                                 <h5 class="modal-title">{{ $attribute_name }}: Disponibili</h5>
+                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                             </div>
+                                             <div class="modal-body">
+                                                 <div class="row gx-1">
+                                                     @if($options)
+                                                         @php
+                                                             if(is_string($options)){
+                                                                 $options = explode(",", $options);
+                                                             }
+                                                         @endphp
+
+                                                         @foreach($options as $option)
+                                                             @php
+                                                                 if(!is_object($option)){
+                                                                     continue;
+                                                                 }
+
+                                                                 $product_temp = \App\Models\PluginProducts::find($option->product_id);
+                                                                 if(!$product_temp){
+                                                                     continue;
+                                                                 }
+                                                             @endphp
+
+                                                             <div class="mb-1">
+                                                                 <a class="card card-variant mb-2 " title="{{ $option->value }}" href="{{ route("pluginProducts.choose.".\App::getLocale(), [$product_temp->slug, $option->id]) }}">
+                                                                     <div class="row no-gutters">
+                                                                         <div class="col-auto">
+                                                                             <div class="px-3 py-2">
+                                                                                 <img width="50" height="50" class="img-fluid" src="https://www.plcshop.it/img/plcshop/icons/ricondizionato.svg" alt="{{ $option->value }}">
+                                                                             </div>
+                                                                         </div>
+                                                                         <div class="col border-left bg-light d-flex flex-column px-3 py-2">
+                                                                             <div class="fw-bold text-uppercase">{{ $option->value }}</div>
+                                                                             <div class="small text-dark">Contattaci</div>
+                                                                         </div>
+
+                                                                     </div>
+                                                                 </a>
+                                                             </div>
+                                                         @endforeach
+                                                     @endif
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 {{--fine - PLC--}}
+
+                                 {{--Standard--}}
+                                 <div class="box_variants_list">
                                     <span class="variant-title">{{ $attribute_name }}</span>
                                     <ul class="list-variants">
 
@@ -169,7 +225,8 @@
                                         @endif
                                     </ul>
                                 </div>
-                            @endforeach
+                                {{--fine - Standard--}}
+                             @endforeach
                         @endif
                     @endif
                 @endif
