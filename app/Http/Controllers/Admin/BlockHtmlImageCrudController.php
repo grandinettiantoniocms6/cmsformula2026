@@ -122,73 +122,62 @@ class BlockHtmlImageCrudController extends CrudController
             ]);
 
 
-            // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
-            if(env('TEMA') == 'Webshop' ) {
+            $this->crud->addField([   // repeatable
+                'name' => 'pb',
+                'label' => 'Spazio tra le righe (0 nullo | 150 massimo ) - Imposta la spaziatura incrementando il valore di 10)',
+                'type' => 'number',
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
 
-                $this->crud->addField([   // repeatable
-                    'name' => 'pb',
-                    'label' => 'Spazio tra le righe (0 nullo | 150 massimo ) - Imposta la spaziatura incrementando il valore di 10)',
-                    'type' => 'number',
-                    'wrapperAttributes' => ['class' => 'form-group col-md-6']
-                ]);
-
-                // Permette di scegliere uno o stili di un blocco (parte html)
-                $this->crud->addField([   // select_from_array
-                    'name' => 'style',
-                    'label' => "Seleziona stile",
-                    'type' => 'select_from_array',
-                    'options' => [
-                        1 => 'Testo a sinistra - Immagini a destra',
-                        2 => 'Immagini a sinistra - Testo a destra',
-                        3 => 'Immagini in alto - Testo in basso',
-                        4 => 'Testo in alto - Immagini in basso'],
-                    'allows_null' => false,
-                    'default' => 1,
-                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                    'wrapperAttributes' => ['class' => 'form-group col-md-6']
-                ]);
+            // Permette di scegliere uno o stili di un blocco (parte html)
+            $this->crud->addField([   // select_from_array
+                'name' => 'style',
+                'label' => "Seleziona stile",
+                'type' => 'select_from_array',
+                'options' => [
+                    1 => 'Testo a sinistra - Immagini a destra',
+                    2 => 'Immagini a sinistra - Testo a destra',
+                    3 => 'Immagini in alto - Testo in basso',
+                    4 => 'Testo in alto - Immagini in basso'],
+                'allows_null' => false,
+                'default' => 1,
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
 
 
-            } // Fine perso Webshop
+            // Permette di scegliere uno o stili di un blocco (parte html)
+            $this->crud->addField([   // select_from_array
+                'name' => 'style',
+                'label' => "Seleziona stile",
+                'type' => 'select_from_array',
+                'options' => [
+                        1 => 'Style 1: Carosello con box bianco, titolo e descrizione fissi',
+                        2 => 'Style 2: Carosello con box bianco, titolo e descrizione fissi (Immagine no thumb)',
+                            /*
 
-            // CAMPI VISUALIZZATI SOLO CON IL TEMA CRAFTO//////////////////
-            if(env('TEMA') == 'Crafto' ) {
+                             2 => 'Immagini a sinistra - Testo a destra',
+                             3 => 'Immagini in alto - Testo in basso',
+                             4 => 'Testo in alto - Immagini in basso'
 
-                // Permette di scegliere uno o stili di un blocco (parte html)
-                $this->crud->addField([   // select_from_array
-                    'name' => 'style',
-                    'label' => "Seleziona stile",
-                    'type' => 'select_from_array',
-                    'options' => [
-                            1 => 'Style 1: Carosello con box bianco, titolo e descrizione fissi',
-                            2 => 'Style 2: Carosello con box bianco, titolo e descrizione fissi (Immagine no thumb)',
-                                /*
+                            */
+                ],
+                'allows_null' => false,
+                'default' => 1,
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
 
-                                 2 => 'Immagini a sinistra - Testo a destra',
-                                 3 => 'Immagini in alto - Testo in basso',
-                                 4 => 'Testo in alto - Immagini in basso'
+            $this->crud->addField([   // repeatable
+                'name'  => 'bgcolor',
+                'label' => 'Colore sfondo carosello',
+                'type'  => 'color_picker',
+                'default' => '#ffffff',
+                // optional
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
 
-                                */
-                    ],
-                    'allows_null' => false,
-                    'default' => 1,
-                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                    'wrapperAttributes' => ['class' => 'form-group col-md-6']
-                ]);
-
-                $this->crud->addField([   // repeatable
-                    'name'  => 'bgcolor',
-                    'label' => 'Colore sfondo carosello',
-                    'type'  => 'color_picker',
-                    'default' => '#ffffff',
-                    // optional
-                    'color_picker_options' => ['customClass' => 'custom-class'],
-                    'wrapperAttributes' => ['class' => 'form-group col-md-6']
-                ]);
-
-
-
-            } // Fine perso Crafto
 
 
             $this->crud->addField([   // repeatable
