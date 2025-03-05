@@ -3577,6 +3577,8 @@ class PluginProductsCrudController extends CrudController
     {
         \Artisan::call('set:products_search', ['id'=> $id]);
 
+        $domain = env('APP_URL');
+
         $adminBlock = AdminBlock::where("name", "blockPluginProduct")->first();
         $adminThumb = AdminThumb::where("admin_block_id", $adminBlock->id)->get();
 
@@ -3586,11 +3588,16 @@ class PluginProductsCrudController extends CrudController
                 $basename = basename($item->image);
                 $nameFile = explode(".", $basename);
 
+                echo "<h3>{$nameFile[0]}</h3>";
+
                 if(count($adminThumb)) {
                     foreach ($adminThumb as $thumb) {
                         $suffix = $thumb->suffix;
                         $filename = "$nameFile[0]-{$suffix}.webp";
-                        echo "https://stage.plcshop.it/thumb/plugin_products/$filename <br> <img src='https://stage.plcshop.it/thumb/plugin_products/$filename'>";
+
+                        echo "<h5>{$suffix}</h5>";
+
+                        echo "<p>$domain/thumb/plugin_products/$filename</p><br> <img src='$domain/thumb/plugin_products/$filename'><br>";
                     }
                 }
             }
