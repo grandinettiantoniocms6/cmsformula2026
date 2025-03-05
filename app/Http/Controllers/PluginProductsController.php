@@ -348,6 +348,9 @@ class PluginProductsController extends Controller
                 ->get();
         }
 
+        $endTime = (microtime(true) - $startTime);
+        //echo $endTime;
+
         $variable = $this->get_all_products_sidebar($products_processed);
 
         $tags = $variable['tags'];
@@ -364,7 +367,7 @@ class PluginProductsController extends Controller
 
         $labels = PluginProductsLabels::get()->pluck("value", "key")->toArray();
 
-        $endTime = (microtime(true) - $startTime);
+
 
         if($ajax_mode == 0){
             return view("$thema.plugins.pluginProducts.list", compact('menu', 'page','website', 'plugin', 'products', 'categories', 'itemProduct','tags','labels','category','select_order_by','select_show_number','attributes_v','slug_prodotti','brands','prices'));
