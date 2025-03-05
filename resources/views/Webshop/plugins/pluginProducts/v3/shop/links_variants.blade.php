@@ -13,7 +13,7 @@ if($search->vet_ids_list){
 
     <div class="product-variations">
         <div class="variation-list container-fluid ps-0">
-            <div class="row gx-1">
+            <div class="row gx-2">
                 @foreach($vet_ids as $attribute_name => $options)
                     @if($options)
                         @foreach($options as $option)
@@ -40,8 +40,8 @@ if($search->vet_ids_list){
                                     $checked = "checked";
                                 }
                                 ?>
-                            <div class="col-3xl mb-1">
-                                <a class="card card-variant text-decoration-none mb-2 {{ $checked }}" title="{{ $option_value }}" href="{{ $option['url_product'] }}">
+                            <div class="col-3xl">
+                                <a class="card card-variant text-decoration-none mb-3 {{ $checked }}" title="{{ $option_value }}" href="{{ $option['url_product'] }}">
                                     <div class="row gx-0">
                                         @if($IconImage)
                                             <div class="col-auto">

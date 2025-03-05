@@ -145,7 +145,7 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <div class="row gx-1">
+                                                <div class="row">
                                                     @if($options)
                                                         @foreach($options as $option)
                                                                 <?php
@@ -161,9 +161,9 @@
                                                                     $IconImage = $optionsList[$option['option_id']];
                                                                 }
                                                                 ?>
-                                                            <div class="mb-1">
-                                                                <a class="card card-variant mb-2" title="{{ $option['value'][\App::getLocale()] }}" href="{{ $option['url_product'] }}">
-                                                                    <div class="row no-gutters">
+                                                            <div class="col-12">
+                                                                <a class="card card-variant mb-3" title="{{ $option['value'][\App::getLocale()] }}" href="{{ $option['url_product'] }}">
+                                                                    <div class="row gx-0">
                                                                         @if($IconImage)
                                                                             <div class="col-auto">
                                                                                 <div class="px-3 py-2">

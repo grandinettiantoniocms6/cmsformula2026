@@ -168,7 +168,7 @@
                                                                     }
                                                                     ?>
                                                                     <div class="mb-1">
-                                                                        <a class="card card-variant mb-2 " title="{{ $option['value'][\App::getLocale()] }}" href="{{ $option['url_product'] }}">
+                                                                        <a class="card card-variant mb-2" title="{{ $option['value'][\App::getLocale()] }}" href="{{ $option['url_product'] }}">
                                                                             <div class="row no-gutters">
                                                                                 @if($IconImage)
                                                                                     <div class="col-auto">
