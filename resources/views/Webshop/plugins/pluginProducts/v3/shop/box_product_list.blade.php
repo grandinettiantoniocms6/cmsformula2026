@@ -169,7 +169,7 @@
                                                                     ?>
                                                                     <div class="col-12">
                                                                         <a class="card card-variant mb-3" title="{{ $option['value'][\App::getLocale()] }}" href="{{ $option['url_product'] }}">
-                                                                            <div class="row no-gutters">
+                                                                            <div class="row gx-0">
                                                                                 @if($IconImage)
                                                                                     <div class="col-auto">
                                                                                         <div class="px-3 py-2">
