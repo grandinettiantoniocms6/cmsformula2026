@@ -178,6 +178,14 @@ class PluginProducts extends Model
                 }
 
             }
+
+            $genera_thumb = "";
+            if(backpack_user()->roles[0]->id == 1){
+                $url_thumb = route()
+                $genera_thumb = "<a class='dropdown-item' href='$url_varianti'>Rigenera Thumb</a>";
+            }
+
+
             $num_opt = PluginProductsOptions::where("product_id", $this->id)->count();
             $link_editing = "<a class='dropdown-item' href='$url_dropzone'>Dropzone ($num_foto)</a> <a class='dropdown-item' href='$url_photo'>Foto ($num_foto)</a>
 <a class='dropdown-item' href='$url_photo_size'>Foto Taglie($num_foto_size)</a>
