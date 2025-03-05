@@ -19855,7 +19855,7 @@ input[type=number] {
   background: transparent;
   border-left: 0;
   border-right: 0;
-  max-width: 40px;
+  max-width: 30px;
   padding: 0.25rem 0.25rem;
   text-align: right;
 }
@@ -20607,6 +20607,9 @@ input[type=number] {
   top: 0;
   transition: all 0.5s;
   width: 100%;
+  aspect-ratio: 36/42;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .product .product-media img:first-child {
@@ -20614,6 +20617,9 @@ input[type=number] {
   opacity: 1;
   transition: all 0.5s;
   width: 100%;
+  aspect-ratio: 36/42;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .product .product-label-group {
