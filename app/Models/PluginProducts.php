@@ -802,6 +802,67 @@ class PluginProducts extends Model
 
         return $vet_ids;
     }
+
+    public function get_vet_ids_search($shopSetting){
+        $vet_ids = [];
+        if($shopSetting->view_variants_in_list == 1){
+            //prendo ids varianti
+            $variants_ids = \App\Models\PluginProducts::where("group_id", $this->group_id)
+                ->where("is_variant", 1)
+                ->where("is_active", 1)
+                ->get()->pluck("id")
+                ->toArray();
+
+            $vet_ids = \App\Models\ShopAttributesProducts::selectRaw("GROUP_CONCAT(product_id) as ids, option_id")
+                ->join("shop_attributes_options", "shop_attributes_options.id", "=", "shop_attributes_products.option_id")
+                ->where("attribute_id", 1)
+                ->whereIn("product_id", $variants_ids)
+                ->orderBy("shop_attributes_options.value", "asc")
+                ->groupBy("option_id")
+                ->get()
+                ->pluck("ids", "option_id")
+                ->toArray();
+        }
+
+        if($shopSetting->view_variants_in_list == 2){
+            //prendo ids varianti
+            $variants_ids = \App\Models\PluginProducts::where("group_id", $this->group_id)
+                ->where("is_variant", 1)
+                ->where("is_active", 1)
+                ->get()->pluck("id")
+                ->toArray();
+
+            $attributes = \App\Models\ShopAttributes::orderBy("lft", "asc")->get();
+            if($attributes){
+                foreach ($attributes as $attribute_item){
+                    $options = \App\Models\ShopAttributesOptions::selectRaw("shop_attributes_products.id, shop_attributes_options.value,shop_attributes_products.product_id, shop_attributes.type_layout, shop_attributes_options.background_color")
+                        ->join("shop_attributes_products", "shop_attributes_options.id", "shop_attributes_products.option_id")
+                        ->join("shop_attributes", "shop_attributes.id", "shop_attributes_options.shop_attribute_id")
+                        ->where("attribute_id", $attribute_item->id)
+                        ->whereIn("product_id", $variants_ids)
+                        ->orderBy("shop_attributes_options.ordine", "asc")
+                        ->groupBy("value")
+                        ->get();
+
+                    if($options){
+                        foreach ($options as $option){
+                            $product_temp = \App\Models\PluginProducts::find($option->product_id);
+
+                            $option->url_product = null;
+                            if($product_temp){
+                                $option->url_product = route("pluginProducts.choose.".\App::getLocale(), [$product_temp->slug, $option->id]);
+                            }
+
+                            $vet_ids[$attribute_item->name][] = $option;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        return $vet_ids;
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

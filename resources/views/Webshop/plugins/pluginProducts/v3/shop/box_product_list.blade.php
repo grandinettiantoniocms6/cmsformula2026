@@ -146,13 +146,12 @@
                                         @if($options)
                                             @foreach($options as $option)
                                                 <?php
-                                                $product_temp = \App\Models\PluginProducts::find($option->product_id);
-                                                if($option->type_layout == 0){
+                                                if($option['type_layout'] == 0){
                                                     $type_layout = "checkbox-size";
                                                 }else{
                                                     $type_layout = "checkbox-color";
                                                 }?>
-                                                <li @if(is_numeric($option->type_layout)) class="{{ $type_layout }}" @endif><a @if($option->background_color) style="background: {{ $option->background_color }}" @endif href="{{ route("pluginProducts.choose.".\App::getLocale(), [$product_temp->slug, $option->id]) }}">{{ $option->value }}</a></li>
+                                                <li @if(is_numeric($option['type_layout'])) class="{{ $type_layout }}" @endif><a @if($option['background_color']) style="background: {{ $option['background_color'] }}" @endif href="{{ $option['url_product'] }}">{{ $option['value'][\App::getLocale()] }}</a></li>
                                             @endforeach
                                         @endif
                                     </ul>

@@ -205,22 +205,13 @@
                                             ?>
 
                                             @foreach($options as $option)
-                                                <?php
-                                                if(!is_object($option)){
-                                                    continue;
-                                                }
-
-                                                $product_temp = \App\Models\PluginProducts::find($option->product_id);
-                                                if(!$product_temp){
-                                                    continue;
-                                                }
-
-                                                if($option->type_layout == 0){
-                                                    $type_layout = "checkbox-size";
-                                                }else{
-                                                    $type_layout = "checkbox-color";
-                                                }?>
-                                                <li @if(is_numeric($option->type_layout)) class="{{ $type_layout }}" @endif><a @if($option->background_color) style="background: {{ $option->background_color }}" @endif href="{{ route("pluginProducts.choose.".\App::getLocale(), [$product_temp->slug, $option->id]) }}">{{ $option->value }}</a></li>
+                                                    <?php
+                                                    if($option['type_layout'] == 0){
+                                                        $type_layout = "checkbox-size";
+                                                    }else{
+                                                        $type_layout = "checkbox-color";
+                                                    }?>
+                                                <li @if(is_numeric($option['type_layout'])) class="{{ $type_layout }}" @endif><a @if($option['background_color']) style="background: {{ $option['background_color'] }}" @endif href="{{ $option['url_product'] }}">{{ $option['value'][\App::getLocale()] }}</a></li>
                                             @endforeach
                                         @endif
                                     </ul>

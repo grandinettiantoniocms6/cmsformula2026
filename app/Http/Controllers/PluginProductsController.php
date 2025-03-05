@@ -285,7 +285,7 @@ class PluginProductsController extends Controller
             }
         }
 
-        $products = PluginProducts::selectRaw("plugins_products.*")
+        $products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
             ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
             ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%'")
             ->where("plugins_products.is_variant", 0)
