@@ -3576,6 +3576,8 @@ class PluginProductsCrudController extends CrudController
     public function generate_thumb($id)
     {
         \Artisan::call('set:products_search', ['id'=> $id]);
+
+
         \Alert::success("Operazione effettuata con successo!")->flash();
         return redirect()->back();
     }

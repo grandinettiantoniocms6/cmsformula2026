@@ -181,8 +181,8 @@ class PluginProducts extends Model
 
             $genera_thumb = "";
             if(backpack_user()->roles[0]->id == 1){
-                $url_thumb = route()
-                $genera_thumb = "<a class='dropdown-item' href='$url_varianti'>Rigenera Thumb</a>";
+                $url_thumb = route("pluginsProducts.generate_thumb", $this->id);
+                $genera_thumb = "<a class='dropdown-item' href='$url_thumb'>Rigenera Thumb</a>";
             }
 
 
@@ -220,6 +220,7 @@ class PluginProducts extends Model
                     <a class="dropdown-item" href='.$url_edit.'>Modifica</a>
                     '.$link_editing.'
                     '.$link_attachments.'
+                     '.$genera_thumb.'
                     <a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="/admin/'.$type.'/'.$this->id.'/clone" class="dropdown-item" data-button-type="clone">Duplica</a>
                     <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="/admin/'.$type.'/'.$this->id.'" class="dropdown-item" data-button-type="delete">Elimina</a>
                   </div>
