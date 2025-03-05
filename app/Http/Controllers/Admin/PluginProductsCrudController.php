@@ -3592,10 +3592,13 @@ class PluginProductsCrudController extends CrudController
 
                 if(count($adminThumb)) {
                     foreach ($adminThumb as $thumb) {
+                        $width = $thumb->width_max != 0 ? $thumb->width_max : null;
+                        $height = $thumb->height_max != 0 ? $thumb->height_max : null;
+
                         $suffix = $thumb->suffix;
                         $filename = "$nameFile[0]-{$suffix}.webp";
 
-                        echo "<h5>{$suffix}</h5>";
+                        echo "<h5>{$suffix} width: $width height: $height</h5>";
 
                         echo "<p>$domain/thumb/plugin_products/$filename</p><br> <img src='$domain/thumb/plugin_products/$filename'><br>";
                     }
