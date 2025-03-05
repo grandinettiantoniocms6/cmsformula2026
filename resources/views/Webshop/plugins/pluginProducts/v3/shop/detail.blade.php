@@ -278,6 +278,10 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                             @include("$thema.plugins.pluginProducts.v3.shop.radio_variants")
                         @endif
 
+                        @if($shopSetting->type_view_variant == 5 && $adminPlugin->version == 3)
+                            @include("$thema.plugins.pluginProducts.v3.shop.links_variants")
+                        @endif
+
 
                         @if($pluginSetting->show_prices == 0)
                             @if($pluginSetting->is_price_on_demand == 1)

@@ -625,7 +625,7 @@ class ShopSettingsCrudController extends CrudController
                     'name' => 'type_view_variant',
                     'label' => "Tipo di dettaglio varianti",
                     'type' => 'select_from_array',
-                    'options' => ["1" => "Select con redirect - foto variante - aggiunta carrello singolo", "2" => "Tabella multi carrello - padre visibile - varianti non visibili", "3" => "Padre non visibile, Varianti no select, multi carrello", "4" => "Radio Button"],
+                    'options' => ["1" => "Select con redirect - foto variante - aggiunta carrello singolo", "2" => "Tabella multi carrello - padre visibile - varianti non visibili", "3" => "Padre non visibile, Varianti no select, multi carrello", "4" => "Radio Button", "5" => "Link alle varianti"],
                     'allows_null' => false,
                     'default' => 5,
                     'tab' => "Dettaglio"
