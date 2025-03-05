@@ -132,7 +132,7 @@ Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => 
     Route::post('plugin/pluginProductsBrands/actions',['as' => 'pluginsProductsBrands.actions', 'uses'=>'PluginProductsBrandsCrudController@actions']);
     Route::post('plugin/pluginProductsCategories/actions',['as' => 'pluginsProductsCategories.actions', 'uses'=>'PluginProductsCategoriesCrudController@actions']);
 
-    Route::post('plugin/pluginProducts/generate_thumb/{id}',['as' => 'pluginsProducts.generate_thumb', 'uses'=>'PluginProductsCrudController@generate_thumb']);
+    Route::get('plugin/pluginProducts/generate_thumb/{id}',['as' => 'pluginsProducts.generate_thumb', 'uses'=>'PluginProductsCrudController@generate_thumb']);
 
 
     Route::post('plugin/pluginProductsRequests/actions',['as' => 'pluginProductsRequests.actions', 'uses'=>'PluginProductsRequestsCrudController@actions']);
