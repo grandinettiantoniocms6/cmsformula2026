@@ -8,6 +8,9 @@ $indexClass = new \App\Http\Controllers\PluginProductsController();
 $cartCompare = $indexClass->loading_compare();
 $start = microtime(true);
 $agent = new \Jenssegers\Agent\Agent();
+
+$optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray();
+
 ?>
 
 <section class="page-shop">
@@ -133,7 +136,7 @@ $agent = new \Jenssegers\Agent\Agent();
                                          $vet_ids = json_decode($product->vet_ids_list, true);
                                      }
                                     ?>
-                                    @include("$thema.plugins.pluginProducts.v3.shop.box_product_list", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $pluginSetting])
+                                    @include("$thema.plugins.pluginProducts.v3.shop.box_product_list", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $pluginSetting, "optionsList" => $optionsList])
                             @endforeach
 
                         </div>
@@ -160,7 +163,7 @@ $agent = new \Jenssegers\Agent\Agent();
                                     $vet_ids = json_decode($product->vet_ids_list, true);
                                 }
                                 ?>
-                                @include("$thema.plugins.pluginProducts.v3.shop.box_product_grid", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $pluginSetting])
+                                @include("$thema.plugins.pluginProducts.v3.shop.box_product_grid", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $pluginSetting, "optionsList" => $optionsList])
                             @endforeach
                         </div>
                     @endif

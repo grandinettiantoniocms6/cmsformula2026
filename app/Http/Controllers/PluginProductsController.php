@@ -1513,30 +1513,44 @@ class PluginProductsController extends Controller
         //prendo l'attributo opposto
         $shopAttributeOpposite = ShopAttributes::where("id", "!=", $shopAttributeProduct->attribute_id)->first();
 
-        //prendo le opzioni d quell'attributo opposto
-        $options = ShopAttributesOptions::where("shop_attribute_id", $shopAttributeOpposite->id)
-            ->orderBy("ordine", "asc")
-            ->get();
-        if($options){
-            foreach ($options as $option){
-                $check = ShopAttributesProducts::where("attribute_id", $option->shop_attribute_id)
-                    ->where("option_id", $option->id)
-                    ->whereIn("product_id", $prod_same_attributes)
-                    ->first();
-                if($check){
-                    $product_id = $check->product_id;
-                    $itemProductVariant = PluginProducts::where("id", $product_id)->first();
-                    if($itemProductVariant){
-                        $cat_prod_slug = "no-categoria";
-                        $cat_prod = $itemProductVariant->category();
-                        if($cat_prod){
-                            $cat_prod_slug = $cat_prod->slug;
+        if($shopAttributeOpposite){
+            //prendo le opzioni d quell'attributo opposto
+            $options = ShopAttributesOptions::where("shop_attribute_id", $shopAttributeOpposite->id)
+                ->orderBy("ordine", "asc")
+                ->get();
+            if($options){
+                foreach ($options as $option){
+                    $check = ShopAttributesProducts::where("attribute_id", $option->shop_attribute_id)
+                        ->where("option_id", $option->id)
+                        ->whereIn("product_id", $prod_same_attributes)
+                        ->first();
+                    if($check){
+                        $product_id = $check->product_id;
+                        $itemProductVariant = PluginProducts::where("id", $product_id)->first();
+                        if($itemProductVariant){
+                            $cat_prod_slug = "no-categoria";
+                            $cat_prod = $itemProductVariant->category();
+                            if($cat_prod){
+                                $cat_prod_slug = $cat_prod->slug;
+                            }
+                            return redirect()->route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$itemProductVariant->slug]);
                         }
-                        return redirect()->route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$itemProductVariant->slug]);
                     }
                 }
             }
+        }else{
+            $itemProductVariant = PluginProducts::where("id", $shopAttributeProduct->product_id)->first();
+            if($itemProductVariant){
+                $cat_prod_slug = "no-categoria";
+                $cat_prod = $itemProductVariant->category();
+                if($cat_prod){
+                    $cat_prod_slug = $cat_prod->slug;
+                }
+
+                return redirect()->route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$itemProductVariant->slug]);
+            }
         }
+
 
     }
 }

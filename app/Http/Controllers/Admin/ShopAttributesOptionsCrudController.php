@@ -59,6 +59,11 @@ class ShopAttributesOptionsCrudController extends CrudController
                 'type'  => 'text',
             ],
             [
+                'name'  => 'icon',
+                'label' => 'Icona',
+                'type'  => 'text',
+            ],
+            [
                 // 1-n relationship
                 'label'     => 'Attributo', // Table column heading
                 'type'      => 'select',
@@ -118,11 +123,12 @@ class ShopAttributesOptionsCrudController extends CrudController
                 'allows_null' => false,
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
             ],
-          /*  [
-                'name'  => 'value',
-                'label' => 'Opzione',
-                'type'  => 'text',
-            ],*/
+            [   // repeatable
+                'name'  => 'icon',
+                'label' => 'Icona',
+                'type'  => 'browse',
+                'wrapper' => ['class' => 'form-group col-md-4'],
+            ],
             [
                 'name'  => 'code',
                 'label' => 'SKU Code',

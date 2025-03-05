@@ -835,7 +835,7 @@ class PluginProducts extends Model
             $attributes = \App\Models\ShopAttributes::orderBy("lft", "asc")->get();
             if($attributes){
                 foreach ($attributes as $attribute_item){
-                    $options = \App\Models\ShopAttributesOptions::selectRaw("shop_attributes_products.id, shop_attributes_options.value,shop_attributes_products.product_id, shop_attributes.type_layout, shop_attributes_options.background_color")
+                    $options = \App\Models\ShopAttributesOptions::selectRaw("shop_attributes_products.id, shop_attributes_options.id as option_id, shop_attributes_options.value,shop_attributes_products.product_id, shop_attributes.type_layout, shop_attributes_options.background_color")
                         ->join("shop_attributes_products", "shop_attributes_options.id", "shop_attributes_products.option_id")
                         ->join("shop_attributes", "shop_attributes.id", "shop_attributes_options.shop_attribute_id")
                         ->where("attribute_id", $attribute_item->id)

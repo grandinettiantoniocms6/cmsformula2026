@@ -141,20 +141,56 @@
                         @if(count($vet_ids) > 0 && $shopSetting->view_variants_in_list == 2)
                             @foreach($vet_ids as $attribute_name => $options)
                                 <div class="box_variants_list">
-                                    <span class="variant-title">{{ $attribute_name }}</span>
-                                    <ul class="list-variants">
-                                        @if($options)
-                                            @foreach($options as $option)
-                                                <?php
-                                                if($option['type_layout'] == 0){
-                                                    $type_layout = "checkbox-size";
-                                                }else{
-                                                    $type_layout = "checkbox-color";
-                                                }?>
-                                                <li @if(is_numeric($option['type_layout'])) class="{{ $type_layout }}" @endif><a @if($option['background_color']) style="background: {{ $option['background_color'] }}" @endif href="{{ $option['url_product'] }}">{{ $option['value'][\App::getLocale()] }}</a></li>
-                                            @endforeach
-                                        @endif
-                                    </ul>
+                                    <button type="button" class="btn btn-primary btn-sm w-100 my-1" data-bs-toggle="modal" data-bs-target="#modal-varianti-{{ $product->id }}">Guarda <strong>{{ count($options) }} varianti</strong></button>
+                                    <div class="modal fade" id="modal-varianti-{{ $product->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header pb-0">
+                                                    <h5 class="modal-title">{{ $attribute_name }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row gx-1">
+                                                        @if($options)
+                                                            @foreach($options as $option)
+                                                                    <?php
+
+                                                                    //background_color
+                                                                    if($option['type_layout'] == 0){
+                                                                        $type_layout = "checkbox-size";
+                                                                    }else{
+                                                                        $type_layout = "checkbox-color";
+                                                                    }
+
+                                                                    $IconImage = null;
+                                                                    if(key_exists($option['option_id'], $optionsList)){
+                                                                        $IconImage = $optionsList[$option['option_id']];
+                                                                    }
+                                                                    ?>
+                                                                    <div class="mb-1">
+                                                                        <a class="card card-variant mb-2 " title="{{ $option['value'][\App::getLocale()] }}" href="{{ $option['url_product'] }}">
+                                                                            <div class="row no-gutters">
+                                                                                @if($IconImage)
+                                                                                    <div class="col-auto">
+                                                                                        <div class="px-3 py-2">
+                                                                                            <img width="50" height="50" class="img-fluid" src="{{ url($IconImage) }}" alt="{{ $option['value'][\App::getLocale()] }}">
+                                                                                        </div>
+                                                                                    </div>
+                                                                                @endif
+                                                                                <div class="col border-left bg-light d-flex flex-column px-3 py-2">
+                                                                                    <div class="fw-bold text-uppercase">{{ $option['value'][\App::getLocale()] }}</div>
+                                                                                    <div class="small text-dark">Contattaci</div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+                                                                    </div>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             @endforeach
                         @endif
