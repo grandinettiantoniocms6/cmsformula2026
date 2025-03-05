@@ -54,6 +54,8 @@ class PluginProductsController extends Controller
 
     public function pluginProducts($slug = null, Request $request)
     {
+        $startTime = microtime(true);
+
         $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
 
         $currenturl = url()->full();
@@ -361,6 +363,8 @@ class PluginProductsController extends Controller
         $thema = env('TEMA');
 
         $labels = PluginProductsLabels::get()->pluck("value", "key")->toArray();
+
+        $endTime = (microtime(true) - $startTime);
 
         if($ajax_mode == 0){
             return view("$thema.plugins.pluginProducts.list", compact('menu', 'page','website', 'plugin', 'products', 'categories', 'itemProduct','tags','labels','category','select_order_by','select_show_number','attributes_v','slug_prodotti','brands','prices'));
@@ -807,7 +811,7 @@ class PluginProductsController extends Controller
         $itemProduct = PluginProducts::where("id", $id)->first();
         if($itemProduct){
             $itemProduct->images = PluginProductsImages::where("product_id", $itemProduct->id)->orderBy("order", "asc")->get();
-            $itemProduct->options = PluginProductsOptions::selectRaw("plugins_products_attributes.name, plugins_products_options.attribute_id, plugins_products_options.value")
+            $itemProduct->options = PluginProductsOptions::selectRaw("plugins_products_attributes.name, plugins_products_otions.attribute_id, plugins_products_options.value")
                 ->join("plugins_products_attributes", "plugins_products_attributes.id", "=", "plugins_products_options.attribute_id")
                 ->where("product_id", $itemProduct->id)
                 ->orderBy("plugins_products_options.lft", "asc")
