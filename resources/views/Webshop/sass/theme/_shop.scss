@@ -209,6 +209,12 @@
     }
 }
 
+a.card-variant.checked, a.card-variant:hover, a.card-variant:focus {
+    border-color: #57bb63;
+    box-shadow: 0 0 0 2px #57bb63;
+    text-decoration: none;
+}
+
 .list-view {
     .product {
         display: flex;

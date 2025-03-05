@@ -12,7 +12,7 @@ if($search->vet_ids_list){
 @if(count($vet_ids) > 0)
 
     <div class="product-variations">
-        <div class="variation-list">
+        <div class="variation-list container-fluid ps-0">
             <div class="row gx-1">
                 @foreach($vet_ids as $attribute_name => $options)
                     @if($options)
@@ -40,9 +40,8 @@ if($search->vet_ids_list){
                                     $checked = "checked";
                                 }
                                 ?>
-                            <div class="mb-1">
-                                {{ $checked }}
-                                <a class="card card-variant mb-2 " title="{{ $option_value }}" href="{{ $option['url_product'] }}">
+                            <div class="col-3xl mb-1">
+                                <a class="card card-variant text-decoration-none mb-2 {{ $checked }}" title="{{ $option_value }}" href="{{ $option['url_product'] }}">
                                     <div class="row no-gutters">
                                         @if($IconImage)
                                             <div class="col-auto">
@@ -51,9 +50,9 @@ if($search->vet_ids_list){
                                                 </div>
                                             </div>
                                         @endif
-                                        <div class="col border-left bg-light d-flex flex-column px-3 py-2">
-                                            <div class="fw-bold text-uppercase">{{ $option_value }}</div>
-                                            <div class="small text-dark">Contattaci</div>
+                                        <div class="col border-left bg-light d-flex flex-column px-3 py-2 text-truncate">
+                                            <div class="fw-bold text-uppercase text-truncate">{{ $option_value }}</div>
+                                            <div class="small text-dark text-truncate">Contattaci</div>
                                         </div>
                                     </div>
                                 </a>
