@@ -69,7 +69,6 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
     }
 
     ?>
-    1111
 
 <!-- Webisland aggiunge le briciole di pane -->
 @if($shopSetting->bread_crumbs == "1")
@@ -267,26 +266,6 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                     @endif
                                 </div>
 
-                                @if($shopSetting->type_view_variant == 1 && $adminPlugin->version == 3)
-                                    @include("$thema.plugins.pluginProducts.v3.shop.select_variants")
-                                @endif
-
-                                @if($shopSetting->type_view_variant == 2 && $itemProduct->is_variant == 0 && $adminPlugin->version == 3)
-                                    @include("$thema.plugins.pluginProducts.v3.shop.table_variants")
-                                @endif
-
-                                @if($shopSetting->type_view_variant == 3 && $adminPlugin->version == 3)
-                                    @include("$thema.plugins.pluginProducts.v3.shop.html_variants")
-                                @endif
-
-                                @if($shopSetting->type_view_variant == 4 && $adminPlugin->version == 3)
-                                    @include("$thema.plugins.pluginProducts.v3.shop.radio_variants")
-                                @endif
-
-                                @if($shopSetting->type_view_variant == 5 && $adminPlugin->version == 3)
-                                    @include("$thema.plugins.pluginProducts.v3.shop.links_variants")
-                                @endif
-
 
                                 @if($pluginSetting->show_prices == 0)
                                     @if($pluginSetting->is_price_on_demand == 1)
@@ -297,9 +276,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                 @endif
 
                                 @if($itemProduct->is_button_for_request && $itemProduct->form_page_id)
-                                    <?php
-                                    $page = \App\Models\Page::find($itemProduct->form_page_id);
-                                    ?>
+                                    <?php $page = \App\Models\Page::find($itemProduct->form_page_id); ?>
                                     @if($page)
                                         <p><a class="text text-danger-emphasis" href="/{{ $page->slug }}?product_id={{ $itemProduct->id }}"><i class="fas fa-info"></i> {!! @$labels['richiedi-personalizzazione'] !!} {{ @$labels['richiedi-preventivo'] }}</a></p>
                                     @endif
@@ -409,7 +386,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                         @endif
 
                                         @if($plugin->show_form_contact == 1)
-                                            &nbsp;&nbsp; <p><a class="btn btn-primary" href="#block-product-contact"><!--i class="fas fa-euro-sign"></i--> {{ @$labels['richiedi-preventivo'] }} </a></p>
+                                            &nbsp;&nbsp; <p><a class="btn btn-primary" href="#block-product-contact">{{ @$labels['richiedi-preventivo'] }} </a></p>
                                         @endif
                                     @else
                                         @if(\Session::has("user_id"))
@@ -456,9 +433,31 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                             @endif
 
                         </div>
-                        <div class="col-auto border-left px-2 d-none d-xl-block"></div>
+
+                        <div class="col-auto border-start ps-0 d-none d-xl-block"></div>
+
                         <div class="col-xl col-lg-5">
-                            2
+
+                            @if($shopSetting->type_view_variant == 1 && $adminPlugin->version == 3)
+                                @include("$thema.plugins.pluginProducts.v3.shop.select_variants")
+                            @endif
+
+                            @if($shopSetting->type_view_variant == 2 && $itemProduct->is_variant == 0 && $adminPlugin->version == 3)
+                                @include("$thema.plugins.pluginProducts.v3.shop.table_variants")
+                            @endif
+
+                            @if($shopSetting->type_view_variant == 3 && $adminPlugin->version == 3)
+                                @include("$thema.plugins.pluginProducts.v3.shop.html_variants")
+                            @endif
+
+                            @if($shopSetting->type_view_variant == 4 && $adminPlugin->version == 3)
+                                @include("$thema.plugins.pluginProducts.v3.shop.radio_variants")
+                            @endif
+
+                            @if($shopSetting->type_view_variant == 5 && $adminPlugin->version == 3)
+                                @include("$thema.plugins.pluginProducts.v3.shop.links_variants")
+                            @endif
+
                         </div>
                     </div>
 
@@ -468,14 +467,14 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
             <div class="product-info">
 
                 <a name="allegati-lista"></a>
-                <a name="altre-info"></a>
-
 
                 @if($shopSetting->box_attachments == 0)
                     @if(count($itemProduct->attachmentsList))
+                        <a name="altre-info"></a>
                         <h2><i class="fas fa-list"></i> {{ @$labels['altre-info'] }} </h2>
                     @endif
                 @else
+                    <a name="altre-info"></a>
                     <h2><i class="fas fa-list"></i> {{ @$labels['altre-info'] }} </h2>
                 @endif
 
@@ -556,7 +555,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
 
                 @endif
 
-                <!-- CASO NASCONDI PROPRIETA' 1 E BOX ALLEGATI a parte 0 -->
+                {{--CASO NASCONDI PROPRIETA' 1 E BOX ALLEGATI a parte 0--}}
                 @if(count($itemProduct->attachmentsList) && ($shopSetting->box_attachments == 0) && ($shopSetting->box_properties == 1) )
                     <div class="navbar-expand-md" id="accordion-tabs">
                             <div class="collapse navbar-collapse">
@@ -598,7 +597,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                             @endif
                         </div>
                 @endif
-                <!-- END CASO NASCONDI PROPRIET E BOX ALLEGATI SPENTO -->
+                {{--END CASO NASCONDI PROPRIET E BOX ALLEGATI SPENTO--}}
 
                 @if(count($itemProduct->attachmentsList) && ($shopSetting->box_attachments == 1))
 
@@ -613,7 +612,9 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
             </div>
 
             @if($plugin->show_form_contact == 1 && $adminPlugin->version <= 3)
-                @include("$thema.plugins.pluginProducts.inc.formContact")
+                <div class="card card-body" id="show_form_contact_plc">
+                    @include("$thema.plugins.pluginProducts.inc.formContact")
+                </div>
             @else
                 @if(($itemProduct->is_purchasable == 0 || $itemProduct->is_button_for_request == 1) || ((env("PROJECT_NAME") == "Manega") && strpos( \URL::current(),"luxury")))
                     @include("$thema.plugins.pluginProducts.inc.formContact")

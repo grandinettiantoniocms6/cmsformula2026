@@ -40,7 +40,7 @@ if($search->vet_ids_list){
                                     $checked = "checked";
                                 }
                                 ?>
-                            <div class="col-3xl">
+                            <div class="col-12">
                                 <a class="card card-variant text-decoration-none mb-3 {{ $checked }}" title="{{ $option_value }}" href="{{ $option['url_product'] }}">
                                     <div class="row gx-0">
                                         @if($IconImage)
