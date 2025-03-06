@@ -41,8 +41,8 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
         @include("$thema.inc.topbar")
     @endsection
 
-@section('topbar_ecommerce')
-@endsection
+    @section('topbar_ecommerce')
+    @endsection
 
     @section('header_menu')
         @include("$thema.inc.header_menu")
