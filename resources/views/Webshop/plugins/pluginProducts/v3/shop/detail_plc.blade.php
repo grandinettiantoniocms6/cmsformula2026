@@ -88,7 +88,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
 @endif
 <!-- END briciole di pane -->
 
-<section class="single-product">
+<section class="single-product plc_version">
     <div class="page-content">
         <div class="container-fluid container-2xl">
             <div class="row">
@@ -423,7 +423,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                             </div>
 
                             @if(trim($itemProduct->description) != "")
-                                <div class="product-description mb-4">
+                                <div class="product-description border-top mt-4 py-4">
                                     <div class="h5">{{ @$labels['description-long'] }}</div>
                                     <div class="product-description-inner">
                                         {!! $itemProduct->description !!}
@@ -608,13 +608,10 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                         </div>
                     </div>
                 @endif
-
             </div>
 
             @if($plugin->show_form_contact == 1 && $adminPlugin->version <= 3)
-                <div class="card card-body" id="show_form_contact_plc">
-                    @include("$thema.plugins.pluginProducts.inc.formContact")
-                </div>
+                @include("$thema.plugins.pluginProducts.inc.formContact")
             @else
                 @if(($itemProduct->is_purchasable == 0 || $itemProduct->is_button_for_request == 1) || ((env("PROJECT_NAME") == "Manega") && strpos( \URL::current(),"luxury")))
                     @include("$thema.plugins.pluginProducts.inc.formContact")
@@ -625,3 +622,16 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
     </div>
 </section>
 @endif
+
+@push('custom_scripts')
+    <style>
+        .single-product.plc_version .product-variations {
+            border-top: 0;
+            padding: 0 0 1rem 0;
+        }
+        .single-product.plc_version .block-contact {
+            padding: 1.5rem;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+@endpush
