@@ -16987,6 +16987,12 @@ fieldset:disabled .btn {
   flex-wrap: nowrap;
 }
 
+#header .navbar-search {
+  flex-grow: 1;
+  padding-right: calc(var(--bs-gutter-x)* .5);
+  padding-left: calc(var(--bs-gutter-x)* .5);
+}
+
 @media (min-width: 992px) {
   #header.header-expand--lg.sticky-header.sticky-header-desktop {
     transition: all 0.2s ease;
