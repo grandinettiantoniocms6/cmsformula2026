@@ -63,8 +63,8 @@ class PluginProductsRequestsCrudController extends CrudController
             $v = explode(",", env('PLUGIN_PRODUCTS_REQUEST_COL'));
         }
 
-        $other_columns = null;
-        $other_columns_2 = null;
+        $other_columns = [];
+        $other_columns_2 = [];
         $i = 1;
 
         if(count($v)) {
