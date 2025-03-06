@@ -68,15 +68,13 @@ $shopSetting = \App\Models\ShopSettings::first();
                     @else
                         <?php
                         $plugin = \App\Models\PluginProductsSettings::first();
-                        $categories = \App\Models\PluginProductsCategories::where("is_active", 1)
-                            ->where("parent_id", null)
-                            ->where("is_purchasable", 1)
-                            ->orderBy("lft", "asc")
-                            ->get();
-
-                        $class = new \App\Http\Controllers\PluginProductsController();
                         $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
-                        $categories = $class->get_categories_sidebar($categories);
+
+                        $categories = [];
+                        $categories_search = \App\Models\PluginProductsCategoriesSearch::first();
+                        if($categories_search){
+                            $categories = json_decode($categories_search->categories, true);
+                        }
                         ?>
 
                         <li class="nav-item dropdown has-megamenu">
@@ -84,23 +82,31 @@ $shopSetting = \App\Models\ShopSettings::first();
                             <div class="dropdown-menu dropdown-menu-end megamenu elements-{{ count($categories) }}" role="menu">
                                 @if($categories)
                                     @foreach($categories as $categoryItem)
-                                        <?php $tot = 0; ?>
-                                        @if(count($categoryItem->figli) > 0)
-                                            @foreach($categoryItem->figli as $figlio)
-                                                <?php $tot = $tot + $figlio->count;?>
+                                        <?php
+                                        $tot = 0;
+                                        $cat_slug = $categoryItem['slug'][\App::getLocale()];
+                                        $cat_name = $categoryItem['name'][\App::getLocale()];
+                                        ?>
+                                        @if(count($categoryItem['figli']) > 0)
+                                            @foreach($categoryItem['figli'] as $figlio)
+                                                <?php $tot = $tot + $figlio['count'];?>
                                             @endforeach
                                         @else
-                                            <?php $tot = $tot + $categoryItem->count; ?>
+                                            <?php $tot = $tot + $categoryItem['count']; ?>
                                         @endif
 
                                         @if($tot > 0)
                                             <div class="col-megamenu">
-                                                <h6 class="menu-title dropdown-item"><a href="{{ route("pluginProducts.".\App::getLocale(), [$categoryItem->slug]) }}">{{ $categoryItem->name }}</a></h6>
-                                                @if(count($categoryItem->figli) > 0)
+                                                <h6 class="menu-title dropdown-item"><a href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></h6>
+                                                @if(count($categoryItem['figli']) > 0)
                                                     <ul class="list-unstyled mb-0">
-                                                        @foreach($categoryItem->figli as $figlio)
-                                                            @if($figlio->count > 0)
-                                                                <li><a class="dropdown-item" href="{{ route("pluginProducts.".\App::getLocale(), [$figlio->slug]) }}">{{ $figlio->name }}</a></li>
+                                                        @foreach($categoryItem['figli'] as $figlio)
+                                                            <?php
+                                                            $cat_slug = $figlio['slug'][\App::getLocale()];
+                                                            $cat_name = $figlio['name'][\App::getLocale()];
+                                                            ?>
+                                                            @if($figlio['count'] > 0)
+                                                                <li><a class="dropdown-item" href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></li>
                                                             @endif
                                                         @endforeach
                                                     </ul>
