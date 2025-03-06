@@ -41,7 +41,7 @@
             </a>
 
             {{--CERCA IN HEADER --}}
-            <div class="navbar-search d-none d-md-block">
+            <div class="navbar-search flex-grow-1 px-3 d-none d-md-block">
                 @include("$thema.plugins.pluginProducts.v3.inc.search_top")
             </div>
             {{--CERCA IN HEADER --}}
@@ -112,7 +112,7 @@
     {{--CERCA IN HEADER --}}
     <div class="d-block d-md-none">
         <div class="collapse" id="search-mobile">
-            <div class="container-fluid">
+            <div class="container-fluid pb-3">
                 @include("$thema.plugins.pluginProducts.v3.inc.search_top_mobile")
             </div>
         </div>

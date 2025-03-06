@@ -549,7 +549,12 @@ a.card-variant.checked, a.card-variant:hover, a.card-variant:focus {
             border-color: var(--bs-btn-hover-border-color);
         }
     }
+}
 
+#search-mobile {
+  .form-control, .widget-search.widget-topbar .btn {
+    border-color: #fff;
+  }
 }
 
 @include media-breakpoint-down(lg) {

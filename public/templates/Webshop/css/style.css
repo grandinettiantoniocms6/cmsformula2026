@@ -16987,10 +16987,9 @@ fieldset:disabled .btn {
   flex-wrap: nowrap;
 }
 
-#header .navbar-search {
-  flex-grow: 1;
-  padding-right: calc(var(--bs-gutter-x)* .5);
-  padding-left: calc(var(--bs-gutter-x)* .5);
+#header .navbar-search .form-control,
+#header .navbar-search .widget-search.widget-topbar .btn {
+  border-color: #fff;
 }
 
 @media (min-width: 992px) {
@@ -21204,6 +21203,11 @@ a.card-variant:focus {
 #nav-view .nav-link.active:focus {
   background-color: var(--bs-btn-hover-bg);
   border-color: var(--bs-btn-hover-border-color);
+}
+
+#search-mobile .form-control,
+#search-mobile .widget-search.widget-topbar .btn {
+  border-color: #fff;
 }
 
 @media (max-width: 991.98px) {
