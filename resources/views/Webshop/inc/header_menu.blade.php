@@ -69,6 +69,10 @@
                     </button>
                 </div>
 
+                <div class="header_searchbar">
+                    @include("$thema.plugins.pluginProducts.v3.inc.search_top")
+                </div>
+
                 @include('Webshop.inc.menu')
 
                 <div class="social-mobile">
