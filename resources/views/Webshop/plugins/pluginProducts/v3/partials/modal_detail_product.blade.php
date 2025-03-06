@@ -11,6 +11,7 @@ $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first()
                 <div class="single-product row py-0">
                     @include("Webshop.plugins.pluginProducts.v3.shop.type_detail_photo_modal_view")
                     <div class="col-md-7">
+
                         <div class="product-details">
                             @include("Webshop.plugins.pluginProducts.v3.shop.view_brand")
 
