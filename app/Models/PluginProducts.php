@@ -865,7 +865,7 @@ class PluginProducts extends Model
                                     $cat_prod_slug = $cat_prod->slug;
                                 }
 
-                                $option->url_product = route("pluginProducts.".\App::getLocale(), [$cat_prod_slug, $product_temp->slug]);
+                                $option->url_product = route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug, $product_temp->slug]);
                                 //$option->url_product = route("pluginProducts.choose.".\App::getLocale(), [$product_temp->slug, $option->id]);
                             }
 
