@@ -351,7 +351,7 @@ class PluginProductsController extends Controller
         $endTime = (microtime(true) - $startTime);
         //echo $endTime;
 
-        $variable = $this->get_all_products_sidebar($products_processed);
+        $variable = $this->get_all_products_sidebar($products_processed, $plugin);
 
         $tags = $variable['tags'];
         $brands = $variable['brands_ids'];
@@ -366,8 +366,6 @@ class PluginProductsController extends Controller
         $thema = env('TEMA');
 
         $labels = PluginProductsLabels::get()->pluck("value", "key")->toArray();
-
-
 
         if($ajax_mode == 0){
             return view("$thema.plugins.pluginProducts.list", compact('menu', 'page','website', 'plugin', 'products', 'categories', 'itemProduct','tags','labels','category','select_order_by','select_show_number','attributes_v','slug_prodotti','brands','prices'));
@@ -402,6 +400,7 @@ class PluginProductsController extends Controller
             }
             $htmlFilterBrands = view("$thema.plugins.pluginProducts.inc.filters_brands_ajax", compact('brands', 'plugin', 'v_checked'))->render();
             $shopSetting = ShopSettings::first();
+
             $html = view("$thema.plugins.pluginProducts.inc.productListAjax", compact('menu', 'page','website', 'plugin', 'products', 'categories', 'itemProduct','tags','labels','category','select_order_by','select_show_number','attributes_v','slug_prodotti','brands','shopSetting','adminPlugin'))->render();
 
             return response()->json(['error' => '0', 'html' => $html, 'html_filter_attributes' => $htmlFilterAttributes, "html_filter_tags" => $htmlFilterTags, "html_filter_prices" => $htmlFilterPrices, "html_filter_brands" => $htmlFilterBrands, 'change_brands' => $change_brands, 'paginations' => $products]);
@@ -1198,12 +1197,10 @@ class PluginProductsController extends Controller
         return $categories;
     }
 
-    public function get_all_products_sidebar($products_processed = null){
+    public function get_all_products_sidebar($products_processed = null, $pluginSetting){
         $productsAll = $products_processed;
         $productsAllVet = $products_processed->pluck("id")->toArray();
         //$productsAllVetAttributes = $products_processed->whereNotNull("attributes")->pluck("attributes", "id")->toArray();
-
-        $pluginSetting = PluginProductsSettings::first();
 
         $brands = [];
         $brands_ids = [];
@@ -1214,8 +1211,7 @@ class PluginProductsController extends Controller
 
         if($pluginSetting->show_attributes_sidebar == 1){
 
-
-        if($products_processed){
+            if($products_processed){
                 foreach ($products_processed as $prod){
                     if($prod->attributes){
                         $attributes_prod = json_decode($prod->attributes,true);
@@ -1249,95 +1245,64 @@ class PluginProductsController extends Controller
                 }
             }
 
-
-       /* $groups_ids = PluginProducts::where("is_active", 1)
-           ->where("qty", ">", 0)
-           ->whereIn("id", $productsAllVet)->get()
-           ->pluck("group_id", "group_id")
-           ->toArray();
-
-       $productsAllVetForAttribute = PluginProducts::where("is_active", 1)
-           ->where("qty", ">", 0)->whereIn("group_id", $groups_ids)
-           ->get()->pluck("id")
-           ->toArray();
-
-            $attributes = ShopAttributes::selectRaw("shop_attributes.name, shop_attributes.id, shop_attributes_products.option_id")
-                   ->join("shop_attributes_products", "shop_attributes_products.attribute_id", "=", "shop_attributes.id")
-                   ->join("plugins_products", "plugins_products.id", "=", "shop_attributes_products.product_id")
-                   ->where("plugins_products.qty", ">", 0)
-                   ->where("plugins_products.is_active", "=", 1)
-                   ->whereIn("plugins_products.group_id", $groups_ids)
-                   ->orderBy("shop_attributes.lft", "asc")
-                   ->get();
-            if($attributes){
-                foreach ($attributes as $attr){
-                    $optionsId = ShopAttributesProducts::whereIn("product_id", $productsAllVetForAttribute)
-                        ->where("attribute_id", $attr->id)->pluck("option_id", "option_id")->toArray();
-
-                    if(count($optionsId) > 0){
-                        $option_name = ShopAttributesOptions::whereIn("id", $optionsId)->orderBy("ordine", "asc")->get()->pluck("value", "id")->toArray();
-                        if(count($option_name) > 0){
-                            $attributes_v[$attr->id] = $option_name;
-                        }
-                    }
-                }
-            }*/
         }
-
 
 
         //calcolo dei prezzi dei prodotti
         $vet_prices = [];
-        $now = Carbon::now()->toDateTimeString();
 
-        $promo_priority = Promotion::whereRaw("(start_date <= '$now' AND expiration_date >='$now') AND is_forced = 1")
-            ->count();
+        if($pluginSetting->show_prices_sidebar == 1) {
+            $now = Carbon::now()->toDateTimeString();
 
-        if($promo_priority > 0) {
-            $categories_ids = PluginProductsCategoriesProducts::whereIn("plugin_product_product_id", $productsAllVet)->get()
-                ->pluck("plugin_product_category_id")
-                ->toArray();
+            $promo_priority = Promotion::whereRaw("(start_date <= '$now' AND expiration_date >='$now') AND is_forced = 1")
+                ->count();
 
-            //controllo se esistono promozioni per categoria
-            if (count($categories_ids)) {
-                $promotions = Promotion::whereIn("category_id", $categories_ids)
-                    ->whereRaw("(start_date <= '$now' AND expiration_date >='$now')")
-                    ->get();
+            if ($promo_priority > 0) {
+                $categories_ids = PluginProductsCategoriesProducts::whereIn("plugin_product_product_id", $productsAllVet)->get()
+                    ->pluck("plugin_product_category_id")
+                    ->toArray();
 
-                if ($promotions) {
-                    foreach ($promotions as $promo) {
-                        foreach ($productsAll as $product){
-                            $priceStart = $product->price;
-                            if ($promo->discount_type == "Amount") {
-                                if (env('VIEW_WITH_IVA') == 1) {
-                                    $priceStart = round($product->price + (($product->price * $product->tax->value) / 100), 2);
+                //controllo se esistono promozioni per categoria
+                if (count($categories_ids)) {
+                    $promotions = Promotion::whereIn("category_id", $categories_ids)
+                        ->whereRaw("(start_date <= '$now' AND expiration_date >='$now')")
+                        ->get();
+
+                    if ($promotions) {
+                        foreach ($promotions as $promo) {
+                            foreach ($productsAll as $product) {
+                                $priceStart = $product->price;
+                                if ($promo->discount_type == "Amount") {
+                                    if (env('VIEW_WITH_IVA') == 1) {
+                                        $priceStart = round($product->price + (($product->price * $product->tax->value) / 100), 2);
+                                    }
+
+                                    $priceStart = $priceStart - $promo->reduction;
+                                } else {
+                                    $priceStart = $priceStart - (($priceStart * ($promo->reduction)) / 100);
                                 }
 
-                                $priceStart = $priceStart - $promo->reduction;
-                            } else {
-                                $priceStart = $priceStart - (($priceStart * ($promo->reduction)) / 100);
-                            }
+                                if ($product->brand_id !== null) {
+                                    $promotions = Promotion::where("brand_id", $product->brand_id)
+                                        ->whereNull("category_id")
+                                        ->whereRaw("(start_date <= '$now' AND expiration_date >='$now')")
+                                        ->get();
+                                    if (count($promotions)) {
+                                        foreach ($promotions as $promo) {
+                                            if ($promo->discount_type == "Amount") {
+                                                if (env('VIEW_WITH_IVA') == 1) {
+                                                    $priceStart = round($product->price + (($product->price * $product->tax->value) / 100), 2);
+                                                }
 
-                            if($product->brand_id !== null) {
-                                $promotions = Promotion::where("brand_id", $product->brand_id)
-                                    ->whereNull("category_id")
-                                    ->whereRaw("(start_date <= '$now' AND expiration_date >='$now')")
-                                    ->get();
-                                if (count($promotions)) {
-                                    foreach ($promotions as $promo) {
-                                        if ($promo->discount_type == "Amount") {
-                                            if(env('VIEW_WITH_IVA') == 1){
-                                                $priceStart = round($product->price + (($product->price * $product->tax->value)/100),2);
+                                                $priceStart = $priceStart - $promo->reduction;
+                                            } else {
+                                                $priceStart = $priceStart - (($priceStart * ($promo->reduction)) / 100);
                                             }
-
-                                            $priceStart = $priceStart - $promo->reduction;
-                                        } else {
-                                            $priceStart = $priceStart - (($priceStart * ($promo->reduction)) / 100);
                                         }
                                     }
                                 }
+                                $vet_prices[$product->id] = $priceStart;
                             }
-                            $vet_prices[$product->id] = $priceStart;
                         }
                     }
                 }
@@ -1345,64 +1310,67 @@ class PluginProductsController extends Controller
         }
 
         $brands_v = [];
+        $brands_ids = [];
 
-        if($productsAll){
-            foreach ($productsAll as $product){
-                if($pluginSetting->show_prices){
-                    $vet_prices[$product->id] = $product->search_price;
-                }
+        if($pluginSetting->show_brands_sidebar == 1) {
+            if ($productsAll) {
+                foreach ($productsAll as $product) {
+                    if ($pluginSetting->show_prices) {
+                        $vet_prices[$product->id] = $product->search_price;
+                    }
 
-                if($pluginSetting->show_brands_sidebar){
-                    $itemBrands = explode(",", $product->search_brands);
+                    if ($pluginSetting->show_brands_sidebar) {
+                        $itemBrands = explode(",", $product->search_brands);
 
-                    if(env("PROJECT_NAME") == "Manega" && strpos(\URL::current(), "luxury")) {
-                        if($product->brand->is_purchasable == 0){
-                            if(count($itemBrands)){
-                                foreach ($itemBrands as $item){
-                                    if(trim($item) != ""){
+                        if (env("PROJECT_NAME") == "Manega" && strpos(\URL::current(), "luxury")) {
+                            if ($product->brand->is_purchasable == 0) {
+                                if (count($itemBrands)) {
+                                    foreach ($itemBrands as $item) {
+                                        if (trim($item) != "") {
+                                            $brands_v[trim(strtolower($item))] = ucfirst(trim($item));
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            if (count($itemBrands)) {
+                                foreach ($itemBrands as $item) {
+                                    if (trim($item) != "") {
                                         $brands_v[trim(strtolower($item))] = ucfirst(trim($item));
                                     }
                                 }
                             }
                         }
-                    }else{
-                        if(count($itemBrands)){
-                            foreach ($itemBrands as $item){
-                                if(trim($item) != ""){
-                                    $brands_v[trim(strtolower($item))] = ucfirst(trim($item));
+                    }
+
+                    if ($pluginSetting->show_tags) {
+                        $itemTags = explode(",", $product->tags);
+                        if (count($itemTags)) {
+                            foreach ($itemTags as $item) {
+                                if (trim($item) != "") {
+                                    $tags[trim(strtolower($item))] = ucfirst(trim($item));
                                 }
                             }
                         }
                     }
                 }
+            }
 
-                if($pluginSetting->show_tags){
-                    $itemTags = explode(",", $product->tags);
-                    if(count($itemTags)){
-                        foreach ($itemTags as $item){
-                            if(trim($item) != ""){
-                                $tags[trim(strtolower($item))] = ucfirst(trim($item));
-                            }
-                        }
+            if (count($brands_v)) {
+                foreach ($brands_v as $brand_id) {
+                    $temp = PluginProductsBrands::find($brand_id);
+                    if ($temp) {
+                        $brands[$temp->slug] = $temp->name;
+                        $brands_ids[] = $brand_id;
                     }
                 }
             }
         }
 
-        $brands_ids = [];
-        if(count($brands_v)){
-            foreach ($brands_v as $brand_id){
-                $temp = PluginProductsBrands::find($brand_id);
-                if($temp){
-                    $brands[$temp->slug] = $temp->name;
-
-                    $brands_ids[] = $brand_id;
-                }
+        if(count($attributes_v)){
+            if($attribute_item_second) {
+                asort($attributes_v[$attribute_item_second->id]);
             }
-        }
-
-        if($attribute_item_second) {
-            asort($attributes_v[$attribute_item_second->id]);
         }
 
         asort($vet_prices);

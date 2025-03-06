@@ -421,10 +421,20 @@ class PluginProductsSettingsCrudController extends CrudController
                     'class' => 'form-group col-md-4'
                 ],
                 'type'  => 'switch',
-                'tab' => 'Generale'
+                'tab' => 'Filtri Ricerca'
             ]);
 
             if($adminPlugin->version == 3){
+                $this->crud->addField([   // Checkbox
+                    'name'  => 'show_prices_sidebar',
+                    'label' => 'Visualizza filtri prezzi in sidebar',
+                    'wrapperAttributes' => [
+                        'class' => 'form-group col-md-4'
+                    ],
+                    'type'  => 'switch',
+                    'tab' => 'Filtri Ricerca'
+                ]);
+
                 $this->crud->addField([   // Checkbox
                     'name'  => 'show_attributes_sidebar',
                     'label' => 'Visualizza filtri attributi in sidebar',
@@ -432,7 +442,7 @@ class PluginProductsSettingsCrudController extends CrudController
                         'class' => 'form-group col-md-4'
                     ],
                     'type'  => 'switch',
-                    'tab' => 'Generale'
+                    'tab' => 'Filtri Ricerca'
                 ]);
 
                 $this->crud->addField([   // Checkbox
@@ -442,7 +452,7 @@ class PluginProductsSettingsCrudController extends CrudController
                     'wrapperAttributes' => [
                         'class' => 'form-group col-md-4'
                     ],
-                    'tab' => 'Generale'
+                    'tab' => 'Filtri Ricerca'
                 ]);
             }
 

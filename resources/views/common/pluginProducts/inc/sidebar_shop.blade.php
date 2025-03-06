@@ -135,7 +135,7 @@
                     @endif
                 </div>
 
-                @if($prices)
+                @if($prices && $plugin->show_prices_sidebar == 1)
                     <?php
                     $symbol = "&euro;";
                     if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_country_user_dollar'))){
@@ -157,7 +157,7 @@
 
                 @if($category)
                     <div id="box_attributes_filters">
-                        @if(count($attributes_v) && $pluginSetting->show_attributes_sidebar == 1)
+                        @if(count($attributes_v) && $plugin->show_attributes_sidebar == 1)
                             @foreach($attributes_v as $attribute_id => $options)
                                 <?php
                                 $item_attribute = \App\Models\ShopAttributes::find($attribute_id);
