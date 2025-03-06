@@ -252,7 +252,17 @@ class PluginProductsSettingsCrudController extends CrudController
 
             $this->crud->addField([   // Checkbox
                 'name'  => 'view_topbar_ecommerce',
-                'label' => 'Visualizza Search Bar?',
+                'label' => 'Visualizza Search Bar nella lista e nel dettaglio prodotti?',
+                'type'  => 'switch',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-4'
+                ],
+                'tab' => 'Search bar'
+            ]);
+
+            $this->crud->addField([   // Checkbox
+                'name'  => 'categories_topbar_ecommerce',
+                'label' => 'Aggiungere browse categorie alla search bar?',
                 'type'  => 'switch',
                 'wrapperAttributes' => [
                     'class' => 'form-group col-md-4'
@@ -378,12 +388,7 @@ class PluginProductsSettingsCrudController extends CrudController
                 'tab' => 'Search bar'
             ]);
 
-            $this->crud->addField([   // Checkbox
-                'name'  => 'categories_topbar_ecommerce',
-                'label' => 'Aggiungere browse categorie?',
-                'type'  => 'switch',
-                'tab' => 'Search bar'
-            ]);
+
 
             $this->crud->addField([   // Checkbox
                 'name'  => 'view_price_autocomplete_topbar_ecommerce',
