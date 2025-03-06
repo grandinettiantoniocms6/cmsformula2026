@@ -109,6 +109,8 @@ class SetProductsSearch extends Command
                $vet_ids = null;
                if($item->is_variant == 0){
                    $vet_ids = $item->get_vet_ids_search($shopSetting);
+                   $encode = json_encode($vet_ids);
+                   $this->info("json $encode");
                }
 
                PluginProductsSearch::create([
