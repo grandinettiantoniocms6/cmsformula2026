@@ -208,7 +208,7 @@ $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first()
                                     @endif
                                 @else
                                     @if($plugin->show_form_contact == 1)
-                                        <p><a class="btn btn-primary btn-lg" href="#block-product-contact"><i class="fas fa-euro-sign"></i> {{ @$labels['richiedi-preventivo'] }}</a></p>
+                                        <!-- <p><a class="btn btn-primary btn-lg" href="#block-product-contact"><i class="fas fa-euro-sign"></i> {{ @$labels['richiedi-preventivo'] }}</a></p> -->
                                     @endif
                                 @endif
 
