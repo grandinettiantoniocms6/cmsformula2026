@@ -41,7 +41,7 @@
             </a>
 
             {{--CERCA IN HEADER --}}
-            <div class="navbar-search flex-grow-1 px-3 d-none d-md-block">
+            <div class="navbar-search flex-grow-1 w-100 px-3 d-none d-md-block">
                 @include("$thema.plugins.pluginProducts.v3.inc.search_top")
             </div>
             {{--CERCA IN HEADER --}}
