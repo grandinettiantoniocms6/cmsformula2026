@@ -1,7 +1,10 @@
 <?php $pluginSetting = \App\Models\PluginProductsSettings::first(); ?>
-<?php $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
+<?php
+$labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
 $shopSetting = \App\Models\ShopSettings::first();
 $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
+$optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray();
+
 $title = json_decode($item->title, true);
 $description = json_decode($item->description, true);
 ?>
@@ -66,7 +69,7 @@ $description = json_decode($item->description, true);
                                 $product->cover = $product->getCover();
                                 $vet_ids = $product->get_vet_ids($shopSetting);
                                 ?>
-                                @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid",['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting])
+                                @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid",['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, "optionsList" => $optionsList])
                             </div>
                         @endforeach
                     @endif

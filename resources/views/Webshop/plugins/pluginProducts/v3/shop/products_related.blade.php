@@ -1,6 +1,7 @@
 <?php
 $shopSetting = \App\Models\ShopSettings::first();
 $pluginSetting = \App\Models\PluginProductsSettings::first();
+$optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray();
 ?>
 @if($plugin->show_related_products == 1)
     @if(count($itemProduct->related) > 0)
@@ -41,7 +42,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                             $vet_ids = $product->get_vet_ids($shopSetting);
                             ?>
 
-                            @include("$thema.plugins.pluginProducts.v3.shop.box_product_grid", ['shopSetting' => $shopSetting])
+                            @include("$thema.plugins.pluginProducts.v3.shop.box_product_grid", ['shopSetting' => $shopSetting, "optionsList" => $optionsList])
                         @endif
                     @endforeach
                 </div>

@@ -3,6 +3,7 @@
 $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
 $shopSetting = \App\Models\ShopSettings::first();
 $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
+$optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray();
 
 $vet = [];
 if($item){
@@ -146,7 +147,7 @@ if($item){
                         }
                         $product->cover = $product->getCover();
                         ?>
-                        @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid",['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting])
+                        @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid",['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, "optionsList" => $optionsList])
                     </div>
                 @endforeach
             @endif
@@ -166,7 +167,7 @@ if($item){
                         }
                         $product->cover = $product->getCover();
                         ?>
-                        @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting])
+                        @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, "optionsList" => $optionsList])
                     </div>
                 @endforeach
             @endif
