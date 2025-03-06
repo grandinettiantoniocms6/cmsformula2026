@@ -859,7 +859,14 @@ class PluginProducts extends Model
 
                             $option->url_product = null;
                             if($product_temp){
-                                $option->url_product = route("pluginProducts.choose.".\App::getLocale(), [$product_temp->slug, $option->id]);
+                                $cat_prod_slug = "no-categoria";
+                                $cat_prod = $product_temp->category();
+                                if($cat_prod){
+                                    $cat_prod_slug = $cat_prod->slug;
+                                }
+
+                                $option->url_product = route("pluginProducts.".\App::getLocale(), [$cat_prod_slug, $product_temp->slug]);
+                                //$option->url_product = route("pluginProducts.choose.".\App::getLocale(), [$product_temp->slug, $option->id]);
                             }
 
                             $vet_ids[$attribute_item->name][] = $option;
