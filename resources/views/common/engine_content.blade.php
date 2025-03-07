@@ -60,10 +60,12 @@
                             }
                             break;
 
+                        // Blocco documenti ordinamento automatico per data di creazione
                         case "blocks_documents":
                             $array = \DB::table($adminBlock->name_table)
                                 ->where("block_id", $item->id)->orderBy("id", "desc")->get();
                             break;
+                        // fine
 
                         default:
                             $array = \DB::table($adminBlock->name_table)
