@@ -1,9 +1,7 @@
 <?php
 $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
 $shopSetting = \App\Models\ShopSettings::first();
-dump($images);
 ?>
-
 
 <div class="col-md-5 pe-lg-4">
     <div class="gallery-wrap">
@@ -45,8 +43,6 @@ dump($images);
                 <?php
                     $url = url("plugins/pluginProducts/no-image.jpg");
                 ?>
-            11
-
                 <img class="img-fluid card zoom-image" src="{{ $url }}" data-zoom-image="{{ $url }}" alt="{{ $itemProduct->name }}">
             @endif
         </div>
