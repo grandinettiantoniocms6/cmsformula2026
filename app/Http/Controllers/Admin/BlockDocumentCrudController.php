@@ -20,7 +20,7 @@ class BlockDocumentCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
+    //use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 
     public $block = "blockDocument";
     /**
@@ -42,9 +42,10 @@ class BlockDocumentCrudController extends CrudController
             $this->crud->query->where("block_id", request()->get('block_id'));
         }
 
-        $this->crud->query->orderBy("lft", "asc");
+        //$this->crud->query->orderBy("lft", "asc");
+        //$this->crud->isReorderEnabled();
 
-        $this->crud->isReorderEnabled();
+        $this->crud->query->orderBy("id", "desc");
     }
 
     protected function setupReorderOperation()

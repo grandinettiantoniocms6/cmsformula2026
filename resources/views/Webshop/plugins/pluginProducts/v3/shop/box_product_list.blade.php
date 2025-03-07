@@ -45,8 +45,9 @@
                         @endif
                     </div>
                 @endif
-
-                <button class="btn-product-icon" type="button" onclick="modal_view({{ $product->id }})" class="btn btn-primary btn-product" data-bs-toggle="tooltip" title="{{ @$labels['shop-visualizzazione-rapida'] }} {{ $product->name }}"><i class="bi bi-search"></i></button>
+                @if($shopSetting->is_modal_rapid)
+                     <button class="btn-product-icon" type="button" onclick="modal_view({{ $product->id }})" class="btn btn-primary btn-product" data-bs-toggle="tooltip" title="{{ @$labels['shop-visualizzazione-rapida'] }} {{ $product->name }}"><i class="bi bi-search"></i></button>
+                @endif
             </div>
             <div class="product-action product-action-1">
                 @if($adminPlugin->version == 3)
