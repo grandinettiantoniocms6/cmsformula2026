@@ -116,7 +116,7 @@ if($item){
                             $vet_ids = json_decode($product->vet_ids_list, true);
                         }
                         ?>
-                        @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid",['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting])
+                        @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid",['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, "optionsList" => $optionsList])
                     </div>
                 @endforeach
             @endif
