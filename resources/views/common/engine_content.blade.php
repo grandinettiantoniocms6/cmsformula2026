@@ -60,6 +60,11 @@
                             }
                             break;
 
+                        case "blocks_documents":
+                            $array = \DB::table($adminBlock->name_table)
+                                ->where("block_id", $item->id)->orderBy("id", "desc")->get();
+                            break;
+
                         default:
                             $array = \DB::table($adminBlock->name_table)
                                 ->where("block_id", $item->id)->orderBy("lft", "asc")->get();
