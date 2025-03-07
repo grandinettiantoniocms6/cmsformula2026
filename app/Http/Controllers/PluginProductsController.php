@@ -813,7 +813,7 @@ class PluginProductsController extends Controller
         $itemProduct = PluginProducts::where("id", $id)->first();
         if($itemProduct){
             $itemProduct->images = PluginProductsImages::where("product_id", $itemProduct->id)->orderBy("order", "asc")->get();
-            $itemProduct->options = PluginProductsOptions::selectRaw("plugins_products_attributes.name, plugins_products_otions.attribute_id, plugins_products_options.value")
+            $itemProduct->options = PluginProductsOptions::selectRaw("plugins_products_attributes.name, plugins_products_options.attribute_id, plugins_products_options.value")
                 ->join("plugins_products_attributes", "plugins_products_attributes.id", "=", "plugins_products_options.attribute_id")
                 ->where("product_id", $itemProduct->id)
                 ->orderBy("plugins_products_options.lft", "asc")
