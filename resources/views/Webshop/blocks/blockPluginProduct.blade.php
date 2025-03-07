@@ -25,19 +25,21 @@ $description = json_decode($item->description, true);
                         $category_slug = $category->slug;
 
                         if($value->is_random){
-                            $products = \App\Models\PluginProducts::selectRaw("plugins_products.*")
+                            $products = \App\Models\PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
+                                ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
                                 ->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
                                 ->where("plugins_products_categories_products.plugin_product_category_id", $value->category_id)
-                                ->where("is_active", 1)
+                                ->where("plugins_products.is_active", 1)
                                 ->inRandomOrder()
                                 ->take($value->number_max)
                                 ->get();
 
                         }else{
-                            $products = \App\Models\PluginProducts::selectRaw("plugins_products.*")
+                            $products = \App\Models\PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
+                                ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
                                 ->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
                                 ->where("plugins_products_categories_products.plugin_product_category_id", $value->category_id)
-                                ->where("is_active", 1)->take($value->number_max)->get();
+                                ->where("plugins_products.is_active", 1)->take($value->number_max)->get();
                         }
 
                     }else{
@@ -67,7 +69,10 @@ $description = json_decode($item->description, true);
                                 }
 
                                 $product->cover = $product->getCover();
-                                $vet_ids = $product->get_vet_ids($shopSetting);
+                                $vet_ids = [];
+                                if($product->vet_ids_list){
+                                    $vet_ids = json_decode($product->vet_ids_list, true);
+                                }
                                 ?>
                                 @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid",['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, "optionsList" => $optionsList])
                             </div>
