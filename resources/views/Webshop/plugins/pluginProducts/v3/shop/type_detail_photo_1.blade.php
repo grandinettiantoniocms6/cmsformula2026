@@ -1,6 +1,7 @@
 <?php
 $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
 $shopSetting = \App\Models\ShopSettings::first();
+dump($images);
 ?>
 
 
