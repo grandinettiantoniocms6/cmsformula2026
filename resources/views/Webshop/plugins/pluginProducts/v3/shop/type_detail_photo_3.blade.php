@@ -43,7 +43,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                 @endforeach
             @else
                 <?php
-                $url = url("plugins/pluginProducts/no-image.jpg");
+                $url = url("uploads/no-image.jpg");
                 ?>
                 <img class="img-fluid card zoom-image" src="{{ $url }}" data-zoom-image="{{ $url }}" alt="{{ $itemProduct->name }}">
             @endif
