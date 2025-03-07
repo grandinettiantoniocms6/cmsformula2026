@@ -104,15 +104,17 @@ class PluginProductsCategories extends Model
         $type = "pluginProductsCategories";
         $url_edit = "/admin/$type/$this->id/edit";
 
-        $num = PluginProducts::where("category_id", $this->id)->count();
+        $num1 = PluginProducts::where("category_id", $this->id)->count();
         $catFigli = PluginProductsCategories::where("parent_id", $this->id)->get()->pluck("id")->toArray();
         if(count($catFigli) > 0){
-            $num = PluginProducts::whereIn("category_id", $catFigli)->count();
+            $num2 = PluginProducts::whereIn("category_id", $catFigli)->count();
         }
 
+        $tot_num = $num1 + $num2;
+
         $htmlDelete = '';
-        if($num == 0){
-            $htmlDelete = '<a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="/admin/'.$type.'/'.$this->id.'" class="dropdown-item" data-button-type="delete"> '.$num.' Elimina</a>';
+        if($tot_num == 0){
+            $htmlDelete = '<a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="/admin/'.$type.'/'.$this->id.'" class="dropdown-item" data-button-type="delete"> '.$tot_num.' Elimina</a>';
         }
 
         $html = '<div class="dropdown">
