@@ -564,6 +564,13 @@ class ShopSettingsCrudController extends CrudController
                     'type' => 'switch',
                     'tab' => "Lista"
                 ]);
+
+                $this->crud->addField([   // Checkbox
+                    'name' => 'is_modal_rapid',
+                    'label' => 'Visualizzare vista rapida?',
+                    'type' => 'switch',
+                    'tab' => "Lista"
+                ]);
             }
 
             $this->crud->addField([
