@@ -42,13 +42,13 @@
 
             @if($website->is_search_in_header)
                 {{--CERCA IN HEADER --}}
-                <div class="navbar-search flex-grow-1 w-100 px-3 d-none d-md-block">
+                <div class="navbar-search flex-grow-1 px-3 d-none d-md-block">
                     @include("$thema.plugins.pluginProducts.v3.inc.search_top")
                 </div>
                 {{--CERCA IN HEADER --}}
             @endif
 
-            <div class="collapse navbar-collapse" id="navbar-main-collapse">
+            <div class="collapse navbar-collapse @if($website->is_search_in_header) flex-grow-0 @endif" id="navbar-main-collapse">
                 <div class="navbar-header">
                     <a class="navbar-brand-mobile" href="{{ url('/') }}">
                         @if($website->logo2)
@@ -98,11 +98,13 @@
                 @include('Webshop.plugins.pluginBooking.inc.topbar_menu')
             @endif
 
+            @if($website->is_search_in_header)
             {{--CERCA IN HEADER --}}
             <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#search-mobile" aria-expanded="false" aria-label="Cerca">
                 <i class="bi bi-search"></i>
             </button>
             {{--CERCA IN HEADER --}}
+            @endif
 
             <button class="navbar-toggler open-navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-main-collapse" aria-expanded="false" aria-label="Menu">
                 <span class="lines"></span>
@@ -111,6 +113,7 @@
         </nav>
     </div>
 
+    @if($website->is_search_in_header)
     {{--CERCA IN HEADER --}}
     <div class="d-block d-md-none">
         <div class="collapse" id="search-mobile">
@@ -120,6 +123,7 @@
         </div>
     </div>
     {{--CERCA IN HEADER --}}
+    @endif
 
     @yield('topbar_ecommerce')
 </header>

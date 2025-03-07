@@ -39,7 +39,7 @@ $optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray()
                 }
                 ?>
                 <nav class="navbar navbar-expand py-0">
-                    <div class="row flex-grow-1 gx-2 align-items-center">
+                    <div class="row flex-grow-1 gx-1 align-items-center flex-nowrap">
                         <div class="col-auto d-lg-none">
                             <button class="btn btn-sm btn-primary open-navbar" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-shop">
                                 {{ @$labels['shop-filtri'] }}
