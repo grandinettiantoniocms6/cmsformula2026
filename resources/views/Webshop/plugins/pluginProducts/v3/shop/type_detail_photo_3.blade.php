@@ -42,6 +42,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                     </div>
                 @endforeach
             @else
+
                 <?php
                 $url = url("uploads/no-image.jpg");
                 ?>
