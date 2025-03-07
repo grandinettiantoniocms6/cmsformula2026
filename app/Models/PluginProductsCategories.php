@@ -112,7 +112,7 @@ class PluginProductsCategories extends Model
 
         $htmlDelete = '';
         if($num == 0){
-            $htmlDelete = '<a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="/admin/'.$type.'/'.$this->id.'" class="dropdown-item" data-button-type="delete">Elimina</a>';
+            $htmlDelete = '<a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="/admin/'.$type.'/'.$this->id.'" class="dropdown-item" data-button-type="delete"> '.$num.' Elimina</a>';
         }
 
         $html = '<div class="dropdown">
