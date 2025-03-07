@@ -306,6 +306,8 @@ class PluginProductsCategoriesCrudController extends CrudController
         $lang->update_lang("pluginProductsCategories", $this->crud, $request);
         $this->crud->entry->save();
 
+        \Artisan::call('set:products_categories_search');
+
         return $this->crud->performSaveAction($item->getKey());
     }
 
@@ -329,6 +331,8 @@ class PluginProductsCategoriesCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang("pluginProductsCategories", $this->crud, $request);
         $this->crud->entry->save();
+
+        \Artisan::call('set:products_categories_search');
 
         return $this->crud->performSaveAction($item->getKey());
     }
@@ -371,4 +375,37 @@ class PluginProductsCategoriesCrudController extends CrudController
 
         return redirect()->back();
     }
+
+    public function destroy($id)
+    {
+        $this->crud->hasAccessOrFail('delete');
+
+        // get entry ID from Request (makes sure its the last ID for nested resources)
+        $id = $this->crud->getCurrentEntryId() ?? $id;
+
+        $this->crud->delete($id);
+
+        \Artisan::call('set:products_categories_search');
+
+        return "1";
+    }
+
+    public function saveReorder()
+    {
+        $this->crud->hasAccessOrFail('reorder');
+
+        $all_entries = \Request::input('tree');
+
+        if (count($all_entries)) {
+            $count = $this->crud->updateTreeOrder($all_entries);
+        } else {
+            return false;
+        }
+
+        \Artisan::call('set:products_categories_search');
+
+        return 'success for '.$count.' items';
+    }
 }
+
+
