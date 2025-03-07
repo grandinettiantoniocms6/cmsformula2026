@@ -2,11 +2,11 @@
 $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
 $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
 $pluginSetting = \App\Models\PluginProductsSettings::first();
+$shopSetting = \App\Models\ShopSettings::first();
 ?>
 @if($itemProduct)
     <?php
     $padre = null;
-    $shopSetting = \App\Models\ShopSettings::first();
     $cat_prod_name = "";
     $cat_prod_slug = "no-categoria";
     $cat_prod = $itemProduct->category();
@@ -389,14 +389,17 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                             &nbsp;&nbsp; <p><a class="btn btn-primary" href="#block-product-contact">{{ @$labels['richiedi-preventivo'] }} </a></p>
                                         @endif
                                     @else
-                                        @if(\Session::has("user_id"))
-                                            @if($itemProduct->in_wishlist(\Session::get('user_id')))
-                                                <a href="#" onclick="remove_wishlist({{ $itemProduct->id }})" class="btn btn-primary"><i class="fas fa-heart me-1"></i> {{ @$labels['shop-rimuovi-preferiti'] }}</a>
+
+                                        @if($shopSetting->is_add_to_wishlist)
+                                            @if(\Session::has("user_id"))
+                                                @if($itemProduct->in_wishlist(\Session::get('user_id')))
+                                                    <a href="#" onclick="remove_wishlist({{ $itemProduct->id }})" class="btn btn-primary"><i class="fas fa-heart me-1"></i> {{ @$labels['shop-rimuovi-preferiti'] }}</a>
+                                                @else
+                                                    <a href="#" onclick="add_wishlist({{ $itemProduct->id }})" class="btn btn-outline-primary"><i class="far fa-heart me-1"></i> {{ @$labels['shop-aggiungi-preferiti'] }}</a>
+                                                @endif
                                             @else
-                                                <a href="#" onclick="add_wishlist({{ $itemProduct->id }})" class="btn btn-outline-primary"><i class="far fa-heart me-1"></i> {{ @$labels['shop-aggiungi-preferiti'] }}</a>
+                                                <a href="{{ route('login') }}" class="btn btn-outline-primary" title="{{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}"><i class="far fa-heart me-2"></i> {{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}</a>
                                             @endif
-                                        @else
-                                            <a href="{{ route('login') }}" class="btn btn-outline-primary" title="{{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}"><i class="far fa-heart me-2"></i> {{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}</a>
                                         @endif
 
                                         @if(env('SLUG_COMPARE') && $pluginSetting->is_comparations)
