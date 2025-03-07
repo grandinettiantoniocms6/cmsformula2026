@@ -13,7 +13,6 @@ $shopSetting = \App\Models\ShopSettings::first();
                     $basename = basename($image);
                     $temp = explode(".", $basename);
 
-                    $url = url("plugins/pluginProducts/no-image.jpg");
                     if(is_numeric(strpos($image, "uploads"))){
                         $url = url("$image");
                     } else {
@@ -41,6 +40,13 @@ $shopSetting = \App\Models\ShopSettings::first();
                         <a class="btn btn-blank font-xl glightbox" data-effect="fade" href="{{ $url }}" title="{{ $itemProduct->name }}"><i class="bi bi-search"></i></a>
                     </div>
                 @endforeach
+            @else
+                <?php
+                    $url = url("plugins/pluginProducts/no-image.jpg");
+                ?>
+            11
+
+                <img class="img-fluid card zoom-image" src="{{ $url }}" data-zoom-image="{{ $url }}" alt="{{ $itemProduct->name }}">
             @endif
         </div>
         <div class="owl-carousel owl-theme my-2" id="thumb-carousel">
