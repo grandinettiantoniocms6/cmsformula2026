@@ -13,6 +13,8 @@
             $showDropzone = 1;
         }
     }
+
+
  ?>
   <div class="container-fluid">
     <h2>
@@ -46,7 +48,10 @@
                 @if($showDropzone)
                 <a href="/admin/dropzone?table={{ $adminBlock->name_table }}&id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-warning" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi multi</span></a>
                 @endif
-                <a href="/admin/{{ request()->get('block') }}/reorder?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-outline-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
+
+                @if(request()->get('block') != "blockDocument")
+                    <a href="/admin/{{ request()->get('block') }}/reorder?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-outline-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
+                @endif
 
                   <?php
                     $page = \App\Models\Page::where("id", request()->get('page_id'))->first();
