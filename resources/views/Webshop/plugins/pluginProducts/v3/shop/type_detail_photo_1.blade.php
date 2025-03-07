@@ -2,6 +2,7 @@
 $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
 $shopSetting = \App\Models\ShopSettings::first();
 ?>
+
 <div class="col-md-5 pe-lg-4">
     <div class="gallery-wrap">
         <div class="owl-carousel owl-theme" id="image-carousel">
@@ -38,6 +39,11 @@ $shopSetting = \App\Models\ShopSettings::first();
                         <a class="btn btn-blank font-xl glightbox" data-effect="fade" href="{{ $url }}" title="{{ $itemProduct->name }}"><i class="bi bi-search"></i></a>
                     </div>
                 @endforeach
+            @else
+                <?php
+                    $url = url("plugins/pluginProducts/no-image.jpg");
+                ?>
+                <img class="img-fluid card zoom-image" src="{{ $url }}" data-zoom-image="{{ $url }}" alt="{{ $itemProduct->name }}">
             @endif
         </div>
         <div class="owl-carousel owl-theme my-2" id="thumb-carousel">

@@ -221,12 +221,18 @@ class BlockDocumentCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang($this->block, $this->crud, $request);
 
-        // Questo serve per evitare di fare il riordina ad ogni nuovo record aggiunto
-        $lft = BlockDocument::orderBy("lft", "asc")->first();
+        // Se metto asc ogni nuovo record aggiunto va alla fine
+        /*$lft = BlockDocument::orderBy("lft", "asc")->first();
         if($lft){
             $this->crud->entry->lft = $lft->lft + 2;
         }
+        */
 
+        // Se metto desc ogni nuovo record aggiunto va all'inizio
+        $lft = BlockDocument::orderBy("lft", "desc")->first();
+        if($lft){
+            $this->crud->entry->lft = $lft->lft + 2;
+        }
 
         $this->crud->entry->save();
 

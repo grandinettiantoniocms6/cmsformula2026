@@ -40,11 +40,13 @@
                 @endif
             </a>
 
-            {{--CERCA IN HEADER --}}
-            <div class="navbar-search flex-grow-1 w-100 px-3 d-none d-md-block">
-                @include("$thema.plugins.pluginProducts.v3.inc.search_top")
-            </div>
-            {{--CERCA IN HEADER --}}
+            @if($website->is_search_in_header)
+                {{--CERCA IN HEADER --}}
+                <div class="navbar-search flex-grow-1 w-100 px-3 d-none d-md-block">
+                    @include("$thema.plugins.pluginProducts.v3.inc.search_top")
+                </div>
+                {{--CERCA IN HEADER --}}
+            @endif
 
             <div class="collapse navbar-collapse" id="navbar-main-collapse">
                 <div class="navbar-header">

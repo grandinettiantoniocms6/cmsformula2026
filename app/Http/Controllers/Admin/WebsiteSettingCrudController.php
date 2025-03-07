@@ -245,16 +245,20 @@ class WebsiteSettingCrudController extends CrudController
 
                 // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
                 if(env('TEMA') == 'Webshop' ){
-
-                    $this->crud->addField([   // Checkbox
-                        'name'  => 'is_topbar_fixed_mobile',
-                        'label' => 'Header fissa su Mobile',
-                        'type'  => 'switch',
-                        'wrapperAttributes' => [
-                            'class' => 'form-group col-md-6'
-                        ],
-                        'tab' => 'Header'
-                    ]);
+                    $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
+                    if($adminPluginProduct){
+                        if($adminPluginProduct->version >=2){
+                            $this->crud->addField([   // Checkbox
+                                'name'  => 'is_search_in_header',
+                                'label' => 'Search bar in header',
+                                'type'  => 'switch',
+                                'wrapperAttributes' => [
+                                    'class' => 'form-group col-md-6'
+                                ],
+                                'tab' => 'Header'
+                            ]);
+                        }
+                    }
 
                     $this->crud->addField([   // Checkbox
                         'name'  => 'transparent_header',

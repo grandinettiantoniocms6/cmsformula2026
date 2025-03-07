@@ -97,7 +97,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                </section>
            @endif
 
-           @include("$thema.plugins.pluginProducts.v3.shop.detail_plc")
+           @include("$thema.plugins.pluginProducts.v3.shop.$shopSetting->layout_detail")
     @endsection
 
     @section('content_footer')
