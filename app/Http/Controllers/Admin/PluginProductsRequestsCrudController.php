@@ -205,7 +205,11 @@ class PluginProductsRequestsCrudController extends CrudController
 
             $html .= "<p><strong>Oggetto</strong><br> {$request_item->object}</p>";
             $content = json_decode($request_item->content, true);
+
+            dd($content);
             foreach($content as $k=>$v){
+
+
                 if(is_numeric(strpos($k, "My name"))){
                     continue;
                 }
