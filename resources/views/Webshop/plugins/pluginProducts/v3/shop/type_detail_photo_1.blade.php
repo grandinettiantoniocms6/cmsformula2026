@@ -2,6 +2,8 @@
 $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
 $shopSetting = \App\Models\ShopSettings::first();
 ?>
+
+
 <div class="col-md-5 pe-lg-4">
     <div class="gallery-wrap">
         <div class="owl-carousel owl-theme" id="image-carousel">
@@ -11,6 +13,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                     $basename = basename($image);
                     $temp = explode(".", $basename);
 
+                    $url = url("plugins/pluginProducts/no-image.jpg");
                     if(is_numeric(strpos($image, "uploads"))){
                         $url = url("$image");
                     } else {
