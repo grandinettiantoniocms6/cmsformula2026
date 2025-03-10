@@ -253,7 +253,17 @@ class WebsiteSettingCrudController extends CrudController
                                 'label' => 'Search bar in header',
                                 'type'  => 'switch',
                                 'wrapperAttributes' => [
-                                    'class' => 'form-group col-md-6'
+                                    'class' => 'form-group col-md-2'
+                                ],
+                                'tab' => 'Header'
+                            ]);
+
+                            $this->crud->addField([   // Checkbox
+                                'name'  => 'is_search_one_col',
+                                'label' => 'Search bar monocolonna',
+                                'type'  => 'switch',
+                                'wrapperAttributes' => [
+                                    'class' => 'form-group col-md-2'
                                 ],
                                 'tab' => 'Header'
                             ]);

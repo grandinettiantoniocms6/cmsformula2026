@@ -77,76 +77,96 @@ $shopSetting = \App\Models\ShopSettings::first();
                         }
                         ?>
 
-                        <li class="nav-item dropdown has-megamenu">
-                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">{{ $item->title }}</a>
-                            <div class="dropdown-menu dropdown-menu-end megamenu elements-{{ count($categories) }}" role="menu">
+                        @if($website->is_search_one_col == 0)
+                            <li class="nav-item dropdown has-megamenu">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">{{ $item->title }}</a>
+                                <div class="dropdown-menu dropdown-menu-end megamenu elements-{{ count($categories) }}" role="menu">
+                                    @if($categories)
+                                        @foreach($categories as $categoryItem)
+                                            <?php
+                                            $tot = 0;
+                                            $cat_slug = $categoryItem['slug'][\App::getLocale()];
+                                            $cat_name = $categoryItem['name'][\App::getLocale()];
+                                            ?>
+                                            @if(count($categoryItem['figli']) > 0)
+                                                @foreach($categoryItem['figli'] as $figlio)
+                                                    <?php $tot = $tot + $figlio['count'];?>
+                                                @endforeach
+                                            @else
+                                                <?php $tot = $tot + $categoryItem['count']; ?>
+                                            @endif
+
+                                            @if($tot > 0)
+                                                <div class="col-megamenu">
+                                                    <h6 class="menu-title dropdown-item"><a href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></h6>
+                                                    @if(count($categoryItem['figli']) > 0)
+                                                        <ul class="list-unstyled mb-0">
+                                                            @foreach($categoryItem['figli'] as $figlio)
+                                                                <?php
+                                                                $cat_slug = $figlio['slug'][\App::getLocale()];
+                                                                $cat_name = $figlio['name'][\App::getLocale()];
+                                                                ?>
+                                                                @if($figlio['count'] > 0)
+                                                                    <li><a class="dropdown-item" href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </div>  <!-- col-megamenu.// -->
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </li>
+                        @else
+                            <li class="nav-item dropdown">
+                                <!-- Level one dropdown-->
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">{{ $item->title }}</a>
                                 @if($categories)
+                                    <ul class="dropdown-menu dropdown-menu-end">
                                     @foreach($categories as $categoryItem)
-                                        <?php
-                                        $tot = 0;
-                                        $cat_slug = $categoryItem['slug'][\App::getLocale()];
-                                        $cat_name = $categoryItem['name'][\App::getLocale()];
-                                        ?>
+                                            <?php
+                                            $tot = 0;
+                                            $cat_slug = $categoryItem['slug'][\App::getLocale()];
+                                            $cat_name = $categoryItem['name'][\App::getLocale()];
+                                            ?>
                                         @if(count($categoryItem['figli']) > 0)
                                             @foreach($categoryItem['figli'] as $figlio)
-                                                <?php $tot = $tot + $figlio['count'];?>
+                                                    <?php $tot = $tot + $figlio['count'];?>
                                             @endforeach
                                         @else
-                                            <?php $tot = $tot + $categoryItem['count']; ?>
+                                                <?php $tot = $tot + $categoryItem['count']; ?>
                                         @endif
 
                                         @if($tot > 0)
-                                            <div class="col-megamenu">
-                                                <h6 class="menu-title dropdown-item"><a href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></h6>
-                                                @if(count($categoryItem['figli']) > 0)
-                                                    <ul class="list-unstyled mb-0">
+                                            @if(count($categoryItem['figli']) > 0)
+                                                <li class="has-submenu">
+                                                    <a class="dropdown-item dropdown-toggle" href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $cat_name }}</a>
+                                                    <ul class="dropdown-menu submenu">
                                                         @foreach($categoryItem['figli'] as $figlio)
-                                                            <?php
-                                                            $cat_slug = $figlio['slug'][\App::getLocale()];
-                                                            $cat_name = $figlio['name'][\App::getLocale()];
-                                                            ?>
+                                                                <?php
+                                                                $cat_slug = $figlio['slug'][\App::getLocale()];
+                                                                $cat_name = $figlio['name'][\App::getLocale()];
+                                                                ?>
                                                             @if($figlio['count'] > 0)
                                                                 <li><a class="dropdown-item" href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></li>
                                                             @endif
                                                         @endforeach
                                                     </ul>
-                                                @endif
-                                            </div>  <!-- col-megamenu.// -->
+                                                </li>
+                                            @else
+                                                <li><a class="dropdown-item" href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></li>
+                                            @endif
                                         @endif
                                     @endforeach
+                                    </ul>
                                 @endif
-                            </div>
-                        </li>
-
-                        {{--PER KEIVAN--}}
-
-                            <li class="nav-item dropdown">
-                                <!-- Level one dropdown-->
-                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Menu Multilivello</a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#"> Dropdown item 1 </a></li>
-                                    <!-- Level two dropdown-->
-                                    <li class="has-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Dropdown item 2</a>
-                                        <ul class="dropdown-menu submenu">
-                                            <li><a class="dropdown-item" href="#">Submenu item 1</a></li>
-                                            <li><a class="dropdown-item" href="#">Submenu item 2</a></li>
-                                            <!-- Level three dropdown-->
-                                            <li class="has-submenu">
-                                                <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Submenu item 3</a>
-                                                <ul class="dropdown-menu submenu">
-                                                    <li><a class="dropdown-item" href="#">Multi level 1</a></li>
-                                                    <li><a class="dropdown-item" href="#">Multi level 2</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a class="dropdown-item" href="#">Submenu item 4</a></li>
-                                            <li><a class="dropdown-item" href="#">Submenu item 5</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#"> Dropdown item 3 </a></li>
-                                    <li><a class="dropdown-item" href="#"> Dropdown item 4 </a></li>
-                                </ul>
                             </li>
+                        @endif
+
+
+
+
                     @endif
                 @endif
             @else
