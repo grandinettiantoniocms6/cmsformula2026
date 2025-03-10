@@ -260,7 +260,7 @@ class WebsiteSettingCrudController extends CrudController
 
                             $this->crud->addField([   // Checkbox
                                 'name'  => 'is_search_one_col',
-                                'label' => 'Search bar monocolonna',
+                                'label' => 'Megamenu (se attivo) monocolonna',
                                 'type'  => 'switch',
                                 'wrapperAttributes' => [
                                     'class' => 'form-group col-md-2'
