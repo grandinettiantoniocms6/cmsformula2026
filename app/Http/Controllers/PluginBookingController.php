@@ -415,12 +415,17 @@ class PluginBookingController extends Controller
                                     ->first();
                             }
 
+                            if($check_reservation){  //caso 19-26 prenotato e sto prenotando 18-19  Controllo se la data ultima coincide con la data prenotata allora si può prenotare
+                                if($check_reservation->date_start == $session->end){
+                                    $check_reservation = null;
+                                }
+                            }
+
                         }else{
                             $sql_add = "";
                             if($session->start_time){
                                 $sql_add = "AND start_time = '$session->start_time'";
                             }
-
 
                             if(count($status_confermati)){
                                 $check_reservation = \App\Models\PluginBookingReservation::whereRaw("(date_start = '$session->start' $sql_add)")
@@ -435,6 +440,9 @@ class PluginBookingController extends Controller
                         }
                     }
 
+                    if($room->id == 5){
+                       // dd($check_reservation);
+                    }
 
                     if($check_reservation){
                         $room->is_disp = 0;
@@ -1340,6 +1348,12 @@ class PluginBookingController extends Controller
                                  OR (date_start <= '$session->end' AND date_end > '$session->end'))")
                             ->whereIn("id", $res_ids)
                             ->first();
+                    }
+
+                    if($check_reservation){  //caso 19-26 prenotato e sto prenotando 18-19  Controllo se la data ultima coincide con la data prenotata allora si può prenotare
+                        if($check_reservation->date_start == $session->end){
+                            $check_reservation = null;
+                        }
                     }
                 }else{
                     $sql_add = "";

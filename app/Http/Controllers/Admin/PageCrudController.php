@@ -172,7 +172,7 @@ class PageCrudController extends CrudController
         $this->crud->removeButton("show");
         $this->crud->removeButton("clone");
 
-        $adminPlugin = AdminPlugin::where("name", "pluginProducts")->first();
+        $adminPlugin = AdminPlugin::where("name", "pluginProducts")->where("is_active", 1)->first();
         if($adminPlugin){
             $vet = [
                 // run a function on the CRUD model and show its return value
@@ -184,7 +184,7 @@ class PageCrudController extends CrudController
                 'limit' => 10000, // Limit the number of characters shown
             ];
         }else{
-            $vet = [];
+            $vet = ["name" => ""];
         }
 
         // Columns.
