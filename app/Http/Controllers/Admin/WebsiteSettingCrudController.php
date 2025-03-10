@@ -258,15 +258,7 @@ class WebsiteSettingCrudController extends CrudController
                                 'tab' => 'Header'
                             ]);
 
-                            $this->crud->addField([   // Checkbox
-                                'name'  => 'is_search_one_col',
-                                'label' => 'Megamenu (se attivo) monocolonna',
-                                'type'  => 'switch',
-                                'wrapperAttributes' => [
-                                    'class' => 'form-group col-md-2'
-                                ],
-                                'tab' => 'Header'
-                            ]);
+
                         }
                     }
 
@@ -1673,6 +1665,16 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                 'type'  => 'switch',
                 'wrapperAttributes' => [
                     'class' => 'form-group col-md-12'
+                ],
+                'tab' => 'Impostazioni Extra'
+            ]);
+
+            $this->crud->addField([   // Checkbox
+                'name'  => 'is_search_one_col',
+                'label' => 'Megamenu (se attivo) monocolonna',
+                'type'  => 'switch',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-2'
                 ],
                 'tab' => 'Impostazioni Extra'
             ]);
