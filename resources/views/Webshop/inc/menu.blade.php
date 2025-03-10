@@ -32,38 +32,6 @@ $shopSetting = \App\Models\ShopSettings::first();
 
             ?>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">TEST</a>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <!-- Level one dropdown-->
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Menu Multilivello</a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#"> Dropdown item 1 </a></li>
-                        <!-- Level two dropdown-->
-                        <li class="has-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Dropdown item 2</a>
-                            <ul class="dropdown-menu submenu">
-                                <li><a class="dropdown-item" href="#">Submenu item 1</a></li>
-                                <li><a class="dropdown-item" href="#">Submenu item 2</a></li>
-                                <!-- Level three dropdown-->
-                                <li class="has-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Submenu item 3</a>
-                                    <ul class="dropdown-menu submenu">
-                                        <li><a class="dropdown-item" href="#">Multi level 1</a></li>
-                                        <li><a class="dropdown-item" href="#">Multi level 2</a></li>
-                                    </ul>
-                                </li>
-                                <li><a class="dropdown-item" href="#">Submenu item 4</a></li>
-                                <li><a class="dropdown-item" href="#">Submenu item 5</a></li>
-                            </ul>
-                        </li>
-                        <li><a class="dropdown-item" href="#"> Dropdown item 3 </a></li>
-                        <li><a class="dropdown-item" href="#"> Dropdown item 4 </a></li>
-                    </ul>
-                </li>
-
             @if($item->slug != "/")
                 @if(count($item->figli))
                     <li class="nav-item dropdown">
