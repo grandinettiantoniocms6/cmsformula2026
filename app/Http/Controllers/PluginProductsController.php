@@ -71,14 +71,18 @@ class PluginProductsController extends Controller
             }
         }
 
+        //SPECIAL PAGE SHOPS
         $special_urls = [];
-        if(env('PLUGIN_PRODUCTS_SPECIAL_URL') != ""){
-            $special_urls = explode(",", env('PLUGIN_PRODUCTS_SPECIAL_URL'));
-            if($special_urls){
-                foreach ($special_urls as $special){
-                    foreach ($adminLangs as $item_lang){
-                        $special_urls[] = "$special-{$item_lang->name}";
-                    }
+        $pages_special_shop = Page::where("is_special_shop", 1)->get();
+        if($pages_special_shop){
+            foreach ($pages_special_shop as $ps){
+                $special_urls[] = $ps->slug;
+            }
+        }
+        if(count($special_urls)){
+            foreach ($special_urls as $special){
+                foreach ($adminLangs as $item_lang){
+                    $special_urls[] = "$special-{$item_lang->name}";
                 }
             }
         }

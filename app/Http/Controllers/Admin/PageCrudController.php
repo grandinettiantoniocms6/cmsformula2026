@@ -172,6 +172,21 @@ class PageCrudController extends CrudController
         $this->crud->removeButton("show");
         $this->crud->removeButton("clone");
 
+        $adminPlugin = AdminPlugin::where("name", "pluginProducts")->first();
+        if($adminPlugin){
+            $vet = [
+                // run a function on the CRUD model and show its return value
+                'name'  => 'is_special_shop',
+                'label' => 'Special Shop', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'getIsSpecialShop', // the method in your Model
+                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
+                'limit' => 10000, // Limit the number of characters shown
+            ];
+        }else{
+            $vet = [];
+        }
+
         // Columns.
         $this->crud->setColumns([
             [
@@ -211,16 +226,9 @@ class PageCrudController extends CrudController
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
                 'limit' => 10000, // Limit the number of characters shown
             ],
-            /*[
-                // run a function on the CRUD model and show its return value
-                'name'  => 'is_homepage',
-                'label' => 'Homepage', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsHomepage', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
-            ],*/
+            $vet
         ]);
+
 
 
         $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->where("is_active", 1)->first();
@@ -319,7 +327,7 @@ class PageCrudController extends CrudController
             'label' => 'Includere nel menu?',
             'type'  => 'switch',
             'wrapperAttributes' => [
-                'class' => 'form-group col-md-3'
+                'class' => 'form-group col-md-2'
             ],
         ]);
 
@@ -328,7 +336,7 @@ class PageCrudController extends CrudController
             'label' => 'Includere in topbar?',
             'type'  => 'switch',
             'wrapperAttributes' => [
-                'class' => 'form-group col-md-3'
+                'class' => 'form-group col-md-2'
             ],
         ]);
 
@@ -371,6 +379,18 @@ class PageCrudController extends CrudController
                 'class' => 'form-group col-md-2'
             ],
         ]);
+
+        $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->where("is_active", 1)->first();
+        if($adminPlugin){
+            $this->crud->addField([   // Checkbox
+                'name'  => 'is_special_shop',
+                'label' => 'Special Shop?',
+                'type'  => 'switch',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-2'
+                ],
+            ]);
+        }
 
         $this->crud->addField([   // select2_from_array
             'name'        => 'template',
