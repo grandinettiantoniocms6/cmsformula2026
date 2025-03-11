@@ -342,15 +342,17 @@ class PluginProductsController extends Controller
             }
 
             $v_cat = [];
-            $v_cat[] = $category->id;
+           // $v_cat[] = $category->id;
 
             $figli = PluginProductsCategories::where("is_active", 1)->where("parent_id", $category->id)->get();
-            if($figli){
+            if(count($figli)){
                 if($figli){
                     foreach($figli as $figlio){
                         $v_cat[] = $figlio->id;
                     }
                 }
+            }else{
+                $v_cat[] = $category->id;
             }
 
             if($v_cat){
@@ -387,9 +389,8 @@ class PluginProductsController extends Controller
 
         $products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
             ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-            ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%'")
+            ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%' AND plugins_products_search.is_active = 1")
             ->where("plugins_products.is_variant", 0)
-            ->where("plugins_products.is_active", 1)
             ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sqlCondition $sql_search")
             ->orderBy("is_evidenza", "DESC")
             ->orderBy("plugins_products.$field_order_by", $field_order_type)
@@ -405,8 +406,6 @@ class PluginProductsController extends Controller
             ->orderBy("plugins_products.$field_order_by", $field_order_type)
             ->groupBy("plugins_products.id")
             ->get();
-
-
 
         $endTime = (microtime(true) - $startTime);
         //echo $endTime;
@@ -1164,27 +1163,9 @@ class PluginProductsController extends Controller
 
 
     public function get_categories_sidebar($categories, $productsAllVet_Temp = null){
-        /*$sql_add = "plugins_products_categories.is_active = 1";
-        if($productsAllVet_Temp){
-            $ids_string = implode(",", $productsAllVet_Temp);
-            $sql_add = "plugins_products_categories.is_active = 1 AND plugin_product_product_id IN ($ids_string)";
-        }*/
-
         if($categories){
             foreach ($categories as $k=>$item){
-
-                /*$item->count = PluginProductsCategoriesProducts::join("plugins_products_categories", "plugins_products_categories.id", "=", "plugins_products_categories_products.plugin_product_category_id")
-                    ->join("plugins_products", "plugins_products.id", "=", "plugins_products_categories_products.plugin_product_product_id")
-                    ->where("plugin_product_category_id", $item->id)
-                    ->whereRaw($sql_add)
-                    ->where("plugins_products.is_variant", 0)
-                    ->where("plugins_products.is_active", 1)
-                    ->whereNull("plugins_products.deleted_at")
-                    ->count();*/
-
                 $item->count = PluginProductsSearch::whereRaw("categories LIKE '%,$item->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
-
-
                 $check = PluginProductsCategories::where("parent_id", $item->id)->where("is_active", 1)->orderBy("lft", "asc")->get();
                 if($check){
                     $item->figli = $check;
@@ -1192,50 +1173,18 @@ class PluginProductsController extends Controller
 
                         $tot_figli = 0;
                         foreach($item->figli as $figlio){
-
-                            /*$figlio->count = PluginProductsCategoriesProducts::join("plugins_products_categories", "plugins_products_categories.id", "=", "plugins_products_categories_products.plugin_product_category_id")
-                                ->join("plugins_products", "plugins_products.id", "=", "plugins_products_categories_products.plugin_product_product_id")
-                                ->where("plugin_product_category_id", $figlio->id)
-                                ->whereRaw($sql_add)
-                                ->where("plugins_products.is_variant", 0)
-                                ->where("plugins_products.is_active", 1)
-                                ->whereNull("plugins_products.deleted_at")
-                                ->count();*/
-
                             $figlio->count = PluginProductsSearch::whereRaw("categories LIKE '%,$figlio->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
-
                             $tot_figli = $tot_figli + $figlio->count;
 
                             $check_2 = PluginProductsCategories::where("parent_id", $figlio->id)->where("is_active", 1)->orderBy("lft", "asc")->get();
                             if($check_2){
                                 $figlio->figli_2 = $check_2;
                                 foreach($figlio->figli_2 as $figlio2){
-
-                                    /*$figlio2->count = PluginProductsCategoriesProducts::join("plugins_products_categories", "plugins_products_categories.id", "=", "plugins_products_categories_products.plugin_product_category_id")
-                                        ->join("plugins_products", "plugins_products.id", "=", "plugins_products_categories_products.plugin_product_product_id")
-                                        ->where("plugin_product_category_id", $figlio2->id)
-                                        ->whereRaw($sql_add)
-                                        ->where("plugins_products.is_variant", 0)
-                                        ->where("plugins_products.is_active", 1)
-                                        ->whereNull("plugins_products.deleted_at")
-                                        ->count();*/
-
                                     $figlio2->count = PluginProductsSearch::whereRaw("categories LIKE '%,$figlio2->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
-
-
                                     $check_3 = PluginProductsCategories::where("parent_id", $figlio2->id)->where("is_active", 1)->orderBy("lft", "asc")->get();
                                     if($check_3) {
                                         $figlio2->figli_3 = $check_3;
                                         foreach($figlio2->figli_3 as $figlio3) {
-                                            /*$figlio3->count = PluginProductsCategoriesProducts::join("plugins_products_categories", "plugins_products_categories.id", "=", "plugins_products_categories_products.plugin_product_category_id")
-                                                ->join("plugins_products", "plugins_products.id", "=", "plugins_products_categories_products.plugin_product_product_id")
-                                                ->where("plugin_product_category_id", $figlio3->id)
-                                                ->whereRaw($sql_add)
-                                                ->where("plugins_products.is_variant", 0)
-                                                ->where("plugins_products.is_active", 1)
-                                                ->whereNull("plugins_products.deleted_at")
-                                                ->count();*/
-
                                             $figlio3->count = PluginProductsSearch::whereRaw("categories LIKE '%,$figlio3->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
                                         }
                                     }
