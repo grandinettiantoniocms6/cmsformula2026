@@ -55,6 +55,7 @@ class Kernel extends ConsoleKernel
         $schedule->exec('composer dump-autoload')->everyMinute();
         $schedule->exec('php artisan db:seed')->everyMinute();*/
 
+
         //$schedule->command('auto:command')->everyMinute();
         if(env('APP_NAME') == "Righetto"){
             $schedule->command('send:reminder_righetto')
