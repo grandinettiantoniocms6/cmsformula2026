@@ -79,6 +79,7 @@ class PluginProductsController extends Controller
                 $special_urls[] = $ps->slug;
             }
         }
+
         if(count($special_urls)){
             foreach ($special_urls as $special){
                 foreach ($adminLangs as $item_lang){
@@ -256,6 +257,19 @@ class PluginProductsController extends Controller
         $products_processed_total = null;
 
         if($slug){
+            $category = PluginProductsCategories::where("is_active", 1)
+                ->whereRaw("slug LIKE '%$slug%'")
+                ->first();
+
+            if($category->parent_id){
+                $parent = PluginProductsCategories::where("is_active", 1)
+                    ->whereNotNull("list_pages")
+                    ->where("id", $category->parent_id)->first();
+                if($parent){
+                    $slug = $parent->slug;
+                }
+            }
+
             if(in_array($slug, $special_urls)){
                 $categories = PluginProductsCategories::where("is_active", 1)
                     ->where("parent_id", null)
@@ -273,6 +287,7 @@ class PluginProductsController extends Controller
                         ->orderBy("lft", "asc")
                         ->get();
                 }else{
+                    $trovato = 0;
                     foreach ($special_urls as $special){
                         if(is_numeric(strpos(\Request::url(), "/$special/"))){
                             $categories = PluginProductsCategories::where("is_active", 1)
@@ -283,8 +298,20 @@ class PluginProductsController extends Controller
                                 ->orderBy("lft", "asc")
                                 ->get();
 
-                            break;
+                            if($categories){
+                                $trovato = 1;
+                                break;
+                            }
                         }
+                    }
+
+                    if($trovato == 0){
+                        $categories = PluginProductsCategories::where("is_active", 1)
+                            ->where("parent_id", null)
+                            ->where("is_purchasable", 1)
+                            ->where("is_in_list_shop_page", 1)
+                            ->orderBy("lft", "asc")
+                            ->get();
                     }
                 }
             }

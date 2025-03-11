@@ -69,10 +69,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('send:reminder_booking')
             ->dailyAt("08:00");
 
-        if(env('APP_NAME') == "Gioielleria-Manega"){
-           // $schedule->command('clear:user_spam')->dailyAt("03:00");
-        }
-
         $parking = AdminPlugin::where("name", "pluginParking")->where("is_active", 1)->first();
         if($parking){
             $schedule->command('import:parkos')

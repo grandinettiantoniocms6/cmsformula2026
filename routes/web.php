@@ -2,6 +2,7 @@
 $lang = \App::getLocale();
 
 use App\Models\AdminLanguage;
+use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
@@ -506,7 +507,15 @@ if($url_plugin_product) {
     Route::get("$url_plugin_product/{category}/{slug}", ['as' => "pluginProducts.detail.it", 'uses' => 'PluginProductsController@pluginProductsDetail', 'middleware' => ['plugin_products']]);
 }
 
-if(env('PLUGIN_PRODUCTS_SPECIAL_URL') != ""){
+$special_urls = [];
+$pages_special_shop = Page::where("is_special_shop", 1)->get();
+if($pages_special_shop){
+    foreach ($pages_special_shop as $ps){
+        $special_urls[] = $ps->slug;
+    }
+}
+
+if(count($special_urls)){
     $adminLangs = AdminLanguage::where("is_active", 1)->where("is_frontend", 1)->get();
     $special_urls = explode(",", env('PLUGIN_PRODUCTS_SPECIAL_URL'));
 
@@ -516,7 +525,6 @@ if(env('PLUGIN_PRODUCTS_SPECIAL_URL') != ""){
                 $url_plugin_product = $special;
                 break;
             }
-
         }
 
         Route::get("$url_plugin_product", ['as' => "pluginProducts.it", 'uses'=>'PluginProductsController@pluginProducts', 'middleware' => ['plugin_products']]);
