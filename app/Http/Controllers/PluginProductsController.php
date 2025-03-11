@@ -261,12 +261,14 @@ class PluginProductsController extends Controller
                 ->whereRaw("slug LIKE '%$slug%'")
                 ->first();
 
-            if($category->parent_id){
-                $parent = PluginProductsCategories::where("is_active", 1)
-                    ->whereNotNull("list_pages")
-                    ->where("id", $category->parent_id)->first();
-                if($parent){
-                    $slug = $parent->slug;
+            if($category){
+                if($category->parent_id){
+                    $parent = PluginProductsCategories::where("is_active", 1)
+                        ->whereNotNull("list_pages")
+                        ->where("id", $category->parent_id)->first();
+                    if($parent){
+                        $slug = $parent->slug;
+                    }
                 }
             }
 
@@ -330,6 +332,7 @@ class PluginProductsController extends Controller
             $category = PluginProductsCategories::where("is_active", 1)
                 ->whereRaw("slug LIKE '%\"$lang\":\"$slug\"%'")
                 ->first();
+
             if(!$category){
                 if($ajax_mode == 0){
                     return redirect()->to("/");
