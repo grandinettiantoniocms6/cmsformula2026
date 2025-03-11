@@ -150,19 +150,19 @@
                                                 <div class="row">
                                                     @if($options)
                                                         @foreach($options as $option)
-                                                                <?php
-                                                                //background_color
-                                                                if($option['type_layout'] == 0){
-                                                                    $type_layout = "checkbox-size";
-                                                                }else{
-                                                                    $type_layout = "checkbox-color";
-                                                                }
+                                                            <?php
+                                                            //background_color
+                                                            if($option['type_layout'] == 0){
+                                                                $type_layout = "checkbox-size";
+                                                            }else{
+                                                                $type_layout = "checkbox-color";
+                                                            }
 
-                                                                $IconImage = null;
-                                                                if(key_exists($option['option_id'], $optionsList)){
-                                                                    $IconImage = $optionsList[$option['option_id']];
-                                                                }
-                                                                ?>
+                                                            $IconImage = null;
+                                                            if(key_exists($option['option_id'], $optionsList)){
+                                                                $IconImage = $optionsList[$option['option_id']];
+                                                            }
+                                                            ?>
                                                             <div class="col-12">
                                                                 <a class="card card-variant text-decoration-none mb-3" title="{{ $option['value'][\App::getLocale()] }}" href="{{ $option['url_product'] }}">
                                                                     <div class="row gx-0">

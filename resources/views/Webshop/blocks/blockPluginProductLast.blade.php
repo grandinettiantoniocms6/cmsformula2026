@@ -136,7 +136,11 @@ if($item){
                         }
                         $product->cover = $product->getCover();
 
-                        $vet_ids = $product->get_vet_ids($shopSetting);
+                        //$vet_ids = $product->get_vet_ids($shopSetting);
+                        $vet_ids = [];
+                        if($product->vet_ids_list){
+                            $vet_ids = json_decode($product->vet_ids_list, true);
+                        }
                         ?>
                         @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting])
                     </div>
