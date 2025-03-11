@@ -10,6 +10,8 @@ use App\Console\Commands\CreateThumbBlock;
 use App\Console\Commands\CreateThumbBrands;
 use App\Console\Commands\CreateThumbHeaders;
 use App\Console\Commands\ImportParkos;
+use App\Console\Commands\ImportPlcClient;
+use App\Console\Commands\ImportPlcRequest;
 use App\Console\Commands\ImportSaviplast;
 use App\Console\Commands\MultiCategoriesSaviplast;
 use App\Console\Commands\SendReminderRighetto;
@@ -39,7 +41,9 @@ class Kernel extends ConsoleKernel
         ClearUserSpam::class,
         SetProductsLangs::class,
         SendReminderBooking::class,
-        ImportParkos::class
+        ImportParkos::class,
+        ImportPlcClient::class,
+        ImportPlcRequest::class
     ];
 
     /**
