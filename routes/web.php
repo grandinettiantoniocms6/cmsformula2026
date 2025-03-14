@@ -507,8 +507,7 @@ if($url_plugin_product) {
     Route::get("$url_plugin_product/{category}/{slug}", ['as' => "pluginProducts.detail.it", 'uses' => 'PluginProductsController@pluginProductsDetail', 'middleware' => ['plugin_products']]);
 }
 
-$adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
-if($adminPlugin){
+if(env("APP_KEY") != ""){
     $special_urls = [];
     $pages_special_shop = Page::where("is_special_shop", 1)->get();
 
@@ -542,7 +541,6 @@ if($adminPlugin){
         }
     }
 }
-
 
 
 $url_plugin_product = env("PLUGIN_PRODUCTS_URL_EN");
