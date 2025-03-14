@@ -13,9 +13,9 @@ class AddIsSpecialShopPagesTable extends Migration
      */
     public function up()
     {
-        Schema::table('pages', function (Blueprint $table) {
+        /*Schema::table('pages', function (Blueprint $table) {
             $table->boolean("is_special_shop")->default(0);
-        });
+        });*/
     }
 
     /**
