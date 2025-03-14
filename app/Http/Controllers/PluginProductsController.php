@@ -389,7 +389,7 @@ class PluginProductsController extends Controller
 
         $products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
             ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-            ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%' AND plugins_products_search.is_active = 1")
+            ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%' AND plugins_products.is_active = 1")
             ->where("plugins_products.is_variant", 0)
             ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sqlCondition $sql_search")
             ->orderBy("is_evidenza", "DESC")
