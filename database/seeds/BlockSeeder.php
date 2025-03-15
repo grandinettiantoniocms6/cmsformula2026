@@ -451,6 +451,7 @@ class BlockSeeder extends Seeder
             "is_multi" => 0
         ]);
 
+
         // Nuove label dalla riga successiva
 
 
