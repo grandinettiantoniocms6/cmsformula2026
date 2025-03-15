@@ -104,11 +104,11 @@ if($descriptionBlocco){
 
                                 @if(trim($title[\App::getLocale()]) != "" || trim($description[\App::getLocale()]) != "")
                                     @if(trim($title[\App::getLocale()]) != "")
-                                        <span style="font-size: 18px; font-weight: bold;">{{ $title[\App::getLocale()] }}</span><br>
+                                        <span style="style="font-size: 14px;">{{ $title[\App::getLocale()] }}</span><br>
                                     @endif
 
                                     @if(trim($description[\App::getLocale()]) != "")
-                                        <span style="font-size: 14px;"> {!! $description[\App::getLocale()] !!}
+                                            <p> {!! $description[\App::getLocale()] !!}</p>
                                     @endif
                                 @endif
                             </li>

@@ -115,7 +115,7 @@ if($descriptionBlocco){
                                                     @if(trim($title[\App::getLocale()]) != "" || trim($description[\App::getLocale()]) != "")
                                                     <div class="portfolio-caption pt-30px pb-30px sm-pt-20px sm-pb-20px">
                                                         @if(trim($title[\App::getLocale()]) != "")
-                                                            <span style="font-size: 18px; font-weight: bold;">{{ $title[\App::getLocale()] }}</span>
+                                                            <span style="font-size: 14px;">{{ $title[\App::getLocale()] }}</span>
                                                         @endif
                                                         @if(trim($description[\App::getLocale()]) != "")
                                                         <span class="d-inline-block align-middle w-10px separator-line-1px bg-light-gray ms-10px me-10px"></span>
