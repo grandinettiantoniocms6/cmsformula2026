@@ -101,7 +101,7 @@ class PluginLabelsCrudController extends CrudController
             'allows_null' => false,
             'default'     => "mini",
             'wrapperAttributes' => [
-                'class' => 'form-group col-md-2'
+                'class' => 'form-group col-md-6'
             ],
         ]);
 
@@ -114,7 +114,27 @@ class PluginLabelsCrudController extends CrudController
             'allows_null' => false,
             'default'     => "it",
             'wrapperAttributes' => [
-                'class' => 'form-group col-md-2'
+                'class' => 'form-group col-md-6'
+            ],
+        ]);
+
+
+
+        $this->crud->addField([   // Checkbox
+            'name'  => 'qrcode_link',
+            'label' => 'QRCode Link',
+            'type'  => 'text',
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-6'
+            ],
+        ]);
+
+        $this->crud->addField([   // Checkbox
+            'name'  => 'barcode',
+            'label' => 'Barcode',
+            'type'  => 'text',
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-6'
             ],
         ]);
 
@@ -124,43 +144,25 @@ class PluginLabelsCrudController extends CrudController
             'type'  => 'switch',
             'default' => 1,
             'wrapperAttributes' => [
-                'class' => 'form-group col-md-3'
+                'class' => 'form-group col-md-4'
             ],
         ]);
 
         $this->crud->addField([   // Checkbox
             'name'  => 'is_address_footer',
-            'label' => 'Indirizzo',
+            'label' => 'Visualizza Indirizzo',
             'type'  => 'switch',
             'default' => 1,
-            'wrapperAttributes' => [
-                'class' => 'form-group col-md-3'
-            ],
-        ]);
-
-        $this->crud->addField([   // Checkbox
-            'name'  => 'is_logo_header',
-            'label' => 'Testata',
-            'type'  => 'switch',
-            'default' => 1,
-            'wrapperAttributes' => [
-                'class' => 'form-group col-md-2'
-            ],
-        ]);
-
-        $this->crud->addField([   // Checkbox
-            'name'  => 'qrcode_link',
-            'label' => 'QRCode Link',
-            'type'  => 'text',
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
         ]);
 
         $this->crud->addField([   // Checkbox
-            'name'  => 'barcode',
-            'label' => 'Barcode',
-            'type'  => 'text',
+            'name'  => 'is_logo_header',
+            'label' => 'Visualizza Testata',
+            'type'  => 'switch',
+            'default' => 1,
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
