@@ -5,12 +5,14 @@ namespace App\Models;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Translatable\HasTranslations;
 
 class PluginLabels extends Model
 {
     use CrudTrait;
     use SoftDeletes;
-
+    use HasTranslations;
+    public $translatable = ['title','description','ingredients','table_nutr','weight','production','end_date'];
     /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES

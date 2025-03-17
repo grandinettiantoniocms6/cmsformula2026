@@ -75,6 +75,22 @@ class PluginLabelsSettingsCrudController extends CrudController
             'label' => 'Indirizzo Footer',
             'type' => 'summernote'
         ]);
+
+        $this->crud->addField([
+            'name' => 'photo',
+            'label' => 'Foto di sfondo',
+            'type' => 'browse'
+        ]);
+
+        $this->crud->addField([   // repeatable
+            'name'  => 'bgcolor',
+            'label' => 'Oppure usa un colore di sfondo',
+            'type'  => 'color_picker',
+            // optional
+            'default' => '#ffffff',
+            'color_picker_options' => ['customClass' => 'custom-class'],
+            'wrapperAttributes' => ['class' => 'form-group col-md-6']
+        ]);
     }
 
     /**

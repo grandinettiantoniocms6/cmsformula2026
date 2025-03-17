@@ -57,6 +57,7 @@ use App\Models\PluginBookingType;
 use App\Models\PluginCounter;
 use App\Models\PluginForms;
 use App\Models\PluginInvitationsSettings;
+use App\Models\PluginLabels;
 use App\Models\PluginParkingLabel;
 use App\Models\PluginProducts;
 use App\Models\PluginProductsAttachments;
@@ -131,7 +132,6 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
         $adminBlock = AdminBlock::where("name", $chiave)->first();
 
         $customTab = "";
-
         if($adminBlock){
             switch ($chiave){
 
@@ -481,7 +481,6 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
 
 
         }else{
-
             // dopo lo switch creo le nuove regole dei titoli blocchi multilang
 
             switch ($chiave) {
@@ -549,13 +548,6 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                         $item = BlockHightlight::find($item_id);
                     }
                     break;
-
-
-
-
-
-
-
 
 
     // Fine dei nuovi case stampa tit e descr lato front
@@ -853,6 +845,16 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     $fields_types = ["text"];
                     if(count($parameters)) {
                         $item = ShopAttributesOptions::find($item_id);
+                    }
+                    break;
+
+                case "pluginLabels":
+
+                    $fields = ['title','description','ingredients','table_nutr','weight','production','end_date'];
+                    $fields_types = ["text", "content", "content", "content", "text", "text", "text"];
+                    $fields_label = ["Titolo", "Descrizione", "Ingredienti", "Tabella nutrizionale", "Peso", "Produzione", "Scadenza"];
+                    if(count($parameters)) {
+                        $item = PluginLabels::find($item_id);
                     }
                     break;
             }
@@ -1353,6 +1355,9 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 break;
             case "pluginBookingRooms":
                 $fields = ["name",'abstract', 'description', 'meta_title', 'meta_description', 'meta_key'];
+                break;
+            case "pluginLabels":
+                $fields = ['title','description','ingredients','table_nutr','weight','production','end_date'];
                 break;
             case "website":
                 $fields = ["title", "dati", "title_footer_1", "text_footer_1", "title_footer_2",

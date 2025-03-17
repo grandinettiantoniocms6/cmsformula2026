@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PluginLabelsRequest;
+use App\Models\PluginLabels;
+use App\Models\PluginLabelsSettings;
+use App\Models\Tax;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -33,6 +36,10 @@ class PluginLabelsCrudController extends CrudController
         if(backpack_user()->roles[0]->id > 2){
             die;
         }
+
+        $this->crud->setListView('vendor.backpack.base.plugins.pluginLabels.list');
+        $this->crud->setEditView('vendor.backpack.base.plugins.pluginLabels.edit');
+        $this->crud->setCreateView('vendor.backpack.base.plugins.pluginLabels.create');
     }
 
     /**
@@ -54,7 +61,7 @@ class PluginLabelsCrudController extends CrudController
             [
                 'name'  => 'created_at',
                 'label' => 'Data creazione',
-                'type'  => 'text',
+                'type'  => 'datetime',
             ],
             [
                 'name'  => 'format',
@@ -78,14 +85,90 @@ class PluginLabelsCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(PluginLabelsRequest::class);
+        $parameters = \Route::current()->parameters();
 
+        $item = null;
+        if(count($parameters)){
+            $item = \App\Models\PluginLabels::where("id", $parameters['id'])->first();
+        }
 
+        $options = ["mini" => "Piccolo", "medium" => "Medio", "large" => "Grande"];
+        $this->crud->addField([   // select2_from_array
+            'name'        => 'format',
+            'label'       => "Formato",
+            'type'        => 'select2_from_array',
+            'options'     => $options,
+            'allows_null' => false,
+            'default'     => "mini",
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-2'
+            ],
+        ]);
 
-        /**
-         * Fields can be defined using the fluent syntax or array syntax:
-         * - CRUD::field('price')->type('number');
-         * - CRUD::addField(['name' => 'price', 'type' => 'number']));
-         */
+        $options = ["it" => "Italiano", "en" => "Inglese", "it/en" => "Italiano/Inglese"];
+        $this->crud->addField([   // select2_from_array
+            'name'        => 'lang',
+            'label'       => "Lingua",
+            'type'        => 'select2_from_array',
+            'options'     => $options,
+            'allows_null' => false,
+            'default'     => "it",
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-2'
+            ],
+        ]);
+
+        $this->crud->addField([   // Checkbox
+            'name'  => 'is_product_lab',
+            'label' => 'Prodotto in laboratorio',
+            'type'  => 'switch',
+            'default' => 1,
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-3'
+            ],
+        ]);
+
+        $this->crud->addField([   // Checkbox
+            'name'  => 'is_address_footer',
+            'label' => 'Indirizzo',
+            'type'  => 'switch',
+            'default' => 1,
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-3'
+            ],
+        ]);
+
+        $this->crud->addField([   // Checkbox
+            'name'  => 'is_logo_header',
+            'label' => 'Testata',
+            'type'  => 'switch',
+            'default' => 1,
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-2'
+            ],
+        ]);
+
+        $this->crud->addField([   // Checkbox
+            'name'  => 'qrcode_link',
+            'label' => 'QRCode Link',
+            'type'  => 'text',
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-4'
+            ],
+        ]);
+
+        $this->crud->addField([   // Checkbox
+            'name'  => 'barcode',
+            'label' => 'Barcode',
+            'type'  => 'text',
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-4'
+            ],
+        ]);
+
+        $trans = new AdminLanguageController();
+        $trans->fields_lang("pluginLabels", $this->crud, $item);
+
     }
 
     /**
@@ -97,5 +180,62 @@ class PluginLabelsCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function update()
+    {
+        $this->crud->hasAccessOrFail('update');
+
+        // execute the FormRequest authorization and validation, if one is required
+        $request = $this->crud->validateRequest();
+        // update the row in the db
+        $item = $this->crud->update($request->get($this->crud->model->getKeyName()),
+            $this->crud->getStrippedSaveRequest());
+        $this->data['entry'] = $this->crud->entry = $item;
+
+        $lang = new AdminLanguageController();
+        $lang->update_lang("pluginLabels", $this->crud, $request);
+        $this->crud->entry->save();
+
+        // show a success message
+        \Alert::success(trans('backpack::crud.update_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
+
+        return redirect()->to("/admin/plugin-labels/$item->id/edit");
+    }
+
+    public function store()
+    {
+        $this->crud->hasAccessOrFail('create');
+
+        // execute the FormRequest authorization and validation, if one is required
+        $request = $this->crud->validateRequest();
+
+        // insert item in the db
+        $item = $this->crud->create($this->crud->getStrippedSaveRequest());
+        $this->data['entry'] = $this->crud->entry = $item;
+
+        $lang = new AdminLanguageController();
+        $lang->update_lang("pluginLabels", $this->crud, $request);
+        $this->crud->entry->save();
+
+        // show a success message
+        \Alert::success(trans('backpack::crud.insert_success'))->flash();
+
+        // save the redirect choice for next time
+        $this->crud->setSaveAction();
+
+        return redirect()->to("/admin/plugin-labels/$item->id/edit");
+    }
+
+    public function preview($id)
+    {
+        $setting = PluginLabelsSettings::first();
+        $label = PluginLabels::find($id);
+
+        $html = view("Webshop.plugins.pluginLabels.pdf", compact('setting', 'label'))->render();
+        die($html);
     }
 }

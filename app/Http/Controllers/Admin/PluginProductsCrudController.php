@@ -1592,6 +1592,31 @@ class PluginProductsCrudController extends CrudController
                 ]);
             }
         }
+
+
+        $adminPluginLabels = AdminPlugin::where("name", "pluginLabel")->first();
+        if($adminPluginLabels){
+            $this->crud->addField([   // Checkbox
+                'name'  => 'title_labels',
+                'label' => 'Titolo',
+                'type'  => 'text',
+                'tab' => 'Etichetta',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-12'
+                ],
+            ]);
+
+            $this->crud->addField([   // Checkbox
+                'name'  => 'description_labels',
+                'label' => 'Descrizione',
+                'type'  => 'text',
+                'tab' => 'Etichetta',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-12'
+                ],
+            ]);
+        }
+
     }
 
     /**
