@@ -284,6 +284,7 @@ class DashboardController extends Controller
 
         if($table == "plugins_products" && $field == "is_active"){
             \Artisan::call('set:products_search', ['id'=> $id]);
+            \Artisan::call('set:products_categories_search');
         }
 
         if($table == "plugins_products_categories" && $field == "is_active"){

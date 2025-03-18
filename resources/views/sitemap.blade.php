@@ -78,6 +78,9 @@
                 $cat_prod_slug = "no-categoria";
 
                 $itemProd = \App\Models\PluginProducts::find($product->id);
+                if($itemProd->is_active == 0){
+                    continue;
+                }
 
                 $cat_prod = null;
                 $first_cat = \DB::table("plugins_products_categories_products")->where("plugin_product_product_id", $product->id)->first();

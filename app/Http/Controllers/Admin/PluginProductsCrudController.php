@@ -1901,6 +1901,7 @@ class PluginProductsCrudController extends CrudController
         }
 
         \Artisan::call('set:products_search', ['id'=> $this->crud->entry->id]);
+        \Artisan::call('set:products_categories_search');
 
 
         return $this->crud->performSaveAction($item->getKey());
@@ -2143,6 +2144,7 @@ class PluginProductsCrudController extends CrudController
         }
 
         \Artisan::call('set:products_search', ['id'=> $this->crud->entry->id]);
+        \Artisan::call('set:products_categories_search');
 
         return $this->crud->performSaveAction($item->getKey());
     }
@@ -2983,6 +2985,7 @@ class PluginProductsCrudController extends CrudController
                         }
 
                         \Artisan::call('set:products_search', ['id'=> $product->id]);
+                        \Artisan::call('set:products_categories_search');
                     }
                     $row++;
                 }
@@ -3576,6 +3579,7 @@ class PluginProductsCrudController extends CrudController
     public function generate_thumb($id)
     {
         \Artisan::call('set:products_search', ['id'=> $id]);
+        \Artisan::call('set:products_categories_search');
 
         $domain = env('APP_URL');
 
