@@ -51,6 +51,7 @@ Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => 
     Route::get('/delete_image_special/{id}', ['as' => 'delete_image_special', 'uses'=>'DashboardController@delete_image_special']);
 
     Route::get('/preview/pluginLabel/{id}', ['as' => 'preview.pluginLabel', 'uses'=>'PluginLabelsCrudController@preview']);
+    Route::get('/pdf/pluginLabel/{id}', ['as' => 'pdf.pluginLabel', 'uses'=>'PluginLabelsCrudController@pdf']);
 
     Route::post('actions',['as' => 'actions', 'uses'=>'DashboardController@actions']);
 

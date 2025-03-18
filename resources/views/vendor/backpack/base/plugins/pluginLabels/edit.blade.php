@@ -76,6 +76,7 @@
                   </div>
 
                   <div class="col-6">
+                      <a class="btn btn-sm btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}">Scarica PDF</a>
                       <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" class="border-0" border="0" width="100%" height="100%" scrolling="auto"></iframe>
                   </div>
               </div>

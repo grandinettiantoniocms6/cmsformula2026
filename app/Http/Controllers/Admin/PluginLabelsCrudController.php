@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PluginLabelsRequest;
+use App\Models\PluginInterventions;
 use App\Models\PluginLabels;
 use App\Models\PluginLabelsSettings;
 use App\Models\Tax;
@@ -234,10 +235,27 @@ class PluginLabelsCrudController extends CrudController
 
     public function preview($id)
     {
+        $thema = env("TEMA");
+        $thema = "Webshop";
+
         $setting = PluginLabelsSettings::first();
         $label = PluginLabels::find($id);
 
-        $html = view("Webshop.plugins.pluginLabels.pdf", compact('setting', 'label'))->render();
+        $html = view("$thema.plugins.pluginLabels.pdf", compact('setting', 'label'))->render();
         die($html);
+    }
+
+    public function pdf($id)
+    {
+        $thema = env("TEMA");
+        $thema = "Webshop";
+
+        $setting = PluginLabelsSettings::first();
+        $label = PluginLabels::find($id);
+        $pdf = \App::make('snappy.pdf.wrapper');
+
+        $html = view("$thema.plugins.pluginLabels.pdf", compact( 'setting', 'label'))->render();
+        $pdf->loadHTML($html)->setPaper('a4');
+        return $pdf->download("Etichetta_$id.pdf");
     }
 }
