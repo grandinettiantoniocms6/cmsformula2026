@@ -77,7 +77,7 @@
 
                 $cat_prod_slug = "no-categoria";
 
-                $itemProd = \App\Models\PluginProducts::find($product->id);
+                //$itemProd = \App\Models\PluginProducts::find($product->id);
                /* if($itemProd->is_active == 0){
                     continue;
                 }*/
@@ -117,6 +117,7 @@
                         <url>
                             <loc>{{ route("pluginProducts.detail.".$k, [$cat_prod_slug[$k], $slug]) }}</loc>
                             <lastmod>{{ gmdate('Y-m-d\TH:i:s\Z',strtotime(\Carbon\Carbon::now()->toDateTimeString())) }}</lastmod>
+                            <sku>{{ $product->sku }}</sku>
                             <changefreq>daily</changefreq>
                             <priority>1.0</priority>
                         </url>
