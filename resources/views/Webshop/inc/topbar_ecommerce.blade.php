@@ -54,7 +54,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                                                 ?>
                                                 @if(count($categoryItem['figli']) > 0)
                                                     @foreach($categoryItem['figli'] as $figlio)
-                                                            <?php $tot = $tot + $figlio['count'];?>
+                                                        <?php $tot = $tot + $figlio['count'];?>
                                                     @endforeach
                                                 @else
                                                         <?php $tot = $tot + $categoryItem['count']; ?>
