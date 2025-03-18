@@ -29,7 +29,9 @@ class SitemapController extends Controller
                 switch ($aP->name){
                     case "pluginProducts":
                         $categories = \DB::table("plugins_products_categories")->where("is_active", 1)->get();
-                        $products = \DB::table("plugins_products")->where("is_active", 1)->get();
+                        $products = \DB::table("plugins_products")->where("is_active", 1)
+                            ->where("is_variant", 0)
+                            ->get();
                         $tags = [];
                         if($products){
                             foreach ($products as $product){
