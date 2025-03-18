@@ -365,10 +365,10 @@ class PluginProductsController extends Controller
             $v_cat = [];
 
             if($categories){
-                foreach ($categories as $category){
-                    $v_cat[] = $category->id;
+                foreach ($categories as $temp_category){
+                    $v_cat[] = $temp_category->id;
 
-                    $figli = PluginProductsCategories::where("is_active", 1)->where("parent_id", $category->id)->get();
+                    $figli = PluginProductsCategories::where("is_active", 1)->where("parent_id", $temp_category->id)->get();
                     if($figli){
                         if($figli){
                             foreach($figli as $figlio){
