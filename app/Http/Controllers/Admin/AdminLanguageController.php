@@ -851,7 +851,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 case "pluginLabels":
 
                     $fields = ['title','description','ingredients','table_nutr','weight','production','end_date'];
-                    $fields_types = ["text", "content", "content", "content", "text", "text", "text"];
+                    $fields_types = ["text", "summernote", "summernote", "summernote", "text", "text", "text"];
                     $fields_label = ["Titolo", "Descrizione", "Ingredienti", "Tabella nutrizionale", "Peso", "Produzione", "Scadenza"];
                     if(count($parameters)) {
                         $item = PluginLabels::find($item_id);
@@ -939,6 +939,26 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                                 'value' => $valore, //count($parameters) ? $valore : "",
                                 'tab' => $customTab != "" ? "$customTab $lang" : $lang,
                                 'options' => ['height' => 400],
+                            ]);
+                            break;
+                        case "summernote":
+                            $crud->addField([
+                                'name' => $lang == "it" ? "$v" : "{$v}_{$lang}",
+                                'label' => "$fields_label[$k] <em>({$langs_label[$lang]})</em>",
+                                'type' => 'summernote',
+                                'value' => $valore, //count($parameters) ? $valore : "",
+                                'tab' => $customTab != "" ? "$customTab $lang" : $lang,
+                               // 'options' => ['height' => 300],
+                                'options' => [
+                                    'height' => 300,
+                                    'toolbar' => [
+                                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                                        ['font', ['fontname']],
+                                        ['color', ['color']],
+                                        ['para', ['ul', 'paragraph','table']],
+                                        ['misc', ['codeview', 'undo', 'redo']]
+                                    ]
+                                ],
                             ]);
                             break;
                         case "custom":

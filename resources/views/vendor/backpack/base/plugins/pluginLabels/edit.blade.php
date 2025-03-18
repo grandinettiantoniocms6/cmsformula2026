@@ -76,7 +76,7 @@
                   </div>
 
                   <div class="col-6">
-                      <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" id="preview_card" width="100%" height="100%" scrolling="auto"></iframe>
+                      <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" class="border-0" border="0" width="100%" height="100%" scrolling="auto"></iframe>
                   </div>
               </div>
 
