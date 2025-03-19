@@ -62,8 +62,6 @@
             text-align: center;
         }
 
-        /* mini - medium - large */
-
         #wrapper-mini {
             width: 710px;
         }
@@ -261,7 +259,7 @@
             width: 33.2%;
             height: 49.8%;
             background-color: #fff;
-            border: 0px solid #fff;
+            border: 0 solid #fff;
             float: left;
             vertical-align: middle;
             text-align: center;
@@ -287,6 +285,11 @@
             content: "";
             clear: both;
             display: table;
+        }
+
+        #barcode {
+            text-align: center;
+            margin: 35px 0;
         }
     </style>
 

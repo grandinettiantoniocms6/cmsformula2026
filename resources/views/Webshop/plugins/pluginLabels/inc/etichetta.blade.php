@@ -113,7 +113,7 @@
             @if($label->qrcode_link && trim($label->qrcode_link != ""))
                 <div class="footer-container" style="@if($setting->photo) background-image: url({{ url($setting->photo) }}); @endif">
                     <div class="qr-code">
-                        {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(180)->backgroundColor(255,255,0)->generate($label->qrcode_link); !!}
+                        {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->color(126,89,68)->backgroundColor(244,224,185)->generate($label->qrcode_link); !!}
                     </div>
                 </div>
             @endif
@@ -139,7 +139,8 @@
                     <div id="barcode">
                         <?php
                             $class = new \Milon\Barcode\DNS1D();
-                            echo $class->getBarcodeHTML($label->barcode, 'EAN13');
+                            // echo $class->getBarcodeHTML($label->barcode, 'EAN13');
+                            echo '<img src="data:image/jpeg;base64,' . DNS1D::getBarcodePNG($label->barcode, 'EAN13',3,70,array(126,89,68), true) . '" alt="barcode" />';
                         ?>
                     </div>
                 @endif
