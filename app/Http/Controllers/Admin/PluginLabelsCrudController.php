@@ -253,6 +253,7 @@ class PluginLabelsCrudController extends CrudController
         $setting = PluginLabelsSettings::first();
         $label = PluginLabels::find($id);
         $pdf = \App::make('snappy.pdf.wrapper');
+        $pdf -> setOption('encoding', 'utf-8');
 
         /*$height = 0;
         if($label->title){
@@ -285,11 +286,11 @@ class PluginLabelsCrudController extends CrudController
 
 
         $html = view("$thema.plugins.pluginLabels.pdf", compact( 'setting', 'label'))->render();
-        die($html);
+       //die($html);
 
-        $pdf->loadHTML($html)->setPaper('a4');
+        $pdf->loadHTML($html)->setPaper('a0');
 
-
-        return $pdf->download("Etichetta_$id.pdf");
+        return $pdf->inline("Etichetta_$id.pdf");
+        //return $pdf->download("Etichetta_$id.pdf");
     }
 }
