@@ -168,6 +168,9 @@
     <title>Pasticceria Righetto - Eetichette</title>
 </head>
 <body>
+
+{{ $label->format }}
+
 <div id="wrapper-small">
     @if($setting->logo && $label->is_logo_header)
         <div id="logo-container">

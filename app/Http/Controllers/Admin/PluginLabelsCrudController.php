@@ -254,8 +254,42 @@ class PluginLabelsCrudController extends CrudController
         $label = PluginLabels::find($id);
         $pdf = \App::make('snappy.pdf.wrapper');
 
+        /*$height = 0;
+        if($label->title){
+            $height += 20;
+        }
+        if($label->description){
+            $height += 20;
+        }
+        if($label->title){
+            $height += 20;
+        }
+        if($label->title){
+            $height += 20;
+        }
+        if($label->title){
+            $height += 20;
+        }
+        if($label->title){
+            $height += 20;
+        }
+        if($label->title){
+            $height += 20;
+        }
+        if($label->title){
+            $height += 20;
+        }
+        if($label->title){
+            $height += 20;
+        }*/
+
+
         $html = view("$thema.plugins.pluginLabels.pdf", compact( 'setting', 'label'))->render();
+        die($html);
+
         $pdf->loadHTML($html)->setPaper('a4');
+
+
         return $pdf->download("Etichetta_$id.pdf");
     }
 }
