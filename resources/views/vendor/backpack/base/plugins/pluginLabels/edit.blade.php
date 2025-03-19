@@ -11,6 +11,15 @@
 
 @endphp
 
+@push('after_styles')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
+    <style>
+        .swal-wide{
+            width:850px !important;
+        }
+    </style>
+@endpush
+
 @section('header')
 	<section class="container-fluid">
 	  <h3>
@@ -40,7 +49,7 @@
 
 		@include('crud::inc.grouped_errors')
 
-		  <form method="post"
+		  <form method="post" id="form_label"
 		  		action="{{ url($crud->route.'/'.$entry->getKey()) }}"
 				@if ($crud->hasUploadFields('update', $entry->getKey()))
 				enctype="multipart/form-data"
@@ -77,7 +86,7 @@
 
                   <div class="col-6">
                       <a class="btn btn-sm btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}">Scarica PDF</a>
-                      <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" class="border-0" border="0" width="100%" height="100%" scrolling="auto"></iframe>
+                      <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" class="border-0" id="preview_card" border="0" width="100%" height="100%" scrolling="auto"></iframe>
                   </div>
               </div>
 
@@ -97,7 +106,7 @@
 @endsection
 
 @push('after_scripts')
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script type="text/javascript">
         var typingTimer;                //timer identifier
         var doneTypingInterval = 1000;  //time in ms, 5 second for example
@@ -152,6 +161,34 @@
                 clearTimeout(typingTimer);
             });
         }
+
+        $("#form_label").change(function (){
+            $.ajax({
+                url: "{{ url($crud->route.'/'.$entry->getKey()) }}",
+                type: 'POST',
+                data: $(this).serialize(),
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Attendi',
+                        showConfirmButton: false,
+                        loaderHtml: '<div class="sk-chase"><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div></div>',
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                        },
+                    });
+                },
+                onAfterClose () {
+                    Swal.hideLoading()
+                },
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false
+            }).done(function(resp) {
+                Swal.close();
+                document.getElementById("preview_card").contentDocument.location.reload(true);
+            });
+        });
 
 
     </script>
