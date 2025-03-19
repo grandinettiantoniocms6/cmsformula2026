@@ -108,59 +108,40 @@
 @push('after_scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script type="text/javascript">
-        var typingTimer;                //timer identifier
-        var doneTypingInterval = 1000;  //time in ms, 5 second for example
 
-        if($("#name_it").length > 0) {
-            var $input = $('#name_it');
-            //user is "finished typing," do something
-            function doneTyping () {
-                $.ajax({
-                    url: '{{ route('sanitize_string') }}',
-                    method: 'POST',
-                    data: {
-                        string: $("#name_it").val(),
-                        _token: '{{ csrf_token() }}'
-                    }, success: function (response) {
-                        $("#slug_it").val(response.string);
-                    },error: function (data, textStatus, errorThrown) {
-                    },
-                });
-            }
-        }
-
-        if($("#title_page").length > 0) {
-            var $input = $('#title_page');
-            //user is "finished typing," do something
-            function doneTyping () {
-                $.ajax({
-                    url: '{{ route('sanitize_string') }}',
-                    method: 'POST',
-                    data: {
-                        string: $("#title_page").val(),
-                        _token: '{{ csrf_token() }}'
-                    }, success: function (response) {
-                        $("#slug_it").val(response.string);
-                    },error: function (data, textStatus, errorThrown) {
-                    },
-                });
-            }
-
-
-        }
-
-        if($("#title_page").length > 0 || $("#name_it").length > 0) {
-            //on keyup, start the countdown
-            $input.on('keyup', function () {
-                clearTimeout(typingTimer);
-                typingTimer = setTimeout(doneTyping, doneTypingInterval);
-            });
-
-            //on keydown, clear the countdown
-            $input.on('keydown', function () {
-                clearTimeout(typingTimer);
-            });
-        }
+        $('.summernote').summernote({
+            callbacks: {
+                onKeyup: function(contents, $editable) {
+                   /* $.ajax({
+                        url: "{{ url($crud->route.'/'.$entry->getKey()) }}",
+                        type: 'POST',
+                        data: $(this).serialize(),
+                        beforeSend: function() {
+                            Swal.fire({
+                                title: 'Attendi',
+                                showConfirmButton: false,
+                                loaderHtml: '<div class="sk-chase"><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div></div>',
+                                didOpen: () => {
+                                    Swal.showLoading()
+                                    const b = Swal.getHtmlContainer().querySelector('b')
+                                },
+                            });
+                        }
+                    }).done(function(resp) {
+                        Swal.close();
+                        document.getElementById("preview_card").contentDocument.location.reload(true);
+                    });*/
+                }
+            },
+            height: 200,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'paragraph','table']],
+                ['misc', ['codeview', 'undo', 'redo']]
+            ]
+        });
 
         $("#form_label").change(function (){
             $.ajax({
@@ -177,13 +158,7 @@
                             const b = Swal.getHtmlContainer().querySelector('b')
                         },
                     });
-                },
-                onAfterClose () {
-                    Swal.hideLoading()
-                },
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                allowEnterKey: false
+                }
             }).done(function(resp) {
                 Swal.close();
                 document.getElementById("preview_card").contentDocument.location.reload(true);

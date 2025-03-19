@@ -7,6 +7,69 @@
                 </div>
             @endif
 
+            <?php
+              $label_temp = \DB::table("plugins_labels")->where("id", $label->id)->first();
+
+
+              switch ($label->lang){
+                  case "it":
+                  case "en":
+                      $title = json_decode($label_temp->title, true);
+                      if(!key_exists($label->lang, $title)){
+                          $title[$label->lang] = "";
+                      }
+                      $label->title = $title[$label->lang];
+
+                      $ingredients = json_decode($label_temp->ingredients, true);
+                      if(!key_exists($label->lang, $ingredients)){
+                          $ingredients[$label->lang] = "";
+                      }
+                      $label->ingredients = $ingredients[$label->lang];
+
+                      $description = json_decode($label_temp->description, true);
+                      if(!key_exists($label->lang, $description)){
+                          $description[$label->lang] = "";
+                      }
+                      $label->description = $description[$label->lang];
+
+                      $table_nutr = json_decode($label_temp->table_nutr, true);
+                      if(!key_exists($label->lang, $table_nutr)){
+                          $table_nutr[$label->lang] = "";
+                      }
+                      $label->table_nutr = $table_nutr[$label->lang];
+
+                      break;
+                  default:
+                      $title = json_decode($label_temp->title, true);
+                      if(!key_exists("it", $title)){
+                          $title["it"] = "";
+                      }
+                      $label->title = $title["it"];
+
+
+                      $ingredients = json_decode($label_temp->ingredients, true);
+                      if(!key_exists("it", $ingredients)){
+                          $ingredients["it"] = "";
+                      }
+                      $label->ingredients = $ingredients["it"];
+
+                      $description = json_decode($label_temp->description, true);
+                      if(!key_exists("it", $description)){
+                          $description["it"] = "";
+                      }
+                      $label->description = $description["it"];
+
+                      $table_nutr = json_decode($label_temp->table_nutr, true);
+                      if(!key_exists("it", $table_nutr)){
+                          $table_nutr["it"] = "";
+                      }
+                      $label->table_nutr = $table_nutr["it"];
+
+
+                      break;
+              }
+            ?>
+
             @if($label->title && trim($label->title != ""))
                 <div class="title-container">
                     <h1>{{ $label->title }}</h1>

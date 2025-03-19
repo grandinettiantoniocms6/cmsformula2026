@@ -949,15 +949,16 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                                 'value' => $valore, //count($parameters) ? $valore : "",
                                 'tab' => $customTab != "" ? "$customTab $lang" : $lang,
                                // 'options' => ['height' => 300],
+                                'attributes' => ['id'=> "{$v}_{$lang}"],
                                 'options' => [
                                     'height' => 300,
-                                    'toolbar' => [
+                                    /*'toolbar' => [
                                         ['style', ['bold', 'italic', 'underline', 'clear']],
                                         ['font', ['fontname']],
                                         ['color', ['color']],
                                         ['para', ['ul', 'paragraph','table']],
                                         ['misc', ['codeview', 'undo', 'redo']]
-                                    ]
+                                    ]*/
                                 ],
                             ]);
                             break;
