@@ -293,16 +293,6 @@
     <title>Pasticceria Righetto - Eetichette</title>
 </head>
 <body>
-
-@php $max = 5; @endphp
-@if($label->format == 'mini')
-    @php $max = 6; @endphp
-@endif
-
-@for ($i = 0; $i <= $max; $i++)
     @include("Webshop.plugins.pluginLabels.inc.etichetta")
-    <div class="clearfix"></div>
-@endfor
-
 </body>
 </html>

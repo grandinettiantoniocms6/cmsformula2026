@@ -241,7 +241,7 @@ class PluginLabelsCrudController extends CrudController
         $setting = PluginLabelsSettings::first();
         $label = PluginLabels::find($id);
 
-        $html = view("$thema.plugins.pluginLabels.pdf", compact('setting', 'label'))->render();
+        $html = view("$thema.plugins.pluginLabels.preview", compact('setting', 'label'))->render();
         die($html);
     }
 
