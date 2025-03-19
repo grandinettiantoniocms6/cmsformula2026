@@ -104,6 +104,8 @@ class PluginProductsController extends Controller
             }
         }
 
+
+
         if($special_urls){
             foreach ($special_urls as $special){
                 if(strpos( \URL::current(),$special)){
@@ -117,6 +119,8 @@ class PluginProductsController extends Controller
                 }
             }
         }
+
+
 
         $page = Page::whereRaw("slug like '%$slug_prodotti%'")->where("is_active", 1)->first();
         if(!$page){
@@ -256,6 +260,7 @@ class PluginProductsController extends Controller
 
         $products_processed_total = null;
 
+        $slug_temp = $slug;
         if($slug){
             $category = PluginProductsCategories::where("is_active", 1)
                 ->whereRaw("slug LIKE '%$slug%'")
@@ -272,7 +277,9 @@ class PluginProductsController extends Controller
                 }
             }
 
-            if(in_array($slug, $special_urls)){
+            //MENU A SX CATEGORIE
+
+            if(in_array($slug_temp, $special_urls)){
                 $categories = PluginProductsCategories::where("is_active", 1)
                     ->where("parent_id", null)
                     ->where("is_in_list_shop_page", 0)
@@ -324,6 +331,10 @@ class PluginProductsController extends Controller
                 ->where("is_in_list_shop_page", 1)
                 ->orderBy("lft", "asc")
                 ->get();
+        }
+
+        if($slug_temp){
+            $slug = $slug_temp;
         }
 
         $sql_categories = "1=1";
