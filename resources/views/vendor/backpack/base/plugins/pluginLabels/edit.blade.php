@@ -84,8 +84,9 @@
                       @endif
                   </div>
 
-                  <div class="col-6">
+                  <div class="col-6 text text-center">
                       <a class="btn btn-sm btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}">Scarica PDF</a>
+                      <br>
                       <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" class="border-0" id="preview_card" border="0" width="100%" height="100%" scrolling="auto"></iframe>
                   </div>
               </div>
@@ -136,8 +137,6 @@
             height: 200,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['fontname']],
-                ['color', ['color']],
                 ['para', ['ul', 'paragraph','table']],
                 ['misc', ['codeview', 'undo', 'redo']]
             ]
