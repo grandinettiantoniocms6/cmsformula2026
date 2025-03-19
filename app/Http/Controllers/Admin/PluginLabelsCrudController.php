@@ -253,40 +253,16 @@ class PluginLabelsCrudController extends CrudController
         $setting = PluginLabelsSettings::first();
         $label = PluginLabels::find($id);
         $pdf = \App::make('snappy.pdf.wrapper');
-        $pdf -> setOption('encoding', 'utf-8');
+        $pdf->setOption('encoding', 'utf-8');
+        $pdf->setOption('margin-left', 0);
+        $pdf->setOption('margin-right', 0);
+        $pdf->setOption('margin-top', 0);
+        $pdf->setOption('margin-bottom', 0);
 
-        /*$height = 0;
-        if($label->title){
-            $height += 20;
-        }
-        if($label->description){
-            $height += 20;
-        }
-        if($label->title){
-            $height += 20;
-        }
-        if($label->title){
-            $height += 20;
-        }
-        if($label->title){
-            $height += 20;
-        }
-        if($label->title){
-            $height += 20;
-        }
-        if($label->title){
-            $height += 20;
-        }
-        if($label->title){
-            $height += 20;
-        }
-        if($label->title){
-            $height += 20;
-        }*/
-
+        $pdf->setOption('page-size', 'A0');
 
         $html = view("$thema.plugins.pluginLabels.pdf", compact( 'setting', 'label'))->render();
-       //die($html);
+        //die($html);
 
         $pdf->loadHTML($html)->setPaper('a0');
 
