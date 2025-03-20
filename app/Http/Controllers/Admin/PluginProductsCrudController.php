@@ -1594,7 +1594,7 @@ class PluginProductsCrudController extends CrudController
         }
 
 
-        $adminPluginLabels = AdminPlugin::where("name", "pluginLabel")->first();
+        /*$adminPluginLabels = AdminPlugin::where("name", "pluginLabel")->first();
         if($adminPluginLabels){
             $this->crud->addField([   // Checkbox
                 'name'  => 'title_labels',
@@ -1615,7 +1615,7 @@ class PluginProductsCrudController extends CrudController
                     'class' => 'form-group col-md-12'
                 ],
             ]);
-        }
+        }*/
 
     }
 

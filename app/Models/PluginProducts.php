@@ -15,7 +15,7 @@ class PluginProducts extends Model
     use HasTranslations;
     use SoftDeletes;
 
-    public $translatable = ["name", "slug", "meta_title", "meta_description", "meta_key", "description_short", "info_extra_list", "description", "tags", "custom_1", "custom_2"];
+    public $translatable = ["name", "slug", "meta_title", "meta_description", "meta_key", "description_short", "info_extra_list", "description", "tags", "custom_1", "custom_2", "title_labels", "description_labels"];
 
     /*
     |--------------------------------------------------------------------------

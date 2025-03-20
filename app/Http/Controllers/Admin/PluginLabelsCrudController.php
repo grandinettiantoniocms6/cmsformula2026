@@ -6,6 +6,7 @@ use App\Http\Requests\PluginLabelsRequest;
 use App\Models\PluginInterventions;
 use App\Models\PluginLabels;
 use App\Models\PluginLabelsSettings;
+use App\Models\PluginProducts;
 use App\Models\Tax;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -93,6 +94,18 @@ class PluginLabelsCrudController extends CrudController
             $item = \App\Models\PluginLabels::where("id", $parameters['id'])->first();
         }
 
+        $products = PluginProducts::selectRaw("name,id")->pluck("name", "id")->toArray();
+        $this->crud->addField([   // select2_from_array
+            'name'        => 'plugin_product_id',
+            'label'       => "Prodotto",
+            'type'        => 'select2_from_array',
+            'options'     => $products,
+            'allows_null' => true,
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-12'
+            ],
+        ]);
+
         $options = ["mini" => "Piccolo", "medium" => "Medio", "large" => "Grande"];
         $this->crud->addField([   // select2_from_array
             'name'        => 'format',
@@ -177,9 +190,11 @@ class PluginLabelsCrudController extends CrudController
             ],
         ]);
 
-        $trans = new AdminLanguageController();
-        $trans->fields_lang("pluginLabels", $this->crud, $item);
 
+        if(count($parameters)){
+            $trans = new AdminLanguageController();
+            $trans->fields_lang("pluginLabels", $this->crud, $item);
+        }
     }
 
     /**
@@ -199,6 +214,7 @@ class PluginLabelsCrudController extends CrudController
 
         // execute the FormRequest authorization and validation, if one is required
         $request = $this->crud->validateRequest();
+
         // update the row in the db
         $item = $this->crud->update($request->get($this->crud->model->getKeyName()),
             $this->crud->getStrippedSaveRequest());
@@ -207,6 +223,45 @@ class PluginLabelsCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang("pluginLabels", $this->crud, $request);
         $this->crud->entry->save();
+
+
+        if($request->get('plugin_product_id')){
+            $product = \DB::table("plugins_products")->find($request->get('plugin_product_id'));
+            if($product){
+                $temp_title = json_decode($product->title_labels, true);
+                $temp_desc = json_decode($product->description_labels, true);
+
+                $item_temp = \DB::table("plugins_labels")->find($item->id);
+                if($item_temp){
+                    $temp_title2 = json_decode($item_temp->title, true);
+                    $temp_desc2 = json_decode($item_temp->description, true);
+                }
+
+                if(count($temp_title2) && count($temp_title)){
+                    foreach ($temp_title2 as $k=>$v){
+                        if($v == null || trim($v) == ""){
+                            $temp_title2[$k] = $temp_title[$k];
+                        }
+                    }
+
+                    \DB::table("plugins_labels")->where("id", $item->id)->update([
+                        "title" => json_encode($temp_title2)
+                    ]);
+                }
+
+                if(count($temp_desc2) && count($temp_desc)){
+                    foreach ($temp_desc2 as $k=>$v){
+                        if($v == null || trim($v) == ""){
+                            $temp_desc2[$k] = $temp_desc[$k];
+                        }
+                    }
+
+                    \DB::table("plugins_labels")->where("id", $item->id)->update([
+                        "description" => json_encode($temp_desc2)
+                    ]);
+                }
+            }
+        }
 
         // show a success message
         \Alert::success(trans('backpack::crud.update_success'))->flash();
@@ -231,6 +286,45 @@ class PluginLabelsCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang("pluginLabels", $this->crud, $request);
         $this->crud->entry->save();
+
+
+        if($request->get('plugin_product_id')){
+            $product = \DB::table("plugins_products")->find($request->get('plugin_product_id'));
+            if($product){
+                $temp_title = json_decode($product->title_labels, true);
+                $temp_desc = json_decode($product->description_labels, true);
+
+                $item_temp = \DB::table("plugins_labels")->find($item->id);
+                if($item_temp){
+                    $temp_title2 = json_decode($item_temp->title, true);
+                    $temp_desc2 = json_decode($item_temp->description, true);
+                }
+
+                if(count($temp_title2) && count($temp_title)){
+                    foreach ($temp_title2 as $k=>$v){
+                        if($v == null || trim($v) == ""){
+                            $temp_title2[$k] = $temp_title[$k];
+                        }
+                    }
+
+                    \DB::table("plugins_labels")->where("id", $item->id)->update([
+                        "title" => json_encode($temp_title2)
+                    ]);
+                }
+
+                if(count($temp_desc2) && count($temp_desc)){
+                    foreach ($temp_desc2 as $k=>$v){
+                        if($v == null || trim($v) == ""){
+                            $temp_desc2[$k] = $temp_desc[$k];
+                        }
+                    }
+
+                    \DB::table("plugins_labels")->where("id", $item->id)->update([
+                        "description" => json_encode($temp_desc2)
+                    ]);
+                }
+            }
+        }
 
         // show a success message
         \Alert::success(trans('backpack::crud.insert_success'))->flash();

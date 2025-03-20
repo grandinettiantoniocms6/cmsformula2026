@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\AdminBlock;
 use App\Models\AdminLanguage;
+use App\Models\AdminPlugin;
 use App\Models\BlockBanner;
 use App\Models\BlockBrand;
 use App\Models\BlockCarousel;
@@ -665,9 +666,17 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     break;
 
                 case "pluginProducts":
-                    $fields = ["name",'slug', 'description_short', 'description', 'meta_title', 'meta_description', 'meta_key', 'tags','custom_1', 'custom_2', 'info_extra_list'];
-                    $fields_types = ["text", "text", "text", "content", "text", "text", "text", "text", "text", "text", "content"];
-                    $fields_label = ["Nome", "Permalink", "Descrizione corta", "Descrizione", "Meta title", "Meta description", "Meta keywords", "Tags (dividere con virgola)", "Etichetta 1", "Etichetta 2", "Info Extra in lista prodotti"];
+                    $adminPluginLabels = AdminPlugin::where("name", "pluginLabel")->first();
+                    if($adminPluginLabels){
+                        $fields = ["name",'slug', 'description_short', 'description', 'meta_title', 'meta_description', 'meta_key', 'tags','custom_1', 'custom_2', 'info_extra_list','title_labels', 'description_labels'];
+                        $fields_types = ["text", "text", "text", "content", "text", "text", "text", "text", "text", "text", "content", "text", "content"];
+                        $fields_label = ["Nome", "Permalink", "Descrizione corta", "Descrizione", "Meta title", "Meta description", "Meta keywords", "Tags (dividere con virgola)", "Etichetta 1", "Etichetta 2", "Info Extra in lista prodotti", "Titolo Plugin ETICHETTE", "Descrizione Plugin ETICHETTE"];
+
+                    }else{
+                        $fields = ["name",'slug', 'description_short', 'description', 'meta_title', 'meta_description', 'meta_key', 'tags','custom_1', 'custom_2', 'info_extra_list'];
+                        $fields_types = ["text", "text", "text", "content", "text", "text", "text", "text", "text", "text", "content"];
+                        $fields_label = ["Nome", "Permalink", "Descrizione corta", "Descrizione", "Meta title", "Meta description", "Meta keywords", "Tags (dividere con virgola)", "Etichetta 1", "Etichetta 2", "Info Extra in lista prodotti"];
+                    }
 
                     if(count($parameters)) {
                         $item = PluginProducts::find($item_id);
@@ -1327,7 +1336,13 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 $fields = ['title_form','subtitle_form', "object_form", "message_ringraziamento", "content"];
                 break;
             case "pluginProducts":
-                $fields = ["name",'slug', 'description_short', 'info_extra_list', 'description', 'meta_title', 'meta_description', 'meta_key','tags','custom_1','custom_2'];
+                $adminPluginLabels = AdminPlugin::where("name", "pluginLabel")->first();
+                if($adminPluginLabels){
+                    $fields = ["name",'slug', 'description_short', 'info_extra_list', 'description', 'meta_title', 'meta_description', 'meta_key','tags','custom_1','custom_2', 'title_labels', 'description_labels'];
+                }else{
+                    $fields = ["name",'slug', 'description_short', 'info_extra_list', 'description', 'meta_title', 'meta_description', 'meta_key','tags','custom_1','custom_2'];
+                }
+
                 break;
             case "pluginProductsLabels":
                 $fields = ['value'];
