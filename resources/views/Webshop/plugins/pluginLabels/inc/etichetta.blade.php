@@ -3,11 +3,7 @@
         <div class="label-wrapper" id="wrapper-{{ $label->format }}">
             @if($setting->logo && $label->is_logo_header)
                 <div id="logo-container">
-                    <?php
-                        $logo = url($setting->logo);
-                        $logo = str_replace("https", "http", $logo);
-                    ?>
-                    <img src="{{ $logo }}">
+                    <img src="data:image/jpeg;base64,{{ base64_encode(@file_get_contents(url($setting->logo))) }}">
                 </div>
             @endif
 
@@ -117,13 +113,12 @@
             @if($label->qrcode_link && trim($label->qrcode_link != ""))
                     <?php
                     if($setting->photo){
-                        $foto = url($setting->photo);
-                        $foto = str_replace("https", "http", $foto);
+                        $base64 = base64_encode(@file_get_contents(url($setting->photo)));
+                        $image = "data:image/jpeg;base64,$base64";
                     }
-                    echo $foto;
                     ?>
 
-                <div class="footer-container" style="@if($setting->photo) background-image: url({{ $foto }}); @endif">
+                <div class="footer-container" style="@if($setting->photo) background-image: url({{ $image }}); @endif">
                     <div class="qr-code">
                         {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->color(126,89,68)->backgroundColor(244,224,185)->generate($label->qrcode_link); !!}
                     </div>
