@@ -3,7 +3,11 @@
         <div class="label-wrapper" id="wrapper-{{ $label->format }}">
             @if($setting->logo && $label->is_logo_header)
                 <div id="logo-container">
-                    <img src="{{ url($setting->logo) }}">
+                    <?php
+                        $logo = url($setting->logo);
+                        $logo = str_replace("https", "http", $logo);
+                    ?>
+                    <img src="{{ $logo }}">
                 </div>
             @endif
 
