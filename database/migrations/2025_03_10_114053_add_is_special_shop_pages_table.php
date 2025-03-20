@@ -26,7 +26,7 @@ class AddIsSpecialShopPagesTable extends Migration
     public function down()
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->dropColumn('is_sepcial_shop');
+            $table->dropColumn('is_special_shop');
         });
     }
 }

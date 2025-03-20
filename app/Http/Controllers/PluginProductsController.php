@@ -740,23 +740,27 @@ class PluginProductsController extends Controller
             }
         }
 
-        $productsAll = PluginProducts::where("is_active", 1)->get();
+
         $tags = [];
-        if($productsAll){
-            foreach ($productsAll as $product){
-                $itemTags = explode(",", $product->tags);
-                if(count($itemTags)){
-                    foreach ($itemTags as $item){
-                        if(trim($item) != ""){
-                            $tags[] = trim($item);
-                        }
+
+        $search = PluginProductsSearch::where("plugin_product_id", $itemProduct->id)->first();
+        if($search){
+            $temp_tags = explode(",", $search->tags);
+            $temp_tags = array_unique($temp_tags);
+            if(count($temp_tags)){
+                foreach ($temp_tags as $tag){
+                    if(trim($item) != ""){
+                        $tags[] = trim($item);
                     }
                 }
             }
         }
-        $tags = array_unique($tags);
 
-        $categories = PluginProductsCategories::where("is_active", 1)->where("parent_id", null)->orderBy("lft", "asc")->get();
+        if(count($tags)){
+            $tags = array_unique($tags);
+        }
+
+        /*$categories = PluginProductsCategories::where("is_active", 1)->where("parent_id", null)->orderBy("lft", "asc")->get();
         if($categories){
             foreach ($categories as $item){
                 $item->count = PluginProductsCategoriesProducts::join("plugins_products_categories", "plugins_products_categories.id", "=", "plugins_products_categories_products.plugin_product_category_id")
@@ -777,7 +781,9 @@ class PluginProductsController extends Controller
                     }
                 }
             }
-        }
+        }*/
+
+        $categories = null;
 
         $formContact = PluginProductsContacts::first();
 
