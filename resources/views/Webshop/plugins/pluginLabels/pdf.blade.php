@@ -288,6 +288,11 @@
             clear: both;
             display: table;
         }
+
+        #barcode {
+            text-align: center;
+            margin: 35px 0;
+        }
     </style>
 
     <title>Pasticceria Righetto - Eetichette</title>
