@@ -509,7 +509,8 @@ if($url_plugin_product) {
     Route::get("$url_plugin_product/{category}/{slug}", ['as' => "pluginProducts.detail.it", 'uses' => 'PluginProductsController@pluginProductsDetail', 'middleware' => ['plugin_products']]);
 }
 
-if(env("APP_KEY") != "" && env('SPECIAL_SHOP')){
+
+if(env("APP_KEY") != "" && env('SPECIAL_SHOP') == 1){
     if(\Schema::hasTable('pages')){
         $special_urls = [];
         $pages_special_shop = Page::where("is_special_shop", 1)->get();
