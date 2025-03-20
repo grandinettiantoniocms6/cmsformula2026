@@ -49,7 +49,7 @@ class ImportPlcFoto extends Command
     public function handle()
     {
 
-        $list = PluginProducts::get();
+        $list = PluginProducts::where("old_id", 45777)->get();
 
         if($list){
             foreach ($list as $item){
@@ -57,6 +57,8 @@ class ImportPlcFoto extends Command
                     ->table('product_images')
                     ->where("product_id", $item->old_id)
                     ->count();
+
+                $this->info("$cont");
 
                 if($cont == 0){
                     $cont2 = PluginProductsImages::where("product_id", $item->id)->count();

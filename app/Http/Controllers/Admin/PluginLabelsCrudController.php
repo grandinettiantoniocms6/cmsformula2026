@@ -102,7 +102,7 @@ class PluginLabelsCrudController extends CrudController
             'allows_null' => false,
             'default'     => "mini",
             'wrapperAttributes' => [
-                'class' => 'form-group col-md-6'
+                'class' => 'form-group col-md-4'
             ],
         ]);
 
@@ -115,11 +115,19 @@ class PluginLabelsCrudController extends CrudController
             'allows_null' => false,
             'default'     => "it",
             'wrapperAttributes' => [
-                'class' => 'form-group col-md-6'
+                'class' => 'form-group col-md-4'
             ],
         ]);
 
-
+        $this->crud->addField([   // select2_from_array
+            'name'        => 'number_elements',
+            'label'       => "N.Elementi PDF",
+            'type'        => 'number',
+            'default'     => 1,
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-4'
+            ],
+        ]);
 
         $this->crud->addField([   // Checkbox
             'name'  => 'qrcode_link',

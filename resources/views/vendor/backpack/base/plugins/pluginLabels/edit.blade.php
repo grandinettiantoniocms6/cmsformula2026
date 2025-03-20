@@ -95,7 +95,7 @@
                   </div>
 
                   <div class="col-5 text text-center">
-                      <p><a class="btn btn-sm btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}">Scarica PDF</a></p>
+                      <p><a class="btn btn-sm btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}" target="_blank">Scarica PDF</a></p>
                       <p class="text-center mb-1">Anteprima in scala 1:2</p>
                       <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" id="preview_card" width="100%" height="auto" onload="resizeIframe(this)" scrolling="none"></iframe>
                   </div>

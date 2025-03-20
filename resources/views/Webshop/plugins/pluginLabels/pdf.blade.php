@@ -2,7 +2,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('http://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
         /* Variables */
         html, body, div, span, applet, object, iframe,
@@ -298,12 +298,9 @@
 </head>
 <body>
 
-@php $max = 5; @endphp
-@if($label->format == 'mini')
-    @php $max = 6; @endphp
-@endif
+@php $max = $label->number_elements; @endphp
 
-@for ($i = 0; $i <= $max; $i++)
+@for ($i = 1; $i <= $max; $i++)
     @include("Webshop.plugins.pluginLabels.inc.etichetta")
     <div class="clearfix"></div>
 @endfor
