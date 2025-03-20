@@ -117,15 +117,10 @@ $optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray()
                                     <?php
                                     $vet_ids = [];
 
-
                                     $cat_prod_name = "";
                                     $cat_prod_slug = "no-categoria";
 
-                                    if(@$category){
-                                        $cat_prod = $category;
-                                    }else{
-                                        $cat_prod = $product->category();
-                                    }
+                                    $cat_prod = $product->category();
                                     if($cat_prod){
                                         $cat_prod_name = $cat_prod->name;
                                         $cat_prod_slug = $cat_prod->slug;
@@ -148,11 +143,9 @@ $optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray()
 
                                 $cat_prod_name = "";
                                 $cat_prod_slug = "no-categoria";
-                                if(@$category){
-                                    $cat_prod = $category;
-                                }else{
-                                    $cat_prod = $product->category();
-                                }
+                                $cat_prod = $product->category();
+
+
                                 if($cat_prod){
                                     $cat_prod_name = $cat_prod->name;
                                     $cat_prod_slug = $cat_prod->slug;
