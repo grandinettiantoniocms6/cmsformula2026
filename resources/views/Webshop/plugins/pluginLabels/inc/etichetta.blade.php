@@ -115,12 +115,13 @@
             @endif
 
             @if($label->qrcode_link && trim($label->qrcode_link != ""))
-                        <?php
-                        if($setting->photo){
-                            $foto = url($setting->photo);
-                            $foto = str_replace("https", "http", $foto);
-                        }
-                        ?>
+                    <?php
+                    if($setting->photo){
+                        $foto = url($setting->photo);
+                        $foto = str_replace("https", "http", $foto);
+                    }
+                    echo $foto;
+                    ?>
 
                 <div class="footer-container" style="@if($setting->photo) background-image: url({{ $foto }}); @endif">
                     <div class="qr-code">
