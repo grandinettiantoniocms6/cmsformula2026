@@ -115,7 +115,14 @@
             @endif
 
             @if($label->qrcode_link && trim($label->qrcode_link != ""))
-                <div class="footer-container" style="@if($setting->photo) background-image: url({{ url($setting->photo) }}); @endif">
+                        <?php
+                        if($setting->photo){
+                            $foto = url($setting->photo);
+                            $foto = str_replace("https", "http", $logo);
+                        }
+                        ?>
+
+                <div class="footer-container" style="@if($setting->photo) background-image: url({{ $foto }}); @endif">
                     <div class="qr-code">
                         {!! \SimpleSoftwareIO\QrCode\Facades\QrCode::size(200)->color(126,89,68)->backgroundColor(244,224,185)->generate($label->qrcode_link); !!}
                     </div>
