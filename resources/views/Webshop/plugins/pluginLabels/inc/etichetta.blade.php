@@ -118,7 +118,7 @@
                         <?php
                         if($setting->photo){
                             $foto = url($setting->photo);
-                            $foto = str_replace("https", "http", $logo);
+                            $foto = str_replace("https", "http", $foto);
                         }
                         ?>
 
