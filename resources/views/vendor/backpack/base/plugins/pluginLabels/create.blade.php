@@ -123,5 +123,9 @@
         });
 
     </script>
-
+    <style>
+        .app-body {
+            overflow-x: visible !important;
+        }
+    </style>
 @endpush

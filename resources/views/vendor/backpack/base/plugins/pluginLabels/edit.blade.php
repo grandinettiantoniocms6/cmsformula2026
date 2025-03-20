@@ -14,8 +14,18 @@
 @push('after_styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
     <style>
-        .swal-wide{
-            width:850px !important;
+        .swal-wide {
+            width: 850px !important;
+        }
+        .app-body {
+            overflow-x: visible !important;
+        }
+        #preview_card {
+            zoom: 0.5;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 10px solid #fff;
+            border-radius: 3px;
         }
     </style>
 @endpush
@@ -75,7 +85,7 @@
 		    @endif
 
               <div class="row">
-                  <div class="col-6">
+                  <div class="col-7">
                       <!-- load the view from the application if it exists, otherwise load the one in the package -->
                       @if(view()->exists('vendor.backpack.crud.form_content'))
                           @include('vendor.backpack.crud.form_content', ['fields' => $crud->fields(), 'action' => 'edit'])
@@ -84,10 +94,10 @@
                       @endif
                   </div>
 
-                  <div class="col-6 text text-center">
-                      <a class="btn btn-sm btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}">Scarica PDF</a>
-                      <br>
-                      <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" class="border-0" id="preview_card" border="0" width="100%" height="100%" scrolling="auto"></iframe>
+                  <div class="col-5 text text-center">
+                      <p><a class="btn btn-sm btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}">Scarica PDF</a></p>
+                      <p class="text-center mb-1">Anteprima in scala 1:2</p>
+                      <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" id="preview_card" width="100%" height="auto" onload="resizeIframe(this)" scrolling="none"></iframe>
                   </div>
               </div>
 
@@ -112,26 +122,8 @@
 
         $('.summernote').summernote({
             callbacks: {
-                onKeyup: function(contents, $editable) {
-                   /* $.ajax({
-                        url: "{{ url($crud->route.'/'.$entry->getKey()) }}",
-                        type: 'POST',
-                        data: $(this).serialize(),
-                        beforeSend: function() {
-                            Swal.fire({
-                                title: 'Attendi',
-                                showConfirmButton: false,
-                                loaderHtml: '<div class="sk-chase"><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div><div class="sk-chase-dot"></div></div>',
-                                didOpen: () => {
-                                    Swal.showLoading()
-                                    const b = Swal.getHtmlContainer().querySelector('b')
-                                },
-                            });
-                        }
-                    }).done(function(resp) {
-                        Swal.close();
-                        document.getElementById("preview_card").contentDocument.location.reload(true);
-                    });*/
+                onBlur: function() {
+                    $("#form_label").submit();
                 }
             },
             height: 200,
@@ -142,7 +134,7 @@
             ]
         });
 
-        $("#form_label").change(function (){
+        $("#form_label").change(function(){
             $.ajax({
                 url: "{{ url($crud->route.'/'.$entry->getKey()) }}",
                 type: 'POST',
@@ -164,8 +156,9 @@
             });
         });
 
-
+        function resizeIframe(obj) {
+            obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 30 + 'px';
+        }
     </script>
-
 @endpush
 

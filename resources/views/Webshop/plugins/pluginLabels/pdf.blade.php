@@ -259,9 +259,8 @@
         .label-container {
             display: table;
             width: 33.2%;
-            height: 49.8%;
+            margin-top: 25mm;
             background-color: #fff;
-            border: 0px solid #fff;
             float: left;
             vertical-align: middle;
             text-align: center;

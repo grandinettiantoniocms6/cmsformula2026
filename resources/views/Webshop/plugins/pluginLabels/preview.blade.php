@@ -35,6 +35,7 @@
         body {
             line-height: 1;
             font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Oxygen, Fira Sans, Droid Sans, Arial, sans-serif;
+            background: #f1f4f8;
         }
 
         ol, ul {
@@ -253,17 +254,6 @@
             text-align: center;
             vertical-align: middle;
         }
-
-        .label-container {
-            display: table;
-            width: 33.2%;
-            height: 49.8%;
-            background-color: #fff;
-            border: 0 solid #fff;
-            float: left;
-            vertical-align: middle;
-            text-align: center;
-        }
         .label-wrapper {
             padding: 35px 0;
             background-color: #F4E0B9;
@@ -274,6 +264,7 @@
             display: table-cell;
             vertical-align: middle;
             text-align: center;
+            width: 100%;
         }
         .label-container .label-wrapper {
             margin: auto;
@@ -287,6 +278,11 @@
             display: table;
         }
 
+        .label-container {
+            width: 100%;
+            display: table;
+            padding: 15px 0;
+        }
         #barcode {
             text-align: center;
             margin: 35px 0;
