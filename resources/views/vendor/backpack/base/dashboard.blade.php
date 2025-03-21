@@ -601,6 +601,7 @@
 
     @if(env('NEWS') == 1)
         <?php
+
             $url = "https://gest.webisland.it/news.xml";
             $xml = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA);
         ?>
