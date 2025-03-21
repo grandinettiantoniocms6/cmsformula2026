@@ -361,12 +361,12 @@ class PluginLabelsCrudController extends CrudController
         $pdf->setOption('margin-top', 0);
         $pdf->setOption('margin-bottom', 0);
 
-        $pdf->setOption('page-size', 'A0');
+        $pdf->setOption('page-size', 'A4');
 
         $html = view("$thema.plugins.pluginLabels.pdf", compact( 'setting', 'label'))->render();
         //die($html);
 
-        $pdf->loadHTML($html)->setPaper('a0');
+        $pdf->loadHTML($html)->setPaper('a4');
 
         return $pdf->inline("Etichetta_$id.pdf");
         //return $pdf->download("Etichetta_$id.pdf");
