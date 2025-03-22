@@ -347,6 +347,8 @@ class PluginLabelsCrudController extends CrudController
         die($html);
     }
 
+    // https://wkhtmltopdf.org/usage/wkhtmltopdf.txt
+
     public function pdf($id)
     {
         $thema = env("TEMA");
@@ -359,14 +361,17 @@ class PluginLabelsCrudController extends CrudController
         $pdf->setOption('margin-left', 0);
         $pdf->setOption('margin-right', 0);
         $pdf->setOption('margin-top', 0);
+        $pdf->setOption('disable-smart-shrinking', true);
         $pdf->setOption('margin-bottom', 0);
-
-        $pdf->setOption('page-size', 'A4');
+        $pdf->setPaper('A4', 'portrait');
 
         $html = view("$thema.plugins.pluginLabels.pdf", compact( 'setting', 'label'))->render();
         //die($html);
 
-        $pdf->loadHTML($html)->setPaper('a4');
+        $pdf->loadHTML($html);
+
+
+
 
         return $pdf->inline("Etichetta_$id.pdf");
         //return $pdf->download("Etichetta_$id.pdf");

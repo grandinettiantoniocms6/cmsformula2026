@@ -1,6 +1,15 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    {{--Partendo da foglio A4--}}
+
+    {{--Formato piccolo: widget 5.6cm  212px }}
+    {{--Formato medio:   widget 7.7cm  291px }}
+    {{--Formato grande:  widget 9.7cm  367px }}
+
+    {{--Distanza tra etichette 0.5cm--  19px --}}
+
     <style>
         @import url('http://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -61,178 +70,194 @@
         .center {
             text-align: center;
         }
-
-        /* mini - medium - large */
-
-        #wrapper-mini {
-            width: 710px;
-        }
-
-        #wrapper-medium {
-            width: 950px;
-        }
-
-        #wrapper-large {
-            width: 1180px;
-        }
-
         #wrapper-mini .qr-code {
-            margin: 0 180px;
-            width: 190px;
-            height: 190px;
+            margin: 0 55px;
+            width: 50px;
+            height: 50px;
         }
-        #wrapper-mini .qr-code img {
-            width: 190px;
-            height: 190px;
+        #wrapper-mini .qr-code svg {
+            width: 50px;
+            height: 50px;
         }
         #wrapper-medium .qr-code {
-            margin: 0 275px;
-            width: 200px;
-            height: 200px;
+            margin: 0 80px;
+            width: 65px;
+            height: 65px;
         }
-        #wrapper-medium .qr-code img {
-            width: 200px;
-            height: 200px;
+        #wrapper-medium .qr-code svg {
+            width: 65px;
+            height: 65px;
         }
         #wrapper-large  .qr-code {
-            margin: 0 350px;
-            width: 250px;
-            height: 250px;
+            margin: 0 100px;
+            width: 80px;
+            height: 80px;
         }
-        #wrapper-large .qr-code img {
-            width: 250px;
-            height: 250px;
+        #wrapper-large .qr-code svg {
+            width: 80px;
+            height: 80px;
         }
 
         #wrapper-mini .title-container h1 {
-            font-size: 38px;
+            font-size: 20px;
         }
         #wrapper-medium .title-container h1 {
-            font-size: 54px;
+            font-size: 24px;
         }
         #wrapper-large .title-container h1 {
-            font-size: 60px;
+            font-size: 28px;
         }
 
         #wrapper-mini .address-container {
-            line-height: 30px;
-            font-size: 22px;
+            line-height: 16px;
+            font-size: 12px;
         }
         #wrapper-mini .address-container .title {
-            font-size: 22px;
+            font-size: 12px;
         }
 
         #wrapper-medium .address-container {
-            line-height: 34px;
-            font-size: 26px;
+            line-height: 19px;
+            font-size: 16px;
         }
         #wrapper-medium .address-container .title {
-            font-size: 26px;
+            font-size: 16px;
         }
 
         #wrapper-large .address-container {
-            line-height: 38px;
-            font-size: 30px;
+            line-height: 21px;
+            font-size: 17px;
         }
         #wrapper-large .address-container .title {
-            font-size: 30px;
+            font-size: 17px;
         }
 
         #logo-container img {
             display: block;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
             width: 100%;
         }
         .title-container {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
             color: #7d5943;
             letter-spacing: -0.4px;
-            padding: 0 25px;
-        }
-        .title-container h1 {
-            font-size: 38px;
+            padding: 0 20px;
         }
         #recipe-container {
-            margin: 20px 0;
+            margin: 15px 0;
             text-align: center;
             color: #7d5943;
             padding: 0 5%;
         }
         #description-container {
-            margin: 20px 0;
+            margin: 15px 0;
             text-align: center;
             color: #7d5943;
             padding: 0 10%;
         }
         #recipe-container h3 {
-            font-size: 28px;
-            line-height: 36px;
+            font-size: 18px;
+            line-height: 22px;
             font-weight: 300;
         }
+        #wrapper-mini #recipe-container {
+            margin: 12px 0;
+        }
+        #wrapper-mini #recipe-container h3 {
+            font-size: 13px;
+            line-height: 17px;
+        }
         #description-container h2 {
-            font-size: 30px;
+            font-size: 16px;
             font-weight: 300;
             border-top: 1px solid #DEC7A4;
             border-bottom: 1px solid #DEC7A4;
             line-height: 1.1;
-            padding-top: 15px;
-            padding-bottom: 15px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        #wrapper-mini #description-container h2 {
+            font-size: 13px;
+        }
+        #wrapper-mini #description-container {
+            margin: 12px 0;
         }
         #produced-container {
-            margin-top: 50px;
-            margin-bottom: 35px;
+            margin-top: 20px;
+            margin-bottom: 15px;
             text-align: center;
             color: #7d5943;
-            padding: 0 70px;
-            font-size: 26px;
+            padding: 0 10%;
+            font-size: 15px;
             font-weight: bold;
         }
         #produced-container p {
             margin-bottom: 10px;
         }
+        #wrapper-mini #produced-container {
+            margin-top: 12px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
         .footer-container {
-            margin-top: 35px;
-            margin-bottom: 35px;
+            margin-top: 20px;
+            margin-bottom: 20px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center center;
             width: 100%;
         }
         .address-container {
-            padding: 0 15px;
+            padding: 0 12px;
             color: #7d5943;
             line-height: 30px;
-            font-size: 22px;
+            font-size: 14px;
             font-weight: 300;
             text-align: center;
         }
         .address-container .title {
             margin-bottom: 5px;
             font-weight: 600;
-            font-size: 22px;
+            font-size: 14px;
         }
         #weight-container {
-            margin: 35px 5% 0;
+            margin: 20px 4% 0;
             color: #7d5943;
         }
         #weight-container .small-border {
             border-top: 1px solid #DEC7A4;
-            margin: auto auto 15px;
+            margin: auto auto 12px;
         }
         #weight-container table {
-            margin: 0 auto;
+            margin: 0;
+            width: 100%;
             text-align: center;
-            font-size: 32px;
+            font-size: 16px;
             color: #7d5943;
             font-weight: 300;
         }
         #weight-container table td {
-            padding: 5px 15px;
+            padding: 4px;
+        }
+        #weight-container table td.left {
+            padding-left: 0;
+            text-align: right;
+        }
+        #weight-container table td.right {
+            padding-right: 0;
+            text-align: left;
+        }
+        #wrapper-mini #weight-container table {
+            font-size: 13px;
+            letter-spacing: -1px;
+        }
+        #wrapper-medium #weight-container table {
+            font-size: 14px;
         }
 
         #tabella-nutrizionale {
-            margin: 35px 0;
+            margin: 20px 0;
             padding: 0 10%;
         }
         #tabella-nutrizionale table {
@@ -240,44 +265,41 @@
             color: #7d5943;
             font-weight: 300;
             text-align: left;
-            font-size: 26px;
+            font-size: 15px;
         }
         #tabella-nutrizionale table th,
         #tabella-nutrizionale table td {
             padding: 5px;
             border: 1px solid #DEC7A4;
         }
+        #tabella-nutrizionale table tr td:last-child {
+            white-space: nowrap;
+        }
+        #wrapper-mini #tabella-nutrizionale {
+            padding: 0 7%;
+            margin: 15px 0;
+        }
+        #wrapper-mini #tabella-nutrizionale table {
+            font-size: 13px;
+        }
 
-        table.layout {
-            width: 100%;
-        }
-        table.layout td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        .label-container {
-            display: table;
-            width: 33.2%;
-            margin-top: 25mm;
-            background-color: #fff;
-            float: left;
-            vertical-align: middle;
-            text-align: center;
-        }
-        .label-wrapper {
-            padding: 35px 0;
-            background-color: #F4E0B9;
-            margin: auto;
-            font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Oxygen, Fira Sans, Droid Sans, Arial, sans-serif;
-        }
         .table-cell {
             display: table-cell;
             vertical-align: middle;
-            text-align: center;
         }
-        .label-container .label-wrapper {
-            margin: auto;
+        .label-container {
+            display: table;
+            width: 100%;
+            border-left: 2.5mm solid #fff;
+            border-right: 2.5mm solid #fff;
+            height: 297mm;
+            page-break-inside: avoid;
+        }
+        .label-wrapper {
+            padding: 30px 0 20px;
+            background-color: #F4E0B9;
+            vertical-align: middle;
+            font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Oxygen, Fira Sans, Droid Sans, Arial, sans-serif;
         }
         .clearfix {
             overflow: auto;
@@ -290,20 +312,69 @@
 
         #barcode {
             text-align: center;
-            margin: 35px 0;
+            margin: 20px 0 0;
+            padding: 0 15px;
         }
-    </style>
+        #barcode img {
+            max-width: 100%;
+            height: auto;
+        }
 
-    <title>Pasticceria Righetto - Eetichette</title>
+        .label-row {
+            text-align: center;
+            margin: auto;
+        }
+
+        /* mini - medium - large */
+
+        #wrapper-mini {
+            width: 56mm;
+        }
+        #wrapper-medium {
+            width: 77mm;
+        }
+        #wrapper-large {
+            width: 97mm;
+        }
+
+        table.table {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0;
+        }
+        table.table#table-mini {
+            width: 183mm; /* 56+5 * 3*/
+        }
+        table.table#table-medium {
+            width: 164mm; /* 77+5 * 2*/
+        }
+        table.table#table-large {
+            width: 204mm;  /* 97+5 * 2*/
+        }
+</style>
+
+<title>Pasticceria Righetto - Etichette</title>
 </head>
 <body>
 
-@php $max = $label->number_elements; @endphp
+<?php
+    $max = $label->number_elements;
 
-@for ($i = 1; $i <= $max; $i++)
-    @include("Webshop.plugins.pluginLabels.inc.etichetta")
-    <div class="clearfix"></div>
-@endfor
+    if ( $label->format == 'mini' ) {
+        $cells_x_rows = 3;
+    } else {
+        $cells_x_rows = 2;
+    }
+?>
+
+
+    @for ($i = 1; $i <= $max; $i++)
+        @if ( $i % $cells_x_rows == 1)<table class="table" id="table-{{ $label->format }}"><tr>@endif
+            <td>
+                @include("Webshop.plugins.pluginLabels.inc.etichetta")
+            </td>
+        @if ( $i == $max || $i % $cells_x_rows == 0)</tr></table>@endif
+    @endfor
 
 </body>
 </html>

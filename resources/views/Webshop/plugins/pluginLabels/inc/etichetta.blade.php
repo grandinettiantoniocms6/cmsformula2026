@@ -146,8 +146,7 @@
                     <div id="barcode">
                         <?php
                             $class = new \Milon\Barcode\DNS1D();
-                            // echo $class->getBarcodeHTML($label->barcode, 'EAN13');
-                            echo '<img src="data:image/jpeg;base64,' . DNS1D::getBarcodePNG($label->barcode, 'EAN13',3,70,array(126,89,68), true) . '" alt="barcode" />';
+                            echo '<img src="data:image/jpeg;base64,' . DNS1D::getBarcodePNG($label->barcode, 'EAN13',3,60,array(126,89,68), true) . '" alt="barcode" />';
                         ?>
                     </div>
                 @endif
@@ -156,7 +155,7 @@
                 <div class="small-border"></div>
                 <table>
                     <tr>
-                        <td>
+                        <td class="center">
                             @if($label->lang == 'it')
                                 Peso:
                             @endif
@@ -171,10 +170,8 @@
                 </table>
                 <table>
                     <tr>
-                        <td>Prod:
-
-                            <strong>{{ $label->production }}</strong></td>
-                        <td>
+                        <td class="left">Prod: <strong>{{ $label->production }}</strong></td>
+                        <td class="right">
                             @if($label->lang == 'it')
                                 Scad:
                             @endif
