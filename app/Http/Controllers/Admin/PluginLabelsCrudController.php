@@ -363,6 +363,7 @@ class PluginLabelsCrudController extends CrudController
         $pdf->setOption('margin-top', 0);
         $pdf->setOption('disable-smart-shrinking', true);
         $pdf->setOption('margin-bottom', 0);
+
         $pdf->setPaper('A4', 'portrait');
 
         $html = view("$thema.plugins.pluginLabels.pdf", compact( 'setting', 'label'))->render();

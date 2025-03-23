@@ -76,13 +76,13 @@
                 </div>
             @endif
 
-            @if($label->ingredients && trim($label->ingredients != ""))
+            @if($label->ingredients && trim($label->ingredients != "<p><br></p>"))
                 <div id="recipe-container">
                     <h3 id="recipe">{!! $label->ingredients !!}</h3>
                 </div>
             @endif
 
-            @if($label->description && trim($label->description != ""))
+            @if($label->description && trim($label->description != "<p><br></p>"))
                 <div id="description-container">
                     <h2 id="description">{!! $label->description !!}</h2>
                 </div>
@@ -151,8 +151,10 @@
                     </div>
                 @endif
             </div>
+            @if( ($label->weight && trim($label->weight) != "") || ($label->production && trim($label->production) != "") || ($label->end_date && trim($label->end_date) != "") )
             <div id="weight-container">
                 <div class="small-border"></div>
+                @if($label->weight && trim($label->weight) != "")
                 <table>
                     <tr>
                         <td class="center">
@@ -165,12 +167,18 @@
                             @if($label->lang == 'it/en')
                                 Peso/Weight:
                             @endif
-                            <strong>{{ $label->weight }}</strong></td>
+                            <strong>{{ $label->weight }}</strong>
+                        </td>
                     </tr>
                 </table>
+                @endif
+                @if( ($label->production && trim($label->production) != "") || ($label->end_date && trim($label->end_date) != "") )
                 <table>
                     <tr>
+                        @if($label->production && trim($label->production) != "")
                         <td class="left">Prod: <strong>{{ $label->production }}</strong></td>
+                        @endif
+                        @if($label->end_date && trim($label->end_date) != "")
                         <td class="right">
                             @if($label->lang == 'it')
                                 Scad:
@@ -182,10 +190,14 @@
                                 Scad/Exp:
                             @endif
 
-                            <strong>{{ $label->end_date }}</strong></td>
+                            <strong>{{ $label->end_date }}</strong>
+                        </td>
+                        @endif
                     </tr>
                 </table>
+                @endif
             </div>
+            @endif
         </div>
     </div>
 </div>
