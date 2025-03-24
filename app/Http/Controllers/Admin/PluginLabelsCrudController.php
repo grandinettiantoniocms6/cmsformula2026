@@ -360,9 +360,10 @@ class PluginLabelsCrudController extends CrudController
         $pdf->setOption('encoding', 'utf-8');
         $pdf->setOption('margin-left', 0);
         $pdf->setOption('margin-right', 0);
-        $pdf->setOption('margin-top', 0);
+        $pdf->setOption('margin-top', 5);
+        $pdf->setOption('margin-bottom', 5);
         $pdf->setOption('disable-smart-shrinking', true);
-        $pdf->setOption('margin-bottom', 0);
+
 
         $pdf->setPaper('A4', 'portrait');
 

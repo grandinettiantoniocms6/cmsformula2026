@@ -99,13 +99,13 @@
         }
 
         #wrapper-mini .title-container h1 {
-            font-size: 20px;
+            font-size: 19px;
         }
         #wrapper-medium .title-container h1 {
-            font-size: 24px;
+            font-size: 23px;
         }
         #wrapper-large .title-container h1 {
-            font-size: 28px;
+            font-size: 27px;
         }
 
         #wrapper-mini .address-container {
@@ -138,7 +138,8 @@
             width: 100%;
         }
         .title-container {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
+            line-height: 1.1;
             text-align: center;
             color: #7d5943;
             letter-spacing: -0.4px;
@@ -290,13 +291,14 @@
         .label-container {
             display: table;
             width: 100%;
-            border-left: 2.5mm solid #fff;
-            border-right: 2.5mm solid #fff;
-            height: 297mm;
+            border-left: 1.5mm solid #fff;
+            border-right: 1.5mm solid #fff;
+            /*height: 297mm;*/
+            border-top: 2mm solid #fff;
             page-break-inside: avoid;
         }
         .label-wrapper {
-            padding: 30px 0 20px;
+            padding: 25px 0 15px;
             background-color: #F4E0B9;
             vertical-align: middle;
             font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Oxygen, Fira Sans, Droid Sans, Arial, sans-serif;
@@ -339,17 +341,17 @@
 
         table.table {
             width: 100%;
-            margin: 0 auto;
+            margin: 0 auto 0;
             padding: 0;
         }
         table.table#table-mini {
-            width: 183mm; /* 56+5 * 3*/
+            width: 177mm; /* 56+3 * 3*/
         }
         table.table#table-medium {
-            width: 164mm; /* 77+5 * 2*/
+            width: 160mm; /* 77+3 * 2*/
         }
         table.table#table-large {
-            width: 204mm;  /* 97+5 * 2*/
+            width: 200mm;  /* 97+3 * 2*/
         }
 </style>
 
