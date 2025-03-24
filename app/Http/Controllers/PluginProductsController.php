@@ -927,84 +927,56 @@ class PluginProductsController extends Controller
     public function search(Request $request){
         $lang = \App::getLocale();
 
+        $path_parts = pathinfo($_SERVER['HTTP_REFERER']);
+
+        $slug = $path_parts['basename'];
+        if($slug == env("PLUGIN_PRODUCTS_URL_$lang")){
+            $slug = null;
+        }
+
+
+        $sql_categories = "1=1";
+        $category = null;
+        if($slug){
+            $category = PluginProductsCategories::where("is_active", 1)
+                ->whereRaw("slug LIKE '%\"$lang\":\"$slug\"%'")
+                ->first();
+
+            $v_cat = [];
+
+            $figli = PluginProductsCategories::where("is_active", 1)->where("parent_id", $category->id)->get();
+            if(count($figli)){
+                if($figli){
+                    foreach($figli as $figlio){
+                        $v_cat[] = $figlio->id;
+                    }
+                }
+            }else{
+                $v_cat[] = $category->id;
+            }
+
+            if($v_cat){
+                foreach ($v_cat as $item_cat_id){
+                    $v_sql_categories[] = "categories LIKE '%,$item_cat_id,%'";
+                }
+                $sql_categories = "(".implode(" OR ", $v_sql_categories).")";
+            }
+        }
+
         $q = trim(addslashes($request->input('q')));
         $shopSetting = ShopSettings::first();
         $pluginSetting = PluginProductsSettings::first();
         $labels = PluginProductsLabels::get()->pluck("value", "key")->toArray();
 
-        //$p_exclud_id = PluginProductsLangs::where("lang", $lang)->where("is_active", 1)
-
-
-        if($request->has('luxury')){ //per manega
-            //prendo tutti i prodotti non presenti nella categoria luxury e figli
-            $v_exclude_cat = [];
-
-            $cat_lux = PluginProductsCategories::where("is_purchasable", 0)->where("parent_id", null)->get();
-            if($cat_lux){
-                foreach ($cat_lux as $cl){
-                    $v_exclude_cat = $cl->get_tree_categories($cl->id);
-                }
-            }
-
-            $all_products_ok = PluginProductsCategoriesProducts::whereIn("plugin_product_category_id", $v_exclude_cat)
-                ->get()
-                ->pluck("plugin_product_product_id")
-                ->toArray();
-
-            $all_products_ok = array_unique($all_products_ok);
-
-            $products = PluginProducts::with("brand")->selectRaw("plugins_products.*")
-                ->join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-                ->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-                ->whereRaw("plugins_products-is_active = 1 AND (name LIKE '%$q%' OR sku LIKE '%$q%' OR description LIKE '%$q%' OR description_short LIKE '%$q%')")
-                ->where("is_variant", 0)
-                ->whereIn("plugins_products.id", $all_products_ok)
-                ->groupBy("plugins_products.id")
-                ->take(40)
-                ->get();
-
-        }else{
-            if(env("PROJECT_NAME") == "Manega"){
-                //prendo tutti i prodotti non presenti nella categoria luxury e figli
-                $v_exclude_cat = [];
-
-                $cat_lux = PluginProductsCategories::where("is_purchasable", 0)->where("parent_id", null)->get();
-                if($cat_lux){
-                    foreach ($cat_lux as $cl){
-                        $v_exclude_cat = $cl->get_tree_categories($cl->id);
-                    }
-                }
-
-                $all_products_ok = PluginProductsCategoriesProducts::whereNotIn("plugin_product_category_id", $v_exclude_cat)
-                    ->get()
-                    ->pluck("plugin_product_product_id")
-                    ->toArray();
-
-                $all_products_ok = array_unique($all_products_ok);
-
-                $products = PluginProducts::with("brand")->selectRaw("plugins_products.*")
-                    ->join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-                    ->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-                    ->whereRaw("plugins_products.is_active = 1 AND (name LIKE '%$q%' OR sku LIKE '%$q%' OR description LIKE '%$q%' OR description_short LIKE '%$q%')")
-                    ->whereIn("plugins_products.id", $all_products_ok)
-                    ->where("is_variant", 0)
-                    ->groupBy("plugins_products.id")
-                    ->take(40)
-                    ->get();
-
-            }else{
-                $products = PluginProducts::with("brand")->selectRaw("plugins_products.*")
-                    ->join("plugins_products_langs", "plugins_products_langs.product_id", "=", "plugins_products.id")
-                    ->whereRaw("lang = '$lang' AND plugins_products_langs.is_active = 1")
-                    ->whereRaw("plugins_products.is_active = 1 AND (name LIKE '%$q%' OR sku LIKE '%$q%' OR description LIKE '%$q%' OR description_short LIKE '%$q%')")
-                    ->where("is_variant", 0)
-                    ->groupBy("plugins_products.id")
-                    ->take(40)
-                    ->get();
-            }
-
-        }
-
+        $products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
+            ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
+            ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%' AND plugins_products.is_active = 1")
+            ->where("plugins_products.is_variant", 0)
+            ->whereRaw("plugins_products.is_active = 1 AND (name LIKE '%$q%' OR sku LIKE '%$q%' OR description LIKE '%$q%' OR description_short LIKE '%$q%')")
+            ->orderBy("is_evidenza", "DESC")
+            ->orderBy("plugins_products.name", "asc")
+            ->groupBy("plugins_products.id")
+            ->get();
 
         $list = [];
         if(count($products)){
