@@ -925,44 +925,116 @@ class PluginProductsController extends Controller
     }
 
     public function search(Request $request){
-        $lang = \App::getLocale();
+        $adminLangs = AdminLanguage::where("is_active", 1)->where("is_frontend", 1)->get();
 
         $path_parts = pathinfo($_SERVER['HTTP_REFERER']);
 
+        $lang = \App::getLocale();
+        $lang_ = strtoupper($lang);
+        $slug_prodotti = env("PLUGIN_PRODUCTS_URL_$lang_");
+
         $slug = $path_parts['basename'];
-        if($slug == env("PLUGIN_PRODUCTS_URL_$lang")){
-            $slug = null;
+        //SPECIAL PAGE SHOPS
+        $special_urls = [];
+        $pages_special_shop = Page::where("is_special_shop", 1)->get();
+        if($pages_special_shop){
+            foreach ($pages_special_shop as $ps){
+                $special_urls[] = $ps->slug;
+            }
+        }
+
+        if(count($special_urls)){
+            foreach ($special_urls as $special){
+                foreach ($adminLangs as $item_lang){
+                    $special_urls[] = "$special-{$item_lang->name}";
+                }
+            }
+        }
+
+        if($special_urls){
+            foreach ($special_urls as $special){
+                if(strpos( \URL::current(),$special)){
+                    if(!$slug){
+                        $slug = $special;
+                        if(\App::getLocale() != "it"){
+                            $slug = "$special-".\App::getLocale();
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
+        //MENU A SX CATEGORIE
+        if(in_array($slug, $special_urls)){
+            $categories = PluginProductsCategories::where("is_active", 1)
+                ->where("parent_id", null)
+                ->where("is_in_list_shop_page", 0)
+                ->whereRaw("list_pages LIKE '%$slug%'")
+                ->where("is_purchasable", 1)
+                ->orderBy("lft", "asc")
+                ->get();
+        }else {
+            if (is_numeric(strpos(\Request::url(), "/$slug_prodotti/"))) {
+                $categories = PluginProductsCategories::where("is_active", 1)
+                    ->where("parent_id", null)
+                    ->where("is_purchasable", 1)
+                    ->where("is_in_list_shop_page", 1)
+                    ->orderBy("lft", "asc")
+                    ->get();
+            } else {
+                $trovato = 0;
+                foreach ($special_urls as $special) {
+                    if (is_numeric(strpos(\Request::url(), "/$special/"))) {
+                        $categories = PluginProductsCategories::where("is_active", 1)
+                            ->where("parent_id", null)
+                            ->where("is_in_list_shop_page", 0)
+                            ->whereRaw("list_pages LIKE '%$special%'")
+                            ->where("is_purchasable", 1)
+                            ->orderBy("lft", "asc")
+                            ->get();
+
+                        if ($categories) {
+                            $trovato = 1;
+                            break;
+                        }
+                    }
+                }
+
+                if ($trovato == 0) {
+                    $categories = PluginProductsCategories::where("is_active", 1)
+                        ->where("parent_id", null)
+                        ->where("is_purchasable", 1)
+                        ->where("is_in_list_shop_page", 1)
+                        ->orderBy("lft", "asc")
+                        ->get();
+                }
+            }
         }
 
 
+        $v_cat = [];
         $sql_categories = "1=1";
-        $category = null;
-        if($slug){
-            $category = PluginProductsCategories::where("is_active", 1)
-                ->whereRaw("slug LIKE '%\"$lang\":\"$slug\"%'")
-                ->first();
+        if($categories){
+            foreach ($categories as $temp_category){
+                $v_cat[] = $temp_category->id;
 
-
-            $v_cat = [];
-            if($category){
-                $figli = PluginProductsCategories::where("is_active", 1)->where("parent_id", $category->id)->get();
-                if(count($figli)){
+                $figli = PluginProductsCategories::where("is_active", 1)->where("parent_id", $temp_category->id)->get();
+                if($figli){
                     if($figli){
                         foreach($figli as $figlio){
                             $v_cat[] = $figlio->id;
                         }
                     }
-                }else{
-                    $v_cat[] = $category->id;
                 }
             }
+        }
 
-            if($v_cat){
-                foreach ($v_cat as $item_cat_id){
-                    $v_sql_categories[] = "categories LIKE '%,$item_cat_id,%'";
-                }
-                $sql_categories = "(".implode(" OR ", $v_sql_categories).")";
+        if($v_cat){
+            foreach ($v_cat as $item_cat_id){
+                $v_sql_categories[] = "categories LIKE '%,$item_cat_id,%'";
             }
+            $sql_categories = "(".implode(" OR ", $v_sql_categories).")";
         }
 
         $q = trim(addslashes($request->input('q')));
