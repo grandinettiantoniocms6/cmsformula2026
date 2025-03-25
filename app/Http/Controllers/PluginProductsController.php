@@ -1033,7 +1033,13 @@ class PluginProductsController extends Controller
 
                         if($promo_price != 0){
                             $promo_price_view = number_format($promo_price, 2, ",", ".");
-                            $product->price_view = "$symbol $promo_price_view";
+
+                            if($promo_price_view != "0,00"){
+                                $product->price_view = "$symbol $promo_price_view";
+                            }else{
+                                $product->price_view = "";
+                            }
+
                         }
 
                     }
@@ -1060,10 +1066,14 @@ class PluginProductsController extends Controller
                         }
                         $promo_price_view = number_format($promo_price, 2, ",", ".");
 
+                        if($promo_price_view != "0,00"){
+                            $product->price_view = "$symbol $promo_price_view";
+                        }else{
+                            $product->price_view = "";
+                        }
 
-
-                        $product->price_view = "$symbol $promo_price_view";
                     }
+
 
                     if($pluginSetting->view_addcart_autocomplete_topbar_ecommerce == 1){
                         $url_add = route('add.cart.product.search');
