@@ -1089,6 +1089,10 @@ class PluginProductsController extends Controller
                     $product->add_cart = "";
                 }
 
+                if(trim($product->price_view) == ""){
+                    $product->add_cart = "";
+                }
+
                 $list[] = $product;
             }
         }else{
