@@ -151,7 +151,7 @@
                 $symbol = "&euro;";
             }
             ?>
-            @if($pluginSetting->show_prices == 1)
+            @if($pluginSetting->show_prices == 1 && (round(reset($prices),2) != round(end($prices),2)))
                 <div id="box_prices_filters">
                     <div class="widget widget-collapsible">
                         <h3 class="widget-title" data-bs-target="#widget-range" data-bs-toggle="collapse" aria-expanded="true">Filtra per prezzo <i class="bi bi-chevron-down"></i></h3>
