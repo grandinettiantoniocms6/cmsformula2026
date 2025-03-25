@@ -942,17 +942,19 @@ class PluginProductsController extends Controller
                 ->whereRaw("slug LIKE '%\"$lang\":\"$slug\"%'")
                 ->first();
 
-            $v_cat = [];
 
-            $figli = PluginProductsCategories::where("is_active", 1)->where("parent_id", $category->id)->get();
-            if(count($figli)){
-                if($figli){
-                    foreach($figli as $figlio){
-                        $v_cat[] = $figlio->id;
+            $v_cat = [];
+            if($category){
+                $figli = PluginProductsCategories::where("is_active", 1)->where("parent_id", $category->id)->get();
+                if(count($figli)){
+                    if($figli){
+                        foreach($figli as $figlio){
+                            $v_cat[] = $figlio->id;
+                        }
                     }
+                }else{
+                    $v_cat[] = $category->id;
                 }
-            }else{
-                $v_cat[] = $category->id;
             }
 
             if($v_cat){
