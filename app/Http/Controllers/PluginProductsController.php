@@ -1157,6 +1157,15 @@ class PluginProductsController extends Controller
                     }
                 }
 
+                if($pluginSetting->view_price_autocomplete_topbar_ecommerce == 0){
+                    $product->price_view = "";
+                }
+
+                if($pluginSetting->view_price_autocomplete_topbar_ecommerce == 0){
+                    $product->add_cart = "";
+                    $product->button_cart = "";
+                }
+
                 if($product->in_cart()){
                     $product->add_cart = "";
                 }
@@ -1164,6 +1173,7 @@ class PluginProductsController extends Controller
                 if(trim($product->price_view) == ""){
                     $product->add_cart = "";
                 }
+
 
                 $list[] = $product;
             }
