@@ -1117,6 +1117,7 @@ class PluginProductsController extends Controller
                     }
                 }
 
+
                 if($pluginSetting){
                     if($pluginSetting->view_price_autocomplete_topbar_ecommerce == 1){
                         $symbol = "&euro;";
