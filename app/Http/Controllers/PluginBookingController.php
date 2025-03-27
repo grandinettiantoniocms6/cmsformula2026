@@ -1000,7 +1000,6 @@ class PluginBookingController extends Controller
     }
 
     public function checkout(Request $request){
-
         if(!$request->has('mobile')){
             $this->validate($request, [
                 'email' => 'required|email',
@@ -1668,7 +1667,6 @@ class PluginBookingController extends Controller
                         $m->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                         $m->replyTo(env('MAIL_TO_REPLAY'), env('MAIL_FROM_NAME'));
                         $m->to($destinatario)->subject(@$labels['booking-email-oggetto']);
-
                     });
 
                     if($setting) {
@@ -1690,8 +1688,6 @@ class PluginBookingController extends Controller
                 } catch (\Throwable $e) {
 
                 }
-
-
 
                 return redirect()->route('pluginBooking.order.it', $reservation->id);
             }
