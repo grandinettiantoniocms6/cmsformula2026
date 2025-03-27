@@ -98,6 +98,10 @@
                       <p><a class="btn btn-sm btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}" target="_blank">Scarica PDF</a></p>
                       <p class="text-center mb-1">Anteprima in scala 1:2</p>
                       <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" id="preview_card" width="100%" height="auto" onload="resizeIframe(this)" scrolling="none"></iframe>
+                      <button type="submit" class="btn btn-success" id="buttonSubmit2">
+                          <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
+                          <span data-value="{{ $saveAction['active']['value'] }}">Salva</span>
+                      </button>
                   </div>
               </div>
 
