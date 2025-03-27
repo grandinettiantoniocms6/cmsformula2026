@@ -99,13 +99,13 @@
         }
 
         #wrapper-mini .title-container h1 {
-            font-size: 19px;
+            font-size: 11px;
         }
         #wrapper-medium .title-container h1 {
-            font-size: 23px;
+            font-size: 17px;
         }
         #wrapper-large .title-container h1 {
-            font-size: 27px;
+            font-size: 21px;
         }
 
         #wrapper-mini .address-container {
@@ -158,7 +158,7 @@
             padding: 0 10%;
         }
         #recipe-container h3 {
-            font-size: 18px;
+            font-size: 9px;
             line-height: 22px;
             font-weight: 300;
         }
@@ -166,11 +166,11 @@
             margin: 12px 0;
         }
         #wrapper-mini #recipe-container h3 {
-            font-size: 13px;
+            font-size: 9px;
             line-height: 17px;
         }
         #description-container h2 {
-            font-size: 16px;
+            font-size: 9px;
             font-weight: 300;
             border-top: 1px solid #DEC7A4;
             border-bottom: 1px solid #DEC7A4;
@@ -179,7 +179,7 @@
             padding-bottom: 10px;
         }
         #wrapper-mini #description-container h2 {
-            font-size: 13px;
+            font-size: 9px;
         }
         #wrapper-mini #description-container {
             margin: 12px 0;
@@ -190,16 +190,15 @@
             text-align: center;
             color: #7d5943;
             padding: 0 10%;
-            font-size: 15px;
-            font-weight: bold;
+            font-size: 10px;
         }
         #produced-container p {
-            margin-bottom: 10px;
+            margin-bottom: 9px;
         }
         #wrapper-mini #produced-container {
             margin-top: 12px;
             margin-bottom: 10px;
-            font-size: 14px;
+            font-size: 10px;
         }
         .footer-container {
             margin-top: 20px;
