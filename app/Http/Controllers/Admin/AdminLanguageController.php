@@ -859,9 +859,9 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
 
                 case "pluginLabels":
 
-                    $fields = ['title','description','ingredients','table_nutr','weight','production','end_date'];
+                    $fields = ['title','ingredients','description','table_nutr','weight','production','end_date'];
                     $fields_types = ["text", "summernote", "summernote", "summernote", "text", "text", "text"];
-                    $fields_label = ["Titolo", "Descrizione", "Ingredienti", "Tabella nutrizionale", "Peso", "Produzione", "Scadenza"];
+                    $fields_label = ["Titolo", "Ingredienti", "Descrizione", "Tabella nutrizionale", "Peso", "Produzione", "Scadenza"];
                     if(count($parameters)) {
                         $item = PluginLabels::find($item_id);
                     }

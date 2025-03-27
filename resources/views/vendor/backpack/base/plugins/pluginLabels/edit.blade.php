@@ -98,6 +98,10 @@
                       <p><a class="btn btn-sm btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}" target="_blank">Scarica PDF</a></p>
                       <p class="text-center mb-1">Anteprima in scala 1:2</p>
                       <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" id="preview_card" width="100%" height="auto" onload="resizeIframe(this)" scrolling="none"></iframe>
+                      <button type="submit" class="btn btn-success" id="buttonSubmit2">
+                          <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
+                          <span data-value="{{ $saveAction['active']['value'] }}">Salva</span>
+                      </button>
                   </div>
               </div>
 
@@ -122,11 +126,11 @@
 
         $('.summernote').summernote({
             callbacks: {
-                onBlur: function() {
+                /*onBlur: function() {
                     $("#form_label").submit();
-                }
+                }*/
             },
-            height: 200,
+            height: 100,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['para', ['ul', 'paragraph','table']],
@@ -134,7 +138,7 @@
             ]
         });
 
-        $("#form_label").change(function(){
+        /*$("#form_label").change(function(){
             $.ajax({
                 url: "{{ url($crud->route.'/'.$entry->getKey()) }}",
                 type: 'POST',
@@ -154,7 +158,7 @@
                 Swal.close();
                 document.getElementById("preview_card").contentDocument.location.reload(true);
             });
-        });
+        });*/
 
         function resizeIframe(obj) {
             obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 30 + 'px';

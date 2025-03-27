@@ -56,7 +56,8 @@ $labels = \App\Models\PluginBookingLabels::get()->pluck("value", "key")->toArray
                     $diff_day = 1;
                 }
 
-                $tot = $session->total * $diff_day;
+                //$tot = $session->total * $diff_day;
+                $tot = $session->total;
                 ?>
                 @include('Webshop.plugins.pluginBooking.inc.box_riassume')
 
