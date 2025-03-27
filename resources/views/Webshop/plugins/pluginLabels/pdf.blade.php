@@ -99,7 +99,7 @@
         }
 
         #wrapper-mini .title-container h1 {
-            font-size: 11px;
+            font-size: 11.5px;
         }
         #wrapper-medium .title-container h1 {
             font-size: 17px;
@@ -110,10 +110,10 @@
 
         #wrapper-mini .address-container {
             line-height: 16px;
-            font-size: 12px;
+            font-size: 10px;
         }
         #wrapper-mini .address-container .title {
-            font-size: 12px;
+            font-size: 10px;
         }
 
         #wrapper-medium .address-container {
@@ -280,7 +280,7 @@
             margin: 15px 0;
         }
         #wrapper-mini #tabella-nutrizionale table {
-            font-size: 9px;
+            font-size: 8px;
         }
 
         .table-cell {
