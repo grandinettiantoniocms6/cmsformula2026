@@ -1236,9 +1236,11 @@ class PluginBookingController extends Controller
                         foreach ($session->partecipants as $partecipant) {
                             PluginBookingReservationRoomCheckin::create([
                                 "plugin_booking_reservation_room_id" => $reservation_room->id,
+                                "plugin_booking_reservation_id" => $reservation->id,
                                 "first_name" => $partecipant['first_name'],
                                 "last_name" => $partecipant['last_name'],
-                                "birthdate" => $partecipant['birthdate']
+                                "birthdate" => $partecipant['birthdate'],
+                                "line_code" => "1243"
                             ]);
                         }
                     }
@@ -1578,9 +1580,11 @@ class PluginBookingController extends Controller
                             if(!$check1){
                                 PluginBookingReservationRoomCheckin::create([
                                     "plugin_booking_reservation_room_id" => $reservation_room->id,
+                                    "plugin_booking_reservation_id" => $reservation->id,
                                     "first_name" => $partecipant['first_name'],
                                     "last_name" => $partecipant['last_name'],
-                                    "birthdate" => $partecipant['birthdate']
+                                    "birthdate" => $partecipant['birthdate'],
+                                    "line_code" => "1586"
                                 ]);
                             }
 
@@ -1645,9 +1649,11 @@ class PluginBookingController extends Controller
                                         foreach ($session->partecipants as $partecipant) {
                                             PluginBookingReservationRoomCheckin::create([
                                                 "plugin_booking_reservation_room_id" => $reservation_room->id,
+                                                "plugin_booking_reservation_id" => $reservation_temp->id,
                                                 "first_name" => $partecipant['first_name'],
                                                 "last_name" => $partecipant['last_name'],
-                                                "birthdate" => $partecipant['birthdate']
+                                                "birthdate" => $partecipant['birthdate'],
+                                                "line_code" => "1656"
                                             ]);
                                         }
                                     }
