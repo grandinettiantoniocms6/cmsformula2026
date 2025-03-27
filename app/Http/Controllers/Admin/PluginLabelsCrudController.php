@@ -93,6 +93,10 @@ class PluginLabelsCrudController extends CrudController
         if(count($parameters)){
             $item = \App\Models\PluginLabels::where("id", $parameters['id'])->first();
         }
+        if(count($parameters)){
+            $trans = new AdminLanguageController();
+            $trans->fields_lang("pluginLabels", $this->crud, $item);
+        }
 
         $products = PluginProducts::selectRaw("name,id")->pluck("name", "id")->toArray();
         $this->crud->addField([   // select2_from_array
@@ -104,6 +108,7 @@ class PluginLabelsCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
+            "tab" => "Impostazioni"
         ]);
 
         $options = ["mini" => "Piccolo", "medium" => "Medio", "large" => "Grande"];
@@ -117,6 +122,7 @@ class PluginLabelsCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
+            "tab" => "Impostazioni"
         ]);
 
         $options = ["it" => "Italiano", "en" => "Inglese", "it/en" => "Italiano/Inglese"];
@@ -130,6 +136,7 @@ class PluginLabelsCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
+            "tab" => "Impostazioni"
         ]);
 
         $this->crud->addField([   // select2_from_array
@@ -140,6 +147,7 @@ class PluginLabelsCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
+            "tab" => "Impostazioni"
         ]);
 
         $this->crud->addField([   // Checkbox
@@ -149,6 +157,7 @@ class PluginLabelsCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-6'
             ],
+            "tab" => "Impostazioni"
         ]);
 
         $this->crud->addField([   // Checkbox
@@ -158,6 +167,7 @@ class PluginLabelsCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-6'
             ],
+            "tab" => "Impostazioni"
         ]);
 
         $this->crud->addField([   // Checkbox
@@ -168,6 +178,7 @@ class PluginLabelsCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
+            "tab" => "Impostazioni"
         ]);
 
         $this->crud->addField([   // Checkbox
@@ -178,6 +189,7 @@ class PluginLabelsCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
+            "tab" => "Impostazioni"
         ]);
 
         $this->crud->addField([   // Checkbox
@@ -188,13 +200,11 @@ class PluginLabelsCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
+            "tab" => "Impostazioni"
         ]);
 
 
-        if(count($parameters)){
-            $trans = new AdminLanguageController();
-            $trans->fields_lang("pluginLabels", $this->crud, $item);
-        }
+
     }
 
     /**

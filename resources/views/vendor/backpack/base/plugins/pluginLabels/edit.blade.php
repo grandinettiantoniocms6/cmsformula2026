@@ -122,11 +122,11 @@
 
         $('.summernote').summernote({
             callbacks: {
-                onBlur: function() {
+                /*onBlur: function() {
                     $("#form_label").submit();
-                }
+                }*/
             },
-            height: 200,
+            height: 100,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['para', ['ul', 'paragraph','table']],
@@ -134,7 +134,7 @@
             ]
         });
 
-        $("#form_label").change(function(){
+        /*$("#form_label").change(function(){
             $.ajax({
                 url: "{{ url($crud->route.'/'.$entry->getKey()) }}",
                 type: 'POST',
@@ -154,7 +154,7 @@
                 Swal.close();
                 document.getElementById("preview_card").contentDocument.location.reload(true);
             });
-        });
+        });*/
 
         function resizeIframe(obj) {
             obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 30 + 'px';

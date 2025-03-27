@@ -345,13 +345,13 @@
             padding: 0;
         }
         table.table#table-mini {
-            width: 177mm; /* 56+3 * 3*/
+            width: 183mm; /* 56+3 * 3*/
         }
         table.table#table-medium {
-            width: 160mm; /* 77+3 * 2*/
+            width: 166mm; /* 77+3 * 2*/
         }
         table.table#table-large {
-            width: 200mm;  /* 97+3 * 2*/
+            width: 206mm;  /* 97+3 * 2*/
         }
 </style>
 
