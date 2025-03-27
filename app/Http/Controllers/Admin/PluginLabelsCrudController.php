@@ -10,6 +10,7 @@ use App\Models\PluginProducts;
 use App\Models\Tax;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Http\Request;
 
 /**
  * Class PluginLabelsCrudController
@@ -359,7 +360,7 @@ class PluginLabelsCrudController extends CrudController
 
     // https://wkhtmltopdf.org/usage/wkhtmltopdf.txt
 
-    public function pdf($id)
+    public function pdf($id, Request $request)
     {
         $thema = env("TEMA");
         $thema = "Webshop";
@@ -378,12 +379,13 @@ class PluginLabelsCrudController extends CrudController
         $pdf->setPaper('A4', 'portrait');
 
         $html = view("$thema.plugins.pluginLabels.pdf", compact( 'setting', 'label'))->render();
+
+        if($request->has("html")){
+            die($html);
+        }
         //die($html);
 
         $pdf->loadHTML($html);
-
-
-
 
         return $pdf->inline("Etichetta_$id.pdf");
         //return $pdf->download("Etichetta_$id.pdf");
