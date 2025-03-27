@@ -212,14 +212,14 @@
             padding: 0 12px;
             color: #7d5943;
             line-height: 30px;
-            font-size: 14px;
+            font-size: 9px;
             font-weight: 300;
             text-align: center;
         }
         .address-container .title {
             margin-bottom: 5px;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 9px;
         }
         #weight-container {
             margin: 20px 4% 0;
@@ -280,7 +280,7 @@
             margin: 15px 0;
         }
         #wrapper-mini #tabella-nutrizionale table {
-            font-size: 13px;
+            font-size: 9px;
         }
 
         .table-cell {
