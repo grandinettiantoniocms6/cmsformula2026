@@ -144,10 +144,13 @@
 
                 @if($label->barcode && trim($label->barcode != ""))
                     <div id="barcode">
-                        <?php
+                        <div id="barcode-wrapper">
+                            <?php
                             $class = new \Milon\Barcode\DNS1D();
-                            echo '<img src="data:image/jpeg;base64,' . DNS1D::getBarcodePNG($label->barcode, 'EAN13',3,60,array(126,89,68), true) . '" alt="barcode" />';
-                        ?>
+                            echo '<img src="data:image/jpeg;base64,' . DNS1D::getBarcodePNG($label->barcode, 'EAN13',3,80, array(63,41,28), false) . '" alt="barcode" />';
+                            ?>
+                            <div id="barcode-number"><span>{{ $label->barcode }}</span></div>
+                        </div>
                     </div>
                 @endif
             </div>

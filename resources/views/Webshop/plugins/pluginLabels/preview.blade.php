@@ -285,7 +285,34 @@
         }
         #barcode {
             text-align: center;
-            margin: 35px 0;
+            margin: 20px 0 0;
+            padding: 0 15px;
+        }
+        #barcode-wrapper {
+            padding: 2px 5px;
+            background-color: #fff;
+            position: relative;
+            display: inline-block;
+        }
+        #barcode-number {
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            right: 0;
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px
+            color: rgb(63,41,28);
+            line-height: 1;
+        }
+        #barcode-number span {
+            background-color: #fff;
+            padding: 0 4px;
+        }
+        #barcode img {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 

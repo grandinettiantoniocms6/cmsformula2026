@@ -85,7 +85,7 @@
 		    @endif
 
               <div class="row">
-                  <div class="col-7">
+                  <div class="col-xl-7">
                       <!-- load the view from the application if it exists, otherwise load the one in the package -->
                       @if(view()->exists('vendor.backpack.crud.form_content'))
                           @include('vendor.backpack.crud.form_content', ['fields' => $crud->fields(), 'action' => 'edit'])
@@ -94,24 +94,37 @@
                       @endif
                   </div>
 
-                  <div class="col-5 text text-center">
-                      <p><a class="btn btn-sm btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}" target="_blank">Scarica PDF</a></p>
+                  <div class="col-xl-5 text text-center">
+                      <div class="row gutters-pages">
+                          <div class="col-auto">
+                              <a class="btn btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}" target="_blank">Scarica PDF</a>
+                          </div>
+                          <div class="col-auto">
+                              <button type="submit" class="btn btn-success" id="buttonSubmit2">
+                                  <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
+                                  <span data-value="{{ $saveAction['active']['value'] }}">Salva</span>
+                              </button>
+                          </div>
+                      </div>
                       <p class="text-center mb-1">Anteprima in scala 1:2</p>
                       <iframe src="{{ route('preview.pluginLabel', $entry->getKey()) }}" id="preview_card" width="100%" height="auto" onload="resizeIframe(this)" scrolling="none"></iframe>
-                      <button type="submit" class="btn btn-success" id="buttonSubmit2">
-                          <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
-                          <span data-value="{{ $saveAction['active']['value'] }}">Salva</span>
-                      </button>
                   </div>
               </div>
 
-              <div id="saveActions" class="form-group">
-                  <input type="hidden" name="save_action" value="{{ $saveAction['active']['value'] }}">
-                  <div class="btn-group" role="group">
-                      <button type="submit" class="btn btn-success" id="buttonSubmit">
-                          <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
-                          <span data-value="{{ $saveAction['active']['value'] }}">Salva</span>
-                      </button>
+              <div class="row gutters-pages">
+                  <div class="col-auto">
+                      <a class="btn btn-block btn-info" href="{{ route('pdf.pluginLabel', $entry->getKey()) }}" target="_blank">Scarica PDF</a>
+                  </div>
+                  <div class="col-auto">
+                      <div id="saveActions" class="form-group">
+                          <input type="hidden" name="save_action" value="{{ $saveAction['active']['value'] }}">
+                          <div class="btn-group" role="group">
+                              <button type="submit" class="btn btn-success" id="buttonSubmit">
+                                  <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
+                                  <span data-value="{{ $saveAction['active']['value'] }}">Salva</span>
+                              </button>
+                          </div>
+                      </div>
                   </div>
               </div>
 
