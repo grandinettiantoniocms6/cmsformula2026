@@ -1,5 +1,5 @@
-<section class="block-banner wow animate__fadeInUp" data-wow-duration=".3s">
-    <div class="container">
+<section class="block-banner wow animate__fadeInUp" data-wow-duration=".3s" style="margin-top: {{ $item->mt }}px;" >
+    <div class="{{ $item->fullwidth }}">
         <div class="row gx-0">
             @if($array)
                 @foreach($array as $value)
@@ -83,6 +83,7 @@
 
                         ?>
 
+
                             <!-- cliclo qui -->
                             <div class="col-lg-{{ $item->col }} col-md-6">
                                 <!-- se uso class="card-img" le immagini restano boxate -->
@@ -101,7 +102,6 @@
                                     </div>
                                 </a>
                             </div>
-
 
                 @endforeach
             @endif

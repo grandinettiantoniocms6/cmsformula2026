@@ -155,7 +155,7 @@ class BlockBannerCrudController extends CrudController
                 'name'        => 'fullwidth',
                 'label'   => 'Seleziona larghezza blocco',
                 'type'        => 'select_from_array',
-                'options'     => ['container' => 'Normale', 'container-fluid-0' => 'Full Width'],
+                'options'     => ['container' => 'Normale', 'container-full' => 'Full Width'],
                 'allows_null' => false,
                 'default'     => 'container',
                 'wrapper' => ['class' => 'form-group col-md-6']

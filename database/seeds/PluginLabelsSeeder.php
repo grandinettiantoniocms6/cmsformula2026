@@ -3951,11 +3951,11 @@ class PluginLabelsSeeder extends Seeder
         ]);
 
         $vet = [];
-        $vet["it"] = "Attenzione:";
-        $vet["en"] = "Attention:";
-        $vet["fr"] = "";
-        $vet["de"] = "";
-        $vet["es"] = "";
+        $vet["it"] = "Attenzione";
+        $vet["en"] = "Attention";
+        $vet["fr"] = "Attention";
+        $vet["de"] = "Aufmerksamkeit";
+        $vet["es"] = "Atención";
         $vet["ru"] = "";
         $vet["srb"] = "";
         $vet["ro"] = "";
@@ -4447,11 +4447,11 @@ class PluginLabelsSeeder extends Seeder
         ]);
 
         $vet = [];
-        $vet["it"] = "";
-        $vet["en"] = "";
-        $vet["fr"] = "";
-        $vet["de"] = "";
-        $vet["es"] = "";
+        $vet["it"] = "TOTALE ORDINE";
+        $vet["en"] = "ORDER TOTAL";
+        $vet["fr"] = "TOTAL DE LA COMMANDE";
+        $vet["de"] = "GESAMTBETRAG";
+        $vet["es"] = "TOTAL DEL PEDIDO";
         $vet["ru"] = "";
         $vet["srb"] = "";
         $vet["ro"] = "";

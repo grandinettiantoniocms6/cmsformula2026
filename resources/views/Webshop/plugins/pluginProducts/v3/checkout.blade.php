@@ -382,13 +382,13 @@ $website = \App\Models\WebsiteSetting::first();
                                     @endif
 
                                     @php
-                                        $tot = $tot;
+                                      $tot = $tot;
                                     @endphp
                                     <tr id="discount_coupon"></tr>
 
                                 </tbody>
                                 <tbody>
-                                    <tr class="text-danger">
+                                    <tr class="text-success">
                                         <th>{{ @$labels['shop-checkout-totale'] }}</th>
                                         <td>{!! $symbol !!} <span id="total_view">{{ number_format(round($tot, 2),2, ',','.') }}</span>
                                             <input type="hidden" id="total_product" name="total_product" value="{{ (float) $tot }}">
