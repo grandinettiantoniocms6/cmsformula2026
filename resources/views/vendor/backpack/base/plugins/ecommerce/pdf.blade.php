@@ -322,10 +322,14 @@
             @php
                 $subTotal = 0;
                 $total = 0;
+
+                $order_products = \App\Models\OrderProduct::where("order_id", $order->id)->get();
             @endphp
 
-            @foreach($order->products as $product)
+            @foreach($order_products as $op)
                 <?php
+                $product = \App\Models\PluginProducts::withTrashed()->where("id", $op->product_id)->first();
+
                 if($order->currency->iso == "EUR"){
                     $order->currency->name = $order->currency->iso;
                 }
@@ -336,33 +340,25 @@
                 ?>
                 <tr>
                     <td>
-                        {{ $product->pivot->name }}<br/>
-                        <span class="font-12">SKU: {{ $product->pivot->sku }}</span>
+                        {{ $op->name }}<br/>
+                        <span class="font-12">SKU: {{ $op->sku }}</span>
                     </td>
                     @if($price)
                         <td>
-                            @if(env('CALCULATE_IVA') == 1)
-                                {{ number_format($product->pivot->price_with_tax,3, ',','.') }}
-                            @else
-                                {{ number_format($product->pivot->price,3, ',','.') }}
-                            @endif
+                                {{ number_format($op->price_with_tax,3, ',','.') }}
                         </td>
-                        <td>{{ $product->pivot->quantity }}</td>
+                        <td>{{ $op->quantity }}</td>
                         <td class="text-right">
-                                @if(env('CALCULATE_IVA') == 1)
-                                    {{ number_format($product->pivot->price_with_tax * $product->pivot->quantity,2, ',','.').' '.$order->currency->name }}
-                                @else
-                                    {{ number_format($product->pivot->price * $product->pivot->quantity,2, ',','.').' '.$order->currency->name }}
-                                @endif
+                                    {{ number_format($op->price_with_tax * $op->quantity,2, ',','.').' '.$order->currency->name }}
                         </td>
                     @else
-                        <td>{{ $product->pivot->quantity }}</td>
+                        <td>{{ $op->quantity }}</td>
                     @endif
                 </tr>
 
                 @php
-                    $subTotal = $subTotal + $product->pivot->quantity * $product->pivot->price;
-                    $total = $total + $product->pivot->quantity * $product->pivot->price_with_tax;
+                    $subTotal = $subTotal + $op->quantity * $op->price;
+                    $total = $total + $op->quantity * $op->price_with_tax;
                 @endphp
 
             @endforeach

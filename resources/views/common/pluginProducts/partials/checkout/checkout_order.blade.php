@@ -58,13 +58,12 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                     @endif
                 </td>
                 <td class="text-right">{!! $symbol !!}
-                    @php
-                        if(env('CALCULATE_IVA') == 1){
-                           echo number_format($product->pivot->price_with_tax,2, ',','.');
-                        }else{
-                            echo number_format($product->pivot->price,2, ',','.');
-                        }
-                    @endphp
+                        <?php
+                        $temp_price = number_format($product->pivot->price_with_tax,3, ',','.');
+                        $strlen = strlen($temp_price);
+                        $price_prod = $temp_price[$strlen-1] == "0" ? number_format($product->pivot->price_with_tax,2, ',','.') : number_format($product->pivot->price_with_tax,3, ',','.');
+                        echo $price_prod;
+                        ?>
                 </td>
             </tr>
             @php
@@ -76,11 +75,7 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
         @endforeach
     @endif
     @php
-        if(env('CALCULATE_IVA') == 1){
            $total = $total;
-        }else{
-           $total = $total/1.22;
-        }
     @endphp
 
     @if(env('HIDE_TASSE') == 0)

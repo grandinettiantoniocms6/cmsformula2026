@@ -1370,9 +1370,11 @@ class PluginProductsController extends Controller
                             foreach ($productsAll as $product) {
                                 $priceStart = $product->price;
                                 if ($promo->discount_type == "Amount") {
-                                    if (env('VIEW_WITH_IVA') == 1) {
+                                    /*if (env('VIEW_WITH_IVA') == 1) {
                                         $priceStart = round($product->price + (($product->price * $product->tax->value) / 100), 2);
-                                    }
+                                    }*/
+
+                                    $priceStart = round($product->getFinalPrice(), 2);
 
                                     $priceStart = $priceStart - $promo->reduction;
                                 } else {
@@ -1387,11 +1389,13 @@ class PluginProductsController extends Controller
                                     if (count($promotions)) {
                                         foreach ($promotions as $promo) {
                                             if ($promo->discount_type == "Amount") {
-                                                if (env('VIEW_WITH_IVA') == 1) {
+                                                /*if (env('VIEW_WITH_IVA') == 1) {
                                                     $priceStart = round($product->price + (($product->price * $product->tax->value) / 100), 2);
-                                                }
+                                                }*/
 
+                                                $priceStart = round($product->getFinalPrice(),2);
                                                 $priceStart = $priceStart - $promo->reduction;
+
                                             } else {
                                                 $priceStart = $priceStart - (($priceStart * ($promo->reduction)) / 100);
                                             }

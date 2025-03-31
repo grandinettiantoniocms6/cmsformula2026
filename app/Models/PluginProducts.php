@@ -670,9 +670,10 @@ class PluginProducts extends Model
                 if($promotions){
                     foreach ($promotions as $promo){
                         if ($promo->discount_type == "Amount") {
-                            if(env('VIEW_WITH_IVA') == 1){
+                            /*if(env('VIEW_WITH_IVA') == 1){
                                 $priceStart = round($this->price + (($this->price * $this->tax->value)/100),2);
-                            }
+                            }*/
+                            $priceStart = round($this->getFinalPrice(),2);
 
                             $priceStart = $priceStart - $promo->reduction;
                         } else {
@@ -690,10 +691,11 @@ class PluginProducts extends Model
                 if (count($promotions)) {
                     foreach ($promotions as $promo) {
                         if ($promo->discount_type == "Amount") {
-                            if(env('VIEW_WITH_IVA') == 1){
+                            /*if(env('VIEW_WITH_IVA') == 1){
                                 $priceStart = round($this->price + (($this->price * $this->tax->value)/100),2);
-                            }
+                            }*/
 
+                            $priceStart = round($this->getFinalPrice(),2);
                             $priceStart = $priceStart - $promo->reduction;
                         } else {
                             $priceStart = $priceStart - (($priceStart * ($promo->reduction)) / 100);

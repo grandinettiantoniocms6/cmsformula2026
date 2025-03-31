@@ -98,13 +98,15 @@ class SetProductsSearch extends Command
                    }
                }
 
-               if(env('VIEW_WITH_IVA') == 1){
+               /*if(env('VIEW_WITH_IVA') == 1){
                    $vat = $item->tax ? $item->tax->value : 22;
                    $vat_calculate = ($vat / 100) + 1;
                    $promo_price = $item->price * $vat_calculate;
                }else{
                    $promo_price = $item->price;
-               }
+               }*/
+
+               $promo_price = $item->getFinalPrice();
 
                $vet_ids = null;
                if($item->is_variant == 0){

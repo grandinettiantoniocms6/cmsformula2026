@@ -119,11 +119,7 @@ class AjaxController extends Controller
             $html = \View::make("Webshop.plugins.pluginProducts.v3.partials.box_order_shippings", compact('shippings'))->render();
         }
 
-        if(env('CALCULATE_IVA') == 1){
-            $total = $total;
-        }else{
-            $total = $total/1.22;
-        }
+        $total = $total;
 
         return json_encode(["contents" => $html,
             "shippings" => $shippings,  "count_shippings" => count($shippings), "total" =>round($total,2), "total_no_tax" => round($totNoTax,2),

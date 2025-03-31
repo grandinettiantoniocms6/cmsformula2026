@@ -155,12 +155,8 @@ class CartController extends Controller
 
                 $product = PluginProducts::find($id);
                 if($product){
-
-                    if(env('CALCULATE_IVA') == 1){
-                        $finalPrice = $product->get_promo_price(true);
-                    }else{
-                        $finalPrice = $product->get_promo_price();
-                    }
+                    //nel carrello deve andare sempre il prezzo IVATO
+                    $finalPrice = $product->get_promo_price(true);
 
                     if(\Session::has('user_id')){
                         $check = Cart::where("product_id", $id)
@@ -240,7 +236,8 @@ class CartController extends Controller
     public function add_cart(Request $request){
         $product = PluginProducts::find($request->input('id'));
         if($product){
-            $finalPrice = $product->get_promo_price(true); //true
+            //nel carrello deve andare sempre il prezzo IVATO
+            $finalPrice = $product->get_promo_price(true);
 
             if($request->has('extra')){
                 $extra = $request->get('extra');
@@ -366,6 +363,7 @@ class CartController extends Controller
             foreach ($cart as $product){
                 $product_item = PluginProducts::find($product->product_id);
                 if($product_item){
+                    //nel carrello deve andare sempre il prezzo IVATO
                     $finalPrice = $product_item->get_promo_price(true);
 
                     if(key_exists($product->product_id, $quantities)){
@@ -875,13 +873,8 @@ class CartController extends Controller
                     $vat = $product->tax ? $product->tax->value : 22;
                     $vat_calculate = ($vat / 100) + 1;
 
-                    if(env('CALCULATE_IVA') == 1){
-                        $price = $item->price / $vat_calculate;
-                        $price_with_tax = $item->price;
-                    }else{
-                        $price = $item->price;
-                        $price_with_tax = $item->price;
-                    }
+                    $price = $item->price / $vat_calculate;
+                    $price_with_tax = $item->price;
 
                      OrderProduct::create([
                         "product_id" => $item->product_id,
@@ -960,10 +953,6 @@ class CartController extends Controller
                 $m->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
                 $m->replyTo(env('MAIL_TO_REPLAY'), env('MAIL_FROM_NAME'));
                 $m->to($destinatario)->subject("Nuovo ordine su $theme");
-                if(env('PROJECT_NAME') == "Maison-Flaneur") {
-                    $location = storage_path("app/Ordine_{$order->id}.xlsx");
-                    $m->attach($location);
-                }
             });
         }catch (\Throwable $e) {
         }

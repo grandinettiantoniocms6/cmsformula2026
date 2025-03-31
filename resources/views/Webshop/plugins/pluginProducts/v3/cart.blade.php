@@ -28,7 +28,6 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                             <tr>
                                 <th>{{ @$labels['shop-carrello-prodotto'] }}</th>
                                 <th></th>
-                                <th>{{ @$labels['shop-carrello-prezzo'] }}</th>
                                 <th>{!! @$labels['shop-carrello-qta'] !!}</th>
                                 <th>{{ @$labels['shop-carrello-tot'] }}</th>
                                 <th></th>
@@ -61,10 +60,6 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
 
                                     $vat = $product->tax ? $product->tax->value : 22;
                                     $vat_calculate = ($vat / 100) + 1;
-
-                                     if(env('VIEW_WITH_IVA') == 0){
-                                        $item->price = $item->price / $vat_calculate;
-                                     }
 
                                     $finalPrice = $product->getFinalPrice();
                                     $priceOld = $finalPrice;
@@ -119,27 +114,6 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                                             @endif
                                         @endif
                                     </td>
-                                    <td class="product-subtotal" data-column="Prezzo">
-
-                                        @if($finalPrice != $priceOld)
-                                            <?php
-                                            $temp_price = number_format($finalPrice,3, ',','.');
-                                            $strlen = strlen($temp_price);
-                                            $price_prod = $temp_price[$strlen-1] == "0" ? number_format($finalPrice,2, ',','.') : number_format($finalPrice,3, ',','.');
-                                            ?>
-
-                                            <span>{!! $symbol !!} {{ number_format((float) $price_prod,3, ',','.') }}</span>
-                                            <span class="text-muted"><del>{!! $symbol !!} {{ number_format($priceOld,3, ',','.') }}</del></span>
-                                        @else
-                                            <?php
-                                            $temp_price = number_format($item->price,3, ',','.');
-                                            $strlen = strlen($temp_price);
-                                            $price_prod = $temp_price[$strlen-1] == "0" ? number_format($item->price,2, ',','.') : number_format($item->price,3, ',','.');
-                                            ?>
-
-                                                <span>{!! $symbol !!} {{ number_format((float) $price_prod,3, ',','.') }}</span>
-                                        @endif
-                                    </td>
                                     <td class="product-quantity" data-column="Q.tà">
                                             <div class="input-group input-spinner">
                                                 <button class="btn btn-default button-minus" type="button" onclick="decreaseValue('#qty_<?php echo $item->product_id;?>')"><i class="fas fa-minus"></i></button>
@@ -156,13 +130,14 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                                             </div>
                                     </td>
                                     @php
-                                        $productTotal = ($item->price * $vat_calculate) * $item->qty;
+                                        //$productTotal = ($item->price * $vat_calculate) * $item->qty;
+
+                                        $productTotal = ($item->price) * $item->qty;
                                         $tot = $tot + $productTotal;
                                         $prezzoNoIva = $productTotal / ((100 + $vat)/100);
 
+
                                         $v_tax[$vat] += $productTotal - $prezzoNoIva;
-
-
                                         $totNoTax = $totNoTax + $prezzoNoIva;
                                     @endphp
 
