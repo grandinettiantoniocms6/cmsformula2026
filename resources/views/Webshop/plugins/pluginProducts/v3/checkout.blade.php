@@ -326,10 +326,11 @@ $website = \App\Models\WebsiteSetting::first();
                                         <td>
                                             <div class="fw-bold line-height-md">
                                                 {{ $product->name }}
+
                                                 @if(trim($product->custom_1) != "") <label class="product-label product-label-custom-color-1">{{ $product->custom_1 }}</label> @endif
                                                 @if(trim($product->custom_2) != "") <label class="product-label product-label-custom-color-2">{{ $product->custom_2 }}</label> @endif
                                             </div>
-                                            <strong>x {{ $item->qty }}</strong>
+
                                             @if(property_exists($item, "extra"))
                                                 @if($item->extra)
                                                     <div class="extra">
@@ -342,7 +343,10 @@ $website = \App\Models\WebsiteSetting::first();
                                                 @endif
                                             @endif
                                         </td>
-                                        <td class="text-end">{!! $symbol !!} <?php echo number_format($productTotal,2, ',','.'); ?></td>
+                                        <td class="text-end">{!! $symbol !!} <?php echo number_format($product->price,2, ',','.'); ?>
+                                            <br>
+                                            <strong>x {{ $item->qty }}</strong>
+                                        </td>
                                     </tr>
                                     @php
                                         $tot = $tot + $productTotal;
