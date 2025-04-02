@@ -34,6 +34,7 @@ class PluginInterventionsCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\EditableColumns\Http\Controllers\Operations\MinorUpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -235,44 +236,28 @@ class PluginInterventionsCrudController extends CrudController
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
                 'limit' => 10000, // Limit the number of characters shown
             ],
-            /*[
             [
-                // run a function on the CRUD model and show its return value
-                'name'  => 'is_priority',
-                'label' => 'Priorità', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsPriority', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
-            ],*/
-            [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'is_delivery',
-                'label' => 'Con.', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsDelivery', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
-            ],
+                'label' => 'Con.',
+                'type'  => 'editable_switch',
 
-            [
-                // run a function on the CRUD model and show its return value
-                'name'  => 'is_priority',
-                'label' => 'Ann.', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsPriority', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ],
-          /*  [
-                // run a function on the CRUD model and show its return value
-                'name'  => 'is_paid',
-                'label' => 'Pagato', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsPaid', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
-            ],*/
+            [
+                'name'  => 'is_priority',
+                'label' => 'Ann.',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
+            ],
             [
                 // run a function on the CRUD model and show its return value
                 'name'  => 'is_in_menu',

@@ -30,15 +30,6 @@ class PluginBookingRoomImages extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public function getIsActive(){
-        if($this->is_active == 1){
-            $url = route('dashboard.set.field.boolean', ['plugins_booking_rooms_images', $this->id, "is_active", 0]);
-            return "<a href='$url' class='text text-success'><i class=\"las la-eye\"></i></a>";
-        }else{
-            $url = route('dashboard.set.field.boolean', ['plugins_booking_rooms_images',$this->id, "is_active", 1]);
-            return "<a href='$url' class='text text-danger'><i class=\"las la-eye\"></i></a>";
-        }
-    }
 
     public function get_foto_mini(){
         if($this->image){

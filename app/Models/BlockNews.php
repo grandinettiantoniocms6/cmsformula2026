@@ -39,22 +39,6 @@ class BlockNews extends Model
         return json_encode($value, JSON_UNESCAPED_UNICODE);
     }
 
-    public function getIsActive(){
-        if($this->is_active == 1){
-            $url = route('dashboard.set.field.boolean', ['blocks_news', $this->id, "is_active", 0]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-success'><i class=\"las la-eye\"></i></span>";
-            }
-            return "<a href='$url' class='text text-success'><i class=\"las la-eye\"></i></a>";
-        }else{
-            $url = route('dashboard.set.field.boolean', ['blocks_news', $this->id, "is_active", 1]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-danger'><i class=\"las la-eye\"></i></span>";
-            }
-            return "<a href='$url' class='text text-danger'><i class=\"las la-eye\"></i></a>";
-        }
-    }
-
     // Sistema che genera la THUMB
     public function get_foto_mini(){
         if($this->foto){

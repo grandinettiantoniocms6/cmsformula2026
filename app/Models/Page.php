@@ -90,69 +90,7 @@ class Page extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function getIsActive(){
-        if($this->is_active == 1){
-            $url = route('dashboard.set.field.boolean', ['pages', $this->id, "is_active", 0]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-success'><i class=\"las la-eye\"></i></span>";
-            }
-            return "<a href='$url' class='text text-success'><i class=\"las la-eye\"></i></a>";
-        }else{
-            $url = route('dashboard.set.field.boolean', ['pages', $this->id, "is_active", 1]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-danger'><i class=\"las la-eye\"></i></span>";
-            }
-            return "<a href='$url' class='text text-danger'><i class=\"las la-eye\"></i></a>";
-        }
-    }
 
-    public function getIsHomepage(){
-        if($this->is_homepage == 1){
-            $url = route('dashboard.set.field.boolean', ['pages', $this->id, "is_homepage", 0]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-success'><i class=\"las la-check\"></i></span>";
-            }
-            return "<a href='$url' class='text text-success'><i class=\"las la-check\"></i></a>";
-        }else{
-            $url = route('dashboard.set.field.boolean', ['pages', $this->id, "is_homepage", 1]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-danger'><i class=\"las la-check\"></i></span>";
-            }
-            return "<a href='$url' class='text text-danger'><i class=\"las la-check\"></i></a>";
-        }
-    }
-
-    public function getIsInMenu(){
-        if($this->is_in_menu == 1){
-            $url = route('dashboard.set.field.boolean', ['pages', $this->id, "is_in_menu", 0]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-success'><i class=\"las la-check\"></i></span>";
-            }
-            return "<a href='$url' class='text text-success'><i class=\"las la-check\"></i></a>";
-        }else{
-            $url = route('dashboard.set.field.boolean', ['pages', $this->id, "is_in_menu", 1]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-danger'><i class=\"las la-check\"></i></span>";
-            }
-            return "<a href='$url' class='text text-danger'><i class=\"las la-check\"></i></a>";
-        }
-    }
-
-    public function getIsInTopbar(){
-        if($this->is_in_topbar == 1){
-            $url = route('dashboard.set.field.boolean', ['pages', $this->id, "is_in_topbar", 0]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-success'><i class=\"las la-check\"></i></span>";
-            }
-            return "<a href='$url' class='text text-success'><i class=\"las la-check\"></i></a>";
-        }else{
-            $url = route('dashboard.set.field.boolean', ['pages', $this->id, "is_in_topbar", 1]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-danger'><i class=\"las la-check\"></i></span>";
-            }
-            return "<a href='$url' class='text text-danger'><i class=\"las la-check\"></i></a>";
-        }
-    }
 
     public function getMenu(){
         if($this->slug == "/"){

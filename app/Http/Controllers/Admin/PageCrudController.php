@@ -26,6 +26,7 @@ class PageCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation { clone as traitClone; }
+    use \Backpack\EditableColumns\Http\Controllers\Operations\MinorUpdateOperation;
 
 
     public function clone($id)
@@ -187,41 +188,38 @@ class PageCrudController extends CrudController
                 'type'  => 'text',
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'is_active',
-                'label' => 'Visibile', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsActive', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                 'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Visibile',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'is_in_menu',
-                'label' => 'Menu', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsInMenu', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Menu',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'is_in_topbar',
-                'label' => 'Topbar', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsInTopBar', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Topbar',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ],
-            /*[
-                // run a function on the CRUD model and show its return value
-                'name'  => 'is_homepage',
-                'label' => 'Homepage', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsHomepage', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
-            ],*/
         ]);
 
 

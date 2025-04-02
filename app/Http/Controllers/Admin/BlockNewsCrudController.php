@@ -23,6 +23,7 @@ class BlockNewsCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation { clone as traitClone; }
+    use \Backpack\EditableColumns\Http\Controllers\Operations\MinorUpdateOperation;
 
     public function clone($id)
     {
@@ -119,13 +120,15 @@ class BlockNewsCrudController extends CrudController
                 'type'  => 'datetime',
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'is_active',
-                'label' => 'Visibile', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsActive', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Attivo',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ],
             [
                 'name'  => 'title',

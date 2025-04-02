@@ -132,15 +132,6 @@ class PluginInterventions extends Model
         return "<input type='checkbox' class='checkbox' name='ids[]' value='{$this->id}'>";
     }
 
-    public function getIsDelivery(){
-        if($this->is_delivery == 1){
-            //$url = route('dashboard.set.field.boolean', ['plugins_interventions', $this->id, "is_delivery", 0]);
-            return "<div id='delivery_$this->id'><a href='javascript:change_delivery($this->id, 0)' class='text text-success'><i class=\"las la-list la-2x\"></i></a></div>";
-        }else{
-           // $url = route('dashboard.set.field.boolean', ['plugins_interventions',$this->id, "is_delivery", 1]);
-            return "<div id='delivery_$this->id'><a href='javascript:change_delivery($this->id, 1)' class='text text-dark'><i class=\"las la-list la-2x\"></i></a></div>";
-        }
-    }
 
     public function getIsInvoice(){
         if($this->is_invoice == 1){
@@ -149,19 +140,6 @@ class PluginInterventions extends Model
         }else{
             $url = route('dashboard.set.field.boolean', ['plugins_interventions',$this->id, "is_invoice", 1]);
             return "<a href='$url' class='text text-dark'><i class=\"las la-file-invoice la-2x\"></i></a>";
-        }
-    }
-
-
-    public function getIsPriority(){
-        if($this->is_priority == 1){
-            //$url = route('dashboard.set.field.boolean', ['plugins_interventions', $this->id, "is_priority", 0]);
-            //return "<a href='$url' class='text text-danger'><i class=\"las la-exclamation la-2x\"></i></a>";
-            return "<div id='priority_$this->id'><a href='javascript:change_annullato($this->id, 0)' class='text text-success'><i class=\"las la-trash la-2x\"></i></a></div>";
-        }else{
-            //$url = route('dashboard.set.field.boolean', ['plugins_interventions',$this->id, "is_priority", 1]);
-            //return "<a href='$url' class='text text-dark'><i class=\"las la-exclamation la-2x \"></i></a>";
-            return "<div id='priority_$this->id'><a href='javascript:change_annullato($this->id, 1)' class='text text-dark'><i class=\"las la-trash la-2x\"></i></a></div>";
         }
     }
 

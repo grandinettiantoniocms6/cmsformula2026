@@ -18,6 +18,7 @@ class PluginInterventionsStatusCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\EditableColumns\Http\Controllers\Operations\MinorUpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -61,16 +62,17 @@ class PluginInterventionsStatusCrudController extends CrudController
                 'limit' => 10000, // Limit the number of characters shown
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'default_annullato',
-                'label' => 'Annullato', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsAnnullato', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Annullato',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ],
         ]);
-
 
     }
 

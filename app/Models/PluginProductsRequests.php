@@ -33,14 +33,6 @@ class PluginProductsRequests extends Model
         return "<input type='checkbox' class='checkbox' name='ids[]' value='{$this->id}'>";
     }
 
-    public function getIsActive(){
-        if($this->is_done == 1){
-            return "<span class='text text-success'><i class=\"las la-check\"></i> $this->processed_by</span>";
-        }else{
-            return "<span class='text text-danger'><i class=\"las la-check\"></i></span>";
-        }
-    }
-
     public function getIsRead(){
         if($this->is_read == 1){
             $url = route('dashboard.set.field.boolean', ['plugins_products_requests', $this->id, "is_read", 0]);

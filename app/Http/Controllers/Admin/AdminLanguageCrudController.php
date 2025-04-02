@@ -19,6 +19,7 @@ class AdminLanguageCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
+    use \Backpack\EditableColumns\Http\Controllers\Operations\MinorUpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -71,22 +72,26 @@ class AdminLanguageCrudController extends CrudController
                 'type'  => 'text',
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'is_active',
-                'label' => 'Attivo', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsActive', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Attivo',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'is_frontend',
-                'label' => 'Sito', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsFrontend', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Sito',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ],
         ]);
 

@@ -34,16 +34,6 @@ class PluginBookingServices extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public function getIsActive(){
-        if($this->is_active == 1){
-            $url = route('dashboard.set.field.boolean', ['plugins_booking_services', $this->id, "is_active", 0]);
-            return "<a href='$url' class='text text-success'><i class=\"las la-eye\"></i></a>";
-        }else{
-            $url = route('dashboard.set.field.boolean', ['plugins_booking_services',$this->id, "is_active", 1]);
-            return "<a href='$url' class='text text-danger'><i class=\"las la-eye\"></i></a>";
-        }
-    }
-
     public function getIsEditQty(){
         if($this->is_edit_qty == 1){
             $url = route('dashboard.set.field.boolean', ['plugins_booking_services', $this->id, "is_edit_qty", 0]);

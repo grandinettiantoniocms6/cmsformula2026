@@ -37,23 +37,6 @@ class PluginProductsBrands extends Model
         return "<input type='checkbox' class='checkbox' name='ids[]' value='{$this->id}'>";
     }
 
-    public function getIsActive(){
-        if($this->is_active == 1){
-            $url = route('dashboard.set.field.boolean', ['plugins_products_brands', $this->id, "is_active", 0]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-success'><i class=\"las la-eye\"></i></span>";
-            }
-            return "<a href='$url' class='text text-success'><i class=\"las la-eye\"></i></a>";
-        }else{
-            $url = route('dashboard.set.field.boolean', ['plugins_products_brands', $this->id, "is_active", 1]);
-            if(backpack_user()->roles[0]->id == 4){
-                return "<span class='text text-danger'><i class=\"las la-eye\"></i></span>";
-            }
-            return "<a href='$url' class='text text-danger'><i class=\"las la-eye\"></i></a>";
-        }
-    }
-
-
     public function getNumber(){
         return PluginProducts::where("brand_id", $this->id)->count();
     }

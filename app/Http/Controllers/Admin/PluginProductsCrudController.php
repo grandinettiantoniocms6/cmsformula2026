@@ -50,6 +50,7 @@ class PluginProductsCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
+    use \Backpack\EditableColumns\Http\Controllers\Operations\MinorUpdateOperation;
 
 
     use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation { clone as traitClone; }
@@ -695,13 +696,15 @@ class PluginProductsCrudController extends CrudController
                     'model'     => "App\Models\ShopTaxes", // foreign key model
                 ],
                 [
-                    // run a function on the CRUD model and show its return value
                     'name'  => 'is_active',
-                    'label' => 'Visibile', // Table column heading
-                    'type'  => 'model_function',
-                    'function_name' => 'getIsActive', // the method in your Model
-                    // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                    'limit' => 10000, // Limit the number of characters shown
+                    'label' => 'Visibile',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
                 ],
                 [
                     // run a function on the CRUD model and show its return value
@@ -788,13 +791,15 @@ class PluginProductsCrudController extends CrudController
                     'model'     => "App\Models\PluginsProductsBrands", // foreign key model
                 ],
                 [
-                    // run a function on the CRUD model and show its return value
                     'name'  => 'is_active',
-                    'label' => 'Visibile', // Table column heading
-                    'type'  => 'model_function',
-                    'function_name' => 'getIsActive', // the method in your Model
-                    // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                    'limit' => 10000, // Limit the number of characters shown
+                    'label' => 'Visibile',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
                 ],
                 [
                     // run a function on the CRUD model and show its return value

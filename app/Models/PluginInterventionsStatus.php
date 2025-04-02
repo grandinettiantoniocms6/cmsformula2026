@@ -30,15 +30,6 @@ class PluginInterventionsStatus extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public function getIsAnnullato(){
-        if($this->default_annullato == 1){
-            $url = route('dashboard.set.field.boolean', ['plugins_interventions_status', $this->id, "default_annullato", 0]);
-            return "<a href='$url' class='text text-success'><i class=\"las la-check\"></i></a>";
-        }else{
-            $url = route('dashboard.set.field.boolean', ['plugins_interventions_status',$this->id, "default_annullato", 1]);
-            return "<a href='$url' class='text text-dark'><i class=\"las la-check\"></i></a>";
-        }
-    }
 
     public function getColor(){
         return "<span style='color: {$this->color}'>Testo colore</span>";
