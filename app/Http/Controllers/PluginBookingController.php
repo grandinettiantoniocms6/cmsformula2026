@@ -329,6 +329,7 @@ class PluginBookingController extends Controller
 
 
             $rooms = PluginBookingRoom::where("plugin_booking_type_id", $type)
+                //->where("id", 4)
                 ->where("is_active",1)
                 ->get();
 
@@ -358,6 +359,8 @@ class PluginBookingController extends Controller
             for ($i=1; $i<$diff_day; $i++){
                 $v_days[] = $start_carbon->addDay()->format("Y-m-d");
             }
+
+
 
             $status_confermati = \App\Models\PluginBookingStatus::where("is_unblock","!=", 1)->get()->pluck("id", "id")->toArray();
 
@@ -400,36 +403,61 @@ class PluginBookingController extends Controller
                                 $sql_add = "AND end_time = '$session->end_time'";
                             }
 
-                            $check_reservation = null;
-                            $prenotabile = 1;
+                            /*$session->start = "2025-04-08";
+                            $session->end = "2025-04-21";
+                            dump("DAL $session->start AL $session->end");*/
 
-                            //dump("DAL $session->start AL $session->end");
                             $check_res_start = Carbon::createFromFormat("Y-m-d", $session->start)->subDay();
                             $check_res_end = Carbon::createFromFormat("Y-m-d", $session->end);
                             $check_diff = $check_res_start->diffInDays($check_res_end);
 
+
+                            $prenotabile = 1;
                             for($i=0;$i<$check_diff;$i++){
+
                                 $check_date = $check_res_start->addDay()->format("Y-m-d");
+                                //dump($check_date);
+
                                 if(count($status_confermati)) {
-                                    $check_r = \App\Models\PluginBookingReservation::whereRaw("(date_start <= '$check_date' AND date_end >= '$check_date' $sql_add)")
+                                    $check_r_list = \App\Models\PluginBookingReservation::whereRaw("(date_start <= '$check_date' AND date_end >= '$check_date' $sql_add)")
                                         ->whereIn("id", $res_ids)
                                         ->whereIn("plugin_booking_status_id", $status_confermati)
-                                        ->first();
+                                        ->get();
                                 }else {
-                                    $check_r = \App\Models\PluginBookingReservation::whereRaw("(date_start <= '$check_date' AND date_end >= '$check_date' $sql_add)")
+                                    $check_r_list = \App\Models\PluginBookingReservation::whereRaw("(date_start <= '$check_date' AND date_end >= '$check_date' $sql_add)")
                                         ->whereIn("id", $res_ids)
-                                        ->first();
+                                        ->get();
                                 }
-                                if($check_r){
-                                    $check_reservation = $check_r;
 
-                                    $prenotabile -= 1;
-                                    if($check_r->date_start == $check_date OR $check_date == $check_r->date_end){
-                                        $prenotabile += 1;
-                                    }
+                                if(count($check_r_list) == 0){
+                                    continue;
                                 }
-                                //dump($check_date, $check_r, $prenotabile);
+
+                                foreach ($check_r_list as $check_r){
+                                    if($check_date == $session->end){ //se il giorno in questione è la mia data di checkout
+                                        //controllo se la prenotazione già avvenuta
+                                        if($check_r->date_start == $check_date){ //se  check-in prenotazione già avvenuta coincide con checkout
+                                            $prenotabile = 1;
+                                        }
+                                    }else{
+                                        if($check_date == $check_r->date_end){
+                                            $prenotabile = 1;
+                                        }else{
+                                            $check_reservation = $check_r;
+                                            $prenotabile = 0;
+                                            break;
+                                        }
+                                    }
+
+                                    //dump($check_date, $check_r->id, "dal $check_r->date_start al $check_r->date_end", $prenotabile);
+                                }
+
+                                if($prenotabile == 0){
+                                    break;
+                                }
                             }
+
+                            //dd($prenotabile);
 
                             if($prenotabile > 0){
                                 //echo "Prenotabile";
@@ -453,6 +481,7 @@ class PluginBookingController extends Controller
                             }
                         }
                     }
+
 
                     if($check_reservation){
                         $room->is_disp = 0;
@@ -1348,36 +1377,61 @@ class PluginBookingController extends Controller
                         $sql_add = "AND end_time = '$session->end_time'";
                     }
 
-                    $check_reservation = null;
-                    $prenotabile = 1;
+                    /*$session->start = "2025-04-08";
+                    $session->end = "2025-04-21";
+                    dump("DAL $session->start AL $session->end");*/
 
-                    //dump("DAL $session->start AL $session->end");
                     $check_res_start = Carbon::createFromFormat("Y-m-d", $session->start)->subDay();
                     $check_res_end = Carbon::createFromFormat("Y-m-d", $session->end);
                     $check_diff = $check_res_start->diffInDays($check_res_end);
 
+
+                    $prenotabile = 1;
                     for($i=0;$i<$check_diff;$i++){
+
                         $check_date = $check_res_start->addDay()->format("Y-m-d");
+                        //dump($check_date);
+
                         if(count($status_confermati)) {
-                            $check_r = \App\Models\PluginBookingReservation::whereRaw("(date_start <= '$check_date' AND date_end >= '$check_date' $sql_add)")
+                            $check_r_list = \App\Models\PluginBookingReservation::whereRaw("(date_start <= '$check_date' AND date_end >= '$check_date' $sql_add)")
                                 ->whereIn("id", $res_ids)
                                 ->whereIn("plugin_booking_status_id", $status_confermati)
-                                ->first();
+                                ->get();
                         }else {
-                            $check_r = \App\Models\PluginBookingReservation::whereRaw("(date_start <= '$check_date' AND date_end >= '$check_date' $sql_add)")
+                            $check_r_list = \App\Models\PluginBookingReservation::whereRaw("(date_start <= '$check_date' AND date_end >= '$check_date' $sql_add)")
                                 ->whereIn("id", $res_ids)
-                                ->first();
+                                ->get();
                         }
-                        if($check_r){
-                            $check_reservation = $check_r;
 
-                            $prenotabile -= 1;
-                            if($check_r->date_start == $check_date OR $check_date == $check_r->date_end){
-                                $prenotabile += 1;
-                            }
+                        if(count($check_r_list) == 0){
+                            continue;
                         }
-                        //dump($check_date, $check_r, $prenotabile);
+
+                        foreach ($check_r_list as $check_r){
+                            if($check_date == $session->end){ //se il giorno in questione è la mia data di checkout
+                                //controllo se la prenotazione già avvenuta
+                                if($check_r->date_start == $check_date){ //se  check-in prenotazione già avvenuta coincide con checkout
+                                    $prenotabile = 1;
+                                }
+                            }else{
+                                if($check_date == $check_r->date_end){
+                                    $prenotabile = 1;
+                                }else{
+                                    $check_reservation = $check_r;
+                                    $prenotabile = 0;
+                                    break;
+                                }
+                            }
+
+                            //dump($check_date, $check_r->id, "dal $check_r->date_start al $check_r->date_end", $prenotabile);
+                        }
+
+                        if($prenotabile == 0){
+                            break;
+                        }
                     }
+
+                    //dd($prenotabile);
 
                     if($prenotabile > 0){
                         //echo "Prenotabile";
