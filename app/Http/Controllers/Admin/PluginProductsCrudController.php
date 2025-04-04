@@ -2678,8 +2678,23 @@ class PluginProductsCrudController extends CrudController
 
                         $categories = $field_value['category'];
                         $attachments = $field_value['attachments'];
-
                         $attachments_name = $field_value['attachments_name'];
+
+                        if(count($attachments)){
+                            foreach ($attachments as $ka=>$va){
+                                if(trim($va) == ""){
+                                    unset($attachments[$ka]);
+                                }
+                            }
+                        }
+
+                        if(count($attachments_name)){
+                            foreach ($attachments_name as $ka=>$va){
+                                if(trim($va) == ""){
+                                    unset($attachments_name[$ka]);
+                                }
+                            }
+                        }
 
                         unset($field_value['category']);
                         unset($field_value['attachments']);
@@ -2833,7 +2848,6 @@ class PluginProductsCrudController extends CrudController
                         }
 
                         if(count($attachments)){
-
                             PluginProductsAttachments::where("product_id", $product->id)->delete();
                             if(key_exists("it", $attachments)){
                                 $expl['it'] = explode(",", $attachments['it']);
@@ -2846,7 +2860,7 @@ class PluginProductsCrudController extends CrudController
                             }
 
                             if(count($expl)){
-                                foreach ($expl as $k=>$vet){
+                                foreach ($expl as $k1=>$vet){
                                     foreach ($vet as $k=>$v){
                                         $vet_names['it'] = $expl_name['it'][$k];
                                         $vet_names['en'] = $expl_name['en'][$k];
