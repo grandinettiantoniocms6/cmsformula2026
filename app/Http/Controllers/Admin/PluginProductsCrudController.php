@@ -2859,6 +2859,7 @@ class PluginProductsCrudController extends CrudController
                                 $expl_name['en'] = explode(",", $attachments_name['en']);
                             }
 
+
                             if(count($expl)){
                                 foreach ($expl as $k1=>$vet){
                                     foreach ($vet as $k=>$v){
