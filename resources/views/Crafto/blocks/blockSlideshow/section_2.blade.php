@@ -134,16 +134,20 @@ $agent = new \Jenssegers\Agent\Agent();
                                 <div class="layer" style="background-color: rgba(0, 0, 0, 0.{{ $item->alpha }}); position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
                                 <div class="container h-100" data-swiper-parallax="-500">
                                     <div class="row align-items-center h-100">
-                                        <div class="col-xl-7 col-lg-8 col-md-10 position-relative text-white text-center text-md-start" data-anime='{ "el": "childs", "translateX": [100, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                                        <div class="col-xl-11 col-lg-8 col-md-10 position-relative text-center text-md-start" data-anime='{ "el": "childs", "translateX": [100, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
                                             @if($abstract[\App::getLocale()])
                                                 <div>
-                                                    <span class="fs-20 opacity-6 mb-25px sm-mb-15px d-inline-block fw-300">{!! $abstract[\App::getLocale()] !!}</span>
+                                                    <span class="fs-20 mt-25px sm-mb-15px d-inline-block fw-300"></span>
                                                 </div>
                                             @endif
                                             @if($title[\App::getLocale()])
                                                 <h1 class="alt-font w-90 xl-w-100 text-shadow-double-large ls-minus-2px" style="color: {{ $value->title_background }};">{!! $title[\App::getLocale()] !!}</h1>
                                             @endif
-
+                                            @if($abstract[\App::getLocale()])
+                                                <div>
+                                                    <span class="fs-20 mb-25px sm-mb-15px d-inline-block fw-300">{!! $abstract[\App::getLocale()] !!}</span>
+                                                </div>
+                                            @endif
                                             @if(trim($button[\App::getLocale()])!="")
                                                 <a href="{{ $url }}" target="{{ $type_href }}" class="button btn" style='background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }};'>
                                                     {{ $button[\App::getLocale()] }}<span class="bg-white text-base-color"></span>

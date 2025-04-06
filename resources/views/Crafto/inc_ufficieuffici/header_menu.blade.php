@@ -195,7 +195,7 @@
                     <div class="col-auto ms-auto ps-lg-0 d-none d-sm-flex">
                         <div class="header-icon">
                             <div class="header-button ms-25px">
-                                <a id=shoponline= href="http://mobiliperufficio.com/Vicenza/home" target="_blank" class="btn btn-small btn-base-color btn-round-edge btn-box-shadow fw-700">
+                                <a id=shoponline= href="http://mobiliperufficio.com/Vicenza/home" target="_blank" class="btn btn-small btn-round-edge btn-box-shadow fw-700">
                                     <span>
                                         <span class="btn-text">SHOP ON-LINE</span>
                                     </span>
