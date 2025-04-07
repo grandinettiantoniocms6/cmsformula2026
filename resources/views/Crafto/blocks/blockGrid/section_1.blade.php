@@ -41,7 +41,7 @@
     <div class="{{ $item->fullwidth }}">
         <div class="row">
             <div class="col-12 filter-content">
-                <ul class="portfolio-boxed portfolio-wrapper grid-loading grid grid-{{ $item->col }}col grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-2col lg-grid-2col md-grid-2col sm-grid-1col xs-grid-1col gutter-large text-center">
+                <ul class="portfolio-boxed portfolio-wrapper grid-loading grid grid-{{ $item->col }}col grid-{{ $item->col }}col xxxl-grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-{{ $item->col }}col lg-grid-{{ $item->col }}col md-grid-{{ $item->col }}col sm-grid-1col xs-grid-1col gutter-large text-center">
                     <li class="grid-sizer"></li>
 
                         @if($array)

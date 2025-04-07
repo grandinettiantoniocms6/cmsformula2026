@@ -165,7 +165,7 @@ class BlockGridCrudController extends CrudController
                                     'name' => 'col',
                                     'label' => 'Numero di colonne per riga',
                                     'type' => 'select_from_array',
-                                    'options' => ['2' => '2 Colonne', '3' => '3 Colonne', '4' => '4 Colonne'],
+                                    'options' => ['1' => '1 Colonna', '2' => '2 Colonne', '3' => '3 Colonne', '4' => '4 Colonne'],
                                     'allows_null' => false,
                                     'default' => '2',
                                     'wrapper' => ['class' => 'form-group col-md-6']

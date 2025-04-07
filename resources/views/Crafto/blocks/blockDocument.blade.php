@@ -1,9 +1,9 @@
 <?php
 $labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
 ?>
-<section class="block-document wow animate__fadeInUp" data-wow-duration=".3s">
+<section class="bg-solitude-white">
     <div class="container">
-        <div class="row justify-content-left">
+        <div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 justify-content-center">
         <!--h2 class="title">{ @$labels['title-document'] }}</h2>-->
         @if($array)
              @foreach($array as $value)
@@ -25,18 +25,24 @@ $labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
                         <?php $title = json_decode($value->title, true); ?>
 
                         <div class="col-lg-{{ $item->col }} col-md-6 col-sm-6 mb-3">
-                            <div class="card wow animate__fadeInUp" data-wow-duration=".3s">
+                            <div class="card">
                                 <div class="card-body">
                                     <a href="{{ $value->file }}" target="_blank">
-                                        <div class="icon">
-                                            <i class="far fa-file-pdf"></i>
+                                        <div class="row">
+                                            <div class="col-12 col-lg-2">
+                                                <img src="/uploads/icone/pdf.png" title="PDF icon">
+                                            </div>
+                                            <div class="col-12 col-lg-9">
+                                                <span style="font-size: 18px; font-weight: bold;">{{ $title[\App::getLocale()] }}</span><br>
+                                                {!! $description[\App::getLocale()] !!}
+                                            </div>
                                         </div>
-                                        <div class="card-text">{{ $title[\App::getLocale()] }}</div>
                                     </a>
-                                    <p>{!! $description[\App::getLocale()] !!}</p>
+
                                 </div>
                             </div>
                         </div>
+
                     @endif
                 @endforeach
 
