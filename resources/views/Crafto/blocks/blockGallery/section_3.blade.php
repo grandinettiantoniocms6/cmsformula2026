@@ -44,8 +44,8 @@ if($descriptionBlocco){
 <section class="pt-5 pb-5">
     <div class="{{ $item->fullwidth }}">
         <div class="row">
-            <div class="col-12 filter-content">
-                <ul class="portfolio-simple portfolio-wrapper grid-loading grid grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-{{ $item->col }}col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-large text-center">
+            <div class="col">
+                <ul class="image-gallery-style-03 gallery-wrapper grid grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-{{ $item->col }}col lg-grid-{{ $item->col }}col md-grid-1col sm-grid-1col xs-grid-1col gutter-extra-large">
                     <li class="grid-sizer"></li>
 
                             @if($array)
@@ -96,40 +96,29 @@ if($descriptionBlocco){
 
                                         ?>
 
-                                            <!-- start portfolio item -->
-                                            <li class="grid-item transition-inner-all" data-anime='{"scale": [0.9, 1], "translateY": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                                <div class="portfolio-box">
-                                                    <div class="portfolio-image bg-medium-gray border-radius-4px">
-                                                        @if(trim($foto) != "")
-                                                        <img src="{{ $foto }}" alt="" />
-                                                            <div class="portfolio-hover d-flex justify-content-center flex-column p-35px">
-                                                            <div class="portfolio-icon d-flex flex-row justify-content-center align-items-center">
-                                                                <a href="{{ $foto }}" data-group="portfolio-items" title="{!! $description[\App::getLocale()] !!}" class="d-flex flex-column justify-content-center text-dark-gray text-dark-gray-hover rounded-circle bg-white w-55px h-55px rounded-circle box-shadow-large move-bottom-top">
-                                                                    <i class="feather icon-feather-search fw-600" aria-hidden="true"></i>
-                                                                </a>
+
+                                        <!-- start gallery item -->
+                                        <li class="grid-item transition-inner-all">
+                                            @if(trim($foto) != "")
+                                                <div class="gallery-box overflow-hidden">
+                                                    <a href="{{ $foto }}" data-group="lightbox-group-gallery-item-3" title="">
+                                                        <div class="position-relative gallery-image bg-base-color">
+                                                            <img src="{{ $foto }}" alt="" />
+                                                            <div class="d-flex align-items-center justify-content-center position-absolute top-0px left-0px w-100 h-100 gallery-hover move-bottom-top">
+                                                                <i class="feather icon-feather-search icon-very-medium text-white"></i>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    @endif
-
-                                                    @if(trim($title[\App::getLocale()]) != "" || trim($description[\App::getLocale()]) != "")
-                                                    <div class="portfolio-caption pt-30px pb-30px sm-pt-20px sm-pb-20px">
-                                                        @if(trim($title[\App::getLocale()]) != "")
-                                                            <span style="font-size: 14px;">{{ $title[\App::getLocale()] }}</span>
-                                                        @endif
-                                                        @if(trim($description[\App::getLocale()]) != "")
-                                                        <span class="d-inline-block align-middle w-10px separator-line-1px bg-light-gray ms-10px me-10px"></span>
-                                                        <div class="d-inline-block">{!! $description[\App::getLocale()] !!}</div>
-                                                        @endif
-                                                    </div>
-                                                    @endif
+                                                    </a>
                                                 </div>
-                                            </li>
-                                            <!-- end portfolio item -->
+                                            @endif
+
+                                        </li>
+
+                                        <!-- end gallery item -->
+
 
                                 @endforeach
                             @endif
-
 
                 </ul>
             </div>

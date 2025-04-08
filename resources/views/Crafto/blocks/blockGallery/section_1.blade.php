@@ -34,7 +34,7 @@ if($descriptionBlocco){
 
         <div class="row">
             <div class="col">
-                <ul class="image-gallery-style-02 gallery-wrapper grid grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-{{ $item->col }}col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-large">
+                <ul class="image-gallery-style-06 gallery-wrapper grid grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-{{ $item->col }}col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-large">
                     <li class="grid-sizer"></li>
 
                     @if($array)
@@ -86,38 +86,35 @@ if($descriptionBlocco){
                                 ?>
 
 
-                                <li class="grid-item transition-inner-all atropos gallery-box transition-inner-all jg-entry jg-entry-visible" data-atropos data-atropos-perspective="1150" data-anime='{"scale": [0.9, 1], "translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                        <div class="atropos-scale">
-                                            <div class="atropos-rotate">
-                                                <div class="atropos-inner" data-atropos-offset="3">
-                                                    <div class="gallery-box">
-                                                        @if(trim($foto) != "")
-                                                        <a href="{{ $foto }}" data-group="lightbox-group-gallery-item-6" title="{{ $title[\App::getLocale()] }}">
-                                                            <div class="position-relative gallery-image bg-slate-blue">
-                                                                <img src="{{ $foto }}" alt="" />
+                            <li class="grid-item transition-inner-all atropos gallery-box transition-inner-all jg-entry jg-entry-visible" data-atropos data-atropos-perspective="1150" data-anime='{"scale": [0.9, 1], "translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
 
-                                                                <div class="d-flex align-items-center justify-content-center position-absolute top-0px left-0px w-100 h-100 gallery-hover move-bottom-top">
-                                                                    <i class="bi bi-camera icon-medium text-white"></i>
+                                <!-- start gallery item -->
+                                <div class="gallery-box transition-inner-all">
+                                    @if(trim($foto) != "")
+                                        <a href="{{ $foto }}" data-group="lightbox-group-gallery-item-6" title="Lightbox gallery image title">
+                                            <div class="position-relative bg-dark-gray">
+                                                <img src="{{ $foto }}" alt="" />
+                                                <div class="d-flex align-items-center flex-column justify-content-end h-100 w-100 gallery-hover p-45px">
+                                                    <i class="icon feather icon-feather-search icon-very-medium text-white absolute-middle-center"></i>
 
-                                                                </div>
-
-                                                            </div>
-                                                        </a>
+                                                    @if(trim($title[\App::getLocale()]) != "" || trim($description[\App::getLocale()]) != "")
+                                                        @if(trim($title[\App::getLocale()]) != "")
+                                                            <span class="gallery-title text-white fs-18">{{ $title[\App::getLocale()] }}</span><br>
                                                         @endif
-                                                    </div>
+
+                                                        @if(trim($description[\App::getLocale()]) != "")
+                                                            <p> {!! $description[\App::getLocale()] !!}</p>
+                                                        @endif
+                                                    @endif
+
+
                                                 </div>
                                             </div>
-                                        </div>
-
-                                    @if(trim($title[\App::getLocale()]) != "" || trim($description[\App::getLocale()]) != "")
-                                            @if(trim($title[\App::getLocale()]) != "")
-                                                <span style="font-size: 14px;">{{ $title[\App::getLocale()] }}</span><br>
-                                            @endif
-
-                                            @if(trim($description[\App::getLocale()]) != "")
-                                                    <p> {!! $description[\App::getLocale()] !!}</p>
-                                            @endif
+                                        </a>
                                     @endif
+                                </div>
+
+
 
                                     </li>
 
