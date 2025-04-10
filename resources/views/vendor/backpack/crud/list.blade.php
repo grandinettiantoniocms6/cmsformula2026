@@ -17,13 +17,10 @@
 @endphp
 
 @section('header')
-  <div class="container-fluid">
-    <h3>
+  <h3 class="page-title mb-0">
       <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
       <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
-    </h3>
-    <hr>
-  </div>
+  </h3>
 @endsection
 
 @section('content')
@@ -68,7 +65,7 @@
           @include('crud::inc.filters_navbar')
         @endif
 
-        <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2" cellspacing="0">
+        <table id="crudTable" class="bg-white table table-sm table-striped table-hover nowrap rounded border-xs mt-2" cellspacing="0">
             <thead>
               <tr>
                 {{-- Table columns --}}

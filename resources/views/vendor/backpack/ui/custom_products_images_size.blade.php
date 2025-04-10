@@ -12,29 +12,24 @@
 @endphp
 
 @section('header')
-    <?php
-    $product = \App\Models\PluginProducts::where("id", request()->get('id'))->first();
-    ?>
-    <div class="container-fluid">
-        <h3>
+    <?php $product = \App\Models\PluginProducts::where("id", request()->get('id'))->first(); ?>
+    <h3 class="page-title mb-0">
             <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!} <span class="label label-info">
                     @if($product)
-                    {{ $product->name }}
+                        {{ $product->name }}
                     @else
                         Tutti i prodotti
                     @endif
                 </span> </span>
-            <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+        <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
 
-            @if($product->is_variant == 0)
-                 <small><a href="/admin/pluginProducts" class="d-print-none font-sm"><i class="la la-angle-double-left"></i> Torna alla lista prodotti</a></small>
-            @else
-                <small><a href="/admin/shopProductsVariants?group_id={{ $product->group_id }}" class="d-print-none font-sm"><i class="la la-angle-double-left"></i> Torna alla lista varianti</a></small>
-            @endif
+        @if($product->is_variant == 0)
+            <small><a href="/admin/pluginProducts" class="d-print-none font-sm"><i class="la la-angle-double-left"></i> Torna alla lista prodotti</a></small>
+        @else
+            <small><a href="/admin/shopProductsVariants?group_id={{ $product->group_id }}" class="d-print-none font-sm"><i class="la la-angle-double-left"></i> Torna alla lista varianti</a></small>
+        @endif
 
-        </h3>
-        <hr>
-    </div>
+    </h3>
 @endsection
 
 @section('content')
@@ -51,7 +46,7 @@
                         <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
                             @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
                                 <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
-                                    <a href="/admin/pluginProductsImagesSize/create?id={{ request()->get('id') }}" class="btn btn-primary" data-style="zoom-in">
+                                    <a href="/admin/pluginProductsImagesSize/create?id={{ request()->get('id') }}" class="btn btn-primary btn-sm" data-style="zoom-in">
                                         <span class="ladda-label"><i class="la la-plus"></i> Aggiungi foto</span>
                                     </a>
                                 </div>

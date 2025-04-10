@@ -22,13 +22,10 @@ if(request()->has('room_id')){
 @endphp
 
 @section('header')
-  <div class="container-fluid">
-    <h3>
-      <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!} @if($item) {{ $item->name }} @endif</span>
-      <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+    <h3 class="page-title mb-0">
+        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!} @if($item) {{ $item->name }} @endif</span>
+        <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
     </h3>
-    <hr>
-  </div>
 @endsection
 
 @section('content')
@@ -58,11 +55,11 @@ if(request()->has('room_id')){
             @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
               <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
 
-                  <a href="/admin/plugin-booking-room-images/create?room_id={{ request()->get('room_id') }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi foto</span></a>
-                  <a href="/admin/plugin-booking-room-images/reorder?room_id={{ request()->get('room_id') }}" class="btn btn-outline-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina gallery camera</span></a>
+                  <a href="/admin/plugin-booking-room-images/create?room_id={{ request()->get('room_id') }}" class="btn btn-primary btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi foto</span></a>
+                  <a href="/admin/plugin-booking-room-images/reorder?room_id={{ request()->get('room_id') }}" class="btn btn-outline-primary btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina gallery camera</span></a>
 
-                  <a href="/admin/plugin-booking-room/{{ request()->get('room_id') }}/edit" class="btn btn-warning" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Vai alla struttura</span></a>
-                  <a href="/admin/plugin-booking-room?type={{ $item->plugin_booking_type_id }}" class="btn btn-warning" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Torna alla lista</span></a>
+                  <a href="/admin/plugin-booking-room/{{ request()->get('room_id') }}/edit" class="btn btn-warning btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Vai alla struttura</span></a>
+                  <a href="/admin/plugin-booking-room?type={{ $item->plugin_booking_type_id }}" class="btn btn-warning btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Torna alla lista</span></a>
 
 
               </div>

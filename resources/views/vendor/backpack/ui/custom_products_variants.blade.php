@@ -18,19 +18,13 @@ $count_figli = \App\Models\PluginProducts::where("group_id", request()->get('gro
 @endphp
 
 @section('header')
-    <?php
-    $product = \App\Models\PluginProducts::where("group_id", request()->get('group_id'))->where("is_variant", 0)->first();
-    ?>
+    <?php $product = \App\Models\PluginProducts::where("group_id", request()->get('group_id'))->where("is_variant", 0)->first(); ?>
     @if($product)
-    <div class="container-fluid">
-        <h3>
+        <h3 class="page-title mb-0">
             <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!} <span class="label label-info">{{ $product->name }}</span> </span>
             <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
             <small><a href="/admin/pluginProducts" class="d-print-none font-sm"><i class="la la-angle-double-left"></i> Torna alla lista prodotti</a></small>
-
         </h3>
-        <hr>
-    </div>
     @endif
 @endsection
 
@@ -117,7 +111,6 @@ $count_figli = \App\Models\PluginProducts::where("group_id", request()->get('gro
                     </div>
                 </div>
 
-
                 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -194,49 +187,27 @@ $count_figli = \App\Models\PluginProducts::where("group_id", request()->get('gro
                 </div>
 
 
-
             <form method="post" action="{{ route('pluginsProducts.actions') }}" id="formSave">
                 {{ csrf_field() }}
             <div class="row mb-0">
                 <div class="col-sm-6">
                     @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
                         <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
-                            @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
-                                <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
-                                    <a href="/admin/pluginProducts/create?group_id={{ request()->get('group_id') }}" class="btn btn-primary" data-style="zoom-in">
-                                        <span class="ladda-label"><i class="la la-plus"></i> Aggiungi variante</span>
-                                    </a>
+                            <a href="/admin/pluginProducts/create?group_id={{ request()->get('group_id') }}" class="btn btn-primary btn-sm" data-style="zoom-in">
+                                <span class="ladda-label"><i class="la la-plus"></i> Aggiungi variante</span>
+                            </a>
 
-                                    <!-- Button trigger modal -->
-                                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                        Crea Combinazioni dal Prodotto Padre
-                                    </a>
+                            <!-- Button trigger modal -->
+                            <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Crea Combinazioni dal Prodotto Padre</a>
 
-                                    @if($count_figli > 0)
-                                        <!-- Button trigger modal -->
-                                        <br>
-                                        <br>
-                                        <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal2">
-                                            Associazione multipla sulle varianti
-                                        </a>
-                                    @endif
-
-                                </div>
-
-
+                            @if($count_figli > 0)
+                                <a href="#" class="btn btn-warnin btn-sm" data-toggle="modal" data-target="#exampleModal2">Associazione multipla sulle varianti</a>
                             @endif
-                        </div>
 
-                        <div class="row no-gutters my-3">
-                            <div class="col-auto mr-1">
-                                <div class="dropdown show">
-                                    <a class="btn btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Azioni
-                                    </a>
-
-                                    <div class="dropdown-menu" aria-labelledby="esporta">
-                                        <button type="submit" class="dropdown-item" name="button" value="delete_variants" form="formSave">Cancella</button>
-                                    </div>
+                            <div class="dropdown show d-inline-block">
+                                <a class="btn btn-light btn-sm dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
+                                <div class="dropdown-menu" aria-labelledby="esporta">
+                                    <button type="submit" class="dropdown-item" name="button" value="delete_variants" form="formSave">Cancella</button>
                                 </div>
                             </div>
                         </div>

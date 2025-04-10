@@ -1,6 +1,6 @@
 <header class="{{ backpack_theme_config('classes.header') }}">
   {{-- Logo --}}
-  <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto ml-3" type="button" data-toggle="sidebar-show" aria-label="{{ trans('backpack::base.toggle_navigation')}}">
+  <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show" aria-label="{{ trans('backpack::base.toggle_navigation')}}">
     <i class="la la-bars"></i>
   </button>
 

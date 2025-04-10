@@ -15,13 +15,10 @@ $type = \App\Models\PluginBookingType::where("id", \request()->get('type'))->fir
 @endphp
 
 @section('header')
-  <div class="container-fluid">
-    <h3>
-      <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-      <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+    <h3 class="page-title mb-0">
+        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+        <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
     </h3>
-    <hr>
-  </div>
 @endsection
 
 @section('content')
@@ -36,9 +33,9 @@ $type = \App\Models\PluginBookingType::where("id", \request()->get('type'))->fir
             @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
               <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
                   <div class="d-print-none with-border">
-                      <a href="/admin/plugin-booking-room/create?type={{ $type->id }}" class="btn btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi </span></a>
+                      <a href="/admin/plugin-booking-room/create?type={{ $type->id }}" class="btn btn-primary btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi </span></a>
 
-                      <a href="/admin/plugin-booking-room/reorder?type={{ $type->id }}" class="btn btn-outline-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
+                      <a href="/admin/plugin-booking-room/reorder?type={{ $type->id }}" class="btn btn-outline-primary btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
                   </div>
               </div>
             @endif

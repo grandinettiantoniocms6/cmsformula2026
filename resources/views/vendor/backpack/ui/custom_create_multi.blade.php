@@ -32,7 +32,7 @@
 
 		@include('crud::inc.grouped_errors')
 
-		  <form method="post"
+		  <form method="post" class="mb-5 pb-4"
 		  		action="{{ url($crud->route) }}"
 				@if ($crud->hasUploadFields('create'))
 				enctype="multipart/form-data"

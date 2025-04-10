@@ -12,17 +12,14 @@
 @endphp
 
 @section('header')
-	<section class="container-fluid">
-	  <h3>
+    <h3 class="page-title mb-0">
         <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
         <small>{!! $crud->getSubheading() ?? trans('backpack::crud.edit').' '.$crud->entity_name !!}.</small>
 
-          @if ($crud->hasAccess('list'))
-              <small><a href="/admin/plugin-caccia-hunters" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
-          @endif
-	  </h3>
-      <hr>
-	</section>
+        @if ($crud->hasAccess('list'))
+            <small><a href="/admin/plugin-caccia-hunters" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
+        @endif
+    </h3>
 @endsection
 
 @section('content')
@@ -32,7 +29,7 @@
 
 		@include('crud::inc.grouped_errors')
 
-		  <form method="post"
+		  <form method="post" class="mb-5 pb-4"
 		  		action="{{ url($crud->route.'/'.$entry->getKey()) }}"
 				@if ($crud->hasUploadFields('update', $entry->getKey()))
 				enctype="multipart/form-data"

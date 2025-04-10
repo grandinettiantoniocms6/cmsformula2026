@@ -10,19 +10,14 @@
 @endphp
 
 @section('header')
-    <?php
-    $product = \App\Models\PluginProducts::where("id", request()->get('id'))->first();
-    ?>
-    <div class="container-fluid">
-        <h3>
-            <span class="text-capitalize">Proprietà <span class="badge badge-primary">{{ $product->name }}</span></span>
-            <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+    <?php $product = \App\Models\PluginProducts::where("id", request()->get('id'))->first(); ?>
+    <h3 class="page-title mb-0">
+        <span class="text-capitalize">Proprietà <span class="badge badge-primary">{{ $product->name }}</span></span>
+        <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
 
-            <small><a href="/admin/pluginProducts" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span> prodotti</span></a></small>
+        <small><a href="/admin/pluginProducts" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span> prodotti</span></a></small>
 
-        </h3>
-        <hr>
-    </div>
+    </h3>
 @endsection
 
 @section('content')
@@ -36,10 +31,10 @@
                 <div class="col-sm-6">
                     @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
                         <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
-                            <a href="/admin/pluginProductsOptions/create?id={{ $product->id }}" class="btn btn-primary" data-style="zoom-in">
+                            <a href="/admin/pluginProductsOptions/create?id={{ $product->id }}" class="btn btn-primary btn-sm" data-style="zoom-in">
                                 <span class="ladda-label"><i class="la la-plus"></i> Aggiungi proprietà</span>
                             </a>
-                            <a href="/admin/pluginProductsOptions/reorder?id={{ $product->id }}" class="btn btn-outline-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina </span></a>
+                            <a href="/admin/pluginProductsOptions/reorder?id={{ $product->id }}" class="btn btn-outline-primary btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina </span></a>
                         </div>
                     @endif
                 </div>

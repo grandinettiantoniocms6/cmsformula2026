@@ -1,14 +1,16 @@
 @extends(backpack_view('blank'))
 
-@section('content')
-    <h3 class="mt-3"><span class="text-capitalize">Import/Export</span></h3>
-    <hr>
+@section('header')
+    <h3 class="page-title mb-0">Import/Export</h3>
+@endsection
 
-    <div class="row">
+
+@section('content')
+    <div class="row gutter-3">
         @if(env("PROJECT_NAME") != "Maison-Flaneur")
         <div class="col-sm-6">
-            <div class="card">
-                <div class="card-header">Export</div>
+            <div class="card h-100 shadow-none">
+                <div class="card-header bg-light font-weight-bold">Export</div>
                 <div class="card-body">
                     <form method="post" action="{{ route('pluginProducts.export') }}" class="position-relative" id="form-export">
                         {{ csrf_field() }}
@@ -36,8 +38,8 @@
         @endif
 
         <div class="col-sm-6">
-            <div class="card">
-                <div class="card-header">Import</div>
+            <div class="card h-100 shadow-none">
+                <div class="card-header bg-light font-weight-bold">Import</div>
                 <div class="card-body">
 
                     <?php

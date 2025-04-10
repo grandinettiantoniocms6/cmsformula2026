@@ -16,13 +16,10 @@
 @endphp
 
 @section('header')
-  <div class="container-fluid">
-    <h3>
-      <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-      <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+    <h3 class="page-title mb-0">
+        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+        <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
     </h3>
-    <hr>
-  </div>
 @endsection
 
 @section('content')
@@ -185,22 +182,15 @@
 
                   <div class="row no-gutters my-3">
 
-
-
                       <div class="col-auto mr-1">
                           <div class="dropdown show">
-                              <a class="btn btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Azioni
-                              </a>
-
+                              <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
                               <div class="dropdown-menu" aria-labelledby="esporta">
                                   <a href="#" class="dropdown-item" data-toggle="modal" data-target="#set-points">Punti</a>
                                   <a href="#" class="dropdown-item" data-toggle="modal" data-target="#set-chiefs">Capi</a>
                                   <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
                               </div>
                           </div>
-
-
                       </div>
 
 

@@ -1,39 +1,45 @@
 @extends(backpack_view('blank'))
-<?php
-$blocks_in_page = \App\Models\PageBlock::where("page_id", $page->id)->get();
-?>
+
+@php $blocks_in_page = \App\Models\PageBlock::where("page_id", $page->id)->get(); @endphp
 
 @section('header')
-    <ol class="breadcrumb bg-transparent p-0 justify-content-end">
-        <li class="breadcrumb-item text-capitalize"><a href="/admin/dashboard">Bacheca</a></li>
-        <li class="breadcrumb-item text-capitalize"><a href="/admin/page">pagine</a></li>
-        <li class="breadcrumb-item text-capitalize active" aria-current="page">{{ $page->name }}</li>
-    </ol>
-    <section class="container-fluid">
-        <div class="d-flex align-items-center">
-            <h3 class="my-0"><span class="text-capitalize">{{ $page->name }}</span>  <small>({{ count($blocks_in_page) }} blocchi creati)</small></h3>
-            <div class="ml-auto">
-                @if($page->slug == "/")
-                    <a href="/" target="_blank" class="btn btn-sm btn-secondary">
-                        <span><i class="la la-eye"></i></span>
-                        <span class="d-none d-md-inline">Anteprima</span>
-                    </a>
-                @else
-                    <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-secondary">
-                        <span><i class="la la-eye"></i></span>
-                        <span class="d-none d-md-inline">Anteprima</span>
-                    </a>
-                @endif
-
-                <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-primary">
-                    <span><i class="la la-pencil"></i></span>
-                    <span class="d-none d-md-inline">Layout pagina</span>
-                </a>
-            </div>
-        </div>
-        <hr>
-    </section>
+    <h3 class="page-title mb-0">
+        <span class="text-capitalize">{{ $page->name }}</span>
+        <small>({{ count($blocks_in_page) }} blocchi creati)</small>
+    </h3>
 @endsection
+
+@section('before_breadcrumbs_widgets')
+    <div class="col-auto">
+        @if($page->slug == "/")
+            <a href="/" target="_blank" class="btn btn-sm btn-secondary">
+                <span><i class="la la-eye"></i></span>
+                <span class="d-none d-md-inline">Anteprima</span>
+            </a>
+        @else
+            <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-secondary">
+                <span><i class="la la-eye"></i></span>
+                <span class="d-none d-md-inline">Anteprima</span>
+            </a>
+        @endif
+
+        <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-primary">
+            <span><i class="la la-pencil"></i></span>
+            <span class="d-none d-md-inline">Layout pagina</span>
+        </a>
+    </div>
+@endsection
+
+@section('after_breadcrumbs_widgets')
+    <div class="col">
+        <ol class="breadcrumb bg-transparent p-0 justify-content-end">
+            <li class="breadcrumb-item text-capitalize"><a href="/admin/dashboard">Bacheca</a></li>
+            <li class="breadcrumb-item text-capitalize"><a href="/admin/page">pagine</a></li>
+            <li class="breadcrumb-item text-capitalize active" aria-current="page">{{ $page->name }}</li>
+        </ol>
+    </div>
+@endsection
+
 
 @section('after_styles')
     <!-- include select2 css-->

@@ -34,14 +34,12 @@
 @endphp
 
 @section('header')
-    <section class="container-fluid" bp-section="page-header">
-      <h1 bp-section="page-heading">{{ trans('backpack::crud.file_manager') }}</h1>
-    </section>
+    <h3 class="page-title mb-0">
+        <span class="text-capitalize">{{ trans('backpack::crud.file_manager') }}</span>
+    </h3>
 @endsection
 
 @section('content')
-
         <!-- Element where elFinder will be created (REQUIRED) -->
         <div id="elfinder"></div>
-
 @endsection

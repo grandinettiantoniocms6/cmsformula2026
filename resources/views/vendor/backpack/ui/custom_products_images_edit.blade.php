@@ -11,20 +11,17 @@
 @endphp
 
 @section('header')
-	<section class="container-fluid">
-	  <h3>
+    <h3 class="page-title mb-0">
         <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
         <small>{!! $crud->getSubheading() ?? trans('backpack::crud.edit').' '.$crud->entity_name !!}.</small>
         @if(is_numeric(strpos($crud->route, "block")))
-              <small><a href="javascript:history.back()" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> <span>Torna al contenuto pagina</span></a></small>
+            <small><a href="javascript:history.back()" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> <span>Torna al contenuto pagina</span></a></small>
         @else
-          @if ($crud->hasAccess('list'))
-              <small><a href="{{ url($crud->route) }}?id={{ $entry->product_id }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
-          @endif
+            @if ($crud->hasAccess('list'))
+                <small><a href="{{ url($crud->route) }}?id={{ $entry->product_id }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
+            @endif
         @endif
-	  </h3>
-      <hr>
-	</section>
+    </h3>
 @endsection
 
 @section('content')
@@ -34,7 +31,7 @@
 
 		@include('crud::inc.grouped_errors')
 
-		  <form method="post"
+		  <form method="post" class="mb-5 pb-4"
 		  		action="{{ url($crud->route.'/'.$entry->getKey()) }}"
 				@if ($crud->hasUploadFields('update', $entry->getKey()))
 				enctype="multipart/form-data"

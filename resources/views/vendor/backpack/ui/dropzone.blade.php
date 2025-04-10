@@ -8,32 +8,23 @@
         $product = \App\Models\PluginProducts::find($id);
     }
     ?>
-    <br>
-
     @if(request()->has('block'))
-        <section class="container-fluid">
-            <h3>
-                <span>Immagini per blocco <span class="badge badge-info">{{ $table }}</span></span>
-                <small><a href="/admin/blockGallery?block_id={{ $id }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> Torna indietro </a></small>
-            </h3>
-            <hr>
-        </section>
+        <h3 class="page-title mb-0">
+            <span>Immagini per blocco <span class="badge badge-info">{{ $table }}</span></span>
+            <small><a href="/admin/blockGallery?block_id={{ $id }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> Torna indietro </a></small>
+        </h3>
     @else
-        <section class="container-fluid">
-            <h3>
-                <span>Immagini per <span class="badge badge-info">{{ $product->name }}</span></span>
-                <?php
-                $url_back = "/admin/pluginProducts";
-                if($product->is_variant == 1){
-                    $url_back = "/admin/shopProductsVariants?group_id=$product->group_id";
-                }
-                ?>
-                <small><a href="{{ $url_back }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> Torna indietro </a></small>
-            </h3>
-            <hr>
-        </section>
+        <h3 class="page-title mb-0">
+            <span>Immagini per <span class="badge badge-info">{{ $product->name }}</span></span>
+            <?php
+            $url_back = "/admin/pluginProducts";
+            if($product->is_variant == 1){
+                $url_back = "/admin/shopProductsVariants?group_id=$product->group_id";
+            }
+            ?>
+            <small><a href="{{ $url_back }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> Torna indietro </a></small>
+        </h3>
     @endif
-
 @endsection
 
 @section('content')

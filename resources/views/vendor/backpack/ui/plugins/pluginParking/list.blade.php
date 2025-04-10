@@ -17,13 +17,10 @@
 @endphp
 
 @section('header')
-  <div class="container-fluid">
-    <h3>
-      <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-      <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+    <h3 class="page-title mb-0">>
+        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+        <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
     </h3>
-    <hr>
-  </div>
 @endsection
 
 @section('content')

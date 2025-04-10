@@ -10,12 +10,9 @@
 @endphp
 
 @section('header')
-	<section class="container-fluid">
-	  <h3>
-        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-	  </h3>
-      <hr>
-	</section>
+	<h3 class="page-title mb-0">
+		<span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+	</h3>
 @endsection
 
 @section('content')
@@ -25,7 +22,7 @@
 
 		@include('crud::inc.grouped_errors')
 
-		  <form method="post"
+		  <form method="post" class="mb-5 pb-4"
 		  		action="{{ url($crud->route.'/'.$entry->getKey()) }}"
 				@if ($crud->hasUploadFields('update', $entry->getKey()))
 				enctype="multipart/form-data"

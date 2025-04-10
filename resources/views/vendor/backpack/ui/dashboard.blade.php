@@ -1,8 +1,17 @@
 @extends(backpack_view('blank'))
 
 @section('after_styles')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" crossorigin="anonymous" />
-    <link rel="stylesheet" type="text/css" href="{{ url("css/admin.css") }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css" crossorigin="anonymous"/>
+    <style>
+        .main .container-fluid.page-header {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+    </style>
+@endsection
+
+@section('header')
 @endsection
 
 @section('content')
@@ -24,96 +33,76 @@
     <div class="row gutter-2 mt-4">
         @if(backpack_user()->roles[0]->id != 4)
             <div class="col-sm-4 col-xl-2">
-                <div class="card text-white">
+                <a class="card text-center text-dark" href="/admin/page/create">
                     <div class="card-body">
-                        <div class="card-wrapper" style="text-align: center; width: 100%;">
-                            <a href="/admin/page/create"> <img src="/img/icons/crea-pagina-03.png"><br>
-                                Nuova pagina
-                            </a>
-                        </div>
+                        <img src="/img/icons/crea-pagina-03.png">
+                        <div>Nuova pagina</div>
                     </div>
-                </div>
+                </a>
             </div><!-- /.col-->
         @endif
 
         <div class="col-sm-4 col-xl-2">
-            <div class="card text-white">
+            <a class="card text-center text-dark" href="/admin/page">
                 <div class="card-body">
-                    <div class="card-wrapper" style="text-align: center; width: 100%;">
-                        <a href="/admin/page"> <img src="/img/icons/elenco-pagine-03.png"><br>
-                            Elenco Pagine
-                        </a>
-                    </div>
+                    <img src="/img/icons/elenco-pagine-03.png"><br>
+                    <div>Elenco Pagine</div>
                 </div>
-            </div>
+            </a>
         </div><!-- /.col-->
 
         @if(backpack_user()->roles[0]->id != 4)
             <div class="col-sm-4 col-xl-2">
-                <div class="card text-white">
+                <a class="card text-center text-dark" href="/admin/elfinder">
                     <div class="card-body">
-                        <div class="card-wrapper" style="text-align: center; width: 100%;">
-                            <a href="/admin/elfinder"> <img src="/img/icons/media-03.png"><br>
-                                File Manager
-                            </a>
-                        </div>
+                        <img src="/img/icons/media-03.png">
+                        <div>File Manager</div>
                     </div>
-                </div>
+                </a>
             </div><!-- /.col-->
         @endif
 
         @if(backpack_user()->roles[0]->id != 4 && backpack_user()->roles[0]->id != 3)
         <div class="col-sm-4 col-xl-2">
-            <div class="card text-white">
+            <a class="card text-center text-dark" href="/admin/websiteSetting/1/edit">
                 <div class="card-body">
-                    <div class="card-wrapper" style="text-align: center; width: 100%;">
-                        <a href="/admin/websiteSetting/1/edit"> <img src="/img/icons/setting-03.png"><br>
-                            Impostazioni
-                        </a>
-                    </div>
+                    <img src="/img/icons/setting-03.png">
+                    <div>Impostazioni</div>
                 </div>
-            </div>
+            </a>
         </div><!-- /.col-->
         @endif
 
         <div class="col-sm-4 col-xl-2">
-            <div class="card text-white">
+            <a class="card text-center text-dark" href="/admin/pluginTutorial/view">
                 <div class="card-body">
-                    <div class="card-wrapper" style="text-align: center; width: 100%;">
-                        <a href="/admin/pluginTutorial/view"> <img src="/img/icons/videotut-03.png"><br>
-                            Tutorial
-                        </a>
-                    </div>
+                    <img src="/img/icons/videotut-03.png">
+                    <div>Tutorial</div>
                 </div>
-            </div>
+            </a>
         </div><!-- /.col-->
 
         <div class="col-sm-4 col-xl-2">
-            <div class="card text-white">
+            <a class="card text-center text-dark" href="https://www.webisland.it/contatti" target="_blank">
                 <div class="card-body">
-                    <div class="card-wrapper" style="text-align: center; width: 100%;">
-                        <a href="https://www.webisland.it/contatti" target="_blank"> <img src="/img/icons/supporto-03.png"><br>
-                            Richiedi Assistenza
-                        </a>
-                    </div>
+                    <img src="/img/icons/supporto-03.png">
+                    <div>Richiedi Assistenza</div>
                 </div>
-            </div>
+            </a>
         </div><!-- /.col-->
 
     </div>
     <!-- / Antonio -->
 
     <div class="row gutter-2">
-
         <div class="col-sm-4">
             <div class="card">
-                <div class="card-header">Grafico risorse CMS</div>
+                <div class="card-header bg-light font-weight-bold">Grafico risorse CMS</div>
                 <div class="card-body">
                     <canvas id="pieChart" width="400" height="400"></canvas>
                 </div>
             </div>
         </div>
-
         <div class="col-sm-8">
             <div class="row gutter-2">
 
@@ -331,13 +320,13 @@
         @if($adminPlugin && $adminPlugin->version == 3)
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header">Ultimi 5 ordini <span class="text float-right"><a href="/admin/shopOrders">Visualizza tutti</a></span></div>
+                    <div class="card-header bg-light font-weight-bold">Ultimi 5 ordini <span class="text float-right"><a href="/admin/shopOrders">Visualizza tutti</a></span></div>
                     <div class="card-body p-2">
                         <?php
                         $list = \App\Models\Order::with("user")->orderBy("created_at", "desc")->take(5)->get();
                         ?>
                         @if($list)
-                            <table class="table table-md mb-0">
+                            <table class="table table-sm mb-0">
                                 <thead>
                                     <tr><th>ID</th><th>Cliente</th><th>Stato</th><th>Totale</th><th>Spedizione</th><th>Data ordine</th><th></th></tr>
                                 </thead>
@@ -365,8 +354,8 @@
                                         <td>
                                             {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $order->created_at)->format("d/m/Y H:i") }}
                                         </td>
-                                        <td>
-                                            <a class="btn btn-default btn-sm" href="/admin/shopOrders/{{ $order->id }}/show">Visualizza</a>
+                                        <td class="text-right">
+                                            <a class="btn btn-primary btn-sm" href="/admin/shopOrders/{{ $order->id }}/show">Visualizza</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -376,10 +365,9 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header">Statistiche</div>
+                    <div class="card-header bg-light font-weight-bold">Statistiche</div>
                     <div class="card-body p-2">
                         <?php
 
@@ -410,7 +398,7 @@
                         <div class="row gutter-2">
                             <div class="col-sm-3">
                                 <div class="table-responsive">
-                                    <table class="table table-md mb-0">
+                                    <table class="table table-sm mb-0">
                                         <thead>
                                             <tr>
                                                 <th colspan="2">Ultimi 7 giorni</th>
@@ -431,7 +419,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="table-responsive">
-                                <table class="table table-md mb-0">
+                                    <table class="table table-sm mb-0">
                                     <thead>
                                     <tr>
                                         <th colspan="2">Andamento mensile</th>
@@ -466,7 +454,7 @@
                                 ?>
                                 @if($list)
                                     <div class="table-responsive">
-                                        <table class="table table-md mb-0">
+                                        <table class="table table-sm mb-0">
                                             <thead>
                                             <tr>
                                                 <th colspan="2">Top 10 prodotti</th>
@@ -503,7 +491,7 @@
                                 ?>
                                 @if($list)
                                     <div class="table-responsive">
-                                        <table class="table table-md mb-0">
+                                        <table class="table table-sm mb-0">
                                             <thead>
                                             <tr>
                                                 <th colspan="2">Top 10 clienti</th>
@@ -529,16 +517,15 @@
             </div>
         @endif
 
-
         @if($adminPluginParking)
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header">Ultime 5 prenotazioni <span class="text float-right"><a href="/admin/plugin-parking-reservation">Visualizza tutti</a></span></div>
+                    <div class="card-header bg-light font-weight-bold">Ultime 5 prenotazioni <span class="text float-right"><a href="/admin/plugin-parking-reservation">Visualizza tutti</a></span></div>
                     <div class="card-body">
                         <?php $list = \App\Models\PluginParkingReservation::orderBy("created_at", "desc")->take(5)->get(); ?>
                         @if($list)
                             <div class="table-responsive">
-                                <table class="table table-md mb-0">
+                                <table class="table table-sm mb-0">
                                     <thead>
                                         <tr><th>ID</th><th>Cliente</th><th>Ingresso</th><th>Uscita</th><th>Tipo</th><th>N.GG</th><th>Totale</th><th></th></tr>
                                     </thead>
@@ -578,9 +565,7 @@
                 </div>
             </div>
         @endif
-
     </div>
-
 
     @if(env('LOCAL') == 0)
         <?php
@@ -592,7 +577,7 @@
         <div class="row gutter-2">
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header">News da Webisland.it</div>
+                    <div class="card-header bg-light font-weight-bold">News da Webisland.it</div>
                     @if($xml->channel)
                         <div class="card-body p-0">
                             <div class="table-responsive table-responsive-sm">
@@ -626,9 +611,6 @@
         </div>
     <!-- / Messaggi da Webisland Gest -->
 @endif
-
-
-
 @endsection
 
 @section('after_scripts')

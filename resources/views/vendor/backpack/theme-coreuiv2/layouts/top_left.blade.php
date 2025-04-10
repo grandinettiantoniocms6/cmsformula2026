@@ -15,17 +15,23 @@
 
     @include(backpack_view('inc.sidebar'))
 
-    <main class="main pt-2">
+    <main class="main">
 
-       @yield('before_breadcrumbs_widgets')
+        <div class="container-fluid page-header bg-light">
+            <div class="row align-items-end">
+                <div class="col-auto">
+                    @yield('header')
+                </div>
 
-       @includeWhen(isset($breadcrumbs), backpack_view('inc.breadcrumbs'))
+                @yield('before_breadcrumbs_widgets')
 
-       @yield('after_breadcrumbs_widgets')
+                @includeWhen(isset($breadcrumbs), backpack_view('inc.breadcrumbs'))
 
-       @yield('header')
+                @yield('after_breadcrumbs_widgets')
+            </div>
+        </div>
 
-        <div class="container-fluid">
+        <div class="container-fluid px-3">
 
           @yield('before_content_widgets')
 
@@ -39,7 +45,7 @@
 
   </div>{{-- ./app-body --}}
 
-  <footer class="{{ backpack_theme_config('classes.footer') }}">
+  <footer class="d-none {{ backpack_theme_config('classes.footer') }}">
     @include(backpack_view('inc.footer'))
   </footer>
 

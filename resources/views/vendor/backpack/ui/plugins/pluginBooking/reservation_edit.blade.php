@@ -22,46 +22,41 @@
 @endpush
 
 @section('header')
-	<section class="container-fluid">
-	  <h3>
+    <h3 class="page-title mb-0">
         <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
         <small>{!! $crud->getSubheading() ?? trans('backpack::crud.edit').' '.$crud->entity_name !!}.</small>
 
+        @if($type)
+            @if($type->is_pin == 1)
+                <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal" data-backdrop="true">
+                    Genera PIN
+                </a>
 
-          @if($type)
-              @if($type->is_pin == 1)
-                  <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#exampleModal" data-backdrop="true">
-                      Genera PIN
-                  </a>
+                @if($entry->pin)
+                    <a href="#" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal2" data-backdrop="true">
+                        Invia PIN
+                    </a>
+                @endif
+            @endif
 
-                  @if($entry->pin)
-                      <a href="#" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal2" data-backdrop="true">
-                          Invia PIN
-                      </a>
-                  @endif
-              @endif
-
-              <?php
-                      if(strip_tags($entry->checkDocument()) != "OK"){
-                              ?>
-                              <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#exampleModal3" data-backdrop="true">
-                                  Invia sollecito Documenti
-                              </a>
-                              <?php
-                      }
-              ?>
-          @endif
+            <?php
+            if(strip_tags($entry->checkDocument()) != "OK"){
+            ?>
+            <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#exampleModal3" data-backdrop="true">
+                Invia sollecito Documenti
+            </a>
+            <?php
+            }
+            ?>
+        @endif
 
         @if(is_numeric(strpos($crud->route, "block")))
-              <small><a href="javascript:history.back()" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> <span>Torna al contenuto pagina</span></a></small>
+            <small><a href="javascript:history.back()" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> <span>Torna al contenuto pagina</span></a></small>
         @else
-          @if ($crud->hasAccess('list'))
-              <small><a href="#" class="d-print-none font-sm" onclick="history.back()"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> Torna indietro</a></small>
-          @endif
+            @if ($crud->hasAccess('list'))
+                <small><a href="#" class="d-print-none font-sm" onclick="history.back()"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> Torna indietro</a></small>
+            @endif
         @endif
-	  </h3>
-
-      <hr>
 
         <?php
         $url = "/admin/plugin-booking-reservation";
@@ -76,8 +71,7 @@
         @if ($crud->hasAccess('list'))
             <small><a href="{{ $url }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> Torna indietro</a></small>
         @endif
-
-	</section>
+    </h3>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -147,7 +141,7 @@
 
 		@include('crud::inc.grouped_errors')
 
-		  <form method="post"
+		  <form method="post" class="mb-5 pb-4"
 		  		action="{{ url($crud->route.'/'.$entry->getKey()) }}"
 				enctype="multipart/form-data"
 		  		>

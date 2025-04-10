@@ -16,13 +16,10 @@
 @endphp
 
 @section('header')
-  <div class="container-fluid">
-    <h3>
+  <h3 class="page-title mb-0">
       <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
       <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
-    </h3>
-    <hr>
-  </div>
+  </h3>
 @endsection
 
 @section('content')
@@ -32,20 +29,27 @@
 
     <!-- THE ACTUAL CONTENT -->
     <div class="{{ $crud->getListContentClass() }}">
-        @if(count($vCheckSlug) > 0)
-            <p>
-                <a class="btn btn-danger" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    ATTENZIONE: Ci sono permalink duplicati!
-                </a>
-            </p>
-            <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                    @foreach($vCheckSlug as $html)
-                        {!! $html !!}
-                    @endforeach
+
+       @if(count($vCheckSlug) > 0)
+            <div class="alert alert-danger mb-1">Ci sono permalink duplicati! <a class="text-white text-decoration-underline" data-toggle="modal" href="#modal-alert" role="button" aria-expanded="false">Scopri</a></div>
+            <div class="modal fade" id="modal-alert" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><i class="uil uil-exclamation-triangle mr-2"></i> Permalink Duplicati</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <i class="uil uil-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            @foreach($vCheckSlug as $html)
+                                {!! $html !!}
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
-        @endif
+       @endif
 
         <form method="post" action="{{ route('pluginsProducts.actions') }}" id="formSave">
             {{ csrf_field() }}
@@ -57,20 +61,13 @@
 
                 @include('crud::inc.button_stack', ['stack' => 'top'])
 
-                  <div class="row no-gutters my-3">
-                      <div class="col-auto mr-1">
-                          <div class="dropdown show">
-                              <a class="btn btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Azioni
-                              </a>
-
-                              <div class="dropdown-menu" aria-labelledby="esporta">
-                                  <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
-                                   @if(backpack_user()->roles[0]->id == 1)
-                                      <button type="submit" class="dropdown-item" name="button" value="truncate" form="formSave">Svuota DB</button>
-                                   @endif
-                              </div>
-                          </div>
+                  <div class="dropdown d-inline-block show">
+                      <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
+                      <div class="dropdown-menu" aria-labelledby="esporta">
+                          <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
+                          @if(backpack_user()->roles[0]->id == 1)
+                              <button type="submit" class="dropdown-item" name="button" value="truncate" form="formSave">Svuota DB</button>
+                          @endif
                       </div>
                   </div>
 

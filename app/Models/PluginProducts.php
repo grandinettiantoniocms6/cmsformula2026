@@ -188,7 +188,7 @@ class PluginProducts extends Model
         $editing = UserNavigation::where("user_id", "!=", backpack_user()->id)->where("url", $url_edit)->first();
 
         $html = '<div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     '.$icon_editing.' '.$icon_varianti.' Gestione
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

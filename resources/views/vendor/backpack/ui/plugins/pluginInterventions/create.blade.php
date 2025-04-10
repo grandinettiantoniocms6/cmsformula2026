@@ -19,22 +19,19 @@
 @endpush
 
 @section('header')
-	<section class="container-fluid">
-	  <h3>
+    <h3 class="page-title mb-0">
         <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
         <small>{!! $crud->getSubheading() ?? trans('backpack::crud.add').' '.$crud->entity_name !!}.</small>
 
         @if ($crud->hasAccess('list'))
             @if(request()->has('group_id'))
-                  <?php $group_id = request()->get('group_id'); ?>
-                  <small><a href="{{ url("/admin/shopProductsVariants?group_id=$group_id") }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
+                <?php $group_id = request()->get('group_id'); ?>
+                <small><a href="{{ url("/admin/shopProductsVariants?group_id=$group_id") }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
             @else
-                  <small><a href="#" onclick="history.back()" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
+                <small><a href="#" onclick="history.back()" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
             @endif
         @endif
-	  </h3>
-      <hr>
-	</section>
+    </h3>
 @endsection
 
 @section('content')
@@ -45,7 +42,7 @@
 
 		@include('crud::inc.grouped_errors')
 
-		  <form method="post"
+		  <form method="post" class="mb-5 pb-4"
 		  		action="{{ url($crud->route) }}"
 				@if ($crud->hasUploadFields('create'))
 				enctype="multipart/form-data"

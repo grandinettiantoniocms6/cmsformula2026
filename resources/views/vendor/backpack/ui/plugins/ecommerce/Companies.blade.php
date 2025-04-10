@@ -13,13 +13,10 @@
 @endphp
 
 @section('header')
-  <div class="container-fluid">
-    <h3>
-      <span>{!! $crud->getHeading() ?? $crud->entity_name_plural !!} di <span class="badge badge-info">{{ $user->name }}</span></span>
-      <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+    <h3 class="page-title mb-0">
+        <span>{!! $crud->getHeading() ?? $crud->entity_name_plural !!} di <span class="badge badge-info">{{ $user->name }}</span></span>
+        <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
     </h3>
-    <hr>
-  </div>
 @endsection
 
 
@@ -33,7 +30,7 @@
           <div class="col-sm-6">
             @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
               <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
-                  <a href="/admin/shopCompanies/create?user_id={{ $user->id }}" class="btn btn-primary" data-style="zoom-in">
+                  <a href="/admin/shopCompanies/create?user_id={{ $user->id }}" class="btn btn-primary btn-sm" data-style="zoom-in">
                       <span class="ladda-label"><i class="la la-plus"></i> Nuovo indirizzo</span>
                   </a>
               </div>

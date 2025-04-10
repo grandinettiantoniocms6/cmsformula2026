@@ -11,63 +11,61 @@
   $dashboard_class = new \App\Http\Controllers\Admin\DashboardController();
   $vCheckSlug = $dashboard_class->check_duplicate_slug("pages");
 
-$pages_count = \App\Models\Page::count();
-$website = \App\Models\WebsiteSetting::first();
-$number = null;
-if($website->number_max_page){
+  $pages_count = \App\Models\Page::count();
+  $website = \App\Models\WebsiteSetting::first();
+  $number = null;
+  if($website->number_max_page){
     $number = $website->number_max_page - $pages_count;
-}
+  }
 
-
+  $pages_count = \App\Models\Page::count();
+  $website = \App\Models\WebsiteSetting::first();
+  $number = null;
 @endphp
 
 @section('header')
-  <div class="container-fluid">
-      @if($number <= 0)
-          <div class="alert alert-warning text-dark">
-              Hai superato il limite di pagine acquistato. Per sbloccare il limite contatta Webisland.
-          </div>
-      @endif
-      @if(count($vCheckSlug) > 0)
-          <p>
-              <a class="btn btn-danger" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                  ATTENZIONE: Ci sono permalink duplicati!
-              </a>
-          </p>
-          <div class="collapse" id="collapseExample">
-              <div class="card card-body">
-                  @foreach($vCheckSlug as $html)
-                      {!! $html !!}
-                  @endforeach
-              </div>
-          </div>
-      @endif
-
-    <h3>
-      <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-      <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+    <h3 class="page-title mb-0">
+        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+        <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
     </h3>
-
-    <?php
-        $pages_count = \App\Models\Page::count();
-        $website = \App\Models\WebsiteSetting::first();
-        $number = null;
-    ?>
-      @if(backpack_user()->roles[0]->id <= 3)
-          @if($website->number_max_page)
-              <?php
-              $number = $website->number_max_page - $pages_count;
-              ?>
-              <h6 class="text-muted my-0">Puoi inserire ancora {{ $number }} pagine</h6>
-          @else
-              <h6 class="text-muted my-0">Puoi inserire pagine illimitate</h6>
-          @endif
-      @endif
-      <hr>
-  </div>
 @endsection
 
 @section('content')
+
+  @if($number <= 0)
+     <div class="alert alert-warning-light">Hai superato il limite di pagine acquistato. Per sbloccare il limite contatta Webisland.</div>
+  @endif
+
+  @if(count($vCheckSlug) > 0)
+    <div class="alert alert-danger mb-1">Ci sono permalink duplicati! <a class="text-white text-decoration-underline" data-toggle="modal" href="#modal-alert" role="button" aria-expanded="false">Scopri</a></div>
+    <div class="modal fade" id="modal-alert" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="uil uil-exclamation-triangle mr-2"></i> Permalink Duplicati</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="uil uil-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @foreach($vCheckSlug as $html)
+                        {!! $html !!}
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+  @endif
+
+   @if(backpack_user()->roles[0]->id <= 3)
+     @if($website->number_max_page)
+        <?php $number = $website->number_max_page - $pages_count; ?>
+        <div class="alert alert-info-light">Puoi inserire ancora {{ $number }} pagine</div>
+     @else
+        <div class="alert alert-info-light">Puoi inserire pagine illimitate</div>
+     @endif
+   @endif
+
   <!-- Default box -->
   <div class="row">
 

@@ -12,13 +12,10 @@
 @endphp
 
 @section('header')
-  <div class="container-fluid">
-    <h3>
-      <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-      <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+    <h3 class="page-title mb-0">
+        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+        <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
     </h3>
-    <hr>
-  </div>
 @endsection
 
 @section('content')
@@ -38,18 +35,11 @@
 
                 @include('crud::inc.button_stack', ['stack' => 'top'])
 
-                  <div class="row no-gutters my-3">
-                      <div class="col-auto mr-1">
-                          <div class="dropdown show">
-                              <a class="btn btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Azioni
-                              </a>
-
-                              <div class="dropdown-menu" aria-labelledby="esporta">
-                                  <button type="submit" class="dropdown-item" name="button" value="download_pdf" form="formSave">Scarica PDF</button>
-                                  <button type="submit" class="dropdown-item" name="button" value="send_email" form="formSave">Invia Email</button>
-                              </div>
-                          </div>
+                  <div class="dropdown show d-inline-block">
+                      <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
+                      <div class="dropdown-menu" aria-labelledby="esporta">
+                          <button type="submit" class="dropdown-item" name="button" value="download_pdf" form="formSave">Scarica PDF</button>
+                          <button type="submit" class="dropdown-item" name="button" value="send_email" form="formSave">Invia Email</button>
                       </div>
                   </div>
 

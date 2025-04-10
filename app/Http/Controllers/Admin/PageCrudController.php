@@ -283,7 +283,7 @@ class PageCrudController extends CrudController
         $this->crud->addField([   // CustomHTML
             'name'  => 'separator1',
             'type'  => 'custom_html',
-            'value' => '<h5 class="text text-black-50">Impostazioni Pagina</h5>'
+            'value' => '<h5 class="text text-primary mb-0">Impostazioni Pagina</h5>'
         ]);
 
         $this->crud->addField([
@@ -311,7 +311,7 @@ class PageCrudController extends CrudController
         $this->crud->addField([   // CustomHTML
             'name'  => 'separator4',
             'type'  => 'custom_html',
-            'value' => '<h5 class="text text-black-50">Impostazioni</h5>'
+            'value' => '<hr><h5 class="text text-primary mb-0">Impostazioni</h5>'
         ]);
 
         $this->crud->addField([   // Checkbox

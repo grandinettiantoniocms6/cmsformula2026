@@ -1,30 +1,30 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
 @if(backpack_user()->roles[0]->id < 5)
-    <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="la la-home nav-icon"></i> Bacheca</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="hgi hgi-stroke hgi-home-09 nav-icon"></i> Bacheca</a></li>
 @endif
 
 @if(backpack_user()->roles[0]->id == 1)
-    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('page') }}'><i class='nav-icon la la-file-alt'></i> Pagine</a></li>
+    <li class='nav-item'><a class='nav-link' href='{{ backpack_url('page') }}'><i class="hgi hgi-stroke hgi-file-01 nav-icon"></i> Pagine</a></li>
 @else
     @if(env('NASCONDI_FRONTEND') == 0)
         @if(backpack_user()->roles[0]->id < 5)
-            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('page') }}'><i class='nav-icon la la-file-alt'></i> Pagine</a></li>
+            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('page') }}'><i class='hgi hgi-stroke hgi-file-01 nav-icon'></i> Pagine</a></li>
         @endif
     @endif
 @endif
 
 
 @if(backpack_user()->roles[0]->id == 1)
-    <li class="nav-item"><a class="nav-link" href="{{ backpack_url('elfinder') }}"><i class="nav-icon las la-image"></i> <span>{{ trans('backpack::crud.file_manager') }}</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ backpack_url('elfinder') }}"><i class="hgi hgi-stroke hgi-image-add-02 nav-icon"></i> <span>{{ trans('backpack::crud.file_manager') }}</span></a></li>
     <li class="nav-item nav-dropdown">
-        <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-users"></i> Accounts</a>
+        <a class="nav-link nav-dropdown-toggle" href="#"><i class="hgi hgi-stroke hgi-user-square nav-icon"></i> Accounts</a>
         <ul class="nav-dropdown-items">
-            <li class="nav-item"><a class="nav-link" href="{{ backpack_url('userCustom') }}"><i class="nav-icon la la-user"></i> <span>Utenti</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ backpack_url('userCustom') }}"><i class="hgi hgi-stroke hgi-user-multiple-02 nav-icon"></i> <span>Utenti</span></a></li>
         </ul>
     </li>
 
     <li class="nav-item nav-dropdown">
-        <a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-cog nav-icon"></i> Impostazioni</a>
+        <a class="nav-link nav-dropdown-toggle" href="#"><i class="hgi hgi-stroke hgi-settings-05 nav-icon"></i> Impostazioni</a>
         <ul class="nav-dropdown-items">
             <li class="nav-item"><a class="nav-link" href="{{ backpack_url('websiteSetting') }}/1/edit"><i class="nav-icon la la-tools"></i> Sito web</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ backpack_url('adminBlock') }}"><i class="nav-icon la la-file-code"></i> <span>Blocchi</span></a></li>
@@ -43,18 +43,18 @@
 
 @if(backpack_user()->roles[0]->id == 2)
     @if(env('NASCONDI_FRONTEND') == 0)
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('elfinder') }}"><i class="nav-icon las la-image"></i> <span>{{ trans('backpack::crud.file_manager') }}</span></a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('elfinder') }}"><i class="nav-icon hgi hgi-stroke hgi-image-add-02"></i> <span>{{ trans('backpack::crud.file_manager') }}</span></a></li>
     @endif
 
     <li class="nav-item nav-dropdown">
-        <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon la la-users"></i> Accounts</a>
+        <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon hgi hgi-stroke hgi-user-square"></i> Accounts</a>
         <ul class="nav-dropdown-items">
-            <li class="nav-item"><a class="nav-link" href="{{ backpack_url('userCustom') }}"><i class="nav-icon la la-user"></i> <span>Utenti</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ backpack_url('userCustom') }}"><i class="nav-icon hgi hgi-stroke hgi-user-multiple-02"></i> <span>Utenti</span></a></li>
         </ul>
     </li>
     @if(env('NASCONDI_FRONTEND') == 0)
         <li class="nav-item nav-dropdown">
-            <a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-cog nav-icon"></i> Impostazioni</a>
+            <a class="nav-link nav-dropdown-toggle" href="#"><i class="hgi hgi-stroke hgi-settings-05 nav-icon"></i> Impostazioni</a>
             <ul class="nav-dropdown-items">
                 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('websiteSetting') }}/1/edit"><i class="nav-icon la la-tools"></i> <span>Sito web</span></a></li>
                 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('adminTemplate') }}'><i class="nav-icon las la-brush"></i> Template</a></li>
@@ -88,7 +88,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                 ?>
 
             @if(backpack_user()->roles[0]->id < 5)
-                <li class="nav-item nav-dropdown open">
+                <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-{{ $aP->icon }} nav-icon"></i> {{ $aP->label }}</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginProducts') }}"><i class="nav-icon las la-shopping-bag"></i> {{ env('PLUGIN_PRODUCTS_LABEL_ADMIN', 'Prodotti') }}</a></li>
@@ -122,7 +122,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
             @endif
             @if($aP->version == 3)
                 @if(backpack_user()->roles[0]->id < 5)
-                    <li class="nav-item nav-dropdown open">
+                    <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-{{ $aP->icon }} nav-icon"></i> ShopFormula</a>
                         <ul class="nav-dropdown-items">
                                 <?php
@@ -213,8 +213,6 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                         </ul>
                     </li>
                 @endif
-
-
             @endif
 
             @if(backpack_user()->roles[0]->id == 7)
@@ -226,7 +224,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
 
         @if($aP->name == "pluginForms")
             @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
-                <li class="nav-item nav-dropdown open">
+                <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-{{ $aP->icon }} nav-icon"></i> {{ $aP->label }}</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginForms') }}"><i class="nav-icon lab la-wpforms"></i> Form</a></li>
@@ -452,4 +450,4 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
     @endforeach
 @endif
 
-<x-backpack::menu-item :title="trans('backpack::crud.file_manager')" icon="la la-files-o" :link="backpack_url('elfinder')" />
+<x-backpack::menu-item :title="trans('backpack::crud.file_manager')" icon="nav-icon hgi hgi-stroke hgi-image-add-02" :link="backpack_url('elfinder')" />

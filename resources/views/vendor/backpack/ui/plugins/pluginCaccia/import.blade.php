@@ -6,10 +6,7 @@
             <div class="card">
                 <div class="card-header">Import</div>
                 <div class="card-body">
-
-                    <?php
-                    $url = route('pluginCaccia.import_save');
-                    ?>
+                    <?php $url = route('pluginCaccia.import_save'); ?>
                     <form method="post" action="{{ $url }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 

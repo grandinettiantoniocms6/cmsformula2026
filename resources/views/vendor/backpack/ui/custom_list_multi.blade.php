@@ -1,29 +1,25 @@
 @extends(backpack_view('blank'))
 
-@section('header')
+@php
+$showDropzone = 0;
+$itemBlock = null;
+if(request()->has('block')){
+    $adminBlock = \App\Models\AdminBlock::where("name", request()->get('block'))->first();
+    $itemBlock = \DB::table($adminBlock->name_table)->where("id", request()->get('block_id'))->first();
 
- <?php
-    $showDropzone = 0;
-    $itemBlock = null;
-    if(request()->has('block')){
-        $adminBlock = \App\Models\AdminBlock::where("name", request()->get('block'))->first();
-        $itemBlock = \DB::table($adminBlock->name_table)->where("id", request()->get('block_id'))->first();
-
-        if($adminBlock->name_table == "blocks_gallerys"){
-            $showDropzone = 1;
-        }
+    if($adminBlock->name_table == "blocks_gallerys"){
+        $showDropzone = 1;
     }
- ?>
-  <div class="container-fluid">
-    <h2>
-      <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}
-          @if($itemBlock)
-              <span class="badge badge-secondary">{{ $itemBlock->name }}</span>
-          @endif
-      </span>
-      <small id="datatable_info_stack"></small>
-    </h2>
-  </div>
+}
+@endphp
+
+@section('header')
+    <h3 class="page-title mb-0">
+     <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}
+         @if($itemBlock) <span class="badge badge-secondary">{{ $itemBlock->name }}</span> @endif
+     </span>
+     <small id="datatable_info_stack"></small>
+    </h3>
 @endsection
 
 @section('content')
@@ -48,9 +44,7 @@
                 @endif
                 <a href="/admin/{{ request()->get('block') }}/reorder?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-outline-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
 
-                  <?php
-                    $page = \App\Models\Page::where("id", request()->get('page_id'))->first();
-                  ?>
+                  <?php $page = \App\Models\Page::where("id", request()->get('page_id'))->first(); ?>
                   @if($page->slug == "/")
                       <a href="/" target="_blank" class="btn btn-sm btn-info">
                           <span><i class="la la-eye"></i></span>
@@ -63,29 +57,20 @@
                       </a>
                   @endif
                 <a href="/admin/pages_blocks/{{ request()->get('page_id') }}" class="btn btn-sm btn-outline-primary" data-style="zoom-in"><span class="ladda-label"> < Torna alla pagina</span></a>
-
               </div>
             @endif
 
-                <div class="row no-gutters my-3">
-                    <div class="col-auto mr-1">
-                        <div class="dropdown show">
-                            <a class="btn btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Azioni
-                            </a>
-
-                            <div class="dropdown-menu" aria-labelledby="esporta">
-                                <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
-                            </div>
-                        </div>
-                    </div>
+            <div class="dropdown show d-inline-block">
+                <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
+                <div class="dropdown-menu" aria-labelledby="esporta">
+                    <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
                 </div>
+            </div>
           </div>
           <div class="col-sm-6">
             <div id="datatable_search_stack" class="mt-sm-0 mt-2 d-print-none"></div>
           </div>
         </div>
-
 
         {{-- Backpack List Filters --}}
         @if ($crud->filtersEnabled())
