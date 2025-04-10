@@ -82,7 +82,7 @@
                 </div>
             @endif
 
-            @if($label->description && trim($label->description) != "<p><br></p>")
+            @if($label->description && trim($label->description) != "<p><br></p>" && trim($label->description) != "")
                 <div id="description-container">
                     <h2 id="description">{!! $label->description !!}</h2>
                 </div>
