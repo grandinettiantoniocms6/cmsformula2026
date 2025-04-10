@@ -827,22 +827,23 @@
 
     // Group gallery light box
     if (typeof $.fn.magnificPopup === 'function') {
-        /** var lightboxgallerygroups = {};
-        $('.portfolio-box [data-group], .gallery-box [data-group]').each(function () {
-            var id = $(this).attr('data-group');
-            if (!lightboxgallerygroups[id]) {
-                lightboxgallerygroups[id] = [];
-            }
-            lightboxgallerygroups[id].push(this);
-        });
-        $.each(lightboxgallerygroups, function () {
-            $(this).magnificPopup({
-                type: 'image',
-                closeOnContentClick: true,
-                closeBtnInside: false,
-                gallery: {enabled: true}
-            });
-        }); */
+
+        // var lightboxgallerygroups = {};
+        // $('.portfolio-box [data-group], .gallery-box [data-group]').each(function () {
+        //     var id = $(this).attr('data-group');
+        //     if (!lightboxgallerygroups[id]) {
+        //         lightboxgallerygroups[id] = [];
+        //     }
+        //     lightboxgallerygroups[id].push(this);
+        // });
+        // $.each(lightboxgallerygroups, function () {
+        //     $(this).magnificPopup({
+        //         type: 'image',
+        //         closeOnContentClick: true,
+        //         closeBtnInside: false,
+        //         gallery: {enabled: true}
+        //     });
+        // });
 
         const lightbox_1 = GLightbox({
             selector: '.portfolio-box [data-group]',

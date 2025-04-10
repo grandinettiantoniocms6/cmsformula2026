@@ -89,7 +89,7 @@ if($descriptionBlocco){
                                 <!-- start gallery item -->
                                 <div class="gallery-box transition-inner-all">
                                     @if(trim($foto) != "")
-                                        <a href="{{ $foto }}" data-group="lightbox-group-gallery-item-6" title="Lightbox gallery image title">
+                                        <a href="{{ $foto }}" data-group="lightbox-group-gallery-item-6">
                                             <div class="position-relative bg-dark-gray">
                                                 <img src="{{ $foto }}" alt="" />
                                                 <div class="d-flex align-items-center flex-column justify-content-end h-100 w-100 gallery-hover p-45px">
