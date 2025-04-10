@@ -95,8 +95,8 @@ if($admin_template->nav_style){
     <!-- javascript libraries -->
     <script src="{{ url("templates/Crafto/js/jquery.js") }}"></script>
     <script src="{{ url("templates/Crafto/js/vendors.min.js") }}"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js" defer></script>
-    <script src="{{ url("templates/Crafto/js/main.js") }}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="{{ url("templates/Crafto/js/main.js") }}" defer></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
