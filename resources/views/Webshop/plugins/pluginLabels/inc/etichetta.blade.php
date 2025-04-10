@@ -76,13 +76,13 @@
                 </div>
             @endif
 
-            @if($label->ingredients && trim($label->ingredients != "<p><br></p>"))
+            @if($label->ingredients && trim($label->ingredients) != "<p><br></p>")
                 <div id="recipe-container">
                     <h3 id="recipe">{!! $label->ingredients !!}</h3>
                 </div>
             @endif
 
-            @if($label->description && trim($label->description != "<p><br></p>"))
+            @if($label->description && trim($label->description) != "<p><br></p>")
                 <div id="description-container">
                     <h2 id="description">{!! $label->description !!}</h2>
                 </div>
