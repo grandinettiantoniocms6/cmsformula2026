@@ -19,7 +19,7 @@ $shopSetting = \App\Models\ShopSettings::first();
 @endsection
 
 @section('recaptcha')
-    @if($plugin->show_form_contact == 1 && $adminPlugin->version < 3)
+    @if($plugin->show_form_contact == 1 && $adminPlugin->version <= 3)
          @include('common.recaptcha')
     @endif
 @endsection

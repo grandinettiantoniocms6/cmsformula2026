@@ -407,6 +407,9 @@ $shopSetting = \App\Models\ShopSettings::first();
                                     &nbsp;&nbsp; <p><a class="btn btn-primary" href="#block-product-contact"><!--i class="fas fa-euro-sign"></i--> {{ @$labels['richiedi-preventivo'] }} </a></p>
                                 @endif
                             @else
+                                @if($plugin->show_form_contact == 1)
+                                    &nbsp;&nbsp; <p><a class="btn btn-primary" href="#block-product-contact"><!--i class="fas fa-euro-sign"></i--> {{ @$labels['richiedi-preventivo'] }} </a></p>
+                                @endif
 
                                 @if($shopSetting->is_add_to_wishlist)
                                     @if(\Session::has("user_id"))
