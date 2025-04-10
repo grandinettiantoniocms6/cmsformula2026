@@ -36,7 +36,6 @@ if($descriptionBlocco){
             <div class="col">
                 <ul class="image-gallery-style-02 gallery-wrapper grid grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-{{ $item->col }}col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-large">
                     <li class="grid-sizer"></li>
-
                     @if($array)
                         @foreach($array as $value)
                                 <?php
@@ -123,10 +122,8 @@ if($descriptionBlocco){
 
                         @endforeach
                     @endif
-
                 </ul>
-
-        </div>
+            </div>
 
             <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
                 <ul class="pagination pagination-style-01 fs-13 fw-500 mb-0">
@@ -135,10 +132,6 @@ if($descriptionBlocco){
                     @endif
                 </ul>
             </div>
-
         </div>
-
-
     </div>
-
 </section>

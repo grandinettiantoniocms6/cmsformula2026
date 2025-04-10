@@ -24,14 +24,12 @@ if($descriptionBlocco){
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
 <section class="ps-0 pt-5 pb-5">
     <div class="{{ $item->fullwidth }}">
-
-            <div class="row align-items-center mb-6">
-                <div class="col-md-9 last-paragraph-no-margin">
-                    <h3 class="text-dark-gray fw-600 ls-minus-1px mb-20px">{{ $titleBlocco[\App::getLocale()] }}</h3>
-                    <p class="w-95 sm-w-100">{{ $descriptionBlocco[\App::getLocale()] }}</p>
-                </div>
+        <div class="row align-items-center mb-6">
+            <div class="col-md-9 last-paragraph-no-margin">
+                <h3 class="text-dark-gray fw-600 ls-minus-1px mb-20px">{{ $titleBlocco[\App::getLocale()] }}</h3>
+                <p class="w-95 sm-w-100">{{ $descriptionBlocco[\App::getLocale()] }}</p>
             </div>
-        @endif
+        </div>
 
         <div class="row">
             <div class="col">
@@ -118,9 +116,7 @@ if($descriptionBlocco){
                     @endif
 
                 </ul>
-
             </div>
-
             <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
                 <ul class="pagination pagination-style-01 fs-13 fw-500 mb-0">
                     @if($item->is_pagination)
@@ -128,13 +124,10 @@ if($descriptionBlocco){
                     @endif
                 </ul>
             </div>
-
         </div>
-
-
     </div>
-
 </section>
+@endif
 
 
 
