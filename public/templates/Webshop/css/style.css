@@ -20612,7 +20612,6 @@ input[type=number] {
   top: 0;
   transition: all 0.5s;
   width: 100%;
-  aspect-ratio: 36/42;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -20622,7 +20621,6 @@ input[type=number] {
   opacity: 1;
   transition: all 0.5s;
   width: 100%;
-  aspect-ratio: 36/42;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -20919,7 +20917,6 @@ a.card-variant:focus {
 }
 
 .single-product .gallery-wrap .product-image img {
-  aspect-ratio: 1/1;
   -o-object-fit: cover;
      object-fit: cover;
   cursor: crosshair;
