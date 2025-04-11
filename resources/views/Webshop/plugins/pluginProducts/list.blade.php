@@ -52,12 +52,12 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
     @section('content')
         @if($agent->isMobile() || $agent->isTablet())
             @if($pluginSetting->show_banner)
-                <section class="page-title-block image-wrapper bg-overlay bg-overlay-black-60 jarallax block-parallax" @if($plugin->image_height) style="height: {{ $plugin->image_height }}px" @endif>
+                <section class="page-title-block image-wrapper bg-overlay bg-overlay-black-60 __jarallax block-parallax" @if($plugin->image_height) style="height: {{ $plugin->image_height }}px" @endif>
                     @if($category && $category->image)
-                        <img class="jarallax-img" src="{{ url($category->image) }}" alt="{{ env('APP_NAME') }}" @if($plugin->image_height) height="{{ $plugin->image_height }}" @endif width="auto">
+                        <img class="img-cover __jarallax-img" src="{{ url($category->image) }}" alt="{{ env('APP_NAME') }}" @if($plugin->image_height) height="{{ $plugin->image_height }}" @endif width="auto">
                     @else
                         @if($plugin->image)
-                            <img class="jarallax-img" src="{{ url($plugin->image) }}" alt="{{ env('APP_NAME') }}" @if($plugin->image_height) height="{{ $plugin->image_height }}" @endif width="auto">
+                            <img class="img-cover __jarallax-img" src="{{ url($plugin->image) }}" alt="{{ env('APP_NAME') }}" @if($plugin->image_height) height="{{ $plugin->image_height }}" @endif width="auto">
                         @endif
                     @endif
                     <div class="container-fluid container-2xl">
