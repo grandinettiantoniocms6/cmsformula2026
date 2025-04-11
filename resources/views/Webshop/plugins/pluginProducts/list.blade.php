@@ -69,10 +69,10 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
             @else
                 <div class="container">
                     @if($category)
-                        <h1 class="page-title">{{ $category->name }}</h1>
+                        <h1 class="page-title text-white">{{ $category->name }}</h1>
                     @else
-                        @if($plugin->title)<h1 class="page-title">{{ $plugin->title }}</h1>@endif
-                        @if($plugin->subtitle)<div class="page-subtitle">{{ $plugin->subtitle }}</div>@endif
+                        @if($plugin->title)<h1 class="page-title text-white">{{ $plugin->title }}</h1>@endif
+                        @if($plugin->subtitle)<div class="page-subtitle text-white">{{ $plugin->subtitle }}</div>@endif
                     @endif
                 </div>
             @endif
