@@ -77,7 +77,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                 </div>
             @endif
         @else
-            <section class="image-wrapper bg-overlay bg-overlay-black-60 jarallax block-parallax py-5" @if($plugin->image_height) style="height: {{ $plugin->image_height }}px" @endif>
+            <section class="image-wrapper bg-overlay bg-overlay-black-60 __jarallax block-parallax py-5" @if($plugin->image_height) style="height: {{ $plugin->image_height }}px" @endif>
                 @if($category && $category->image)
                     <img class="jarallax-img" alt="{{ env('APP_NAME') }}" src="{{ url($category->image) }}" @if($plugin->image_height) height="{{ $plugin->image_height }}" @endif width="auto">
                 @else
