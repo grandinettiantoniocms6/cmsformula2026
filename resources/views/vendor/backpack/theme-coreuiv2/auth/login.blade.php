@@ -3,7 +3,7 @@
 @section('content')
     <div class="row justify-content-center no-gutters">
         <div class="col-lg-6">
-            <div class="card bg-transparent border-0 shadow-none h-100 mb-0">
+            <div class="card bg-transparent border-0 h-100 mb-0">
                 <div class="card-body d-flex flex-column justify-content-center">
                     <h3 class="text-center text-md-left mb-3">
                         <?php $website = \App\Models\WebsiteSetting::first(); ?>
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="card">
+            <div class="card mb-0 shadow">
                 <div class="card-body px-4 px-lg-5">
                     <h3 class="text-center font-weight-semi-bold">Accedi</h3>
                     <form role="form" method="POST" action="{{ route('backpack.auth.login') }}">

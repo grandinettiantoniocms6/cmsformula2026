@@ -21,7 +21,7 @@
                         <img class="img-fluid" src="{{ url($template->image_name) }}">
                         <div class="card-body">
                             <p>{{ $template->description }}</p>
-                            <h5>{{ number_format($template->price, 2, ",", ".") }} &euro;</h5>
+                            <h5 class="font-weight-bold mb-3">{{ number_format($template->price, 2, ",", ".") }} &euro;</h5>
                             <a href="{{ $template->url }}" class="btn btn-block btn-primary" target="_blank">Vedi anteprima</a>
                         </div>
                         <div class="card-footer">
@@ -31,13 +31,19 @@
                                 <input type="hidden" name="template" value="{{ $template->name }}">
 
                                 @if($template->name == "Crafto")
-                                    <div class="form-group">
-                                        <label class="font-weight-semi-bold">Nav Style</label>
-                                        <input type="text" class="form-control" name="nav_style" value="{{ $template->nav_style }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="font-weight-semi-bold">Inc</label>
-                                        <input type="text" class="form-control" name="inc" value="{{ $template->inc }}">
+                                    <div class="row gutters-pages">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label class="font-weight-semi-bold">Nav Style</label>
+                                                <input type="text" class="form-control" name="nav_style" value="{{ $template->nav_style }}">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label class="font-weight-semi-bold">Inc</label>
+                                                <input type="text" class="form-control" name="inc" value="{{ $template->inc }}">
+                                            </div>
+                                        </div>
                                     </div>
                                 @endif
 
