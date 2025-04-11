@@ -61,9 +61,9 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                         @endif
                     @endif
                     <div class="container-fluid container-2xl">
-                        @if($plugin->title)<h1 class="title">{{ $plugin->title }}</h1>@endif
-                        @if($plugin->subtitle)<div class="subtitle">{{ $plugin->subtitle }}</div>@endif
-                        @if($category)<h1 class="title">{{ $category->name }}</h1>@endif
+                        @if($plugin->title)<h1 class="title text-white">{{ $plugin->title }}</h1>@endif
+                        @if($plugin->subtitle)<div class="subtitle text-white">{{ $plugin->subtitle }}</div>@endif
+                        @if($category)<h1 class="title text-white">{{ $category->name }}</h1>@endif
                     </div>
                 </section>
             @else
