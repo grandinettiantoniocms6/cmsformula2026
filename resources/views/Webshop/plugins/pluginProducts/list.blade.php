@@ -79,18 +79,18 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
         @else
             <section class="image-wrapper bg-overlay bg-overlay-black-60 __jarallax block-parallax py-5" @if($plugin->image_height) style="height: {{ $plugin->image_height }}px" @endif>
                 @if($category && $category->image)
-                    <img class="jarallax-img" alt="{{ env('APP_NAME') }}" src="{{ url($category->image) }}" @if($plugin->image_height) height="{{ $plugin->image_height }}" @endif width="auto">
+                    <img class="img-cover __jarallax-img" alt="{{ env('APP_NAME') }}" src="{{ url($category->image) }}" @if($plugin->image_height) height="{{ $plugin->image_height }}" @endif width="auto">
                 @else
                     @if($plugin->image)
-                        <img class="jarallax-img" alt="{{ env('APP_NAME') }}" src="{{ url($plugin->image) }}" @if($plugin->image_height) height="{{ $plugin->image_height }}" @endif width="auto">
+                        <img class="img-cover __jarallax-img" alt="{{ env('APP_NAME') }}" src="{{ url($plugin->image) }}" @if($plugin->image_height) height="{{ $plugin->image_height }}" @endif width="auto">
                     @endif
                 @endif
                 <div class="container">
                     @if($category)
-                        <h1 class="title">{{ $category->name }}</h1>
+                        <h1 class="title text-white">{{ $category->name }}</h1>
                     @else
-                        @if($plugin->title)<h1 class="title">{{ $plugin->title }}</h1>@endif
-                        @if($plugin->subtitle)<div class="subtitle">{{ $plugin->subtitle }}</div>@endif
+                        @if($plugin->title)<h1 class="title text-white">{{ $plugin->title }}</h1>@endif
+                        @if($plugin->subtitle)<div class="subtitle text-white">{{ $plugin->subtitle }}</div>@endif
                     @endif
                 </div>
             </section>
