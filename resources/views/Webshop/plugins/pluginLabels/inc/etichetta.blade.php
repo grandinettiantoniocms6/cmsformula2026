@@ -129,14 +129,14 @@
 
                 @if($label->is_address_footer)
                     @if($label->lang == 'it')
-                        <div class="title">Prodotto e confezionato da:</div>
+                        <div>Prodotto e confezionato da:</div>
                     @endif
                     @if($label->lang == 'en')
                        <div class="title">Produced and packaged by:</div>
                     @endif
                     @if($label->lang == 'it/en')
-                        <div class="title">Prodotto e confezionato da:</div>
-                        <div class="title">Produced and packaged by:</div>
+                        <div>Prodotto e confezionato da:</div>
+                        <div>Produced and packaged by:</div>
                     @endif
 
                     {!! $setting->address !!}
