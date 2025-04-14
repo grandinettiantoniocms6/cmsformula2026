@@ -16,6 +16,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
         <meta name="robots" content="index, follow">
     @endif
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
     <link rel="canonical" href="{{ env('APP_URL') }}<?php echo $_SERVER['REQUEST_URI'];?>">
 
     @include('common.consent_solution_iubenda')
@@ -94,7 +95,8 @@ if($admin_template->nav_style){
     <!-- javascript libraries -->
     <script src="{{ url("templates/Crafto/js/jquery.js") }}"></script>
     <script src="{{ url("templates/Crafto/js/vendors.min.js") }}"></script>
-    <script src="{{ url("templates/Crafto/js/main.js") }}"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="{{ url("templates/Crafto/js/main.js") }}" defer></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
