@@ -162,7 +162,7 @@ $optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray()
                     @endif
 
                     <div id="box_pagination" class="w-100">
-                        {{ $products->links() }}
+                        {{ $products->appends($_GET)->links() }}
                     </div>
 
                     {!! $pluginSetting->message_info_list_products !!}
