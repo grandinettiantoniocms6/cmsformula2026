@@ -49,7 +49,10 @@ class PluginProductsController extends Controller
         $referer = str_replace(env("APP_URL")."/", "", $referer);
 
         $temp = explode("/", trim($referer));
-        return redirect()->to("{$temp[0]}?q=$q");
+
+        $temp_finale = explode("?", $temp[0]);
+
+        return redirect()->to("/{$temp_finale[0]}?q=$q");
 
         /*dd($temp);
         $lang = \App::getLocale();
