@@ -17,7 +17,7 @@
 
     <main class="main">
 
-        <div class="container-fluid page-header bg-light">
+        <div class="container-fluid page-header">
             <div class="row align-items-end">
                 <div class="col-auto">
                     @yield('header')

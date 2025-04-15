@@ -51,7 +51,7 @@ if(!$product){
                         <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
                             @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
                                 <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
-                                    <a href="/admin/pluginProductsImages/create?id={{ request()->get('id') }}" class="btn btn-primary btn-sm" data-style="zoom-in">
+                                    <a href="/admin/pluginProductsImages/create?id={{ request()->get('id') }}" class="btn btn-dark btn-sm" data-style="zoom-in">
                                         <span class="ladda-label"><i class="la la-plus"></i> Aggiungi foto</span>
                                     </a>
                                 </div>

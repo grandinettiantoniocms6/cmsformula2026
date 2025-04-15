@@ -30,7 +30,7 @@
           <div class="col-sm-6">
             @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
               <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
-                  <a href="/admin/shopCompanies/create?user_id={{ $user->id }}" class="btn btn-primary btn-sm" data-style="zoom-in">
+                  <a href="/admin/shopCompanies/create?user_id={{ $user->id }}" class="btn btn-dark btn-sm" data-style="zoom-in">
                       <span class="ladda-label"><i class="la la-plus"></i> Nuovo indirizzo</span>
                   </a>
               </div>

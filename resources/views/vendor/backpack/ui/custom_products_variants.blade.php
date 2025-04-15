@@ -193,7 +193,7 @@ $count_figli = \App\Models\PluginProducts::where("group_id", request()->get('gro
                 <div class="col-sm-6">
                     @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
                         <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
-                            <a href="/admin/pluginProducts/create?group_id={{ request()->get('group_id') }}" class="btn btn-primary btn-sm" data-style="zoom-in">
+                            <a href="/admin/pluginProducts/create?group_id={{ request()->get('group_id') }}" class="btn btn-dark btn-sm" data-style="zoom-in">
                                 <span class="ladda-label"><i class="la la-plus"></i> Aggiungi variante</span>
                             </a>
 
@@ -205,7 +205,7 @@ $count_figli = \App\Models\PluginProducts::where("group_id", request()->get('gro
                             @endif
 
                             <div class="dropdown show d-inline-block">
-                                <a class="btn btn-light btn-sm dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
+                                <a class="btn btn-success btn-sm dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
                                 <div class="dropdown-menu" aria-labelledby="esporta">
                                     <button type="submit" class="dropdown-item" name="button" value="delete_variants" form="formSave">Cancella</button>
                                 </div>

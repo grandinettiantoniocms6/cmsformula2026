@@ -60,7 +60,7 @@
                 @include('crud::inc.button_stack', ['stack' => 'top'])
 
                   <div class="dropdown d-inline-block show">
-                      <a class="btn btn-light btn-sm dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <a class="btn btn-success btn-sm dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           Azioni
                       </a>
 

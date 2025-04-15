@@ -38,7 +38,7 @@ if(request()->has('block')){
             @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
 
               <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
-                <a href="/admin/{{ request()->get('block') }}/create?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi nuovo</span></a>
+                <a href="/admin/{{ request()->get('block') }}/create?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-dark" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi nuovo</span></a>
                 @if($showDropzone)
                 <a href="/admin/dropzone?table={{ $adminBlock->name_table }}&id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-warning" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi multi</span></a>
                 @endif
