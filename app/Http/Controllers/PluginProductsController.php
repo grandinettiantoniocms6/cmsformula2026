@@ -44,12 +44,20 @@ class PluginProductsController extends Controller
     public function search_results(Request $request){
 
         $q = trim(addslashes($request->get('search')));
+
+        $referer = $_SERVER['HTTP_REFERER'];
+        $referer = str_replace(env("APP_URL")."/", "", $referer);
+
+        $temp = explode("/", trim($referer));
+        return redirect()->to("{$temp[0]}?q=$q");
+
+        /*dd($temp);
         $lang = \App::getLocale();
         $lang_ = strtoupper($lang);
         $slug_prodotti = env("PLUGIN_PRODUCTS_URL_$lang_");
         $page = Page::whereRaw("slug like '%$slug_prodotti%'")->where("is_active", 1)->first();
 
-        return redirect()->to("{$page->slug}?q=$q");
+        return redirect()->to("{$page->slug}?q=$q");*/
     }
 
     public function pluginProducts($slug = null, Request $request)
