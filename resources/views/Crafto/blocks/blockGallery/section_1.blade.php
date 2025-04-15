@@ -36,7 +36,6 @@ if($descriptionBlocco){
             <div class="col">
                 <ul class="image-gallery-style-06 gallery-wrapper grid grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-{{ $item->col }}col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-large">
                     <li class="grid-sizer"></li>
-
                     @if($array)
                         @foreach($array as $value)
                                 <?php
@@ -87,11 +86,10 @@ if($descriptionBlocco){
 
 
                             <li class="grid-item transition-inner-all atropos gallery-box transition-inner-all jg-entry jg-entry-visible" data-atropos data-atropos-perspective="1150" data-anime='{"scale": [0.9, 1], "translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-
                                 <!-- start gallery item -->
                                 <div class="gallery-box transition-inner-all">
                                     @if(trim($foto) != "")
-                                        <a href="{{ $foto }}" data-group="lightbox-group-gallery-item-6" title="Lightbox gallery image title">
+                                        <a href="{{ $foto }}" data-group="lightbox-group-gallery-item-6">
                                             <div class="position-relative bg-dark-gray">
                                                 <img src="{{ $foto }}" alt="" />
                                                 <div class="d-flex align-items-center flex-column justify-content-end h-100 w-100 gallery-hover p-45px">
@@ -106,24 +104,16 @@ if($descriptionBlocco){
                                                             <p> {!! $description[\App::getLocale()] !!}</p>
                                                         @endif
                                                     @endif
-
-
                                                 </div>
                                             </div>
                                         </a>
                                     @endif
                                 </div>
-
-
-
-                                    </li>
-
+                            </li>
                         @endforeach
                     @endif
-
                 </ul>
-
-        </div>
+            </div>
 
             <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
                 <ul class="pagination pagination-style-01 fs-13 fw-500 mb-0">
@@ -132,10 +122,6 @@ if($descriptionBlocco){
                     @endif
                 </ul>
             </div>
-
         </div>
-
-
     </div>
-
 </section>

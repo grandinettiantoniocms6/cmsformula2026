@@ -99,7 +99,7 @@
         }
 
         #wrapper-mini .title-container h1 {
-            font-size: 11.5px;
+            font-size: 13.5px;
         }
         #wrapper-medium .title-container h1 {
             font-size: 17px;
@@ -113,7 +113,7 @@
             font-size: 10px;
         }
         #wrapper-mini .address-container .title {
-            font-size: 10px;
+            font-size: 12px;
         }
 
         #wrapper-medium .address-container {
@@ -134,7 +134,7 @@
 
         #logo-container img {
             display: block;
-            margin-bottom: 25px;
+            margin-bottom: 10px;
             width: 100%;
         }
         .title-container {
@@ -152,7 +152,7 @@
             padding: 0 5%;
         }
         #description-container {
-            margin: 15px 0;
+            margin: 7px 0;
             text-align: center;
             color: #7d5943;
             padding: 0 10%;
@@ -163,7 +163,7 @@
             font-weight: 300;
         }
         #wrapper-mini #recipe-container {
-            margin: 12px 0;
+            margin: 4px 0;
         }
         #wrapper-mini #recipe-container h3 {
             font-size: 9px;
@@ -172,20 +172,20 @@
         #description-container h2 {
             font-size: 9px;
             font-weight: 300;
-            border-top: 1px solid #DEC7A4;
-            border-bottom: 1px solid #DEC7A4;
+            /*border-top: 1px solid #DEC7A4;
+            border-bottom: 1px solid #DEC7A4;*/
             line-height: 1.1;
-            padding-top: 10px;
-            padding-bottom: 10px;
+            padding-top: 0px;
+            padding-bottom: 0px;
         }
         #wrapper-mini #description-container h2 {
             font-size: 9px;
         }
         #wrapper-mini #description-container {
-            margin: 12px 0;
+            margin: 1px 0;
         }
         #produced-container {
-            margin-top: 20px;
+            margin-top: 10px;
             margin-bottom: 15px;
             text-align: center;
             color: #7d5943;
@@ -196,13 +196,13 @@
             margin-bottom: 9px;
         }
         #wrapper-mini #produced-container {
-            margin-top: 12px;
-            margin-bottom: 10px;
-            font-size: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 8px;
         }
         .footer-container {
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin-top: 8px;
+            margin-bottom: 8px;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center center;
@@ -217,17 +217,17 @@
             text-align: center;
         }
         .address-container .title {
-            margin-bottom: 5px;
+            margin-bottom: 1px;
             font-weight: 600;
             font-size: 9px;
         }
         #weight-container {
-            margin: 20px 4% 0;
+            margin: 1px 4% 0;
             color: #7d5943;
         }
         #weight-container .small-border {
             border-top: 1px solid #DEC7A4;
-            margin: auto auto 12px;
+            margin: auto auto 4px;
         }
         #weight-container table {
             margin: 0;
@@ -257,7 +257,7 @@
         }
 
         #tabella-nutrizionale {
-            margin: 20px 0;
+            margin: 5px 0;
             padding: 0 10%;
         }
         #tabella-nutrizionale table {
@@ -269,7 +269,7 @@
         }
         #tabella-nutrizionale table th,
         #tabella-nutrizionale table td {
-            padding: 5px;
+            padding: 2px;
             border: 1px solid #DEC7A4;
         }
         #tabella-nutrizionale table tr td:last-child {
@@ -277,7 +277,7 @@
         }
         #wrapper-mini #tabella-nutrizionale {
             padding: 0 7%;
-            margin: 15px 0;
+            margin: 5px 0;
         }
         #wrapper-mini #tabella-nutrizionale table {
             font-size: 8px;
@@ -297,7 +297,7 @@
             page-break-inside: avoid;
         }
         .label-wrapper {
-            padding: 25px 0 15px;
+            padding: 8px 0 10px;
             background-color: #F4E0B9;
             vertical-align: middle;
             font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Oxygen, Fira Sans, Droid Sans, Arial, sans-serif;
@@ -313,7 +313,7 @@
 
         #barcode {
             text-align: center;
-            margin: 20px 0 0;
+            margin: 5px 0 0;
             padding: 0 15px;
         }
         #barcode-wrapper {
