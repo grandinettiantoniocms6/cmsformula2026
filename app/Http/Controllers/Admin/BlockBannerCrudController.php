@@ -134,6 +134,9 @@ class BlockBannerCrudController extends CrudController
                 'name'        => 'col',
                 'label'   => 'Quanti Banner vuoi visualizzare per riga?',
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class'       => 'custom-select',
+                ],
                 'options'     => [12 => '1 Banner', 6 => '2 Banner', 4 => '3 Banner', 3 => '4 Banner'],
                 'allows_null' => false,
                 'default'     => 3,
@@ -144,6 +147,9 @@ class BlockBannerCrudController extends CrudController
                 'name'        => 'style',
                 'label'       => "Seleziona stile",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class'       => 'custom-select',
+                ],
                 'options'     => [1 => 'Style 1: senza effetto Zoom-In stile metro', 2 => 'Style 2: con effetto Zoom-In e spaziatura'],
                 'allows_null' => false,
                 'default'     => 1,
@@ -155,6 +161,9 @@ class BlockBannerCrudController extends CrudController
                 'name'        => 'fullwidth',
                 'label'   => 'Seleziona larghezza blocco',
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class'       => 'custom-select',
+                ],
                 'options'     => ['container' => 'Normale', 'container-fluid-0' => 'Full Width'],
                 'allows_null' => false,
                 'default'     => 'container',
@@ -197,6 +206,9 @@ class BlockBannerCrudController extends CrudController
                 'name'        => 'type_href',
                 'label'       => "Apertura link pulsante",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class'       => 'custom-select',
+                ],
                 'options'     => ['_blank' => 'Nuova pagina', '_self' => 'Stessa pagina'],
                 'allows_null' => false,
                 'default'     => '_self',

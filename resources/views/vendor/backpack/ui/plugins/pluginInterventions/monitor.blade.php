@@ -56,7 +56,7 @@
                                 @endif
 
 
-                                <div class="col col-sm-auto mb-1"><button type="submit" name="button" value="export" class="btn btn-info btn-block">Esporta</button></div>
+                                <div class="col col-sm-auto mb-1"><button type="submit" name="button" value="export" class="btn btn-dark btn-block">Esporta</button></div>
                         </div>
                     </form>
                     <div class="card-body">

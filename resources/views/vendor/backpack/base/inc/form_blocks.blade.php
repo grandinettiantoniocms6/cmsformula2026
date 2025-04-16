@@ -34,6 +34,6 @@
         </select>
     </div>
     <div class="form-group mx-2">
-        <button type="submit" class="btn btn-info">Aggiungi</button>
+        <button type="submit" class="btn btn-dark">Aggiungi</button>
     </div>
 </div>

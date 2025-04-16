@@ -125,6 +125,9 @@ class BlockReferenceCrudController extends CrudController
                 'name'        => 'style',
                 'label'   => 'Seleziona lo stile',
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => [
                     '1' => 'Style 1',
                     '2' => 'Style 2',
@@ -283,6 +286,9 @@ class BlockReferenceCrudController extends CrudController
                 'name'        => 'col',
                 'label'   => 'Seleziona il numero di colonne',
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ['1' => '1 colonna (NB: servono immagini con larghezza  maggiore di 1800px)', '2' => '2 colonne', '3' => '3 colonne', '4' => '4 colonne' ],
                 'allows_null' => false,
                 'default'     => '3',
@@ -293,6 +299,9 @@ class BlockReferenceCrudController extends CrudController
                 'name'        => 'fullwidth',
                 'label'   => 'Seleziona larghezza blocco',
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
                 'allows_null' => false,
                 'default'     => 'container',
@@ -328,6 +337,9 @@ class BlockReferenceCrudController extends CrudController
                 'name'        => 'type_href',
                 'label'       => "Apertura link pulsante",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ['_blank' => 'Nuova pagina', '_self' => 'Stessa pagina'],
                 'allows_null' => false,
                 'default'     => '_self',

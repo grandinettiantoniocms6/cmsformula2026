@@ -199,6 +199,9 @@ class BlockSlideshowCrudController extends CrudController
                             'name'        => 'style',
                             'label'       => "Seleziona layout da Template",
                             'type'        => 'select_from_array',
+                            'attributes' => [
+                                'class'       => 'custom-select',
+                            ],
                             'options'     => [1 => 'Style 1', 2 => 'Style 2', 3 => 'Style 3' ],
                             'allows_null' => false,
                             'default'     => 1,
@@ -219,6 +222,9 @@ class BlockSlideshowCrudController extends CrudController
                         'name'        => 'animate_in',
                         'label'       => "Animazione ingresso",
                         'type'        => 'select_from_array',
+                        'attributes' => [
+                            'class' => 'custom-select',
+                        ],
                         'options'     => [
                             'animate__fadeIn' => 'fadeIn',
                             'animate__fadeInDown' => 'fadeInDown',
@@ -237,6 +243,9 @@ class BlockSlideshowCrudController extends CrudController
                         'name'        => 'animate_out',
                         'label'       => "Animazione uscita",
                         'type'        => 'select_from_array',
+                        'attributes' => [
+                            'class' => 'custom-select',
+                        ],
                         'options'     => [
                             'animate__fadeOut' => 'fadeOut',
                             'animate__fadeOutDown' => 'fadeOutDown',
@@ -284,6 +293,9 @@ class BlockSlideshowCrudController extends CrudController
                         'name'        => 'effect',
                         'label'       => "Seleziona un effetto slide",
                         'type'        => 'select_from_array',
+                        'attributes' => [
+                            'class' => 'custom-select',
+                        ],
                         'options'     => ['slide' => 'Slide', 'fade' => 'Fade', 'cube' => 'Cube', 'coverflow' => 'Coverflow', 'flip' => 'Flip', 'creative' => 'Creative' ],
                         'allows_null' => false,
                         'default'     => 'slide',
@@ -429,6 +441,9 @@ class BlockSlideshowCrudController extends CrudController
                         'name'        => 'text_align',
                         'label'       => "Allineamento Titolo e Sottotitolo",
                         'type'        => 'select_from_array',
+                        'attributes' => [
+                            'class' => 'custom-select',
+                        ],
                         'options'     => ['1' => 'In alto a sinistra', '2' => 'In alto al Centro', '3' => 'In alto a destra', '4' => 'In centro a sinistra', '5' => 'In centro al centro', '6' => 'In centro a destra', '7' => 'In basso a sinistra', '8' => 'In basso al centro', '9' => 'In basso a destra'],
                         'allows_null' => false,
                         'default'     => '4',

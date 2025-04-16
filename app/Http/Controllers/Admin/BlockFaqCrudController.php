@@ -111,6 +111,9 @@ class BlockFaqCrudController extends CrudController
                 'name'        => 'fullwidth',
                 'label'   => 'Seleziona larghezza blocco',
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
                 'allows_null' => false,
                 'default'     => 'container',
@@ -124,6 +127,9 @@ class BlockFaqCrudController extends CrudController
                     'name'        => 'style',
                     'label'       => "Seleziona uno stile",
                     'type'        => 'select_from_array',
+                    'attributes' => [
+                        'class' => 'custom-select',
+                    ],
                     'options'     => [1 => 'Style 1', 2 => 'Style 2'],
                     'allows_null' => false,
                     'default'     => 1,

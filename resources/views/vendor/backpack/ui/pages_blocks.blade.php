@@ -23,7 +23,7 @@
             </a>
         @endif
 
-        <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-primary">
+        <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-dark">
             <span><i class="la la-pencil"></i></span>
             <span class="d-none d-md-inline">Layout pagina</span>
         </a>
@@ -77,7 +77,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna unica</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
                             <input type="hidden" name="position" value="<?php echo $position;?>">
                             <input type="hidden" name="col" value="<?php echo $col;?>">

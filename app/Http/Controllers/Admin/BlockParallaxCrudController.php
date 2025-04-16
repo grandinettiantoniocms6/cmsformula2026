@@ -127,6 +127,9 @@ class BlockParallaxCrudController extends CrudController
                 'name'        => 'type_href',
                 'label'       => "Apertura link pulsante",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class'       => 'custom-select',
+                ],
                 'options'     => ['_blank' => 'Nuova pagina', '_self' => 'Stessa pagina'],
                 'allows_null' => false,
                 'default'     => '_self',

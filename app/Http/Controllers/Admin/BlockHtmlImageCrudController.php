@@ -195,6 +195,9 @@ class BlockHtmlImageCrudController extends CrudController
                 'name'        => 'fullwidth',
                 'label'   => 'Seleziona larghezza blocco',
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class'       => 'custom-select',
+                ],
                 'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
                 'allows_null' => false,
                 'default'     => 'container',
@@ -277,6 +280,9 @@ class BlockHtmlImageCrudController extends CrudController
                 'name'        => 'type_href',
                 'label'       => "Apertura link pulsante",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ['_blank' => 'Nuova pagina', '_self' => 'Stessa pagina'],
                 'allows_null' => false,
                 'default'     => '_self',

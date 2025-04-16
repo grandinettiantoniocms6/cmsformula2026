@@ -123,6 +123,9 @@ class BlockDocumentCrudController extends CrudController
                 'name'        => 'col',
                 'label'   => 'Seleziona larghezza colonna',
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class'       => 'custom-select',
+                ],
                 'options'     => ['3' => '4 file per riga', '4' => '3 file per riga', '6' => '2 file per riga', '12' => '1 file per riga'],
                 'allows_null' => false,
                 'default'     => '6',

@@ -130,6 +130,9 @@ class BlockHeroCrudController extends CrudController
                 'name'        => 'style',
                 'label'       => "Seleziona stile",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => [1 => 'Style 1 (immagine a destra)', 2 => 'Style 2 (immagine a sinistra)', 'Style 3 (immagine al centro testi sotto)'],
                 'allows_null' => false,
                 'default'     => 1,
@@ -202,6 +205,9 @@ class BlockHeroCrudController extends CrudController
                 'name'        => 'type_href',
                 'label'       => "Apertura link pulsante",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ['_blank' => 'Nuova pagina', '_self' => 'Stessa pagina'],
                 'allows_null' => false,
                 'default'     => '_self',

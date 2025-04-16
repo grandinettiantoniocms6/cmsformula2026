@@ -117,7 +117,7 @@
                 @endif
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-info">Aggiungi Blocco</button>
+                <button type="submit" class="btn btn-dark">Aggiungi Blocco</button>
             </div>
         </div>
     </div>

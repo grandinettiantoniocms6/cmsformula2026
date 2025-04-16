@@ -144,6 +144,9 @@ class BlockPluginCounterCrudController extends CrudController
                 'name'        => 'style',
                 'label'       => "Seleziona uno style",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class'       => 'custom-select',
+                ],
                 'options'     => [1 => 'Style 1: classico', 2 => 'Style 2: Da fare...'],
                 'allows_null' => false,
                 'default'     => 1,
@@ -155,6 +158,9 @@ class BlockPluginCounterCrudController extends CrudController
                 'name'        => 'col',
                 'label'   => 'Quanti Contatori vuoi visualizzare per riga?',
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class'       => 'custom-select',
+                ],
                 'options'     => [12 => '1 per riga', 6 => '2 per riga', 4 => '3 per riga', 3 => '4 per riga'],
                 'allows_null' => false,
                 'default'     => 3,

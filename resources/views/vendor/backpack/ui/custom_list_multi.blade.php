@@ -56,7 +56,7 @@ if(request()->has('block')){
                           <span class="d-none d-md-inline">Anteprima</span>
                       </a>
                   @endif
-                <a href="/admin/pages_blocks/{{ request()->get('page_id') }}" class="btn btn-sm btn-outline-primary" data-style="zoom-in"><span class="ladda-label"> < Torna alla pagina</span></a>
+                <a href="/admin/pages_blocks/{{ request()->get('page_id') }}" class="btn btn-sm btn-outline-dark" data-style="zoom-in"><span class="ladda-label"> < Torna alla pagina</span></a>
               </div>
             @endif
 

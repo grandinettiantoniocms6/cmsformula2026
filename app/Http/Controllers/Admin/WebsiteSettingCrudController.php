@@ -110,6 +110,9 @@ class WebsiteSettingCrudController extends CrudController
             'type'        => 'select_from_array',
             'options'     => ['logo1' => 'Logo 1', 'logo2' => 'Logo 2', 'logo3' => 'Logo 3'],
             'allows_null' => false,
+            'attributes' => [
+                'class'       => 'custom-select',
+            ],
             'default'     => 'logo1',
             'tab' => 'Sito',
             // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
@@ -554,6 +557,9 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'name'        => 'cookie_position',
             'label'       => "Posizione Banner cookie",
             'type'        => 'select_from_array',
+            'attributes' => [
+                'class' => 'custom-select',
+            ],
             'options'     => ['bottom-left' => 'Basso/Sinistra', 'bottom-right' => 'Basso/Destra'],
             'allows_null' => false,
             'default'     => 'bottom-left',
@@ -1450,6 +1456,9 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'name'        => 'sizeicon',
             'label'   => 'Grandezza Icone Topbar e Social',
             'type'        => 'select_from_array',
+            'attributes' => [
+                'class' => 'custom-select',
+            ],
             'options'     => ['fa-lg' => '1x', 'fa-2x' => '2x', 'fa-3x' => '3x'],
             'allows_null' => false,
             'default'     => 'fa-1x',
@@ -1585,6 +1594,9 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'name'        => 'popup_pages',
             'label'       => "Visibile",
             'type'        => 'select_from_array',
+            'attributes' => [
+                'class' => 'custom-select',
+            ],
             'options'     => ['1' => 'Solo in Homepage', '2' => 'Tutte le pagine'],
             'allows_null' => false,
             'default'     => '1',

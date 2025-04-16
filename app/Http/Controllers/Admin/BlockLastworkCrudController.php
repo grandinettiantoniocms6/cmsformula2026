@@ -133,6 +133,9 @@ class BlockLastworkCrudController extends CrudController
                 'name'        => 'style',
                 'label'       => "Seleziona stile",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => [1 => 'Versione 1', 2 => 'Versione 2'],
                 'allows_null' => false,
                 'default'     => 1,
@@ -233,6 +236,9 @@ class BlockLastworkCrudController extends CrudController
                 'name'        => 'type_href_1',
                 'label'       => "Apertura link progetto 1",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ['_blank' => 'Nuova pagina', '_self' => 'Stessa pagina'],
                 'allows_null' => false,
                 'default'     => '_self',

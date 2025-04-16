@@ -601,6 +601,9 @@ class ShopSettingsCrudController extends CrudController
                 'name'        => 'shop_view_list',
                 'label'       => "Visualizzazione lista prodotti",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ["grid" => "Griglia", "list" => "Lista"],
                 'allows_null' => false,
                 'default'     => "grid",
@@ -611,6 +614,9 @@ class ShopSettingsCrudController extends CrudController
                 'name'        => 'sidebar_position',
                 'label'       => "Posizione sidebar",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ["sx" => "Sinistra", "dx" => "Destra"],
                 'allows_null' => false,
                 'default'     => "sx",

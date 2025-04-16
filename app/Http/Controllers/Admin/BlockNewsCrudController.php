@@ -195,6 +195,9 @@ class BlockNewsCrudController extends CrudController
                 'name'        => 'style',
                 'label'       => "Seleziona stile",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => [1 => 'Style 1', 2 => 'Style 2', 3 => 'Style 3'],
                 'allows_null' => false,
                 'default'     => 1,
@@ -207,6 +210,9 @@ class BlockNewsCrudController extends CrudController
                 'name'        => 'type_order',
                 'label'       => "Tipo ordinamento",
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ['id|DESC' => 'Ultimo inserito', 'id|ASC' => 'Primo inserito', 'title|DESC' => 'Titolo Z-A', 'title|ASC' => 'Titolo A-Z',
                     'date|DESC' => 'Data decrescente', 'date|ASC' => 'Data crescente', 'lft|asc' => 'Manualmente impostato'],
                 'allows_null' => false,
@@ -233,6 +239,9 @@ class BlockNewsCrudController extends CrudController
                     'name'        => 'style',
                     'label'       => "Seleziona stile",
                     'type'        => 'select_from_array',
+                    'attributes' => [
+                        'class' => 'custom-select',
+                    ],
                     'options'     => [1 => 'Style Classico', 2 => 'Style Metro', 3 => 'Variante Style Classico'],
                     'allows_null' => false,
                     'default'     => 1,
@@ -247,6 +256,9 @@ class BlockNewsCrudController extends CrudController
                 'name'        => 'col',
                 'label'   => 'Numero di New per riga',
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ['4' => '4 new per riga', '3' => '3 news per riga', '2' => '2 news per riga', '1' => '1 news per riga' ],
                 'allows_null' => false,
                 'default'     => '6',
@@ -266,6 +278,9 @@ class BlockNewsCrudController extends CrudController
                 'name'        => 'fullwidth',
                 'label'   => 'Seleziona larghezza blocco',
                 'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
                 'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
                 'allows_null' => false,
                 'default'     => 'container',
