@@ -73,7 +73,7 @@
                 </button>
                 <!--<a href="{{ route('pages.blocks.delete', [$page->id, $pb->id]) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Cancella"><i class="las la-times"></i></a>-->
                 @if($order == 1 && $is_multi == 0)
-                    <a href="<?php echo $url_order;?>" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Ordina"><i class="la la-arrows-v"></i></a>
+                    <a href="<?php echo $url_order;?>" class="btn btn-dark btn-sm" data-toggle="tooltip" title="Ordina"><i class="la la-arrows-v"></i></a>
                 @endif
             @endif
         @else
@@ -88,7 +88,7 @@
 
             <!--<a href="{{ route('pages.blocks.delete', [$page->id, $pb->id]) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Cancella"><i class="las la-times"></i></a>-->
             @if($order == 1 && $is_multi == 0)
-               <!-- <a href="<?php echo $url_order;?>" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Ordina"><i class="la la-arrows-v"></i></a>-->
+               <!-- <a href="<?php echo $url_order;?>" class="btn btn-dark btn-sm" data-toggle="tooltip" title="Ordina"><i class="la la-arrows-v"></i></a>-->
             @endif
         @endif
 

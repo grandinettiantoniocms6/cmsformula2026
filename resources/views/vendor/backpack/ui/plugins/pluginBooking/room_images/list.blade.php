@@ -55,8 +55,8 @@ if(request()->has('room_id')){
             @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
               <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
 
-                  <a href="/admin/plugin-booking-room-images/create?room_id={{ request()->get('room_id') }}" class="btn btn-primary btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi foto</span></a>
-                  <a href="/admin/plugin-booking-room-images/reorder?room_id={{ request()->get('room_id') }}" class="btn btn-outline-primary btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina gallery camera</span></a>
+                  <a href="/admin/plugin-booking-room-images/create?room_id={{ request()->get('room_id') }}" class="btn btn-dark btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi foto</span></a>
+                  <a href="/admin/plugin-booking-room-images/reorder?room_id={{ request()->get('room_id') }}" class="btn btn-outline-dark btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina gallery camera</span></a>
 
                   <a href="/admin/plugin-booking-room/{{ request()->get('room_id') }}/edit" class="btn btn-warning btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Vai alla struttura</span></a>
                   <a href="/admin/plugin-booking-room?type={{ $item->plugin_booking_type_id }}" class="btn btn-warning btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Torna alla lista</span></a>

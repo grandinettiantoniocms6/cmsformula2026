@@ -4,7 +4,7 @@
         <div class="row align-items-center">
             <div class="col line-height-sm">Servizi Inclusi</div>
             <div class="col-auto">
-                  <button type="button" class="btn btn-primary btn-sm py-1" id="add-service-gratis"><i class="icon-plus fa-15"></i> <span class="d-none d-md-inline">Aggiungi</span></button>
+                  <button type="button" class="btn btn-dark btn-sm py-1" id="add-service-gratis"><i class="icon-plus fa-15"></i> <span class="d-none d-md-inline">Aggiungi</span></button>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
             <div class="row align-items-center">
                 <div class="col line-height-sm">Servizi a Pagamento</div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary btn-sm py-1" id="add-service-payment"><i class="icon-plus fa-15"></i> <span class="d-none d-md-inline">Aggiungi</span></button>
+                    <button type="button" class="btn btn-dark btn-sm py-1" id="add-service-payment"><i class="icon-plus fa-15"></i> <span class="d-none d-md-inline">Aggiungi</span></button>
                 </div>
             </div>
         </div>

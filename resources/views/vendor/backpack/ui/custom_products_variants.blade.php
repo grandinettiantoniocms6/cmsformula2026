@@ -198,7 +198,7 @@ $count_figli = \App\Models\PluginProducts::where("group_id", request()->get('gro
                             </a>
 
                             <!-- Button trigger modal -->
-                            <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">Crea Combinazioni dal Prodotto Padre</a>
+                            <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#exampleModal">Crea Combinazioni dal Prodotto Padre</a>
 
                             @if($count_figli > 0)
                                 <a href="#" class="btn btn-warnin btn-sm" data-toggle="modal" data-target="#exampleModal2">Associazione multipla sulle varianti</a>

@@ -223,7 +223,7 @@ class ShopProductsVariants extends Model
         // <a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="/admin/'.$type.'/'.$this->id.'/clone" class="dropdown-item" data-button-type="clone">Duplica</a>
 
         $html = ''.$modal.'<div class="dropdown">
-                  <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button class="btn btn-dark dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     '.$icon_editing.' Gestione
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

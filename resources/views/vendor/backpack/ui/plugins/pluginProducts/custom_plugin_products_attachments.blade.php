@@ -29,10 +29,10 @@
                 <div class="col-sm-6">
                     @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
                         <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
-                            <a href="/admin/pluginProductsAttachments/create?id={{ $product->id }}" class="btn btn-primary btn-sm" data-style="zoom-in">
+                            <a href="/admin/pluginProductsAttachments/create?id={{ $product->id }}" class="btn btn-dark btn-sm" data-style="zoom-in">
                                 <span class="ladda-label"><i class="la la-plus"></i> Aggiungi allegato</span>
                             </a>
-                            <a href="/admin/pluginProductsAttachments/reorder?id={{ $product->id }}" class="btn btn-outline-primary btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
+                            <a href="/admin/pluginProductsAttachments/reorder?id={{ $product->id }}" class="btn btn-outline-dark btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
                         </div>
                     @endif
                 </div>

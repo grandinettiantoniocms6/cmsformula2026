@@ -19,7 +19,7 @@
                     <div class="col-auto">
                         @if($type)
                             @if($type->is_checkin)
-                                <a class="btn btn-primary btn-sm" href="javascript:add_checkin({{ $room->id }});"><span>Aggiungi</span></a>
+                                <a class="btn btn-dark btn-sm" href="javascript:add_checkin({{ $room->id }});"><span>Aggiungi</span></a>
                             @endif
                         @endif
                     </div>

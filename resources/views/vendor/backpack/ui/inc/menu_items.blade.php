@@ -102,7 +102,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                                 ?>
                             <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginProductsRequests') }}?type=product_id"><i class="nav-icon las la-box-open"></i><span> Richieste
                                         @if($count_not_read > 0)
-                                            <span class="badge badge-info" style="float:right;margin-top:3px;margin-right:-2px">{{ $count_not_read }}</span>
+                                            <span class="badge badge-info">{{ $count_not_read }}</span>
                                         @endif
                                         </span>
                                 </a>
@@ -132,7 +132,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                             <li class="nav-item"><a class="nav-link" href="{{ backpack_url('shopOrders') }}">
                                     <i class="nav-icon las la-shopping-bag"></i> <span>Ordini
                                     @if($count_not_read > 0)
-                                            <span class="badge badge-info" style="float:right;margin-top:3px;margin-right:-2px">{{ $count_not_read }}</span>
+                                            <span class="badge badge-info">{{ $count_not_read }}</span>
                                         @endif
                                     </span>
                                 </a>
@@ -142,7 +142,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                                 ?>
                             <li class="nav-item"><a class="nav-link" href="{{ backpack_url('shopOrdersRequests') }}?type=order_id"><i class="nav-icon las la-box-open"></i><span> Richieste
                                     @if($count_not_read > 0)
-                                            <span class="badge badge-info" style="float:right;margin-top:3px;margin-right:-2px">{{ $count_not_read }}</span>
+                                            <span class="badge badge-info">{{ $count_not_read }}</span>
                                         @endif
                                     </span>
                                 </a>
@@ -157,7 +157,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                                         <span>
                                              Abbonamenti
                                              @if($count_not_read > 0)
-                                                <span class="badge badge-danger" style="float:right;margin-top:3px;margin-right:-2px">{{ $count_not_read }}</span>
+                                                <span class="badge badge-danger">{{ $count_not_read }}</span>
                                             @endif
                                          </span>
                                     </a>
@@ -234,7 +234,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                         <li class="nav-item">
                             <a class="nav-link" href="{{ backpack_url('pluginFormsRequests') }}"><i class="nav-icon las la-box-open"></i> <span> Richieste
                                 @if($count_not_read > 0)
-                                        <span class="badge badge-info" style="float:right;margin-top:3px;margin-right:-2px">{{ $count_not_read }}</span>
+                                        <span class="badge badge-info">{{ $count_not_read }}</span>
                                     @endif
                                 </span>
                             </a>
@@ -357,7 +357,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                             ?>
                         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-booking-reservation') }}'><i class='nav-icon la la-key'></i> <span>Prenotazioni
                                 @if($processed > 0)
-                                        <span class="badge badge-info" style="float:right;margin-top:3px;margin-right:-2px">{{ $processed }}</span>
+                                        <span class="badge badge-info">{{ $processed }}</span>
                                     @endif
                                     </span>
                             </a>

@@ -184,7 +184,7 @@
 
                       <div class="col-auto mr-1">
                           <div class="dropdown show">
-                              <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
+                              <a class="btn btn-sm btn-success dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
                               <div class="dropdown-menu" aria-labelledby="esporta">
                                   <a href="#" class="dropdown-item" data-toggle="modal" data-target="#set-points">Punti</a>
                                   <a href="#" class="dropdown-item" data-toggle="modal" data-target="#set-chiefs">Capi</a>

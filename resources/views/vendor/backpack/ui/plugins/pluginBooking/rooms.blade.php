@@ -35,7 +35,7 @@ $type = \App\Models\PluginBookingType::where("id", \request()->get('type'))->fir
                   <div class="d-print-none with-border">
                       <a href="/admin/plugin-booking-room/create?type={{ $type->id }}" class="btn btn-dark btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi </span></a>
 
-                      <a href="/admin/plugin-booking-room/reorder?type={{ $type->id }}" class="btn btn-outline-primary btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
+                      <a href="/admin/plugin-booking-room/reorder?type={{ $type->id }}" class="btn btn-outline-dark btn-sm" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
                   </div>
               </div>
             @endif

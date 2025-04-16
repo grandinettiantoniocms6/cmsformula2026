@@ -36,7 +36,7 @@
                 @include('crud::inc.button_stack', ['stack' => 'top'])
 
                   <div class="dropdown show d-inline-block">
-                      <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
+                      <a class="btn btn-sm btn-success dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
                       <div class="dropdown-menu" aria-labelledby="esporta">
                           <button type="submit" class="dropdown-item" name="button" value="download_pdf" form="formSave">Scarica PDF</button>
                           <button type="submit" class="dropdown-item" name="button" value="send_email" form="formSave">Invia Email</button>

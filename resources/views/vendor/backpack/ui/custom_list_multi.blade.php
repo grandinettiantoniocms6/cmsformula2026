@@ -42,7 +42,7 @@ if(request()->has('block')){
                 @if($showDropzone)
                 <a href="/admin/dropzone?table={{ $adminBlock->name_table }}&id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-warning" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi multi</span></a>
                 @endif
-                <a href="/admin/{{ request()->get('block') }}/reorder?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-outline-primary" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
+                <a href="/admin/{{ request()->get('block') }}/reorder?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-outline-dark" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
 
                   <?php $page = \App\Models\Page::where("id", request()->get('page_id'))->first(); ?>
                   @if($page->slug == "/")
@@ -61,7 +61,7 @@ if(request()->has('block')){
             @endif
 
             <div class="dropdown show d-inline-block">
-                <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
+                <a class="btn btn-sm btn-success dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
                 <div class="dropdown-menu" aria-labelledby="esporta">
                     <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
                 </div>

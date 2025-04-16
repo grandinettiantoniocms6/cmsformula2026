@@ -8,7 +8,7 @@ $services_list = \App\Models\PluginBookingServices::get()->pluck("name", "id")->
             <div class="col">Servizi aggiuntivi
             </div>
             <div class="col-auto">
-                <a class="btn btn-primary btn-sm py-1" href="#" id="add-service"><span>Aggiungi</span></a>
+                <a class="btn btn-dark btn-sm py-1" href="#" id="add-service"><span>Aggiungi</span></a>
             </div>
         </div>
     </div>

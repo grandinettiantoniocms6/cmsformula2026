@@ -3,7 +3,7 @@
 @section('content')
     <div class="row justify-content-center no-gutters">
         <div class="col-lg-6">
-            <div class="card bg-transparent border-0 h-100 mb-0">
+            <div class="card bg-transparent border-0 h-100 shadow-none mb-0">
                 <div class="card-body d-flex flex-column justify-content-center">
                     <h3 class="text-center text-md-left mb-3">
                         <?php $website = \App\Models\WebsiteSetting::first(); ?>
@@ -63,7 +63,7 @@
 
                         <div class="form-group">
                             <div>
-                                <button type="submit" class="btn btn-block btn-primary">
+                                <button type="submit" class="btn btn-block btn-dark">
                                     {{ trans('backpack::base.login') }}
                                 </button>
                             </div>

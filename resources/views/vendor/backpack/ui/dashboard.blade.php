@@ -94,9 +94,9 @@
     </div>
     <!-- / Antonio -->
 
-    <div class="row gutter-2">
+    <div class="row gutter-2 mt-4">
         <div class="col-sm-4">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-header bg-light font-weight-bold">Grafico risorse CMS</div>
                 <div class="card-body">
                     <canvas id="pieChart" width="400" height="400"></canvas>
@@ -318,7 +318,7 @@
         </div>
 
         @if($adminPlugin && $adminPlugin->version == 3)
-            <div class="col-sm-12">
+            <div class="col-sm-12 mt-3">
                 <div class="card">
                     <div class="card-header bg-light font-weight-bold">Ultimi 5 ordini <span class="text float-right"><a href="/admin/shopOrders">Visualizza tutti</a></span></div>
                     <div class="card-body p-2">
@@ -355,7 +355,7 @@
                                             {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $order->created_at)->format("d/m/Y H:i") }}
                                         </td>
                                         <td class="text-right">
-                                            <a class="btn btn-primary btn-sm" href="/admin/shopOrders/{{ $order->id }}/show">Visualizza</a>
+                                            <a class="btn btn-dark btn-sm" href="/admin/shopOrders/{{ $order->id }}/show">Visualizza</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -574,7 +574,7 @@
         ?>
 
     <!-- Messaggi da Webisland Gest -->
-        <div class="row gutter-2">
+        <div class="row gutter-2 mt-4">
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header bg-light font-weight-bold">News da Webisland.it</div>

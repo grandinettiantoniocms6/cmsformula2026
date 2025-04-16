@@ -145,11 +145,9 @@ class ShopShippingsCrudController extends CrudController
                     }
                 }
 
-                //  <td><input type='hidden' name='area[]' value='{$zona->id}' {$checkedZone}></td>
-
                 $html .= "<tr>
                             <td class='align-middle'><div class='d-flex justify-content-between'>{$zona->name} <input type='hidden' name='area[]' value='{$zona->id}' {$checkedZone}>
-                            <a class='btn btn-sm btn-outline-primary' href='javascript:add_range({$zona->id})'><i class='las la-plus'></i></a></div>
+                            <a class='btn btn-sm btn-outline-dark' href='javascript:add_range({$zona->id})'><i class='las la-plus'></i></a></div>
                             </td>";
                 $html .= "<td class='align-middle'>
                             <table class='table table-sm my-0' id='zona-{$zona->id}'>

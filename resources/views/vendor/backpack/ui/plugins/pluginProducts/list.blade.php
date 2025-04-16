@@ -62,7 +62,7 @@
                 @include('crud::inc.button_stack', ['stack' => 'top'])
 
                   <div class="dropdown d-inline-block show">
-                      <a class="btn btn-sm btn-light dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
+                      <a class="btn btn-sm btn-success dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
                       <div class="dropdown-menu" aria-labelledby="esporta">
                           <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
                           @if(backpack_user()->roles[0]->id == 1)
