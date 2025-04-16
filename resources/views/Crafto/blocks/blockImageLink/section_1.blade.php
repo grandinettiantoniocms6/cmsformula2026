@@ -11,6 +11,7 @@
 
                         $pb = $item->pb;
                         $icon = $value->icon;
+                        $foto = $value->foto;
                         $foto2 = $value->foto2;
                         $foto3 = $value->foto3;
                         $bgcolor = $value->bgcolor;
@@ -215,8 +216,8 @@
 
         <?php $i++;?>
 
-
             @endforeach
+
         @endif
     </div>
 </section>
