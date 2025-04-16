@@ -107,9 +107,9 @@
 
                             $check = "thumb/blocks_images_links/$temp[0]-large.webp";
                             if(file_exists($check)){
-                                $foto = url($check);
+                                $foto3 = url($check);
                             }else{
-                                $foto = url($photo);
+                                $foto3 = url($photo);
                             }
                         }
                         // fine thumb
