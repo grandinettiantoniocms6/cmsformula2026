@@ -40,7 +40,7 @@
                                 @endforeach
                             </select>
                             <input type="text" class="form-control mx-2" name="year" value="{{ $year }}">
-                            <button type="submit" class="btn btn-primary">CARICA</button>
+                            <button type="submit" class="btn btn-dark">CARICA</button>
                         </div>
                     </form>
 

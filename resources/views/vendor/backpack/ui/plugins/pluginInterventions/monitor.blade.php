@@ -44,7 +44,7 @@
                                     <input type="time" class="form-control" name="end" value="{{ $end }}">
                                 </div>
 
-                                <div class="col col-sm-auto mb-1"><button type="submit" name="button" value="carica" class="btn btn-primary btn-block">Carica</button></div>
+                                <div class="col col-sm-auto mb-1"><button type="submit" name="button" value="carica" class="btn btn-dark btn-block">Carica</button></div>
 
                                 <div class="col col-sm-auto mb-1"><a class="btn btn-success btn-block" href="/admin/plugin-interventions/create?data={{ $date_en }}">Aggiungi intervento</a></div>
 

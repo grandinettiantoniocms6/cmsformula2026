@@ -22,7 +22,7 @@
                         <div class="card-body">
                             <p>{{ $template->description }}</p>
                             <h5 class="font-weight-bold mb-3">{{ number_format($template->price, 2, ",", ".") }} &euro;</h5>
-                            <a href="{{ $template->url }}" class="btn btn-block btn-primary" target="_blank">Vedi anteprima</a>
+                            <a href="{{ $template->url }}" class="btn btn-block btn-dark" target="_blank">Vedi anteprima</a>
                         </div>
                         <div class="card-footer">
                             <form method="post" action="{{ route('changeTemplate') }}">

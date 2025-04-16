@@ -30,7 +30,7 @@
                             </select>
                         </div>
 
-                        <button class="btn btn-primary btn-block" type="submit">Esporta</button>
+                        <button class="btn btn-dark btn-block" type="submit">Esporta</button>
                     </form>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                             </div>
                         @endif
 
-                        <button type="submit" name="submit" class="btn btn-primary btn-block"><span>Carica</span></button>
+                        <button type="submit" name="submit" class="btn btn-dark btn-block"><span>Carica</span></button>
                     </form>
                 </div>
             </div>

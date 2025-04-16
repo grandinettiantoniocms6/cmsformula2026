@@ -20,7 +20,7 @@
 
                             <?php $avanti = \Carbon\Carbon::createFromFormat("Y-m-d", $date_en)->addDay()->toDateString();?>
                                 <div class="col-auto mb-1"><a href="/admin/plugin/pluginParking/monitor?data={{ $avanti }}" class="btn btn-light"><span class="d-none d-sm-inline">Avanti</span> <i class="la la-angle-right"></i></a></div>
-                                <div class="col col-sm-auto mb-1"><button type="submit" name="button" value="carica" class="btn btn-primary btn-block">Carica</button></div>
+                                <div class="col col-sm-auto mb-1"><button type="submit" name="button" value="carica" class="btn btn-dark btn-block">Carica</button></div>
                                 <div class="col col-sm-auto mb-1"><button type="submit" name="button" value="export" class="btn btn-info btn-block">Esporta</button></div>
                         </div>
                     </form>

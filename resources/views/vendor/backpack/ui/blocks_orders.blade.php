@@ -24,7 +24,7 @@
                     <div id="block_order">
                         @foreach($content as $k=>$value)
                             <div id="content_{{ $k }}" data-index="{{ $value['title'] }}" data-position="{{ $value['order'] }}">
-                                <span class="btn btn-primary"> {{ $value['title'] }}</span>
+                                <span class="btn btn-dark"> {{ $value['title'] }}</span>
                             </div>
                         @endforeach
                     </div>

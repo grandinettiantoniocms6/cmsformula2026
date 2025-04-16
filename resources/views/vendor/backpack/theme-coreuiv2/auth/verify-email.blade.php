@@ -34,7 +34,7 @@
             <div class="card-footer d-flex align-center">
             <form method="POST" class="col-md-6" action="{{ route('verification.send') }}">
                 @csrf
-                <button type="submit" class="btn btn-sm btn-primary float-start float-left" tabindex="6">{{ trans('backpack::base.verify_email.resend_verification_link') }}</button>   
+                <button type="submit" class="btn btn-sm btn-dark float-start float-left" tabindex="6">{{ trans('backpack::base.verify_email.resend_verification_link') }}</button>
             </form>
             <form method="POST" class="col-md-6" action="{{ backpack_url('logout') }}">
                 @csrf

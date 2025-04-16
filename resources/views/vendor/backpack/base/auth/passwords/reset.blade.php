@@ -75,7 +75,7 @@
 
                         <div class="form-group mb-3">
                             <div>
-                                <button type="submit" class="btn btn-block btn-primary">
+                                <button type="submit" class="btn btn-block btn-dark">
                                     {{ trans('backpack::base.change_password') }}
                                 </button>
                             </div>

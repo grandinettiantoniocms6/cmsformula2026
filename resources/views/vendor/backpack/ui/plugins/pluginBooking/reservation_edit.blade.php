@@ -87,7 +87,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                    <a href="{{ route('pluginBookings.generate_pin', $entry->id) }}" class="btn btn-primary" name="button">Genera</a>
+                    <a href="{{ route('pluginBookings.generate_pin', $entry->id) }}" class="btn btn-dark" name="button">Genera</a>
                 </div>
             </div>
         </div>
@@ -107,7 +107,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                    <a href="{{ route('pluginBookings.send_pin', $entry->id) }}" class="btn btn-primary">Invia</a>
+                    <a href="{{ route('pluginBookings.send_pin', $entry->id) }}" class="btn btn-dark">Invia</a>
                 </div>
             </div>
         </div>
@@ -127,7 +127,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
-                    <a href="{{ route('pluginBookings.send_sollecito', $entry->id) }}" class="btn btn-primary">Invia Sollecito</a>
+                    <a href="{{ route('pluginBookings.send_sollecito', $entry->id) }}" class="btn btn-dark">Invia Sollecito</a>
                 </div>
             </div>
         </div>
@@ -152,7 +152,7 @@
 		    <div class="mb-2 text-right">
 		    	<!-- Single button -->
 				<div class="btn-group">
-				  <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  <button type="button" class="btn btn-sm btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				    {{trans('backpack::crud.language')}}: {{ $crud->model->getAvailableLocales()[request()->input('locale')?request()->input('locale'):App::getLocale()] }} &nbsp; <span class="caret"></span>
 				  </button>
 				  <ul class="dropdown-menu">

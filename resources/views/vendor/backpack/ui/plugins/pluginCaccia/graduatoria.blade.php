@@ -26,8 +26,8 @@
 
                                     <div class="col">
                                         <label>Azioni</label>
-                                        <button type="submit" name="button" value="filtra" class="form-control btn btn-primary">Filtra</button>
-                                        <button type="submit" name="button" value="export" class="form-control btn btn-primary">Esporta</button>
+                                        <button type="submit" name="button" value="filtra" class="form-control btn btn-dark">Filtra</button>
+                                        <button type="submit" name="button" value="export" class="form-control btn btn-dark">Esporta</button>
                                     </div>
                                 </div>
                             </form>

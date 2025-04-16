@@ -21,7 +21,7 @@
                                     <label>Cerca cliente</label>
                                     <select class="form-control select2" id="choose-baseuser" name="baseuser_id"></select>
                                 </div>
-                                <!--<a class="btn btn-primary btn-block" href="#" id="new_client">Nuovo Cliente?</a>-->
+                                <!--<a class="btn btn-dark btn-block" href="#" id="new_client">Nuovo Cliente?</a>-->
                             </div>
                             <div class="card-footer">
                                 <div class="form-group" id="box_baseuser">

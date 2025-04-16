@@ -101,7 +101,7 @@ $count_figli = \App\Models\PluginProducts::where("group_id", request()->get('gro
                                     @endif
 
 
-                                    <button type="submit" class="btn btn-primary" name="button">Crea combinazioni</button>
+                                    <button type="submit" class="btn btn-dark" name="button">Crea combinazioni</button>
                                 </form>
                             </div>
                             <div class="modal-footer">

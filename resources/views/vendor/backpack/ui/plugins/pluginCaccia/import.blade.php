@@ -33,7 +33,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" name="submit" class="btn btn-primary btn-block">Carica</button>
+                        <button type="submit" name="submit" class="btn btn-dark btn-block">Carica</button>
                     </form>
                 </div>
             </div>
