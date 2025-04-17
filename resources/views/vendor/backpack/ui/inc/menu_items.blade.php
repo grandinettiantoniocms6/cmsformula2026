@@ -15,7 +15,7 @@
 
 
 @if(backpack_user()->roles[0]->id == 1)
-    <li class="nav-item"><a class="nav-link" href="{{ backpack_url('elfinder') }}"><i class="hgi hgi-stroke hgi-image-add-02 nav-icon"></i> <span>{{ trans('backpack::crud.file_manager') }}</span></a></li>
+    <x-backpack::menu-item :title="trans('backpack::crud.file_manager')" icon="nav-icon hgi hgi-stroke hgi-image-add-02" :link="backpack_url('elfinder')" />
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#"><i class="hgi hgi-stroke hgi-user-square nav-icon"></i> Accounts</a>
         <ul class="nav-dropdown-items">
@@ -43,7 +43,7 @@
 
 @if(backpack_user()->roles[0]->id == 2)
     @if(env('NASCONDI_FRONTEND') == 0)
-        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('elfinder') }}"><i class="nav-icon hgi hgi-stroke hgi-image-add-02"></i> <span>{{ trans('backpack::crud.file_manager') }}</span></a></li>
+        <x-backpack::menu-item :title="trans('backpack::crud.file_manager')" icon="nav-icon hgi hgi-stroke hgi-image-add-02" :link="backpack_url('elfinder')" />
     @endif
 
     <li class="nav-item nav-dropdown">
@@ -450,4 +450,3 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
     @endforeach
 @endif
 
-<x-backpack::menu-item :title="trans('backpack::crud.file_manager')" icon="nav-icon hgi hgi-stroke hgi-image-add-02" :link="backpack_url('elfinder')" />

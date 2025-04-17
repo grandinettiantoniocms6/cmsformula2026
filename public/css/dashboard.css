@@ -1,0 +1,39 @@
+.footer-fixed .app-body {
+    margin-bottom: 0;
+}
+.map-dashboard {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+.dash-box {
+    overflow-y: auto;
+    padding-right: .75rem;
+    padding-left: .75rem;
+    height: 0;
+}
+.table-classifiche th {
+    padding: 0.3rem 0;
+    width: 20px;
+}
+.carousel-dash {
+    display: flex;
+    flex-grow: 1;
+}
+.carousel-dash .carousel-item .card-body {
+    min-height: 288px;
+}
+.carousel-dash .carousel-item.active {
+    display: flex;
+    flex-grow: 1;
+}
+
+@media screen and (min-width: 1700px) {
+    #column-account {
+        max-width: 480px;
+    }
+    #column-account img {
+        width: 129px;
+        height: 129px;
+    }
+}
