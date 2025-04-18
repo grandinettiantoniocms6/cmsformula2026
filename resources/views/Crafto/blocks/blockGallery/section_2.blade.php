@@ -18,24 +18,25 @@ if($descriptionBlocco){
 }else{
     $descriptionBlocco[\App::getLocale()] = "";
 }
-
 ?>
 
-@if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-<section class="ps-0 pt-5 pb-5">
+<section class="pt-0">
     <div class="{{ $item->fullwidth }}">
 
+        @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
             <div class="row align-items-center mb-6">
-                <div class="col-md-9 last-paragraph-no-margin">
-                    <h3 class="text-dark-gray fw-600 ls-minus-1px mb-20px">{{ $titleBlocco[\App::getLocale()] }}</h3>
-                    <p class="w-95 sm-w-100">{{ $descriptionBlocco[\App::getLocale()] }}</p>
+                <div class="col-12 col-xl-6 col-lg-8 text-center position-relative page-title-double-large">
+                    <div class="d-flex flex-column justify-content-center extra-very-small-screen">
+                        <h1 class="text-dark-gray alt-font ls-minus-1px fw-700 mb-20px">{{ $titleBlocco[\App::getLocale()] }}</h1>
+                        <h2 class="d-inline-block fw-400 ls-0px w-80 xs-w-100 mx-auto">{{ $descriptionBlocco[\App::getLocale()] }}</h2>
+                    </div>
                 </div>
             </div>
         @endif
 
         <div class="row">
-            <div class="col">
-                <ul class="image-gallery-style-04 gallery-wrapper grid grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-{{ $item->col }}col lg-grid-4col md-grid-3col sm-grid-1col xs-grid-1col">
+            <ul class="col-12 filter-content">
+                <ul class="portfolio-classic portfolio-wrapper grid-loading grid grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-{{ $item->col }}col lg-grid-{{ $item->col }}col md-grid-2col sm-grid-2col xs-grid-1col gutter-large text-center">
                     <li class="grid-sizer"></li>
 
                     @if($array)
@@ -86,55 +87,50 @@ if($descriptionBlocco){
 
                                 ?>
 
-                            <li class="grid-item transition-inner-all" data-anime='{"opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                <div class="gallery-box">
+
+                                <!-- start portfolio item -->
+                                <li class="gallery-box grid-item transition-inner-all">
                                     @if(trim($foto) != "")
-                                    <a href="{{ $foto }}" data-group="lightbox-group-gallery-item-4" title="{{ $title[\App::getLocale()] }}">
-                                        <div class="position-relative gallery-image bg-dark-gray" style="background:#e3003b">
-                                            <img src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" />
-                                            <div class="d-flex align-items-center justify-content-center position-absolute top-0px left-0px w-100 h-100 gallery-hover move-left-right">
-                                                <div class="d-flex align-items-center justify-content-center w-70px h-70px rounded-circle border border-2 border-color-transparent-white-very-light">
-                                                    <i class="feather icon-feather-search text-white icon-extra-medium"></i>
+                                        <a href="{{ $foto }}" data-group="lightbox-group-gallery">
+                                            <div class="portfolio-box">
+                                                <div class="portfolio-image bg-gradient-white-dark-transparent">
+                                                    <img src="{{ $foto }}" alt="" />
+
+                                                        <div class="portfolio-hover d-flex justify-content-center flex-column p-35px">
+                                                            <i class="feather icon-feather-search icon-very-medium justify-content-center text-black"></i>
+                                                            @if(trim($title[\App::getLocale()]) != "" || trim($description[\App::getLocale()]) != "")
+                                                                @if(trim($title[\App::getLocale()]) != "")
+                                                                    <div class="alt-font fs-18 text-uppercase text-black fw-600"><span>{{ $title[\App::getLocale()] }}</span></div>
+                                                                @endif
+                                                                @if(trim($description[\App::getLocale()]) != "")
+                                                                    <div class="d-block alt-font fs-14 lh-initial text-uppercase text-black opacity-7"><span>{!! $description[\App::getLocale()] !!}</span></div>
+                                                                @endif
+                                                            @endif
+                                                        </div>
+
                                                 </div>
                                             </div>
-                                        </div>
-                                    </a>
+                                        </a>
                                     @endif
-                                </div>
-
-                                @if(trim($title[\App::getLocale()]) != "" || trim($description[\App::getLocale()]) != "")
-                                    @if(trim($title[\App::getLocale()]) != "")
-                                        <span style="style="font-size: 14px;">{{ $title[\App::getLocale()] }}</span><br>
-                                    @endif
-
-                                    @if(trim($description[\App::getLocale()]) != "")
-                                            <p> {!! $description[\App::getLocale()] !!}</p>
-                                    @endif
-                                @endif
-                            </li>
+                                </li>
 
 
                         @endforeach
                     @endif
-
                 </ul>
-
-            </div>
-
-            <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
-                <ul class="pagination pagination-style-01 fs-13 fw-500 mb-0">
-                    @if($item->is_pagination)
-                        {{ $array->links() }}
-                    @endif
-                </ul>
-            </div>
 
         </div>
 
+        <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
+            <ul class="pagination pagination-style-01 fs-13 fw-500 mb-0">
+                @if($item->is_pagination)
+                    {{ $array->links() }}
+                @endif
+            </ul>
+        </div>
 
     </div>
 
+    </div>
+    </div>
 </section>
-
-
-

@@ -30,10 +30,10 @@ class BlockCarouselRequest extends FormRequest
         if(is_numeric(strpos($_SERVER['QUERY_STRING'], "multi")) || ($_SERVER['REQUEST_METHOD'] == "POST" && is_numeric(strpos($_SERVER['HTTP_REFERER'], "multi")))){
             return [
                 'name' => 'required',
-                'pc' => 'required',
+                /*'pc' => 'required',
                 'notebook' => 'required',
                 'tablet' => 'required',
-                'smartphone' => 'required'
+                'smartphone' => 'required'*/
             ];
         }
 
@@ -65,10 +65,10 @@ class BlockCarouselRequest extends FormRequest
         return [
             'name.required' => 'Nome obbligatorio',
             //'foto.required' => 'Foto obbligatorio',
-            'pc.required' => 'PC obbligatorio',
+            /*'pc.required' => 'PC obbligatorio',
             'notebook.required' => 'Notebook obbligatorio',
             'tablet.required' => 'Tablet obbligatorio',
-            'smartphone.required' => 'Smartphone obbligatorio'
+            'smartphone.required' => 'Smartphone obbligatorio'*/
 
         ];
     }

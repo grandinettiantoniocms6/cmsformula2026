@@ -121,13 +121,35 @@ class BlockHtmlImageCrudController extends CrudController
                 'wrapperAttributes' => ['class' => 'form-group col-md-12']
             ]);
 
+            // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
+            if(env('TEMA') == 'Webshop' ) {
 
-            $this->crud->addField([   // repeatable
-                'name' => 'pb',
-                'label' => 'Spazio tra le righe (0 nullo | 150 massimo ) - Imposta la spaziatura incrementando il valore di 10)',
-                'type' => 'number',
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
-            ]);
+
+                $this->crud->addField([   // repeatable
+                    'name' => 'pb',
+                    'label' => 'Spazio tra le righe (0 nullo | 150 massimo ) - Imposta la spaziatura incrementando il valore di 10)',
+                    'type' => 'number',
+                    'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                ]);
+
+                // Permette di scegliere uno o stili di un blocco (parte html)
+                $this->crud->addField([   // select_from_array
+                    'name' => 'style',
+                    'label' => "Seleziona stile",
+                    'type' => 'select_from_array',
+                    'options' => [
+                        1 => 'Testo a sinistra - Immagini a destra',
+                        2 => 'Immagini a sinistra - Testo a destra',
+                        3 => 'Immagini in alto - Testo in basso',
+                        4 => 'Testo in alto - Immagini in basso'],
+                    'allows_null' => false,
+                    'default' => 1,
+                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                    'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                ]);
+
+            }
+            // FINE CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
 
             // Permette di scegliere uno o stili di un blocco (parte html)
             $this->crud->addField([   // select_from_array
@@ -135,33 +157,11 @@ class BlockHtmlImageCrudController extends CrudController
                 'label' => "Seleziona stile",
                 'type' => 'select_from_array',
                 'options' => [
-                    1 => 'Testo a sinistra - Immagini a destra',
-                    2 => 'Immagini a sinistra - Testo a destra',
-                    3 => 'Immagini in alto - Testo in basso',
-                    4 => 'Testo in alto - Immagini in basso'],
-                'allows_null' => false,
-                'default' => 1,
-                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
-            ]);
+                    1 => 'Style 1',
+                    2 => 'Style 2',
+                    3 => 'Style 3',
+                    4 => 'Style 4'],
 
-
-            // Permette di scegliere uno o stili di un blocco (parte html)
-            $this->crud->addField([   // select_from_array
-                'name' => 'style',
-                'label' => "Seleziona stile",
-                'type' => 'select_from_array',
-                'options' => [
-                        1 => 'Style 1: Carosello con box bianco, titolo e descrizione fissi',
-                        2 => 'Style 2: Carosello con box bianco, titolo e descrizione fissi (Immagine no thumb)',
-                            /*
-
-                             2 => 'Immagini a sinistra - Testo a destra',
-                             3 => 'Immagini in alto - Testo in basso',
-                             4 => 'Testo in alto - Immagini in basso'
-
-                            */
-                ],
                 'allows_null' => false,
                 'default' => 1,
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
@@ -178,8 +178,6 @@ class BlockHtmlImageCrudController extends CrudController
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
 
-
-
             $this->crud->addField([   // repeatable
                 'name'        => 'fullwidth',
                 'label'   => 'Seleziona larghezza blocco',
@@ -189,6 +187,8 @@ class BlockHtmlImageCrudController extends CrudController
                 'default'     => 'container',
                 'wrapper' => ['class' => 'form-group col-md-6']
             ]);
+
+
 
 
         }else{

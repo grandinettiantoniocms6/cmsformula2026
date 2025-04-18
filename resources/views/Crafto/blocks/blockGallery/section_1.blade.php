@@ -33,86 +33,95 @@ if($descriptionBlocco){
         @endif
 
         <div class="row">
-            <div class="col">
-                <ul class="image-gallery-style-06 gallery-wrapper grid grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-{{ $item->col }}col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-large">
+            <ul class="col-12 filter-content">
+                <ul class="portfolio-modern portfolio-wrapper grid-loading grid grid-{{ $item->col }}col xxl-grid-{{ $item->col }}col xl-grid-{{ $item->col }}col lg-grid-{{ $item->col }}col md-grid-2col sm-grid-2col xs-grid-1col gutter-large">
                     <li class="grid-sizer"></li>
-                    @if($array)
-                        @foreach($array as $value)
-                                <?php
-                                $title = json_decode($value->title, true);
-                                if($title === null){
-                                    $title = [];
-                                }
-                                $description = json_decode($value->description, true);
-                                if($description === null){
-                                    $description = [];
-                                }
 
-                                if($title){
-                                    if(!key_exists(\App::getLocale(), $title)){
-                                        $title[\App::getLocale()] = "";
-                                    }
-                                }else{
-                                    $title[\App::getLocale()] = "";
-                                }
+                        @if($array)
+                                @foreach($array as $value)
+                                        <?php
+                                        $title = json_decode($value->title, true);
+                                        if($title === null){
+                                            $title = [];
+                                        }
+                                        $description = json_decode($value->description, true);
+                                        if($description === null){
+                                            $description = [];
+                                        }
 
-                                if($description){
-                                    if(!key_exists(\App::getLocale(), $description)){
-                                        $description[\App::getLocale()] = "";
-                                    }
-                                }else{
-                                    $description[\App::getLocale()] = "";
-                                }
+                                        if($title){
+                                            if(!key_exists(\App::getLocale(), $title)){
+                                                $title[\App::getLocale()] = "";
+                                            }
+                                        }else{
+                                            $title[\App::getLocale()] = "";
+                                        }
 
-                                // serve per le thumb -- se non voglio usarlo per lo zoom in caso di img vert metto {{ $value->foto }} su href di riga 58
-                                if($value->foto){
-                                    $basename = basename($value->foto);
-                                    $temp = explode(".", $basename);
+                                        if($description){
+                                            if(!key_exists(\App::getLocale(), $description)){
+                                                $description[\App::getLocale()] = "";
+                                            }
+                                        }else{
+                                            $description[\App::getLocale()] = "";
+                                        }
 
-                                    if(key_exists(1,$temp)){
-                                        $check = "thumb/blocks_gallerys/$temp[0]-large.webp";
-                                    }else{
-                                        $check = "thumb/blocks_gallerys/$temp[0]-large";
-                                    }
+                                        // serve per le thumb -- se non voglio usarlo per lo zoom in caso di img vert metto {{ $value->foto }} su href di riga 58
+                                        if($value->foto){
+                                            $basename = basename($value->foto);
+                                            $temp = explode(".", $basename);
 
-                                    if(file_exists($check)){
-                                        $foto = url($check);
-                                    }else{
-                                        $foto = url($value->foto);
-                                    }
-                                }
+                                            if(key_exists(1,$temp)){
+                                                $check = "thumb/blocks_gallerys/$temp[0]-large.webp";
+                                            }else{
+                                                $check = "thumb/blocks_gallerys/$temp[0]-large";
+                                            }
 
-                                ?>
+                                            if(file_exists($check)){
+                                                $foto = url($check);
+                                            }else{
+                                                $foto = url($value->foto);
+                                            }
+                                        }
+
+                                        ?>
 
 
-                            <li class="grid-item transition-inner-all atropos gallery-box transition-inner-all jg-entry jg-entry-visible" data-atropos data-atropos-perspective="1150" data-anime='{"scale": [0.9, 1], "translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                <!-- start gallery item -->
-                                <div class="gallery-box transition-inner-all">
-                                    @if(trim($foto) != "")
-                                        <a href="{{ $foto }}" data-group="lightbox-group-gallery-item-6">
-                                            <div class="position-relative bg-dark-gray">
-                                                <img src="{{ $foto }}" alt="" />
-                                                <div class="d-flex align-items-center flex-column justify-content-end h-100 w-100 gallery-hover p-45px">
-                                                    <i class="icon feather icon-feather-search icon-very-medium text-white absolute-middle-center"></i>
+                                            <!-- start portfolio item -->
+                                            <li class="gallery-box grid-item web branding transition-inner-all">
+                                                @if(trim($foto) != "")
+                                                    <a href="{{ $foto }}" data-group="lightbox-group-gallery">
+                                                        <div class="portfolio-box">
+                                                            <div class="portfolio-image border-radius-6px">
+                                                                <img src="{{ $foto }}" alt="" />
+                                                            </div>
+                                                            <div class="portfolio-hover box-shadow-extra-large">
+                                                                @if(trim($title[\App::getLocale()]) != "" || trim($description[\App::getLocale()]) != "")
+                                                                <div class="bg-white d-flex align-items-center align-self-end text-start border-radius-4px ps-30px pe-30px pt-20px pb-20px lg-p-20px w-100">
+                                                                    <div class="me-auto">
+                                                                        @if(trim($title[\App::getLocale()]) != "")
+                                                                            <div class="alt-font fw-600 text-dark-gray text-uppercase lh-initial">{{ $title[\App::getLocale()] }}</div>
+                                                                        @endif
 
-                                                    @if(trim($title[\App::getLocale()]) != "" || trim($description[\App::getLocale()]) != "")
-                                                        @if(trim($title[\App::getLocale()]) != "")
-                                                            <span class="gallery-title text-white fs-18">{{ $title[\App::getLocale()] }}</span><br>
-                                                        @endif
+                                                                        @if(trim($description[\App::getLocale()]) != "")
+                                                                                <div class="fs-12 text-medium-gray text-uppercase lh-24">{!! $description[\App::getLocale()] !!}</div>
+                                                                        @endif
+                                                                    </div>
 
-                                                        @if(trim($description[\App::getLocale()]) != "")
-                                                            <p> {!! $description[\App::getLocale()] !!}</p>
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </a>
-                                    @endif
-                                </div>
-                            </li>
-                        @endforeach
-                    @endif
-                </ul>
+                                                                </div>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                @endif
+                                            </li>
+
+
+
+
+                                @endforeach
+                            @endif
+                        </ul>
+
             </div>
 
             <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
@@ -122,6 +131,9 @@ if($descriptionBlocco){
                     @endif
                 </ul>
             </div>
+
+            </div>
+
         </div>
     </div>
 </section>

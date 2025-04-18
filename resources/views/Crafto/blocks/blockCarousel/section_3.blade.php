@@ -1,9 +1,8 @@
-<section class="mt-2">
-    <div class="container">
-        <div class="row">
-
-            <div class="col-md-12 mb-40px sm-mb-30px">
-                <div class="swiper" data-slider-options='{ "slidesPerView": 1, "spaceBetween": 30, "loop": true, "navigation": { "nextEl": ".slider-one-slide-next-08", "prevEl": ".slider-one-slide-prev-08" }, "keyboard": { "enabled": true, "onlyInViewport": true }, "breakpoints": { "992": { "slidesPerView": 1 }, "768": { "slidesPerView": 1 }, "320": { "slidesPerView": 1 } }, "effect": "slide" }'>
+<section class="pt-50px overflow-hidden">
+    <div class="container-fluid p-0">
+        <div class="row align-items-center g-0">
+            <div class="col-12 position-relative swiper-dark-pagination" data-anime='{ "translateX": [150, 0], "opacity": [0,1], "duration": 1200, "delay": 100, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                <div class="swiper overflow-visible" data-slider-options='{ "slidesPerView": 1, "spaceBetween": 40, "centeredSlides": "true", "loop": true, "pagination": { "el": ".swiper-pagination-bullets-01", "clickable": true, "dynamicBullets": false }, "keyboard": { "enabled": true, "onlyInViewport": true }, "breakpoints": { "992": { "slidesPerView": 1.8 }, "768": { "slidesPerView": 1.8 }, "320": { "slidesPerView": 1.3 } }, "effect": "slide" }'>
                     <div class="swiper-wrapper align-items-center">
 
                         @if($array)
@@ -83,24 +82,31 @@
 
                                     ?>
 
-
-                                <div class="swiper-slide">
-                                    @if(trim($value->foto) != "")
-                                        <img src="{{ $foto }}" alt="" />
-                                    @endif
-                                </div>
+                                        <div class="swiper-slide">
+                                            <div class="gallery-box">
+                                                @if(trim($value->foto) != "")
+                                                    <a href="{{ $foto }}" data-group="lightbox-gallery" title="">
+                                                        <div class="position-relative gallery-image bg-dark-gray overflow-hidden border-radius-6px">
+                                                            <img src="{{ $foto }}" class="border-radius-6px w-100" alt="" />
+                                                            <div class="d-flex align-items-center justify-content-center position-absolute top-0px left-0px w-100 h-100 gallery-hover move-bottom-top">
+                                                                <div class="d-flex align-items-center justify-content-center w-75px h-75px rounded-circle bg-white">
+                                                                    <i class="feather icon-feather-search text-dark-gray icon-extra-medium"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </div>
 
                             @endforeach
                         @endif
 
                     </div>
-
-                    <!-- start slider navigation -->
-                        <div class="slider-one-slide-prev-08 swiper-button-prev bg-white-transparent-very-light text-white h-50px w-50px slider-navigation-style-01"><i class="fa-solid fa-angle-left"></i></div>
-                        <div class="slider-one-slide-next-08 swiper-button-next bg-white-transparent-very-light text-white h-50px w-50px slider-navigation-style-01"><i class="fa-solid fa-angle-right"></i></div>
-                        <!-- end slider navigation -->
-
                 </div>
+                <!-- start slider pagination -->
+                <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-style-01 swiper-pagination-bullets-01 position-static mt-40px"></div>
+                <!-- end slider pagination -->
             </div>
         </div>
     </div>

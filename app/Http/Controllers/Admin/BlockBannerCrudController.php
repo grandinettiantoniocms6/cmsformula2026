@@ -144,7 +144,7 @@ class BlockBannerCrudController extends CrudController
                 'name'        => 'style',
                 'label'       => "Seleziona stile",
                 'type'        => 'select_from_array',
-                'options'     => [1 => 'Style 1: senza effetto Zoom-In stile metro', 2 => 'Style 2: con effetto Zoom-In e spaziatura'],
+                'options'     => [1 => 'Style 1', 2 => 'Style 2'],
                 'allows_null' => false,
                 'default'     => 1,
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
@@ -155,7 +155,7 @@ class BlockBannerCrudController extends CrudController
                 'name'        => 'fullwidth',
                 'label'   => 'Seleziona larghezza blocco',
                 'type'        => 'select_from_array',
-                'options'     => ['container' => 'Normale', 'container-full' => 'Full Width'],
+                'options'     => ['container' => 'Normale', 'container-full' => 'Full Width', 'container-fluid' => 'Full Width Fluid'],
                 'allows_null' => false,
                 'default'     => 'container',
                 'wrapper' => ['class' => 'form-group col-md-6']

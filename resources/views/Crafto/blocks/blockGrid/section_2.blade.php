@@ -149,8 +149,8 @@ if($descriptionBlocco){
                                                       </a>
                                                     @endif
 
-                                                    <div class="blog-categories">
-                                                        <span class="categories-btn text-uppercase alt-font fw-600 fs-24 lh-26" style="font-size: 16px!important; background-color: {!! $value->bgcolor !!}; color: {!! $value->txtcolor !!};">{{ $text_etichetta[\App::getLocale()] }}</span>
+                                                    <div class="blog-categories" style="margin-right: 95%;">
+                                                        <span class="categories-btn text-uppercase alt-font fw-600 fs-24 lh-26" style="align:left; font-size: 14px!important; background-color: {!! $value->bgcolor !!}; color: {!! $value->txtcolor !!};">{{ $text_etichetta[\App::getLocale()] }}</span>
                                                     </div>
 
                                                     <!-- If PDF exist -->
