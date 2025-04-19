@@ -113,16 +113,15 @@
             <!-- Velina o layer trasparente sopra img o colore sfondo -->
 
 
-
             <!-- start section -->
             @if(trim($value->foto) != "")
-                <section class="banner" style="background-image: url('{{ $foto }}'); margin-top: {{ $item->mt }}px!important; margin-bottom: {{ $item->mb }}px!important;">
+                <section class="banner position-relative" data-parallax-background-ratio="0.5" style="background-image: url('{{ $foto }}'); margin-top: {{ $item->mt }}px!important; margin-bottom: {{ $item->mb }}px!important;">
             @else
                 <section id="{{ $item->id }}" style="background-color: {!! $value->bgcolor !!}; margin-top: {{ $item->mt }}px!important; margin-bottom: {{ $item->mb }}px!important; height: {{ $item->height }}!important; ">
             @endif
 
                 <div class="{{ $item->fullwidth }}" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
-                    <div class="row justify-content-center align-items-center min-h-200px row">
+                    <div class="row justify-content-center align-items-center min-h-500px row">
 
                         <div class="col-12 col-xl-8 col-lg-10 position-relative text-center">
 

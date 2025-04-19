@@ -2,7 +2,7 @@
 $labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
 ?>
 <section class="bg-solitude-white">
-    <div class="container">
+    <div class="container mt-50px">
         <div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 justify-content-center">
         <!--h2 class="title">{ @$labels['title-document'] }}</h2>-->
         @if($array)
