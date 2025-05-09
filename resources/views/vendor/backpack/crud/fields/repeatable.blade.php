@@ -67,15 +67,15 @@
         data-subfield-names="{{json_encode($subfieldNames)}}"
 
     >
-    @if(!empty($field['value']))
-        @foreach ($field['value'] as $key => $row)
-            @include($crud->getFirstFieldView('inc.repeatable_row'), ['repeatable_row_key' => $key])
-        @endforeach
-        @php
-            // the $row variable still exists. We don't need it anymore the loop is over, and would have impact in the following code.
-            unset($row);
-        @endphp
-    @endif
+        @if(!empty($field['value']))
+            @foreach ($field['value'] as $key => $row)
+                @include($crud->getFirstFieldView('inc.repeatable_row'), ['repeatable_row_key' => $key])
+            @endforeach
+            @php
+                // the $row variable still exists. We don't need it anymore the loop is over, and would have impact in the following code.
+                unset($row);
+            @endphp
+        @endif
     </div>
 </div>
 
@@ -91,17 +91,17 @@
     @include($crud->getFirstFieldView('inc.repeatable_row'), ['hidden' => true])
 @endpush
 
-  {{-- FIELD EXTRA CSS --}}
-  {{-- push things in the after_styles section --}}
+{{-- FIELD EXTRA CSS --}}
+{{-- push things in the after_styles section --}}
 
-  @push('crud_fields_styles')
-      @bassetBlock('backpack/pro/fields/repeatable-field.css')
-      <style type="text/css">
+@push('crud_fields_styles')
+    @bassetBlock('backpack/pro/fields/repeatable-field.css')
+    <style type="text/css">
         .repeatable-element {
-          border: 1px solid rgba(0,40,100,.12);
-          border-radius: 5px;
-          background-color: #f0f3f94f;
-          position: relative;
+            border: 1px solid rgba(0,40,100,.12);
+            border-radius: 5px;
+            background-color: #f0f3f94f;
+            position: relative;
         }
         .container-repeatable-elements .controls {
             display: flex;
@@ -115,13 +115,20 @@
         }
 
         .container-repeatable-elements .controls button {
-          height: 1.5rem;
-          width: 1.5rem;
-          border-radius: 50%;
-          margin-bottom: 2px;
-          overflow: hidden;
-          border-width: 0;
+            height: 1.5rem;
+            width: 1.5rem;
+            border-radius: 50%;
+            margin-bottom: 2px;
+            overflow: hidden;
+            border-width: 0;
+            opacity: 1;
+            background: revert;
+            -webkit-appearance: button;
+            font-size: revert;
+            color: revert;
+            padding: revert;
         }
+
         .container-repeatable-elements .controls button.move-element-up,
         .container-repeatable-elements .controls button.move-element-down {
             margin: 2px auto;
@@ -130,24 +137,16 @@
         .container-repeatable-elements .repeatable-element:last-of-type .move-element-down {
             display: none;
         }
+    </style>
+    @endBassetBlock
+@endpush
 
-        .no-order-buttons .container-repeatable-elements .controls button.move-element-up,
-        .no-order-buttons .container-repeatable-elements .controls button.move-element-down {
-            display: none;
-        }
-        .no-label .repeatable-element > div > label {
-            display: none;
-        }
-      </style>
-      @endBassetBlock
-  @endpush
+{{-- FIELD EXTRA JS --}}
+{{-- push things in the after_scripts section --}}
 
-  {{-- FIELD EXTRA JS --}}
-  {{-- push things in the after_scripts section --}}
-
-  @push('crud_fields_scripts')
-      @bassetBlock('backpack/pro/fields/repeatable-field.js')
-      <script>
+@push('crud_fields_scripts')
+    @bassetBlock('backpack/pro/fields/repeatable-field.js')
+    <script>
         /**
          * Takes all inputs in a repeatable element and makes them an object.
          */
@@ -185,10 +184,10 @@
             // make sure the inputs get the data-repeatable-input-name
             // so we can know that they are inside repeatable
             container.find('input, select, textarea')
-                    .each(function(){
-                        var name_attr = getCleanNameArgFromInput($(this));
-                        $(this).attr('data-repeatable-input-name', name_attr)
-                    });
+                .each(function(){
+                    var name_attr = getCleanNameArgFromInput($(this));
+                    $(this).attr('data-repeatable-input-name', name_attr)
+                });
 
             var field_group_clone = container.clone();
             container.remove();
@@ -226,9 +225,9 @@
 
             updateRepeatableRowCount(container_holder);
 
-            setupFieldCallbacks(container_holder);
-
             setupFieldCallbacksListener(container_holder);
+
+            setupFieldCallbacks(container_holder);
 
             setupRepeatableChangeEvent(container_holder);
         }
@@ -272,7 +271,7 @@
                             $(this).attr('data-repeatable-input-name', nameAttr)
                         }
                     }
-            });
+                });
         }
 
         /**
@@ -400,7 +399,7 @@
                 $(el).attr('data-row-number', rowNumber);
                 //also attach the row number to all the input elements inside
                 $(el).find('input, select, textarea').each(function(i, input) {
-                    // only add the row number to inputs that have name, so they are going to be submited in form
+                    // only add the row number to inputs that have name, so they are going to be submitted in form
                     if($(input).attr('name')) {
                         $(input).attr('data-row-number', rowNumber);
                     }
@@ -459,8 +458,6 @@
                         }
 
                         $(el).attr('name', container.attr('data-repeatable-holder')+'['+index+']['+field_name+']'+suffix);
-
-
                     }
                 });
             });
@@ -476,6 +473,37 @@
             $('input[type=hidden][name='+escapedRepeatableIdentifier+']').first().trigger('change', [values]);
         }
 
+        function repeatableInputCallbacksEvent(event) {
+            if(event.type === 'input') {
+                event.target.setAttribute('callbacks-run', event.type);
+            }
+
+            if(event.target.getAttribute('callbacks-run') === 'input' && event.target.getAttribute('callbacks-run') !== event.type) {
+                event.target.setAttribute('callbacks-run', false);
+                return;
+            }
+
+            let rowNumber = event.target.getAttribute('data-row-number');
+            let repeatableName = event.target.closest('.repeatable-element').getAttribute('data-repeatable-identifier');
+            let name = event.target.getAttribute('data-repeatable-input-name');
+            let subfield = crud.field(repeatableName).subfield(name, rowNumber);
+
+            let fieldCallbacks = window.crud.subfieldsCallbacks[repeatableName] ?? false;
+
+            if(!fieldCallbacks) {
+                return;
+            }
+
+            fieldCallbacks
+                .filter(callback =>
+                    callback.field.name === name &&
+                    callback.field.parent.name === repeatableName
+                )
+                .forEach((callback, callbackID) => {
+                    callback.closure(subfield, event);
+                });
+        }
+
         function setupFieldCallbacks(container) {
             let subfields = JSON.parse(container.attr('data-subfield-names'));
             let repeatableName = container.attr('data-repeatable-holder');
@@ -485,47 +513,53 @@
                 return;
             }
 
+            let triggerChange = [];
+
+            fieldCallbacks
+                .filter(callback =>
+                    callback.field.parent.name === repeatableName
+                )
+                .forEach((callback, callbackID) => {
+                    if(callback.triggerChange) {
+                        triggerChange.push(callback.field.name);
+                    }
+                });
+
             container.children().each(function(i, el) {
                 subfields.forEach(function(name) {
                     let rowNumber = i + 1;
                     let subfield = crud.field(repeatableName).subfield(name, rowNumber);
-                    let callbacksApplied = JSON.parse(subfield.input.dataset.callbacks ?? '[]');
 
-                    fieldCallbacks
-                        .filter(callback =>
-                            callback.field.name === name &&
-                            callback.field.parent.name === repeatableName
-                        )
-                        .forEach((callback, callbackID) => {
-                            if(callbacksApplied.includes(callbackID)) {
-                                return;
-                            }
+                    if (subfield.$input.attr('callbacks-applied')) {
+                        return;
+                    }
 
-                            let bindedClosure = callback.closure.bind(subfield);
-                            let fieldChanged = (event, values) => bindedClosure(subfield, event, values);
+                    if(subfield.input && ['INPUT', 'TEXTAREA'].includes(subfield.input?.nodeName)) {
+                        subfield.input.addEventListener('input', repeatableInputCallbacksEvent, false);
+                        if(triggerChange.includes(name)) {
+                            subfield.input.dispatchEvent(new Event('input'), { bubbles: false });
+                        }
+                    }
 
-                            if(['INPUT', 'TEXTAREA'].includes(subfield.input?.nodeName)) {
-                                subfield.input?.addEventListener('input', fieldChanged, false);
-                            }
+                    subfield.$input.change(repeatableInputCallbacksEvent);
 
-                            subfield.$input.change(fieldChanged);
+                    if(triggerChange.includes(name)) {
+                        subfield.$input.trigger('change');
+                    }
 
-                            if(callback.triggerChange) {
-                                subfield.$input.trigger('change');
-                            }
-
-                            callbacksApplied.push(callbackID);
-                        });
-
-                    subfield.input.dataset.callbacks = JSON.stringify(callbacksApplied);
+                    subfield.$input.attr('callbacks-applied', true);
                 });
             });
+
+
         }
 
         function setupFieldCallbacksListener(container) {
             container
                 .closest('[bp-field-wrapper]')
-                .on('CrudField:subfieldCallbacksUpdated', () => setupFieldCallbacks(container));
+                .on('CrudField:subfieldCallbacksUpdated', function(){
+                    setupFieldCallbacks(container)
+                });
         }
 
         function setupRepeatableChangeEvent(container) {
@@ -537,7 +571,7 @@
                     let subfield = crud.field(repeatableName).subfield(name, rowNumber);
                     if(!subfield.input?.getAttribute('change-event-applied')) {
                         subfield.onChange(function(event) {
-                                triggerRepeatableInputChangeEvent(container);
+                            triggerRepeatableInputChangeEvent(container);
                         });
                         subfield.input?.setAttribute('change-event-applied', true);
                     }
@@ -553,7 +587,7 @@
             if (element.data('name')) {
                 fieldName = element.data('name');
             } else if (element.attr('name')) {
-               fieldName = element.attr('name');
+                fieldName = element.attr('name');
             }
 
             if(typeof fieldName === 'undefined') {
@@ -592,4 +626,4 @@
         }
     </script>
     @endBassetBlock
-  @endpush
+@endpush
