@@ -87,10 +87,15 @@ a:hover {
 }
 
 /* header */
-
+.app-header.bg-dark {
+    background-color: #1B2A4E !important;
+    color: #f8f9fb !important;
+}
+.app-header.bg-dark.navbar-brand,
 .app-header.bg-light .navbar-brand {
     opacity: 1;
 }
+.app-header.bg-dark.navbar-brand,
 .app-header.bg-light .navbar-brand,
 .app-header .navbar-brand {
     width: 170px;
