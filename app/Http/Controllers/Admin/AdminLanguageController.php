@@ -777,9 +777,9 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     break;
 
                 case "pluginForms":
-                    $fields = ['title_form','subtitle_form', "object_form", "message_ringraziamento", "content"];
-                    $fields_types = ["text", "text", "text", "text", "custom"];
-                    $fields_label = ["Titolo form", "Sottotitolo form", "Oggetto email","Messaggio ringraziamento post invio", "Campi"];
+                    $fields = ['title_form','subtitle_form', "object_form", "message_ringraziamento"]; //content
+                    $fields_types = ["text", "text", "text", "text"]; //custom
+                    $fields_label = ["Titolo form", "Sottotitolo form", "Oggetto email","Messaggio ringraziamento post invio"]; //campi
                     if(count($parameters)) {
                         $item = PluginForms::find($item_id);
                     }
@@ -1071,6 +1071,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 $fields = ["slug", "title_page", "subtitle_page", "color_title_page", "color_subtitle_page", "title", "meta_title", "meta_description", "meta_keywords", 'url_interno','url'];
                 break;
         }
+
 
         foreach ($fields as $k=>$field){
             $vet = [];
@@ -1365,8 +1366,6 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 break;
         }
 
-
-
         foreach ($fields as $k=>$field){
             $vet = [];
             foreach ($v_langs as $t=>$lang){
@@ -1378,18 +1377,18 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 $vet[] = ["$lang" => $request["{$getField}"]];
             }
 
-            $translations = $this->array_flatten($vet, $v_langs);
+            $translations = $this->array_flatten($vet, $v_langs, $k);
             $crud->entry->setTranslations($field, $translations);
         }
-
     }
 
 
-    public function array_flatten($array, $langs) {
+    public function array_flatten($array, $langs, $indice = null) {
         $return = array();
         foreach ($array as $key => $value) {
             if (is_array($value)){
-                $return = array_merge($return, \Arr::flatten($value));
+                $return[$key] = reset($value);
+                //$return = array_merge($return, \Arr::flatten($value));
             } else {
                 $return[$key] = $value;
             }
@@ -1397,9 +1396,11 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
 
         $vet = [];
         foreach ($return as $k=>$val){
-            $vet[$langs[$k]] = $val;
-        }
+            if(key_exists($k, $langs)){
+                $vet[$langs[$k]] = $val;
+            }
 
+        }
         return $vet;
     }
 
