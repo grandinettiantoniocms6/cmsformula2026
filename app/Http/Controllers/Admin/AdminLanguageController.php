@@ -777,9 +777,9 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     break;
 
                 case "pluginForms":
-                    $fields = ['title_form','subtitle_form', "object_form", "message_ringraziamento"]; //content
-                    $fields_types = ["text", "text", "text", "text"]; //custom
-                    $fields_label = ["Titolo form", "Sottotitolo form", "Oggetto email","Messaggio ringraziamento post invio"]; //campi
+                    $fields = ['title_form','subtitle_form', "object_form", "message_ringraziamento", "content"];
+                    $fields_types = ["text", "text", "text", "text", "custom"];
+                    $fields_label = ["Titolo form", "Sottotitolo form", "Oggetto email","Messaggio ringraziamento post invio", "Campi"];
                     if(count($parameters)) {
                         $item = PluginForms::find($item_id);
                     }

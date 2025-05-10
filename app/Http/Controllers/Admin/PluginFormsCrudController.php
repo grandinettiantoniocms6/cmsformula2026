@@ -74,7 +74,7 @@ class PluginFormsCrudController extends CrudController
 
         $fields = ['text' => 'Testo', 'textarea' => 'Contenuto', 'email' => 'Email', 'date' => 'Data', 'time' => 'Ora', 'checkbox' => 'Checkbox', 'select' => 'Select', 'text_free' => 'Testo libero', 'file' => 'File', 'button' => 'Pulsante invia'];
 
-        /*$custom = [   // repeatable
+        $custom = [   // repeatable
             'type'  => 'repeatable',
             'fields' => [
                 [
@@ -140,9 +140,9 @@ class PluginFormsCrudController extends CrudController
             // optional
             'new_item_label'  => 'Nuovo campo', // customize the text of the button
             'tab' => 'Form contatti',
-        ];*/
+        ];
 
-        CRUD::field([
+       /* CRUD::field([
             'name'  => 'testimonials',
             'label' => 'Client Testimonials',
             'type'  => 'repeatable',
@@ -190,10 +190,10 @@ class PluginFormsCrudController extends CrudController
             'min_rows'       => 0,
             'max_rows'       => 5,
             'reorder'        => true,
-        ]);
+        ]);*/
 
         $trans = new AdminLanguageController();
-        $trans->fields_lang("pluginForms", $this->crud);
+        $trans->fields_lang("pluginForms", $this->crud, $custom);
 
         $this->crud->addField([   // repeatable
             'name'  => 'name',
