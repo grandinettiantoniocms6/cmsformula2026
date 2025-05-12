@@ -144,7 +144,7 @@ class BlockIconCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_icon',
                 'label' => 'Colore Icone',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'default' => '#1ab42f',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -182,7 +182,7 @@ class BlockIconCrudController extends CrudController
                                 $this->crud->addField([   // repeatable
                                     'name'  => 'bgcolor_button_hover',
                                     'label' => 'Colore di sfondo Pulsanti effetto MouseOver',
-                                    'type'  => 'color_picker',
+                                    'type'  => 'color_picker2',
                                     // optional
                                     //'default' => '#074b10',
                                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -192,7 +192,7 @@ class BlockIconCrudController extends CrudController
                                 $this->crud->addField([   // repeatable
                                     'name'  => 'bgcolor_hover',
                                     'label' => 'Colore di sfondo Box Icone',
-                                    'type'  => 'color_picker',
+                                    'type'  => 'color_picker2',
                                     // optional
                                     //'default' => '#074b10',
                                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -257,7 +257,7 @@ class BlockIconCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor',
                 'label' => 'Colore sfondo Box',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -267,7 +267,7 @@ class BlockIconCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor_over',
                 'label' => 'Colore sfondo Box Over',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -277,7 +277,7 @@ class BlockIconCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_title',
                 'label' => 'Colore Titolo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -297,7 +297,7 @@ class BlockIconCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor_button',
                 'label' => 'Colore di sfondo Pulsante',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#148223',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -308,7 +308,7 @@ class BlockIconCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_text_button',
                 'label' => 'Colore testo pulsante',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],

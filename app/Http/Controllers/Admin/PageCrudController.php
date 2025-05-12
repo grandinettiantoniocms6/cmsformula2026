@@ -126,7 +126,7 @@ class PageCrudController extends CrudController
 
         $this->crud->query->orderBy("lft", "asc");
 
-        $this->crud->setDefaultPageLength(100);
+        $this->crud->setDefaultPageLength(50);
 
         if(backpack_user()->roles[0]->id <= 3){
             $this->crud->isReorderEnabled();
@@ -178,9 +178,13 @@ class PageCrudController extends CrudController
         // Columns.
         $this->crud->setColumns([
             [
+                // run a function on the CRUD model and show its return value
                 'name'  => 'name',
-                'label' => 'Nome',
-                'type'  => 'text',
+                'label' => 'Nome', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'get_name', // the method in your Model
+                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
+                'limit' => 10000, // Limit the number of characters shown
             ],
             [
                 'name'  => 'slug',

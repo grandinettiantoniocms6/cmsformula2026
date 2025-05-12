@@ -132,7 +132,7 @@ class BlockSocialCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color',
                 'label' => 'Colore Titolo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 'default' => '#000000',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],

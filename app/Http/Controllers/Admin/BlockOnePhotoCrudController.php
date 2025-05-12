@@ -199,7 +199,7 @@ class BlockOnePhotoCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bg_color',
                 'label' => 'oppure scegli un colore di sfondo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 //'default' => '#000000',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -209,7 +209,7 @@ class BlockOnePhotoCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_title',
                 'label' => 'Colore Titolo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 //'default' => '#000000',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -235,7 +235,7 @@ class BlockOnePhotoCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_subtitle',
                 'label' => 'Colore sotto titolo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 //'default' => '#000000',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -267,7 +267,7 @@ class BlockOnePhotoCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_description',
                 'label' => 'Colore testo descrizione',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 //'default' => '#000000',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -289,7 +289,7 @@ class BlockOnePhotoCrudController extends CrudController
            $this->crud->addField([   // repeatable
                'name'  => 'color_button',
                'label' => 'Colore sfondo pulsante',
-               'type'  => 'color_picker',
+               'type'  => 'color_picker2',
                //'default' => '#076E8E',
                // optional
                'color_picker_options' => ['customClass' => 'custom-class'],
@@ -299,7 +299,7 @@ class BlockOnePhotoCrudController extends CrudController
            $this->crud->addField([   // repeatable
                'name'  => 'color_txt_button',
                'label' => 'Colore testo pulsante',
-               'type'  => 'color_picker',
+               'type'  => 'color_picker2',
                //'default' => '#ffffff',
                // optional
                'color_picker_options' => ['customClass' => 'custom-class'],

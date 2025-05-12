@@ -175,7 +175,7 @@ class BlockMetroxCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bg_color',
                 'label' => 'Colore sfondo blocco testo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ee2e29',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -185,7 +185,7 @@ class BlockMetroxCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_title',
                 'label' => 'Colore Titolo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -204,7 +204,7 @@ class BlockMetroxCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_subtitle',
                 'label' => 'Colore sotto titolo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],

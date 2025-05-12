@@ -133,7 +133,7 @@ class BlockPluginCounterCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor',
                 'label' => 'Oppure seleziona un colore di sfondo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 'default' => '#000000',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],

@@ -246,7 +246,7 @@ class BlockGridCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'box_bgcolor',
                 'label' => 'Colore sfondo Box',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
@@ -255,7 +255,7 @@ class BlockGridCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'title_color',
                 'label' => 'Colore titolo Box',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
@@ -370,7 +370,7 @@ class BlockGridCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor',
                 'label' => 'Colore sfondo etichetta',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ee2e29',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -380,7 +380,7 @@ class BlockGridCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'txtcolor',
                 'label' => 'Colore testo etichetta',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],

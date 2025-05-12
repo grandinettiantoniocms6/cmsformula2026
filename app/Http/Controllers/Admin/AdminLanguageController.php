@@ -914,7 +914,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                             $crud->addField([
                                 'name' => $lang == "it" ? "$v" : "{$v}_{$lang}",
                                 'label' => "$fields_label[$k] <em>({$langs_label[$lang]})</em>",
-                                'type' => 'color_picker',
+                                'type' => 'color_picker2',
                                 'tab' => $customTab != "" ? "$customTab $lang" : $lang,
                                 'attributes' => ['class' => 'form-control', 'id'=> "{$v}_{$lang}"],
                                 'default' => ($chiave == "page") ? "#FFF" : null
@@ -926,7 +926,8 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                                 'label' => "$fields_label[$k] <em>({$langs_label[$lang]})</em>",
                                 'type' => 'textarea',
                                 'value' => $valore, //count($parameters) ? $valore : "",
-                                'tab' => $customTab != "" ? "$customTab $lang" : $lang
+                                'tab' => $customTab != "" ? "$customTab $lang" : $lang,
+                                'attributes' => ['rows' => 10],
                             ]);
                             break;
                         case "content":

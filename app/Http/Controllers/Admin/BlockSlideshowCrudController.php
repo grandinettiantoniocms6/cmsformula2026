@@ -263,7 +263,7 @@ class BlockSlideshowCrudController extends CrudController
                     $this->crud->addField([   // repeatable
                         'name'  => 'border_color',
                         'label' => 'Colore bordo',
-                        'type'  => 'color_picker',
+                        'type'  => 'color_picker2',
                         // optional
                         //'default' => '#1ab42f',
                         'color_picker_options' => ['customClass' => 'custom-class'],
@@ -324,7 +324,7 @@ class BlockSlideshowCrudController extends CrudController
                             $this->crud->addField([   // repeatable
                                 'name'  => 'form_booking_bgcolor',
                                 'label' => 'Colore sfondo form Booking',
-                                'type'  => 'color_picker',
+                                'type'  => 'color_picker2',
                                 // optional
                                 //'default' => '#1ab42f',
                                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -334,7 +334,7 @@ class BlockSlideshowCrudController extends CrudController
                             $this->crud->addField([   // repeatable
                                 'name'  => 'form_booking_border_color',
                                 'label' => 'Colore bordo form Booking',
-                                'type'  => 'color_picker',
+                                'type'  => 'color_picker2',
                                 // optional
                                 //'default' => '#1ab42f',
                                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -403,7 +403,7 @@ class BlockSlideshowCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'title_background',
                 'label' => 'Colore Titolo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => [
@@ -419,7 +419,7 @@ class BlockSlideshowCrudController extends CrudController
                         $this->crud->addField([   // repeatable
                             'name'  => 'left_bgcolor',
                             'label' => 'Colore sfondo a sinistra',
-                            'type'  => 'color_picker',
+                            'type'  => 'color_picker2',
                             // optional
                             'color_picker_options' => ['customClass' => 'custom-class'],
                             'wrapperAttributes' => [
@@ -464,7 +464,7 @@ class BlockSlideshowCrudController extends CrudController
                     $this->crud->addField([   // repeatable
                         'name'  => 'bgcolor',
                         'label' => 'Colore di sfondo Titolo e Sottotitolo',
-                        'type'  => 'color_picker',
+                        'type'  => 'color_picker2',
                         // optional
                         'color_picker_options' => ['customClass' => 'custom-class'],
                         'wrapperAttributes' => [

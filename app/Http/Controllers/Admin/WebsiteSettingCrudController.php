@@ -141,7 +141,7 @@ class WebsiteSettingCrudController extends CrudController
         $this->crud->addField([   // color_picker
             'label'                => 'Colore di sfondo generale (Body background))',
             'name'                 => 'site_background',
-            'type'                 => 'color_picker',
+            'type'                 => 'color_picker2',
             'default'              => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
@@ -151,7 +151,7 @@ class WebsiteSettingCrudController extends CrudController
         $this->crud->addField([   // color_picker
             'label'                => 'Colore testo generale',
             'name'                 => 'site_color',
-            'type'                 => 'color_picker',
+            'type'                 => 'color_picker2',
             'default'              => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
@@ -177,7 +177,7 @@ class WebsiteSettingCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Integrazioni head'
+            'tab' => 'Head'
         ]);
 
         $this->crud->addField([
@@ -186,7 +186,7 @@ class WebsiteSettingCrudController extends CrudController
             'type'                 => 'text',
             'default'              => null,
             // optional
-            'tab' => 'Integrazioni head'
+            'tab' => 'Head'
         ]);
 
         $this->crud->addField([
@@ -197,7 +197,7 @@ class WebsiteSettingCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Integrazioni head'
+            'tab' => 'Head'
         ]);
 
         $this->crud->addField([
@@ -208,7 +208,7 @@ class WebsiteSettingCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Integrazioni head'
+            'tab' => 'Head'
         ]);
 
         $this->crud->addField([
@@ -219,7 +219,7 @@ class WebsiteSettingCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Integrazioni head'
+            'tab' => 'Head'
         ]);
 
         $this->crud->addField([
@@ -230,7 +230,7 @@ class WebsiteSettingCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Integrazioni head'
+            'tab' => 'Head'
         ]);
 
         /************ TAB: HEADER/TOP MENU **************************************/
@@ -630,7 +630,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'default'              => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([   // color_picker
@@ -640,7 +640,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'default'              => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([   // color_picker
@@ -650,7 +650,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'default'              => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
 
@@ -661,7 +661,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'default'              => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([   // color_picker
@@ -671,7 +671,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'default'              => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([   // color_picker
@@ -681,7 +681,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'default'              => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([   // color_picker
@@ -691,56 +691,56 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'default'              => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([
             'label' => "CSS Shop-Formula Personalizzato",
             'name' => "style_css_shoppy",
             'type'  => 'text',
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([
             'label' => "CSS Style Custom (qui usare: css_custom/custom_style.css) in quanto racchiude tutte le migliorie CSS fatte. ",
             'name' => "style_css",
             'type'  => 'text',
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([
             'label' => "CSS Skin <!--<a href='#' data-toggle='tooltip' data-html='true' title='' data-original-title='<em>Tooltip</em> <u>with</u> <b>HTML</b>'>Tooltip with HTML</a>-->",
             'name' => "skin_css",
             'type'  => 'text',
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([
             'label' => "Url Custom Css <!--<a href='#' data-toggle='tooltip' title='' data-original-titletitle='The last tip!'>twitter handle</a>-->",
             'name' => "custom_css",
             'type'  => 'text',
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([
             'label' => "Url Custom Responsive Css",
             'name' => "responsive_css",
             'type'  => 'text',
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([
             'label' => "Url Mega Menu Css",
             'name' => "mega_menu",
             'type'  => 'text',
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([
             'label' => "Url Form Contact Css",
             'name' => "form_contact",
             'type'  => 'text',
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
         $this->crud->addField([   // color_picker
@@ -750,7 +750,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'attributes' => [
                 'rows' => 20,
             ],
-            'tab' => 'Colori & CSS'
+            'tab' => 'Style'
         ]);
 
 
@@ -765,7 +765,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Analytics e ADS'
+            'tab' => 'G-TAG'
         ]);
 
         $this->crud->addField([
@@ -776,7 +776,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Analytics e ADS'
+            'tab' => 'G-TAG'
         ]);
 
         $this->crud->addField([
@@ -787,7 +787,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Analytics e ADS'
+            'tab' => 'G-TAG'
         ]);
 
         $this->crud->addField([
@@ -798,7 +798,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Analytics e ADS'
+            'tab' => 'G-TAG'
         ]);
 
         $this->crud->addField([
@@ -809,7 +809,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Analytics e ADS'
+            'tab' => 'G-TAG'
         ]);
 
         $this->crud->addField([
@@ -820,11 +820,11 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Analytics e ADS'
+            'tab' => 'G-TAG'
         ]);
 
 
-        /*  ### INSTANT MESSAGE ###  */
+        /*  ### Whatsapp ###  */
 
         /* WAPP UTENTE 1 */
 
@@ -834,7 +834,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'name'  => 'wapp_css1',
             'label' => '<br><h4><b>PARAMENTRI WHATSAPP - UTENTE 1</b></h4> <br>CSS WhatsApp utente 1',
             'type'  => 'text',
-            'tab' => 'Instant Message',
+            'tab' => 'Whatsapp',
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
@@ -844,7 +844,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'name'  => 'cellulare_wapp1',
             'label' => 'Cellulare WhatsApp utente 1 (Formato: 393470000111)',
             'type'  => 'text',
-            'tab' => 'Instant Message',
+            'tab' => 'Whatsapp',
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-6'
             ],
@@ -854,7 +854,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'name' => "avatar_wapp1",
             'label' => "Logo WhatsApp utente 1",
             'type'  => 'browse',
-            'tab' => 'Instant Message',
+            'tab' => 'Whatsapp',
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-6'
             ],
@@ -872,7 +872,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -883,7 +883,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -894,7 +894,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -907,7 +907,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -918,7 +918,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -929,7 +929,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -942,7 +942,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -953,7 +953,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -964,7 +964,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -977,7 +977,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -988,7 +988,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -999,7 +999,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -1012,7 +1012,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1023,7 +1023,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1034,7 +1034,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -1047,7 +1047,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1058,7 +1058,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1069,7 +1069,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -1082,7 +1082,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
            'wrapperAttributes' => [
                'class' => 'form-group col-md-4'
            ],
-           'tab' => 'Instant Message'
+           'tab' => 'Whatsapp'
        ]);
 
         $this->crud->addField([   // Browse
@@ -1093,7 +1093,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1104,7 +1104,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         /* FINE SETTING WHATSAPP UTENTE 1*/
@@ -1119,7 +1119,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'label' => '<br><h4><b>PARAMENTRI WHATSAPP - UTENTE 2</h4></b> <br>CSS WhatsApp utente 2',
             'type'  => 'text',
             'wrapperAttributes' => ['class' => 'form-group col-md-12'],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1127,7 +1127,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'label' => 'Cellulare WhatsApp utente 2',
             'type'  => 'text',
             'wrapperAttributes' => ['class' => 'form-group col-md-6'],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -1135,7 +1135,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'label' => "Avatar utente 2",
             'type'  => 'browse',
             'wrapperAttributes' => ['class' => 'form-group col-md-6'],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         /* GIORNI E ORA DELLA SETTIMANA UNTENTE 2 */
@@ -1151,7 +1151,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
 
@@ -1163,7 +1163,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1174,7 +1174,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -1188,7 +1188,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1199,7 +1199,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1210,7 +1210,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -1224,7 +1224,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1235,7 +1235,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1246,7 +1246,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -1260,7 +1260,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1271,7 +1271,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1282,7 +1282,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -1296,7 +1296,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1307,7 +1307,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1318,7 +1318,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -1332,7 +1332,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1343,7 +1343,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1354,7 +1354,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([
@@ -1368,7 +1368,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-4'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1379,7 +1379,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
         $this->crud->addField([   // Browse
@@ -1390,7 +1390,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
-            'tab' => 'Instant Message'
+            'tab' => 'Whatsapp'
         ]);
 
 
@@ -1577,7 +1577,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Popup'
+            'tab' => 'Avvisi'
         ]);
 
         $this->crud->addField([   // Checkbox
@@ -1587,7 +1587,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Popup'
+            'tab' => 'Avvisi'
         ]);
 
         $this->crud->addField([   // select_from_array
@@ -1600,7 +1600,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'options'     => ['1' => 'Solo in Homepage', '2' => 'Tutte le pagine'],
             'allows_null' => false,
             'default'     => '1',
-            'tab' => 'Popup'
+            'tab' => 'Avvisi'
         ]);
 
         /*  ### TAB IMPOSTAZIONI EXTRA ###  */
@@ -1612,7 +1612,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
-            'tab' => 'Impostazioni Extra'
+            'tab' => 'Extra'
         ]);
 
 
@@ -1672,7 +1672,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                 'wrapperAttributes' => [
                     'class' => 'form-group col-md-12'
                 ],
-                'tab' => 'Impostazioni Extra'
+                'tab' => 'Extra'
             ]);
 
             $this->crud->addField([   // Checkbox
@@ -1682,14 +1682,14 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                 'wrapperAttributes' => [
                     'class' => 'form-group col-md-2'
                 ],
-                'tab' => 'Impostazioni Extra'
+                'tab' => 'Extra'
             ]);
 
             $this->crud->addField([
                 'label' => "Logo pannello admin",
                 'name' => "logo_admin",
                 'type'  => 'browse',
-                'tab' => 'Impostazioni Extra',
+                'tab' => 'Extra',
                 // 'disk'      => 's3_bucket', // in case you need to show images from a different disk
                 // 'prefix'    => 'uploads/images/profile_pictures/' // in case your db value is only the file name (no path), you can use this to prepend your path to the image src (in HTML), before it's shown to the user;
             ]);
@@ -1698,7 +1698,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                 'label' => "Logo Accesso admin (Dimensioni: 180x90px)",
                 'name' => "logo_login",
                 'type'  => 'browse',
-                'tab' => 'Impostazioni Extra',
+                'tab' => 'Extra',
                 // 'disk'      => 's3_bucket', // in case you need to show images from a different disk
                 // 'prefix'    => 'uploads/images/profile_pictures/' // in case your db value is only the file name (no path), you can use this to prepend your path to the image src (in HTML), before it's shown to the user;
             ]);
@@ -1707,7 +1707,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                 'label' => "Bacheca da far vedere (nome blade)",
                 'name' => "bacheca",
                 'type'  => 'text',
-                'tab' => 'Impostazioni Extra'
+                'tab' => 'Extra'
             ]);
 
 

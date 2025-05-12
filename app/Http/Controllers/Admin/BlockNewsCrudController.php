@@ -290,7 +290,7 @@ class BlockNewsCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor',
                 'label' => 'Colore di sfondo data',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -300,7 +300,7 @@ class BlockNewsCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'date_color',
                 'label' => 'Colore testo data',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -310,7 +310,7 @@ class BlockNewsCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'title_cat_color',
                 'label' => 'Colore Categoria News',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -320,7 +320,7 @@ class BlockNewsCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'title_news_color',
                 'label' => 'Colore Titolo News',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],

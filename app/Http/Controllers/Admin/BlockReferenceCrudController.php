@@ -159,7 +159,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'background_color',
                     'label' => 'Colore sfondo pulsante VEDI TUTTO',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#E3E3E3',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -169,7 +169,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'border_color',
                     'label' => 'Colore bordo pulsante VEDI TUTTO',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#c9c8c8',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -179,7 +179,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'text_color',
                     'label' => 'Colore testo pulsante VEDI TUTTO',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#0A090B',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -189,7 +189,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'background_color_cat',
                     'label' => 'Colore sfondo pulsanti CATEGORIE',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#e30614',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -199,7 +199,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'border_color_cat',
                     'label' => 'Colore bordo pulsanti CATEGORIE',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#e30614',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -209,7 +209,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'text_color_cat',
                     'label' => 'Colore testo pulsanti CATEGORIE',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#FFFFFF',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -219,7 +219,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'box_color',
                     'label' => 'Colore sfondo BOX FOTO',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#c9c8c8',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -229,7 +229,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'title_color',
                     'label' => 'Colore TITOLI',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#0b1f2b',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -239,7 +239,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'subtitle_color',
                     'label' => 'Colore SOTTO TITOLI',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#b0b0b0',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -249,7 +249,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'background_color_btn',
                     'label' => 'Colore sfondo pulsante LINK',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#000000',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -259,7 +259,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'border_color_btn',
                     'label' => 'Colore bordo pulsante LINK',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#000000',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -269,7 +269,7 @@ class BlockReferenceCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'text_color_btn',
                     'label' => 'Colore testo pulsante LINK',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#FFFFFF',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -350,7 +350,7 @@ class BlockReferenceCrudController extends CrudController
             /*$this->crud->addField([   // color_picker
                 'label'                => 'Background Color',
                 'name'                 => 'background_color',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'default'              => '#000000',
 
                 // optional

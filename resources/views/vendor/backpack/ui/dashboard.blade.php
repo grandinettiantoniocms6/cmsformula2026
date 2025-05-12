@@ -1,5 +1,14 @@
 @extends(backpack_view('blank'))
 
+@section('header')
+    <h3 class="page-title mb-0">
+        <span class="text-capitalize">Bacheca
+
+        </span>
+    </h3>
+
+@endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="row row-short pt-4">

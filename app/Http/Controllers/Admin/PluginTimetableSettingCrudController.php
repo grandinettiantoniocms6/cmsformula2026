@@ -68,7 +68,7 @@ class PluginTimetableSettingCrudController extends CrudController
         $this->crud->addField([   // color_picker
             'label'                => 'Colore principale',
             'name'                 => 'color',
-            'type'                 => 'color_picker',
+            'type'                 => 'color_picker2',
             'default'              => '#000000',
         ]);
 

@@ -257,7 +257,7 @@ class BlockImageLinkCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'txtcolor',
                 'label' => 'Colore Titolo e Icona',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -267,7 +267,7 @@ class BlockImageLinkCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor',
                 'label' => 'Colore sfondo Box',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],

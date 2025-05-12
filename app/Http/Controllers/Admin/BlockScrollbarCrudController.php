@@ -180,7 +180,7 @@ class BlockScrollbarCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_title',
                 'label' => 'Colore Titoli',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#000000',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -190,7 +190,7 @@ class BlockScrollbarCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor',
                 'label' => 'Colore sfondo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 //'default' => 'transparent',
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
@@ -266,7 +266,7 @@ class BlockScrollbarCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'icon_color',
                 'label' => 'Colore icona',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -276,7 +276,7 @@ class BlockScrollbarCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'icon_bgcolor',
                 'label' => 'Colore sfondo icona',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 //'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],

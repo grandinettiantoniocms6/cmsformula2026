@@ -20,14 +20,25 @@
 
   $pages_count = \App\Models\Page::count();
   $website = \App\Models\WebsiteSetting::first();
-  $number = null;
 @endphp
 
 @section('header')
     <h3 class="page-title mb-0">
-        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}
+
+        </span>
         <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+
     </h3>
+    <br>
+    @if(backpack_user()->roles[0]->id <= 3)
+        @if($website->number_max_page)
+                <?php $number = $website->number_max_page - $pages_count; ?>
+            <span class="text text-info-light">Puoi inserire ancora {{ $number }} pagine</span>
+        @else
+            <span class="text text-info-light">Puoi inserire pagine illimitate</span>
+        @endif
+    @endif
 @endsection
 
 @section('content')
@@ -57,14 +68,7 @@
     </div>
   @endif
 
-   @if(backpack_user()->roles[0]->id <= 3)
-     @if($website->number_max_page)
-        <?php $number = $website->number_max_page - $pages_count; ?>
-        <div class="alert alert-info-light">Puoi inserire ancora {{ $number }} pagine</div>
-     @else
-        <div class="alert alert-info-light">Puoi inserire pagine illimitate</div>
-     @endif
-   @endif
+
 
   <!-- Default box -->
   <div class="row">

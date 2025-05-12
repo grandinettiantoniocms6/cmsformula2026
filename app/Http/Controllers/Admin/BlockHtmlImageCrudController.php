@@ -179,7 +179,7 @@ class BlockHtmlImageCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name'  => 'bgcolor',
                     'label' => 'Colore sfondo carosello',
-                    'type'  => 'color_picker',
+                    'type'  => 'color_picker2',
                     'default' => '#ffffff',
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],

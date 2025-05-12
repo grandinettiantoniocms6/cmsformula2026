@@ -94,6 +94,8 @@
                         _token: '{{ csrf_token() }}'
                     }, success: function (response) {
                         $("#slug_it").val(response.string);
+                        $("#title_it").val($("#title_page").val());
+                        $("#meta_title_it").val($("#title_page").val());
                     },error: function (data, textStatus, errorThrown) {
                     },
                 });

@@ -95,7 +95,7 @@ class PluginInterventionsStatusCrudController extends CrudController
         $this->crud->addField([
             'name'  => 'color',
             'label' => 'Colore',
-            'type'  => 'color_picker',
+            'type'  => 'color_picker2',
             // optional
             //'default' => '#1ab42f',
             'color_picker_options' => ['customClass' => 'custom-class'],

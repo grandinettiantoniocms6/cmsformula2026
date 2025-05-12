@@ -164,7 +164,7 @@ class BlockHeroCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor',
                 'label' => 'Colore di sfondo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class']
             ]);
@@ -196,7 +196,7 @@ class BlockHeroCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_title',
                 'label' => 'Colore del Titolo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class']
             ]);

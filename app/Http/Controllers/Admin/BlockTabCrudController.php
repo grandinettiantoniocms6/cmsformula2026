@@ -119,7 +119,7 @@ class BlockTabCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor',
                 'label' => 'Colore sfondo barra tab',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'default' => '#fefefe',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -129,7 +129,7 @@ class BlockTabCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'btn_color_active',
                 'label' => 'Colore sfondo pulsante Active/Attivo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'default' => '#cdcecf',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -139,7 +139,7 @@ class BlockTabCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'btn_color_hover',
                 'label' => 'Colore sfondo pulsante Mouse Hover',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'default' => '#373838',
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -149,7 +149,7 @@ class BlockTabCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'btn_txt_color',
                 'label' => 'Colore testo pulsante',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'default' => '#000000',
                 'color_picker_options' => ['customClass' => 'custom-class'],

@@ -176,7 +176,7 @@ class PluginProductsSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore Etichetta 1',
                 'name'                 => 'custom_color_1',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'default'              => null,
                 // optional
@@ -187,7 +187,7 @@ class PluginProductsSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore Etichetta 2',
                 'name'                 => 'custom_color_2',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'default'              => null,
                 // optional
@@ -263,7 +263,7 @@ class PluginProductsSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore sfondo Search Bar',
                 'name'                 => 'topbar_background',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'default'              => null,
                 // optional
@@ -274,7 +274,7 @@ class PluginProductsSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore Autocomplete hover Search bar',
                 'name'                 => 'color_hover_autocomplete_topbar_ecommerce',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'default'              => null,
                 // optional
@@ -285,7 +285,7 @@ class PluginProductsSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore Pulsante CATEGORIE Search bar',
                 'name'                 => 'bg_btn_search_topbar_ecommerce',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-4'],
                 'default'              => null,
                 // optional
@@ -296,7 +296,7 @@ class PluginProductsSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore sfondo Submenu pulsante CATEGORIE Search bar',
                 'name'                 => 'bg_submenu_search_topbar_ecommerce',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-4'],
                 'default'              => null,
                 // optional
@@ -321,7 +321,7 @@ class PluginProductsSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore testo pulsante CATEGORIE Search bar',
                 'name'                 => 'txtcolor_btn_search_topbar_ecommerce',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'default'              => null,
                 // optional
@@ -332,7 +332,7 @@ class PluginProductsSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore testo submenu CATEGORIE Search bar',
                 'name'                 => 'txtcolor_submenu_search_topbar_ecommerce',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'default'              => null,
                 // optional

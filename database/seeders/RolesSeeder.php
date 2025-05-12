@@ -80,7 +80,7 @@ class RolesSeeder extends Seeder
         if(!$check){
             \App\Models\Page::create([
                 "name" => "Home",
-                "title" => "Home",
+                "title" => "HOME",
                 "slug" => "/",
                 "is_in_menu" => 1,
                 "is_active" => 1,

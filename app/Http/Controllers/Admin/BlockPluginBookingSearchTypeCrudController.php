@@ -117,7 +117,7 @@ class BlockPluginBookingSearchTypeCrudController extends CrudController
         $this->crud->addField([   // repeatable
             'name'  => 'bgcolor',
             'label' => 'Oppure usa un colore di sfondo',
-            'type'  => 'color_picker',
+            'type'  => 'color_picker2',
             // optional
             'default' => '#ffffff',
             'color_picker_options' => ['customClass' => 'custom-class'],
@@ -135,7 +135,7 @@ class BlockPluginBookingSearchTypeCrudController extends CrudController
         $this->crud->addField([   // repeatable
             'name'  => 'form_booking_bgcolor',
             'label' => 'Colore sfondo form Booking',
-            'type'  => 'color_picker',
+            'type'  => 'color_picker2',
             // optional
             //'default' => '#1ab42f',
             'color_picker_options' => ['customClass' => 'custom-class'],
@@ -145,7 +145,7 @@ class BlockPluginBookingSearchTypeCrudController extends CrudController
         $this->crud->addField([   // repeatable
             'name'  => 'form_booking_border_color',
             'label' => 'Colore bordo form Booking',
-            'type'  => 'color_picker',
+            'type'  => 'color_picker2',
             // optional
             //'default' => '#1ab42f',
             'color_picker_options' => ['customClass' => 'custom-class'],

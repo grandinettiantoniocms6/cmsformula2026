@@ -184,7 +184,6 @@ class CustomUserCrudController extends CrudController
         $countries = Country::get()->pluck("name", "id")->toArray();
 
         if(backpack_user()->roles[0]->id == 2){
-            $roles = config('permission.models.role');
             $role = null;
 
             $user_id = null;
@@ -298,7 +297,7 @@ class CustomUserCrudController extends CrudController
                     'label'             => trans('backpack::permissionmanager.user_role_permission'),
                     'field_unique_name' => 'user_role_permission',
                     'type'              => 'checklist_dependency',
-                    'name'              => ['roles', 'permissions'],
+                    'name'              => 'roles,permissions',
                     'subfields'         => [
                         'primary' => [
                             'label'            => trans('backpack::permissionmanager.roles'),
@@ -321,7 +320,6 @@ class CustomUserCrudController extends CrudController
                             'number_columns' => 3, //can be 1,2,3,4,6
                         ],
                     ],
-
                 ],
             ]);
         }

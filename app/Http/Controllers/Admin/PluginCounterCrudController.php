@@ -115,7 +115,7 @@ class PluginCounterCrudController extends CrudController
         $this->crud->addField([   // repeatable
             'name'  => 'icon_color',
             'label' => 'Colore Icona',
-            'type'  => 'color_picker',
+            'type'  => 'color_picker2',
             'default' => '#000000',
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
@@ -132,7 +132,7 @@ class PluginCounterCrudController extends CrudController
         $this->crud->addField([   // repeatable
             'name'  => 'number_color',
             'label' => 'Colore numeri Contatore',
-            'type'  => 'color_picker',
+            'type'  => 'color_picker2',
             'default' => '#000000',
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
@@ -149,7 +149,7 @@ class PluginCounterCrudController extends CrudController
         $this->crud->addField([   // repeatable
             'name'  => 'title_color',
             'label' => 'Colore Titolo',
-            'type'  => 'color_picker',
+            'type'  => 'color_picker2',
             'default' => '#000000',
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
@@ -159,7 +159,7 @@ class PluginCounterCrudController extends CrudController
         $this->crud->addField([   // repeatable
             'name'  => 'subtitle_color',
             'label' => 'Colore Frase',
-            'type'  => 'color_picker',
+            'type'  => 'color_picker2',
             'default' => '#000000',
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],

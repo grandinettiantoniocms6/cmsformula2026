@@ -131,7 +131,7 @@ class ShopAttributesOptionsCrudController extends CrudController
             [   // color_picker
                 'label'                => 'Colore sfondo',
                 'name'                 => 'background_color',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
 
                 // optional
                 // Anything your define inside `color_picker_options` will be passed as JS

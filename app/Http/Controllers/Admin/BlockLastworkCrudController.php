@@ -156,7 +156,7 @@ class BlockLastworkCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_subtitle',
                 'label' => 'Colore Titoletto',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 'default' => '#000000',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -166,7 +166,7 @@ class BlockLastworkCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_title',
                 'label' => 'Colore Titolo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 'default' => '#000000',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -176,7 +176,7 @@ class BlockLastworkCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bg_color',
                 'label' => 'Colore sfondo box sinistra',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 'default' => '#fefefe',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],

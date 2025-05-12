@@ -296,6 +296,16 @@ class Page extends Model
 
         return $html;
     }
+
+    public function get_name()
+    {
+        if($this->parent_id === null){
+            return $this->name;
+        }
+
+        return "&nbsp;&nbsp;&nbsp;$this->name";
+
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

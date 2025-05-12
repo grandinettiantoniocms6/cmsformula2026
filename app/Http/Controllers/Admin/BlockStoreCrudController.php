@@ -188,7 +188,7 @@ class BlockStoreCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'icon_color_phone',
                 'label' => 'Colore icona telefono',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 'default' => '#0075a3',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -215,7 +215,7 @@ class BlockStoreCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'icon_color_whatsapp',
                 'label' => 'Colore icona WhatsApp',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 'default' => '#00c351',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -227,7 +227,7 @@ class BlockStoreCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor',
                 'label' => 'Seleziona il colore di Sfondo del riquadro',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 'default' => '#faf8ee',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
@@ -239,7 +239,7 @@ class BlockStoreCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'txt_color',
                 'label' => 'Colore del testo',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 'default' => '#0075a3',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],

@@ -189,7 +189,7 @@ class BlockCarouselCrudController extends CrudController
                 $this->crud->addField([   // repeatable
                     'name' => 'color_title',
                     'label' => 'Colore Titoli',
-                    'type' => 'color_picker',
+                    'type' => 'color_picker2',
                     // optional
                     'default' => '#000000',
                     'color_picker_options' => ['customClass' => 'custom-class'],
@@ -243,7 +243,7 @@ class BlockCarouselCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'bgcolor',
                 'label' => 'Colore sfondo Box',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'default' => '#ffffff',
                 'color_picker_options' => ['customClass' => 'custom-class'],

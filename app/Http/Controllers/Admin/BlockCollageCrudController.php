@@ -187,7 +187,7 @@ class BlockCollageCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_title_dx',
                 'label' => 'Colore Titolo a destra',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class']
             ]);
@@ -195,7 +195,7 @@ class BlockCollageCrudController extends CrudController
             $this->crud->addField([   // repeatable
                 'name'  => 'color_title_sx',
                 'label' => 'Colore Titolo a sinistra',
-                'type'  => 'color_picker',
+                'type'  => 'color_picker2',
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class']
             ]);

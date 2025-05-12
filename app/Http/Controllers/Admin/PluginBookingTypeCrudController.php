@@ -233,7 +233,7 @@ class PluginBookingTypeCrudController extends CrudController
         /*$this->crud->addField([   // color_picker
             'label'                => 'Colore in Agenda',
             'name'                 => 'color_calendar',
-            'type'                 => 'color_picker',
+            'type'                 => 'color_picker2',
             'default'              => '#000000',
             'wrapper' => ['class' => 'form-group col-md-6']
         ]);*/
@@ -363,7 +363,7 @@ class PluginBookingTypeCrudController extends CrudController
         /*$this->crud->addField([   // color_picker
             'label'                => 'Colore in Agenda',
             'name'                 => 'color_calendar',
-            'type'                 => 'color_picker',
+            'type'                 => 'color_picker2',
             'default'              => '#000000',
             'wrapper' => ['class' => 'form-group col-md-6']
         ]);*/

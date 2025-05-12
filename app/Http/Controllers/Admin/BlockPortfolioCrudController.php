@@ -172,7 +172,7 @@ class BlockPortfolioCrudController extends CrudController
             /*$this->crud->addField([   // color_picker
                 'label'                => 'Background Color',
                 'name'                 => 'background_color',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'default'              => '#000000',
 
                 // optional
