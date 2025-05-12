@@ -54,6 +54,7 @@ class AdminBlockCrudController extends CrudController
                 'name'  => 'label',
                 'label' => 'Blocco',
                 'type'  => 'text',
+                'limit' => 1000
             ],
             [
                 'name'  => 'name',

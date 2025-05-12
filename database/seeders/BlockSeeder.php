@@ -14,6 +14,10 @@ class BlockSeeder extends Seeder
 
         //\App\Models\AdminBlock::truncate();
 
+        \App\Models\AdminBlock::where("name", "blockContact")->delete();
+        \App\Models\AdminBlock::where("name", "blockPortfolio")->delete();
+        \App\Models\AdminBlock::where("name", "blockPortfolio2")->delete();
+
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockHtml"],[
                "label" => "Html Testo libero",
                "name" => "blockHtml",
@@ -102,13 +106,7 @@ class BlockSeeder extends Seeder
             "is_multi" => 1
         ]);
 
-        /*\App\Models\AdminBlock::firstOrCreate(["name" => "blockContact"],[
-            "label" => "Form contatti",
-            "name" => "blockContact",
-            "name_table" => "blocks_contacts",
-            "is_active" => 0,
-            "is_ordinable" => 1
-        ]);*/
+
 
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockIcon"],[
             "label" => "Icone",
@@ -182,18 +180,10 @@ class BlockSeeder extends Seeder
             "is_multi" => 1
         ]);
 
-        /*\App\Models\AdminBlock::firstOrCreate(["name" => "blockPortfolio"],[
-            "label" => "Portfolio da rimuovere",
-            "name" => "blockPortfolio",
-            "name_table" => "blocks_portfolios",
-            "is_active" => 0,
-            "is_ordinable" => 1,
-            "is_multi" => 1
-        ]);*/
 
-        \App\Models\AdminBlock::firstOrCreate(["name" => "blockPortfolio2"],[
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockPortfolio"],[
             "label" => "Portfolio",
-            "name" => "blockPortfolio2",
+            "name" => "blockPortfolio",
             "name_table" => "blocks_portfolio2s",
             "is_active" => 0,
             "is_ordinable" => 1,

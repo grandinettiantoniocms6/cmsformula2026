@@ -94,18 +94,13 @@ class PluginProductsContactsCrudController extends CrudController
                     'options' => $fields,
                     'allows_null' => false,
                     'default' => 'text',
-                    'wrapper' => ['class' => 'form-group col-md-4'],
-                ],
-                [
-                    'name'    => 'ordine',
-                    'type'    => 'text',
-                    'label'   => 'Ordine',
                     'wrapper' => ['class' => 'form-group col-md-2'],
                 ],
                 [   // Checkbox
                     'name' => 'required',
                     'label' => 'Campo obbligatorio?',
-                    'type' => 'checkbox'
+                    'type' => 'switch',
+                    'wrapper' => ['class' => 'form-group col-md-2'],
                 ],
                 [
                     'name'    => 'url_pagina',

@@ -105,30 +105,26 @@ class PluginFormsCrudController extends CrudController
                     'name'    => 'placeholder',
                     'type'    => 'text',
                     'label'   => 'Placeholder',
-                    'wrapper' => ['class' => 'form-group col-md-6'],
-                ],
-                [
-                    'name'    => 'ordine',
-                    'type'    => 'text',
-                    'label'   => 'Ordine',
                     'wrapper' => ['class' => 'form-group col-md-2'],
                 ],
+
                 [   // Checkbox
                     'name' => 'required',
                     'label' => 'Campo obbligatorio?',
-                    'type' => 'checkbox'
+                    'type' => 'switch',
+                    'wrapper' => ['class' => 'form-group col-md-2'],
                 ],
                 [
                     'name'    => 'url_pagina',
                     'label'   => 'Url pagina per campo checkbox o testo libero',
                     'type' => 'text',
-                    'wrapper' => ['class' => 'form-group col-md-6'],
+                    'wrapper' => ['class' => 'form-group col-md-3'],
                 ],
                 [
                     'name'    => 'values',
                     'label'   => 'Valori select (dividere con virgola)',
                     'type' => 'text',
-                    'wrapper' => ['class' => 'form-group col-md-6'],
+                    'wrapper' => ['class' => 'form-group col-md-3'],
                 ],
                 [
                     'name'  => 'order',

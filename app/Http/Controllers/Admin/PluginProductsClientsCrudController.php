@@ -84,7 +84,11 @@ class PluginProductsClientsCrudController extends CrudController
 
         $shopSetting = ShopSettings::first();
 
-        $addColumn = null;
+        $addColumn = [
+            'name'  => '',
+            'label' => '',
+            'type'  => 'hidden',
+        ];
         if($shopSetting->is_subscriptions){
             $addColumn =  [
                 // run a function on the CRUD model and show its return value

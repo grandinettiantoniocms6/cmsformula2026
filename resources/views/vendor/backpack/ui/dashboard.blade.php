@@ -16,8 +16,13 @@
                         <div class="col col-xl-9 col-xx d-flex flex-column order-2 order-lg-1">
                             <div class="card-body d-flex flex-column">
                                 <div class="mt-auto">
-                                    <div class="font-sm font-x3-lg">Ciao <strong>Antonio Grandinetti</strong>,</div>
-                                    <div class="font-sm font-x3-md mb-2">Oggi è <strong>Mercoledì 16/04/2025</strong> <span>|</span> <span>Ore 11:37</span></div>
+                                    <div class="font-sm font-x3-lg">Ciao <strong>{{ \backpack_user()->name }}</strong>,</div>
+                                    <?php
+                                    $day_desc = config("cmsformula.days_desc");
+                                    $day_d = $day_desc[\Carbon\Carbon::now()->format("D")];
+                                    ?>
+                                    <div class="font-lg text-dark">Oggi è <strong>{{ $day_d }} {{ \Carbon\Carbon::now()->format("d/m/Y") }}</strong> <span>|</span> <span>Ore {{ \Carbon\Carbon::now()->format("H:i") }}</span></div>
+
                                     <div class="line-height-sm">
                                         <strong>
                                             295
@@ -32,8 +37,83 @@
             </div>
         </div>
 
+        <div class="row mt-4">
+            <div class="col-sm-4 col-xl-2">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <div class="card-wrapper" style="text-align: center; width: 100%;">
+                            <a href="/admin/page/create"> <img src="/img/icons/crea-pagina-03.png"><br>
+                                Nuova pagina
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.col-->
+
+            <div class="col-sm-4 col-xl-2">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <div class="card-wrapper" style="text-align: center; width: 100%;">
+                            <a href="/admin/page"> <img src="/img/icons/elenco-pagine-03.png"><br>
+                                Elenco Pagine
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.col-->
+
+            <div class="col-sm-4 col-xl-2">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <div class="card-wrapper" style="text-align: center; width: 100%;">
+                            <a href="/admin/elfinder"> <img src="/img/icons/media-03.png"><br>
+                                File Manager
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.col-->
+
+            <div class="col-sm-4 col-xl-2">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <div class="card-wrapper" style="text-align: center; width: 100%;">
+                            <a href="/admin/websiteSetting/1/edit"> <img src="/img/icons/setting-03.png"><br>
+                                Impostazioni
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.col-->
+
+            <div class="col-sm-4 col-xl-2">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <div class="card-wrapper" style="text-align: center; width: 100%;">
+                            <a href="/admin/pluginTutorial/view"> <img src="/img/icons/videotut-03.png"><br>
+                                Tutorial
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.col-->
+
+            <div class="col-sm-4 col-xl-2">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <div class="card-wrapper" style="text-align: center; width: 100%;">
+                            <a href="https://www.webisland.it/contatti" target="_blank"> <img src="/img/icons/supporto-03.png"><br>
+                                Richiedi Assistenza
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.col-->
+
+        </div>
+
         <div class="row row-short flex-grow-1">
-            <div class="col-md-8 col-xx-9">
+            <div class="col-md-12 col-xx-9">
                 <div class="row row-short flex-grow-1">
                     <div class="col-md-6 d-flex flex-column">
                         <div class="card card-dashboard flex-column flex-grow-1">
@@ -354,7 +434,7 @@
 
             <div class="col-md-4 col-xx-3 d-flex flex-column">
 
-                <div class="card card-dashboard flex-column flex-grow-1">
+                <!--<div class="card card-dashboard flex-column flex-grow-1">
                     <div class="card-body d-flex flex-column">
                         <h4 class="line-height-xs">Magazzino</h4>
                         <h4 class="line-height-xs font-4xl">€ 623,25</h4>
@@ -409,7 +489,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </div>

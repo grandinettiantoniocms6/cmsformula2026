@@ -4,21 +4,7 @@ $form = \App\Models\PluginForms::find($item->form_id); ?>
 <?php
 $title = $form->title_form;
 $subtitle = $form->subtitle_form;
-$content = $form->content;
-$fields = json_decode($content, true);
-
-$new_fields = [];
-if($fields){
-    foreach ($fields as $k=>$v){
-        if(key_exists("ordine", $v)){
-            $fields[$v["ordine"]] = $v;
-            $new_fields[$v["ordine"]] = $v;
-            unset($fields[$k]);
-        }
-    }
-    ksort($new_fields);
-    $fields = $new_fields;
-}
+$fields = $form->content;
 ?>
 <section id="formpro-{{ $item->form_id }}" class="block-formpro">
     <div class="container">

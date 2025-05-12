@@ -290,7 +290,9 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                     <ul class="nav-dropdown-items">
                         @if(backpack_user()->roles[0]->id == 1)
                             <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginTutorial') }}"><i class="nav-icon lab la-wpforms"></i> Video</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginTutorial') }}/view"><i class="nav-icon lab la-wpforms"></i> Anteprima</a></li>
+
+                        <!--
+                            <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginTutorial') }}/view"><i class="nav-icon lab la-wpforms"></i> Anteprima</a></li> -->
                         @endif
                         @if(backpack_user()->roles[0]->id >= 2)
                             <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginTutorial') }}"><i class="nav-icon lab la-wpforms"></i> Video</a></li>

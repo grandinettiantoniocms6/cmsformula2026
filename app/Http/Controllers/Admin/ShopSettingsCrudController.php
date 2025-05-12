@@ -139,18 +139,18 @@ class ShopSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore Etichetta 1',
                 'name'                 => 'custom_color_1',
-                'type'                 => 'color_picker',
-                'wrapper' => ['class' => 'form-group col-md-6'],
+                'type'                 => 'color_picker2',
                 'default'              => "#ED0D0D",
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'tab' => 'Generale'
             ]);
 
+
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore Etichetta 2',
                 'name'                 => 'custom_color_2',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'default'              => "#0AA412",
                 // optional
@@ -518,7 +518,7 @@ class ShopSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore Etichetta 1',
                 'name'                 => 'custom_color_1',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'default'              => "#ED0D0D",
                 // optional
@@ -529,7 +529,7 @@ class ShopSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore Etichetta 2',
                 'name'                 => 'custom_color_2',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'default'              => "#0AA412",
                 // optional
@@ -682,7 +682,7 @@ class ShopSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore sfondo header BC',
                 'name'                 => 'bgcolor_bc',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-12'],
                 'default'              => "#F3EDED",
                 // optional
@@ -701,7 +701,7 @@ class ShopSettingsCrudController extends CrudController
             $this->crud->addField([   // color_picker
                 'label'                => 'Colore testo Bread crumbs',
                 'name'                 => 'text_color_bc',
-                'type'                 => 'color_picker',
+                'type'                 => 'color_picker2',
                 'wrapper' => ['class' => 'form-group col-md-6'],
                 'default'              => "##000000",
                 // optional

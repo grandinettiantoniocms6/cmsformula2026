@@ -16,6 +16,8 @@ class TemplateSeeder extends Seeder
         /** inizio specifiche tema */
 
         \App\Models\AdminTemplate::where("name", "Basic")->delete();
+        \App\Models\AdminTemplate::where("name", "Shoppy")->delete();
+        \App\Models\AdminTemplate::where("name", "Creative")->delete();
 
 
         /** inizio specifiche tema */
@@ -46,21 +48,6 @@ class TemplateSeeder extends Seeder
             "description" => "Template Grafico Responsive, adatto per la tua azienda in quanto ricco di personalizzazioni. Topbar per visualizzare Email e telefono, barra del menu e oltre 3 tipi di footer. Sviluppato con tecnologia Bootstrap 5."
         ]);
         /** fine specifiche tema */
-
-
-        /** inizio specifiche tema */
-        \App\Models\AdminTemplate::firstOrCreate(["name" => "Creative"],[
-            "image_name" => "/imagesAdminTemplates/Creative.jpg",
-            "url" => "https://www.witest.it/Creative/index.html",
-            "price" => 550,
-            "description" => "Template Grafico Responsive, adatto per la tua azienda in quanto ricco di personalizzazioni. Topbar per visualizzare Email e telefono, barra del menu e oltre 5 tipi di footer. Sviluppato con tecnologia Bootstrap 4."
-        ]);
-        /** fine specifiche tema */
-
-
-
-
-
 
     }
 }

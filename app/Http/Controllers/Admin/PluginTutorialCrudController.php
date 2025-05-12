@@ -73,6 +73,7 @@ class PluginTutorialCrudController extends CrudController
                 'name'  => 'title',
                 'label' => 'Titolo',
                 'type'  => 'text',
+                'limit' => 10000
             ],
             [
                 // run a function on the CRUD model and show its return value

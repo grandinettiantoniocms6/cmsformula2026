@@ -66,7 +66,11 @@ class PluginProductsCategoriesCrudController extends CrudController
         $this->crud->removeButton("delete");
 
         $adminPlugin = AdminPlugin::where("name", "pluginProducts")->first();
-        $addColumn = null;
+        $addColumn = [
+            'name'  => '',
+            'label' => '',
+            'type'  => 'hidden',
+        ];
         if($adminPlugin->version == 3){
             $addColumn =  [
                 'name'  => 'is_purchasable',
