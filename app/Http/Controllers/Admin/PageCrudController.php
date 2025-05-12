@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\PageRequest;
 use App\Models\AdminLanguage;
 use App\Models\AdminPlugin;
+use App\Models\BlockImage;
 use App\Models\Page;
 use App\Models\PageBlock;
 use App\Models\WebsiteSetting;
@@ -594,6 +595,22 @@ class PageCrudController extends CrudController
             }
         }
 
+        $header = BlockImage::create([
+           "name" => "Header",
+           "alpha" => 30,
+           "bgcolor" => "#000000",
+           "style" => 1
+        ]);
+
+        PageBlock::insert([
+            "type" => "blockImage",
+            "obj_id" => $header->id,
+            "page_id" => $this->crud->entry->id,
+            "position" => "header",
+            "col" => 1,
+            "is_active" => 1,
+            "created_at" => Carbon::now()->toDateTimeString()
+        ]);
 
         return $this->crud->performSaveAction($item->getKey());
     }
