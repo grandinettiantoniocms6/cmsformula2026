@@ -163,7 +163,7 @@
                                         @endif
                                     </div>
 
-                                    <div class="portfolio-caption pt-30px pb-30px lg-pt-20px lg-pb-20px">
+                                    <div class="portfolio-caption pt-30px pb-30px lg-pt-20px lg-pb-20px" style="padding-left: 20px; padding-right: 20px;">
                                         <div class="blog-categories">
                                             <span class="categories-btn text-uppercase alt-font fw-700" style="font-size: 16px!important; margin-bottom: 8px; background-color: {!! $value->bgcolor !!}; color: {!! $value->txtcolor !!};">{{ $text_etichetta[\App::getLocale()] }}</span>
                                         </div>
