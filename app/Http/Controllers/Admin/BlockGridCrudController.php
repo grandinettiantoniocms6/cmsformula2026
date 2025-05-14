@@ -179,6 +179,7 @@ class BlockGridCrudController extends CrudController
                                     [
                                         1 => 'Style 1',
                                         2 => 'Style 2',
+                                        3 => 'Style 3',
 
 
                                     ],
