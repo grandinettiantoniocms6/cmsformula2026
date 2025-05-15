@@ -40,20 +40,11 @@
                             break;
                         case "blocks_gallerys":
                             if($item->is_pagination == 1){
-                                $number = \DB::table($adminBlock->name_table)
+                                $array = \DB::table($adminBlock->name_table)
                                     ->where("block_id", $item->id)
-                                    ->count();
-                                if($number > 0){
-                                    $array = \DB::table($adminBlock->name_table)
-                                        ->where("block_id", $item->id)
-                                        ->orderBy("lft", "asc")
-                                        ->paginate($item->number_pagination);
-                                }else{
-                                    $array = \DB::table($adminBlock->name_table)
-                                        ->whereNotNull("block_id")
-                                        ->orderBy("lft", "asc")
-                                        ->paginate($item->number_pagination);
-                                }
+                                    ->orderBy("lft", "asc")
+                                    ->paginate($item->number_pagination);
+
                             }else{
                                 $array = \DB::table($adminBlock->name_table)
                                     ->where("block_id", $item->id)->orderBy("lft", "asc")->get();

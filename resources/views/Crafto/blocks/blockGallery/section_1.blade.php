@@ -1,6 +1,5 @@
 <?php
 $website = \App\Models\WebsiteSetting::first();
-
 $titleBlocco = json_decode($item->title, true);
 if($titleBlocco){
     if(!key_exists(\App::getLocale(), $titleBlocco)){
