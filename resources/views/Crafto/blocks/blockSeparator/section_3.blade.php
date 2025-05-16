@@ -141,12 +141,12 @@
 
             <!-- start section -->
             @if(trim($value->foto) != "")
-                <section class="banner" style="background-image: url('{{ $foto }}'); margin-top: {{ $item->mt }}px!important; margin-bottom: {{ $item->mb }}px!important;">
+                <section class="banner position-relative" data-parallax-background-ratio="0.5" style="background-image: url('{{ $foto }}'); margin-top: {{ $item->mt }}px!important; margin-bottom: {{ $item->mb }}px!important;">
             @else
                  <section id="{{ $item->id }}" style="background-color: {!! $value->bgcolor !!}; margin-top: {{ $item->mt }}px!important; margin-bottom: {{ $item->mb }}px!important;">
             @endif
                         <div class="{{ $item->fullwidth }}">
-                            <div class="row p-3">
+                            <div class="row p-3 min-h-500px">
 
                                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                                     <div class="section-title wow animate__fadeInRight" data-wow-duration=".7s" style="margin-top: 40px;">

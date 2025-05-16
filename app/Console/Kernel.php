@@ -10,6 +10,8 @@ use App\Console\Commands\CreateThumbBlock;
 use App\Console\Commands\CreateThumbBrands;
 use App\Console\Commands\CreateThumbHeaders;
 use App\Console\Commands\ImportParkos;
+use App\Console\Commands\ImportPlcClient;
+use App\Console\Commands\ImportPlcRequest;
 use App\Console\Commands\ImportSaviplast;
 use App\Console\Commands\MultiCategoriesSaviplast;
 use App\Console\Commands\SendReminderRighetto;
@@ -39,7 +41,9 @@ class Kernel extends ConsoleKernel
         ClearUserSpam::class,
         SetProductsLangs::class,
         SendReminderBooking::class,
-        ImportParkos::class
+        ImportParkos::class,
+        ImportPlcClient::class,
+        ImportPlcRequest::class
     ];
 
     /**
@@ -55,6 +59,7 @@ class Kernel extends ConsoleKernel
         $schedule->exec('composer dump-autoload')->everyMinute();
         $schedule->exec('php artisan db:seed')->everyMinute();*/
 
+
         //$schedule->command('auto:command')->everyMinute();
         if(env('APP_NAME') == "Righetto"){
             $schedule->command('send:reminder_righetto')
@@ -63,10 +68,6 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('send:reminder_booking')
             ->dailyAt("08:00");
-
-        if(env('APP_NAME') == "Gioielleria-Manega"){
-           // $schedule->command('clear:user_spam')->dailyAt("03:00");
-        }
 
         $parking = AdminPlugin::where("name", "pluginParking")->where("is_active", 1)->first();
         if($parking){

@@ -184,4 +184,6 @@ Route::group([
     Route::crud('block-page', 'BlockPageCrudController');
     Route::crud('user-subscription', 'UserSubscriptionCrudController');
     Route::crud('plugin-interventions-note', 'PluginInterventionsNoteCrudController');
+    Route::crud('plugin-labels', 'PluginLabelsCrudController');
+    Route::crud('plugin-labels-settings', 'PluginLabelsSettingsCrudController');
 }); // this should be the absolute last line of this file

@@ -1,14 +1,12 @@
 <?php
   $plugin = \App\Models\PluginProductsSettings::first();
-  $categories = \App\Models\PluginProductsCategories::where("is_active", 1)
-        ->where("parent_id", null)
-        ->where("is_purchasable", 1)
-        ->orderBy("lft", "asc")
-        ->get();
-
-  $class = new \App\Http\Controllers\PluginProductsController();
   $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
-  $categories = $class->get_categories_sidebar($categories);
+
+  $categories = [];
+  $categories_search = \App\Models\PluginProductsCategoriesSearch::first();
+  if($categories_search){
+      $categories = json_decode($categories_search->categories, true);
+  }
 ?>
 
 <?php
@@ -47,33 +45,42 @@ $shopSetting = \App\Models\ShopSettings::first();
                                 </button>
                                 <div class="dropdown-box" id="dropdown-box">
                                     <ul class="menu vertical-menu category-menu">
-                                        @foreach($categories as $categoryItem)
-                                            <?php $tot = 0; ?>
-                                            @if(count($categoryItem->figli) > 0)
-                                                @foreach($categoryItem->figli as $figlio)
-                                                    <?php $tot = $tot + $figlio->count;?>
-                                                @endforeach
-                                            @else
-                                                <?php $tot = $tot + $categoryItem->count; ?>
-                                            @endif
-
-                                            @if($tot > 0)
-                                                @if(count($categoryItem->figli) > 0)
-                                                    <li class="has-submenu">
-                                                        <a href="{{ route("pluginProducts.".\App::getLocale(), [$categoryItem->slug]) }}">{{ $categoryItem->name }}</a>
-                                                        <ul class="megamenu columns-1">
-                                                            @foreach($categoryItem->figli as $figlio)
-                                                                @if($figlio->count > 0)
-                                                                    <li><a class="dropdown-item" href="{{ route("pluginProducts.".\App::getLocale(), [$figlio->slug]) }}">{{ $figlio->name }}</a></li>
-                                                                @endif
-                                                            @endforeach
-                                                        </ul>
-                                                    </li>
+                                        @if($categories)
+                                            @foreach($categories as $categoryItem)
+                                                <?php
+                                                $tot = 0;
+                                                $cat_slug = $categoryItem['slug'][\App::getLocale()];
+                                                $cat_name = $categoryItem['name'][\App::getLocale()];
+                                                ?>
+                                                @if(count($categoryItem['figli']) > 0)
+                                                    @foreach($categoryItem['figli'] as $figlio)
+                                                        <?php $tot = $tot + $figlio['count'];?>
+                                                    @endforeach
                                                 @else
-                                                    <li><a href="{{ route("pluginProducts.".\App::getLocale(), [$categoryItem->slug]) }}">{{ $categoryItem->name }}</a></li>
+                                                        <?php $tot = $tot + $categoryItem['count']; ?>
                                                 @endif
-                                            @endif
-                                        @endforeach
+                                                @if($tot > 0)
+                                                    @if(count($categoryItem['figli']) > 0)
+                                                        <li class="has-submenu">
+                                                            <a href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a>
+                                                            <ul class="megamenu columns-1">
+                                                                @foreach($categoryItem['figli'] as $figlio)
+                                                                    <?php
+                                                                    $cat_slug = $figlio['slug'][\App::getLocale()];
+                                                                    $cat_name = $figlio['name'][\App::getLocale()];
+                                                                    ?>
+                                                                    @if($figlio['count'] > 0)
+                                                                        <li><a class="dropdown-item" href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></li>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>
+                                                        </li>
+                                                    @else
+                                                        <li><a href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></li>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        @endif
                                     </ul>
                                 </div>
                                 <div class="dropdown-box-backdrop" data-toggle="show" data-target="#dropdown-box"></div>

@@ -110,7 +110,17 @@
                         <h3 class="subtitle" style="font-size: {{ $value->h_subtitle }}px; color: {{ $value->color_subtitle }};">{{ $subtitle[\App::getLocale()] }}</h3>
                         <div class="description">{!! $description[\App::getLocale()] !!}</div>
                         @if(trim($button[\App::getLocale()])!="")
-                            <a target="{{ $type_href }}" class="btn btn-primary" href="{{ $url }}">{{ $button[\App::getLocale()] }}</a>
+                            <a target="{{ $type_href }}" class="btn btn-large btn-dark-gray btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" href="{{ $url }}">
+                                <span>
+                                    <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
+                                    <span class="btn-icon">
+                                        <i class="feather icon-feather-arrow-right"></i>
+                                    </span>
+                                    <span class="btn-icon">
+                                        <i class="feather icon-feather-arrow-right"></i>
+                                    </span>
+                                </span>
+                            </a>
                         @endif
                     </div>
 
@@ -136,7 +146,17 @@
                                 <div class="description">{!! $description[\App::getLocale()] !!}</div>
 
                                 @if(trim($button[\App::getLocale()])!="")
-                                    <a target="{{ $type_href }}" class="btn btn-primary" href="{{ $url }}">{{ $button[\App::getLocale()] }}</a>
+                                    <a target="{{ $type_href }}" class="btn btn-large btn-dark-gray btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" href="{{ $url }}">
+                                        <span>
+                                            <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
+                                            <span class="btn-icon">
+                                                <i class="feather icon-feather-arrow-right"></i>
+                                            </span>
+                                            <span class="btn-icon">
+                                                <i class="feather icon-feather-arrow-right"></i>
+                                            </span>
+                                        </span>
+                                    </a>
                                 @endif
                     </div>
 

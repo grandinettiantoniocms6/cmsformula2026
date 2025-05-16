@@ -6,14 +6,14 @@
 
                     @if($page->title_page)
 
-                        <h1 class="fw-600 mt-25px" style="color: {{ $page->color_title_page }};">
+                        <h3 class="fw-500 mt-15px" style="color: {{ $page->color_title_page }};">
                             {{ $page->title_page }}
-                        </h1>
+                        </h3>
 
                     @endif
                     @if($page->subtitle_page)
 
-                        <h2 class="fw-300 ls-1px mb-0" style="color: {{ $page->color_subtitle_page }};">
+                        <h2 class="fw-300 ls-1px mb-25px" style="color: {{ $page->color_subtitle_page }};">
                             {{ $page->subtitle_page }}
                         </h2>
 

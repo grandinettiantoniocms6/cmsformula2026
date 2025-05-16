@@ -63,9 +63,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 @include('common.engine_wapp')
 @include('common.js_common')
 
-
 @yield('after_scripts')
-
 @stack('custom_scripts')
 
 @if(env('WAPP'))

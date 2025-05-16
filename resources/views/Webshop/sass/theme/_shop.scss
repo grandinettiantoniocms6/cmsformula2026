@@ -25,12 +25,16 @@
             top: 0;
             transition: all .5s;
             width: 100%;
+            //aspect-ratio: 36 / 42;
+            object-fit: cover;
         }
         img:first-child {
             position: relative;
             opacity: 1;
             transition: all .5s;
             width: 100%;
+            //aspect-ratio: 36 / 42;
+            object-fit: cover;
         }
     }
     .product-label-group {
@@ -205,6 +209,12 @@
     }
 }
 
+a.card-variant.checked, a.card-variant:hover, a.card-variant:focus {
+    border-color: #57bb63;
+    box-shadow: 0 0 0 2px #57bb63;
+    text-decoration: none;
+}
+
 .list-view {
     .product {
         display: flex;
@@ -280,7 +290,7 @@
                 z-index: 3;
             }
             img {
-                aspect-ratio: 1 / 1;
+                //aspect-ratio: 1 / 1;
                 object-fit: cover;
                 cursor: crosshair;
             }
@@ -539,7 +549,12 @@
             border-color: var(--bs-btn-hover-border-color);
         }
     }
+}
 
+#search-mobile {
+  .form-control, .widget-search.widget-topbar .btn {
+    border-color: #fff;
+  }
 }
 
 @include media-breakpoint-down(lg) {

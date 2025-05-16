@@ -48,6 +48,8 @@ class SetProductsSearch extends Command
 
         $id = $this->argument('id');
 
+        $shopSetting = \App\Models\ShopSettings::first();
+
         if($id == 0){
             PluginProductsSearch::truncate();
             $list = PluginProducts::with("tax")->selectRaw("plugins_products.*")
@@ -96,12 +98,21 @@ class SetProductsSearch extends Command
                    }
                }
 
-               if(env('VIEW_WITH_IVA') == 1){
+               /*if(env('VIEW_WITH_IVA') == 1){
                    $vat = $item->tax ? $item->tax->value : 22;
                    $vat_calculate = ($vat / 100) + 1;
                    $promo_price = $item->price * $vat_calculate;
                }else{
                    $promo_price = $item->price;
+               }*/
+
+               $promo_price = $item->getFinalPrice();
+
+               $vet_ids = null;
+               if($item->is_variant == 0){
+                   $vet_ids = $item->get_vet_ids_search($shopSetting);
+                   $encode = json_encode($vet_ids);
+                   $this->info("json $encode");
                }
 
                PluginProductsSearch::create([
@@ -115,7 +126,9 @@ class SetProductsSearch extends Command
                    "price" => $promo_price,
                    "group_id" => $item->group_id,
                    "is_variant" => $item->is_variant,
-                   "is_active" => $item->is_active
+                   "is_active" => $item->is_active,
+                   "vet_ids_list" => json_encode($vet_ids)
+
                ]);
 
                $this->info("product $item->id");

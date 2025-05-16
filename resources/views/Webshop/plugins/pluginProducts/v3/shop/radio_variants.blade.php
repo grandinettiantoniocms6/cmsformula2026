@@ -103,8 +103,8 @@ if($itemProduct->is_variant == 1){
 
                 $attribute_item = \App\Models\ShopAttributes::whereIn("id", $attribute_ids)->orderBy("lft", "asc")->first();
                 if($attribute_item){
-                    $options = \App\Models\ShopAttributesProducts::selectRaw("shop_attributes_options.*, shop_attributes_products.product_id")
-                        ->join("shop_attributes_options", "shop_attributes_options.id", "shop_attributes_products.option_id")
+                    $options = \App\Models\ShopAttributesOptions::selectRaw("shop_attributes_options.*, shop_attributes_products.product_id")
+                        ->join("shop_attributes_products", "shop_attributes_options.id", "shop_attributes_products.option_id")
                         ->where("attribute_id", $attribute_item->id)
                         ->whereIn("product_id", $ids)
                         ->groupBy("value")
@@ -117,6 +117,7 @@ if($itemProduct->is_variant == 1){
                         ->where("product_id", $itemProduct->id)
                         ->groupBy("value")
                         ->first();
+
                     if($variant_option){
                         $option_selected_2 = $variant_option->id;
                     }

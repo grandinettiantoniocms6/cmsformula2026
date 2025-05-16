@@ -1,3 +1,6 @@
+<?php
+$optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray();
+?>
 @if($products)
     @foreach($products as $product)
         <?php
@@ -11,70 +14,13 @@
             $cat_prod_slug = $cat_prod->slug;
         }
 
-        $vet_ids = $product->get_vet_ids($shopSetting);
-
-        //prendo il primo attribute in ordine
-       /* $attribute_first = \App\Models\ShopAttributes::orderBy("lft", "asc")->first();
-
-        //prendo ids varianti
-        $variants_ids = \App\Models\PluginProducts::where("group_id", $product->group_id)
-            ->where("is_variant", 1)
-            ->where("is_active", 1)
-            ->get()->pluck("id")
-            ->toArray();
-
-        if(count($variants_ids)){
-            $temp_ids = \App\Models\PluginProducts::selectRaw("count(*) as tot, code_article, group_concat(id) as ids")
-                ->whereIn("id", $variants_ids)
-                ->orderBy("code_article", "ASC")
-                ->groupBy("code_article")
-                ->get();
-
-
-            $v_final = [];
-            foreach($temp_ids as $pp){
-
-
-                $vet_ids = \App\Models\ShopAttributesProducts::selectRaw("GROUP_CONCAT(product_id) as ids, option_id")->whereRaw("product_id IN ($pp->ids)")
-                    ->join("shop_attributes_options", "shop_attributes_options.id", "=", "shop_attributes_products.option_id")
-                    ->where("attribute_id", $attribute_first->id)
-                    ->orderBy("shop_attributes_options.value", "asc")
-                    ->groupBy("option_id")
-                    ->get()
-                    ->pluck("ids", "option_id")
-                    ->toArray();
-
-                $vet_ids_final = [];
-                if($vet_ids){
-                    foreach ($vet_ids as $k=>$v){
-                        //tra gli ids quali ha attribute_shop_id 2 con valore inferiore alfabeticamente?
-                        $temp_option = \App\Models\ShopAttributesOptions::find($k);
-                        $temp_v = explode(",", $v);
-
-                        $options_p = \App\Models\ShopAttributesProducts::selectRaw("shop_attributes_products.product_id")
-                            ->join("shop_attributes_options", "shop_attributes_options.id", "=", "shop_attributes_products.option_id")
-                            ->whereIn("product_id", $temp_v)
-                            ->where("attribute_id", 2)
-                            ->orderBy("shop_attributes_options.value", "asc")
-                            ->first();
-
-                        if($options_p){
-                            $vet_ids[$k] = $options_p->product_id;
-                        }
-
-                    }
-                }
-
-                if($vet_ids){
-                    foreach ($vet_ids as $idF){
-                        $v_final[] = $idF;
-                    }
-                }
+        //$vet_ids = $product->get_vet_ids($shopSetting);
+            $vet_ids = [];
+            if($product->vet_ids_list){
+                $vet_ids = json_decode($product->vet_ids_list, true);
             }
-            $vet_ids = $v_final;
-        }*/
         ?>
-        @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $plugin])
+        @include("Webshop.plugins.pluginProducts.v3.shop.box_product_grid", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $plugin, "optionsList" => $optionsList])
     @endforeach
 
     <div id="box_pagination" class="w-100">

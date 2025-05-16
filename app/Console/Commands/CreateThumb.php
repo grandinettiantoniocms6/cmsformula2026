@@ -15,7 +15,7 @@ class CreateThumb extends Command
      *
      * @var string
      */
-    protected $signature = 'create:thumb';
+    protected $signature = 'create:thumb {id}';
 
     /**
      * The console command description.
@@ -50,11 +50,16 @@ class CreateThumb extends Command
         $adminThumb = AdminThumb::where("admin_block_id", $adminBlock->id)->get();
 
         //\File::deleteDirectory(public_path('thumb/plugin_products'));
+        $id = $this->argument('id');
+        if($id == 0){
+            $images = PluginProductsImages::orderBy("id", "desc")
+                ->get();
+        }else{
+            $images = PluginProductsImages::orderBy("id", "desc")
+                ->where("product_id", "=", $id)
+                ->get();
+        }
 
-        $images = PluginProductsImages::orderBy("id", "desc")
-            //la riga 56 se si blocca da shell l'attivo dal numero +1 che si blocca
-            //->where("id", "<=", 278)
-            ->get();
         if($images){
             foreach ($images as $item){
                 $this->info("processing $item->image");

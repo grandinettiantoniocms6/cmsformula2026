@@ -60,11 +60,7 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                         @endif
 
                         <br/><strong>x {{ $product->pivot->quantity }}</strong> <small>
-                        @if(env('VIEW_WITH_IVA') == 1)
-                            ({!! $symbol !!} {{ number_format($product->pivot->price_with_tax,2, ',','.') }})
-                        @else
-                            ({!! $symbol !!}{{ number_format($product->pivot->price,2, ',','.') }})
-                        @endif
+                            ({!! $symbol !!} {{ $product->price }})
                         </small>
 
                         @if($extra_list)
@@ -89,11 +85,7 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                     @endif
                 </td>
                 <td style="text-align: center!important"><span class="h4">{!! $symbol !!}
-                        @if(env('VIEW_WITH_IVA') == 1)
                             {{ $product->pivot->quantity * $product->pivot->price_with_tax }}
-                        @else
-                            {{ $product->pivot->quantity * $product->pivot->price }}
-                        @endif
                     </span></td>
             </tr>
             <?php $subTotal = $subTotal + $product->pivot->quantity * $product->pivot->price; ?>

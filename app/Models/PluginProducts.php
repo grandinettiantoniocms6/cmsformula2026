@@ -15,7 +15,7 @@ class PluginProducts extends Model
     use HasTranslations;
     use SoftDeletes;
 
-    public $translatable = ["name", "slug", "meta_title", "meta_description", "meta_key", "description_short", "info_extra_list", "description", "tags", "custom_1", "custom_2"];
+    public $translatable = ["name", "slug", "meta_title", "meta_description", "meta_key", "description_short", "info_extra_list", "description", "tags", "custom_1", "custom_2", "title_labels", "description_labels"];
 
     /*
     |--------------------------------------------------------------------------
@@ -162,6 +162,14 @@ class PluginProducts extends Model
                 }
 
             }
+
+            $genera_thumb = "";
+            if(backpack_user()->roles[0]->id == 1){
+                $url_thumb = route("pluginsProducts.generate_thumb", $this->id);
+                $genera_thumb = "<a class='dropdown-item' href='$url_thumb'>Rigenera Thumb</a>";
+            }
+
+
             $num_opt = PluginProductsOptions::where("product_id", $this->id)->count();
             $link_editing = "<a class='dropdown-item' href='$url_dropzone'>Dropzone ($num_foto)</a> <a class='dropdown-item' href='$url_photo'>Foto ($num_foto)</a>
 <a class='dropdown-item' href='$url_photo_size'>Foto Taglie($num_foto_size)</a>
@@ -196,6 +204,7 @@ class PluginProducts extends Model
                     <a class="dropdown-item" href='.$url_edit.'>Modifica</a>
                     '.$link_editing.'
                     '.$link_attachments.'
+                     '.$genera_thumb.'
                     <a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="/admin/'.$type.'/'.$this->id.'/clone" class="dropdown-item" data-button-type="clone">Duplica</a>
                     <a href="javascript:void(0)" onclick="deleteEntry(this)" data-route="/admin/'.$type.'/'.$this->id.'" class="dropdown-item" data-button-type="delete">Elimina</a>
                   </div>
@@ -645,9 +654,10 @@ class PluginProducts extends Model
                 if($promotions){
                     foreach ($promotions as $promo){
                         if ($promo->discount_type == "Amount") {
-                            if(env('VIEW_WITH_IVA') == 1){
+                            /*if(env('VIEW_WITH_IVA') == 1){
                                 $priceStart = round($this->price + (($this->price * $this->tax->value)/100),2);
-                            }
+                            }*/
+                            $priceStart = round($this->getFinalPrice(),2);
 
                             $priceStart = $priceStart - $promo->reduction;
                         } else {
@@ -665,10 +675,11 @@ class PluginProducts extends Model
                 if (count($promotions)) {
                     foreach ($promotions as $promo) {
                         if ($promo->discount_type == "Amount") {
-                            if(env('VIEW_WITH_IVA') == 1){
+                            /*if(env('VIEW_WITH_IVA') == 1){
                                 $priceStart = round($this->price + (($this->price * $this->tax->value)/100),2);
-                            }
+                            }*/
 
+                            $priceStart = round($this->getFinalPrice(),2);
                             $priceStart = $priceStart - $promo->reduction;
                         } else {
                             $priceStart = $priceStart - (($priceStart * ($promo->reduction)) / 100);
@@ -780,6 +791,74 @@ class PluginProducts extends Model
                         ->get();
 
                     $vet_ids[$attribute_item->name] = $options;
+                }
+            }
+        }
+
+        return $vet_ids;
+    }
+
+    public function get_vet_ids_search($shopSetting){
+        $vet_ids = [];
+        if($shopSetting->view_variants_in_list == 1){
+            //prendo ids varianti
+            $variants_ids = \App\Models\PluginProducts::where("group_id", $this->group_id)
+                ->where("is_variant", 1)
+                ->where("is_active", 1)
+                ->get()->pluck("id")
+                ->toArray();
+
+            $vet_ids = \App\Models\ShopAttributesProducts::selectRaw("GROUP_CONCAT(product_id) as ids, option_id")
+                ->join("shop_attributes_options", "shop_attributes_options.id", "=", "shop_attributes_products.option_id")
+                ->where("attribute_id", 1)
+                ->whereIn("product_id", $variants_ids)
+                ->orderBy("shop_attributes_options.value", "asc")
+                ->groupBy("option_id")
+                ->get()
+                ->pluck("ids", "option_id")
+                ->toArray();
+        }
+
+        if($shopSetting->view_variants_in_list == 2){
+            //prendo ids varianti
+            $variants_ids = \App\Models\PluginProducts::where("group_id", $this->group_id)
+                ->where("is_variant", 1)
+                ->where("is_active", 1)
+                ->get()->pluck("id")
+                ->toArray();
+
+            $attributes = \App\Models\ShopAttributes::orderBy("lft", "asc")->get();
+            if($attributes){
+                foreach ($attributes as $attribute_item){
+                    $options = \App\Models\ShopAttributesOptions::selectRaw("shop_attributes_products.id, shop_attributes_options.id as option_id, shop_attributes_options.value,shop_attributes_products.product_id, shop_attributes.type_layout, shop_attributes_options.background_color")
+                        ->join("shop_attributes_products", "shop_attributes_options.id", "shop_attributes_products.option_id")
+                        ->join("shop_attributes", "shop_attributes.id", "shop_attributes_options.shop_attribute_id")
+                        ->where("attribute_id", $attribute_item->id)
+                        ->whereIn("product_id", $variants_ids)
+                        ->orderBy("shop_attributes_options.ordine", "asc")
+                        ->groupBy("value")
+                        ->get();
+
+                    if($options){
+                        foreach ($options as $option){
+                            $product_temp = \App\Models\PluginProducts::find($option->product_id);
+
+                            $option->url_product = null;
+                            if($product_temp){
+                                $cat_prod_slug = "no-categoria";
+                                $cat_prod = $product_temp->category();
+                                if($cat_prod){
+                                    $cat_prod_slug = $cat_prod->slug;
+                                }
+
+                                $option->url_product = route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug, $product_temp->slug]);
+                                //$option->url_product = route("pluginProducts.choose.".\App::getLocale(), [$product_temp->slug, $option->id]);
+                            }
+
+                            $vet_ids[$attribute_item->name][] = $option;
+                        }
+                    }
+
                 }
             }
         }

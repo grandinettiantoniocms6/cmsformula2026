@@ -252,7 +252,17 @@ class PluginProductsSettingsCrudController extends CrudController
 
             $this->crud->addField([   // Checkbox
                 'name'  => 'view_topbar_ecommerce',
-                'label' => 'Visualizza Search Bar?',
+                'label' => 'Visualizza Search Bar nella lista e nel dettaglio prodotti?',
+                'type'  => 'switch',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-4'
+                ],
+                'tab' => 'Search bar'
+            ]);
+
+            $this->crud->addField([   // Checkbox
+                'name'  => 'categories_topbar_ecommerce',
+                'label' => 'Aggiungere browse categorie alla search bar?',
                 'type'  => 'switch',
                 'wrapperAttributes' => [
                     'class' => 'form-group col-md-4'
@@ -378,12 +388,7 @@ class PluginProductsSettingsCrudController extends CrudController
                 'tab' => 'Search bar'
             ]);
 
-            $this->crud->addField([   // Checkbox
-                'name'  => 'categories_topbar_ecommerce',
-                'label' => 'Aggiungere browse categorie?',
-                'type'  => 'switch',
-                'tab' => 'Search bar'
-            ]);
+
 
             $this->crud->addField([   // Checkbox
                 'name'  => 'view_price_autocomplete_topbar_ecommerce',
@@ -421,10 +426,20 @@ class PluginProductsSettingsCrudController extends CrudController
                     'class' => 'form-group col-md-4'
                 ],
                 'type'  => 'switch',
-                'tab' => 'Generale'
+                'tab' => 'Filtri Ricerca'
             ]);
 
             if($adminPlugin->version == 3){
+                $this->crud->addField([   // Checkbox
+                    'name'  => 'show_prices_sidebar',
+                    'label' => 'Visualizza filtri prezzi in sidebar',
+                    'wrapperAttributes' => [
+                        'class' => 'form-group col-md-4'
+                    ],
+                    'type'  => 'switch',
+                    'tab' => 'Filtri Ricerca'
+                ]);
+
                 $this->crud->addField([   // Checkbox
                     'name'  => 'show_attributes_sidebar',
                     'label' => 'Visualizza filtri attributi in sidebar',
@@ -432,7 +447,7 @@ class PluginProductsSettingsCrudController extends CrudController
                         'class' => 'form-group col-md-4'
                     ],
                     'type'  => 'switch',
-                    'tab' => 'Generale'
+                    'tab' => 'Filtri Ricerca'
                 ]);
 
                 $this->crud->addField([   // Checkbox
@@ -442,7 +457,7 @@ class PluginProductsSettingsCrudController extends CrudController
                     'wrapperAttributes' => [
                         'class' => 'form-group col-md-4'
                     ],
-                    'tab' => 'Generale'
+                    'tab' => 'Filtri Ricerca'
                 ]);
             }
 

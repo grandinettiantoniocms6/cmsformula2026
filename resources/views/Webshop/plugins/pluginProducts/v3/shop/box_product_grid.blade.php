@@ -45,7 +45,9 @@
                         @endif
                     </div>
                 @endif
-                <button class="btn-product-icon" type="button" onclick="modal_view({{ $product->id }})" class="btn btn-primary btn-product" data-bs-toggle="tooltip" title="{{ @$labels['shop-visualizzazione-rapida'] }} {{ $product->name }}"><i class="bi bi-search"></i></button>
+                @if($shopSetting->is_modal_rapid)
+                     <button class="btn-product-icon" type="button" onclick="modal_view({{ $product->id }})" class="btn btn-primary btn-product" data-bs-toggle="tooltip" title="{{ @$labels['shop-visualizzazione-rapida'] }} {{ $product->name }}"><i class="bi bi-search"></i></button>
+                @endif
             </div>
             <div class="product-action product-action-1">
                 @if($adminPlugin->version == 3)
@@ -136,49 +138,60 @@
                     @else
                         @if(count($vet_ids) > 0 && $shopSetting->view_variants_in_list == 2)
                             @foreach($vet_ids as $attribute_name => $options)
+                                <button type="button" class="btn btn-primary btn-sm w-100 my-1" data-bs-toggle="modal" data-bs-target="#modal-varianti-{{ $product->id }}">Guarda <strong>{{ count($options) }} varianti</strong></button>
+                                <div class="modal fade" id="modal-varianti-{{ $product->id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header pb-0">
+                                                <h5 class="modal-title">{{ $attribute_name }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    @if($options)
+                                                        @foreach($options as $option)
+                                                            <?php
+                                                            //background_color
+                                                            if($option['type_layout'] == 0){
+                                                                $type_layout = "checkbox-size";
+                                                            }else{
+                                                                $type_layout = "checkbox-color";
+                                                            }
 
-                                <div class="box_variants_list">
-                                    <span class="variant-title">{{ $attribute_name }}</span>
-                                    <ul class="list-variants">
-
-                                        @if($options)
-                                            <?php
-                                              if(is_string($options)){
-                                                  $options = explode(",", $options);
-                                              }
-                                            ?>
-
-                                            @foreach($options as $option)
-                                                <?php
-                                                if(!is_object($option)){
-                                                    continue;
-                                                }
-
-                                                $product_temp = \App\Models\PluginProducts::find($option->product_id);
-                                                if(!$product_temp){
-                                                    continue;
-                                                }
-
-                                                if($option->type_layout == 0){
-                                                    $type_layout = "checkbox-size";
-                                                }else{
-                                                    $type_layout = "checkbox-color";
-                                                }?>
-                                                <li @if(is_numeric($option->type_layout)) class="{{ $type_layout }}" @endif><a @if($option->background_color) style="background: {{ $option->background_color }}" @endif href="{{ route("pluginProducts.choose.".\App::getLocale(), [$product_temp->slug, $option->id]) }}">{{ $option->value }}</a></li>
-                                            @endforeach
-                                        @endif
-                                    </ul>
+                                                            $IconImage = null;
+                                                            if(key_exists($option['option_id'], $optionsList)){
+                                                                $IconImage = $optionsList[$option['option_id']];
+                                                            }
+                                                            ?>
+                                                            <div class="col-12">
+                                                                <a class="card card-variant text-decoration-none mb-3" title="{{ $option['value'][\App::getLocale()] }}" href="{{ $option['url_product'] }}">
+                                                                    <div class="row gx-0">
+                                                                        @if($IconImage)
+                                                                            <div class="col-auto">
+                                                                                <div class="px-3 py-2">
+                                                                                    <img width="50" height="50" class="img-fluid" src="{{ url($IconImage) }}" alt="{{ $option['value'][\App::getLocale()] }}">
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+                                                                        <div class="col border-left bg-light d-flex flex-column px-3 py-2">
+                                                                            <div class="fw-bold text-uppercase">{{ $option['value'][\App::getLocale()] }}</div>
+                                                                            <div class="small text-dark">Contattaci</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            @endforeach
+                             @endforeach
                         @endif
                     @endif
                 @endif
             </div>
-
-            <!--
-            <div class="product-action product-action-2">
-                <a href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}" class="btn btn-product btn-primary" title="{{ $product->name }}">{{ @$labels['dettaglio-prodotto'] }}</a>
-            </div> -->
         </div>
     </div>
 </div>

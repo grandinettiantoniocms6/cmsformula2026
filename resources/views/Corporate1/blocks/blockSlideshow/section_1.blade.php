@@ -126,41 +126,36 @@ $agent = new \Jenssegers\Agent\Agent();
                         }
                         ?>
 
-                        <!-- start slider item -->
-                        <div class="hero-single layer" style="background-image: url({{ $foto }}); ">
 
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-md-12 col-lg-6">
-                                        <div class="hero-content">
+                            <div class="hero-single" style="background-image: url({{ $foto }}); height:{!! $slide_height !!};">
+                                <div class="container">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-12 col-lg-6">
+                                            <div class="hero-content">
+                                                @if(trim($title[\App::getLocale()])!="")
+                                                    <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s" style="color: {{ $value->title_background }};">
+                                                        {!! $title[\App::getLocale()] !!}
+                                                    </h1>
+                                                @endif
 
-                                            @if($title[\App::getLocale()])
-                                            <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s" style="color: {{ $value->title_background }};">
-                                                {!! $title[\App::getLocale()] !!}
-                                            </h1>
-                                            @endif
+                                                @if($abstract[\App::getLocale()])
+                                                    <p data-animation="fadeInLeft" data-delay=".75s">
+                                                        {!! $abstract[\App::getLocale()] !!}
+                                                    </p>
+                                                @endif
 
-                                            @if($abstract[\App::getLocale()])
-                                                <p data-animation="fadeInLeft" data-delay=".75s">
-                                                    {!! $abstract[\App::getLocale()] !!}
-                                                </p>
-                                            @endif
+                                                @if(trim($button[\App::getLocale()])!="")
+                                                    <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                                                        <a href="{{ $url }}" target="{{ $type_href }}" class="theme-btn" style="background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }};">{{ $button[\App::getLocale()] }}<i class="fas fa-arrow-right"></i></a>
+                                                    </div>
+                                                @endif
 
-                                            @if(trim($button[\App::getLocale()])!="")
-
-                                                <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
-                                                    <a href="{{ $url }}" target="{{ $type_href }}" class="theme-btn" style="background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }};">
-                                                        {{ $button[\App::getLocale()] }}<i class="fas fa-arrow-right"></i>
-                                                    </a>
-                                                </div>
-                                            @endif
-
-
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
 
 
                 @endforeach

@@ -1,6 +1,6 @@
-<section class="block-banner wow animate__fadeInUp" data-wow-duration=".3s" style="margin-top: {{ $item->mt }}px">
-    <div class="container">
-        <div class="row">
+<section class="block-banner wow animate__fadeInUp" data-wow-duration=".3s" style="margin-top: {{ $item->mt }}px;" >
+    <div class="{{ $item->fullwidth }}">
+        <div class="row gx-0">
             @if($array)
                 @foreach($array as $value)
                         <?php
@@ -83,22 +83,22 @@
 
                         ?>
 
+
                         <!-- cliclo qui -->
-                        <div class="col-lg-{{ $item->col }} col-md-6" style="padding: 15px">
+                        <div class="col-lg-{{ $item->col }} col-md-6">
+                            <!-- se uso class="card-img" le immagini restano boxate -->
                             <a class="card" target="{{ $type_href }}" href="{{ $url }}">
-                                <img class="card-img" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
+                                <img src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
                                 <div class="card-img-overlay">
-                                    <div class="mt-md-3 p-5 wow animate__fadeInUp" data-wow-duration=".9s">
-                                        @if(trim($title[\App::getLocale()])!="")
-                                            <h2 class="title">{{ $title[\App::getLocale()] }}</h2>
-                                        @endif
-                                        <div class="description">{!! $description[\App::getLocale()] !!}</div>
-                                        @if(trim($button[\App::getLocale()])!="")
-                                            <span target="{{ $type_href }}" class="btn btn-primary" href="{{ $url }}">
-                                                {{ $button[\App::getLocale()] }}
-                                            </span>
-                                        @endif
-                                    </div>
+                                    @if(trim($title[\App::getLocale()])!="")
+                                        <h5 class="title">{{ $title[\App::getLocale()] }}</h5>
+                                    @endif
+                                    <div class="description">{!! $description[\App::getLocale()] !!}</div>
+                                    @if(trim($button[\App::getLocale()])!="")
+                                        <span target="{{ $type_href }}" class="btn btn-primary" href="{{ $url }}">
+                                                    {{ $button[\App::getLocale()] }}
+                                                </span>
+                                    @endif
                                 </div>
                             </a>
                         </div>
@@ -108,6 +108,3 @@
         </div>
     </div>
 </section>
-
-
-

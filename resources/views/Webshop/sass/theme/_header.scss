@@ -151,6 +151,12 @@
         height: var(--header-height);
         flex-wrap: nowrap;
     }
+
+    .navbar-search {
+        .form-control, .widget-search.widget-topbar .btn {
+           border-color: #fff;
+        }
+    }
 }
 
 $header-breakpoints: (

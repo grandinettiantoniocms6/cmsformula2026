@@ -150,7 +150,11 @@ $start = microtime(true);
                                 $cat_prod_name = $cat_prod->name;
                                 $cat_prod_slug = $cat_prod->slug;
                             }
-                            $vet_ids = $product->get_vet_ids($shopSetting);
+                            //$vet_ids = $product->get_vet_ids($shopSetting);
+                                $vet_ids = [];
+                                if($product->vet_ids_list){
+                                    $vet_ids = json_decode($product->vet_ids_list, true);
+                                }
                             ?>
                             @include('common.pluginProducts.shop.box_product_grid', ['shopSetting' => $shopSetting])
                         @endforeach

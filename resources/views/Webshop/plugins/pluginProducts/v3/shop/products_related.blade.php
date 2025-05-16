@@ -1,6 +1,7 @@
 <?php
 $shopSetting = \App\Models\ShopSettings::first();
 $pluginSetting = \App\Models\PluginProductsSettings::first();
+$optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray();
 ?>
 @if($plugin->show_related_products == 1)
     @if(count($itemProduct->related) > 0)
@@ -38,10 +39,14 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                 $cat_prod_name = $cat_prod->name;
                                 $cat_prod_slug = $cat_prod->slug;
                             }
-                            $vet_ids = $product->get_vet_ids($shopSetting);
+                            //$vet_ids = $product->get_vet_ids($shopSetting);
+                            $vet_ids = [];
+                            if($product->vet_ids_list){
+                                $vet_ids = json_decode($product->vet_ids_list, true);
+                            }
                             ?>
 
-                            @include("$thema.plugins.pluginProducts.v3.shop.box_product_grid", ['shopSetting' => $shopSetting])
+                            @include("$thema.plugins.pluginProducts.v3.shop.box_product_grid", ['shopSetting' => $shopSetting, "optionsList" => $optionsList])
                         @endif
                     @endforeach
                 </div>

@@ -19,7 +19,7 @@ $shopSetting = \App\Models\ShopSettings::first();
 @endsection
 
 @section('recaptcha')
-    @if($plugin->show_form_contact == 1 && $adminPlugin->version < 3)
+    @if($plugin->show_form_contact == 1 && $adminPlugin->version <= 3)
          @include('common.recaptcha')
     @endif
 @endsection
@@ -60,9 +60,9 @@ $shopSetting = \App\Models\ShopSettings::first();
         @include("$thema.inc.topbar")
     @endsection
 
-@section('topbar_ecommerce')
-    @include("$thema.inc.topbar_ecommerce")
-@endsection
+    @section('topbar_ecommerce')
+        @include("$thema.inc.topbar_ecommerce")
+    @endsection
 
     @section('header_menu')
         @include("$thema.inc.header_menu")
@@ -97,7 +97,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                </section>
            @endif
 
-           @include("$thema.plugins.pluginProducts.v3.shop.detail")
+           @include("$thema.plugins.pluginProducts.v3.shop.$shopSetting->layout_detail")
     @endsection
 
     @section('content_footer')

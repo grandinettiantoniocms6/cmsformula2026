@@ -173,6 +173,13 @@ class ShopSettingsCrudController extends CrudController
                     'type' => 'switch',
                     'tab' => "Lista"
                 ]);
+
+                $this->crud->addField([   // Checkbox
+                    'name' => 'is_modal_rapid',
+                    'label' => 'Visualizzare vista rapida?',
+                    'type' => 'switch',
+                    'tab' => "Lista"
+                ]);
             }
 
             $this->crud->addField([
@@ -238,6 +245,8 @@ class ShopSettingsCrudController extends CrudController
             ]);
 
             // TAB DETTAGLIO
+
+
             $this->crud->addField([
                 'name' => 'type_detail_photo',
                 'label' => "Tipo di dettaglio foto",
@@ -400,6 +409,8 @@ class ShopSettingsCrudController extends CrudController
             }
 
 
+
+
         }
         // Fine cosa far vedere agli amministatori su ShopFormula > Impostazioni
 
@@ -553,6 +564,13 @@ class ShopSettingsCrudController extends CrudController
                     'type' => 'switch',
                     'tab' => "Lista"
                 ]);
+
+                $this->crud->addField([   // Checkbox
+                    'name' => 'is_modal_rapid',
+                    'label' => 'Visualizzare vista rapida?',
+                    'type' => 'switch',
+                    'tab' => "Lista"
+                ]);
             }
 
             $this->crud->addField([
@@ -631,9 +649,26 @@ class ShopSettingsCrudController extends CrudController
                     'name' => 'type_view_variant',
                     'label' => "Tipo di dettaglio varianti",
                     'type' => 'select_from_array',
-                    'options' => ["1" => "Select con redirect - foto variante - aggiunta carrello singolo", "2" => "Tabella multi carrello - padre visibile - varianti non visibili", "3" => "Padre non visibile, Varianti no select, multi carrello", "4" => "Radio Button"],
+                    'options' => ["1" => "Select con redirect - foto variante - aggiunta carrello singolo", "2" => "Tabella multi carrello - padre visibile - varianti non visibili", "3" => "Padre non visibile, Varianti no select, multi carrello", "4" => "Radio Button", "5" => "Link alle varianti"],
                     'allows_null' => false,
                     'default' => 5,
+                    'tab' => "Dettaglio"
+                ]);
+
+                if(backpack_user()->roles[0]->id == 1) {
+                    $this->crud->addField([
+                        'name' => 'layout_detail',
+                        'label' => "Layout dettaglio (nome del blade in pluginProducts/v3/shop/)",
+                        'type' => 'text',
+                        'default' => "detail",
+                        'tab' => "Dettaglio"
+                    ]);
+                }
+
+                $this->crud->addField([   // Checkbox
+                    'name' => 'is_add_to_wishlist',
+                    'label' => 'Aggiungi ai preferiti?',
+                    'type' => 'switch',
                     'tab' => "Dettaglio"
                 ]);
             }

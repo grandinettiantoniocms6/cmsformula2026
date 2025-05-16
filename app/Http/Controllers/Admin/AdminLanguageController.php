@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\AdminBlock;
 use App\Models\AdminLanguage;
+use App\Models\AdminPlugin;
 use App\Models\BlockBanner;
 use App\Models\BlockBrand;
 use App\Models\BlockCarousel;
@@ -57,6 +58,7 @@ use App\Models\PluginBookingType;
 use App\Models\PluginCounter;
 use App\Models\PluginForms;
 use App\Models\PluginInvitationsSettings;
+use App\Models\PluginLabels;
 use App\Models\PluginParkingLabel;
 use App\Models\PluginProducts;
 use App\Models\PluginProductsAttachments;
@@ -131,7 +133,6 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
         $adminBlock = AdminBlock::where("name", $chiave)->first();
 
         $customTab = "";
-
         if($adminBlock){
             switch ($chiave){
 
@@ -481,7 +482,6 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
 
 
         }else{
-
             // dopo lo switch creo le nuove regole dei titoli blocchi multilang
 
             switch ($chiave) {
@@ -549,13 +549,6 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                         $item = BlockHightlight::find($item_id);
                     }
                     break;
-
-
-
-
-
-
-
 
 
     // Fine dei nuovi case stampa tit e descr lato front
@@ -673,9 +666,17 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     break;
 
                 case "pluginProducts":
-                    $fields = ["name",'slug', 'description_short', 'description', 'meta_title', 'meta_description', 'meta_key', 'tags','custom_1', 'custom_2', 'info_extra_list'];
-                    $fields_types = ["text", "text", "text", "content", "text", "text", "text", "text", "text", "text", "content"];
-                    $fields_label = ["Nome", "Permalink", "Descrizione corta", "Descrizione", "Meta title", "Meta description", "Meta keywords", "Tags (dividere con virgola)", "Etichetta 1", "Etichetta 2", "Info Extra in lista prodotti"];
+                    $adminPluginLabels = AdminPlugin::where("name", "pluginLabel")->first();
+                    if($adminPluginLabels){
+                        $fields = ["name",'slug', 'description_short', 'description', 'meta_title', 'meta_description', 'meta_key', 'tags','custom_1', 'custom_2', 'info_extra_list','title_labels', 'description_labels'];
+                        $fields_types = ["text", "text", "text", "content", "text", "text", "text", "text", "text", "text", "content", "text", "content"];
+                        $fields_label = ["Nome", "Permalink", "Descrizione corta", "Descrizione", "Meta title", "Meta description", "Meta keywords", "Tags (dividere con virgola)", "Etichetta 1", "Etichetta 2", "Info Extra in lista prodotti", "Titolo Plugin ETICHETTE", "Descrizione Plugin ETICHETTE"];
+
+                    }else{
+                        $fields = ["name",'slug', 'description_short', 'description', 'meta_title', 'meta_description', 'meta_key', 'tags','custom_1', 'custom_2', 'info_extra_list'];
+                        $fields_types = ["text", "text", "text", "content", "text", "text", "text", "text", "text", "text", "content"];
+                        $fields_label = ["Nome", "Permalink", "Descrizione corta", "Descrizione", "Meta title", "Meta description", "Meta keywords", "Tags (dividere con virgola)", "Etichetta 1", "Etichetta 2", "Info Extra in lista prodotti"];
+                    }
 
                     if(count($parameters)) {
                         $item = PluginProducts::find($item_id);
@@ -855,6 +856,16 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                         $item = ShopAttributesOptions::find($item_id);
                     }
                     break;
+
+                case "pluginLabels":
+
+                    $fields = ['title','ingredients','description','table_nutr','weight','production','end_date'];
+                    $fields_types = ["text", "summernote", "summernote", "summernote", "text", "text", "text"];
+                    $fields_label = ["Titolo", "Ingredienti", "Descrizione", "Tabella nutrizionale", "Peso", "Produzione", "Scadenza"];
+                    if(count($parameters)) {
+                        $item = PluginLabels::find($item_id);
+                    }
+                    break;
             }
         }
 
@@ -938,6 +949,27 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                                 'value' => $valore, //count($parameters) ? $valore : "",
                                 'tab' => $customTab != "" ? "$customTab $lang" : $lang,
                                 'options' => ['height' => 400],
+                            ]);
+                            break;
+                        case "summernote":
+                            $crud->addField([
+                                'name' => $lang == "it" ? "$v" : "{$v}_{$lang}",
+                                'label' => "$fields_label[$k] <em>({$langs_label[$lang]})</em>",
+                                'type' => 'summernote',
+                                'value' => $valore, //count($parameters) ? $valore : "",
+                                'tab' => $customTab != "" ? "$customTab $lang" : $lang,
+                               // 'options' => ['height' => 300],
+                                'attributes' => ['id'=> "{$v}_{$lang}"],
+                                'options' => [
+                                    'height' => 300,
+                                    /*'toolbar' => [
+                                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                                        ['font', ['fontname']],
+                                        ['color', ['color']],
+                                        ['para', ['ul', 'paragraph','table']],
+                                        ['misc', ['codeview', 'undo', 'redo']]
+                                    ]*/
+                                ],
                             ]);
                             break;
                         case "custom":
@@ -1306,7 +1338,13 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 $fields = ['title_form','subtitle_form', "object_form", "message_ringraziamento", "content"];
                 break;
             case "pluginProducts":
-                $fields = ["name",'slug', 'description_short', 'info_extra_list', 'description', 'meta_title', 'meta_description', 'meta_key','tags','custom_1','custom_2'];
+                $adminPluginLabels = AdminPlugin::where("name", "pluginLabel")->first();
+                if($adminPluginLabels){
+                    $fields = ["name",'slug', 'description_short', 'info_extra_list', 'description', 'meta_title', 'meta_description', 'meta_key','tags','custom_1','custom_2', 'title_labels', 'description_labels'];
+                }else{
+                    $fields = ["name",'slug', 'description_short', 'info_extra_list', 'description', 'meta_title', 'meta_description', 'meta_key','tags','custom_1','custom_2'];
+                }
+
                 break;
             case "pluginProductsLabels":
                 $fields = ['value'];
@@ -1355,6 +1393,9 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 break;
             case "pluginBookingRooms":
                 $fields = ["name",'abstract', 'description', 'meta_title', 'meta_description', 'meta_key'];
+                break;
+            case "pluginLabels":
+                $fields = ['title','description','ingredients','table_nutr','weight','production','end_date'];
                 break;
             case "website":
                 $fields = ["title", "dati", "title_footer_1", "text_footer_1", "title_footer_2",

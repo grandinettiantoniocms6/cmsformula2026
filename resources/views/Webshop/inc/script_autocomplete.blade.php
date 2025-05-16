@@ -80,10 +80,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                             .append("<div class='font-lg'><span>No results</span></div>")
                             .appendTo(ul);
                     }
-
                 }
-
-
             };
         }
     });

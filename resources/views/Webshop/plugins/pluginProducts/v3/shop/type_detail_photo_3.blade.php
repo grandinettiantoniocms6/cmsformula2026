@@ -41,6 +41,12 @@ $shopSetting = \App\Models\ShopSettings::first();
                         <a class="btn btn-blank font-xl glightbox" data-effect="fade" href="{{ $url }}" title="{{ $itemProduct->name }}"><i class="bi bi-search"></i></a>
                     </div>
                 @endforeach
+            @else
+
+                <?php
+                $url = url("uploads/no-image.jpg");
+                ?>
+                <img class="img-fluid card zoom-image" src="{{ $url }}" data-zoom-image="{{ $url }}" alt="{{ $itemProduct->name }}">
             @endif
         </div>
         <div class="owl-carousel owl-theme my-2" id="thumb-carousel">

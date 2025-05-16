@@ -20,7 +20,7 @@ class BlockDocumentCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
+    //use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 
     public $block = "blockDocument";
     /**
@@ -42,9 +42,10 @@ class BlockDocumentCrudController extends CrudController
             $this->crud->query->where("block_id", request()->get('block_id'));
         }
 
-        $this->crud->query->orderBy("lft", "asc");
+        //$this->crud->query->orderBy("lft", "asc");
+        //$this->crud->isReorderEnabled();
 
-        $this->crud->isReorderEnabled();
+        $this->crud->query->orderBy("id", "desc");
     }
 
     protected function setupReorderOperation()
@@ -224,12 +225,18 @@ class BlockDocumentCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang($this->block, $this->crud, $request);
 
-        // Questo serve per evitare di fare il riordina ad ogni nuovo record aggiunto
-        $lft = BlockDocument::orderBy("lft", "asc")->first();
+        // Se metto asc ogni nuovo record aggiunto va alla fine
+        /*$lft = BlockDocument::orderBy("lft", "asc")->first();
         if($lft){
             $this->crud->entry->lft = $lft->lft + 2;
         }
+        */
 
+        // Se metto desc ogni nuovo record aggiunto va all'inizio
+        $lft = BlockDocument::orderBy("lft", "desc")->first();
+        if($lft){
+            $this->crud->entry->lft = $lft->lft + 2;
+        }
 
         $this->crud->entry->save();
 

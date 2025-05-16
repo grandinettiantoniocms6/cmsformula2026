@@ -31,6 +31,7 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
         @endphp
         @foreach($order->products as $product)
             <?php
+
             $vat = $product->tax ? $product->tax->value : 22;
             $vat_calculate = ($vat / 100) + 1;
 
@@ -47,7 +48,6 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                     @else
                         <div>{{ $product->pivot->name }}</div>
                     @endif
-                    <strong>x {{ $product->pivot->quantity }}</strong>
 
                     @if($extra_list)
                         @foreach($extra_list as $extra_id => $value)
@@ -58,21 +58,10 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                 </td>
                 <td class="text-end">{!! $symbol !!}
                     @php
-
-                        if(env('CALCULATE_IVA') == 1){
-                           $temp_price = number_format($product->pivot->price_with_tax,3, ',','.');
-                           $strlen = strlen($temp_price);
-                           $price_prod = $temp_price[$strlen-1] == "0" ? number_format($product->pivot->price_with_tax * $product->pivot->quantity,2, ',','.') : number_format($product->pivot->price_with_tax * $product->pivot->quantity,3, ',','.');
-
-                           echo $price_prod;
-                        }else{
-                           $temp_price = number_format($product->pivot->price,3, ',','.');
-                           $strlen = strlen($temp_price);
-                           $price_prod = $temp_price[$strlen-1] == "0" ? number_format($product->pivot->price * $product->pivot->quantity,2, ',','.') : number_format($product->pivot->price * $product->pivot->quantity,3, ',','.');
-
-                           echo $price_prod;
-                        }
+                           echo $product->price;
                     @endphp
+                    <br>
+                    <strong>x {{ $product->pivot->quantity }}</strong>
                 </td>
             </tr>
             @php
@@ -84,11 +73,7 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
         @endforeach
     @endif
     @php
-        if(env('CALCULATE_IVA') == 1){
            $total = $total;
-        }else{
-           $total = $total/1.22;
-        }
     @endphp
 
     @if(env('HIDE_TASSE') == 0)

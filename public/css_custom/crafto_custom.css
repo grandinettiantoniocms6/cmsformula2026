@@ -1,10 +1,6 @@
 /* Crefto custom senza passare dal SAAS */
 
 
-/* Body e section */
-
-
-
 /* Banner Sito in costruzione per amministratori */
 #offline { position: sticky; left: 0; top: 0; height: 30px; font-size: 14px; }
 
@@ -660,8 +656,6 @@ figure:hover + span {
     .block-imagelink .col-lg-6 { padding: 12px; position: unset; margin: -20px 0px 5px 0px; }
     .block-imagelink .col-lg-7 { padding: 40px; position: unset; margin: -24px 0px 5px 0px; }
     .block-imagelink #second { padding: 40px; position: relative;left:0px;top: -1px; }
-
-
 
 
 }

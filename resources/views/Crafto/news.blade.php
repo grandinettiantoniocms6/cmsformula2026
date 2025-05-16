@@ -1,7 +1,7 @@
 <?php
-    $website = \App\Models\WebsiteSetting::first();
-    $fullwidth = null;
-    $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
+$website = \App\Models\WebsiteSetting::first();
+$fullwidth = null;
+$labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 ?>
 
 @if($blockNews)
@@ -82,7 +82,6 @@
                 $foto2 = url($blockNews->foto);
             }
         }
-
 
         $foto3 = "";
         if($blockNews->foto3){
@@ -183,111 +182,110 @@
 
         @endsection
 
+                    <!-- Dettaglio News -->
+                    <section class="p-0">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12 overlap-section text-center">
+                                    <div class="p-10 box-shadow-extra-large border-radius-4px bg-white text-center">
 
+                                        @if(count($v_category))
+                                            @foreach($v_category as $t)
+                                                    <?php
+                                                    $news_url_tag = route('news.category', $t);
+                                                    ?>
+                                                <a class="bg-solitude-blue text-uppercase fs-13 ps-25px pe-25px alt-font fw-500 text-base-color lh-40 sm-lh-55 border-radius-100px d-inline-block mb-3 sm-mb-15px" href="{{ $news_url_tag }}">{{ $t }}</a>
+                                            @endforeach
+                                        @endif
 
-    <!-- Dettaglio News -->
-    <section class="p-0">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12 overlap-section text-center">
-                    <div class="p-10 box-shadow-extra-large border-radius-4px bg-white text-center">
-
-                        @if(count($v_category))
-                            @foreach($v_category as $t)
-                                    <?php
-                                    $news_url_tag = route('news.category', $t);
-                                    ?>
-                                <a class="bg-solitude-blue text-uppercase fs-13 ps-25px pe-25px alt-font fw-500 text-base-color lh-40 sm-lh-55 border-radius-100px d-inline-block mb-3 sm-mb-15px" href="{{ $news_url_tag }}">{{ $t }}</a>
-                            @endforeach
-                        @endif
-
-                        <h3 class="alt-font text-dark-gray fw-600 ls-minus-1px mb-15px">{{ $title }}</h3><br><br>
-                            <h5><i class="fas fa-tags"></i></h5>
-                                @foreach($v_tag as $t)
-                                        <?php
-                                        $news_url_tag = route('news.tag', trim($t));
-                                        ?>
-                                    <a class="bg-solitude-blue text-uppercase fs-13 ps-25px pe-25px alt-font fw-500 text-base-color lh-40 sm-lh-55 border-radius-100px d-inline-block mb-3 sm-mb-15px" href="{{ $news_url_tag }}">{{ $t }}</a>
-                                @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- start section -->
-    <section class="half-section pb-0">
-        <div class="container">
-            <div class="row justify-content-center" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
-                <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center"
-                    @if($blockNews->foto)
-                        <div class="col-lg-12 last-paragraph-no-margin">
-                            <img src="{{ $foto }}" alt="" class="border-radius-5px">
+                                        <h3 class="alt-font text-dark-gray fw-600 ls-minus-1px mb-15px">{{ $title }}</h3><br><br>
+                                            <h5><i class="fas fa-tags"></i></h5>
+                                                @foreach($v_tag as $t)
+                                                        <?php
+                                                        $news_url_tag = route('news.tag', trim($t));
+                                                        ?>
+                                                    <a class="bg-solitude-blue text-uppercase fs-13 ps-25px pe-25px alt-font fw-500 text-base-color lh-40 sm-lh-55 border-radius-100px d-inline-block mb-3 sm-mb-15px" href="{{ $news_url_tag }}">{{ $t }}</a>
+                                                @endforeach
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    @endif
+                    </section>
 
-                    @if($blockNews->foto2)
-                        <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
-                            <img src="{{ $foto2 }}" alt="" class="border-radius-5px">
+
+                    <!-- start section -->
+                    <section class="half-section pb-0">
+                        <div class="container">
+                            <div class="row justify-content-center" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                                <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center"
+                                    @if($blockNews->foto)
+                                        <div class="col-lg-12 last-paragraph-no-margin">
+                                            <img src="{{ $foto }}" alt="" class="border-radius-5px">
+                                        </div>
+                                    @endif
+
+                                    @if($blockNews->foto2)
+                                        <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
+                                            <img src="{{ $foto2 }}" alt="" class="border-radius-5px">
+                                        </div>
+                                    @endif
+
+                                    @if($blockNews->foto3)
+                                        <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
+                                            <img src="{{ $foto3 }}" alt="" class="border-radius-5px">
+                                        </div>
+                                    @endif
+
+                                    @if($blockNews->foto4)
+                                        <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
+                                            <img src="{{ $foto4 }}" alt="" class="border-radius-5px">
+                                        </div>
+                                    @endif
+
+                                    @if($blockNews->foto5)
+                                        <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
+                                            <img src="{{ $foto5 }}" alt="" class="border-radius-5px">
+                                        </div>
+                                    @endif
+
+                                    @if($blockNews->foto6)
+                                        <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
+                                            <img src="{{ $foto6 }}" alt="" class="border-radius-5px">
+                                        </div>
+                                    @endif
+
+                                    <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin">
+                                        <p>{!! $description !!}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    @endif
+                    </section>
+                    <!-- end section dettaglio news-->
 
-                    @if($blockNews->foto3)
-                        <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
-                            <img src="{{ $foto3 }}" alt="" class="border-radius-5px">
-                        </div>
-                    @endif
+                    <!-- Altre news - Related News dettaglio -->
 
-                    @if($blockNews->foto4)
-                        <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
-                            <img src="{{ $foto4 }}" alt="" class="border-radius-5px">
-                        </div>
-                    @endif
+                            <?php
+                            $lang = \App::getLocale();
+                            $page_temp = \App\Models\Page::whereRaw("slug LIKE '%\"$lang\":\"news\"%'")->first();
 
-                    @if($blockNews->foto5)
-                        <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
-                            <img src="{{ $foto5 }}" alt="" class="border-radius-5px">
-                        </div>
-                    @endif
+                            $altre_news  = null;
+                            if($page_temp){
+                                $pages_blocks = \App\Models\PageBlock::where("type", "blockNews")
+                                    //->where("is_active", 1)
+                                    ->where("page_id", $page_temp->id)->get()->pluck("obj_id")->toArray();
 
-                    @if($blockNews->foto6)
-                        <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
-                            <img src="{{ $foto6 }}" alt="" class="border-radius-5px">
-                        </div>
-                    @endif
+                                $now = \Carbon\Carbon::now()->toDateString();
+                                $altre_news = \App\Models\BlockNews::whereIn("block_id", $pages_blocks)
+                                    ->whereRaw("(date_end is null OR date_end >= '$now')")
+                                    ->where("id", "!=", $blockNews->id)
+                                    ->orderBy("id", "DESC")
+                                    // a riga 128 il (5) è il numero delle ultime news in dettaglio news
+                                    ->take(5)
+                                    ->get();
+                            }
 
-                    <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin">
-                        <p>{!! $description !!}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- end section dettaglio news-->
-
-    <!-- Altre news - Related News dettaglio -->
-
-            <?php
-            $lang = \App::getLocale();
-            $page_temp = \App\Models\Page::whereRaw("slug LIKE '%\"$lang\":\"news\"%'")->first();
-
-            $altre_news  = null;
-            if($page_temp){
-                $pages_blocks = \App\Models\PageBlock::where("type", "blockNews")
-                    //->where("is_active", 1)
-                    ->where("page_id", $page_temp->id)->get()->pluck("obj_id")->toArray();
-
-                $now = \Carbon\Carbon::now()->toDateString();
-                $altre_news = \App\Models\BlockNews::whereIn("block_id", $pages_blocks)
-                    ->whereRaw("(date_end is null OR date_end >= '$now')")
-                    ->where("id", "!=", $blockNews->id)
-                    ->orderBy("id", "DESC")
-                    // a riga 128 il (5) è il numero delle ultime news in dettaglio news
-                    ->take(5)
-                    ->get();
-            }
-
-            ?>
+                            ?>
 
                 <!-- start section altre News -->
                 <section class="bg-solitude-blue position-relative sm-pb-20px">
@@ -338,141 +336,172 @@
                 <!-- End altre news - Related News dettaglio -->
 
 
-@else
+            @else
 
-                                        <!-- Grid news -->
+                                <!-- Grid news -->
 
-                                                <section class="pt-3 ps-11 pe-11 xl-ps-2 xl-pe-2">
+                                <section class="pt-3 ps-11 pe-11 xl-ps-2 xl-pe-2">
+
+                                    @if($news)
+                                        @foreach($news as $value)
+                                                <?php
+                                                $contenitore = \App\Models\BlockNews::where("id", $value->block_id)->first();
+                                                $col = $contenitore->col;
+                                                $height = $contenitore->height;
+                                                $fullwidth = $contenitore->fullwidth;
+                                                $style = $contenitore->style;
+                                                $date = $contenitore->date;
+                                                $bg_color = $contenitore->bgcolor;
+                                                $date_color = $contenitore->date_color;
+                                                $id_block = $contenitore->id;
+                                                $height = $contenitore->height;
+
+                                                $title_cat_color = $contenitore->title_cat_color;
+                                                $title_news_color = $contenitore->title_news_color;
+
+                                                if($style == null){
+                                                    $style = 1;
+                                                }
+                                                break;
+                                                ?>
+                                        @endforeach
+                                    @endif
+
+                                    <div class="{{ $fullwidth }}">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <ul class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-{{ $col }}col md-grid-2col sm-grid-2col xs-grid-1col gutter-extra-large">
+                                                    <li class="grid-sizer"></li>
 
                                                     @if($news)
+
                                                         @foreach($news as $value)
-                                                        <?php
-                                                            $contenitore = \App\Models\BlockNews::where("id", $value->block_id)->first();
-                                                            $col = $contenitore->col;
-                                                            $height = $contenitore->height;
-                                                            $fullwidth = $contenitore->fullwidth;
-                                                            break;
-                                                        ?>
-                                                        @endforeach
-                                                    @endif
+                                                                <?php
+                                                                $title = $value->title;
+                                                                $abstract = $value->abstract;
+                                                                $description = $value->description;
+                                                                $slug = $value->slug;
+                                                                $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
-                                                    <div class="{{ $fullwidth }}">
-                                                        <div class="row">
-                                                            <div class="col-12">
-                                                                <ul class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-extra-large">
-                                                                    <li class="grid-sizer"></li>
+                                                                $category = $value->category;
+                                                                $tag = $value->tag;
 
-                                                                    @if($news)
+                                                                $v_category = explode(",", $category);
+                                                                $v_tag = explode(",", $tag);
 
-                                                                        @foreach($news as $value)
-                                                                            <?php
+                                                                if($v_category){
+                                                                    foreach ($v_category as $k=>$c){
+                                                                        if(trim($c) == ""){
+                                                                            unset($v_category[$k]);
+                                                                        }
+                                                                    }
+                                                                }
 
-                                                                            $title = $value->title;
-                                                                            $abstract = $value->abstract;
-                                                                            $description = $value->description;
-                                                                            $slug = $value->slug;
-                                                                            $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
+                                                                if($v_tag){
+                                                                    foreach ($v_tag as $k=>$c){
+                                                                        if(trim($c) == ""){
+                                                                            unset($v_tag[$k]);
+                                                                        }
+                                                                    }
+                                                                }
 
-                                                                            $category = $value->category;
-                                                                            $tag = $value->tag;
+                                                                $padre = \App\Models\BlockNews::where("id", $value->block_id)->first();
 
-                                                                            //$col = $item->col;
-                                                                            $v_category = explode(",", $category);
-                                                                            $v_tag = explode(",", $tag);
+                                                                $news_id = $value->id;
+                                                                $news_url = route('news.slug', $slug);
+                                                                $news_url_category = route('news.category', $category);
 
-                                                                            if($v_category){
-                                                                                foreach ($v_category as $k=>$c){
-                                                                                    if(trim($c) == ""){
-                                                                                        unset($v_category[$k]);
-                                                                                    }
-                                                                                }
-                                                                            }
+                                                                // serve per le thumb
+                                                                $foto = "";
+                                                                if($value->foto){
+                                                                    $basename = basename($value->foto);
+                                                                    $temp = explode(".", $basename);
 
-                                                                            if($v_tag){
-                                                                                foreach ($v_tag as $k=>$c){
-                                                                                    if(trim($c) == ""){
-                                                                                        unset($v_tag[$k]);
-                                                                                    }
-                                                                                }
-                                                                            }
+                                                                    if(key_exists(1,$temp)){
+                                                                        $check = "thumb/blocks_news/$temp[0]-large.webp";
+                                                                    }else{
+                                                                        $check = "thumb/blocks_news/$temp[0]-large";
+                                                                    }
 
-                                                                            $padre = \App\Models\BlockNews::where("id", $value->block_id)->first();
+                                                                    if(file_exists($check)){
+                                                                        $foto = url($check);
+                                                                    }else{
+                                                                        $foto = url($value->foto);
+                                                                    }
+                                                                }
+                                                                ?>
 
-                                                                            $news_id = $value->id;
-                                                                            $news_url = route('news.slug', $slug);
-                                                                            $news_url_category = route('news.category', $category);
-                                                                            ?>
+                                                            <!-- CICLO NEWS -->
 
-                                                                            <!-- CICLO NEWS -->
+                                                            <li class="grid-item">
+                                                                <div class="card border-0 border-radius-4px box-shadow-extra-large box-shadow-extra-large-hover">
+                                                                    @if($col != 12)
+                                                                        @if($value->foto)
+                                                                        <div class="blog-image">
+                                                                            <a href="{{ $news_url }}" class="d-block"><img src="{{ $value->get_foto_list() }}" alt="" /></a>
 
-                                                                            <li class="grid-item">
-                                                                                <div class="card border-0 border-radius-4px box-shadow-extra-large box-shadow-extra-large-hover">
-                                                                                    @if($col != 12)
-                                                                                        @if($value->foto)
-                                                                                        <div class="blog-image">
-                                                                                            <a href="{{ $news_url }}" class="d-block"><img src="{{ $value->get_foto_list() }}" alt="" /></a>
-
-                                                                                            @if(count($v_category))
-                                                                                                <div class="blog-categories">
-                                                                                                    @foreach($v_category as $t)
-                                                                                                            <?php
-                                                                                                            $url = route('news.category', trim($t));
-                                                                                                            ?>
-                                                                                                        <a href="{{ $url }}" class="categories-btn bg-white text-dark-gray text-dark-gray-hover text-uppercase alt-font fw-700">{{ $t }}</a>
-                                                                                                    @endforeach
-                                                                                                </div>
-                                                                                            @endif
-                                                                                        </div>
-                                                                                        @endif
-                                                                                    @endif
-
-                                                                                    <div class="card-body p-12">
-                                                                                        <a href="{{ $news_url }}" class="card-title mb-15px fw-600 fs-17 lh-26 text-dark-gray text-dark-gray-hover d-inline-block">{{ $title }}</a>
-                                                                                        <p>{{ $abstract }}...</p>
-                                                                                        <div class="author d-flex justify-content-center align-items-center position-relative overflow-hidden fs-14 text-uppercase">
-                                                                                            <div class="me-auto">
-                                                                                                @if($value->date)
-                                                                                                    <span class="blog-date fw-500 d-inline-block">
-                                                                                                        {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("d") }}
-                                                                                                    <!-- Nuovo metodo per il print dei mesi in ita -->
-                                                                                                        <?php
-                                                                                                        $month = \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("m");
-                                                                                                        $month_view = config("cmsformula.months")[$month];
-                                                                                                        ?>
-                                                                                                        {{ $month_view }}
-
-                                                                                                        {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("y") }}
-                                                                                                    <!-- / Date -->
-                                                                                                    </span>
-                                                                                                @endif
-                                                                                                <div class="d-inline-block author-name">
-                                                                                                    <a href="{{ $news_url }}" class="text-dark-gray text-dark-gray-hover text-decoration-line-bottom fw-600">{{ $labelSite['read-news'] }}</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
+                                                                            @if(count($v_category))
+                                                                                <div class="blog-categories">
+                                                                                    @foreach($v_category as $t)
+                                                                                            <?php
+                                                                                            $url = route('news.category', trim($t));
+                                                                                            ?>
+                                                                                        <a href="{{ $url }}" class="categories-btn bg-white text-dark-gray text-dark-gray-hover text-uppercase alt-font fw-700">{{ $t }}</a>
+                                                                                    @endforeach
                                                                                 </div>
-                                                                            </li>
-                                                                            <!-- / CICLO NEWS -->
-                                                                  @endforeach
-                                                                @endif
-
-                                                            </div>
-
-                                                            <!-- Paginazione News -->
-                                                            <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
-                                                                <ul class="pagination pagination-style-01 fs-13 fw-500 mb-0">
-                                                                    @if($news)
-                                                                        {{ $news->links() }}
+                                                                            @endif
+                                                                        </div>
+                                                                        @endif
                                                                     @endif
-                                                                </ul>
-                                                            </div>
 
-                                                        @endif
+                                                                    <div class="card-body p-12">
+                                                                        <a href="{{ $news_url }}" class="card-title mb-15px fw-600 fs-17 lh-26 text-dark-gray text-dark-gray-hover d-inline-block">{{ $title }}</a>
+                                                                        <p>{{ $abstract }}</p>
+                                                                        <div class="author d-flex justify-content-center align-items-center position-relative overflow-hidden fs-14 text-uppercase">
+                                                                            <div class="me-auto">
+                                                                                @if($value->date)
+                                                                                    <span class="blog-date fw-500 d-inline-block">
+                                                                                        {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("d") }}
+                                                                                    <!-- Nuovo metodo per il print dei mesi in ita -->
+                                                                                        <?php
+                                                                                        $month = \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("m");
+                                                                                        $month_view = config("cmsformula.months")[$month];
+                                                                                        ?>
+                                                                                        {{ $month_view }}
+
+                                                                                        {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("y") }}
+                                                                                    <!-- / Date -->
+                                                                                    </span>
+                                                                                @endif
+                                                                                <div class="d-inline-block author-name">
+                                                                                    <a href="{{ $news_url }}" class="text-dark-gray text-dark-gray-hover text-decoration-line-bottom fw-600">{{ $labelSite['read-news'] }}</a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </li>
+                                                            <!-- / CICLO NEWS -->
+
+                                                  @endforeach
+                                                @endif
+
+                                            </div>
+
+                                            <!-- Paginazione News -->
+                                            <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
+                                                <ul class="pagination pagination-style-01 fs-13 fw-500 mb-0">
+                                                    @if($news)
+                                                        {{ $news->links() }}
+                                                    @endif
+                                                </ul>
+                                            </div>
+
+                                        @endif
 
 
-                                                        </div>
-                                                    </div>
-                                                </section>
-                                            <!-- / Grid News -->
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- / Grid News -->

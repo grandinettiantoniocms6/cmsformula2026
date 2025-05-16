@@ -162,6 +162,7 @@ class BlockContactgmapCrudController extends CrudController
                     'class' => 'form-group col-md-4'
                 ],
             ]);
+
             $this->crud->addField([   // repeatable
                 'name'  => 'address2',
                 'label' => 'Indirizzo (Riga 2)',

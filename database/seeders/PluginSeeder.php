@@ -303,5 +303,21 @@ class PluginSeeder extends Seeder
             ]);
         }
 
+        //pluginLabels
+        \App\Models\AdminPlugin::firstOrCreate(["name" => "pluginLabel"],[
+            "label" => "Plugin Etichette",
+            "name" => "pluginLabel",
+            "icon" => "list",
+            "version" => 1,
+            "is_active" => 0
+        ]);
+
+        $check = \App\Models\PluginLabelsSettings::where("id", 1)->first();
+        if(!$check){
+            \App\Models\PluginLabelsSettings::insert([
+                "logo" => "",
+            ]);
+        }
+
     }
 }

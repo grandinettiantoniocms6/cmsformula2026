@@ -277,12 +277,19 @@ class DashboardController extends Controller
         }
         return redirect()->back();
     }
-
-
     public function set_field_boolean($table, $id, $field, $value){
         \DB::table($table)->where("id", $id)->update([
             "$field" => $value
         ]);
+
+        if($table == "plugins_products" && $field == "is_active"){
+            \Artisan::call('set:products_search', ['id'=> $id]);
+            \Artisan::call('set:products_categories_search');
+        }
+
+        if($table == "plugins_products_categories" && $field == "is_active"){
+            \Artisan::call('set:products_categories_search');
+        }
 
         \Alert::success("Dati salvati con successo!")->flash();
         return redirect()->back();

@@ -248,16 +248,22 @@ class WebsiteSettingCrudController extends CrudController
 
                 // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
                 if(env('TEMA') == 'Webshop' ){
+                    $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
+                    if($adminPluginProduct){
+                        if($adminPluginProduct->version >=2){
+                            $this->crud->addField([   // Checkbox
+                                'name'  => 'is_search_in_header',
+                                'label' => 'Search bar in header',
+                                'type'  => 'switch',
+                                'wrapperAttributes' => [
+                                    'class' => 'form-group col-md-2'
+                                ],
+                                'tab' => 'Header'
+                            ]);
 
-                    $this->crud->addField([   // Checkbox
-                        'name'  => 'is_topbar_fixed_mobile',
-                        'label' => 'Header fissa su Mobile',
-                        'type'  => 'switch',
-                        'wrapperAttributes' => [
-                            'class' => 'form-group col-md-6'
-                        ],
-                        'tab' => 'Header'
-                    ]);
+
+                        }
+                    }
 
                     $this->crud->addField([   // Checkbox
                         'name'  => 'transparent_header',
@@ -1673,6 +1679,16 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                     'class' => 'form-group col-md-12'
                 ],
                 'tab' => 'Extra'
+            ]);
+
+            $this->crud->addField([   // Checkbox
+                'name'  => 'is_search_one_col',
+                'label' => 'Megamenu (se attivo) monocolonna',
+                'type'  => 'switch',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-2'
+                ],
+                'tab' => 'Impostazioni Extra'
             ]);
 
             $this->crud->addField([   // Checkbox

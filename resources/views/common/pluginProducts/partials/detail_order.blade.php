@@ -84,18 +84,10 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                 </td>
                 <td data-column="Q.tà" data-fluid="100">x {{ $product->pivot->quantity }}</td>
                 <td data-column="Prezzo unitario" data-fluid="100">{!! $symbol !!}
-                    @if(env('CALCULATE_IVA') == 1)
                         {{ number_format($product->pivot->price_with_tax,2, ',','.') }}
-                    @else
-                        {{ number_format($product->pivot->price,2, ',','.') }}
-                    @endif
                 </td>
                 <td data-column="Prezzo" data-fluid="100" class="text-right"><span class="h6">{!! $symbol !!}
-                        @if(env('CALCULATE_IVA') == 1)
                             {{ $product->pivot->quantity * $product->pivot->price_with_tax }}
-                        @else
-                            {{ $product->pivot->quantity * $product->pivot->price }}
-                        @endif
                     </span>
                 </td>
             </tr>

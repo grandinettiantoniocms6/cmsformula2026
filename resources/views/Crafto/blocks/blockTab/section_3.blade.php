@@ -1,5 +1,5 @@
 <section class="block-tabs style-{{ $item->style }}" id="block-tabs-{{ $item->id }}">
-    <div class="{{ $item->fullwidth }} space-{{ $item->mt }}">
+    <div class="{{ $item->fullwidth }} mt-{{ $item->mt }}px">
         <div class="tab">
             @if($array)
 

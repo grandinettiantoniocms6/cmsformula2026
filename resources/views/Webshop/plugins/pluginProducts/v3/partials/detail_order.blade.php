@@ -14,9 +14,9 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
         <th></th>
         <th></th>
         <th>{{ @$labels['shop-partials-prodotto'] }}</th>
+        <th></th>
         <th>{{ @$labels['shop-partials-qta'] }}</th>
-        <th>{{ @$labels['shop-partials-prezzo-unit'] }}</th>
-        <th class="text-end">{{ @$labels['shop-partials-prezzo'] }}</th>
+        <th class="text-end">{{ @$labels['shop-partials-prezzo-unit'] }}</th>
     </tr>
     </thead>
     <tbody>
@@ -58,6 +58,7 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                     @endif
                 </td>
                 <td class="text-center d-none d-md-table-cell"></td>
+                <td></td>
                 <td data-column="Prodotto" data-fluid="100">
                     @if($product->pivot->custom_label_1 !== null && trim($product->pivot->custom_label_1) != "")
                         <label class="product-label">{{ $product->pivot->custom_label_1 }}</label>
@@ -87,32 +88,8 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                     @endif
                 </td>
                 <td data-column="Q.tà" data-fluid="100">x {{ $product->pivot->quantity }}</td>
-                <td data-column="Prezzo unitario" data-fluid="100">{!! $symbol !!}
-                    @if(env('CALCULATE_IVA') == 1)
-                        <?php
-                        $temp_price = number_format($product->pivot->price_with_tax,3, ',','.');
-                        $strlen = strlen($temp_price);
-                        $price_prod = $temp_price[$strlen-1] == "0" ? number_format($product->pivot->price_with_tax,2, ',','.') : number_format($product->pivot->price_with_tax,3, ',','.');
-                        ?>
-
-                        {{ $price_prod }}
-                    @else
-                        <?php
-                        $temp_price = number_format($product->pivot->price,3, ',','.');
-                        $strlen = strlen($temp_price);
-                        $price_prod = $temp_price[$strlen-1] == "0" ? number_format($product->pivot->price,2, ',','.') : number_format($product->pivot->price,3, ',','.');
-                        ?>
-
-                        {{ $price_prod }}
-                    @endif
-                </td>
-                <td data-column="Prezzo" data-fluid="100" class="text-end"><span class="h6">{!! $symbol !!}
-                        @if(env('CALCULATE_IVA') == 1)
-                            {{ $product->pivot->quantity * $product->pivot->price_with_tax }}
-                        @else
-                            {{ $product->pivot->quantity * $product->pivot->price }}
-                        @endif
-                    </span>
+                <td data-column="Prezzo" class="text-end" data-fluid="100">{!! $symbol !!}
+                        {{ $product->price }}
                 </td>
             </tr>
             @php

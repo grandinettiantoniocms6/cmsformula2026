@@ -13,6 +13,13 @@
                     if(!in_array($k, $langs)){
                         continue;
                     }
+
+                    if(in_array($slug, config('config.slug_shop_formula'))){
+                        continue;
+                    }
+                    if(in_array($slug, config('config.slug_plugin_booking'))){
+                        continue;
+                    }
                     ?>
 
                     @if($slug != "/")
@@ -24,15 +31,6 @@
                         $slug = "/";
                         ?>
                     @endif
-
-                        <?php
-                        if(in_array($slug, config('config.slug_shop_formula'))){
-                            continue;
-                        }
-                        if(in_array($slug, config('config.slug_plugin_booking'))){
-                            continue;
-                        }
-                        ?>
 
                     <url>
                         <loc>{{ url($slug) }}</loc>
@@ -76,14 +74,11 @@
                 $temp = json_decode($product->slug, true);
 
                 $cat_prod_slug = "no-categoria";
-
-                $itemProd = \App\Models\PluginProducts::find($product->id);
-
-                $first_cat = \DB::table("plugins_products_categories_products")->where("plugin_product_product_id", $product->id)->first();
-                if($first_cat){
-                    $cat_prod = \DB::table("plugins_products_categories")->where("id", $first_cat->plugin_product_category_id)->first();
-                }
-
+                $cat_prod = \DB::table("plugins_products_categories_products")->selectRaw("plugins_products_categories.*")
+                    ->join("plugins_products_categories", "plugins_products_categories.id", "=", "plugin_product_category_id")
+                    ->where("plugin_product_product_id", $product->id)
+                    ->whereNull("plugins_products_categories.deleted_at")
+                    ->first();
                 if($cat_prod){
                     $temp_cat_slug = json_decode($cat_prod->slug, true);
                     $cat_prod_slug = $temp_cat_slug;

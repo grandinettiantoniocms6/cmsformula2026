@@ -1,7 +1,9 @@
-<section class="block-contact-map" id="block-contact-map-{{ $value->block_id }}" style="margin-top: {{ $item->margin_top }}px; margin-bottom: {{ $item->margin_bottom }}px;">
+<section class="block-contact-map lg-h-auto position-relative" id="block-contact-map-{{ $value->block_id }}" style="margin-top: {{ $item->margin_top }}px; margin-bottom: {{ $item->margin_bottom }}px;">
     <div class="container-fluid px-0 overflow-hidden">
         <div class="row gx-0 align-items-center">
             <div class="col-lg-6 order-2 order-lg-1 wow animate__fadeInUp" data-wow-duration=".3s">
+
+                <!-- GMap -->
                 <div>
                     @if($url)
                         @if(env('IUBENDA') == 1)
@@ -11,6 +13,7 @@
                         @endif
                     @endif
                 </div>
+
             </div>
             <div class="col-lg-6 order-1 order-lg-2 wow animate__fadeInDown" data-wow-duration=".3s">
                 <div class="contact-info py-4 px-5">

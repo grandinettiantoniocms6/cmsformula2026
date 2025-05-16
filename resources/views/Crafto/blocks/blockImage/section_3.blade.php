@@ -6,17 +6,17 @@
 
                     @if($page->title_page)
 
-                        <h2 class="m-auto alt-font text-shadow-double-large fw-700 w-90 xl-w-100" style="color: {{ $page->color_title_page }};"
+                        <h3 class="m-auto alt-font text-shadow-double-large fw-700 w-90 xl-w-100" style="color: {{ $page->color_title_page }};"
                             data-fancy-text='{ "translateY": [50, 0], "string": ["{{ $page->title_page }}"],
                         "duration": 400, "delay": 0, "speed": 50, "easing": "easeOutQuad" }'>
-                        </h2>
+                        </h3>
                     @endif
 
                     @if( trim($page->subtitle_page) != "" || trim($page->subtitle_page) != "" )
 
-                    <div><h1 class="text-uppercase mb-15px alt-font opacity-6 fw-500 ls-2px" style="color: {{ $page->color_subtitle_page }};"
+                    <div><h5 class="text-uppercase mb-15px alt-font opacity-6 fw-500 ls-2px" style="color: {{ $page->color_subtitle_page }};"
                              data-fancy-text='{ "translateY": [50, 0], "string": ["{{ $page->subtitle_page }}"],
-                             "duration": 400, "delay": 0, "speed": 50, "easing": "easeOutQuad" }'></h1>
+                             "duration": 400, "delay": 0, "speed": 50, "easing": "easeOutQuad" }'></h5>
                     </div>
                     @endif
 

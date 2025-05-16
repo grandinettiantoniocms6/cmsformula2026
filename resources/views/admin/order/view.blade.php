@@ -370,11 +370,16 @@
                     @php
                         $subTotal = 0;
                         $total = 0;
+
+                        $order_products = \App\Models\OrderProduct::where("order_id", $order->id)->get();
+
                     @endphp
-                    @foreach($order->products as $product)
+                    @foreach($order_products as $op)
                         <?php
+                        $product = \App\Models\PluginProducts::withTrashed()->where("id", $op->product_id)->first();
+
                         $cover = $product->getCover();
-                        $extra_list = \App\Models\ShopOrderProductExtra::where("shop_order_id", $product->pivot->order_id)->where("shop_product_id", $product->id)
+                        $extra_list = \App\Models\ShopOrderProductExtra::where("shop_order_id", $order->id)->where("shop_product_id", $product->id)
                             ->get()->pluck("value", "extra_id")->toArray();
                         ?>
                         <tr>
@@ -393,14 +398,14 @@
                                 @endif
                             </td>
                             <td>
-                                {{ $product->pivot->name }}<br/>
-                                <span class="font-12">SKU: {{ $product->pivot->sku }}</span>
+                                {{ $op->name }}<br/>
+                                <span class="font-12">SKU: {{ $op->sku }}</span>
 
-                                @if($product->pivot->custom_label_1 !== null && trim($product->pivot->custom_label_1) != "")
-                                    <br><label class="badge badge-primary">{{ $product->pivot->custom_label_1 }}</label>
+                                @if($op->custom_label_1 !== null && trim($op->custom_label_1) != "")
+                                    <br><label class="badge badge-primary">{{ $op->custom_label_1 }}</label>
                                 @endif
-                                @if($product->pivot->custom_label_2 !== null && trim($product->pivot->custom_label_2) != "")
-                                    <br><label class="badge badge-primary">{{ $product->pivot->custom_label_2 }}</label>
+                                @if($op->custom_label_2 !== null && trim($op->custom_label_2) != "")
+                                    <br><label class="badge badge-primary">{{ $op->custom_label_2 }}</label>
                                 @endif
 
                                 @if($extra_list)
@@ -415,24 +420,16 @@
                                 @endif
                             </td>
                             <td>
-                                @if(env('CALCULATE_IVA') == 1)
-                                    {{ number_format($product->pivot->price_with_tax,3, ',','.') }}
-                                @else
-                                    {{ number_format($product->pivot->price,3, ',','.') }}
-                                @endif
+                                    {{ number_format($op->price_with_tax,3, ',','.') }}
                             </td>
-                            <td>{{ $product->pivot->quantity }}</td>
+                            <td>{{ $op->quantity }}</td>
                             <td class="text-right">
-                                @if(env('CALCULATE_IVA') == 1)
-                                    {{ number_format($product->pivot->price_with_tax * $product->pivot->quantity,2, ',','.').' '.$order->currency->name }}
-                                @else
-                                    {{ number_format($product->pivot->price * $product->pivot->quantity,2, ',','.').' '.$order->currency->name }}
-                                @endif
+                                    {{ number_format($op->price_with_tax * $op->quantity,2, ',','.').' '.$order->currency->name }}
                             </td>
                         </tr>
                         @php
-                            $subTotal = $subTotal + $product->pivot->quantity * $product->pivot->price;
-                            $total = $total + $product->pivot->quantity * $product->pivot->price_with_tax;
+                            $subTotal = $subTotal + $op->quantity * $op->price;
+                            $total = $total + $op->quantity * $op->price_with_tax;
                         @endphp
                     @endforeach
                     </tbody>

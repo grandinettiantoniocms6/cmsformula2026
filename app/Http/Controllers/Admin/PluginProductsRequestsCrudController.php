@@ -64,8 +64,8 @@ class PluginProductsRequestsCrudController extends CrudController
             $v = explode(",", env('PLUGIN_PRODUCTS_REQUEST_COL'));
         }
 
-        $other_columns = null;
-        $other_columns_2 = null;
+        $other_columns = [];
+        $other_columns_2 = [];
         $i = 1;
 
         if(count($v)) {
@@ -208,8 +208,13 @@ class PluginProductsRequestsCrudController extends CrudController
 
             $html .= "<p><strong>Oggetto</strong><br> {$request_item->object}</p>";
             $content = json_decode($request_item->content, true);
+
             foreach($content as $k=>$v){
                 if(is_numeric(strpos($k, "My name"))){
+                    continue;
+                }
+
+                if(is_numeric(strpos($k, "my_name"))){
                     continue;
                 }
 
@@ -314,6 +319,10 @@ class PluginProductsRequestsCrudController extends CrudController
             $content = json_decode($request_item->content, true);
             foreach($content as $k=>$v){
                 if(is_numeric(strpos($k, "My name"))){
+                    continue;
+                }
+
+                if(is_numeric(strpos($k, "my name"))){
                     continue;
                 }
 

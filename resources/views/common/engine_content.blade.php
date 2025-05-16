@@ -40,25 +40,23 @@
                             break;
                         case "blocks_gallerys":
                             if($item->is_pagination == 1){
-                                $number = \DB::table($adminBlock->name_table)
+                                $array = \DB::table($adminBlock->name_table)
                                     ->where("block_id", $item->id)
-                                    ->count();
-                                if($number > 0){
-                                    $array = \DB::table($adminBlock->name_table)
-                                        ->where("block_id", $item->id)
-                                        ->orderBy("lft", "asc")
-                                        ->paginate($item->number_pagination);
-                                }else{
-                                    $array = \DB::table($adminBlock->name_table)
-                                        ->whereNotNull("block_id")
-                                        ->orderBy("lft", "asc")
-                                        ->paginate($item->number_pagination);
-                                }
+                                    ->orderBy("lft", "asc")
+                                    ->paginate($item->number_pagination);
+
                             }else{
                                 $array = \DB::table($adminBlock->name_table)
                                     ->where("block_id", $item->id)->orderBy("lft", "asc")->get();
                             }
                             break;
+
+                        // Blocco documenti ordinamento automatico per data di creazione
+                        case "blocks_documents":
+                            $array = \DB::table($adminBlock->name_table)
+                                ->where("block_id", $item->id)->orderBy("id", "desc")->get();
+                            break;
+                        // fine
 
                         default:
                             $array = \DB::table($adminBlock->name_table)

@@ -126,6 +126,9 @@ class BlockCarouselCrudController extends CrudController
                 'type'  => 'text',
             ]);
 
+            // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
+            if(env('TEMA') == 'Webshop' ) {
+
             $this->crud->addField([
                 'name'  => 'pc',
                 'label' => 'Digita il numero di elementi da visualizzare per riga da schermo PC.
@@ -166,9 +169,6 @@ class BlockCarouselCrudController extends CrudController
                 ],
             ]);
 
-            // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
-            if(env('TEMA') == 'Webshop' ) {
-
                 $this->crud->addField([   // select_from_array
                     'name' => 'style',
                     'label' => "Seleziona stile",
@@ -203,7 +203,8 @@ class BlockCarouselCrudController extends CrudController
                     'wrapper' => ['class' => 'form-group col-md-12']
                 ]);
 
-            } // FINE CAMPI VISUALIZZATI TEMA WEBSHOP//////////////////
+            }
+            // FINE CAMPI VISUALIZZATI TEMA WEBSHOP//////////////////
 
             $this->crud->addField([   // select_from_array
                 'name' => 'style',
@@ -214,7 +215,8 @@ class BlockCarouselCrudController extends CrudController
                     2 => 'Style 2',
                     3 => 'Style 3',
                     4 => 'Style 4',
-                    6 => 'Style senza thumb: usare immagini con dim. 700x700px',
+                    5 => 'Style 5',
+
                 ],
                 'allows_null' => false,
                 'default' => 1,

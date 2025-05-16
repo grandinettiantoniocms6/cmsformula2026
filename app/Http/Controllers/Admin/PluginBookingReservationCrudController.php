@@ -277,11 +277,16 @@ class PluginBookingReservationCrudController extends CrudController
         }
 
 
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']);
-         */
+        $rooms = PluginBookingRoom::get()->pluck("name", "id")->toArray();
+        $this->crud->addFilter([
+            'name'  => 'plugin_booking_room_id',
+            'type'  => 'select2',
+            'label' => 'Camera'
+        ], function () use ($rooms) {
+            return $rooms;
+        }, function ($value) { // if the filter is active
+            $this->crud->addClause('where', 'plugin_booking_room_id', $value);
+        });
     }
 
     /**

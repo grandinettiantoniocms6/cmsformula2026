@@ -22,136 +22,139 @@ if($descriptionBlocco){
 
 ?>
 
-<section class="background-position-center-top pb-0" style="background-color: {{ $item->bgcolor }}; margin-top: 0px">
+<section class="big-section overflow-hidden ps-6 pe-6" style="background-color: {{ $item->bgcolor }}; margin-top: 0px">
     <div class="{{ $item->fullwidth }}">
-        <div class="row mb-0 xs-mb-10 overlap-section">
-            <div class="col-12 position-relative">
-                <div class="swiper position-relative text-slider-style-04" data-slider-options='{ "autoHeight": true, "loop": true, "allowTouchMove": true, "autoplay": { "delay": 4000, "disableOnInteraction": false }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "effect": "fade" }'>
-                    <div class="swiper-wrapper">
-                        @if($array)
-                            @foreach($array as $value)
-                                    <?php
-                                    $title = json_decode($value->title, true);
-                                    if($title === null){
-                                        $title = [];
-                                    }
 
-                                    $description = json_decode($value->description, true);
-                                    if($description === null){
-                                        $description = [];
-                                    }
+        @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
+            <div class="row justify-content-center mb-3">
+                <div class="col-12 col-xl-8 text-center">
+                    <span class="text-uppercase text-dark-gray fw-500 lh-22 mb-10px d-block">{{ $titleBlocco[\App::getLocale()] }}</span>
+                    <h2 class="fw-700 ls-minus-1px w-90 mx-auto sm-w-100">{!! $descriptionBlocco[\App::getLocale()] !!}</h2>
+                </div>
+                <div class="col-lg-12"></div>
+            </div>
+        @endif
 
-                                    $url_interno = json_decode($value->url_interno, true);
-                                    if($url_interno === null){
-                                        $url_interno = [];
-                                    }
+            <div class="row align-items-center">
+                <div class="col-12 col-md-12">
+                    <div class="outside-box-right-30 sm-outside-box-right-0">
+                        <div class="swiper" data-slider-options='{ "slidesPerView": 1, "spaceBetween": 25, "loop": true, "autoplay": { "delay": 300000, "disableOnInteraction": false }, "keyboard": { "enabled": true, "onlyInViewport": true }, "breakpoints": { "992": { "slidesPerView": 3 }, "768": { "slidesPerView": 2 }, "320": { "slidesPerView": 1 } }, "effect": "slide" }'>
+                            <div class="swiper-wrapper">
 
-                                    $url_esterno = json_decode($value->url, true);
-                                    if($url_esterno === null){
-                                        $url_esterno = [];
-                                    }
-
-                                    $button = json_decode($value->button, true);
-                                    if($button === null){
-                                        $button = [];
-                                    }
-
-                                    $type_href = $value->type_href;
-
-                                    $url = "#";
-                                    if(trim($url_interno[\App::getLocale()]) != ""){
-                                        $url = "/{$url_interno[\App::getLocale()]}";
-                                    }else{
-                                        if(trim($url_esterno[\App::getLocale()]) != ""){
-                                            $url = $url_esterno[\App::getLocale()];
+                                @if($array)
+                                @foreach($array as $value)
+                                        <?php
+                                        $title = json_decode($value->title, true);
+                                        if($title === null){
+                                            $title = [];
                                         }
-                                    }
 
-                                    if(!key_exists(\App::getLocale(), $description)){
-                                        $description[\App::getLocale()] = "";
-                                    }
+                                        $description = json_decode($value->description, true);
+                                        if($description === null){
+                                            $description = [];
+                                        }
 
-                                    if(!key_exists(\App::getLocale(), $title)){
-                                        $title[\App::getLocale()] = "";
-                                    }
+                                        $url_interno = json_decode($value->url_interno, true);
+                                        if($url_interno === null){
+                                            $url_interno = [];
+                                        }
 
-                                    if(!key_exists(\App::getLocale(), $button)){
-                                        $button[\App::getLocale()] = "";
-                                    }
+                                        $url_esterno = json_decode($value->url, true);
+                                        if($url_esterno === null){
+                                            $url_esterno = [];
+                                        }
 
-                                    if(!key_exists(\App::getLocale(), $url_interno)){
-                                        $url_interno[\App::getLocale()] = "";
-                                    }
+                                        $button = json_decode($value->button, true);
+                                        if($button === null){
+                                            $button = [];
+                                        }
 
-                                    if(!key_exists(\App::getLocale(), $url_esterno)){
-                                        $url_esterno[\App::getLocale()] = "";
-                                    }
+                                        $type_href = $value->type_href;
 
-
-                                    // serve per le thumb
-                                    $photo = $value->foto;
-
-                                    if($photo){
-                                        $basename = basename($photo);
-                                        $temp = explode(".", $basename);
-
-                                        $check = "thumb/blocks_htmlimages/$temp[0]-large.webp";
-                                        if(file_exists($check)){
-                                            $foto = url($check);
+                                        $url = "#";
+                                        if(trim($url_interno[\App::getLocale()]) != ""){
+                                            $url = "/{$url_interno[\App::getLocale()]}";
                                         }else{
-                                            $foto = url($photo);
+                                            if(trim($url_esterno[\App::getLocale()]) != ""){
+                                                $url = $url_esterno[\App::getLocale()];
+                                            }
                                         }
-                                    }
 
-                                    ?>
+                                        if(!key_exists(\App::getLocale(), $description)){
+                                            $description[\App::getLocale()] = "";
+                                        }
 
-                                    <!-- start ciclo -->
-                                <div class="swiper-slide">
+                                        if(!key_exists(\App::getLocale(), $title)){
+                                            $title[\App::getLocale()] = "";
+                                        }
 
-                                    <!-- gallery 1 -->
-                                    <div class="gallery-box">
-                                        <a href="{{ $value->foto }}" data-group="lightbox-group-gallery-item-6" title="">
-                                            <div class="position-relative gallery-image bg-slate-blue">
-                                                <img src="{{ $value->foto }}" alt="" />
-                                                <div class="d-flex align-items-center justify-content-center position-absolute top-0px left-0px w-100 h-100 gallery-hover move-bottom-top">
-                                                    <i class="bi bi-camera icon-medium text-white"></i>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
+                                        if(!key_exists(\App::getLocale(), $button)){
+                                            $button[\App::getLocale()] = "";
+                                        }
 
-                                    <div class="container position-absolute sm-position-relative bottom-0 right-0px z-index-1 swiper-slide-content">
-                                        <div class="row justify-content-end align-items-end h-100">
-                                            <div class="col-lg-5 col-md-7 p-0">
-                                                <div class="bg-white p-12 lg-p-12" style="background-color: #f7f6f6!important;">
-                                                    <h5 class="alt-font text-dark-gray fw-300 mb-20px ls-minus-2px">{{ $titleBlocco[\App::getLocale()] }}</h5>
+                                        if(!key_exists(\App::getLocale(), $url_interno)){
+                                            $url_interno[\App::getLocale()] = "";
+                                        }
+
+                                        if(!key_exists(\App::getLocale(), $url_esterno)){
+                                            $url_esterno[\App::getLocale()] = "";
+                                        }
+
+                                        // serve per le thumb
+                                        $photo = $value->foto;
+
+                                        if($photo){
+                                            $basename = basename($photo);
+                                            $temp = explode(".", $basename);
+
+                                            $check = "thumb/blocks_htmlimages/$temp[0]-large.webp";
+                                            if(file_exists($check)){
+                                                $foto = url($check);
+                                            }else{
+                                                $foto = url($photo);
+                                            }
+                                        }
+
+                                        ?>
+
+                                        <!-- start content carousal item -->
+                                        <div class="swiper-slide">
+                                            <div class="interactive-banner-style-09 position-relative overflow-hidden">
+                                                @if(trim($foto) != "")
+                                                    <img src="{{ $foto }}" alt="" />
+                                                @endif
+                                                <div class="opacity-full-dark bg-gradient-black-bottom-transparent"></div>
+                                                <div class="image-content h-100 w-100 p-10 xl-p-30px sm-pe-15px sm-ps-15px text-center d-flex justify-content-end align-items-end flex-column">
+                                                    <div class="w-100">
+                                                        @if(trim($button[\App::getLocale()])!="")
+                                                            <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-medium btn-rounded btn-box-shadow btn-white text-uppercase fw-700 ps-15px pe-15px pt-5px pb-5px lh-16 mb-20px">{{ $button[\App::getLocale()] }}</a>
+                                                        @endif
+
+                                                        <div class="alt-font fw-700 sliding-box-title mb-10px w-80 xl-w-100 md-w-90 sm-w-70 xs-w-100 mx-auto">
+                                                            @if(trim($title[\App::getLocale()]) != "")
+                                                                <a href="{{ $url }}" target="{{ $type_href }}" class="text-white alt-font fw-600 fs-40 lg-fs-24 ls-minus-1px lg-ls-0px">{{ $title[\App::getLocale()] }}</a>
+                                                            @endif
+                                                            @if(trim($description[\App::getLocale()]) != "")
+                                                                <p>{!! $description[\App::getLocale()] !!}</p>
+                                                            @endif
+                                                        </div>
+
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                        <!-- end content carousal item -->
+
+                                        @endforeach
+                                    @endif
+
                                 </div>
-                                <!-- end ciclo -->
-                            @endforeach
-                        @endif
 
+                        </div>
                     </div>
-
-                    <!-- start slider navigation -->
-                    <div class="slider-one-slide-prev-1 icon-small swiper-button-prev slider-navigation-style-07 bg-dark-gray text-white box-shadow-small"><i class="bi bi-arrow-down-left"></i></div>
-                    <div class="slider-one-slide-next-1 icon-small swiper-button-next slider-navigation-style-07 bg-dark-gray text-white box-shadow-small"><i class="bi bi-arrow-up-right"></i></div>
                 </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12">
-                <!-- box bianco fisso -->
-                <div class="bg-white p-6 lg-p-6">
 
-                    <p class="w-50 mb-10px">{!! $descriptionBlocco[\App::getLocale()] !!}</p>
-                </div>
-                <!-- box bianco fisso -->
             </div>
-        </div>
     </div>
 </section>
 
