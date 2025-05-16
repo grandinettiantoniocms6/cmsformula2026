@@ -33,13 +33,13 @@ class Page extends Model
         return json_encode($value, JSON_UNESCAPED_UNICODE);
     }
 
-    public static function boot()
+    /*public static function boot()
     {
         parent::boot();
         static::deleting(function($obj) {
             \Storage::disk('public')->delete($obj->image);
         });
-    }
+    }*/
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

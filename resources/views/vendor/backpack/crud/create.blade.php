@@ -76,6 +76,9 @@
                         _token: '{{ csrf_token() }}'
                     }, success: function (response) {
                         $("#slug_it").val(response.string);
+                        $("#title_page_it").val($("#name_it").val());
+                        $("#title_it").val($("#title_page").val());
+                        $("#meta_title_it").val($("#title_page").val());
                     },error: function (data, textStatus, errorThrown) {
                     },
                 });
@@ -95,6 +98,7 @@
                     }, success: function (response) {
                         $("#slug_it").val(response.string);
                         $("#title_it").val($("#title_page").val());
+                        $("#title_page_it").val($("#title_page").val());
                         $("#meta_title_it").val($("#title_page").val());
                     },error: function (data, textStatus, errorThrown) {
                     },

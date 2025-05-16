@@ -664,10 +664,10 @@ class PageCrudController extends CrudController
     {
         $this->crud->hasAccessOrFail('delete');
 
-        PageBlock::where("page_id", $id)->delete();
-
         // get entry ID from Request (makes sure its the last ID for nested resources)
         $id = $this->crud->getCurrentEntryId() ?? $id;
+
+        PageBlock::where("page_id", $id)->delete();
 
         return $this->crud->delete($id);
     }

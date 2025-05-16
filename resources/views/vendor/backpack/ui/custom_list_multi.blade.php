@@ -44,6 +44,14 @@ if(request()->has('block')){
                 @endif
                 <a href="/admin/{{ request()->get('block') }}/reorder?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-outline-dark" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
 
+                  <div class="dropdown show d-inline-block">
+                      <a class="btn btn-sm btn-success dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
+                      <div class="dropdown-menu" aria-labelledby="esporta">
+                          <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
+                      </div>
+                  </div>
+
+
                   <?php $page = \App\Models\Page::where("id", request()->get('page_id'))->first(); ?>
                   @if($page->slug == "/")
                       <a href="/" target="_blank" class="btn btn-sm btn-info">
@@ -60,12 +68,7 @@ if(request()->has('block')){
               </div>
             @endif
 
-            <div class="dropdown show d-inline-block">
-                <a class="btn btn-sm btn-success dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
-                <div class="dropdown-menu" aria-labelledby="esporta">
-                    <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
-                </div>
-            </div>
+
           </div>
           <div class="col-sm-6">
             <div id="datatable_search_stack" class="mt-sm-0 mt-2 d-print-none"></div>
