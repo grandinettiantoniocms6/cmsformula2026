@@ -14,7 +14,7 @@ class AddCartInListShopSettings extends Migration
     public function up()
     {
         Schema::table('shop_settings', function (Blueprint $table) {
-            $table->boolean("is_add_to_cart_list")->nullable(1);
+            $table->boolean("is_add_to_cart_list")->nullable();
         });
     }
 
