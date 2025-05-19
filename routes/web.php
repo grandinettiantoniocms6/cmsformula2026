@@ -6,6 +6,18 @@ use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
+Route::get('/test_db_gest', function () {
+    $anapiDB = \DB::connection('mysql_2');
+
+    $tables = $anapiDB->getDoctrineSchemaManager()->listTableNames();
+    if($tables){
+        foreach ($tables as $item){
+            echo $item;
+            echo "<br>";
+        }
+    }
+});
+
 Route::get('/test/email/order', function() {
     //'order' => $order, 'send_psw' => $send_psw, 'code_psw'=>$code_psw, 'user'=> $user
     $order = \App\Models\Order::first();
