@@ -119,7 +119,7 @@ class BlockPluginBookingSearchTypeCrudController extends CrudController
             'label' => 'Oppure usa un colore di sfondo',
             'type'  => 'color_picker2',
             // optional
-            'default' => '#ffffff',
+            'default' => null,
             'color_picker_options' => ['customClass' => 'custom-class'],
             'wrapperAttributes' => ['class' => 'form-group col-md-6']
         ]);
@@ -137,7 +137,7 @@ class BlockPluginBookingSearchTypeCrudController extends CrudController
             'label' => 'Colore sfondo form Booking',
             'type'  => 'color_picker2',
             // optional
-            //'default' => '#1ab42f',
+            'default' => null,
             'color_picker_options' => ['customClass' => 'custom-class'],
             'wrapperAttributes' => ['class' => 'form-group col-md-4']
         ]);
@@ -147,7 +147,7 @@ class BlockPluginBookingSearchTypeCrudController extends CrudController
             'label' => 'Colore bordo form Booking',
             'type'  => 'color_picker2',
             // optional
-            //'default' => '#1ab42f',
+            'default' => null,
             'color_picker_options' => ['customClass' => 'custom-class'],
             'wrapperAttributes' => ['class' => 'form-group col-md-4']
         ]);

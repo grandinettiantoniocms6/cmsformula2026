@@ -285,7 +285,7 @@ class BlockSlideshowCrudController extends CrudController
                         'label' => 'Colore bordo',
                         'type'  => 'color_picker2',
                         // optional
-                        //'default' => '#1ab42f',
+                        'default' => null,
                         'color_picker_options' => ['customClass' => 'custom-class'],
                         'wrapperAttributes' => ['class' => 'form-group col-md-6']
                     ]);

@@ -97,7 +97,7 @@ class PluginInterventionsStatusCrudController extends CrudController
             'label' => 'Colore',
             'type'  => 'color_picker2',
             // optional
-            //'default' => '#1ab42f',
+            'default' => null,
             'color_picker_options' => ['customClass' => 'custom-class'],
         ]);
 

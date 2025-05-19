@@ -133,7 +133,7 @@ class BlockSocialCrudController extends CrudController
                 'name'  => 'color',
                 'label' => 'Colore Titolo',
                 'type'  => 'color_picker2',
-                'default' => '#000000',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => [ 'class' => 'form-group col-md-4']

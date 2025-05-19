@@ -143,7 +143,7 @@ class BlockPriceCrudController extends CrudController
                 'label' => 'Colore bordo div prezzi',
                 'type'  => 'color_picker2',
                 // optional
-                'default' => '#dbd7d7',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -178,7 +178,7 @@ class BlockPriceCrudController extends CrudController
                 'name'  => 'color_price_1',
                 'label' => 'Colore Prezzo di listino',
                 'type'  => 'color_picker2',
-                'default' => '#000000',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => [
@@ -190,7 +190,7 @@ class BlockPriceCrudController extends CrudController
                 'name'  => 'color_price_2',
                 'label' => 'Colore Prezzo in Promo',
                 'type'  => 'color_picker2',
-                'default' => '#54950f',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => [
@@ -211,7 +211,7 @@ class BlockPriceCrudController extends CrudController
                 'name'  => 'color_license_title',
                 'label' => 'Colore Titolo Servizio',
                 'type'  => 'color_picker2',
-                'default' => '#000000',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => [
@@ -223,7 +223,7 @@ class BlockPriceCrudController extends CrudController
                 'name'  => 'color_license_subtitle',
                 'label' => 'Colore Sotto titolo Servizio',
                 'type'  => 'color_picker2',
-                'default' => '#000000',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => [
@@ -235,6 +235,7 @@ class BlockPriceCrudController extends CrudController
                 'name'  => 'bg_color',
                 'label' => 'Colore sfondo prezzo',
                 'type'  => 'color_picker2',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => [

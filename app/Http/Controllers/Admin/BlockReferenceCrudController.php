@@ -160,7 +160,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'background_color',
                     'label' => 'Colore sfondo pulsante VEDI TUTTO',
                     'type'  => 'color_picker2',
-                    'default' => '#E3E3E3',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -170,7 +170,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'border_color',
                     'label' => 'Colore bordo pulsante VEDI TUTTO',
                     'type'  => 'color_picker2',
-                    'default' => '#c9c8c8',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -180,7 +180,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'text_color',
                     'label' => 'Colore testo pulsante VEDI TUTTO',
                     'type'  => 'color_picker2',
-                    'default' => '#0A090B',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -190,7 +190,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'background_color_cat',
                     'label' => 'Colore sfondo pulsanti CATEGORIE',
                     'type'  => 'color_picker2',
-                    'default' => '#e30614',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -200,7 +200,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'border_color_cat',
                     'label' => 'Colore bordo pulsanti CATEGORIE',
                     'type'  => 'color_picker2',
-                    'default' => '#e30614',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -210,7 +210,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'text_color_cat',
                     'label' => 'Colore testo pulsanti CATEGORIE',
                     'type'  => 'color_picker2',
-                    'default' => '#FFFFFF',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -220,7 +220,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'box_color',
                     'label' => 'Colore sfondo BOX FOTO',
                     'type'  => 'color_picker2',
-                    'default' => '#c9c8c8',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -230,7 +230,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'title_color',
                     'label' => 'Colore TITOLI',
                     'type'  => 'color_picker2',
-                    'default' => '#0b1f2b',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -240,7 +240,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'subtitle_color',
                     'label' => 'Colore SOTTO TITOLI',
                     'type'  => 'color_picker2',
-                    'default' => '#b0b0b0',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -250,7 +250,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'background_color_btn',
                     'label' => 'Colore sfondo pulsante LINK',
                     'type'  => 'color_picker2',
-                    'default' => '#000000',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -260,7 +260,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'border_color_btn',
                     'label' => 'Colore bordo pulsante LINK',
                     'type'  => 'color_picker2',
-                    'default' => '#000000',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -270,7 +270,7 @@ class BlockReferenceCrudController extends CrudController
                     'name'  => 'text_color_btn',
                     'label' => 'Colore testo pulsante LINK',
                     'type'  => 'color_picker2',
-                    'default' => '#FFFFFF',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => [ 'class' => 'form-group col-md-4'],
@@ -351,7 +351,7 @@ class BlockReferenceCrudController extends CrudController
                 'label'                => 'Background Color',
                 'name'                 => 'background_color',
                 'type'                 => 'color_picker2',
-                'default'              => '#000000',
+                'default' => null,
 
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class']

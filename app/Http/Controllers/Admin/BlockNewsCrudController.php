@@ -292,7 +292,7 @@ class BlockNewsCrudController extends CrudController
                 'label' => 'Colore di sfondo data',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -302,7 +302,7 @@ class BlockNewsCrudController extends CrudController
                 'label' => 'Colore testo data',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -312,7 +312,7 @@ class BlockNewsCrudController extends CrudController
                 'label' => 'Colore Categoria News',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -322,7 +322,7 @@ class BlockNewsCrudController extends CrudController
                 'label' => 'Colore Titolo News',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);

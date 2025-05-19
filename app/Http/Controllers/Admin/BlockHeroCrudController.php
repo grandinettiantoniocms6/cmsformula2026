@@ -165,6 +165,7 @@ class BlockHeroCrudController extends CrudController
                 'name'  => 'bgcolor',
                 'label' => 'Colore di sfondo',
                 'type'  => 'color_picker2',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class']
             ]);
@@ -197,6 +198,7 @@ class BlockHeroCrudController extends CrudController
                 'name'  => 'color_title',
                 'label' => 'Colore del Titolo',
                 'type'  => 'color_picker2',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class']
             ]);

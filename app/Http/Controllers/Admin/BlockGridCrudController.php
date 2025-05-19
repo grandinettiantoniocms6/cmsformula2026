@@ -248,6 +248,7 @@ class BlockGridCrudController extends CrudController
                 'name'  => 'box_bgcolor',
                 'label' => 'Colore sfondo Box',
                 'type'  => 'color_picker2',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
@@ -257,6 +258,7 @@ class BlockGridCrudController extends CrudController
                 'name'  => 'title_color',
                 'label' => 'Colore titolo Box',
                 'type'  => 'color_picker2',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
@@ -373,7 +375,7 @@ class BlockGridCrudController extends CrudController
                 'label' => 'Colore sfondo etichetta',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ee2e29',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -383,7 +385,7 @@ class BlockGridCrudController extends CrudController
                 'label' => 'Colore testo etichetta',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);

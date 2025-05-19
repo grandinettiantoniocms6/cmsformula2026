@@ -140,7 +140,7 @@ class ShopSettingsCrudController extends CrudController
                 'label'                => 'Colore Etichetta 1',
                 'name'                 => 'custom_color_1',
                 'type'                 => 'color_picker2',
-                'default'              => "#ED0D0D",
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'tab' => 'Generale'

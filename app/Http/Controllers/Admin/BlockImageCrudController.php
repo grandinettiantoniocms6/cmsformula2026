@@ -136,7 +136,7 @@ class BlockImageCrudController extends CrudController
             'name'  => 'bgcolor',
             'label' => 'Oppure seleziona un colore di Sfondo',
             'type'  => 'color_picker2',
-            'default' => '#000000',
+            'default' => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
             'wrapperAttributes' => [

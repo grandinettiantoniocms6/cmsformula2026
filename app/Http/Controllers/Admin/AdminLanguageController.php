@@ -928,7 +928,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                                 'type' => 'color_picker2',
                                 'tab' => $customTab != "" ? "$customTab $lang" : $lang,
                                 'attributes' => ['class' => 'form-control', 'id'=> "{$v}_{$lang}"],
-                                'default' => ($chiave == "page") ? "#FFF" : null
+                                'default' => null
                             ]);
                             break;
                         case "textarea":

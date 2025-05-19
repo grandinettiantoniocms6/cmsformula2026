@@ -157,7 +157,7 @@ class BlockLastworkCrudController extends CrudController
                 'name'  => 'color_subtitle',
                 'label' => 'Colore Titoletto',
                 'type'  => 'color_picker2',
-                'default' => '#000000',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-4']
@@ -167,7 +167,7 @@ class BlockLastworkCrudController extends CrudController
                 'name'  => 'color_title',
                 'label' => 'Colore Titolo',
                 'type'  => 'color_picker2',
-                'default' => '#000000',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-4']
@@ -177,7 +177,7 @@ class BlockLastworkCrudController extends CrudController
                 'name'  => 'bg_color',
                 'label' => 'Colore sfondo box sinistra',
                 'type'  => 'color_picker2',
-                'default' => '#fefefe',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-4']

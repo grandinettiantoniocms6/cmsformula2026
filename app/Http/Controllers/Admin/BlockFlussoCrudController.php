@@ -136,7 +136,7 @@ class BlockFlussoCrudController extends CrudController
                 'name'  => 'bg_number',
                 'label' => 'Colore Numerazione',
                 'type'  => 'color_picker2',
-                'default' => '#000000',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class']
             ]);
@@ -146,7 +146,7 @@ class BlockFlussoCrudController extends CrudController
                 'name'  => 'bg_title',
                 'label' => 'Colore Titolo',
                 'type'  => 'color_picker2',
-                'default' => '#000000',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class']
             ]);

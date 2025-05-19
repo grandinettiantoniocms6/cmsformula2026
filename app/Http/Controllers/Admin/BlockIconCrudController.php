@@ -146,7 +146,7 @@ class BlockIconCrudController extends CrudController
                 'label' => 'Colore Icone',
                 'type'  => 'color_picker2',
                 // optional
-                'default' => '#1ab42f',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-4']
             ]);
@@ -184,7 +184,7 @@ class BlockIconCrudController extends CrudController
                                     'label' => 'Colore di sfondo Pulsanti effetto MouseOver',
                                     'type'  => 'color_picker2',
                                     // optional
-                                    //'default' => '#074b10',
+                                    'default' => null,
                                     'color_picker_options' => ['customClass' => 'custom-class'],
                                     'wrapperAttributes' => ['class' => 'form-group col-md-4']
                                 ]);
@@ -194,7 +194,7 @@ class BlockIconCrudController extends CrudController
                                     'label' => 'Colore di sfondo Box Icone',
                                     'type'  => 'color_picker2',
                                     // optional
-                                    //'default' => '#074b10',
+                                    'default' => null,
                                     'color_picker_options' => ['customClass' => 'custom-class'],
                                     'wrapperAttributes' => ['class' => 'form-group col-md-4']
                                 ]);
@@ -259,7 +259,7 @@ class BlockIconCrudController extends CrudController
                 'label' => 'Colore sfondo Box',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -269,7 +269,7 @@ class BlockIconCrudController extends CrudController
                 'label' => 'Colore sfondo Box Over',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -279,7 +279,7 @@ class BlockIconCrudController extends CrudController
                 'label' => 'Colore Titolo',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-4']
             ]);
@@ -299,7 +299,7 @@ class BlockIconCrudController extends CrudController
                 'label' => 'Colore di sfondo Pulsante',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#148223',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-4']
             ]);
@@ -310,7 +310,7 @@ class BlockIconCrudController extends CrudController
                 'label' => 'Colore testo pulsante',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-4']
             ]);

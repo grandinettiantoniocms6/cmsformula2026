@@ -121,7 +121,7 @@ class BlockTabCrudController extends CrudController
                 'label' => 'Colore sfondo barra tab',
                 'type'  => 'color_picker2',
                 // optional
-                'default' => '#fefefe',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -131,7 +131,7 @@ class BlockTabCrudController extends CrudController
                 'label' => 'Colore sfondo pulsante Active/Attivo',
                 'type'  => 'color_picker2',
                 // optional
-                'default' => '#cdcecf',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6'],
             ]);
@@ -141,7 +141,7 @@ class BlockTabCrudController extends CrudController
                 'label' => 'Colore sfondo pulsante Mouse Hover',
                 'type'  => 'color_picker2',
                 // optional
-                'default' => '#373838',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6'],
             ]);

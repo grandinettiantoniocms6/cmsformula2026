@@ -191,7 +191,7 @@ class BlockCarouselCrudController extends CrudController
                     'label' => 'Colore Titoli',
                     'type' => 'color_picker2',
                     // optional
-                    'default' => '#000000',
+                    'default' => null,
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => ['class' => 'form-group col-md-6']
                 ]);
@@ -247,7 +247,7 @@ class BlockCarouselCrudController extends CrudController
                 'label' => 'Colore sfondo Box',
                 'type'  => 'color_picker2',
                 // optional
-                'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);

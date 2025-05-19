@@ -188,6 +188,7 @@ class BlockCollageCrudController extends CrudController
                 'name'  => 'color_title_dx',
                 'label' => 'Colore Titolo a destra',
                 'type'  => 'color_picker2',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class']
             ]);

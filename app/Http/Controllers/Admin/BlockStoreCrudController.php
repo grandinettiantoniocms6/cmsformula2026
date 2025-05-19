@@ -189,7 +189,7 @@ class BlockStoreCrudController extends CrudController
                 'name'  => 'icon_color_phone',
                 'label' => 'Colore icona telefono',
                 'type'  => 'color_picker2',
-                'default' => '#0075a3',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => [
@@ -216,7 +216,7 @@ class BlockStoreCrudController extends CrudController
                 'name'  => 'icon_color_whatsapp',
                 'label' => 'Colore icona WhatsApp',
                 'type'  => 'color_picker2',
-                'default' => '#00c351',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => [
@@ -228,7 +228,7 @@ class BlockStoreCrudController extends CrudController
                 'name'  => 'bgcolor',
                 'label' => 'Seleziona il colore di Sfondo del riquadro',
                 'type'  => 'color_picker2',
-                'default' => '#faf8ee',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => [

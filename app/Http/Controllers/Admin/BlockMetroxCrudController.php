@@ -177,7 +177,7 @@ class BlockMetroxCrudController extends CrudController
                 'label' => 'Colore sfondo blocco testo',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ee2e29',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -187,7 +187,7 @@ class BlockMetroxCrudController extends CrudController
                 'label' => 'Colore Titolo',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -206,7 +206,7 @@ class BlockMetroxCrudController extends CrudController
                 'label' => 'Colore sotto titolo',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                //  'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);

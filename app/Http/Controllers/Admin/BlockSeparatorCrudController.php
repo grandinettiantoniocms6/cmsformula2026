@@ -209,7 +209,7 @@ class BlockSeparatorCrudController extends CrudController
                 'name'  => 'bgcolor',
                 'label' => 'oppure scegli un colore di sfondo',
                 'type'  => 'color_picker2',
-                'default' => '#000000',
+                'default' => null,
                 // optional
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapper' => ['class' => 'form-group col-md-12']

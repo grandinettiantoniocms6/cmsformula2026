@@ -108,7 +108,7 @@ class PluginOrdersCategoriesCrudController extends CrudController
             'label'                => 'Colore',
             'name'                 => 'color',
             'type'                 => 'color_picker2',
-            'default'              => '#000000',
+            'default' => null,
         ]);
 
         $this->crud->addField([   // select2_from_array

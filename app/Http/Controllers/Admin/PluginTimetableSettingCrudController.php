@@ -69,7 +69,7 @@ class PluginTimetableSettingCrudController extends CrudController
             'label'                => 'Colore principale',
             'name'                 => 'color',
             'type'                 => 'color_picker2',
-            'default'              => '#000000',
+            'default' => null,
         ]);
 
         /**

@@ -182,7 +182,7 @@ class BlockScrollbarCrudController extends CrudController
                 'label' => 'Colore Titoli',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#000000',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -191,6 +191,7 @@ class BlockScrollbarCrudController extends CrudController
                 'name'  => 'bgcolor',
                 'label' => 'Colore sfondo',
                 'type'  => 'color_picker2',
+                'default' => null,
                 //'default' => 'transparent',
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
@@ -268,7 +269,7 @@ class BlockScrollbarCrudController extends CrudController
                 'label' => 'Colore icona',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);

@@ -311,7 +311,7 @@ class BlockContactgmapCrudController extends CrudController
                 'name'  => 'bg_box',
                 'label' => 'Colore di Sfondo',
                 'type'  => 'color_picker2',
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6'],
             ]);
@@ -320,7 +320,7 @@ class BlockContactgmapCrudController extends CrudController
                 'name'  => 'color_txt',
                 'label' => 'Colore testo (Colore Icone, Testo, Titoletto e Titolo)',
                 'type'  => 'color_picker2',
-                //'default' => '#000000',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6'],
             ]);

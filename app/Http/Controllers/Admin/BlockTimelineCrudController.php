@@ -135,7 +135,7 @@ class BlockTimelineCrudController extends CrudController
                 'label' => 'Colore Titolo',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -145,7 +145,7 @@ class BlockTimelineCrudController extends CrudController
                 'label' => 'Colore data o iniziale',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
@@ -155,7 +155,7 @@ class BlockTimelineCrudController extends CrudController
                 'label' => 'Colore sfondo data o iniziale',
                 'type'  => 'color_picker2',
                 // optional
-                //'default' => '#ffffff',
+                'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);

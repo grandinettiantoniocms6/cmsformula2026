@@ -180,7 +180,7 @@ class BlockHtmlImageCrudController extends CrudController
                     'name'  => 'bgcolor',
                     'label' => 'Colore sfondo carosello',
                     'type'  => 'color_picker2',
-                    'default' => '#ffffff',
+                    'default' => null,
                     // optional
                     'color_picker_options' => ['customClass' => 'custom-class'],
                     'wrapperAttributes' => ['class' => 'form-group col-md-6']

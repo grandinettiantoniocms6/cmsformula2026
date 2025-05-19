@@ -116,7 +116,7 @@ class PluginCounterCrudController extends CrudController
             'name'  => 'icon_color',
             'label' => 'Colore Icona',
             'type'  => 'color_picker2',
-            'default' => '#000000',
+            'default' => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
             'wrapperAttributes' => [ 'class' => 'form-group col-md-6'],
@@ -133,7 +133,7 @@ class PluginCounterCrudController extends CrudController
             'name'  => 'number_color',
             'label' => 'Colore numeri Contatore',
             'type'  => 'color_picker2',
-            'default' => '#000000',
+            'default' => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
             'wrapperAttributes' => [ 'class' => 'form-group col-md-6'],
@@ -150,7 +150,7 @@ class PluginCounterCrudController extends CrudController
             'name'  => 'title_color',
             'label' => 'Colore Titolo',
             'type'  => 'color_picker2',
-            'default' => '#000000',
+            'default' => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
             'wrapperAttributes' => [ 'class' => 'form-group col-md-6'],
@@ -160,7 +160,7 @@ class PluginCounterCrudController extends CrudController
             'name'  => 'subtitle_color',
             'label' => 'Colore Frase',
             'type'  => 'color_picker2',
-            'default' => '#000000',
+            'default' => null,
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
             'wrapperAttributes' => [ 'class' => 'form-group col-md-6'],
