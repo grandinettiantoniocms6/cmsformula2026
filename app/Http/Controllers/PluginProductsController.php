@@ -1264,13 +1264,13 @@ class PluginProductsController extends Controller
 
     public function get_categories_sidebar($categories, $productsAllVet_Temp = null){
         if($categories){
+
             foreach ($categories as $k=>$item){
                 $item->count = PluginProductsSearch::whereRaw("categories LIKE '%,$item->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
                 $check = PluginProductsCategories::where("parent_id", $item->id)->where("is_active", 1)->orderBy("lft", "asc")->get();
                 if($check){
                     $item->figli = $check;
                     if($item->figli){
-
                         $tot_figli = 0;
                         foreach($item->figli as $figlio){
                             $figlio->count = PluginProductsSearch::whereRaw("categories LIKE '%,$figlio->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
