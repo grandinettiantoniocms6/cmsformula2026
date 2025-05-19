@@ -29,7 +29,9 @@
 
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane fade" id="tab1-{{ $position }}_col{{ $col }}" role="tabpanel" aria-labelledby="blocchi-esistenti">
+
+                    @if(count($admin_blocks_exists))
+                        <div class="tab-pane fade" id="tab1-{{ $position }}_col{{ $col }}" role="tabpanel" aria-labelledby="blocchi-esistenti">
                         <div id="b_exist_{{ $position }}_col_{{ $col }}">
                             <div class="form-group"><input class="search form-control bg-light" placeholder="Cerca tra i blocchi" /></div>
                             <div class="grid">
@@ -82,6 +84,8 @@
                             </div>
                         </div>
                     </div>
+                    @endif
+
                     <div class="tab-pane fade show active" id="tab2-{{ $position }}_col{{ $col }}" role="tabpanel" aria-labelledby="blocco-nuovo">
                         <div class="form-group">
                             <label>Inserisci un nome al blocco</label>

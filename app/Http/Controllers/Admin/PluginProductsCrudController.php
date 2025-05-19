@@ -3489,12 +3489,16 @@ class PluginProductsCrudController extends CrudController
         // get entry ID from Request (makes sure its the last ID for nested resources)
         $id = $this->crud->getCurrentEntryId() ?? $id;
 
+        PluginProductsCategoriesProducts::where("plugin_product_product_id", $id)->delete();
         PluginProductsAttachments::where("product_id", $id)->delete();
         PluginProductsRelated::where("product_id", $id)->delete();
         PluginProductsImages::where("product_id", $id)->delete();
         PluginProductsOptions::where("product_id", $id)->delete();
 
-        return $this->crud->delete($id);
+        $this->crud->delete($id);
+        \Artisan::call('set:products_search', ['id'=> 0]);
+
+        return 1;
     }
 
     public function actions(Request $request){

@@ -1289,6 +1289,7 @@ class PluginProductsController extends Controller
         }*/
 
         if($categories){
+
             foreach ($categories as $k=>$item){
 
                 /*$item->count = PluginProductsCategoriesProducts::join("plugins_products_categories", "plugins_products_categories.id", "=", "plugins_products_categories_products.plugin_product_category_id")
@@ -1307,7 +1308,6 @@ class PluginProductsController extends Controller
                 if($check){
                     $item->figli = $check;
                     if($item->figli){
-
                         $tot_figli = 0;
                         foreach($item->figli as $figlio){
 
