@@ -17,6 +17,8 @@
                 $style = "";
 
                 ?>
+
+
                 @if(env('local') == 1)
                     <img loading="lazy" class="img-fluid mx-auto" src="{{ url("plugins/pluginProducts/no-image.jpg") }}" alt="{{ $product->name }}" width="360" height="420" style="{{ $style }}">
                 @else

@@ -50,8 +50,10 @@
                 @endif
             </div>
             <div class="product-action product-action-1">
-                @if($adminPlugin->version == 3)
-                <a class="btn-product btn btn-primary" href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}" class="btn-primary btn-product" title="{{ $product->name }}">{{ @$labels['dettaglio-prodotto'] }}</a>
+                @if(!$shopSetting->is_add_to_cart_list)
+                    @if($adminPlugin->version == 3)
+                        <a class="btn-product btn btn-primary btn-block" href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}" class="btn-primary btn-product" title="{{ $product->name }}">{{ @$labels['dettaglio-prodotto'] }}</a>
+                    @endif
                 @endif
             </div>
         </figure>
@@ -199,9 +201,30 @@
                 @endif
             </div>
 
+            @if($shopSetting->is_add_to_cart_list)
+                <form method="post" action="{{ route('add.cart.product') }}" id="add-cart-from-list-{{ $product->id }}">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="id" value="{{ $product->id }}">
+                    <input type="hidden" name="modal" value="1">
+                    <div class="product-form-group row">
+                        <a class="btn btn-primary" onclick="add_list_cart({{ $product->id }})">
+                            <i class="bi bi-bag-fill"></i><span class="ps-2" id="add-cart-button-list-{{ $product->id }}">
+                                @if(!$product->in_cart())
+                                    {{ @$labels['shop-add-to-cart'] }}
+                                @else
+                                    {{ @$labels['shop-alert-aggiunto-al-carrello'] }}
+                                @endif
+                            </span>
+                        </a>
+                    </div>
+                </form>
+            @endif
+
             <div class="product-action product-action-2">
-                @if($adminPlugin->version == 3)
-                   <a href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}" class="btn btn-product btn-primary" title="{{ $product->name }}">{{ @$labels['dettaglio-prodotto'] }}</a>
+                @if(!$shopSetting->is_add_to_cart_list)
+                    @if($adminPlugin->version == 3)
+                       <a href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}" class="btn btn-product btn-primary" title="{{ $product->name }}">{{ @$labels['dettaglio-prodotto'] }}</a>
+                    @endif
                 @endif
             </div>
         </div>

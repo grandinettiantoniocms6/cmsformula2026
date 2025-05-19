@@ -180,7 +180,11 @@ class ShopSettingsCrudController extends CrudController
                     'type' => 'switch',
                     'tab' => "Lista"
                 ]);
+
+
             }
+
+
 
             $this->crud->addField([
                 'name' => 'mouseover_image_number',
@@ -568,6 +572,13 @@ class ShopSettingsCrudController extends CrudController
                 $this->crud->addField([   // Checkbox
                     'name' => 'is_modal_rapid',
                     'label' => 'Visualizzare vista rapida?',
+                    'type' => 'switch',
+                    'tab' => "Lista"
+                ]);
+
+                $this->crud->addField([   // Checkbox
+                    'name' => 'is_add_to_cart_list',
+                    'label' => 'Mostra pulsante carrello',
                     'type' => 'switch',
                     'tab' => "Lista"
                 ]);

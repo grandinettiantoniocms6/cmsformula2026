@@ -222,9 +222,12 @@ class CartController extends Controller
     public function add_to_cart_from_product(Request $request){
         $this->add_cart($request);
 
+        $cart = $this->loading_cart(true);
+
         if($request->has('modal')){
             return response()->json([
-               "ok" => 1
+               "ok" => 1,
+               "count" => count($cart)
             ]);
         }
 

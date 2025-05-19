@@ -16,6 +16,9 @@
     <?php $adminTemplate->header .= ' transparent-header-mobile'; ?>
 @endif
 
+<?php $lang = \App::getLocale();  ?>
+
+
 <header id="header" class="header-expand--2xl {{$adminTemplate->header}}">
     <div class="container-fluid">
         <nav class="navbar navbar-expanded">
@@ -41,11 +44,14 @@
             </a>
 
             @if($website->is_search_in_header)
-                {{--CERCA IN HEADER --}}
-                <div class="navbar-search flex-grow-1 px-3 d-none d-md-block">
-                    @include("$thema.plugins.pluginProducts.v3.inc.search_top")
-                </div>
-                {{--CERCA IN HEADER --}}
+
+                    {{--CERCA IN HEADER --}}
+                    <div class="navbar-search flex-grow-1 px-3 d-none d-md-block">
+                        @if(\Route::currentRouteName() != "pluginProducts.$lang" && \Route::currentRouteName() != "pluginProducts.detail.$lang")
+                           @include("$thema.plugins.pluginProducts.v3.inc.search_top")
+                        @endif
+                    </div>
+                    {{--CERCA IN HEADER --}}
             @endif
 
             <div class="collapse navbar-collapse @if($website->is_search_in_header) flex-grow-0 @endif" id="navbar-main-collapse">
@@ -99,11 +105,13 @@
             @endif
 
             @if($website->is_search_in_header)
-            {{--CERCA IN HEADER --}}
-            <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#search-mobile" aria-expanded="false" aria-label="Cerca">
-                <i class="bi bi-search"></i>
-            </button>
-            {{--CERCA IN HEADER --}}
+                @if(\Route::currentRouteName() != "pluginProducts.$lang" && \Route::currentRouteName() != "pluginProducts.detail.$lang")
+                    {{--CERCA IN HEADER --}}
+                    <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#search-mobile" aria-expanded="false" aria-label="Cerca">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    {{--CERCA IN HEADER --}}
+                @endif
             @endif
 
             <button class="navbar-toggler open-navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-main-collapse" aria-expanded="false" aria-label="Menu">
@@ -118,7 +126,9 @@
     <div class="d-block d-md-none">
         <div class="collapse" id="search-mobile">
             <div class="container-fluid pb-3">
-                @include("$thema.plugins.pluginProducts.v3.inc.search_top_mobile")
+                @if(\Route::currentRouteName() != "pluginProducts.$lang" && \Route::currentRouteName() != "pluginProducts.detail.$lang")
+                    @include("$thema.plugins.pluginProducts.v3.inc.search_top_mobile")
+                @endif
             </div>
         </div>
     </div>

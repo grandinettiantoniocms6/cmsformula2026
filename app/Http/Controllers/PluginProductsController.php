@@ -505,6 +505,7 @@ class PluginProductsController extends Controller
         $lang_ = strtoupper($lang);
         $slug_prodotti = env("PLUGIN_PRODUCTS_URL_$lang_");
         $item = PluginProductsBrands::whereRaw("slug LIKE '%\"$lang\":\"$slug\"%'")->first();
+
         if(!$item){
             return redirect()->to("/");
         }
