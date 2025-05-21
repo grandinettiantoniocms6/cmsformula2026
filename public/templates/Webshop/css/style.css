@@ -20584,11 +20584,6 @@ input[type=number] {
   margin-bottom: 1.5rem;
 }
 
-.product.product-list {
-  display: flex;
-  flex-direction: column;
-}
-
 .product {
   padding: 0;
   border: 0;
@@ -20852,7 +20847,6 @@ a.card-variant:focus {
 .list-view .product .product-media {
   flex: 0 0 300px;
   max-width: 300px;
-  margin-right: 15px;
 }
 
 .list-view .product .product-details {
@@ -20899,6 +20893,16 @@ a.card-variant:focus {
   flex: 0;
   width: auto;
   --bs-btn-padding-x: 1.75rem;
+}
+
+.list-view .product .product-action.product-action-2:empty {
+  margin-top: 0;
+}
+
+.grid-view .product {
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
 }
 
 .grid-view .product .product-action.product-action-2 {
@@ -21280,7 +21284,6 @@ a.card-variant:focus {
   .list-view .product .product-media {
     flex: 0 0 150px;
     max-width: 150px;
-    margin-right: 10px;
   }
 
   .list-view .product .product-title {
@@ -21299,6 +21302,10 @@ a.card-variant:focus {
 
   .list-view .product .product-action.product-action-2 {
     margin-top: 1rem;
+  }
+
+  .list-view .product .product-action.product-action-2:empty {
+    margin-top: 0;
   }
 
   #accordion-tabs .card-header {

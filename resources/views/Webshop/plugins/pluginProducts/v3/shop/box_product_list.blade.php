@@ -227,13 +227,13 @@
                 @endif
             </div>
 
-            <div class="product-action product-action-2">
-                @if(!$shopSetting->is_add_to_cart_list)
-                    @if($adminPlugin->version == 3)
-                       <a href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}" class="btn btn-product btn-primary" title="{{ $product->name }}">{{ @$labels['dettaglio-prodotto'] }}</a>
-                    @endif
+            @if(!$shopSetting->is_add_to_cart_list)
+                @if($adminPlugin->version == 3)
+                    <div class="product-action product-action-2">
+                        <a href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}" class="btn btn-product btn-primary" title="{{ $product->name }}">{{ @$labels['dettaglio-prodotto'] }}</a>
+                    </div>
                 @endif
-            </div>
+            @endif
         </div>
     </div>
 </div>
