@@ -1,6 +1,10 @@
 .product-wrap {
     margin-bottom: 1.5rem;
 }
+.product.product-list {
+    display: flex;
+    flex-direction: column;
+}
 .product {
     padding: 0;
     border: 0;
@@ -65,7 +69,13 @@
     }
     .product-details {
         position: relative;
-        padding: 15px;
+        padding: 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;;
+    }
+    .product-infos {
+        flex-grow: 1;
     }
     .btn-product-icon {
         display: flex;
@@ -105,14 +115,14 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
-        text-align: center;
+        text-align: left;
         text-decoration: none;
         a {
             text-decoration: none;
         }
     }
     .product-title {
-        text-align: center;
+        text-align: left;
         text-decoration: none;
         font-size: 18px;
         font-weight: 700;
@@ -127,22 +137,24 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: flex;
-        align-items: center;
         flex-wrap: wrap;
-        margin-bottom: 0.3rem;
         font-size: 16px;
         line-height: 1.5;
         color: var(--bs-body-color);
         justify-content: center;
+        flex-direction: column;
         ins.new-price {
             color: var(--bs-primary);
             text-decoration: none;
             font-weight: 600;
         }
         .vat {
-            padding: 0 5px;
+            padding: 0;
             opacity: .75;
             font-size: 12px;
+            display: block;
+            line-height: 1;
+            margin-top: 3px;
         }
     }
     .prices + .box_variants_list {

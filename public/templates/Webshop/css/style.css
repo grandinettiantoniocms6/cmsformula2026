@@ -20584,6 +20584,11 @@ input[type=number] {
   margin-bottom: 1.5rem;
 }
 
+.product.product-list {
+  display: flex;
+  flex-direction: column;
+}
+
 .product {
   padding: 0;
   border: 0;
@@ -20656,7 +20661,14 @@ input[type=number] {
 
 .product .product-details {
   position: relative;
-  padding: 15px;
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product .product-infos {
+  flex-grow: 1;
 }
 
 .product .btn-product-icon {
@@ -20700,7 +20712,7 @@ input[type=number] {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  text-align: center;
+  text-align: left;
   text-decoration: none;
 }
 
@@ -20709,7 +20721,7 @@ input[type=number] {
 }
 
 .product .product-title {
-  text-align: center;
+  text-align: left;
   text-decoration: none;
   font-size: 18px;
   font-weight: 700;
@@ -20727,13 +20739,12 @@ input[type=number] {
   overflow: hidden;
   text-overflow: ellipsis;
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 0.3rem;
   font-size: 16px;
   line-height: 1.5;
   color: var(--bs-body-color);
   justify-content: center;
+  flex-direction: column;
 }
 
 .product .product-price ins.new-price {
@@ -20743,9 +20754,12 @@ input[type=number] {
 }
 
 .product .product-price .vat {
-  padding: 0 5px;
+  padding: 0;
   opacity: 0.75;
   font-size: 12px;
+  display: block;
+  line-height: 1;
+  margin-top: 3px;
 }
 
 .product .prices + .box_variants_list {
