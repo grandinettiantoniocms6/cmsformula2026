@@ -48,22 +48,30 @@ $optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray()
 
                         <div class="col-auto">
                             <nav class="nav nav-pills" id="nav-view">
-                                <button class="nav-link @if($shopSetting->shop_view_list == "grid") active @endif" href="#" aria-label="{{ @$labels['lista-griglia'] }}" onclick="view_products(this,'grid','row-cols-1 list-view','row-cols-2 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }} grid-view')">
-                                    <i class="fa fa-th-large"></i>
-                                    <span>{{ @$labels['lista-griglia'] }}</span>
-                                </button>
+                                @if($shopSetting->shop_view_list == "grid")
+                                    <button class="nav-link @if($shopSetting->shop_view_list == "grid") active @endif" href="#" aria-label="{{ @$labels['lista-griglia'] }}" onclick="view_products(this,'grid','row-cols-1 list-view','row-cols-2 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }} grid-view')">
+                                        <i class="fa fa-th-large"></i>
+                                        <span>{{ @$labels['lista-griglia'] }}</span>
+                                    </button>
 
-                                <button class="nav-link @if($shopSetting->shop_view_list == "list") active @endif" href="#" aria-label="{{ @$labels['lista-pulsante'] }}" onclick="view_products(this,'list','row-cols-2 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }} grid-view','row-cols-1 list-view')">
-                                    <i class="fa fa-bars"></i>
-                                    <span>{{ @$labels['lista-pulsante'] }}</span>
-                                </button>
-
+                                    <button class="nav-link @if($shopSetting->shop_view_list == "list") active @endif" href="#" aria-label="{{ @$labels['lista-pulsante'] }}" onclick="view_products(this,'list','row-cols-2 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }} grid-view','row-cols-1 list-view')">
+                                        <i class="fa fa-bars"></i>
+                                        <span>{{ @$labels['lista-pulsante'] }}</span>
+                                    </button>
+                                @else
+                                    <button class="nav-link @if($shopSetting->shop_view_list == "list") active @endif" href="#" aria-label="{{ @$labels['lista-pulsante'] }}" onclick="view_products(this,'list','row-cols-2 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }} grid-view','row-cols-1 list-view')">
+                                        <i class="fa fa-bars"></i>
+                                        <span>{{ @$labels['lista-pulsante'] }}</span>
+                                    </button>
+                                    <button class="nav-link @if($shopSetting->shop_view_list == "grid") active @endif" href="#" aria-label="{{ @$labels['lista-griglia'] }}" onclick="view_products(this,'grid','row-cols-1 list-view','row-cols-2 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }} grid-view')">
+                                        <i class="fa fa-th-large"></i>
+                                        <span>{{ @$labels['lista-griglia'] }}</span>
+                                    </button>
+                                @endif
                             </nav>
                         </div>
 
                         <div class="col d-none d-sm-block"></div>
-
-
                             <div class="col-auto d-none d-lg-block">
                                 <label class="form-label mb-0">{{ @$labels['ordina-per'] }}:</label>
                             </div>
@@ -110,56 +118,28 @@ $optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray()
 
 
                 <div class="col-lg main-content">
-                     @if($shopSetting->shop_view_list != "list")
-                        <div class="listing row gx-2 gx-lg-3 @if($shopSetting->shop_view_list == "list") row-cols-1 list-view @else row-cols-2 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }} grid-view @endif" id="box_result_products">
-
-                            @foreach($products as $product)
-                                    <?php
-                                    $vet_ids = [];
-
-                                    $cat_prod_name = "";
-                                    $cat_prod_slug = "no-categoria";
-
-                                    $cat_prod = $product->category();
-                                    if($cat_prod){
-                                        $cat_prod_name = $cat_prod->name;
-                                        $cat_prod_slug = $cat_prod->slug;
-                                    }
-
-                                     $vet_ids = [];
-                                     if($product->vet_ids_list){
-                                         $vet_ids = json_decode($product->vet_ids_list, true);
-                                     }
-                                    ?>
-                                    @include("$thema.plugins.pluginProducts.v3.shop.box_product_list", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $pluginSetting, "optionsList" => $optionsList])
-                            @endforeach
-
-                        </div>
-                    @else
-                        <div class="listing row gx-2 gx-lg-3 row-cols-2 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }} grid-view" id="box_result_products">
-                            @foreach($products as $product)
+                    <div class="listing row gx-2 gx-lg-3 @if($shopSetting->shop_view_list == "list") row-cols-1 list-view @else row-cols-2 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }} grid-view @endif" id="box_result_products">
+                        @foreach($products as $product)
                                 <?php
                                 $vet_ids = [];
 
                                 $cat_prod_name = "";
                                 $cat_prod_slug = "no-categoria";
+
                                 $cat_prod = $product->category();
-
-
                                 if($cat_prod){
                                     $cat_prod_name = $cat_prod->name;
                                     $cat_prod_slug = $cat_prod->slug;
                                 }
 
-                                $vet_ids = [];
-                                if($product->vet_ids_list){
-                                    $vet_ids = json_decode($product->vet_ids_list, true);
-                                }
+                                 $vet_ids = [];
+                                 if($product->vet_ids_list){
+                                     $vet_ids = json_decode($product->vet_ids_list, true);
+                                 }
                                 ?>
-                                @include("$thema.plugins.pluginProducts.v3.shop.box_product_grid", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $pluginSetting, "optionsList" => $optionsList])
-                            @endforeach
-                        </div>
-                    @endif
+                                @include("$thema.plugins.pluginProducts.v3.shop.box_product_list", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $pluginSetting, "optionsList" => $optionsList])
+                        @endforeach
+                    </div>
 
                     <div id="box_pagination" class="w-100">
                         {{ $products->appends($_GET)->links() }}

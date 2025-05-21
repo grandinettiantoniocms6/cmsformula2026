@@ -157,14 +157,13 @@ $labelPlugins = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->
     }
 
     function add_list_cart(id){
-        $("#add-cart-button-list-"+id).html("...");
         $.ajax({
             type: 'POST',
             url: '{{ route('add.cart.product') }}',
             data: $("#add-cart-from-list-"+id).serialize(), // serializes the form's elements.
             success: function (data) {
                 $("#cart_box").html(data.count);
-                $("#add-cart-button-list-"+id).html("{{ @$labelPlugins['shop-alert-aggiunto-al-carrello'] }}");
+                $("#add-cart-button-list-"+id).removeClass("bi bi-bag-fill").addClass("bi bi-cart-check-fill");
             },
             error: function() {}
         });

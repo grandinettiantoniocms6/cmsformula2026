@@ -213,13 +213,11 @@
                             <input type="hidden" name="modal" value="1">
                             <div class="product-form-group">
                                 <a class="btn btn-lg btn-primary" onclick="add_list_cart({{ $product->id }})">
-                                    <i class="bi bi-bag-fill"></i><span class="ps-2 d-none" id="add-cart-button-list-{{ $product->id }}">
-                                        @if(!$product->in_cart())
-                                            {{ @$labels['shop-add-to-cart'] }}
-                                        @else
-                                            {{ @$labels['shop-alert-aggiunto-al-carrello'] }}
-                                        @endif
-                                    </span>
+                                    @if(!$product->in_cart())
+                                        <i id="add-cart-button-list-{{ $product->id }}" class="bi bi-bag-fill"></i>
+                                    @else
+                                        <i class="bi bi-cart-check-fill" id="add-cart-button-list-{{ $product->id }}"></i>
+                                    @endif
                                 </a>
                             </div>
                         </form>
