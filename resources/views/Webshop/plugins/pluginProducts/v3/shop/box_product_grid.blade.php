@@ -56,6 +56,7 @@
                     @endif
                 @endif
             </div>
+
         </figure>
         <div class="product-details">
             <div class="product-infos">
