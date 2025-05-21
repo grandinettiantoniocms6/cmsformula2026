@@ -201,7 +201,7 @@
                 @endif
             </div>
 
-            @if($shopSetting->is_add_to_cart_list)
+            @if($shopSetting->is_add_to_cart_list && $product->is_purchasable)
                 <form method="post" action="{{ route('add.cart.product') }}" id="add-cart-from-list-{{ $product->id }}">
                     {{ csrf_field() }}
                     <input type="hidden" name="id" value="{{ $product->id }}">
