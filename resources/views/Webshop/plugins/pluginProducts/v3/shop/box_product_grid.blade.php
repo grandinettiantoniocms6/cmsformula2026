@@ -58,26 +58,28 @@
             </div>
         </figure>
         <div class="product-details">
-            <div class="product-cat">
-                <a href="{{ route("pluginProducts.".\App::getLocale(), [$cat_prod_slug]) }}">{{ $cat_prod_name }}</a>
-            </div>
-            <h4 class="product-title">
-               <a href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}">{{ $product->name }}
-                   <!-- aggiungo sku in lista prodotti -->
-                   @if($pluginSetting->show_sku == 1 || ($product->show_sku == 1))
-                       <br><span style="font-size: 14px;">{{ @$labels['sku'] }} {{ $product->sku }}</span>
-                   @endif
-               </a>
-            </h4>
-            <!-- qui vorreo aggiungere le proprietà -->
+            <div class="product-infos">
+                <div class="product-cat">
+                    <a href="{{ route("pluginProducts.".\App::getLocale(), [$cat_prod_slug]) }}">{{ $cat_prod_name }}</a>
+                </div>
+                <h4 class="product-title">
+                    <a href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}">{{ $product->name }}
+                    <!-- aggiungo sku in lista prodotti -->
+                        @if($pluginSetting->show_sku == 1 || ($product->show_sku == 1))
+                            <br><span style="font-size: 14px;">{{ @$labels['sku'] }} {{ $product->sku }}</span>
+                        @endif
+                    </a>
+                </h4>
+                <!-- qui vorreo aggiungere le proprietà -->
 
-            <!-- Div Info_extra_list -->
-            @if(trim($product->info_extra_list) != "" && $product->info_extra_list != null)
-                <div class="product-element-bottom">{!! $product->info_extra_list !!}</div>
-            @else
-                <div class="product-element-bottom-null"></div>
+                <!-- Div Info_extra_list -->
+                @if(trim($product->info_extra_list) != "" && $product->info_extra_list != null)
+                    <div class="product-element-bottom">{!! $product->info_extra_list !!}</div>
+                @else
+                    <div class="product-element-bottom-null"></div>
             @endif
             <!-- End Div Info_extra_list -->
+            </div>
 
             <div class="product-price">
                 @if($shopSetting->view_variants_in_list == 0)
