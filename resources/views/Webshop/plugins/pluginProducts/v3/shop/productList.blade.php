@@ -38,6 +38,7 @@ $optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray()
                     }
                 }
                 ?>
+
                 <nav class="navbar navbar-expand py-0">
                     <div class="row flex-grow-1 gx-1 align-items-center flex-nowrap">
                         <div class="col-auto d-lg-none">
@@ -62,8 +63,6 @@ $optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray()
                         </div>
 
                         <div class="col d-none d-sm-block"></div>
-
-
                             <div class="col-auto d-none d-lg-block">
                                 <label class="form-label mb-0">{{ @$labels['ordina-per'] }}:</label>
                             </div>
@@ -79,7 +78,7 @@ $optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray()
                                 </select>
                             </div>
 
-                        <div class="col-auto d-none d-lg-block">
+                        <div class="col-auto d-none d-lg-block ps-lg-2">
                             <label class="form-label mb-0">{{ @$labels['mostra'] }}:</label>
                         </div>
                         <div class="col-auto">

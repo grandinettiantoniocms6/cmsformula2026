@@ -132,6 +132,12 @@
   --footer-bottom-padding-y: 1rem;
 }
 
+.spinner-border {
+  --bs-spinner-width: 1.25rem;
+  --bs-spinner-height: 1.25rem;
+  --bs-spinner-border-width: 0.175em;
+}
+
 /*!
  * Bootstrap  v5.2.2 (https://getbootstrap.com/)
  * Copyright 2011-2022 The Bootstrap Authors

@@ -157,14 +157,16 @@ $labelPlugins = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->
     }
 
     function add_list_cart(id){
-        $("#add-cart-button-list-"+id).html("...");
+        $('#add-cart-button-list-'+id).attr('title', '...');
+        $('#add-cart-button-list-'+id + ' i').removeClass('bi bi-bag-plus').addClass('spinner-border');
         $.ajax({
             type: 'POST',
             url: '{{ route('add.cart.product') }}',
-            data: $("#add-cart-from-list-"+id).serialize(), // serializes the form's elements.
+            data: $('#add-cart-from-list-'+id).serialize(), // serializes the form's elements.
             success: function (data) {
-                $("#cart_box").html(data.count);
-                $("#add-cart-button-list-"+id).html("{{ @$labelPlugins['shop-alert-aggiunto-al-carrello'] }}");
+                $('#cart_box').html(data.count);
+                $('#add-cart-button-list-'+id).attr('title', '{{ @$labelPlugins['shop-alert-aggiunto-al-carrello'] }}');
+                $('#add-cart-button-list-'+id + ' i').removeClass('spinner-border').addClass('bi bi-bag-check');
             },
             error: function() {}
         });
