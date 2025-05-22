@@ -212,12 +212,19 @@
                             <input type="hidden" name="id" value="{{ $product->id }}">
                             <input type="hidden" name="modal" value="1">
                             <div class="product-form-group">
-                                <a class="btn btn-lg btn-primary" onclick="add_list_cart({{ $product->id }})">
+                                @if(!$product->in_cart())
+                                    @php $label_btn = @$labels['shop-add-to-cart']; @endphp
+                                @else
+                                    @php $label_btn = @$labels['shop-alert-aggiunto-al-carrello']; @endphp
+                                @endif
+
+                                <a class="btn btn-lg btn-primary" onclick="add_list_cart({{ $product->id }})" id="add-cart-button-list-{{ $product->id }}" data-bs-toggle="tooltip" title="{{ $label_btn }}">
                                     @if(!$product->in_cart())
-                                        <i id="add-cart-button-list-{{ $product->id }}" class="bi bi-bag-fill"></i>
+                                        <i class="bi bi-bag-plus"></i>
                                     @else
-                                        <i class="bi bi-cart-check-fill" id="add-cart-button-list-{{ $product->id }}"></i>
+                                        <i class="bi bi-bag-check"></i>
                                     @endif
+                                    <span class="sr-only">{{ $label_btn }}</span>
                                 </a>
                             </div>
                         </form>
