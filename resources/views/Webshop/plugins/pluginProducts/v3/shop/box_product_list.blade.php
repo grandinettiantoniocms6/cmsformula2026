@@ -50,7 +50,7 @@
                 @endif
             </div>
             <div class="product-action product-action-1">
-                @if(!$shopSetting->is_add_to_cart_list)
+                @if(!$shopSetting->is_add_to_cart_list || !$product->is_purchasable)
                     @if($adminPlugin->version == 3)
                         <a class="btn-product btn btn-primary btn-block" href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}" class="btn-primary btn-product" title="{{ $product->name }}">{{ @$labels['dettaglio-prodotto'] }}</a>
                     @endif
@@ -212,14 +212,12 @@
                             <input type="hidden" name="id" value="{{ $product->id }}">
                             <input type="hidden" name="modal" value="1">
                             <div class="product-form-group">
-                                @if(!$product->in_cart())
-                                    @php $label_btn = @$labels['shop-add-to-cart']; @endphp
-                                @else
-                                    @php $label_btn = @$labels['shop-alert-aggiunto-al-carrello']; @endphp
-                                @endif
-                                <a class="btn btn-lg btn-primary" onclick="add_list_cart({{ $product->id }})" data-bs-toggle="tooltip" title="{{ $label_btn }}" id="add-cart-button-list-{{ $product->id }}">
-                                    <i class="bi bi-bag-plus"></i>
-                                    <span class="sr-only">{{ $label_btn }}</span>
+                                <a class="btn btn-lg btn-primary" onclick="add_list_cart({{ $product->id }})">
+                                    @if(!$product->in_cart())
+                                        <i id="add-cart-button-list-{{ $product->id }}" class="bi bi-bag-fill"></i>
+                                    @else
+                                        <i class="bi bi-cart-check-fill" id="add-cart-button-list-{{ $product->id }}"></i>
+                                    @endif
                                 </a>
                             </div>
                         </form>
@@ -227,13 +225,11 @@
                 @endif
             </div>
 
-            @if(!$shopSetting->is_add_to_cart_list)
-                @if($adminPlugin->version == 3)
+                @if($adminPlugin->version == 3 || !$product->is_purchasable)
                     <div class="product-action product-action-2">
                         <a href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}" class="btn btn-product btn-primary" title="{{ $product->name }}">{{ @$labels['dettaglio-prodotto'] }}</a>
                     </div>
                 @endif
-            @endif
         </div>
     </div>
 </div>
