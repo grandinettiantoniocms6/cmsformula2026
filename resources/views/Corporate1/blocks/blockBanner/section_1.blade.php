@@ -1,4 +1,5 @@
 <div class="col-lg-{{ $item->col }} col-md-6">
+
     <!-- se uso class="card-img" le immagini restano boxate -->
     <a class="card" target="{{ $type_href }}" href="{{ $url }}">
         <img src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
