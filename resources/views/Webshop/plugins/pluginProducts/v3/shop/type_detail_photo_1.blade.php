@@ -36,7 +36,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                     ?>
                     <div class="product-image">
                         <img class="img-fluid card zoom-image" src="{{ $url }}" data-zoom-image="{{ $url }}" alt="{{ $itemProduct->name }}" @if(!$loop->first) loading="lazy" @endif>
-                        <a class="btn btn-blank font-xl glightbox" data-effect="fade" href="{{ $url }}" title="{{ $itemProduct->name }}"><i class="bi bi-search"></i></a>
+                        <a class="btn btn-light font-xl glightbox" data-effect="fade" href="{{ $url }}" title="{{ $itemProduct->name }}"><i class="bi bi-search"></i></a>
                     </div>
                 @endforeach
             @else

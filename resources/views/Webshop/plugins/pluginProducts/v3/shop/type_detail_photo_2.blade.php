@@ -32,7 +32,7 @@
                     <div class="col">
                         <div class="product-image active mb-1">
                             <img class="card img-fluid zoom-image" src="{{ $url }}" data-zoom-image="{{ $url }}" alt="{{ $itemProduct->name }}" width="800" height="900">
-                            <a class="btn btn-blank font-xl glightbox" data-effect="fade" href="{{ $url }}" title="{{ $itemProduct->name }}"><i class="bi bi-search"></i></a>
+                            <a class="btn btn-light font-xl glightbox" data-effect="fade" href="{{ $url }}" title="{{ $itemProduct->name }}"><i class="bi bi-search"></i></a>
                         </div>
                     </div>
                 @endforeach

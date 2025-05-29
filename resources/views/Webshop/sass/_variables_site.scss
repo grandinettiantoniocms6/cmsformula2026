@@ -179,3 +179,9 @@
     --footer-top-padding-y: 3rem;
     --footer-bottom-padding-y: 1rem;
 }
+
+.btn .spinner-border {
+    --bs-spinner-width: 1.25rem;
+    --bs-spinner-height: 1.25rem;
+    --bs-spinner-border-width: 0.175em;
+}

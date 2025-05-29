@@ -5,9 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-12 col-md-9 col-lg-6">
             <h3 class="text-center mb-4">
-                <?php
-                $website = \App\Models\WebsiteSetting::first();
-                ?>
+                <?php $website = \App\Models\WebsiteSetting::first(); ?>
                 @if(!$website->logo_admin)
                     <img src="/img/commons/admin/logo-cms-formula-5.png" title="Logo CMS-Formula 5.0">
                 @else

@@ -1,6 +1,4 @@
-<?php
-$labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
-?>
+<?php $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();  ?>
 <form action="{{ route("pluginProducts.search_results.".\App::getLocale()) }}" method="get">
     {{ csrf_field() }}
     <div class="widget-search widget-topbar">
