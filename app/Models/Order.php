@@ -108,7 +108,7 @@ class Order extends Model
 
         if($sum){
             if($this->total_tax != $sum->tot){
-                return "<span class='text text-danger'><strong>".number_format($total, 2, ",", ".")."</strong></span>";
+                return "<span class='text text-danger'>".number_format($total, 2, ",", ".")."</span>";
             }
         }
         return number_format($total, 2, ",", "."). ' '.$this->currency->name;

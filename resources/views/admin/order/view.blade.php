@@ -13,19 +13,15 @@
 
 @section('header')
     <?php $userOrder = \App\User::withTrashed()->find($order->user_id); ?>
-    <div class="container-fluid">
-        <h3>
-            <span class="text-capitalize">#{{ $order->id }} - {{ $userOrder->name }}</span>
-        </h3>
-        <hr>
-    </div>
+    <h3 class="page-title mb-0">
+        <span class="text-capitalize">#{{ $order->id }} - {{ $userOrder->name }}</span>
+    </h3>
 @endsection
 
 @section('content')
 
     <div class="row">
         <div class="col-md-9">
-
             <div class="card">
                 <div class="card-header">
                     <ul class="nav nav-pills mb-1" id="pills-tab" role="tablist">
@@ -34,12 +30,13 @@
                     </ul>
                 </div>
                 @if ($order->shippingAddress)
-                    <div class="tab-content border-left-0 border-right-0 py-0">
-                        <div class="tab-pane active" id="tab-shipping-address">
-                            <div class="row">
+                    <div class="tab-content border-0 shadow-none py-0">
+                        <div class="tab-pane pt-1 active" id="tab-shipping-address">
+                            <div class="row gutter-3">
                                 <div class="col-md-6">
-                                    <h5>Indirizzo di spedizione</h5>
-                                    <table class="table table-sm table-striped">
+                                    <h5 class="mb-2">Indirizzo di spedizione</h5>
+                                    <table class="table table-sm table-striped mb-2">
+                                        <tbody>
                                         <tr>
                                             <td>Nominativo</td>
                                             <td>{{ $order->shippingAddress->name }}</td>
@@ -100,16 +97,17 @@
                                                 @endforeach
                                             @endif
                                         @endif
+                                        </tbody>
                                     </table>
 
-                                    <textarea class="form-control opacity-0" rows="1" readonly id="copy-input-1">{{ $order->shippingAddress->name }}&#13;&#10;{{ $order->shippingAddress->address1 }} @if($order->shippingAddress->number_street) {{ $order->shippingAddress->number_street }} @endif &#13;&#10;{{ $order->shippingAddress->city }}  @if($order->shippingAddress->county) ({{ $order->shippingAddress->county }}) @endif {{ $order->shippingAddress->postal_code }} &#13;&#10;{{ $order->shippingAddress->phone }} {{ $order->shippingAddress->mobile_phone }}</textarea>
+                                    <textarea class="form-control opacity-0 p-0" rows="1" readonly id="copy-input-1">{{ $order->shippingAddress->name }}&#13;&#10;{{ $order->shippingAddress->address1 }} @if($order->shippingAddress->number_street) {{ $order->shippingAddress->number_street }} @endif &#13;&#10;{{ $order->shippingAddress->city }}  @if($order->shippingAddress->county) ({{ $order->shippingAddress->county }}) @endif {{ $order->shippingAddress->postal_code }} &#13;&#10;{{ $order->shippingAddress->phone }} {{ $order->shippingAddress->mobile_phone }}</textarea>
                                     <button data-clipboard-target="#copy-input-1" class="btn btn-block btn-sm btn-primary btn-clipboard"><i class="fa fa-copy"></i> Copia indirizzo</button>
 
                                 </div>
                                 <div class="col-md-6">
                                     @if ($order->billingCompanyInfo)
-                                        <h5>Indirizzo di fatturazione</h5>
-                                        <table class="table table-sm table-striped">
+                                        <h5 class="mb-2">Indirizzo di fatturazione</h5>
+                                        <table class="table table-sm table-striped mb-2">
                                             <tr>
                                                 <td>Ragione sociale</td>
                                                 <td>{{ $order->billingCompanyInfo->business_name }}</td>
@@ -176,15 +174,15 @@
                                             @endif
                                         </table>
 
-                                        <textarea class="form-control opacity-0" rows="1" readonly id="copy-input-2">{{ $order->billingCompanyInfo->business_name }} {{ $order->billingCompanyInfo->address1 }} @if($order->billingCompanyInfo->number_street) {{ $order->billingCompanyInfo->number_street }} @endif  @if($order->billingCompanyInfo->country) {{ $order->billingCompanyInfo->country->name }} @endif {{ $order->billingCompanyInfo->city }}  @if($order->billingCompanyInfo->county) ({{ $order->billingCompanyInfo->county }}) @endif {{ $order->billingCompanyInfo->fiscal_code_vat }} {{ $order->billingCompanyInfo->mobile }} {{ $order->billingCompanyInfo->pec }} {{ $order->billingCompanyInfo->sdi }}</textarea>
+                                        <textarea class="form-control opacity-0 p-0" rows="1" readonly id="copy-input-2">{{ $order->billingCompanyInfo->business_name }} {{ $order->billingCompanyInfo->address1 }} @if($order->billingCompanyInfo->number_street) {{ $order->billingCompanyInfo->number_street }} @endif  @if($order->billingCompanyInfo->country) {{ $order->billingCompanyInfo->country->name }} @endif {{ $order->billingCompanyInfo->city }}  @if($order->billingCompanyInfo->county) ({{ $order->billingCompanyInfo->county }}) @endif {{ $order->billingCompanyInfo->fiscal_code_vat }} {{ $order->billingCompanyInfo->mobile }} {{ $order->billingCompanyInfo->pec }} {{ $order->billingCompanyInfo->sdi }}</textarea>
                                         <button data-clipboard-target="#copy-input-2" class="btn btn-block btn-sm btn-primary btn-clipboard"><i class="fa fa-copy"></i> Copia indirizzo</button>
                                     @endif
 
 
 
-                                    @if ($order->billingAddress)
-                                        <h4>{{ trans('order.billing_address') }}</h4>
-                                        <table class="table table-condensed table-hover">
+                                    @if($order->billingAddress)
+                                        <h5 class="mb-2">{{ trans('order.billing_address') }}</h5>
+                                        <table class="table table-sm table-striped mb-2">
                                             <tr>
                                                 <td>{{ trans('address.contact_person') }}</td>
                                                 <td>{{ $order->billingAddress->name }}</td>
@@ -231,9 +229,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab-history-info">
+                        <div class="tab-pane pt-1" id="tab-history-info">
                             @if(count($history) > 0)
-                                <table class="table table-responsive">
+                                <table class="table table-responsive mb-2">
                                     <thead>
                                     <tr>
                                         <th>ID</th>
@@ -268,9 +266,9 @@
             </div>
 
             <div class="card">
-                <div class="card-header"><h4 class="my-0">Spedizione</h4></div>
+                <div class="card-header"><h5 class="my-0">Spedizione</h5></div>
                 @if($order->shipping)
-                    <table class="table my-0">
+                    <table class="table table-md my-0">
                         <thead>
                         <tr>
                             <th>Spedizione</th>
@@ -288,80 +286,74 @@
             </div>
 
             <div class="card">
-                <div class="card-header"><h4 class="my-0">Metodo di pagamento</h4></div>
-
+                <div class="card-header border-bottom-0"><h5 class="my-0">Metodo di pagamento</h5></div>
                 <div class="box-body">
                      @if($payment)
-                        <table class="table my-0">
+                        <table class="table table-md my-0">
                             <tbody>
-                            <tr>
-                                <th class="py-1">Metodo</th>
-                                <td class="py-1"><strong>{{ $payment->name }}</strong></td>
-                            </tr>
-                            @if($order->payment_date)
-                            <tr>
-                                <th class="py-1">Data pagamento:</th>
-                                <td class="py-1">
-                                    {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s" ,$order->payment_date)->format("d/m/Y") }}
-                                </td>
-                            </tr>
-                            @endif
+                                <tr>
+                                    <th>Metodo</th>
+                                    <td><strong>{{ $payment->name }}</strong></td>
+                                </tr>
+                                @if($order->payment_date)
+                                    <tr>
+                                        <th>Data pagamento:</th>
+                                        <td>{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s" ,$order->payment_date)->format("d/m/Y") }}</td>
+                                    </tr>
+                                @endif
                                 @if($order->paypal_payment_id)
                                     <tr>
-                                        <th class="py-1">#IDPAYPAL:</th>
-                                        <td class="py-1">{{ $order->paypal_payment_id }}</td>
+                                        <th>#IDPAYPAL:</th>
+                                        <td>{{ $order->paypal_payment_id }}</td>
                                     </tr>
                                 @endif
 
-                            @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
-                                @if($order->status_id == 5)
-                                    <tr>
-                                        <th class="py-1">Link da copiare al cliente:</th>
-                                        <td class="py-1"><a href="{{ route('index') }}/order_result?order_id={{ $order->id }}">{{ route('index') }}/order_result?order_id={{ $order->id }}</a></td>
-                                    </tr>
+                                @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
+                                    @if($order->status_id == 5)
+                                        <tr>
+                                            <th>Link da copiare al cliente:</th>
+                                            <td><a href="{{ route('index') }}/order_result?order_id={{ $order->id }}">{{ route('index') }}/order_result?order_id={{ $order->id }}</a></td>
+                                        </tr>
+                                    @endif
                                 @endif
-                            @endif
                             </tbody>
                         </table>
                      @endif
 
-                         @if($order->code_referral or $order->code_coupon)
-                             <table class="table my-0">
-                                 <tbody>
-                                 @if($order->code_coupon)
-                                     <tr>
-                                         <th class="py-1">Sconto coupon</th>
-                                         <td class="py-1">{{ $order->code_coupon }}</td>
-                                     </tr>
-                                 @endif
-                                 @if($order->code_referral)
-                                     <tr>
-                                         <th class="py-1">Codice referente</th>
-                                         <td class="py-1">{{ $order->code_referral }}</td>
-                                     </tr>
-                                 @endif
-                                 </tbody>
-                             </table>
-                         @endif
+                     @if($order->code_referral or $order->code_coupon)
+                        <table class="table table-md my-0">
+                            @if($order->code_coupon)
+                                <tr>
+                                    <th>Sconto coupon</th>
+                                    <td>{{ $order->code_coupon }}</td>
+                                </tr>
+                            @endif
+                            @if($order->code_referral)
+                                <tr>
+                                    <th>Codice referente</th>
+                                    <td>{{ $order->code_referral }}</td>
+                                </tr>
+                            @endif
+                        </table>
+                     @endif
                 </div>
             </div>
 
             @if(trim($order->comment) != "")
                 <div class="card">
-                    <div class="card-header"><h4 class="my-0">Note</h4></div>
+                    <div class="card-header"><h5 class="my-0">Note</h5></div>
                     <div class="card-body">{{ $order->comment }}</div>
                 </div>
             @endif
 
             <div class="card">
-                <div class="card-header"><h4 class="my-0">Prodotti</h4></div>
-                <table class="table table-striped table-striped my-0">
+                <div class="card-header"><h5 class="my-0">Prodotti</h5></div>
+                <table class="table table-md table-striped my-0">
                     <thead>
                     <tr>
                         <th></th>
                         <th>Prodotto</th>
                         <th>Prezzo</th>
-                        <!--<th>Prezzo con iva</th>-->
                         <th>Quantità</th>
                         <th class="text-right">Totale</th>
                     </tr>
@@ -528,51 +520,47 @@
         </div>
         <div class="col-md-3">
             <div class="card">
-                <div class="card-header">Cliente</div>
-                <table class="table my-0">
+                <div class="card-header border-bottom-0"><h5 class="my-0">Cliente</h5></div>
+                <table class="table table-md my-0">
                     <tbody>
-                    <tr>
-                        <th class="py-1">Cliente</th>
-                        <td class="py-1">{{ $userOrder->name }}</td>
-                    </tr>
-                    <tr>
-                        <th class="py-1">Mail</th>
-                        <td class="py-1"><a href="mailto:{{ $userOrder->email }}">{{ $userOrder->email }}</a></td>
-                    </tr>
-                    <tr>
-                        <th class="py-1">Telefono</th>
-                        <td class="py-1">{{ $userOrder->mobile }}</td>
-                    </tr>
+                        <tr>
+                            <th>Cliente</th>
+                            <td>{{ $userOrder->name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Mail</th>
+                            <td><a href="mailto:{{ $userOrder->email }}">{{ $userOrder->email }}</a></td>
+                        </tr>
+                        <tr>
+                            <th>Telefono</th>
+                            <td>{{ $userOrder->mobile }}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="card">
-                    <div class="card-header">Status Ordine</div>
-                    <table class="table my-0">
+                <div class="card-header border-bottom-0"><h5 class="my-0">Status Ordine</h5></div>
+                    <table class="table table-md my-0">
                         <tbody>
-                        <tr>
-                            <th>Stato ordine</th>
-                            <td><span class="badge badge-default">{{ $order->status->name }}</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <a href="/admin/shopOrders/printPDF/{{ $order->id }}" class="btn btn-primary btn-sm" target="_blank">Stampa PDF</a>
-                            </td>
-                            <td>
-                                <a href="/admin/shopOrders/printPDF/{{ $order->id }}?no-price" class="btn btn-primary btn-sm" target="_blank">Stampa No Prezzi</a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <th>Stato ordine</th>
+                                <td><span class="badge badge-default">{{ $order->status->name }}</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="/admin/shopOrders/printPDF/{{ $order->id }}" class="btn btn-primary btn-sm font-sm btn-block" target="_blank">Stampa PDF</a></td>
+                                <td><a href="/admin/shopOrders/printPDF/{{ $order->id }}?no-price" class="btn btn-primary btn-sm font-sm btn-block" target="_blank">Stampa No Prezzi</a></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
             @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
                 <div class="card">
-                    <div class="card-header">Cronologia Status</div>
+                    <div class="card-header"><h5 class="my-0">Cronologia Status</h5></div>
                     <div class="card-body">
                         @if (count($order->statusHistory) > 0)
-                            <table class="table table-hover">
+                            <table class="table table-md table-bordered table-hover">
                                 <thead>
                                 <tr>
                                     <th>Stato</th>
@@ -621,7 +609,7 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-header">Modifica metodo di pagamento</div>
+                    <div class="card-header"><h5 class="my-0">Modifica metodo di pagamento</h5></div>
                     <div class="card-body">
                         <form action="{{ route('updateOrderPayment') }}" method="POST">
                             {!! csrf_field() !!}

@@ -323,8 +323,8 @@ Route::post('paypal-transaction-error', array('as' => 'paypal-transaction-error'
     Route::get('/brand/{id}', 'Api\BrandController@show');
     Route::get('/product', 'Api\ProductController@index');
     Route::get('/product/{id}', 'Api\ProductController@show');
-    Route::get('/productGroup', 'Api\ProductGroupController@index');
-    Route::get('/productGroup/{id}', 'Api\ProductGroupController@show');
+    // Route::get('/productGroup', 'Api\ProductGroupController@index');
+    // Route::get('/productGroup/{id}', 'Api\ProductGroupController@show');
 });
 
 //Cart
