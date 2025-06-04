@@ -997,7 +997,7 @@
     @if(env('LOCAL') == 0)
         <?php
             $gestDB = \DB::connection('mysql_2');
-            $news = $gestDB->table("news")->get();
+            $news = $gestDB->table("news")->where("is_active", 1)->orderBy("lft", "asc")->get();
         ?>
 
         @if($news)
@@ -1005,10 +1005,10 @@
                 <div class="col-xl-12 mb-4">
                     <div class="card card-dashboard">
                             @foreach($news as $new)
-                                <?php
-                                    dump($new);
-                                    ?>
-
+                                <h5>{{ $new->title }}</h5>
+                                {!! $new->description !!}
+                                <br>
+                                <small>{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $new->updated_at)->format("d/m/Y") }}</small>
                             @endforeach
                     </div>
                 </div>
