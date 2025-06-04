@@ -1010,8 +1010,8 @@
                         @foreach($news as $new)
                             <h5>{{ $new->title }}</h5>
                             {!! $new->description !!}
-                            <br>
                             <small>{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $new->updated_at)->format("d/m/Y") }}</small>
+                            <br>
                         @endforeach
                     </div>
                 </div>
