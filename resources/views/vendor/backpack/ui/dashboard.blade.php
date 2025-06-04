@@ -1008,10 +1008,11 @@
                     </div>
                     <div class="card-body flex-grow-0">
                         @foreach($news as $new)
-                            <h5>{{ $new->title }}</h5>
-                            {!! $new->description !!}
-                            <small>{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $new->updated_at)->format("d/m/Y") }}</small>
-                            <br>
+                            <div class="mb-5">
+                                <h5>{{ $new->title }}</h5>
+                                {!! $new->description !!}
+                                <small>{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $new->updated_at)->format("d/m/Y") }}</small>
+                            </div>
                         @endforeach
                     </div>
                 </div>
