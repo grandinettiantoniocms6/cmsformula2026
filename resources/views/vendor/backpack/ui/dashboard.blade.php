@@ -997,7 +997,7 @@
     @if(env('LOCAL') == 0)
         <?php
             $gestDB = \DB::connection('mysql_2');
-            $news = $gestDB->table("news")->where("is_active", 1)->orderBy("lft", "asc")->get();
+            $news = $gestDB->table("news")->where("is_active", 1)->orderBy("lft", "asc")->take(5)->get();
         ?>
 
         @if($news)
@@ -1011,7 +1011,7 @@
                             <div class="mb-5">
                                 <h5>{{ $new->title }}</h5>
                                 {!! $new->description !!}
-                                <small>{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $new->updated_at)->format("d/m/Y") }}</small>
+                                <small>{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $new->created_at)->format("d/m/Y") }}</small>
                             </div>
                         @endforeach
                     </div>
