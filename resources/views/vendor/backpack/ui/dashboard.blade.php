@@ -1003,13 +1003,16 @@
         @if($news)
             <div class="row gutter-3">
                 <div class="col-xl-12 mb-4">
-                    <div class="card card-dashboard">
-                            @foreach($news as $new)
-                                <h5>{{ $new->title }}</h5>
-                                {!! $new->description !!}
-                                <br>
-                                <small>{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $new->updated_at)->format("d/m/Y") }}</small>
-                            @endforeach
+                    <div class="card-header">
+                        <h5 class="line-height-xs my-0">News</h5>
+                    </div>
+                    <div class="card-body flex-grow-0">
+                        @foreach($news as $new)
+                            <h5>{{ $new->title }}</h5>
+                            {!! $new->description !!}
+                            <br>
+                            <small>{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $new->updated_at)->format("d/m/Y") }}</small>
+                        @endforeach
                     </div>
                 </div>
             </div>
