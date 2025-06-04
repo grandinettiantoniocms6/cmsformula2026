@@ -993,6 +993,29 @@
             </div>
         </div>
     @endif
+
+    @if(env('LOCAL') == 0)
+        <?php
+            $gestDB = \DB::connection('mysql_2');
+            $news = $gestDB->table("news")->get();
+        ?>
+
+        @if($news)
+            <div class="row gutter-3">
+                <div class="col-xl-12 mb-4">
+                    <div class="card card-dashboard">
+                            @foreach($news as $new)
+                                <?php
+                                    dump($new);
+                                    ?>
+
+                            @endforeach
+                    </div>
+                </div>
+            </div>
+        @endif
+    @endif
+
 @endsection
 
 @section('after_styles')
