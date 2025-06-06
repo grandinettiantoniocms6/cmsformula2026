@@ -588,11 +588,15 @@ class AccountController extends Controller
 
     public function redirectToProvider($provider)
     {
+        return;
+
         return Socialite::driver($provider)->redirect();
     }
 
     public function handleProviderCallback($provider)
     {
+        return;
+
         try {
             $user = Socialite::driver($provider)->stateless()->user();
             if(trim($user->email) == "" || !$user->email){
