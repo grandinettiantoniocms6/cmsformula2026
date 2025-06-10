@@ -160,7 +160,13 @@ class BlockHtmlImageCrudController extends CrudController
                     1 => 'Style 1',
                     2 => 'Style 2',
                     3 => 'Style 3',
-                    4 => 'Style 4'],
+                    4 => 'Style 4',
+                    5 => 'Style 5',
+                    6 => 'Style 6',
+
+
+
+                    ],
 
                 'allows_null' => false,
                 'default' => 1,
@@ -202,7 +208,7 @@ class BlockHtmlImageCrudController extends CrudController
             ]);
 
             // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
-            if(env('TEMA') == 'Webshop' ) {
+            //if(env('TEMA') == 'Webshop' ) {
 
                 $this->crud->addField([   // Browse
                     'name'  => 'foto2',
@@ -258,7 +264,7 @@ class BlockHtmlImageCrudController extends CrudController
                     'type'  => 'browse'
                 ]);
 
-            }
+            //}
 
 
 
