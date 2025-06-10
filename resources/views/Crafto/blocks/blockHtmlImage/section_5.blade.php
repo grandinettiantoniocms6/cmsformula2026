@@ -30,8 +30,8 @@ if($descriptionBlocco){
                 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
                     <div class="row justify-content-center mb-3">
                         <div class="col-12 col-xl-8 text-center">
-                            <span class="text-uppercase text-dark-gray fw-500 lh-22 mb-10px d-block">{{ $titleBlocco[\App::getLocale()] }}</span>
-                            <h2 class="fw-700 ls-minus-1px w-90 mx-auto sm-w-100">{!! $descriptionBlocco[\App::getLocale()] !!}</h2>
+                            <h2 class="fw-700 ls-minus-1px w-90 mx-auto sm-w-100">{{ $titleBlocco[\App::getLocale()] }}</h2>
+                            <span class="mb-10px d-block">{!! $descriptionBlocco[\App::getLocale()] !!}</span>
                         </div>
                         <div class="col-lg-12"></div>
                     </div>
@@ -642,11 +642,6 @@ if($descriptionBlocco){
 
 
 
-
-
-
-
-
                             @endforeach
                         @endif
                     </div>
@@ -657,5 +652,3 @@ if($descriptionBlocco){
         </div>
     </div>
 </section>
-
-
