@@ -221,10 +221,20 @@ class PluginProductsController extends Controller
         }
 
 
-        $sql_brands = "";
+        /*$sql_brands = "";
         if($request->has('brands_check')){
             $brands_check = $request->get('brands_check');
             $sql_brands = "AND plugins_products.brand_id IN ($brands_check)";
+        }*/
+
+        $brands_check = $request->get('brands_check');
+
+        if (is_string($brands_check)) {
+            $brandIds = array_filter(array_map('intval', explode(',', $brands_check)));
+        } elseif (is_array($brands_check)) {
+            $brandIds = array_filter(array_map('intval', $brands_check));
+        } else {
+            $brandIds = [];
         }
 
         $sql_tags = "";
@@ -253,18 +263,21 @@ class PluginProductsController extends Controller
             }
         }
 
-        $sql_price_max = "";
+        /*$sql_price_max = "";
         if($request->has('price_max')){
             $price_max = $request->get('price_max');
             $sql_price_max = "AND plugins_products.price <= $price_max";
+        }*/
+
+        $price_max = $request->get('price_max');
+        if ($price_max !== null && is_numeric($price_max)) {
+            $price_max = floatval($price_max); // o intval, se usi solo interi
         }
 
-        $sql_search = "";
+        $q = trim(addslashes($request->get('q')));
+
+        /*$sql_search = "";
         if($request->has('q')){
-            $q = trim(addslashes($request->get('q')));
-
-            //$sql_search = "AND (name LIKE '%$q%' OR sku LIKE '%$q%' OR description LIKE '%$q%' OR description_short LIKE '%$q%')";
-
             $products = [];
             if(trim($q) != ""){
                 $sql_search = "AND (sku LIKE '%$q%' OR
@@ -273,12 +286,12 @@ class PluginProductsController extends Controller
                    JSON_UNQUOTE(JSON_EXTRACT(description_short, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%')";
             }
 
-        }
+        }*/
 
-        $sqlCondition = "AND 1=1";
+        /*$sqlCondition = "AND 1=1";
         if($adminPlugin->version == 3){
             $sqlCondition = "AND qty > 0";
-        }
+        }*/
 
         $products_processed_total = null;
 
@@ -422,6 +435,78 @@ class PluginProductsController extends Controller
 
         $products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
             ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
+            ->whereRaw("$sql_categories $sql_tags AND langs LIKE '%,$lang,%' AND plugins_products.is_active = 1")
+            ->where("plugins_products.is_variant", 0)
+            ->where(function ($query) use ($v_cat) {
+                if ($v_cat) {
+                    foreach ($v_cat as $catId) {
+                        $query->orWhere('categories', 'LIKE', "%,$catId,%");
+                    }
+                }
+            })
+            ->when(!empty($brandIds), function ($query) use ($brandIds) {
+                $query->whereIn('plugins_products.brand_id', $brandIds);
+            })
+            ->when($q !== '', function ($query) use ($q, $lang) {
+                $query->where(function ($subQuery) use ($q, $lang) {
+                    $subQuery->where('sku', 'LIKE', "%$q%")
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"]);
+                });
+            })
+            ->when($adminPlugin->version == 3, function ($query) {
+                $query->where('qty', '>', 0);
+            })
+            ->when(!empty($v_padri), function ($query) use ($v_padri) {
+                $query->whereIn('plugins_products.id', $v_padri);
+            })
+            ->when($price_max !== null, function ($query) use ($price_max) {
+                return $query->where('plugins_products.price', '<=', $price_max);
+            })
+            ->orderBy("is_evidenza", "DESC")
+            ->orderBy("plugins_products.$field_order_by", $field_order_type)
+            ->groupBy("plugins_products.id")
+            ->paginate($select_show_number);
+
+        $products_processed = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.attributes, plugins_products_search.options as search_options, plugins_products_search.price as search_price, plugins_products_search.brands as search_brands, plugins_products_search.tags as search_tags")
+            ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
+            ->whereRaw("$sql_categories $sql_tags AND langs LIKE '%,$lang,%'")
+            ->where(function ($query) use ($v_cat) {
+                if ($v_cat) {
+                    foreach ($v_cat as $catId) {
+                        $query->orWhere('categories', 'LIKE', "%,$catId,%");
+                    }
+                }
+            })
+            ->when(!empty($brandIds), function ($query) use ($brandIds) {
+                $query->whereIn('plugins_products.brand_id', $brandIds);
+            })
+            ->when($q !== '', function ($query) use ($q, $lang) {
+                $query->where(function ($subQuery) use ($q, $lang) {
+                    $subQuery->where('sku', 'LIKE', "%$q%")
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"]);
+                });
+            })
+            ->when($adminPlugin->version == 3, function ($query) {
+                $query->where('qty', '>', 0);
+            })
+            ->when(!empty($v_padri), function ($query) use ($v_padri) {
+                $query->whereIn('plugins_products.id', $v_padri);
+            })
+            ->when($price_max !== null, function ($query) use ($price_max) {
+                return $query->where('plugins_products.price', '<=', $price_max);
+            })
+            ->where("plugins_products.is_active", 1)
+            ->orderBy("is_evidenza", "DESC")
+            ->orderBy("plugins_products.$field_order_by", $field_order_type)
+            ->groupBy("plugins_products.id")
+            ->get();
+
+        /*$products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
+            ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
             ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%' AND plugins_products.is_active = 1")
             ->where("plugins_products.is_variant", 0)
             ->whereRaw("$sql_padri $sql_brands $sql_tags $sql_price_max $sqlCondition $sql_search")
@@ -438,7 +523,7 @@ class PluginProductsController extends Controller
             ->orderBy("is_evidenza", "DESC")
             ->orderBy("plugins_products.$field_order_by", $field_order_type)
             ->groupBy("plugins_products.id")
-            ->get();
+            ->get();*/
 
         $endTime = (microtime(true) - $startTime);
         //echo $endTime;
@@ -1069,7 +1154,7 @@ class PluginProductsController extends Controller
 
         $products = [];
         if(trim($q) != ""){
-            $products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
+            /*$products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
                 ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
                 ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%' AND plugins_products.is_active = 1")
                 ->where("plugins_products.is_variant", 0)
@@ -1077,6 +1162,26 @@ class PluginProductsController extends Controller
                    JSON_UNQUOTE(JSON_EXTRACT(name, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%' OR
                    JSON_UNQUOTE(JSON_EXTRACT(description, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%' OR
                    JSON_UNQUOTE(JSON_EXTRACT(description_short, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%')")
+                ->orderBy("is_evidenza", "DESC")
+                ->orderBy("plugins_products.name", "asc")
+                ->groupBy("plugins_products.id")
+                ->get();*/
+
+            $products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
+                ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
+                ->where(function ($query) use ($sql_categories) {
+                    // Assumendo che $sql_categories sia costruito in modo sicuro (meglio evitarlo comunque)
+                    $query->whereRaw($sql_categories);
+                })
+                ->where("langs", "like", "%,$lang,%")
+                ->where("plugins_products.is_variant", 0)
+                ->where("plugins_products.is_active", 1)
+                ->where(function ($query) use ($q, $lang) {
+                    $query->where("sku", "like", "%$q%")
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"]);
+                })
                 ->orderBy("is_evidenza", "DESC")
                 ->orderBy("plugins_products.name", "asc")
                 ->groupBy("plugins_products.id")
