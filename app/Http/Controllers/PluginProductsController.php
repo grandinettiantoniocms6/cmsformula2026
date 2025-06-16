@@ -262,7 +262,13 @@ class PluginProductsController extends Controller
         $sql_search = "";
         if($request->has('q')){
             $q = trim(addslashes($request->get('q')));
-            $sql_search = "AND (name LIKE '%$q%' OR sku LIKE '%$q%' OR description LIKE '%$q%' OR description_short LIKE '%$q%')";
+
+            //$sql_search = "AND (name LIKE '%$q%' OR sku LIKE '%$q%' OR description LIKE '%$q%' OR description_short LIKE '%$q%')";
+
+            $sql_search = "AND (sku LIKE '%$q%' OR
+                   JSON_UNQUOTE(JSON_EXTRACT(name, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%' OR
+                   JSON_UNQUOTE(JSON_EXTRACT(description, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%' OR
+                   JSON_UNQUOTE(JSON_EXTRACT(description_short, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%')";
         }
 
         $sqlCondition = "AND 1=1";
