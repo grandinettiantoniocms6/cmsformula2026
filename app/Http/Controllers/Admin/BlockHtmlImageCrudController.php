@@ -121,9 +121,9 @@ class BlockHtmlImageCrudController extends CrudController
                 'wrapperAttributes' => ['class' => 'form-group col-md-12']
             ]);
 
-
             // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
             if(env('TEMA') == 'Webshop' ) {
+
 
                 $this->crud->addField([   // repeatable
                     'name' => 'pb',
@@ -148,11 +148,8 @@ class BlockHtmlImageCrudController extends CrudController
                     'wrapperAttributes' => ['class' => 'form-group col-md-6']
                 ]);
 
-
-            } // Fine perso Webshop
-
-            // CAMPI VISUALIZZATI SOLO CON IL TEMA CRAFTO//////////////////
-            if(env('TEMA') == 'Crafto' ) {
+            }
+            // FINE CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
 
                 // Permette di scegliere uno o stili di un blocco (parte html)
                 $this->crud->addField([   // select_from_array
@@ -186,23 +183,17 @@ class BlockHtmlImageCrudController extends CrudController
                     'wrapperAttributes' => ['class' => 'form-group col-md-6']
                 ]);
 
-
-
-            } // Fine perso Crafto
-
-
             $this->crud->addField([   // repeatable
                 'name'        => 'fullwidth',
                 'label'   => 'Seleziona larghezza blocco',
                 'type'        => 'select_from_array',
-                'attributes' => [
-                    'class'       => 'custom-select',
-                ],
                 'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
                 'allows_null' => false,
                 'default'     => 'container',
                 'wrapper' => ['class' => 'form-group col-md-6']
             ]);
+
+
 
 
         }else{
