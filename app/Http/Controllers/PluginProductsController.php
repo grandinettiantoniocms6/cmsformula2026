@@ -1055,11 +1055,16 @@ class PluginProductsController extends Controller
         $pluginSetting = PluginProductsSettings::first();
         $labels = PluginProductsLabels::get()->pluck("value", "key")->toArray();
 
+        $lang = \App::getLocale();
+
         $products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
             ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
             ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%' AND plugins_products.is_active = 1")
             ->where("plugins_products.is_variant", 0)
-            ->whereRaw("plugins_products.is_active = 1 AND (name LIKE '%$q%' OR sku LIKE '%$q%' OR description LIKE '%$q%' OR description_short LIKE '%$q%')")
+            ->whereRaw("plugins_products.is_active = 1 AND (sku LIKE '%$q%' OR
+                   JSON_UNQUOTE(JSON_EXTRACT(name, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%' OR
+                   JSON_UNQUOTE(JSON_EXTRACT(description, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%' OR
+                   JSON_UNQUOTE(JSON_EXTRACT(description_short, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%')")
             ->orderBy("is_evidenza", "DESC")
             ->orderBy("plugins_products.name", "asc")
             ->groupBy("plugins_products.id")
