@@ -1046,7 +1046,7 @@ class PluginProductsController extends Controller
         $version = DB::selectOne('SELECT VERSION() as version')->version;
         if (str_starts_with($version, '11.')) {
             // MariaDB 11+ ha problemi con utf8mb4_general_ci
-            $collation = 'utf8mb4_unicode_ci';
+            $collation = 'utf8_unicode_ci';
         }
 
         $adminLangs = AdminLanguage::where("is_active", 1)->where("is_frontend", 1)->get();
