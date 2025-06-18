@@ -281,9 +281,9 @@ class PluginProductsController extends Controller
             $products = [];
             if(trim($q) != ""){
                 $sql_search = "AND (sku LIKE '%$q%' OR
-                   JSON_UNQUOTE(JSON_EXTRACT(name, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%' OR
-                   JSON_UNQUOTE(JSON_EXTRACT(description, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%' OR
-                   JSON_UNQUOTE(JSON_EXTRACT(description_short, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%')";
+                   JSON_UNQUOTE(JSON_EXTRACT(name, '$.$lang')) COLLATE utf8_general_ci LIKE '%$q%' OR
+                   JSON_UNQUOTE(JSON_EXTRACT(description, '$.$lang')) COLLATE utf8_general_ci LIKE '%$q%' OR
+                   JSON_UNQUOTE(JSON_EXTRACT(description_short, '$.$lang')) COLLATE utf8_general_ci LIKE '%$q%')";
             }
 
         }*/
@@ -450,9 +450,9 @@ class PluginProductsController extends Controller
             ->when($q !== '', function ($query) use ($q, $lang) {
                 $query->where(function ($subQuery) use ($q, $lang) {
                     $subQuery->where('sku', 'LIKE', "%$q%")
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"]);
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8_general_ci LIKE ?", ["$.$lang", "%$q%"]);
                 });
             })
             ->when($adminPlugin->version == 3, function ($query) {
@@ -485,9 +485,9 @@ class PluginProductsController extends Controller
             ->when($q !== '', function ($query) use ($q, $lang) {
                 $query->where(function ($subQuery) use ($q, $lang) {
                     $subQuery->where('sku', 'LIKE', "%$q%")
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"]);
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8_general_ci LIKE ?", ["$.$lang", "%$q%"]);
                 });
             })
             ->when($adminPlugin->version == 3, function ($query) {
@@ -1154,19 +1154,6 @@ class PluginProductsController extends Controller
 
         $products = [];
         if(trim($q) != ""){
-            /*$products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
-                ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%' AND plugins_products.is_active = 1")
-                ->where("plugins_products.is_variant", 0)
-                ->whereRaw("plugins_products.is_active = 1 AND (sku LIKE '%$q%' OR
-                   JSON_UNQUOTE(JSON_EXTRACT(name, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%' OR
-                   JSON_UNQUOTE(JSON_EXTRACT(description, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%' OR
-                   JSON_UNQUOTE(JSON_EXTRACT(description_short, '$.$lang')) COLLATE utf8mb4_general_ci LIKE '%$q%')")
-                ->orderBy("is_evidenza", "DESC")
-                ->orderBy("plugins_products.name", "asc")
-                ->groupBy("plugins_products.id")
-                ->get();*/
-
             $products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
                 ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
                 ->where(function ($query) use ($sql_categories) {
@@ -1178,9 +1165,9 @@ class PluginProductsController extends Controller
                 ->where("plugins_products.is_active", 1)
                 ->where(function ($query) use ($q, $lang) {
                     $query->where("sku", "like", "%$q%")
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"]);
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8_general_ci LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8_general_ci LIKE ?", ["$.$lang", "%$q%"]);
                 })
                 ->orderBy("is_evidenza", "DESC")
                 ->orderBy("plugins_products.name", "asc")
