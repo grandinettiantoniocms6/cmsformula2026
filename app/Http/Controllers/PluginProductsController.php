@@ -37,11 +37,13 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 
 class PluginProductsController extends Controller
 {
 
     public function search_results(Request $request){
+
 
         $q = trim(addslashes($request->get('search')));
 
@@ -66,6 +68,13 @@ class PluginProductsController extends Controller
 
     public function pluginProducts($slug = null, Request $request)
     {
+        $collation = 'utf8mb4_general_ci';
+        $version = DB::selectOne('SELECT VERSION() as version')->version;
+        if (str_starts_with($version, '11.')) {
+            // MariaDB 11+ ha problemi con utf8mb4_general_ci
+            $collation = 'utf8mb4_unicode_ci';
+        }
+
         $startTime = microtime(true);
 
         $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
@@ -447,12 +456,12 @@ class PluginProductsController extends Controller
             ->when(!empty($brandIds), function ($query) use ($brandIds) {
                 $query->whereIn('plugins_products.brand_id', $brandIds);
             })
-            ->when($q !== '', function ($query) use ($q, $lang) {
-                $query->where(function ($subQuery) use ($q, $lang) {
+            ->when($q !== '', function ($query) use ($q, $lang, $collation) {
+                $query->where(function ($subQuery) use ($q, $lang, $collation) {
                     $subQuery->where('sku', 'LIKE', "%$q%")
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"]);
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE $collation LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE $collation LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE $collation LIKE ?", ["$.$lang", "%$q%"]);
                 });
             })
             ->when($adminPlugin->version == 3, function ($query) {
@@ -482,12 +491,12 @@ class PluginProductsController extends Controller
             ->when(!empty($brandIds), function ($query) use ($brandIds) {
                 $query->whereIn('plugins_products.brand_id', $brandIds);
             })
-            ->when($q !== '', function ($query) use ($q, $lang) {
-                $query->where(function ($subQuery) use ($q, $lang) {
+            ->when($q !== '', function ($query) use ($q, $lang,$collation) {
+                $query->where(function ($subQuery) use ($q, $lang, $collation) {
                     $subQuery->where('sku', 'LIKE', "%$q%")
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"]);
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE $collation LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE $collation LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE $collation LIKE ?", ["$.$lang", "%$q%"]);
                 });
             })
             ->when($adminPlugin->version == 3, function ($query) {
@@ -1033,6 +1042,13 @@ class PluginProductsController extends Controller
     }
 
     public function search(Request $request){
+        $collation = 'utf8mb4_general_ci';
+        $version = DB::selectOne('SELECT VERSION() as version')->version;
+        if (str_starts_with($version, '11.')) {
+            // MariaDB 11+ ha problemi con utf8mb4_general_ci
+            $collation = 'utf8mb4_unicode_ci';
+        }
+
         $adminLangs = AdminLanguage::where("is_active", 1)->where("is_frontend", 1)->get();
 
         $path_parts = pathinfo($_SERVER['HTTP_REFERER']);
@@ -1163,11 +1179,11 @@ class PluginProductsController extends Controller
                 ->where("langs", "like", "%,$lang,%")
                 ->where("plugins_products.is_variant", 0)
                 ->where("plugins_products.is_active", 1)
-                ->where(function ($query) use ($q, $lang) {
+                ->where(function ($query) use ($q, $lang, $collation) {
                     $query->where("sku", "like", "%$q%")
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"])
-                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE utf8mb4_general_ci LIKE ?", ["$.$lang", "%$q%"]);
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(name, ?)) COLLATE $collation LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description, ?)) COLLATE $collation LIKE ?", ["$.$lang", "%$q%"])
+                        ->orWhereRaw("JSON_UNQUOTE(JSON_EXTRACT(description_short, ?)) COLLATE $collation LIKE ?", ["$.$lang", "%$q%"]);
                 })
                 ->orderBy("is_evidenza", "DESC")
                 ->orderBy("plugins_products.name", "asc")
