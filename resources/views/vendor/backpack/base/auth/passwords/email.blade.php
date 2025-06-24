@@ -11,7 +11,7 @@
                 @else
                     <img src="{{ url($website->logo_admin) }}" width="240" title="Logo">
                 @endif
-            </h3>
+
             <div class="nav-steps-wrapper">
                 <ul class="nav nav-tabs">
                   <li class="nav-item active"><a class="nav-link active" href="#tab_1" data-toggle="tab"><strong>{{ trans('backpack::base.step') }} 1.</strong> {{ trans('backpack::base.confirm_email') }}</a></li>

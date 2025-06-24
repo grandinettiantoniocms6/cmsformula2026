@@ -152,7 +152,7 @@ class WebsiteSettingCrudController extends CrudController
             'label'                => 'Colore testo generale',
             'name'                 => 'site_color',
             'type'                 => 'color_picker2',
-            'default'              => null,
+            'default'              => "#040404FF",
             // optional
             'color_picker_options' => ['customClass' => 'custom-class'],
             'tab' => 'Sito'

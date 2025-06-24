@@ -64,7 +64,6 @@
                             <label class="control-label" for="password_confirmation">{{ trans('backpack::base.confirm_new_password') }}</label>
                             <div>
                                 <input type="password" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" name="password_confirmation" id="password_confirmation">
-
                                 @if ($errors->has('password_confirmation'))
                                     <span class="invalid-feedback">
                                         <strong>{{ $errors->first('password_confirmation') }}</strong>

@@ -130,7 +130,7 @@ class PluginFormsRequestsCrudController extends CrudController
                 'limit' => 10000, // Limit the number of characters shown
             ],
             [
-                'name'  => 'is_active',
+                'name'  => 'is_done',
                 'label' => 'Processata',
                 'type'  => 'editable_switch',
 

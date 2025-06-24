@@ -8,7 +8,6 @@
       @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
             <a class="dropdown-item" href="https://www.webisland.it/contatti" target="_blank"><i class="las la-headset"></i> Assistenza</a>
               @if(env('NASCONDI_FRONTEND') == 0)
-                <a class="dropdown-item" href="/stat" target="_blank"><i class="las la-chart-bar"></i> Statistiche</a>
                 <a class="dropdown-item" href="/" target="_blank"><i class="las la la-chrome"></i> Anteprima sito</a>
               @endif
       @endif

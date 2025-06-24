@@ -251,6 +251,8 @@ class IndexController extends Controller
 
         $news = null;
 
+        $slug = addslashes($slug);
+
         $blockNews = BlockNews::whereRaw("slug LIKE '%\"$lang\":\"$slug\"%'")
             ->where("is_active", 1)
             ->first();
@@ -361,6 +363,8 @@ class IndexController extends Controller
         $temp_order = explode("|", $order_type);
 
       //  $category = urldecode($category);
+
+        $category = addslashes($category);
 
         $news = BlockNews::selectRaw("blocks_news.*")
             ->whereRaw("category LIKE '%$category%'")
