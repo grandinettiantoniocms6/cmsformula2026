@@ -66,7 +66,7 @@ class PluginProductsController extends Controller
         return redirect()->to("{$page->slug}?q=$q");
     }
 
-    public function pluginProducts($slug = null, Request $request)
+    public function pluginProducts(Request $request, $slug = null)
     {
         $collation = 'utf8mb4_general_ci';
         $version = DB::selectOne('SELECT VERSION() as version')->version;

@@ -44,7 +44,6 @@ class BlockBrandCrudController extends CrudController
         }
 
         $this->crud->query->orderBy("lft", "asc");
-
         $this->crud->isReorderEnabled();
 
     }

@@ -20,7 +20,7 @@ class BlockDocumentCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    //use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
+    use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 
     public $block = "blockDocument";
     /**
@@ -42,10 +42,9 @@ class BlockDocumentCrudController extends CrudController
             $this->crud->query->where("block_id", request()->get('block_id'));
         }
 
-        //$this->crud->query->orderBy("lft", "asc");
-        //$this->crud->isReorderEnabled();
+        $this->crud->query->orderBy("lft", "asc");
+        $this->crud->isReorderEnabled();
 
-        $this->crud->query->orderBy("id", "desc");
     }
 
     protected function setupReorderOperation()
@@ -225,17 +224,14 @@ class BlockDocumentCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang($this->block, $this->crud, $request);
 
-        // Se metto asc ogni nuovo record aggiunto va alla fine
-        /*$lft = BlockDocument::orderBy("lft", "asc")->first();
-        if($lft){
-            $this->crud->entry->lft = $lft->lft + 2;
-        }
-        */
-
         // Se metto desc ogni nuovo record aggiunto va all'inizio
-        $lft = BlockDocument::orderBy("lft", "desc")->first();
+        $lft = BlockDocument::whereNotNull("block_id")
+            ->where("id", "!=", $this->crud->entry->id)
+            ->orderBy("lft", "asc")->first();
         if($lft){
-            $this->crud->entry->lft = $lft->lft + 2;
+            $this->crud->entry->lft = $lft->lft - 1;
+        }else{
+            $this->crud->entry->lft = 1000;
         }
 
         $this->crud->entry->save();
@@ -259,6 +255,15 @@ class BlockDocumentCrudController extends CrudController
             return false;
         }
 
+        $list = BlockDocument::get();
+        if($list){
+            foreach ($list as $item){
+                $item->lft = $item->lft * 1000;
+                $item->save();
+            }
+        }
+
         return 'success for '.$count.' items';
     }
+
 }
