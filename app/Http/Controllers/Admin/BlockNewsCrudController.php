@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\BlockNewsRequest;
+use App\Models\BlockDocument;
 use App\Models\BlockNews;
 use App\Models\Page;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -62,7 +63,6 @@ class BlockNewsCrudController extends CrudController
         }
 
         $this->crud->query->orderBy("lft", "asc");
-
         $this->crud->isReorderEnabled();
     }
 
@@ -499,10 +499,14 @@ class BlockNewsCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang($this->block, $this->crud, $request);
 
-        // Questo serve per evitare di fare il riordina ad ogni nuovo record aggiunto
-        $lft = BlockNews::orderBy("lft", "asc")->first();
+        // Se metto desc ogni nuovo record aggiunto va all'inizio
+        $lft = BlockNews::whereNotNull("block_id")
+            ->where("id", "!=", $this->crud->entry->id)
+            ->orderBy("lft", "asc")->first();
         if($lft){
-            $this->crud->entry->lft = $lft->lft + 2;
+            $this->crud->entry->lft = $lft->lft - 1;
+        }else{
+            $this->crud->entry->lft = 1000;
         }
 
         $this->crud->entry->save();
@@ -524,6 +528,14 @@ class BlockNewsCrudController extends CrudController
             $count = $this->crud->updateTreeOrder($all_entries);
         } else {
             return false;
+        }
+
+        $list = BlockNews::get();
+        if($list){
+            foreach ($list as $item){
+                $item->lft = $item->lft * 1000;
+                $item->save();
+            }
         }
 
         return 'success for '.$count.' items';

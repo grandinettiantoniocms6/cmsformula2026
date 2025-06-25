@@ -44,7 +44,6 @@ class BlockHtmlTwocolCrudController extends CrudController
         }
 
         $this->crud->query->orderBy("lft", "asc");
-
         $this->crud->isReorderEnabled();
     }
 
@@ -238,10 +237,14 @@ class BlockHtmlTwocolCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang($this->block, $this->crud, $request);
 
-        // Questo serve per evitare di fare il riordina ad ogni nuovo record aggiunto
-        $lft = BlockHtmlTwocol::orderBy("lft", "desc")->first();
+        // Se metto desc ogni nuovo record aggiunto va all'inizio
+        $lft = BlockHtmlTwocol::whereNotNull("block_id")
+            ->where("id", "!=", $this->crud->entry->id)
+            ->orderBy("lft", "asc")->first();
         if($lft){
-            $this->crud->entry->lft = $lft->lft + 2;
+            $this->crud->entry->lft = $lft->lft - 1;
+        }else{
+            $this->crud->entry->lft = 1000;
         }
 
 
@@ -264,6 +267,14 @@ class BlockHtmlTwocolCrudController extends CrudController
             $count = $this->crud->updateTreeOrder($all_entries);
         } else {
             return false;
+        }
+
+        $list = BlockHtmlTwocol::get();
+        if($list){
+            foreach ($list as $item){
+                $item->lft = $item->lft * 1000;
+                $item->save();
+            }
         }
 
         return 'success for '.$count.' items';

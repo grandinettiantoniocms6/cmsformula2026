@@ -33,6 +33,7 @@ class PluginBookingTypeCrudController extends CrudController
         CRUD::setEntityNameStrings('tipologia struttura', 'tipologie strutture');
 
         $this->crud->query->orderBy("lft", "asc");
+        $this->crud->isReorderEnabled();
     }
 
     protected function setupReorderOperation()
@@ -444,6 +445,17 @@ class PluginBookingTypeCrudController extends CrudController
         $lang->update_lang("pluginBookingTypes", $this->crud, $request);
         $this->crud->entry->save();
 
+        // Se metto desc ogni nuovo record aggiunto va all'inizio
+        $lft = PluginBookingType::whereNotNull("block_id")
+            ->where("id", "!=", $this->crud->entry->id)
+            ->orderBy("lft", "asc")->first();
+        if($lft){
+            $this->crud->entry->lft = $lft->lft - 1;
+        }else{
+            $this->crud->entry->lft = 1000;
+        }
+
+
         // show a success message
         \Alert::success(trans('backpack::crud.insert_success'))->flash();
 
@@ -467,6 +479,14 @@ class PluginBookingTypeCrudController extends CrudController
             $count = $this->crud->updateTreeOrder($all_entries);
         } else {
             return false;
+        }
+
+        $list = PluginBookingType::get();
+        if($list){
+            foreach ($list as $item){
+                $item->lft = $item->lft * 1000;
+                $item->save();
+            }
         }
 
         return 'success for '.$count.' items';

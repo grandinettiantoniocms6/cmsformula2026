@@ -291,10 +291,14 @@ class BlockPortfolio2CrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang($this->block, $this->crud, $request);
 
-        // Questo serve per evitare di fare il riordina ad ogni nuovo record aggiunto
-        $lft = BlockPortfolio2::orderBy("lft", "desc")->first();
+        // Se metto desc ogni nuovo record aggiunto va all'inizio
+        $lft = BlockPortfolio2::whereNotNull("block_id")
+            ->where("id", "!=", $this->crud->entry->id)
+            ->orderBy("lft", "asc")->first();
         if($lft){
-            $this->crud->entry->lft = $lft->lft + 2;
+            $this->crud->entry->lft = $lft->lft - 1;
+        }else{
+            $this->crud->entry->lft = 1000;
         }
 
         $this->crud->entry->save();
@@ -316,6 +320,14 @@ class BlockPortfolio2CrudController extends CrudController
             $count = $this->crud->updateTreeOrder($all_entries);
         } else {
             return false;
+        }
+
+        $list = BlockPortfolio2::get();
+        if($list){
+            foreach ($list as $item){
+                $item->lft = $item->lft * 1000;
+                $item->save();
+            }
         }
 
         return 'success for '.$count.' items';

@@ -43,7 +43,6 @@ class BlockBannerCrudController extends CrudController
         }
 
         $this->crud->query->orderBy("lft", "asc");
-
         $this->crud->isReorderEnabled();
     }
 
@@ -311,10 +310,14 @@ class BlockBannerCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang($this->block, $this->crud, $request);
 
-        // Questo serve per evitare di fare il riordina ogni nuovo record
-        $lft = BlockBanner::orderBy("lft", "asc")->first();
+        // Se metto desc ogni nuovo record aggiunto va all'inizio
+        $lft = BlockBanner::whereNotNull("block_id")
+            ->where("id", "!=", $this->crud->entry->id)
+            ->orderBy("lft", "asc")->first();
         if($lft){
-            $this->crud->entry->lft = $lft->lft + 2;
+            $this->crud->entry->lft = $lft->lft - 1;
+        }else{
+            $this->crud->entry->lft = 1000;
         }
 
         $this->crud->entry->save();
@@ -336,6 +339,14 @@ class BlockBannerCrudController extends CrudController
             $count = $this->crud->updateTreeOrder($all_entries);
         } else {
             return false;
+        }
+
+        $list = BlockBanner::get();
+        if($list){
+            foreach ($list as $item){
+                $item->lft = $item->lft * 1000;
+                $item->save();
+            }
         }
 
         return 'success for '.$count.' items';

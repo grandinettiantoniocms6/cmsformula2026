@@ -6,6 +6,7 @@ use App\Http\Requests\PageRequest;
 use App\Models\AdminLanguage;
 use App\Models\AdminPlugin;
 use App\Models\BlockImage;
+use App\Models\BlockSlideshow;
 use App\Models\Page;
 use App\Models\PageBlock;
 use App\Models\WebsiteSetting;
@@ -564,9 +565,13 @@ class PageCrudController extends CrudController
             $this->crud->entry->is_homepage = 1;
         }
 
-        $lft = Page::orderBy("lft", "desc")->first();
+        // Se metto desc ogni nuovo record aggiunto va all'inizio
+        $lft = Page::where("id", "!=", $this->crud->entry->id)
+            ->orderBy("lft", "asc")->first();
         if($lft){
-            $this->crud->entry->lft = $lft->lft + 2;
+            $this->crud->entry->lft = $lft->lft - 1;
+        }else{
+            $this->crud->entry->lft = 1000;
         }
 
         $this->crud->entry->parent_id = null;
@@ -686,6 +691,14 @@ class PageCrudController extends CrudController
             $count = $this->crud->updateTreeOrder($all_entries);
         } else {
             return false;
+        }
+
+        $list = Page::get();
+        if($list){
+            foreach ($list as $item){
+                $item->lft = $item->lft * 1000;
+                $item->save();
+            }
         }
 
         return 'success for '.$count.' items';

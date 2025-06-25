@@ -258,13 +258,6 @@ class BlockSocialCrudController extends CrudController
             $this->crud->entry->save();
         }
 
-        // Questo serve per evitare di fare il riordina ad ogni nuovo record aggiunto
-        $lft = BlockSocial::orderBy("lft", "desc")->first();
-        if($lft){
-            $this->crud->entry->lft = $lft->lft + 2;
-        }
-
-        $this->crud->entry->save();
 
         return $this->crud->performSaveAction($item->getKey());
     }
@@ -279,6 +272,18 @@ class BlockSocialCrudController extends CrudController
         // insert item in the db
         $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
         $this->data['entry'] = $this->crud->entry = $item;
+
+        // Se metto desc ogni nuovo record aggiunto va all'inizio
+        $lft = BlockSocial::whereNotNull("block_id")
+            ->where("id", "!=", $this->crud->entry->id)
+            ->orderBy("lft", "asc")->first();
+        if($lft){
+            $this->crud->entry->lft = $lft->lft - 1;
+        }else{
+            $this->crud->entry->lft = 1000;
+        }
+
+        $this->crud->entry->save();
 
         // show a success message
         \Alert::success(trans('backpack::crud.insert_success'))->flash();
@@ -304,6 +309,14 @@ class BlockSocialCrudController extends CrudController
             $count = $this->crud->updateTreeOrder($all_entries);
         } else {
             return false;
+        }
+
+        $list = BlockSocial::get();
+        if($list){
+            foreach ($list as $item){
+                $item->lft = $item->lft * 1000;
+                $item->save();
+            }
         }
 
         return 'success for '.$count.' items';
