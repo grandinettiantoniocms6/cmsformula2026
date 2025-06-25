@@ -1,7 +1,7 @@
 <?php
 $pages_blocks = \App\Models\PageBlock::selectRaw("blocks_pages.*, admin_blocks.name_table")
-    ->where("position", $position)
     ->join("admin_blocks", "admin_blocks.name", "=", "blocks_pages.type")
+    ->where("position", $position)
     ->where("col", $col)
     ->where("page_id", $page->id)
     ->orderBy("order", "asc")->get();
@@ -18,7 +18,7 @@ if($pages_blocks){
         ?>
         @if($item)
             <div id="header_row_{{ $pb->id }}" data-index="{{ $pb->id }}" data-position="{{ $pb->order }}">
-
+                @include('vendor.backpack.base.inc.block')
             </div>
         @endif
         <?php
