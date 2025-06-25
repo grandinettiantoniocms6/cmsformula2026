@@ -53,7 +53,581 @@
 @endsection
 
 @section('content')
+    <?php
+    $admin_blocks = \App\Models\AdminBlock::where("is_active", 1)->orderBy("label", "asc")->get()->pluck("label", "name")->toArray();
 
+    $admin_blocks_exists = \App\Models\PageBlock::selectRaw("blocks_pages.*, admin_blocks.label, admin_blocks.name, admin_blocks.name_table")
+        ->join("admin_blocks", "admin_blocks.name", "=", "blocks_pages.type")
+        ->whereNotNull("obj_id")
+        ->whereNull("is_ereditable_from_id")
+        ->whereNull("blocks_pages.deleted_at")
+        ->orderBy("admin_blocks.label", "asc")
+        ->get();
+
+    ?>
+    <div class="card-header border-0 font-weight-bold pb-1" style="background-color:#467fd0; color:#FFFFFF; padding:6px; margin-bottom: 4px;"> <i class="las la-arrow-circle-up"></i> Header pagina / Parte Alta</div>
+    <div class="row gutters-pages mb-3">
+        <?php
+        $position = "header";
+        switch($page->template_header){
+            case "row": ?>
+                <?php $col = 1;?>
+                <div class="col-12 mb-1">
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Colonna unica</span>
+                                <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div class="p-2">
+                            <div id="header_col_<?php echo $col;?>">
+                                @include('vendor.backpack.base.inc.blocks_loop')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    @include('vendor.backpack.base.inc.blocks_loop_limbo')
+                </div>
+            <?php
+            break;
+
+            case "two_cols": ?>
+                <div class="col-lg-6 mb-1">
+                    <?php $col = 1;?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Colonna sinistra</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div class="p-2">
+                            <div id="header_col_<?php echo $col;?>">
+                                @include('vendor.backpack.base.inc.blocks_loop')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-1">
+                    <?php $col = 2;?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Colonna destra</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div class="p-2">
+                            <div id="header_col_<?php echo $col;?>">
+                                @include('vendor.backpack.base.inc.blocks_loop')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    @include('vendor.backpack.base.inc.blocks_loop_limbo')
+                </div>
+            <?php
+            break;
+
+            case "three_cols":
+            ?>
+                <div class="col-lg-4 mb-1">
+                    <?php $col = 1;?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Colonna sinistra</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div class="p-2">
+                            <div id="header_col_<?php echo $col;?>">
+                                @include('vendor.backpack.base.inc.blocks_loop')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-1">
+                    <?php $col = 2;?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Colonna centrale</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div class="p-2">
+                            <div id="header_col_<?php echo $col;?>">
+                                @include('vendor.backpack.base.inc.blocks_loop')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-1">
+                    <?php $col = 3;?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Colonna destra</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div class="p-2">
+                            <div id="header_col_<?php echo $col;?>">
+                                @include('vendor.backpack.base.inc.blocks_loop')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    @include('vendor.backpack.base.inc.blocks_loop_limbo')
+                </div>
+            <?php
+            break;
+        } ?>
+    </div>
+
+    <div class="card-header border-0 font-weight-bold pb-1" style="background-color:#42ba96; color:#FFFFFF; padding:6px; margin-bottom: 4px;"><i class="las la-arrows-alt-v"></i> Contenuto pagina / Parte Centrale</div>
+    <div class="row gutters-pages mb-3">
+        <?php
+        $position = "content";
+        switch($page->template){
+            case "full_page": ?>
+                <div class="col-12 mb-1">
+                    <?php $col = 1; ?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Colonna unica</span>
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div id="content_col_<?php echo $col;?>" class="p-2">
+                            @include('vendor.backpack.base.inc.blocks_loop')
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    @include('vendor.backpack.base.inc.blocks_loop_limbo')
+                </div>
+            <?php
+            break;
+            case "sidebar_left": ?>
+                <div class="col-lg-5 col-xl-4 mb-1">
+                    <?php $col = 1; ?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Sidebar Sinistra</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div id="content_col_<?php echo $col;?>" class="p-2">
+                            @include('vendor.backpack.base.inc.blocks_loop')
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7 col-xl-8 mb-1">
+                    <?php $col = 2; ?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Contenuto Destro</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div id="content_col_<?php echo $col;?>" class="p-2">
+                                @include('vendor.backpack.base.inc.blocks_loop')
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    @include('vendor.backpack.base.inc.blocks_loop_limbo')
+                </div>
+            <?php
+            break;
+            case "sidebar_right": ?>
+                <div class="col-lg-7 col-xl-8 mb-1">
+                    <?php $col = 1; ?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Contenuto Sinistro</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div id="content_col_<?php echo $col;?>" class="p-2">
+                            @include('vendor.backpack.base.inc.blocks_loop')
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-xl-4 mb-1">
+                    <?php $col = 2; ?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Sidebar Destra</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div id="content_col_<?php echo $col;?>" class="p-2">
+                            @include('vendor.backpack.base.inc.blocks_loop')
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    @include('vendor.backpack.base.inc.blocks_loop_limbo')
+                </div>
+            <?php
+            break;
+            case "three_columns": ?>
+                <div class="col-lg-4 mb-1">
+                    <?php $col = 1; ?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Colonna Sinistra</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div id="content_col_<?php echo $col;?>" class="p-2">
+                            @include('vendor.backpack.base.inc.blocks_loop')
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-1">
+                    <?php $col = 2; ?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Colonna Centrale</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div id="content_col_<?php echo $col;?>" class="p-2">
+                            @include('vendor.backpack.base.inc.blocks_loop')
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-1">
+                    <?php $col = 3; ?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Colonna Destra</span>
+                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div id="content_col_<?php echo $col;?>" class="p-2">
+                            @include('vendor.backpack.base.inc.blocks_loop')
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    @include('vendor.backpack.base.inc.blocks_loop_limbo')
+                </div>
+            <?php
+            break;
+        } ?>
+    </div>
+
+    <div class="card-header border-0 font-weight-bold pb-1" style="background-color:#ffc107; color:#000000; padding:6px; margin-bottom: 4px;"> <i class="las la-arrow-circle-down"></i>  Footer pagina / Parte Bassa </div>
+    <div class="row gutters-pages mb-4">
+        <?php
+        $position = "footer";
+        switch($page->template_footer){
+            case "row": ?>
+                <div class="col-12 mb-1">
+                    <?php $col = 1; ?>
+                    <div class="card my-0 h-100">
+                        <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                            <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                                <span>Colonna unica</span>
+                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            </div>
+
+                            <input type="hidden" name="position" value="<?php echo $position;?>">
+                            <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                            @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                        </form>
+                        <div id="footer_col_<?php echo $col;?>" class="p-2">
+                            @include('vendor.backpack.base.inc.blocks_loop')
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    @include('vendor.backpack.base.inc.blocks_loop_limbo')
+                </div>
+            <?php
+            break;
+            case "two_cols": ?>
+            <div class="col-lg-6 mb-1">
+                <?php $col = 1; ?>
+                <div class="card my-0 h-100">
+                <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                    <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                        <span>Colonna sinistra</span>
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                    </div>
+
+                    <input type="hidden" name="position" value="<?php echo $position;?>">
+                    <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                    @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                </form>
+                <div id="footer_col_<?php echo $col;?>" class="p-2">
+                    @include('vendor.backpack.base.inc.blocks_loop')
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-1">
+                <?php $col = 2; ?>
+                <div class="card my-0 h-100">
+                <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                    <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                        <span>Colonna destra</span>
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                    </div>
+
+                    <input type="hidden" name="position" value="<?php echo $position;?>">
+                    <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                    @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                </form>
+                <div id="footer_col_<?php echo $col;?>" class="p-2">
+                    @include('vendor.backpack.base.inc.blocks_loop')
+                </div>
+                </div>
+            </div>
+            <div class="col-12">
+                @include('vendor.backpack.base.inc.blocks_loop_limbo')
+            </div>
+        <?php
+        break;
+            case "three_cols":
+        ?>
+            <div class="col-lg-4 mb-1">
+            <?php $col = 1; ?>
+            <div class="card my-0 h-100">
+                <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                    <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                        <span>Colonna sinistra</span>
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                    </div>
+
+                    <input type="hidden" name="position" value="<?php echo $position;?>">
+                    <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                    @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                </form>
+                <div id="footer_col_<?php echo $col;?>" class="p-2">
+                    @include('vendor.backpack.base.inc.blocks_loop')
+                </div>
+            </div>
+        </div>
+            <div class="col-lg-4 mb-1">
+            <?php $col = 2; ?>
+            <div class="card my-0 h-100">
+                <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                    <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                        <span>Colonna centrale</span>
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                    </div>
+
+                    <input type="hidden" name="position" value="<?php echo $position;?>">
+                    <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                    @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                </form>
+                <div id="footer_col_<?php echo $col;?>" class="p-2">
+                    @include('vendor.backpack.base.inc.blocks_loop')
+                </div>
+            </div>
+        </div>
+            <div class="col-lg-4 mb-1">
+            <?php $col = 3; ?>
+            <div class="card my-0 h-100">
+                <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                    <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                        <span>Colonna destra</span>
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                    </div>
+
+                    <input type="hidden" name="position" value="<?php echo $position;?>">
+                    <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                    @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                </form>
+                <div id="footer_col_<?php echo $col;?>" class="p-2">
+                    @include('vendor.backpack.base.inc.blocks_loop')
+                </div>
+            </div>
+        </div>
+            <div class="col-12">
+                @include('vendor.backpack.base.inc.blocks_loop_limbo')
+            </div>
+        <?php
+        break;
+            case "four_cols":
+        ?>
+            <div class="col-lg-3 mb-1">
+                <?php $col = 1; ?>
+                <div class="card my-0 h-100">
+                <?php
+                $position = "footer";
+                $col = 1;
+                ?>
+                <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                    <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                        <span>Colonna 1</span>
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                    </div>
+
+                    <input type="hidden" name="position" value="<?php echo $position;?>">
+                    <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                    @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                </form>
+                <div id="footer_col_<?php echo $col;?>" class="p-2">
+                    @include('vendor.backpack.base.inc.blocks_loop')
+                </div>
+            </div>
+        </div>
+            <div class="col-lg-3 mb-1">
+                <?php $col = 2; ?>
+                <div class="card my-0 h-100">
+                    <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                        <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                            <span>Colonna 2</span>
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                        </div>
+
+                        <input type="hidden" name="position" value="<?php echo $position;?>">
+                        <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                        @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                    </form>
+                    <div id="footer_col_<?php echo $col;?>" class="p-2">
+                        @include('vendor.backpack.base.inc.blocks_loop')
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-1">
+                <?php $col = 3; ?>
+                <div class="card my-0 h-100">
+                    <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                        <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                            <span>Colonna 3</span>
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                        </div>
+
+                        <input type="hidden" name="position" value="<?php echo $position;?>">
+                        <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                        @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                    </form>
+                    <div id="footer_col_<?php echo $col;?>" class="p-2">
+                        @include('vendor.backpack.base.inc.blocks_loop')
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-1">
+                <?php $col = 4; ?>
+                <div class="card my-0 h-100">
+                    <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
+                        <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
+                            <span>Colonna 4</span>
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                        </div>
+
+                        <input type="hidden" name="position" value="<?php echo $position;?>">
+                        <input type="hidden" name="col" value="<?php echo $col;?>">
+
+                        @include('vendor.backpack.base.inc.modal_form_blocks', ['position'=>$position,'col'=>$col])
+                    </form>
+                    <div id="footer_col_<?php echo $col;?>" class="p-2">
+                        @include('vendor.backpack.base.inc.blocks_loop')
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                @include('vendor.backpack.base.inc.blocks_loop_limbo')
+            </div>
+        <?php
+        break;
+        } ?>
+    </div>
 
 @endsection
 
