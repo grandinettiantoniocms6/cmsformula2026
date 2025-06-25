@@ -475,7 +475,7 @@
             </div>
         <?php
         break;
-            case "three_cols":
+            case "three_cols2":
         ?>
             <div class="col-lg-4 mb-1">
             <?php $col = 1; ?>
