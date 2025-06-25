@@ -1,6 +1,6 @@
 <?php
-$pages_blocks = \App\Models\PageBlock::
-    where("position", $position)
+$pages_blocks = \App\Models\PageBlock::selectRaw("blocks_pages.*, admin_blocks.name_table")
+    ->where("position", $position)
     ->join("admin_blocks", "admin_blocks.name", "=", "blocks_pages.type")
     ->where("col", $col)
     ->where("page_id", $page->id)
