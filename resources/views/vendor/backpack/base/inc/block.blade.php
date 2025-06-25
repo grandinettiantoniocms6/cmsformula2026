@@ -41,7 +41,7 @@
     <span><i class="la la-arrows"></i></span>
     <div class="px-3" id="block_id_{{ $item->id }}">
         <h6 class="font-weight-bold mb-1">{{ $name }}</h6>
-        <em class="text-info">{{ $adminBlock->label }}</em>
+        <em class="text-info">{{ $pb->label }}</em>
     </div>
     <div class="ml-auto">
         @if($pb->is_active == 1)
