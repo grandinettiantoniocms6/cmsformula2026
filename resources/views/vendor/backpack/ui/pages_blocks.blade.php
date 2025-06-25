@@ -56,13 +56,13 @@
     <?php
     $admin_blocks = \App\Models\AdminBlock::where("is_active", 1)->orderBy("label", "asc")->get()->pluck("label", "name")->toArray();
 
-    /*$admin_blocks_exists = \App\Models\PageBlock::selectRaw("blocks_pages.*, admin_blocks.label, admin_blocks.name, admin_blocks.name_table")
+    $admin_blocks_exists = \App\Models\PageBlock::selectRaw("blocks_pages.*, admin_blocks.label, admin_blocks.name, admin_blocks.name_table")
         ->join("admin_blocks", "admin_blocks.name", "=", "blocks_pages.type")
         ->whereNotNull("obj_id")
         ->whereNull("is_ereditable_from_id")
         ->whereNull("blocks_pages.deleted_at")
         ->orderBy("admin_blocks.label", "asc")
-        ->get();*/
+        ->get();
 
     $admin_blocks_exists = [];
 
