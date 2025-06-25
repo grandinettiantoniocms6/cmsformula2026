@@ -18,7 +18,7 @@ if($pages_blocks){
         ?>
         @if($item)
             <div id="header_row_{{ $pb->id }}" data-index="{{ $pb->id }}" data-position="{{ $pb->order }}">
-                @include('vendor.backpack.base.inc.block')
+
             </div>
         @endif
         <?php
