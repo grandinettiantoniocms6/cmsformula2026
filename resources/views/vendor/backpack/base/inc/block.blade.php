@@ -10,7 +10,7 @@
 
         $url_order = "#";
 
-        $admin_blocks_orders = \App\Models\AdminBlock::where("is_active", 1)->where("is_ordinable", 1)->get()->pluck("label", "name")->toArray();
+
 
         $is_multi = 0;
         $order = 0;
