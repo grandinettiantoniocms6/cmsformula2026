@@ -996,9 +996,8 @@
 
     @if(env('LOCAL') == 0)
         <?php
-            //$gestDB = \DB::connection('mysql_2');
-            //$news = $gestDB->table("news")->where("is_active", 1)->orderBy("lft", "asc")->take(5)->get();
-            $news = null;
+            $gestDB = \DB::connection('mysql_2');
+            $news = $gestDB->table("news")->where("is_active", 1)->orderBy("lft", "asc")->take(5)->get();
         ?>
 
         @if($news)
