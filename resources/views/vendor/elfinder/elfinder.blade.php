@@ -21,6 +21,7 @@
                     url : '{{ route("elfinder.connector") }}',  // connector URL
                     soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
                     cssAutoLoad : false,
+                    height: $(window).height() - 150
                 });
             });
         </script>
