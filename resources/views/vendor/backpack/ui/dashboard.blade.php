@@ -995,28 +995,24 @@
     @endif
 
     @if(env('LOCAL') == 0)
-        <?php
-            //$gestDB = \DB::connection('mysql_2');
-            //$news = $gestDB->table("news")->where("is_active", 1)->orderBy("lft", "asc")->take(5)->get();
-
-            $news = null;
-        ?>
-
+        <?php $news = null; ?>
         @if($news)
-            <div class="row gutter-3">
-                <div class="col-xl-12 mb-4">
-                    <div class="card-header">
-                        <h5 class="line-height-xs my-0">News</h5>
-                    </div>
-                    <div class="card-body flex-grow-0">
-                        @foreach($news as $new)
-                            <div class="mb-5">
-                                <h5>{{ $new->title }}</h5>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="line-height-xs my-0">News</h5>
+                </div>
+                <div class="list-group list-group-flush" id="accordion_news">
+                    @php $i = 1; @endphp
+                    @foreach($news as $new)
+                        <div class="list-group-item">
+                            <h5 class="mb-0" data-toggle="collapse" data-target="#collapse_{{ $i }}" aria-expanded="{{ $i == 1 ? 'true' : 'falso' }}">{{ $new->title }}</h5>
+                            <div id="collapse_{{ $i }} {{ $i == 1 ? 'show' : '' }}" class="collapse" data-parent="#accordion_news">
                                 {!! $new->description !!}
                                 <small>{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $new->created_at)->format("d/m/Y") }}</small>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                        @php $i++; @endphp
+                    @endforeach
                 </div>
             </div>
         @endif
