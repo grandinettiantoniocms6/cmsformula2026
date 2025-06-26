@@ -18,6 +18,9 @@
                     customData: { 
                         _token: '{{ csrf_token() }}'
                     },
+                    uiOptions: {
+                        theme: 'smooth'  // tema fisso
+                    },
                     url : '{{ route("elfinder.connector") }}',  // connector URL
                     soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
                     cssAutoLoad : false,
