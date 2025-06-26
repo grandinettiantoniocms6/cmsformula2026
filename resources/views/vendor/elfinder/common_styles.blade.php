@@ -5,7 +5,7 @@
     $themeStylesheetVersion = '3.0.0';
 @endphp
 @bassetArchive('https://github.com/Studio-42/elFinder/archive/refs/tags/2.1.64.tar.gz', 'elfinder-2.1.64')
-@basset('elfinder-2.1.64/elFinder-2.1.64/css/elfinder.min.css')
+@basset('https://cdnjs.cloudflare.com/ajax/libs/elfinder/2.1.64/css/elfinder.min.css')
 @basset('https://cdn.jsdelivr.net/gh/RobiNN1/elFinder-Material-Theme@'.$themeStylesheetVersion.'/Material/css/theme.min.css')
 @basset('https://cdn.jsdelivr.net/gh/RobiNN1/elFinder-Material-Theme@'.$themeStylesheetVersion.'/Material/images/loading.svg', false)
 @basset('https://cdn.jsdelivr.net/gh/RobiNN1/elFinder-Material-Theme@'.$themeStylesheetVersion.'/Material/font/material.eot', false)
@@ -76,14 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
             addElfinderLightStylesheet()
         });
     }
-
-    // we dont want to style the body when elfinder is loaded as a component in a backpack view
-    // we pass true when loading elfinder inside an iframe to style the iframe body.
-    @if($styleBodyElement ?? false) 
-        // use the topbar and footbar darker color as the background to ease transitions
-        document.getElementsByTagName('body')[0].style.background = '#061325';
-        document.getElementsByTagName('body')[0].style.opacity = 1;
-    @endif
 });
 </script>
 @endBassetBlock
