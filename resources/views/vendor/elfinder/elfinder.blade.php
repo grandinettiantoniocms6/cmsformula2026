@@ -24,7 +24,8 @@
                     url : '{{ route("elfinder.connector") }}',  // connector URL
                     soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
                     cssAutoLoad : false,
-                    height: $(window).height() - 150
+                    height: $(window).height() - 150,
+                    theme: 'default'
                 });
             });
         </script>
@@ -39,7 +40,7 @@
 
 @section('header')
     <h3 class="page-title mb-0">
-        <span class="text-capitalize">{{ trans('backpack::crud.file_manager') }}</span>
+        <span class="text-capitalize">{{ trans('backpack::crud.file_manager') }} 1</span>
     </h3>
 @endsection
 
