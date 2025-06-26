@@ -19,8 +19,6 @@
 @bassetBlock('elfinderThemeSwitcherScript.js')
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function() {
-    alert('test');
-
     function getElfinderStyleSheet(main = true) {
         let themeStylesheetVersion = '{{$themeStylesheetVersion}}';
         const regex =  new RegExp(main ? `RobiNN1\/elFinder-Material-Theme@${themeStylesheetVersion}\/Material\/css\/theme\.min\.css` : `RobiNN1\/elFinder-Material-Theme@${themeStylesheetVersion}\/Material\/css\/theme-gray\.min\.css`);
