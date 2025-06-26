@@ -1007,7 +1007,7 @@
         @if($news)
             <div class="card">
                 <div class="card-header">
-                    <h5 class="line-height-xs my-0">News</h5>
+                    <h5 class="line-height-xs my-0 pointer">News</h5>
                 </div>
                 <div class="list-group list-group-flush" id="accordion_news">
                     @php $i = 1; @endphp
