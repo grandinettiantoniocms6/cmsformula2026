@@ -995,7 +995,15 @@
     @endif
 
     @if(env('LOCAL') == 0)
-        <?php $news = null; ?>
+        <?php
+            $gestDB = \DB::connection('mysql_2');
+            $news = $gestDB->table("news")
+                ->whereNull("deleted_at")
+                ->where("is_active", 1)
+                ->orderBy("lft", "asc")
+                ->take(5)->get();
+        ?>
+
         @if($news)
             <div class="card">
                 <div class="card-header">
