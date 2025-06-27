@@ -428,3 +428,6 @@ table.table-hover tbody tr:hover {
 .table-md>:not(caption)>*>* {
     padding: .25rem .75rem !important;
 }
+.pointer {
+    cursor: pointer;
+}
