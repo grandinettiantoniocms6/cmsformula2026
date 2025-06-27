@@ -6,6 +6,11 @@ use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
+// Attiva le rotte del filemanager
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
 Route::get('/test_db_gest', function () {
     $anapiDB = \DB::connection('mysql_2');
 
@@ -667,6 +672,8 @@ if($url_plugin_product) {
     Route::get("$url_plugin_product/{category}/{slug}", ['as' => "pluginProducts.detail.ru", 'uses'=>'PluginProductsController@pluginProductsDetail', 'middleware' => ['plugin_products']]);
 
 }
+
+
 
 
 // aggiungere qui altre lingue future...

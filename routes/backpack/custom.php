@@ -11,9 +11,10 @@ $vet = array_merge(
     (array) config('backpack.base.middleware_key', 'admin'),
 );
 
-if(env('OCTANE_HTTPS') == true){
+/*if(env('OCTANE_HTTPS') == true){
     $vet[] = "octane:disable";
-}
+}*/
+
 
 
 Route::group([

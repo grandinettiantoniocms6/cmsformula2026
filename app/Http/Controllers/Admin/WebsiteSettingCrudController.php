@@ -74,7 +74,11 @@ class WebsiteSettingCrudController extends CrudController
 
 
         /*  ### TAB SITO ###  */
-
+        $this->crud->addField([
+            'name' => 'test',
+            'label' => "TEST",
+            'type' => 'lfm_image',
+        ]);
 
         // image
         $this->crud->addField([
