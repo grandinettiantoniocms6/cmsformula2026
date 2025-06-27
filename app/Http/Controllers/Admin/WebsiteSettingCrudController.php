@@ -71,13 +71,14 @@ class WebsiteSettingCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
+        if(backpack_user()->roles[0]->id == 1){
 
-        if(env("APP_URL") == "https://dev.cmsformula.it"){
             /*  ### TAB SITO ###  */
             $this->crud->addField([
                 'name' => 'test',
                 'label' => "TEST",
                 'type' => 'lfm_image',
+                'tab' => 'test'
             ]);
         }
 
