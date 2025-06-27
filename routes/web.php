@@ -6,10 +6,7 @@ use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
-// Attiva le rotte del filemanager
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], function () {
-    \UniSharp\LaravelFilemanager\Lfm::routes();
-});
+
 
 Route::get('/test_db_gest', function () {
     $anapiDB = \DB::connection('mysql_2');

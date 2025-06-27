@@ -71,7 +71,7 @@ class WebsiteSettingCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        if(backpack_user()->roles[0]->id == 1){
+        if(env("APP_URL") == "https://dev.cmsformula.it" || env("APP_URL") == "http://cmsformula2025.test"){
 
             /*  ### TAB SITO ###  */
             $this->crud->addField([

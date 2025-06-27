@@ -11,10 +11,11 @@ $vet = array_merge(
     (array) config('backpack.base.middleware_key', 'admin'),
 );
 
-/*if(env('OCTANE_HTTPS') == true){
-    $vet[] = "octane:disable";
-}*/
 
+// Attiva le rotte del filemanager
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => $vet], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
 
 
 Route::group([
@@ -196,6 +197,9 @@ Route::group([
     Route::crud('plugin-labels-settings', 'PluginLabelsSettingsCrudController');
 
 
+    Route::get('filemanager', function () {
+        return view('vendor/backpack/custom/filemanager');
+    })->name('backpack.filemanager');
 
 }); // this should be the absolute last line of this file
 

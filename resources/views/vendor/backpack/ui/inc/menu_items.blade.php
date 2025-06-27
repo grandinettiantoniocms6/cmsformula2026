@@ -16,8 +16,12 @@
 
 @if(backpack_user()->roles[0]->id == 1)
 
-    @if(env("APP_URL") == "https://dev.cmsformula.it")
-        <li class='nav-item'><a class='nav-link' href='/laravel-filemanager'><i class='hgi hgi-stroke hgi-file-01 nav-icon'></i> Filemanager</a></li>
+    @if(env("APP_URL") == "https://dev.cmsformula.it" || env("APP_URL") == "http://cmsformula2025.test")
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('backpack.filemanager') }}">
+                <i class="la la-folder-open nav-icon"></i> <span>File Manager New</span>
+            </a>
+        </li>
     @else
         <x-backpack::menu-item :title="trans('backpack::crud.file_manager')" icon="nav-icon hgi hgi-stroke hgi-image-add-02" :link="backpack_url('elfinder')" />
     @endif
