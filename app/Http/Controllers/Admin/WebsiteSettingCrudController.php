@@ -72,13 +72,15 @@ class WebsiteSettingCrudController extends CrudController
     protected function setupUpdateOperation()
     {
 
+        if(env("APP_URL") == "https://dev.cmsformula.it"){
+            /*  ### TAB SITO ###  */
+            $this->crud->addField([
+                'name' => 'test',
+                'label' => "TEST",
+                'type' => 'lfm_image',
+            ]);
+        }
 
-        /*  ### TAB SITO ###  */
-        $this->crud->addField([
-            'name' => 'test',
-            'label' => "TEST",
-            'type' => 'lfm_image',
-        ]);
 
         // image
         $this->crud->addField([

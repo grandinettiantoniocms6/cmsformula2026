@@ -15,7 +15,12 @@
 
 
 @if(backpack_user()->roles[0]->id == 1)
-    <x-backpack::menu-item :title="trans('backpack::crud.file_manager')" icon="nav-icon hgi hgi-stroke hgi-image-add-02" :link="backpack_url('elfinder')" />
+
+    @if(env("APP_URL") == "https://dev.cmsformula.it")
+        <li class='nav-item'><a class='nav-link' href='/laravel-filemanager'><i class='hgi hgi-stroke hgi-file-01 nav-icon'></i> Filemanager</a></li>
+    @else
+        <x-backpack::menu-item :title="trans('backpack::crud.file_manager')" icon="nav-icon hgi hgi-stroke hgi-image-add-02" :link="backpack_url('elfinder')" />
+    @endif
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#"><i class="hgi hgi-stroke hgi-user-square nav-icon"></i> Accounts</a>
         <ul class="nav-dropdown-items">
