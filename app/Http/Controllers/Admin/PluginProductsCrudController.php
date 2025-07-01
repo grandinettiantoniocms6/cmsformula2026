@@ -614,7 +614,11 @@ class PluginProductsCrudController extends CrudController
         $pluginSetting = PluginProductsSettings::first();
         $this->crud->query->orderBy($pluginSetting->order_field, $pluginSetting->order_type);
 
-        $this->crud->query->where("is_variant", 0);
+        if(!\request()->has('group_id')){
+            $this->crud->query->where("is_variant", 0);
+        }
+
+
         //$this->crud->isReorderEnabled();
     }
 
@@ -804,13 +808,15 @@ class PluginProductsCrudController extends CrudController
                     'offLabel' => '✕',
                 ],
                 [
-                    // run a function on the CRUD model and show its return value
                     'name'  => 'is_evidenza',
                     'label' => 'In evidenza', // Table column heading
-                    'type'  => 'model_function',
-                    'function_name' => 'getIsEvidenza', // the method in your Model
-                    // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                    'limit' => 10000, // Limit the number of characters shown
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
                 ],
                 [
                     // run a function on the CRUD model and show its return value
@@ -1509,10 +1515,15 @@ class PluginProductsCrudController extends CrudController
                         }
 
                         if($item_attribute){
-                            $attr_name = $item_attribute->getTranslations('name', 'it');
+                            /*$attr_name = $item_attribute->getTranslations('name', 'it');
                             $opt_name = $attr->getTranslations('value', 'it');
 
-                            $v_attributes[$attr->id] = "{$attr_name['it']}: {$opt_name['it']}";
+                            $v_attributes[$attr->id] = "{$attr_name['it']}: {$opt_name['it']}";*/
+
+                            $attr_name = $item_attribute->name;
+                            $opt_name = $attr->value;
+
+                            $v_attributes[$attr->id] = "{$attr_name}: {$opt_name}";
 
                         }
                     }
@@ -1548,7 +1559,6 @@ class PluginProductsCrudController extends CrudController
                                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
                             ],
                         ],
-
                         // optional
                         'new_item_label' => 'Nuova opzione', // customize the text of the button
                         'init_rows' => 0, // number of empty rows to be initialized, by default 1

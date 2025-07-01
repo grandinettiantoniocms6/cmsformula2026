@@ -144,5 +144,16 @@
 
     </script>
 
+    <script>
+        function add_range(id){
+            var code = Math.floor(Math.random() * 100001);
+            $("#zona-"+id).append("<tr id='new-"+code+"'><td>Da <input type='text' class='form-control' name='min["+id+"][]' size='10'></td><td>A <input type='text' class='form-control' name='max["+id+"][]' size='10'></td><td>&euro; <input type='text' class='form-control' name='price["+id+"][]' size='10'></td><td><a href='javascript:delete_range(\"new\", "+code+")'><i class='fa fa-trash'></i></a></td></tr>");
+        }
+
+        function delete_range(type, id){
+            $("#"+type+"-"+id).html("");
+        }
+    </script>
+
 @endpush
 

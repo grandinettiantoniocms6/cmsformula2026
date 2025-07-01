@@ -16,7 +16,7 @@
 
 @if(backpack_user()->roles[0]->id == 1)
 
-    @if(env("APP_URL") == "https://dev.cmsformula.it" || env("APP_URL") == "http://cmsformula2025.test")
+    @if(env("APP_URL") == "https://dev.cmsformula.it")
         <li class="nav-item">
             <a class="nav-link" href="{{ route('backpack.filemanager') }}">
                 <i class="la la-folder-open nav-icon"></i> <span>File Manager New</span>

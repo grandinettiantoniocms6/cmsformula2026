@@ -994,7 +994,7 @@
         </div>
     @endif
 
-    @if(env('LOCAL') == 0)
+    @if(env("APP_URL") != "http://cmsformula2025.test")
         <?php
             $gestDB = \DB::connection('mysql_2');
             $news = $gestDB->table("news")
