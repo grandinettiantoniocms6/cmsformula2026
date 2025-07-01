@@ -22,8 +22,13 @@ if($descriptionBlocco){
 
 ?>
 
+<?php
+    $bgimage = $item->bgimage;
+?>
+
+
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-    <section class="overflow-hidden bg-very-light-gray position-relative pt-3 sm-pt-50px">
+    <section class="overflow-hidden bg-very-light-gray position-relative pt-3 sm-pt-50px" style="background-color: {{ $item->background_color }}!important; @if($item->bgimage) background-image: url('{{ $item->bgimage }}') @endif">
         <div class="{{ $item->fullwidth }}">
             <div class="row align-items-center mb-5 sm-mb-30px text-center text-lg-start" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay":0, "staggervalue": 300, "easing": "easeOutQuad" }'>
                 <div class="col-lg-5 md-mb-30px">

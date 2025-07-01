@@ -149,7 +149,7 @@ $agent = new \Jenssegers\Agent\Agent();
                                                 </div>
                                             @endif
                                             @if(trim($button[\App::getLocale()])!="")
-                                                <a href="{{ $url }}" target="{{ $type_href }}" class="button btn" style='background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }};'>
+                                                <a href="{{ $url }}" target="{{ $type_href }}" class="button btn" style='background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }}; color: {{ $website->btn_txt_color }};'>
                                                     {{ $button[\App::getLocale()] }}<span class="bg-white text-base-color"></span>
                                                 </a>
                                             @endif

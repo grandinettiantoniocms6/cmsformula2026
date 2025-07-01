@@ -126,7 +126,7 @@ class BlockHightlightCrudController extends CrudController
                 'name'        => 'style',
                 'label'       => "Seleziona stile",
                 'type'        => 'select_from_array',
-                'options'     => [1 => 'Style 1', 2 => 'Style 2'],
+                'options'     => [1 => 'Style 1', 2 => 'Style 2', 3 => 'Style 3 (testimonianze)'],
                 'allows_null' => false,
                 'default'     => 1,
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
@@ -134,14 +134,32 @@ class BlockHightlightCrudController extends CrudController
             ]);
 
             $this->crud->addField([   // repeatable
-                'name'        => 'fullwidth',
-                'label'   => 'Seleziona larghezza blocco',
-                'type'        => 'select_from_array',
-                'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
-                'allows_null' => false,
-                'default'     => 'container',
-                'wrapper' => ['class' => 'form-group col-md-6']
+                'name'          => 'fullwidth',
+                'label'         => 'Seleziona larghezza blocco',
+                'type'          => 'select_from_array',
+                'options'       => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
+                'allows_null'   => false,
+                'default'       => 'container',
+                'wrapper'       => ['class' => 'form-group col-md-6']
             ]);
+
+            $this->crud->addField([   // repeatable
+                'name'          => 'bgimage',
+                'label'         => 'Immagine di sfondo',
+                'type'          => 'browse',
+                'wrapper'       => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'background_color',
+                'label' => 'Colore di sfondo',
+                'type'  => 'color_picker2',
+                // optional
+                //'default' => '#1ab42f',
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
 
         }else{
 
@@ -222,6 +240,8 @@ class BlockHightlightCrudController extends CrudController
             $this->crud->entry->name = $request->get('name');
             $this->crud->entry->fullwidth = $request->get('fullwidth');
             $this->crud->entry->style = $request->get('style');
+            $this->crud->entry->bgimage = $request->get('bgimage');
+            $this->crud->entry->background_color = $request->get('background_color');
             $this->crud->entry->save();
         }
 

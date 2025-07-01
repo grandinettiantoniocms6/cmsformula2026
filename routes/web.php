@@ -37,7 +37,14 @@ Route::get('/test/email/contact', function() {
     ]];
 
     $html = view("common.emails.contact", compact('data'))->render();
-    die($html);
+
+    $dst_email = "test@email.it";
+    \Mail::send("common.emails.contact", ['data' => $data], function ($m) use ($dst_email, $data) {
+      //  $m->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+        $m->to($dst_email);
+        $m->subject("Richiesta informazioni");
+    });
+
 
 });
 

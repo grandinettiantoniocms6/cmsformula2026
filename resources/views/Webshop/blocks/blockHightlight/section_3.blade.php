@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-4">
             @if(trim($value->foto) != "")
-               <img class="card-img" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
+                 <img class="card-img" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
             @endif
         </div>
         <div class="col-lg-8">
