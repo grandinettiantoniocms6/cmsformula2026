@@ -1,5 +1,7 @@
 <div class="card wow animate__fadeInUp" data-wow-duration=".3s">
-    <img class="card-img-top" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
+    @if(trim($value->foto) != "")
+        <img class="card-img-top" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
+    @endif
     <div class="card-body">
         <h5 class="title">{{ $title[\App::getLocale()] }}</h5>
         <div class="abstract">{{ $abstract[\App::getLocale()] }}</div>

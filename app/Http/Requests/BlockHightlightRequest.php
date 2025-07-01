@@ -34,7 +34,7 @@ class BlockHightlightRequest extends FormRequest
 
         // qui metto solo i request dei campi Multi presenti sull'inserimento dei record del blocco
         return [
-            'foto' => 'required',
+            //'foto' => 'required',
             'title' => 'required'
         ];
 
@@ -63,7 +63,7 @@ class BlockHightlightRequest extends FormRequest
         return [
             'name.required' => 'Nome obbligatorio',
             'title.required' => 'Titolo obbligatorio',
-            'foto.required' => 'Foto obbligatoria'
+            //'foto.required' => 'Foto obbligatoria'
 
         ];
     }

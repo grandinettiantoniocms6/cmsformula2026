@@ -504,8 +504,8 @@
                                                                     è avvenuta con <strong>successo</strong>.
                                                                 </h5>
 
+                                                                <br><br>
 
-                                                                <br>
                                                                 <h4 class="mb-4">Riepilogo Prenotazione</h4>
 
                                                                 <table class="table table-sm font-sm" width="100%">
@@ -585,11 +585,49 @@
                                                                         </td>
                                                                     </tr>
                                                                     </tbody>
+
                                                                     <tfoot>
                                                                     <th>Totale:</th>
                                                                     <td>&euro; {{ number_format($data->total,2,",",".") }}</td>
                                                                     </tfoot>
+
+
                                                                 </table>
+
+                                                                <!-- Indicazioni down o Up -->
+
+                                                                <table class="table table-sm font-sm" width="100%">
+                                                                    <tbody>
+
+                                                                        <h4 class="mb-4">Indicazioni aggiuntive</h4>
+
+                                                                        <tr><b>IL PAGAMENTO E' DA EFFETTUARE IN NAVETTA.</b></tr><br>
+
+                                                                        <tr><b>Altre indicazioni</b></tr><br>
+
+                                                                        <tr>Durante i periodi di alta stagione, sia estivi che invernali, si consiglia, in caso di numerosi bagagli o bagagli voluminosi, di raggiungere prima
+                                                                            l'aereoporto per lasciare i passeggieri e i bagagli, e successivamente recarsi al parcheggio.<br>
+                                                                            <b>Come accedere al parcheggio:</b><br>
+                                                                            Per ragioni di sicurezza il cancello di accesso potrebbe essere chiuso. Sarà sufficiente, all'arrivo, telefonale al numero 045 85 80 751 dalle 8:30
+                                                                            alle 12:30 e dalle 14:30 alle 18:30 per accedere in parcheggio. All'apertura del cancello, seguire la navetta per parcheggiare e caricare i bagagli.</tr>
+
+                                                                        <tr><b>Check-In / Partenze</b></tr><br>
+                                                                        <tr>Il check-In si fa direttamente in navetta, quindi il tempo di trasferimento dal parcheggio all'aeroporto deve essere rapido.</tr><br>
+
+                                                                        <tr><b>Check-Out / Rientro</b></tr><br>
+                                                                        <tr>Al rientro, quando avete ritirato le valigie, chiamare il numero +39 393 50 80 289 che verrà a prendervi nel punto indicato, precedentemente.</tr><br>
+
+
+
+                                                                    </tbody>
+                                                                </table>
+
+
+                                                                <!-- fine indicazioni -->
+
+
+
+
                                                             </td>
                                                         </tr>
                                                         </tbody>

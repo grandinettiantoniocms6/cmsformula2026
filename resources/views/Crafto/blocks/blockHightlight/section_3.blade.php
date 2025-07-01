@@ -22,37 +22,27 @@ if($descriptionBlocco){
 
 ?>
 
-<?php
-    $bgimage = $item->bgimage;
-?>
 
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-    <section class="overflow-hidden position-relative border-radius-6px lg-border-radius-0px z-index-0" style="background-color: {{ $item->background_color }}!important; @if($item->bgimage) background-image: url('{{ $item->bgimage }}') @endif">
+
+    <?php
+        $bgimage = $item->bgimage;
+    ?>
+
+    <section class="background-position-center-top pt-3 sm-pt-50px" style="@if($item->bgimage) background-image: url('{{ $item->bgimage }}') @endif; background-color: {{ $item->background_color }}!important;">
         <div class="{{ $item->fullwidth }}">
-            <div class="row align-items-center mb-6 sm-mb-9 text-center text-lg-start mt-5">
-                <div class="col-lg-5 md-mb-20px">
-                    <h3 class="text-dark fw-700 mb-0 ls-minus-1px">{{ $titleBlocco[\App::getLocale()] }}</h3>
-                </div>
-                <div class="col-lg-5 last-paragraph-no-margin md-mb-20px">
-                    <p class="w-85 md-w-100">{!! $descriptionBlocco[\App::getLocale()] !!}</p>
-                </div>
-                <div class="col-lg-2 d-flex justify-content-center justify-content-lg-end">
-                    <!-- start slider navigation -->
-                    <div class="slider-one-slide-prev-1 icon-extra-medium text-white swiper-button-prev slider-navigation-style-04 border border-1 border-color-transparent-dark-light">
-                        <i class="feather icon-feather-chevron-left text-dark-gray"></i>
-                    </div>
-                    <div class="slider-one-slide-next-1 icon-extra-medium text-white swiper-button-next slider-navigation-style-04 border border-1 border-color-transparent-dark-light">
-                        <i class="feather icon-feather-chevron-right text-dark-gray"></i>
-                    </div>
-                    <!-- end slider navigation -->
+            <div class="row align-items-center">
+                <div class="col-lg-12 text-center">
+                    <span class="text-white text-uppercase fw-500 d-inline-block ls-1px fs-15">{{ $titleBlocco[\App::getLocale()] }}</span>
+                    <h3 class="text-white fw-500 ls-minus-1px">{!! $descriptionBlocco[\App::getLocale()] !!}</h3>
                 </div>
             </div>
-@endif
-            <div class="row align-items-center mb-6">
-                <div class="col-12">
-                    <div class="outside-box-right-25 sm-outside-box-right-0">
-                        <div class="swiper slider-one-slide" data-slider-options='{ "slidesPerView": 1, "spaceBetween": 30, "loop": true, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "autoplay": { "delay": 4000, "disableOnInteraction": false }, "keyboard": { "enabled": true, "onlyInViewport": true }, "breakpoints": { "1200": { "slidesPerView": 4 }, "992": { "slidesPerView": 3 }, "768": { "slidesPerView": 2 }, "320": { "slidesPerView": 1 } }, "effect": "slide" }'>
-                            <div class="swiper-wrapper">
+            @endif
+
+            <div class="row align-items-center mb-6" data-anime='{ "opacity": [0,1], "duration": 600, "delay":0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                <div class="col-xl-12 col-lg-12 testimonials-style-10 position-relative ps-4 pe-4 swiper-number-pagination-progress" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                    <div class="swiper sm-pt-3 pb-6" data-slider-options='{"slidesPerView": 1, "loop": true, "keyboard": { "enabled": true, "onlyInViewport": true }, "autoplay": { "delay": 4000, "disableOnInteraction": false }, "pagination": { "el": ".swiper-number-line-pagination", "clickable": true }, "navigation": { "nextEl": ".swiper-button-next-nav-01", "prevEl": ".swiper-button-previous-nav-01", "effect": "fade" } }' data-swiper-number-pagination-progress="true">
+                        <div class="swiper-wrapper">
 
                                 @if($array)
                                     @foreach($array as $value)
@@ -143,47 +133,46 @@ if($descriptionBlocco){
                                             }
                                             ?>
 
-                                                <!-- start slider item -->
                                                 <div class="swiper-slide">
-                                                    <!-- start interactive banner item -->
-                                                    <div class="interactive-banner-style-09 border-radius-6px overflow-hidden position-relative">
-                                                        @if(trim($value->foto) != "")
-                                                            <img src="{{ $foto }}" alt="" />
-                                                        @endif
-
-                                                        <div class="opacity-extra-medium bg-gradient-dark-transparent"></div>
-                                                        <div class="image-content h-100 w-100 ps-15 pe-15 pt-13 pb-13 md-p-10 d-flex justify-content-bottom align-items-start flex-column">
-                                                            <div class="hover-label-icon position-relative z-index-9">
-                                                                <div class="label bg-camarone fw-600 text-white text-uppercase border-radius-30px ps-20px pe-20px fs-12 ls-05px">{{ $abstract[\App::getLocale()] }}</div>
+                                                    <!-- start testimonial item -->
+                                                    <div class="swiper-slide">
+                                                        <div class="d-flex flex-column">
+                                                            <div class="align-self-center text-center w-90 last-paragraph-no-margin">
+                                                                <span class="fs-22 fw-300 d-block text-white mb-20px lh-36 ls-minus-05px w-70 mx-auto">{!! $description[\App::getLocale()] !!}</span>
+                                                                    <span class="text-base-color fw-500">{{ $title[\App::getLocale()] }}</span></h6>
                                                             </div>
-                                                            <div class="mt-auto d-flex align-items-start w-100 z-index-1 position-relative overflow-hidden flex-column">
-                                                                <span class="text-white fw-600 fs-20">{{ $title[\App::getLocale()] }}</span>
-                                                                <span class="content-title text-white fs-13 fw-500 text-uppercase ls-05px">{!! $description[\App::getLocale()] !!}</span>
-                                                                @if($url != "#")
-                                                                    <a href="{{ $url }}" target="{{ $type_href }}" class="content-title-hover fs-13 lh-24 fw-500 ls-05px text-uppercase text-white opacity-6 text-decoration-line-bottom">
-                                                                        {{ $button[\App::getLocale()] }}
-                                                                    </a>
-                                                                @endif
-                                                                <span class="content-arrow lh-42px rounded-circle bg-white w-50px h-50px ms-20px text-center"><i class="fa-solid fa-chevron-right text-dark-gray fs-16"></i></span>
-                                                            </div>
-                                                            <div class="position-absolute left-0px top-0px w-100 h-100 bg-gradient-regal-blue-transparent opacity-9">
-                                                            </div>
-                                                            <div class="box-overlay bg-gradient-base-color-transparent"></div>
-                                                            <a href="{{ $url }}" target="{{ $type_href }}" class="position-absolute z-index-1 top-0px left-0px h-100 w-100"></a>
                                                         </div>
                                                     </div>
-                                                    <!-- end interactive banner item -->
+                                                    <!-- end testimonial item -->
                                                 </div>
-                                                <!-- end slider item -->
 
                                     @endforeach
                                 @endif
                             </div>
                         </div>
 
-                    </div>
+                        <!-- start slider pagination -->
+                        <div class="swiper-pagination-wrapper d-flex align-items-center justify-content-center">
+
+                            <div class="swiper-pagination-progress bg-medium-gray">
+                                <span class="swiper-progress"></span>
+                            </div>
+
+                        </div>
+                        <!-- end slider pagination -->
+                        <!-- start slider navigation -->
+                        <div class="swiper-button-previous-nav-01 swiper-button-prev icon-extra-medium left-0px"><i class="bi bi-arrow-left icon-extra-medium text-white"></i></div>
+                        <div class="swiper-button-next-nav-01 swiper-button-next icon-extra-medium right-0px"><i class="bi bi-arrow-right icon-extra-medium text-white"></i></div>
+                        <!-- end slider pagination -->
+
+
                 </div>
             </div>
+
+
+
         </div>
     </section>
+
+
 

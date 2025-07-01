@@ -266,7 +266,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 case "blockHightlight":
                     $fields = ["title",'abstract','description','url_interno','url','button'];
                     $fields_types = ["text", "text", "content", "select2_from_array", "text", "text"];
-                    $fields_label = ["Titolo", "Sottotitolo", "Descrizione", "URL interno", "URL esterno", "Testo pulsante"];
+                    $fields_label = ["Titolo/Nome", "Sottotitolo", "Descrizione", "URL interno", "URL esterno", "Testo pulsante"];
                     if(count($parameters)) {
                         $item = BlockHightlight::find($item_id);
                     }

@@ -131,7 +131,7 @@ class PluginParkingController extends Controller
             }
 
         } catch (\Throwable $e) {
-
+           // dd($e->getMessage());
         }
 
         return redirect()->back()->with('message', $labels['parking-invio-richiesta-ok']);
