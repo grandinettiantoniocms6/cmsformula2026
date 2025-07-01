@@ -599,24 +599,24 @@
                                                                 <table class="table table-sm font-sm" width="100%">
                                                                     <tbody>
 
-                                                                        <h4 class="mb-4">Indicazioni aggiuntive</h4>
+                                                                    <tr><br><br><h4><b>Indicazioni aggiuntive</b></h4><br><br></tr>
+                                                                    <tr><b>IL PAGAMENTO E' DA EFFETTUARE IN NAVETTA.</b></tr><br><br>
 
-                                                                        <tr><b>IL PAGAMENTO E' DA EFFETTUARE IN NAVETTA.</b></tr><br>
+                                                                    <tr><b>Altre indicazioni</b></tr><br><br>
 
-                                                                        <tr><b>Altre indicazioni</b></tr><br>
+                                                                    <tr>Durante i periodi di alta stagione, sia estivi che invernali, si consiglia, in caso di numerosi bagagli o bagagli voluminosi, di raggiungere prima
+                                                                        l'aeroporto per lasciare i passeggieri e i bagagli, e successivamente recarsi al parcheggio.<br><br>
+                                                                        <b>Come accedere al parcheggio:</b><br><br>
+                                                                        Per ragioni di sicurezza il cancello di accesso potrebbe essere chiuso. Sarà sufficiente, all'arrivo, telefonale al numero +39 393 50 80 289 per accedere al parcheggio. All'apertura del cancello,
+                                                                        seguire la navetta per parcheggiare e caricare i bagagli.</tr><br><br>
 
-                                                                        <tr>Durante i periodi di alta stagione, sia estivi che invernali, si consiglia, in caso di numerosi bagagli o bagagli voluminosi, di raggiungere prima
-                                                                            l'aereoporto per lasciare i passeggieri e i bagagli, e successivamente recarsi al parcheggio.<br>
-                                                                            <b>Come accedere al parcheggio:</b><br>
-                                                                            Per ragioni di sicurezza il cancello di accesso potrebbe essere chiuso. Sarà sufficiente, all'arrivo, telefonale al numero 045 85 80 751 dalle 8:30
-                                                                            alle 12:30 e dalle 14:30 alle 18:30 per accedere in parcheggio. All'apertura del cancello, seguire la navetta per parcheggiare e caricare i bagagli.</tr>
 
-                                                                        <tr><b>Check-In / Partenze</b></tr><br>
-                                                                        <tr>Il check-In si fa direttamente in navetta, quindi il tempo di trasferimento dal parcheggio all'aeroporto deve essere rapido.</tr><br>
+                                                                    <tr><b>Check-In / Partenze</b></tr><br><br>
+                                                                    <tr>Il check-In si fa direttamente in navetta, quindi il tempo di trasferimento dal parcheggio all'aeroporto deve essere rapido.</tr><br><br>
 
-                                                                        <tr><b>Check-Out / Rientro</b></tr><br>
-                                                                        <tr>Al rientro, quando avete ritirato le valigie, chiamare il numero +39 393 50 80 289 che verrà a prendervi nel punto indicato, precedentemente.</tr><br>
-
+                                                                    <tr><b>Check-Out / Rientro</b></tr><br><br>
+                                                                    <tr>Al rientro, quando avete ritirato le valigie, chiamare il numero +39 393 50 80 289 e la navetta verrà a prendervi nel punto indicato, precedentemente.</tr><br><br>
+                                                                    <tr>Buon viaggo dallo staff AutoPal.</tr><br>
 
 
                                                                     </tbody>
