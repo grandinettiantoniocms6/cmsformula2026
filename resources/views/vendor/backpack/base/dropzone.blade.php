@@ -55,9 +55,9 @@
                         <div class="dz-preview dz-complete" data-id="{{ $image->id }}">
 
                             @if(is_numeric(strpos($image->image, "uploads")))
-                                <img class="dropzone-thumbnail" src={{ url("$image->image") }}>
+                                <img class="dropzone-thumbnail" src="{{ url($image->image) }}">
                             @else
-                                <img class="dropzone-thumbnail" src={{ url("uploads/products/$image->image") }}>
+                                <img class="dropzone-thumbnail" src="{{ url("uploads/products/$image->image") }}">
                             @endif
 
                             <a class="dz-remove" href="javascript:void(0);" data-remove="{{ $image->id }}">Rimuovi</a>
