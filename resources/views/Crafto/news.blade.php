@@ -347,7 +347,8 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
                         @foreach($news as $value)
                                 <?php
                                 $contenitore = \App\Models\BlockNews::where("id", $value->block_id)->first();
-                                $col = $contenitore->col;
+                                //$col = $contenitore->col;
+                                $col = "";
                                 $height = $contenitore->height;
                                 $fullwidth = $contenitore->fullwidth;
                                 $style = $contenitore->style;
@@ -371,10 +372,6 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
                     <div class="{{ $fullwidth }}">
                         <div class="row">
                             <div class="col-12">
-
-                                    <?php
-                                        $col = "$contenitore->col";
-                                    ?>
 
                                 <ul class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-{{ $col }}col md-grid-2col sm-grid-2col xs-grid-1col gutter-extra-large">
                                     <li class="grid-sizer"></li>
