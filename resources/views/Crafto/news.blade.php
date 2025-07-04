@@ -372,6 +372,10 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
                         <div class="row">
                             <div class="col-12">
 
+                                    <?php
+                                        $col = "$contenitore->col";
+                                    ?>
+
                                 <ul class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-{{ $col }}col md-grid-2col sm-grid-2col xs-grid-1col gutter-extra-large">
                                     <li class="grid-sizer"></li>
 
