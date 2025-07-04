@@ -244,9 +244,9 @@ class BlockNewsCrudController extends CrudController
                 'name'        => 'col',
                 'label'   => 'Numero di New per riga',
                 'type'        => 'select_from_array',
-                'options'     => ['4' => '4 new per riga', '3' => '3 news per riga', '2' => '2 news per riga', '1' => '1 news per riga' ],
+                'options'     => ['3' => '4 new per riga', '4' => '3 news per riga', '6' => '2 news per riga', '12' => '1 news per riga' ],
                 'allows_null' => false,
-                'default'     => '6',
+                'default'     => '4',
                 'wrapper' => ['class' => 'form-group col-md-6']
             ]);
 

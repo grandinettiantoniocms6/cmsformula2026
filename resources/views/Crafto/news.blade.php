@@ -10,6 +10,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
         $title = $blockNews->title;
         $description = $blockNews->description;
         $slug =$blockNews->slug;
+        $col = "";
 
         $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
         $category = $blockNews->category;
@@ -288,54 +289,53 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
                             ?>
 
-        <!-- start section altre News -->
-                <section class="bg-solitude-blue position-relative sm-pb-20px">
-                    <div class="container">
-                        <div class="row justify-content-center mb-1">
-                            <div class="col-lg-7 text-center">
-                                <h3 class="alt-font text-dark-gray fw-600 ls-minus-1px" data-anime='{ "el": "lines", "translateY": [30, 0], "opacity": [0,1], "delay": 500, "staggervalue": 100, "easing": "easeOutQuad" }'>{{ $labelSite['last-news'] }}</h3>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 px-0">
-                                @if($altre_news)
-                                <ul class="blog-classic blog-wrapper grid grid-4col xl-grid-4col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-double-extra-large" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                    <li class="grid-sizer"></li>
-                                        @foreach($altre_news as $altre)
-                                            <?php
-                                                $news_url = route('news.slug', $altre->slug);
-                                            ?>
-                                                <li class="grid-item">
-                                                    <div class="card bg-transparent border-0 h-100">
-                                                        <div class="blog-image position-relative overflow-hidden border-radius-4px">
-                                                            @if($blockNews->foto)
-                                                                <a href="{{ $news_url }}"><img src="/{{ $blockNews->foto }}" alt="" /></a>
-                                                            @endif
-                                                        </div>
-                                                        <div class="card-body px-0 pb-30px pt-30px xs-pb-15px last-paragraph-no-margin">
-                                                            <a href="{{ $news_url }}" class="card-title mb-0 fw-500 fs-18 lh-30 text-dark-gray d-inline-block">{{ $altre->title }}</a>
+                                    <!-- start section altre News -->
+                                            <section class="bg-solitude-blue position-relative sm-pb-20px">
+                                                <div class="container">
+                                                    <div class="row justify-content-center mb-1">
+                                                        <div class="col-lg-7 text-center">
+                                                            <h3 class="alt-font text-dark-gray fw-600 ls-minus-1px" data-anime='{ "el": "lines", "translateY": [30, 0], "opacity": [0,1], "delay": 500, "staggervalue": 100, "easing": "easeOutQuad" }'>{{ $labelSite['last-news'] }}</h3>
                                                         </div>
                                                     </div>
-                                                </li>
-                                        @endforeach
-                                        <!-- end blog item -->
-                                @endif
+                                                    <div class="row">
+                                                        <div class="col-12 px-0">
+                                                            @if($altre_news)
+                                                            <ul class="blog-classic blog-wrapper grid grid-4col xl-grid-4col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-double-extra-large" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                                                                <li class="grid-sizer"></li>
+                                                                    @foreach($altre_news as $altre)
+                                                                        <?php
+                                                                            $news_url = route('news.slug', $altre->slug);
+                                                                        ?>
+                                                                            <li class="grid-item">
+                                                                                <div class="card bg-transparent border-0 h-100">
+                                                                                    <div class="blog-image position-relative overflow-hidden border-radius-4px">
+                                                                                        @if($blockNews->foto)
+                                                                                            <a href="{{ $news_url }}"><img src="/{{ $blockNews->foto }}" alt="" /></a>
+                                                                                        @endif
+                                                                                    </div>
+                                                                                    <div class="card-body px-0 pb-30px pt-30px xs-pb-15px last-paragraph-no-margin">
+                                                                                        <a href="{{ $news_url }}" class="card-title mb-0 fw-500 fs-18 lh-30 text-dark-gray d-inline-block">{{ $altre->title }}</a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                    @endforeach
+                                                                    <!-- end blog item -->
+                                                            @endif
 
-                                </ul>
-                            </div>
-                        </div>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <a class="btn btn-dark-gray btn-small btn-round-edge" href="/news">{{ $labelSite['back-to-news'] }}</a>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <a class="btn btn-dark-gray btn-small btn-round-edge" href="/news">{{ $labelSite['back-to-news'] }}</a>
 
-                            </div>
-                        </div>
+                                                        </div>
+                                                    </div>
 
-                    </div>
-                </section>
-                <!-- End altre news - Related News dettaglio -->
-
+                                                </div>
+                                            </section>
+                                            <!-- End altre news - Related News dettaglio -->
 
             @else
 
@@ -347,8 +347,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
                         @foreach($news as $value)
                                 <?php
                                 $contenitore = \App\Models\BlockNews::where("id", $value->block_id)->first();
-                                //$col = $contenitore->col;
-                                $col = "";
+                                $col = $contenitore->col;
                                 $height = $contenitore->height;
                                 $fullwidth = $contenitore->fullwidth;
                                 $style = $contenitore->style;
