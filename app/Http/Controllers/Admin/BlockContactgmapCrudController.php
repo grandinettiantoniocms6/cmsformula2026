@@ -327,9 +327,9 @@ class BlockContactgmapCrudController extends CrudController
 
             $this->crud->addField([   // repeatable
                 'name'  => 'url',
-                'label' => 'Incolla qui l\'URL della Mappa (<a href="https://www.google.it/maps?hl=it" target="_blank">Apri Google Maps</a>)',
+                'label' => 'Incolla solo il codice src che trovi in INCORPORA MAPPA (<a href="https://www.google.it/maps?hl=it" target="_blank">Recupera il codice da Google Maps</a>)',
                 'type'  => 'textarea',
-                'default' => 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d179218.42332672668!2d11.240318256453511!3d45.42369820000001!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x8c3d4cf7e9eeb781!2sWebisland%20-%20Creazione%20siti%20web%20%26%20E-Commerce!5e0!3m2!1sit!2sit!4v1638978118249!5m2!1sit!2sit',
+                //'default' => 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d179218.42332672668!2d11.240318256453511!3d45.42369820000001!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x8c3d4cf7e9eeb781!2sWebisland%20-%20Creazione%20siti%20web%20%26%20E-Commerce!5e0!3m2!1sit!2sit!4v1638978118249!5m2!1sit!2sit',
                 'wrapperAttributes' => ['class' => 'form-group col-md-12']
             ]);
 

@@ -44,10 +44,14 @@ class PluginProductsController extends Controller
 
     public function search_results(Request $request){
 
+        $lang = \App::getLocale();
+        $lang_ = strtoupper($lang);
+        $slug_prodotti = env("PLUGIN_PRODUCTS_URL_$lang_");
 
         $q = trim(addslashes($request->get('search')));
 
         if(key_exists("HTTP_REFERER", $_SERVER)){
+
             $referer = $_SERVER['HTTP_REFERER'];
             $referer = str_replace(env("APP_URL")."/", "", $referer);
 
@@ -55,12 +59,14 @@ class PluginProductsController extends Controller
 
             $temp_finale = explode("?", $temp[0]);
 
+            if($temp_finale[0] == ""){
+                $temp_finale[0] = $slug_prodotti;
+            }
+
             return redirect()->to("/{$temp_finale[0]}?q=$q");
         }
 
-        $lang = \App::getLocale();
-        $lang_ = strtoupper($lang);
-        $slug_prodotti = env("PLUGIN_PRODUCTS_URL_$lang_");
+
         $page = Page::whereRaw("slug like '%$slug_prodotti%'")->where("is_active", 1)->first();
 
         return redirect()->to("{$page->slug}?q=$q");
@@ -72,7 +78,7 @@ class PluginProductsController extends Controller
         $version = DB::selectOne('SELECT VERSION() as version')->version;
         if (str_starts_with($version, '11.')) {
             // MariaDB 11+ ha problemi con utf8mb4_general_ci
-            $collation = 'utf8mb4_unicode_ci';
+            $collation = 'utf8_unicode_ci';
         }
 
         $startTime = microtime(true);

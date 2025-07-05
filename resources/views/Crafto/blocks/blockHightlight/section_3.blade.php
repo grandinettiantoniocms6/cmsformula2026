@@ -139,7 +139,9 @@ if($descriptionBlocco){
                                                         <div class="d-flex flex-column">
                                                             <div class="align-self-center text-center w-90 last-paragraph-no-margin">
                                                                 <span class="fs-22 fw-300 d-block text-white mb-20px lh-36 ls-minus-05px w-70 mx-auto">{!! $description[\App::getLocale()] !!}</span>
-                                                                    <span class="text-base-color fw-500">{{ $title[\App::getLocale()] }}</span></h6>
+                                                                    <span class="text-base-color fw-500">{{ $title[\App::getLocale()] }}</span>
+                                                                        <br><span class="text-base-color text-white fw-300">{!! $abstract[\App::getLocale()] !!}</span>
+
                                                             </div>
                                                         </div>
                                                     </div>

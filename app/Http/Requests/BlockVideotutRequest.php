@@ -34,7 +34,7 @@ class BlockVideotutRequest extends FormRequest
 
         // qui metto solo i request dei campi Multi presenti sull'inserimento dei record del blocco
         return [
-            'title' => 'required',
+            //'title' => 'required',
             'video' => 'required'
         ];
 
@@ -60,7 +60,7 @@ class BlockVideotutRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'Titolo Video obbligatorio',
+            //'title.required' => 'Titolo Video obbligatorio',
             'video.required' => 'Link video obbligatorio'
         ];
     }

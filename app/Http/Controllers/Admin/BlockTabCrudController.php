@@ -164,16 +164,50 @@ class BlockTabCrudController extends CrudController
                 'wrapperAttributes' => ['class' => 'form-group col-md-6'],
             ]);
 
+            // CAMPI VISUALIZZATI SOLO CON IL TEMA CRAFTO //////////////////
+            if(env('TEMA') == 'Crafto' ) {
+
+
+                $this->crud->addField([   // select_from_array
+                    'name' => 'style',
+                    'label' => "Seleziona stile",
+                    'type' => 'select_from_array',
+                    'options' => [
+                        1 => 'Style 1: Predefinito (con i pulsanti)',
+                        2 => 'Style 2: Boxed (tab su sfondo colorato)',
+                        3 => 'Style 3: Linear (testo e linea colorata in bottom)',
+                        4 => 'Style 4: Tab Laterale'
+                    ],
+
+                    'allows_null' => false,
+                    'default' => '1',
+                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                    'wrapperAttributes' => ['class' => 'form-group col-md-12']
+                ]);
+
+            }
+            // FINE CAMPI VISUALIZZATI TEMA CRAFTO //////////////////
+
+
             $this->crud->addField([   // select_from_array
                 'name'        => 'style',
                 'label'       => "Seleziona stile",
                 'type'        => 'select_from_array',
-                'options'     => [1 => 'Style 1: Predefinito (con i pulsanti)', 2 => 'Style 2: Boxed (tab su sfondo colorato)', 3 => 'Style 3: Linear (testo e linea colorata in bottom)'],
+                'options'     => [1 => 'Style 1: Predefinito (con i pulsanti)',
+                                  2 => 'Style 2: Boxed (tab su sfondo colorato)',
+                                  3 => 'Style 3: Linear (testo e linea colorata in bottom)'
+                                  ],
                 'allows_null' => false,
                 'default'     => '1',
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
                 'wrapperAttributes' => ['class' => 'form-group col-md-12']
             ]);
+
+
+
+
+
+
 
 
 
