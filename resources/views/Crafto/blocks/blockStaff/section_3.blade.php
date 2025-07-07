@@ -1,9 +1,10 @@
 <?php $website = \App\Models\WebsiteSetting::first(); ?>
 
-<section class="bg-very-light-gray position-relative">
-    <div class="{{ $item->fullwidth }} position-relative z-index-1">
-        <div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 justify-content-center">
-            @if($array)
+<section class="background-repeat position-relative overflow-hidden mt-2">
+    <div class="{{ $item->fullwidth }}">
+        <div class="row row-cols-1 row-cols-lg-4 row-cols-sm-2" data-anime='{ "el": "childs", "translateY": [30, 0], "translateX": [-30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+
+        @if($array)
                 @foreach($array as $value)
                         <?php
                         $name_surname = json_decode($value->name_surname, true);
@@ -146,6 +147,14 @@
                             $button[\App::getLocale()] = "";
                         }
 
+
+
+                        if(!key_exists(\App::getLocale(), $button)){
+                            $button[\App::getLocale()] = "";
+                        }
+
+
+
                         // serve per le thumb
                         $photo = $value->foto;
 
@@ -164,48 +173,44 @@
 
                         ?>
 
-                            <!-- start team member item -->
-                            <div class="col-lg-{{ $item->col }} text-center team-style-03 md-mb-30px mt-50px">
-                                <div class="p-15 lg-p-13 bg-white box-shadow-large box-shadow-large-hover border-radius-6px">
-                                    @if(trim($foto) != "")
-                                        <img src="{{ $foto }}" alt="{{ $name_surname[\App::getLocale()] }}" class="mb-25px d-block mx-auto h-200px w-200px rounded-circle" />
-                                    @endif
 
-                                    <span class="d-inline-block fw-600 fs-18 text-dark-gray">{{ $name_surname[\App::getLocale()] }}</span>
-                                        @if(trim($role[\App::getLocale()])!="")
-                                            <div class="mb-10px text-uppercase fs-14 lh-22 fw-500">Director</div>
+                        <div class="col-lg-{{ $item->col }} text-center team-style-05 md-mb-20px">
+                            <div class="position-relative mb-30px border-radius-4px last-paragraph-no-margin overflow-hidden">
+                                @if(trim($foto) != "")
+                                    <img src="{{ $foto }}" alt="{{ $name_surname[\App::getLocale()] }}" class="border-radius-4px" alt="" />
+                                @endif
+                                <div class="w-100 h-100 d-flex flex-column justify-content-end align-items-center p-40px lg-p-20px team-content bg-gradient-gray-light-dark-transparent">
+                                    <div class="social-icon fs-19">
+                                        @if(trim($url_1[\App::getLocale()])!="")
+                                            <a href="{{ $url_1 }}" target="{{ $type_href_1 }}" class="text-white"><i class="fa-brands fa-facebook-f"></i></a>
                                         @endif
-                                        @if(trim($email[\App::getLocale()])!="")
-                                            <p class="m-0">{{ $email[\App::getLocale()] }}</p>
+                                        @if(trim($url_2[\App::getLocale()])!="")
+                                            <a target="{{ $type_href_2 }}" href="{{ $url_2 }}" class="text-white"><i class="fa-brands fa-instagram"></i></a>
                                         @endif
-                                        @if(trim($phone[\App::getLocale()])!="")
-                                            <p class="m-0">{{ $phone[\App::getLocale()] }}</p>
+                                        @if(trim($url_3[\App::getLocale()])!="")
+                                            <a target="{{ $type_href_3 }}" href="{{ $url_3 }}" class="text-white"><i class="fa-brands fa-linkedin"></i></a>
                                         @endif
-
-                                    <div class="elements-social social-icon-style-04">
-                                        <ul class="small-icon dark">
-                                            @if(trim($social_1[\App::getLocale()])!="")
-                                                <a href="{{ $url_1 }}" target="{{ $type_href_1 }}" class="facebook"><i class="fa-brands fa-facebook-f"></i><span></span></a>
-                                            @endif
-                                            @if(trim($social_2[\App::getLocale()])!="")
-                                                <a target="{{ $type_href_2 }}" href="{{ $url_2 }}" class="instagram"><i class="fa-brands fa-instagram"></i><span></span></a>
-                                            @endif
-                                            @if(trim($social_3[\App::getLocale()])!="")
-                                                <a target="{{ $type_href_3 }}" href="{{ $url_3 }}" class="linkedin"><i class="fa-brands fa-linkedin"></i><span></span></a>
-                                            @endif
-                                            @if(trim($social_4[\App::getLocale()])!="")
-                                                <a href="{{ $url_4 }}" target="{{ $type_href_4 }}" class="fw-600 text-dark-gray">{{ $social_4[\App::getLocale()] }}</a>
-                                            @endif
-
-                                        </ul>
+                                        @if(trim($url_4[\App::getLocale()])!="")
+                                            <a href="{{ $url_4 }}" target="{{ $type_href_4 }}" class="text-white"><i class="fa-brands fa-twitter"></i></a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
-                            <!-- end team member item -->
+                            <div class="text-dark-gray lh-24 fs-18 fw-600">{{ $name_surname[\App::getLocale()] }}</div>
+                            @if(trim($role[\App::getLocale()])!="")
+                                <span class="text-dark-gray text-uppercase fs-14">{{ $role[\App::getLocale()] }}</span>
+                            @endif
+                            @if(trim($phone[\App::getLocale()])!="")
+                                <p class="m-0 text-dark-gray">{{ $phone[\App::getLocale()] }}</p>
+                            @endif
+                            @if(trim($email[\App::getLocale()])!="")
+                                <p class="m-0 text-dark-gray">{{ $email[\App::getLocale()] }}</p>
+                            @endif
+                        </div>
+
 
                 @endforeach
             @endif
-
         </div>
     </div>
 </section>
