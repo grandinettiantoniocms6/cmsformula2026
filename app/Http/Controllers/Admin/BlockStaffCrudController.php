@@ -127,6 +127,61 @@ class BlockStaffCrudController extends CrudController
                 'wrapper' => ['class' => 'form-group col-md-12']
             ]);
 
+            // CAMPI VISUALIZZATI SOLO CON IL TEMA CRAFTO //////////////////
+            if(env('TEMA') == 'Crafto' ) {
+
+                $this->crud->addField([   // select_from_array
+                    'name'        => 'style',
+                    'label'       => "Seleziona stile",
+                    'type'        => 'select_from_array',
+                    'options'     => [
+
+                        1 => 'Style 1: : Foto rotonda con sfondo + ombra',
+                        2 => 'Style 2: Foto quadrata con sfondo + ombra',
+                        3 => 'Style 3: Foto con effetto fade'],
+
+                    'allows_null' => false,
+                    'default'     => 1,
+                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                    'wrapperAttributes' => ['class' => 'form-group col-md-4']
+                ]);
+
+                $this->crud->addField([   // repeatable
+                    'name'        => 'col',
+                    'label'   => 'Numero di foto per riga',
+                    'type'        => 'select_from_array',
+                    'options'     => ['12' => '1 foto per riga', '6' => '2 foto per riga', '4' => '3 foto per riga', '3' => '4 foto per riga'],
+                    'allows_null' => false,
+                    'default'     => '6',
+                    'wrapper' => ['class' => 'form-group col-md-4']
+                ]);
+
+                $this->crud->addField([   // repeatable
+                    'name'        => 'fullwidth',
+                    'label'   => 'Seleziona larghezza blocco',
+                    'type'        => 'select_from_array',
+                    'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
+                    'allows_null' => false,
+                    'default'     => 'container',
+                    'wrapper' => ['class' => 'form-group col-md-4']
+                ]);
+
+
+
+
+            }else {
+
+            $this->crud->addField([   // select_from_array
+                'name'        => 'style',
+                'label'       => "Seleziona stile",
+                'type'        => 'select_from_array',
+                'options'     => [1 => 'Style 1: : Foto rotonda con sfondo + ombra', 2 => 'Style 2: Foto quadrata con sfondo + ombra', 3 => 'Style 3: Effetto mosaico: consigliato per visualizzare solo la foto'],
+                'allows_null' => false,
+                'default'     => 1,
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                'wrapperAttributes' => ['class' => 'form-group col-md-4']
+                ]);
+
             $this->crud->addField([   // repeatable
                 'name'        => 'col',
                 'label'   => 'Numero di foto per riga',
@@ -147,19 +202,11 @@ class BlockStaffCrudController extends CrudController
                 'wrapper' => ['class' => 'form-group col-md-4']
             ]);
 
-            $this->crud->addField([   // select_from_array
-                'name'        => 'style',
-                'label'       => "Seleziona stile",
-                'type'        => 'select_from_array',
-                'options'     => [1 => 'Style 1: : Foto rotonda con sfondo + ombra', 2 => 'Style 2: Foto quadrata con sfondo + ombra', 3 => 'Style 3: Effetto mosaico: consigliato per visualizzare solo la foto'],
-                'allows_null' => false,
-                'default'     => 1,
-                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                'wrapperAttributes' => ['class' => 'form-group col-md-4']
-            ]);
 
 
-            /* FINE degli input che vedo quando modifica il nome del blocco - gli input tecnici no moltiligua */
+
+
+            }/* FINE degli input che vedo quando modifica il nome del blocco - gli input tecnici no moltiligua */
 
         }else{
 

@@ -119,6 +119,9 @@ class BlockTimelineCrudController extends CrudController
                 'wrapper' => ['class' => 'form-group col-md-12']
             ]);
 
+            // CAMPI VISUALIZZATI SOLO CON IL TEMA CRAFTO //////////////////
+            if(env('TEMA') == 'Webshop' ) {
+
             $this->crud->addField([   // select_from_array
                 'name'        => 'style',
                 'label'       => "Seleziona stile",
@@ -159,6 +162,8 @@ class BlockTimelineCrudController extends CrudController
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
+
+        }
 
 
 

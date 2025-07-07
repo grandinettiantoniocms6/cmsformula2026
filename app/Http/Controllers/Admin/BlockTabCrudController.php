@@ -185,9 +185,8 @@ class BlockTabCrudController extends CrudController
                     'wrapperAttributes' => ['class' => 'form-group col-md-12']
                 ]);
 
-            }else { // FINE CAMPI VISUALIZZATI TEMA CRAFTO //////////////////
-
-
+            }else {
+            // l'else serve per non interrompere il ciclo
 
                 $this->crud->addField([   // select_from_array
                     'name' => 'style',
@@ -203,12 +202,7 @@ class BlockTabCrudController extends CrudController
                     'wrapperAttributes' => ['class' => 'form-group col-md-12']
                 ]);
             }
-
-
-
-
-
-
+            // FINE CAMPI VISUALIZZATI TEMA CRAFTO //////////////////
 
 
 
