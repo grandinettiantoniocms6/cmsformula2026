@@ -147,6 +147,14 @@
                             $button[\App::getLocale()] = "";
                         }
 
+
+
+                        if(!key_exists(\App::getLocale(), $button)){
+                            $button[\App::getLocale()] = "";
+                        }
+
+
+
                         // serve per le thumb
                         $photo = $value->foto;
 
@@ -173,16 +181,16 @@
                                 @endif
                                 <div class="w-100 h-100 d-flex flex-column justify-content-end align-items-center p-40px lg-p-20px team-content bg-gradient-gray-light-dark-transparent">
                                     <div class="social-icon fs-19">
-                                        @if(trim($social_1[\App::getLocale()])!="")
+                                        @if(trim($url_1[\App::getLocale()])!="")
                                             <a href="{{ $url_1 }}" target="{{ $type_href_1 }}" class="text-white"><i class="fa-brands fa-facebook-f"></i></a>
                                         @endif
-                                        @if(trim($social_2[\App::getLocale()])!="")
+                                        @if(trim($url_2[\App::getLocale()])!="")
                                             <a target="{{ $type_href_2 }}" href="{{ $url_2 }}" class="text-white"><i class="fa-brands fa-instagram"></i></a>
                                         @endif
-                                        @if(trim($social_3[\App::getLocale()])!="")
+                                        @if(trim($url_3[\App::getLocale()])!="")
                                             <a target="{{ $type_href_3 }}" href="{{ $url_3 }}" class="text-white"><i class="fa-brands fa-linkedin"></i></a>
                                         @endif
-                                        @if(trim($social_4[\App::getLocale()])!="")
+                                        @if(trim($url_4[\App::getLocale()])!="")
                                             <a href="{{ $url_4 }}" target="{{ $type_href_4 }}" class="text-white"><i class="fa-brands fa-twitter"></i></a>
                                         @endif
                                     </div>
