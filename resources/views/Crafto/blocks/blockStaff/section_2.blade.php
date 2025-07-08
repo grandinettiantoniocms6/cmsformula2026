@@ -29,6 +29,27 @@
 
                         $col = $item->col;
 
+                        $v_url_1 = json_decode($value->url_1, true);
+                        if($v_url_1 === null){
+                            $v_url_1 = [];
+                        }
+
+                        $v_url_2 = json_decode($value->url_2, true);
+                        if($v_url_2 === null){
+                            $v_url_2 = [];
+                        }
+
+                        $v_url_3 = json_decode($value->url_3, true);
+                        if($v_url_3=== null){
+                            $v_url_3 = [];
+                        }
+
+                        $v_url_4 = json_decode($value->url_4, true);
+                        if($v_url_4=== null){
+                            $v_url_4 = [];
+                        }
+
+
                         $social_1 = json_decode($value->social_1, true);
                         if($social_1 === null){
                             $social_1 = [];
@@ -91,6 +112,18 @@
                             $social_1[\App::getLocale()] = "";
                         }
 
+                        if(!key_exists(\App::getLocale(), $social_2)){
+                            $social_2[\App::getLocale()] = "";
+                        }
+
+                        if(!key_exists(\App::getLocale(), $social_3)){
+                            $social_3[\App::getLocale()] = "";
+                        }
+
+                        if(!key_exists(\App::getLocale(), $social_4)){
+                            $social_4[\App::getLocale()] = "";
+                        }
+
                         if(!key_exists(\App::getLocale(), $url_interno)){
                             $url_interno[\App::getLocale()] = "";
                         }
@@ -100,52 +133,43 @@
                         }
 
                         $url_1 = "#";
-
-                        if(key_exists(\App::getLocale(), $social_1)){
-                            if(trim($social_1[\App::getLocale()]) != ""){
-                                $url_1 = $social_1[\App::getLocale()];
+                        if(key_exists(\App::getLocale(), $v_url_1)){
+                            if(trim($v_url_1[\App::getLocale()]) != ""){
+                                $url_1 = $v_url_1[\App::getLocale()];
                             }
-                        }
-
-                        if(!key_exists(\App::getLocale(), $social_2)){
-                            $social_2[\App::getLocale()] = "";
                         }
 
                         $url_2 = "#";
-
-                        if(key_exists(\App::getLocale(), $social_2)){
-                            if(trim($social_2[\App::getLocale()]) != ""){
-                                $url_2 = $social_2[\App::getLocale()];
+                        if(key_exists(\App::getLocale(), $v_url_2)){
+                            if(trim($v_url_2[\App::getLocale()]) != ""){
+                                $url_2 = $v_url_2[\App::getLocale()];
                             }
                         }
 
-                        if(!key_exists(\App::getLocale(), $social_3)){
-                            $social_3[\App::getLocale()] = "";
-                        }
 
                         $url_3 = "#";
-
-                        if(key_exists(\App::getLocale(), $social_3)){
-                            if(trim($social_3[\App::getLocale()]) != ""){
-                                $url_3 = $social_3[\App::getLocale()];
+                        if(key_exists(\App::getLocale(), $v_url_3)){
+                            if(trim($v_url_3[\App::getLocale()]) != ""){
+                                $url_3 = $v_url_3[\App::getLocale()];
                             }
-                        }
-
-                        if(!key_exists(\App::getLocale(), $social_4)){
-                            $social_4[\App::getLocale()] = "";
                         }
 
                         $url_4 = "#";
-
-                        if(key_exists(\App::getLocale(), $social_4)){
-                            if(trim($social_4[\App::getLocale()]) != ""){
-                                $url_4 = $social_4[\App::getLocale()];
+                        if(key_exists(\App::getLocale(), $v_url_4)){
+                            if(trim($v_url_4[\App::getLocale()]) != ""){
+                                $url_4 = $v_url_4[\App::getLocale()];
                             }
                         }
 
                         if(!key_exists(\App::getLocale(), $button)){
                             $button[\App::getLocale()] = "";
                         }
+
+
+                        if(!key_exists(\App::getLocale(), $button)){
+                            $button[\App::getLocale()] = "";
+                        }
+
 
                         // serve per le thumb
                         $photo = $value->foto;
