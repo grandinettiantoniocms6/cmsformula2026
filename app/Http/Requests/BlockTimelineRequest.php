@@ -35,7 +35,7 @@ class BlockTimelineRequest extends FormRequest
         // qui metto solo i request dei campi Multi presenti sull'inserimento dei record del blocco
         return [
             'title' => 'required',
-            'date' => 'required',
+            //'date' => 'required',
             'description' => 'required'
         ];
 
@@ -64,7 +64,7 @@ class BlockTimelineRequest extends FormRequest
         return [
             'name.required' => 'Nome obbligatorio',
             'title.required' => 'Titolo obbligatorio',
-            'date.required' => 'Data obbligatoria',
+            //'date.required' => 'Data obbligatoria',
             'description.required' => 'Testo obbligatorio'
 
         ];
