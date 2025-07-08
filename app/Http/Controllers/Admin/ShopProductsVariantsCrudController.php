@@ -88,6 +88,7 @@ class ShopProductsVariantsCrudController extends CrudController
                     'name'  => 'name',
                     'label' => 'Nome',
                     'type'  => 'text',
+                    'limit' => 10000, // Limit the number of characters shown
                 ],
                 [
                     // run a function on the CRUD model and show its return value
@@ -129,22 +130,26 @@ class ShopProductsVariantsCrudController extends CrudController
                     'offLabel' => '✕',
                 ],
                 [
-                    // run a function on the CRUD model and show its return value
                     'name'  => 'is_purchasable',
-                    'label' => 'Acquistabile', // Table column heading
-                    'type'  => 'model_function',
-                    'function_name' => 'getIsPurchasable', // the method in your Model
-                    // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                    'limit' => 10000, // Limit the number of characters shown
+                    'label' => 'Acquistabile',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
                 ],
                 [
-                    // run a function on the CRUD model and show its return value
                     'name'  => 'is_evidenza',
-                    'label' => 'In evidenza', // Table column heading
-                    'type'  => 'model_function',
-                    'function_name' => 'getIsEvidenza', // the method in your Model
-                    // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                    'limit' => 10000, // Limit the number of characters shown
+                    'label' => 'In evidenza',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
                 ],
                 [
                     // run a function on the CRUD model and show its return value

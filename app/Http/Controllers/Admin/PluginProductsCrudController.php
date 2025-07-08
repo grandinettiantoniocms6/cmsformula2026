@@ -1790,11 +1790,15 @@ class PluginProductsCrudController extends CrudController
 
         $options = $request->get('options');
 
-        $item->options = $options;
+        //$item->options = $options;
+
+        $item->options = json_encode($options);
         $item->save();
 
         if($options){
-            $v_options = json_decode($options, true);
+
+            //$v_options = json_decode($options, true);
+            $v_options = $options;
 
             if(count($v_options)){
                 ShopAttributesProducts::where("product_id", $this->crud->entry->id)->delete();
