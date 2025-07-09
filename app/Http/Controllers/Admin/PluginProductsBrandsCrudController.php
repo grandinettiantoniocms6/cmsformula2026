@@ -35,6 +35,8 @@ class PluginProductsBrandsCrudController extends CrudController
         CRUD::setEntityNameStrings('brand', 'brands');
 
         $this->crud->setListView(backpack_view('plugins.pluginProducts.brands_list'));
+        $this->crud->setEditView(backpack_view('plugins.pluginProducts.brands_edit'));
+        $this->crud->setCreateView(backpack_view('plugins.pluginProducts.brands_create'));
     }
 
     /**
@@ -56,10 +58,16 @@ class PluginProductsBrandsCrudController extends CrudController
             'type'  => 'hidden',
         ];
         if($adminPlugin->version == 3){
-            $addColumn =  [
+            $addColumn =   [
                 'name'  => 'is_purchasable',
                 'label' => 'Acquistabile',
-                'type'  => 'check',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ];
         }
 

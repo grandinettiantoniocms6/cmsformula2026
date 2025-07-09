@@ -43,7 +43,7 @@ class Handler extends ExceptionHandler
                 "The POST method is not supported for this route. Supported methods: GET, HEAD."];
             if(!in_array(trim($exception->getMessage()), $vet)){
                 if(!is_numeric(strpos($exception->getMessage(), "Supported methods")) && !is_numeric(strpos($exception->getMessage(), "not supported")) && !is_numeric(strpos($exception->getMessage(), "Unauthenticated"))){
-                    try{
+                    /*try{
                         \Mail::send('common.emails.error', ['error' => $exception->getMessage(), 'file' => $exception->getFile(), 'line' => $exception->getLine(), 'store' => "", 'trace' =>  $exception->getTraceAsString(), 'url' => \Request::url()], function ($m) use ($exception) {
                             $m->from("info@cmsformula5.it", "CMSFORMULA5");
                             $m->to('info@webisland.it', 'Webisland')
@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
                         });
                     }catch (\Throwable $e) {
 
-                    }
+                    }*/
                 }
             }
         }

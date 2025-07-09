@@ -1415,7 +1415,7 @@ class PluginProductsCrudController extends CrudController
             ]);
         }
 
-        $this->crud->addField([   // repeatable
+       /* $this->crud->addField([   // repeatable
             'name'  => 'tags',
             'label' => 'Tag',
             'type'  => 'repeatable',
@@ -1430,7 +1430,7 @@ class PluginProductsCrudController extends CrudController
             'tab' => "Tags",
             // optional
             'new_item_label'  => 'Nuovo tag', // customize the text of the button
-        ]);
+        ]);*/
 
 
         $products = PluginProducts::where("is_active", 1)

@@ -72,10 +72,16 @@ class PluginProductsCategoriesCrudController extends CrudController
             'type'  => 'hidden',
         ];
         if($adminPlugin->version == 3){
-            $addColumn =  [
+            $addColumn =   [
                 'name'  => 'is_purchasable',
                 'label' => 'Acquistabile',
-                'type'  => 'check',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ];
         }
         // Columns.
