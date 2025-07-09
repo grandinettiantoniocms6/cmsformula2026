@@ -4,7 +4,7 @@
     <div class="{{ $item->fullwidth }}">
         <div class="row row-cols-1 row-cols-lg-4 row-cols-sm-2" data-anime='{ "el": "childs", "translateY": [30, 0], "translateX": [-30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
 
-        @if($array)
+            @if($array)
                 @foreach($array as $value)
                         <?php
                         $name_surname = json_decode($value->name_surname, true);
@@ -28,6 +28,27 @@
                         }
 
                         $col = $item->col;
+
+                        $v_url_1 = json_decode($value->url_1, true);
+                        if($v_url_1 === null){
+                            $v_url_1 = [];
+                        }
+
+                        $v_url_2 = json_decode($value->url_2, true);
+                        if($v_url_2 === null){
+                            $v_url_2 = [];
+                        }
+
+                        $v_url_3 = json_decode($value->url_3, true);
+                        if($v_url_3=== null){
+                            $v_url_3 = [];
+                        }
+
+                        $v_url_4 = json_decode($value->url_4, true);
+                        if($v_url_4=== null){
+                            $v_url_4 = [];
+                        }
+
 
                         $social_1 = json_decode($value->social_1, true);
                         if($social_1 === null){
@@ -91,6 +112,18 @@
                             $social_1[\App::getLocale()] = "";
                         }
 
+                        if(!key_exists(\App::getLocale(), $social_2)){
+                            $social_2[\App::getLocale()] = "";
+                        }
+
+                        if(!key_exists(\App::getLocale(), $social_3)){
+                            $social_3[\App::getLocale()] = "";
+                        }
+
+                        if(!key_exists(\App::getLocale(), $social_4)){
+                            $social_4[\App::getLocale()] = "";
+                        }
+
                         if(!key_exists(\App::getLocale(), $url_interno)){
                             $url_interno[\App::getLocale()] = "";
                         }
@@ -100,46 +133,31 @@
                         }
 
                         $url_1 = "#";
-
-                        if(key_exists(\App::getLocale(), $social_1)){
-                            if(trim($social_1[\App::getLocale()]) != ""){
-                                $url_1 = $social_1[\App::getLocale()];
+                        if(key_exists(\App::getLocale(), $v_url_1)){
+                            if(trim($v_url_1[\App::getLocale()]) != ""){
+                                $url_1 = $v_url_1[\App::getLocale()];
                             }
-                        }
-
-                        if(!key_exists(\App::getLocale(), $social_2)){
-                            $social_2[\App::getLocale()] = "";
                         }
 
                         $url_2 = "#";
-
-                        if(key_exists(\App::getLocale(), $social_2)){
-                            if(trim($social_2[\App::getLocale()]) != ""){
-                                $url_2 = $social_2[\App::getLocale()];
+                        if(key_exists(\App::getLocale(), $v_url_2)){
+                            if(trim($v_url_2[\App::getLocale()]) != ""){
+                                $url_2 = $v_url_2[\App::getLocale()];
                             }
                         }
 
-                        if(!key_exists(\App::getLocale(), $social_3)){
-                            $social_3[\App::getLocale()] = "";
-                        }
 
                         $url_3 = "#";
-
-                        if(key_exists(\App::getLocale(), $social_3)){
-                            if(trim($social_3[\App::getLocale()]) != ""){
-                                $url_3 = $social_3[\App::getLocale()];
+                        if(key_exists(\App::getLocale(), $v_url_3)){
+                            if(trim($v_url_3[\App::getLocale()]) != ""){
+                                $url_3 = $v_url_3[\App::getLocale()];
                             }
-                        }
-
-                        if(!key_exists(\App::getLocale(), $social_4)){
-                            $social_4[\App::getLocale()] = "";
                         }
 
                         $url_4 = "#";
-
-                        if(key_exists(\App::getLocale(), $social_4)){
-                            if(trim($social_4[\App::getLocale()]) != ""){
-                                $url_4 = $social_4[\App::getLocale()];
+                        if(key_exists(\App::getLocale(), $v_url_4)){
+                            if(trim($v_url_4[\App::getLocale()]) != ""){
+                                $url_4 = $v_url_4[\App::getLocale()];
                             }
                         }
 
@@ -148,11 +166,9 @@
                         }
 
 
-
                         if(!key_exists(\App::getLocale(), $button)){
                             $button[\App::getLocale()] = "";
                         }
-
 
 
                         // serve per le thumb
@@ -174,39 +190,39 @@
                         ?>
 
 
-                        <div class="col-lg-{{ $item->col }} text-center team-style-05 md-mb-20px">
-                            <div class="position-relative mb-30px border-radius-4px last-paragraph-no-margin overflow-hidden">
-                                @if(trim($foto) != "")
-                                    <img src="{{ $foto }}" alt="{{ $name_surname[\App::getLocale()] }}" class="border-radius-4px" alt="" />
-                                @endif
-                                <div class="w-100 h-100 d-flex flex-column justify-content-end align-items-center p-40px lg-p-20px team-content bg-gradient-gray-light-dark-transparent">
-                                    <div class="social-icon fs-19">
-                                        @if(trim($url_1[\App::getLocale()])!="")
-                                            <a href="{{ $url_1 }}" target="{{ $type_href_1 }}" class="text-white"><i class="fa-brands fa-facebook-f"></i></a>
-                                        @endif
-                                        @if(trim($url_2[\App::getLocale()])!="")
-                                            <a target="{{ $type_href_2 }}" href="{{ $url_2 }}" class="text-white"><i class="fa-brands fa-instagram"></i></a>
-                                        @endif
-                                        @if(trim($url_3[\App::getLocale()])!="")
-                                            <a target="{{ $type_href_3 }}" href="{{ $url_3 }}" class="text-white"><i class="fa-brands fa-linkedin"></i></a>
-                                        @endif
-                                        @if(trim($url_4[\App::getLocale()])!="")
-                                            <a href="{{ $url_4 }}" target="{{ $type_href_4 }}" class="text-white"><i class="fa-brands fa-twitter"></i></a>
-                                        @endif
-                                    </div>
+                    <div class="col-lg-{{ $item->col }} text-center team-style-05 md-mb-20px">
+                        <div class="position-relative mb-30px border-radius-4px last-paragraph-no-margin overflow-hidden">
+                            @if(trim($foto) != "")
+                                <img src="{{ $foto }}" alt="{{ $name_surname[\App::getLocale()] }}" class="border-radius-4px" alt="" />
+                            @endif
+                            <div class="w-100 h-100 d-flex flex-column justify-content-end align-items-center p-40px lg-p-20px team-content bg-gradient-gray-light-dark-transparent">
+                                <div class="social-icon fs-19">
+                                    @if(trim($social_1[\App::getLocale()])!="")
+                                        <a href="{{ $url_1 }}" target="{{ $type_href_1 }}" class="text-white"><i class="fa-brands fa-facebook-f"></i></a>
+                                    @endif
+                                    @if(trim($social_2[\App::getLocale()])!="")
+                                        <a href="{{ $url_2 }}" target="{{ $type_href_2 }}" class="text-white"><i class="fa-brands fa-instagram"></i></a>
+                                    @endif
+                                    @if(trim($social_3[\App::getLocale()])!="")
+                                        <a href="{{ $url_3 }}" target="{{ $type_href_3 }}" class="text-white"><i class="fa-brands fa-linkedin"></i></a>
+                                    @endif
+                                    @if(trim($social_4[\App::getLocale()])!="")
+                                        <a href="{{ $url_4 }}" target="{{ $type_href_4 }}" class="text-white"><i class="fa-brands fa-twitter"></i></a>
+                                    @endif
                                 </div>
                             </div>
-                            <div class="text-dark-gray lh-24 fs-18 fw-600">{{ $name_surname[\App::getLocale()] }}</div>
-                            @if(trim($role[\App::getLocale()])!="")
-                                <span class="text-dark-gray text-uppercase fs-14">{{ $role[\App::getLocale()] }}</span>
-                            @endif
-                            @if(trim($phone[\App::getLocale()])!="")
-                                <p class="m-0 text-dark-gray">{{ $phone[\App::getLocale()] }}</p>
-                            @endif
-                            @if(trim($email[\App::getLocale()])!="")
-                                <p class="m-0 text-dark-gray">{{ $email[\App::getLocale()] }}</p>
-                            @endif
                         </div>
+                        <div class="text-dark-gray lh-24 fs-18 fw-600">{{ $name_surname[\App::getLocale()] }}</div>
+                        @if(trim($role[\App::getLocale()])!="")
+                            <span class="text-dark-gray text-uppercase fs-14">{{ $role[\App::getLocale()] }}</span>
+                        @endif
+                        @if(trim($phone[\App::getLocale()])!="")
+                            <p class="m-0 text-dark-gray">{{ $phone[\App::getLocale()] }}</p>
+                        @endif
+                        @if(trim($email[\App::getLocale()])!="")
+                            <p class="m-0 text-dark-gray">{{ $email[\App::getLocale()] }}</p>
+                        @endif
+                    </div>
 
 
                 @endforeach
