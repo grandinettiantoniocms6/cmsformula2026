@@ -6,7 +6,7 @@ $pages_blocks = \App\Models\PageBlock::selectRaw("blocks_pages.*, admin_blocks.n
     ->where("page_id", $page->id)
     ->orderBy("order", "asc")->get();
 if($pages_blocks){
-    $admin_blocks_orders = \App\Models\AdminBlock::where("is_active", 1)->where("is_ordinable", 1)->get()->pluck("label", "name")->toArray();
+
 
     foreach ($pages_blocks as $pb){
         //$item = null;
@@ -18,7 +18,7 @@ if($pages_blocks){
         ?>
         @if($item)
             <div id="header_row_{{ $pb->id }}" data-index="{{ $pb->id }}" data-position="{{ $pb->order }}">
-                @include('vendor.backpack.base.inc.block', ['admin_blocks_orders' => $admin_blocks_orders])
+                @include('vendor.backpack.base.inc.block')
             </div>
         @endif
         <?php

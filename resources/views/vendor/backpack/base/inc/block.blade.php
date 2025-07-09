@@ -1,5 +1,6 @@
 <div class="p-2 list-group-item d-flex align-items-center">
     <?php
+        $admin_blocks_orders = \App\Models\AdminBlock::where("is_active", 1)->where("is_ordinable", 1)->get()->pluck("label", "name")->toArray();
         $type = $pb->type;
 
         $url_edit = "/admin/$type/$item->id/edit";
