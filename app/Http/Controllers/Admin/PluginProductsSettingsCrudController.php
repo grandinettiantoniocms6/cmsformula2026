@@ -146,7 +146,7 @@ class PluginProductsSettingsCrudController extends CrudController
             'name'        => 'order_field',
             'label'       => "Campo ordinamento",
             'type'        => 'select_from_array',
-            'options'     => ['id' => 'ID', 'name' => 'Nome prodotto', 'lft' => "Ordine manuale"],
+            'options'     => ['id' => 'ID', 'name' => 'Nome prodotto', 'lft' => "Ordine manuale", 'sku' => "SKU"],
             'allows_null' => false,
             'default'     => 'name',
             'tab' => 'Generale',

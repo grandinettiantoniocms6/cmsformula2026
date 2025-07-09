@@ -3,7 +3,7 @@
 $item = $formContact;
 $title = $item->title_form;
 $subtitle = $item->subtitle_form;
-$content = json_decode($item->content, true);
+$content = $item->content; //json_decode($item->content, true);
 $new_fields = [];
 $fields = $content;
 if($fields){

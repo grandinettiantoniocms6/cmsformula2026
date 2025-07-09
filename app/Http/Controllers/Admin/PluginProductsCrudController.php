@@ -618,7 +618,6 @@ class PluginProductsCrudController extends CrudController
             $this->crud->query->where("is_variant", 0);
         }
 
-
         //$this->crud->isReorderEnabled();
     }
 

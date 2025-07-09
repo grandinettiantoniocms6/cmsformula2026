@@ -111,12 +111,12 @@
                     })
                         .done(function(resp) {
                             console.log(resp);
-                            swal({
+                            /*swal({
                                 title: "Ordinamento",
                                 text: "Operazione eseguita con successo",
                                 icon: "success",
                                 buttons: false,
-                            })
+                            })*/
                         });
                 }
             });
