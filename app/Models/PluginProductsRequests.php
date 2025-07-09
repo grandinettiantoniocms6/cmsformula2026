@@ -192,7 +192,7 @@ class PluginProductsRequests extends Model
     }
 
     public function getMenuOrder(){
-        $type = "shopOrderRequests";
+        $type = "shopOrdersRequests";
         $url_edit = "/admin/$type/$this->id/edit";
         $url_print = "/admin/$type/$this->id/print";
 
