@@ -127,7 +127,7 @@ class ShopOrdersRequestsCrudController extends CrudController
                 'limit' => 10000, // Limit the number of characters shown
             ],
             [
-                'name'  => 'is_active',
+                'name'  => 'processed_by',
                 'label' => 'Processata',
                 'type'  => 'editable_switch',
 

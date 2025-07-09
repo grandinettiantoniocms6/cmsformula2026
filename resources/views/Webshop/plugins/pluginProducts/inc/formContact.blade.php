@@ -3,20 +3,7 @@
 $item = $formContact;
 $title = $item->title_form;
 $subtitle = $item->subtitle_form;
-$content = $item->content; //json_decode($item->content, true);
-$new_fields = [];
-$fields = $content;
-if($fields){
-    foreach ($fields as $k=>$v){
-        if(key_exists("ordine", $v)){
-            $fields[$v["ordine"]] = $v;
-            $new_fields[$v["ordine"]] = $v;
-            unset($fields[$k]);
-        }
-    }
-    ksort($new_fields);
-    $fields = $new_fields;
-}
+$fields = $item->content;
 ?>
 <section class="block-contact wow animate__fadeInUp" data-wow-duration=".3s" id="block-product-contact">
     <h3 class="title">{{ $title }}</h3>
