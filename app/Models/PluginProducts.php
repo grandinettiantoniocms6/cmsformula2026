@@ -166,7 +166,7 @@ class PluginProducts extends Model
             $genera_thumb = "";
             if(backpack_user()->roles[0]->id == 1){
                 $url_thumb = route("pluginsProducts.generate_thumb", $this->id);
-                $genera_thumb = "<a class='dropdown-item' href='$url_thumb'>Rigenera Thumb</a>";
+               // $genera_thumb = "<a class='dropdown-item' href='$url_thumb'>Rigenera Thumb</a>";
             }
 
 

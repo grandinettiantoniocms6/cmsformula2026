@@ -1007,13 +1007,13 @@
         @if($news)
             <div class="card">
                 <div class="card-header">
-                    <h5 class="line-height-xs my-0 pointer">News</h5>
+                    <h5 class="line-height-xs my-0 pointer"><i class="las la-rss-square"></i> News</h5>
                 </div>
                 <div class="list-group list-group-flush" id="accordion_news">
                     @php $i = 1; @endphp
                     @foreach($news as $new)
                         <div class="list-group-item">
-                            <h5 class="mb-0" data-toggle="collapse" data-target="#collapse_{{ $i }}" aria-expanded="{{ $i == 1 ? 'true' : 'falso' }}">{{ $new->title }}</h5>
+                            <h5 class="mb-0" data-toggle="collapse" data-target="#collapse_{{ $i }}" aria-expanded="{{ $i == 1 ? 'true' : 'falso' }}"><i class="las la-caret-square-right"></i> {{ $new->title }}</h5>
                             <div id="collapse_{{ $i }}" class="collapse {{ $i == 1 ? 'show' : '' }}" data-parent="#accordion_news">
                                 <div class="pt-2">
                                     {!! $new->description !!}

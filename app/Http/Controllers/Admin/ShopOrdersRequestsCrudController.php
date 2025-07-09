@@ -153,7 +153,7 @@ class ShopOrdersRequestsCrudController extends CrudController
                 'name'  => 'is_in_menu',
                 'label' => 'Azioni', // Table column heading
                 'type'  => 'model_function',
-                'function_name' => 'getMenu', // the method in your Model
+                'function_name' => 'getMenuOrder', // the method in your Model
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
                 'limit' => 10000, // Limit the number of characters shown
             ]

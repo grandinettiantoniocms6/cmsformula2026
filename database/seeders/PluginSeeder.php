@@ -15,7 +15,7 @@ class PluginSeeder extends Seeder
         \App\Models\AdminPlugin::firstOrCreate(["name" => "pluginProducts"],[
                "label" => "Catalogo Prodotti",
                "name" => "pluginProducts",
-               "icon" => "list",
+               "icon" => "shopping-bag",
                "version" => 1,
                "is_active" => 0
         ]);
@@ -49,7 +49,7 @@ class PluginSeeder extends Seeder
         \App\Models\AdminPlugin::firstOrCreate(["name" => "pluginForms"],[
             "label" => "Plugin Form",
             "name" => "pluginForms",
-            "icon" => "list",
+            "icon" => "envelope",
             "version" => 1,
             "is_active" => 0
         ]);
