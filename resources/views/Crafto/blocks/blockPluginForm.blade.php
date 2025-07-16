@@ -5,7 +5,11 @@ $form = \App\Models\PluginForms::find($item->form_id); ?>
 $title = $form->title_form;
 $subtitle = $form->subtitle_form;
 $content = $form->content;
-$fields = $form->content;
+if(is_array($form->content)){
+    $fields = $form->content;
+}else{
+    $fields = json_decode($form->content, true);
+}
 ?>
 <section id="formpro-{{ $item->form_id }}" class="position-relative z-index-0 sm-pt-0 block-formpro" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="container overflow-hidden position-relative pt-6 sm-pt-40px">
