@@ -272,7 +272,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     }
                     break;
 
-                case "blockPortfolio":
+                case "blockPortfolio2":
                     $fields = ["title",'description','url_interno','url','button'];
                     $fields_types = ["text", "text", "select2_from_array", "text", "text"];
                     $fields_label = ["Titolo", "Sottotitolo", "URL interno", "URL esterno", "Testo pulsante"];
@@ -1229,7 +1229,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockHero":
                 $fields = ['title','description','url_interno','url','button'];
                 break;
-            case "blockPortfolio":
+            case "blockPortfolio2":
                 $fields = ['title','abstract','url_interno','url','button'];
                 break;
 

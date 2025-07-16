@@ -4,10 +4,9 @@ $pages_blocks = \App\Models\PageBlock::selectRaw("blocks_pages.*, admin_blocks.n
     ->where("position", $position)
     ->where("col", $col)
     ->where("page_id", $page->id)
+    ->groupBy("id")
     ->orderBy("order", "asc")->get();
 if($pages_blocks){
-
-
     foreach ($pages_blocks as $pb){
         //$item = null;
         /*$adminBlock = \App\Models\AdminBlock::where("name", $pb->type)->first();

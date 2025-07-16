@@ -22,7 +22,7 @@ class BlockPortfolio2CrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 
-    public $block = "blockPortfolio";
+    public $block = "blockPortfolio2";
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.

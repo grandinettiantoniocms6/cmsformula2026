@@ -47,7 +47,7 @@ class AdminBlockCrudController extends CrudController
         $this->crud->removeButton("show");
         $this->crud->removeButton("create");
         $this->crud->removeButton("delete");
-        $this->crud->removeButton("update");
+        //$this->crud->removeButton("update");
 
         $this->crud->setColumns([
             [

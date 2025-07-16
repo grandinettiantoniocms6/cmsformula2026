@@ -181,9 +181,9 @@ class BlockSeeder extends Seeder
         ]);
 
 
-        \App\Models\AdminBlock::firstOrCreate(["name" => "blockPortfolio"],[
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockPortfolio2"],[
             "label" => "Portfolio",
-            "name" => "blockPortfolio",
+            "name" => "blockPortfolio2",
             "name_table" => "blocks_portfolio2s",
             "is_active" => 0,
             "is_ordinable" => 1,
