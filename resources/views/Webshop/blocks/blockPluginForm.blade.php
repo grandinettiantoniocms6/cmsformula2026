@@ -4,7 +4,7 @@ $form = \App\Models\PluginForms::find($item->form_id); ?>
 <?php
 $title = $form->title_form;
 $subtitle = $form->subtitle_form;
-$fields = json_decode($form->content, true);
+$fields = $form->content;
 ?>
 <section id="formpro-{{ $item->form_id }}" class="block-formpro">
     <div class="container">

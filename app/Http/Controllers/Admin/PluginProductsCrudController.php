@@ -1414,23 +1414,6 @@ class PluginProductsCrudController extends CrudController
             ]);
         }
 
-       /* $this->crud->addField([   // repeatable
-            'name'  => 'tags',
-            'label' => 'Tag',
-            'type'  => 'repeatable',
-            'fields' => [
-                [
-                    'name'    => 'tag',
-                    'type'    => 'text',
-                    'label'   => 'Nome',
-                    'wrapper' => ['class' => 'form-group col-md-4'],
-                ],
-            ],
-            'tab' => "Tags",
-            // optional
-            'new_item_label'  => 'Nuovo tag', // customize the text of the button
-        ]);*/
-
 
         $products = PluginProducts::where("is_active", 1)
             ->where("is_variant", 0)->get()->pluck("name", "id")->toArray();

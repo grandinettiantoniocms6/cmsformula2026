@@ -138,55 +138,7 @@ class PluginFormsCrudController extends CrudController
             'tab' => 'Form contatti',
         ];
 
-       /* CRUD::field([
-            'name'  => 'testimonials',
-            'label' => 'Client Testimonials',
-            'type'  => 'repeatable',
-            'fields' => [ // o "subfields"
-                [
-                    'name'    => 'client_name',
-                    'label'   => 'Client Name',
-                    'type'    => 'text',
-                    'wrapper' => ['class' => 'form-group col-md-6'],
-                ],
-                [
-                    'name'    => 'testimonial_text',
-                    'label'   => 'Testimonial',
-                    'type'    => 'textarea',
-                    'wrapper' => ['class' => 'form-group col-md-6'],
-                ],
-            ],
-            'new_item_label' => 'Add Testimonial',
-            'init_rows'      => 0,
-            'min_rows'       => 0,
-            'max_rows'       => 10,
-            'reorder'        => true,
-        ]);
 
-        CRUD::field([
-            'name'  => 'internal_feedback',
-            'label' => 'Internal Feedback Notes',
-            'type'  => 'repeatable',
-            'fields' => [
-                [
-                    'name'    => 'author',
-                    'label'   => 'Staff Name',
-                    'type'    => 'text',
-                    'wrapper' => ['class' => 'form-group col-md-4'],
-                ],
-                [
-                    'name'    => 'note',
-                    'label'   => 'Note',
-                    'type'    => 'textarea',
-                    'wrapper' => ['class' => 'form-group col-md-8'],
-                ],
-            ],
-            'new_item_label' => 'Add Feedback',
-            'init_rows'      => 0,
-            'min_rows'       => 0,
-            'max_rows'       => 5,
-            'reorder'        => true,
-        ]);*/
 
         $trans = new AdminLanguageController();
         $trans->fields_lang("pluginForms", $this->crud, $custom);

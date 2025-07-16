@@ -402,7 +402,7 @@ class ShopSettingsCrudController extends CrudController
                         [   // Checkbox
                             'name' => 'required',
                             'label' => 'Campo obbligatorio?',
-                            'type' => 'checkbox'
+                            'type' => 'switch'
                         ],
                     ],
 
@@ -901,7 +901,7 @@ class ShopSettingsCrudController extends CrudController
                         [   // Checkbox
                             'name' => 'required',
                             'label' => 'Campo obbligatorio?',
-                            'type' => 'checkbox'
+                            'type' => 'switch'
                         ],
                     ],
 
