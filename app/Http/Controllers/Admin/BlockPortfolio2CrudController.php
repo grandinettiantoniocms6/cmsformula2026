@@ -22,7 +22,7 @@ class BlockPortfolio2CrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 
-    public $block = "blockPortfolio2";
+    public $block = "blockPortfolio";
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -34,7 +34,7 @@ class BlockPortfolio2CrudController extends CrudController
     {
         CRUD::setModel(\App\Models\BlockPortfolio2::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/blockPortfolio2');
-        CRUD::setEntityNameStrings('blockportfolio2', 'block_portfolio2s');
+        CRUD::setEntityNameStrings('Portfolio', 'portfoli');
 
         $this->crud->setListView(backpack_view('custom_list_multi'));
         $this->crud->setReorderView(backpack_view('custom_reorder_multi'));

@@ -25,18 +25,10 @@ if(!key_exists(\App::getLocale(), $subtitle)){
     $subtitle[\App::getLocale()] = "";
 }
 
-$fields = json_decode($content[\App::getLocale()], true);
-$new_fields = [];
-if($fields){
-    foreach ($fields as $k=>$v){
-        if(key_exists("ordine", $v)){
-            $fields[$v["ordine"]] = $v;
-            $new_fields[$v["ordine"]] = $v;
-            unset($fields[$k]);
-        }
-    }
-    ksort($new_fields);
-    $fields = $new_fields;
+if(is_array($content[\App::getLocale()])){
+    $fields = $content[\App::getLocale()];
+}else{
+    $fields = json_decode($content[\App::getLocale()], true);
 }
 ?>
 

@@ -3,7 +3,12 @@
     $item = $formContact;
     $title = $item->title_form;
     $subtitle = $item->subtitle_form;
-    $fields = $item->content;
+    if(is_array($item->content)){
+        $fields = $item->content;
+    }else{
+        $fields = json_decode($item->content, true);
+    }
+
     ?>
     <div class="container" id="form_contact">
         <h2 class="title justify-content-center">{{ $title }}</h2>

@@ -3,7 +3,13 @@
 $item = $formContact;
 $title = $item->title_form;
 $subtitle = $item->subtitle_form;
-$fields = $item->content;
+
+if(is_array($item->content)){
+    $fields = $item->content;
+}else{
+    $fields = json_decode($item->content, true);
+}
+
 ?>
 <section class="block-contact wow animate__fadeInUp" data-wow-duration=".3s" id="block-product-contact">
     <h3 class="title">{{ $title }}</h3>

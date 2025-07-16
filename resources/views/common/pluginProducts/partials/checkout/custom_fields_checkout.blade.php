@@ -1,19 +1,10 @@
 @if($shopSetting->custom_fields_checkout)
     <?php
-    $fields = json_decode($shopSetting->custom_fields_checkout, true);
-
-    if($fields){
-        foreach ($fields as $k=>$v){
-            if(key_exists("ordine", $v)){
-                $fields[$v["ordine"]] = $v;
-                $new_fields[$v["ordine"]] = $v;
-                unset($fields[$k]);
-            }
-        }
-        ksort($new_fields);
-        $fields = $new_fields;
+    if(is_array($shopSetting->custom_fields_checkout)){
+        $fields = $shopSetting->custom_fields_checkout;
+    }else{
+        $fields = json_decode($shopSetting->custom_fields_checkout, true);
     }
-
 
     ?>
     @if($fields)
