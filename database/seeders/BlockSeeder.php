@@ -16,7 +16,7 @@ class BlockSeeder extends Seeder
 
         \App\Models\AdminBlock::where("name", "blockContact")->delete();
         \App\Models\AdminBlock::where("name", "blockPortfolio")->delete();
-        \App\Models\AdminBlock::where("name", "blockPortfolio2")->delete();
+        //\App\Models\AdminBlock::where("name", "blockPortfolio2")->delete();
 
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockHtml"],[
                "label" => "Html Testo libero",
