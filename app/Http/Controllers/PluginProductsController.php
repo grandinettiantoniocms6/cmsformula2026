@@ -63,7 +63,9 @@ class PluginProductsController extends Controller
                 $temp_finale[0] = $slug_prodotti;
             }
 
-            return redirect()->to("/{$temp_finale[0]}?q=$q");
+            return redirect()->to("/{$slug_prodotti}?q=$q");
+
+            //return redirect()->to("/{$temp_finale[0]}?q=$q");
         }
 
 
