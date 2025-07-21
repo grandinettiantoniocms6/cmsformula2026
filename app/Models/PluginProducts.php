@@ -427,8 +427,10 @@ class PluginProducts extends Model
 
     public function getFinalPrice(){
         if(env('VIEW_WITH_IVA') == 1){
-            $finalPrice = $this->price + (($this->price * $this->tax->value)/100);
-            return $finalPrice;
+            if($this->tax){
+                $finalPrice = $this->price + (($this->price * $this->tax->value)/100);
+                return $finalPrice;
+            }
         }
 
         $finalPrice = $this->price;
