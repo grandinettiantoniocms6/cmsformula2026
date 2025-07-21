@@ -1469,11 +1469,24 @@ class PluginProductsCrudController extends CrudController
                     }
 
                 }else{
+                    $padre = PluginProducts::where("group_id", \request()->get('group_id'))->first();
+                    $category_product = PluginProductsCategoriesProducts::where("plugin_product_product_id", $padre['id'])->pluck("plugin_product_category_id", "plugin_product_category_id")->toArray();
+
                     $attributes = ShopAttributesOptions::selectRaw("shop_attributes_options.*")
                         ->join("shop_attributes", "shop_attributes.id", "=", "shop_attribute_id")
+                        ->join("shop_attributes_categories", "shop_attributes_categories.shop_attribute_id", "=", "shop_attributes.id")
+                        ->whereIn("shop_category_id", $category_product)
                         ->orderBy("lft", "asc")
                         ->orderBy("ordine", "asc")
                         ->get();
+
+                    if(!$attributes){
+                        $attributes = ShopAttributesOptions::selectRaw("shop_attributes_options.*")
+                            ->join("shop_attributes", "shop_attributes.id", "=", "shop_attribute_id")
+                            ->orderBy("lft", "asc")
+                            ->orderBy("ordine", "asc")
+                            ->get();
+                    }
                 }
 
                 $v_attributes = [];
@@ -1520,12 +1533,12 @@ class PluginProductsCrudController extends CrudController
                 }
 
                 if(\request()->get('group_id')) {
-                    $this->crud->addField([
+                    /*$this->crud->addField([
                         'name'  => 'name_variant',
                         'type'  => 'text',
                         'label' => "Nome/Codice variante",
                         'tab' => 'Opzioni'
-                    ]);
+                    ]);*/
                     $this->crud->addField([   // repeatable
                         'name' => 'options',
                         'label' => 'Opzioni',
@@ -1610,6 +1623,7 @@ class PluginProductsCrudController extends CrudController
 
         // execute the FormRequest authorization and validation, if one is required
         $request = $this->crud->validateRequest();
+
 
         // update the row in the db
         $item = $this->crud->update($request->get($this->crud->model->getKeyName()),
@@ -1916,6 +1930,8 @@ class PluginProductsCrudController extends CrudController
         // execute the FormRequest authorization and validation, if one is required
         $request = $this->crud->validateRequest();
 
+        $options = $request->get('options');
+        unset($request['options']);
 
         // insert item in the db
         $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
@@ -2025,11 +2041,9 @@ class PluginProductsCrudController extends CrudController
         }
 
         //options
-        $options = $request->get('options');
-
 
         if($options){
-            $v_options = json_decode($options, true);
+            $v_options = $options;
             if(count($v_options)){
                 ShopAttributesProducts::where("product_id", $this->crud->entry->id)->delete();
                 foreach ($v_options as $opt_id){
@@ -2042,9 +2056,11 @@ class PluginProductsCrudController extends CrudController
                         ]);
                     }
                 }
+
+                $item->options = json_encode($v_options);
+                $item->save();
             }
         }
-
 
         //se sto inserendo 1 variante
         if($this->crud->entry->is_variant == 1){
