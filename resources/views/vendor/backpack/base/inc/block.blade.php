@@ -11,8 +11,6 @@
 
         $url_order = "#";
 
-
-
         $is_multi = 0;
         $order = 0;
         if(key_exists($pb->type, $admin_blocks_orders)){
@@ -42,7 +40,11 @@
     <span><i class="la la-arrows"></i></span>
     <div class="px-3" id="block_id_{{ $item->id }}">
         <h6 class="font-weight-bold mb-1">{{ $name }}</h6>
-        <em class="text-info">{{ $pb->label }}</em>
+        <em class="text-info">
+            @if(key_exists($pb->type, $admin_blocks_orders))
+                {{ $admin_blocks_orders[$pb->type] }}
+            @endif
+        </em>
     </div>
     <div class="ml-auto">
         @if($pb->is_active == 1)
