@@ -107,11 +107,11 @@ class Order extends Model
         $total = ($this->total_tax - $this->total_coupon);
 
         if($sum){
-            if($this->total_tax != $sum->tot){
+            if($this->total_tax != round($sum->tot,2)){
                 return "<span class='text text-danger'>".number_format($total, 2, ",", ".")."</span>";
             }
         }
-        return number_format($total, 2, ",", "."). ' '.$this->currency->name;
+        return "".number_format($total, 2, ",", "."). ' '.$this->currency->name;
     }
 
     public function get_payment(){
