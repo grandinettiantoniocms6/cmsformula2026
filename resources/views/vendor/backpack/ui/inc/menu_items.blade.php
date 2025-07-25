@@ -189,11 +189,9 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                             <li class="nav-item"><a class="nav-link" href="{{ backpack_url('shopPromotions') }}"><i class="nav-icon las la-bullhorn"></i> Promozioni </a></li>
                             <!--<li class="nav-item"><a class="nav-link" href="{{ backpack_url('shopGroupSpecificPrices') }}"><i class="nav-icon las la-users"></i> Prezzi specifici </a></li>-->
 
-                            @if(backpack_user()->roles[0]->id == 1)
-                                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('shopAttributes') }}'><i class='nav-icon las la-filter'></i> Attributi</a></li>
-                            @endif
-
+                            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('shopAttributes') }}'><i class='nav-icon las la-filter'></i> Attributi</a></li>
                             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('shopAttributesOptions') }}'><i class='nav-icon las la-fill-drip'></i> Opzioni</a></li>
+
                             @if(backpack_user()->roles[0]->id <= 2)
                                 <li class="nav-item"><a class="nav-link" href="{{ backpack_url('shopSettings') }}/1/edit"><i class="nav-icon las la-toolbox"></i> Impostazioni </a></li>
                                 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('shop-extra') }}'><i class='nav-icon la la-question'></i> Extra</a></li>

@@ -48,7 +48,40 @@ class PluginBookingReservationCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/plugin-booking-reservation');
         CRUD::setEntityNameStrings('prenotazione', 'Booking prenotazioni');
 
-        $this->crud->query->selectRaw("plugins_booking_reservations.*");
+        $this->crud->query->selectRaw("
+    plugins_booking_reservations.date_start,
+    plugins_booking_reservations.date_end,
+    plugins_booking_reservations.total,
+    plugins_booking_reservations.user_id,
+    plugins_booking_reservations.is_payed,
+    plugins_booking_reservations.code,
+    plugins_booking_reservations.deleted_at,
+    plugins_booking_reservations.created_at,
+    plugins_booking_reservations.updated_at,
+    plugins_booking_reservations.plugin_booking_room_id,
+    plugins_booking_reservations.plugin_booking_payment_id,
+    plugins_booking_reservations.pin,
+    plugins_booking_reservations.date_send_pin,
+    plugins_booking_reservations.date_last_sollecito,
+    plugins_booking_reservations.year,
+    plugins_booking_reservations.number_invoice,
+    plugins_booking_reservations.result_paypal,
+    plugins_booking_reservations.paypal_payment_id,
+    plugins_booking_reservations.payment_date,
+    plugins_booking_reservations.is_block_upload,
+    plugins_booking_reservations.plugin_booking_status_id,
+    plugins_booking_reservations.start_time,
+    plugins_booking_reservations.end_time,
+    plugins_booking_reservations.total_qty,
+    plugins_booking_reservations.type_id,
+    plugins_booking_reservations.is_hidden,
+    plugins_booking_reservations.parent_id,
+    plugins_booking_reservations.is_processed,
+    plugins_booking_reservations.business_name,
+    plugins_booking_reservations.vat,
+    plugins_booking_reservations.pec,
+    plugins_booking_reservations.sdi,
+    plugins_booking_reservations.address_invoice");
         $this->crud->query->join("users", "users.id", "=", "plugins_booking_reservations.user_id");
         $this->crud->query->where("is_hidden", 0);
 
