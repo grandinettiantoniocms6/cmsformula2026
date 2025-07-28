@@ -131,27 +131,45 @@ class PluginBookingReservationCrudController extends CrudController
                 'type'  => 'text',
                 ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'user_id',
-                'label' => 'Prenotazione di', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getUser', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Prenotazione di',
+                'type'  => 'closure',
+                'function' => function($entry) {
+                    if ($entry->user) {
+                        return "{$entry->user->name}<br><small>{$entry->user->email}</small>";
+                    }
+                    return '-';
+                },
+                'escaped' => false,
                 'searchLogic' => function ($query, $column, $searchTerm) {
-                    $query->orWhere('users.name', 'like', '%'.$searchTerm.'%');
-                    $query->orWhere('users.email', 'like', '%'.$searchTerm.'%');
-                    $query->orWhere('users.mobile', 'like', '%'.$searchTerm.'%');
-                }
+                    $query->orWhereHas('user', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', '%'.$searchTerm.'%')
+                            ->orWhere('email', 'like', '%'.$searchTerm.'%')
+                            ->orWhere('mobile', 'like', '%'.$searchTerm.'%');
+                    });
+                },
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'rooms',
-                'label' => 'Struttura', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getRooms', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Struttura',
+                'type'  => 'closure',
+                'function' => function($entry) {
+                    $html = '';
+
+                    if ($entry->rooms) {
+                        foreach ($entry->rooms as $room) {
+                            // Assumiamo che la relazione $room abbia già i dati del PluginBookingRoom
+                            $item = \App\Models\PluginBookingRoom::find($room->plugin_booking_room_id);
+                            if ($item) {
+                                $html .= "<span class='badge badge-light'>{$item->name}</span><br>";
+                                $html .= "<span class='badge badge-warning'>{$item->sku}</span><br>";
+                            }
+                        }
+                    }
+
+                    return $html ?: '-';
+                },
+                'escaped' => false,
             ],
             [
                 // run a function on the CRUD model and show its return value
@@ -179,13 +197,19 @@ class PluginBookingReservationCrudController extends CrudController
                 'offLabel' => '✕',
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'plugin_booking_status_id',
-                'label' => 'Stato', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getStatus', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Stato',
+                'type'  => 'closure',
+                'function' => function($entry) {
+                    if ($entry->status) {
+                        if ($entry->status->class) {
+                            return "<span class='badge {$entry->status->class}'>{$entry->status->name}</span>";
+                        }
+                        return $entry->status->name;
+                    }
+                    return '-';
+                },
+                'escaped' => false, // Permette di rendere l'HTML
             ],
             [
                 'name'  => 'is_payed',
@@ -199,13 +223,16 @@ class PluginBookingReservationCrudController extends CrudController
                 'offLabel' => '✕',
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'payment_id',
-                'label' => 'Pagamento', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getPayment', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Pagamento',
+                'type'  => 'closure',
+                'function' => function($entry) {
+                    if ($entry->payment) {
+                        return "<small>{$entry->payment->name}</small>";
+                    }
+                    return '-';
+                },
+                'escaped' => false, // Permette HTML come <small>
             ],
             [
                 // run a function on the CRUD model and show its return value
@@ -217,13 +244,28 @@ class PluginBookingReservationCrudController extends CrudController
                 'limit' => 10000, // Limit the number of characters shown
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'check_document',
-                'label' => 'Documenti', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'checkDocument', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Documenti',
+                'type'  => 'closure',
+                'function' => function($entry) {
+                    $missingCount = \App\Models\PluginBookingReservationRoomCheckin::where("plugin_booking_reservation_room_id", $entry->id)
+                        ->whereNull("document_file")
+                        ->count();
+
+                    $totalCount = \App\Models\PluginBookingReservationRoomCheckin::where("plugin_booking_reservation_room_id", $entry->id)
+                        ->count();
+
+                    if ($totalCount) {
+                        if ($missingCount > 0) {
+                            return "<span class='badge badge-danger'>Mancano $missingCount documenti</span>";
+                        } else {
+                            return "<span class='badge badge-success'>OK</span>";
+                        }
+                    }
+
+                    return '-';
+                },
+                'escaped' => false, // necessario per permettere badge HTML
             ],
         ]);
 
