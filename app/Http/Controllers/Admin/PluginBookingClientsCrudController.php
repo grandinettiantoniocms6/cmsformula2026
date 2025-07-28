@@ -38,6 +38,7 @@ class PluginBookingClientsCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\EditableColumns\Http\Controllers\Operations\MinorUpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -99,7 +100,13 @@ class PluginBookingClientsCrudController extends CrudController
             [
                 'name'  => 'active',
                 'label' => 'Attivo',
-                'type'  => 'check',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ],
             [
                 'name'  => 'check_privacy',
@@ -216,8 +223,60 @@ class PluginBookingClientsCrudController extends CrudController
             'name'  => 'active',
             'label' => 'Attivo?',
             'type'  => 'switch',
-            'default' => 1
+            'default' => 1,
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-3'
+            ],
         ]);
+
+        $parameters = \Route::current()->parameters();
+        if(count($parameters) == 0) {
+            $this->crud->addField([   // Checkbox
+                'name'  => 'check_privacy',
+                'label' => 'Privacy?',
+                'type'  => 'switch',
+                'default' => 1,
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-3'
+                ],
+            ]);
+
+            $this->crud->addField([   // Checkbox
+                'name'  => 'check_newsletter',
+                'label' => 'Newsletter?',
+                'type'  => 'switch',
+                'default' => 1,
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-3'
+                ],
+            ]);
+        }else{
+            $this->crud->addField([   // Checkbox
+                'name'  => 'check_privacy',
+                'label' => 'Privacy?',
+                'type'  => 'switch',
+                'default' => 1,
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-3'
+                ],
+                'attributes' => [
+                    'disabled' => 'disabled'
+                ],
+            ]);
+
+            $this->crud->addField([   // Checkbox
+                'name'  => 'check_newsletter',
+                'label' => 'Newsletter?',
+                'type'  => 'switch',
+                'default' => 1,
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-3'
+                ],
+                'attributes' => [
+                    'disabled' => 'disabled'
+                ],
+            ]);
+        }
 
         $this->crud->addField([
             'name'  => 'business_name',

@@ -383,8 +383,8 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-booking-services') }}'><i class='nav-icon la la-glass-martini'></i> Servizi</a></li>
                         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-booking-payments') }}'><i class='nav-icon la la-credit-card'></i> Pagamenti</a></li>
                         <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-booking-settings') }}/1/edit'><i class='nav-icon las la-toolbox'></i> Impostazioni</a></li>
-                        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-booking-type') }}'><i class='nav-icon la la-question'></i> Tipologie</a></li>
-                        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-booking-status') }}'><i class='nav-icon la la-question'></i> Stati</a></li>
+                        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-booking-type') }}'><i class='nav-icon la la-list'></i> Tipologie</a></li>
+                        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-booking-status') }}'><i class='nav-icon la la-tags'></i> Stati</a></li>
 
                         @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
                             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-booking-labels') }}'><i class='nav-icon las la-spell-check'></i> Etichette</a></li>

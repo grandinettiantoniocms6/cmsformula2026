@@ -92,6 +92,16 @@ class PluginBookingServicesCrudController extends CrudController
             [
                 'name'  => 'is_active',
                 'label' => 'Visibile',
+                'type'  => 'switch',
+            ],
+            [
+            'name'  => 'is_edit_qty',
+            'label' => 'Qta richiesta',
+            'type'  => 'switch',
+             ]
+            /*[
+                'name'  => 'is_active',
+                'label' => 'Visibile',
                 'type'  => 'editable_switch',
 
                 // Optionals
@@ -101,14 +111,16 @@ class PluginBookingServicesCrudController extends CrudController
                 'offLabel' => '✕',
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'is_edit_qty',
-                'label' => 'Qta richiesta', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsEditQty', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
-            ],
+                'label' => 'Qta richiesta',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
+            ],*/
         ]);
 
         $types = PluginBookingType::orderBy("name", "asc")->get()->pluck("name", "id")->toArray();
@@ -285,4 +297,5 @@ class PluginBookingServicesCrudController extends CrudController
 
         return 'success for '.$count.' items';
     }
+
 }

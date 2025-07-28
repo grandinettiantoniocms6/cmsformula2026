@@ -29,6 +29,7 @@ class PluginBookingServices extends Model
     // protected $hidden = [];
     // protected $dates = [];
 
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS

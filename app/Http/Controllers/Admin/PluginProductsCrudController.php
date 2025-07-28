@@ -968,6 +968,7 @@ class PluginProductsCrudController extends CrudController
         $price_dollar = null;
         $price_SRP_dollar = null;
         $qty = null;
+        $qty_max = null;
         $product = null;
         $code_article = null;
 
@@ -1012,6 +1013,7 @@ class PluginProductsCrudController extends CrudController
             $price_SRP_dollar = $product->price_srp_dollar;
 
             $qty = $product->qty;
+            $qty_max = $product->qty_max;
             $code_article = $product->code_article;
 
 
@@ -1316,11 +1318,21 @@ class PluginProductsCrudController extends CrudController
                 'type'  => 'number',
                 'value' => $qty,
                 'wrapperAttributes' => [
-                    'class' => 'form-group col-md-12'
+                    'class' => 'form-group col-md-4'
                 ],
                 'tab' => 'Impostazioni'
             ]);
 
+            $this->crud->addField([
+                'name'  => 'qty',
+                'label' => 'Quantità Max',
+                'type'  => 'number',
+                'value' => $qty_max,
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-4'
+                ],
+                'tab' => 'Impostazioni'
+            ]);
 
             $this->crud->addField([
                 'name'  => 'video',

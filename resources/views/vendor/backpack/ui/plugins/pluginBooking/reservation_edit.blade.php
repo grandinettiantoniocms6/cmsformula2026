@@ -65,12 +65,8 @@
                 $url = "/admin/pluginBookings/planning";
             }
         }
-
         ?>
 
-        @if ($crud->hasAccess('list'))
-            <small><a href="{{ $url }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> Torna indietro</a></small>
-        @endif
     </h3>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

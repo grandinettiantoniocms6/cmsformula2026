@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PluginBookingTypeRequest;
 use App\Models\PluginBookingStatus;
+use App\Models\PluginBookingType;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -444,17 +445,6 @@ class PluginBookingTypeCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang("pluginBookingTypes", $this->crud, $request);
         $this->crud->entry->save();
-
-        // Se metto desc ogni nuovo record aggiunto va all'inizio
-        $lft = PluginBookingType::whereNotNull("block_id")
-            ->where("id", "!=", $this->crud->entry->id)
-            ->orderBy("lft", "asc")->first();
-        if($lft){
-            $this->crud->entry->lft = $lft->lft - 1;
-        }else{
-            $this->crud->entry->lft = 1000;
-        }
-
 
         // show a success message
         \Alert::success(trans('backpack::crud.insert_success'))->flash();

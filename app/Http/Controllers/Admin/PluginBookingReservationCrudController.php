@@ -32,6 +32,7 @@ class PluginBookingReservationCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    use \Backpack\EditableColumns\Http\Controllers\Operations\MinorUpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -48,40 +49,44 @@ class PluginBookingReservationCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/plugin-booking-reservation');
         CRUD::setEntityNameStrings('prenotazione', 'Booking prenotazioni');
 
-        $this->crud->query->selectRaw("
-    plugins_booking_reservations.date_start,
-    plugins_booking_reservations.date_end,
-    plugins_booking_reservations.total,
-    plugins_booking_reservations.user_id,
-    plugins_booking_reservations.is_payed,
-    plugins_booking_reservations.code,
-    plugins_booking_reservations.deleted_at,
-    plugins_booking_reservations.created_at,
-    plugins_booking_reservations.updated_at,
-    plugins_booking_reservations.plugin_booking_room_id,
-    plugins_booking_reservations.plugin_booking_payment_id,
-    plugins_booking_reservations.pin,
-    plugins_booking_reservations.date_send_pin,
-    plugins_booking_reservations.date_last_sollecito,
-    plugins_booking_reservations.year,
-    plugins_booking_reservations.number_invoice,
-    plugins_booking_reservations.result_paypal,
-    plugins_booking_reservations.paypal_payment_id,
-    plugins_booking_reservations.payment_date,
-    plugins_booking_reservations.is_block_upload,
-    plugins_booking_reservations.plugin_booking_status_id,
-    plugins_booking_reservations.start_time,
-    plugins_booking_reservations.end_time,
-    plugins_booking_reservations.total_qty,
-    plugins_booking_reservations.type_id,
-    plugins_booking_reservations.is_hidden,
-    plugins_booking_reservations.parent_id,
-    plugins_booking_reservations.is_processed,
-    plugins_booking_reservations.business_name,
-    plugins_booking_reservations.vat,
-    plugins_booking_reservations.pec,
-    plugins_booking_reservations.sdi,
-    plugins_booking_reservations.address_invoice");
+        $this->crud->query->select([
+            "plugins_booking_reservations.id",
+            "plugins_booking_reservations.date_start",
+            "plugins_booking_reservations.date_end",
+            "plugins_booking_reservations.total",
+            "plugins_booking_reservations.user_id",
+            "plugins_booking_reservations.is_payed",
+            "plugins_booking_reservations.code",
+            "plugins_booking_reservations.deleted_at",
+            "plugins_booking_reservations.created_at",
+            "plugins_booking_reservations.updated_at",
+            "plugins_booking_reservations.plugin_booking_room_id",
+            "plugins_booking_reservations.plugin_booking_payment_id",
+            "plugins_booking_reservations.pin",
+            "plugins_booking_reservations.date_send_pin",
+            "plugins_booking_reservations.date_last_sollecito",
+            "plugins_booking_reservations.year",
+            "plugins_booking_reservations.number_invoice",
+            "plugins_booking_reservations.result_paypal",
+            "plugins_booking_reservations.paypal_payment_id",
+            "plugins_booking_reservations.payment_date",
+            "plugins_booking_reservations.is_block_upload",
+            "plugins_booking_reservations.plugin_booking_status_id",
+            "plugins_booking_reservations.start_time",
+            "plugins_booking_reservations.end_time",
+            "plugins_booking_reservations.total_qty",
+            "plugins_booking_reservations.type_id",
+            "plugins_booking_reservations.is_hidden",
+            "plugins_booking_reservations.parent_id",
+            "plugins_booking_reservations.is_processed",
+            "plugins_booking_reservations.business_name",
+            "plugins_booking_reservations.vat",
+            "plugins_booking_reservations.pec",
+            "plugins_booking_reservations.sdi",
+            "plugins_booking_reservations.address_invoice",
+            "users.name",
+        ]);
+
         $this->crud->query->join("users", "users.id", "=", "plugins_booking_reservations.user_id");
         $this->crud->query->where("is_hidden", 0);
 
@@ -156,6 +161,18 @@ class PluginBookingReservationCrudController extends CrudController
                 'type'  => 'text',
             ],
             [
+                'name'  => 'is_processed',
+                'label' => 'Proces.',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
+            ],
+
+           /* [
                 // run a function on the CRUD model and show its return value
                 'name'  => 'is_processed',
                 'label' => 'Proces.', // Table column heading
@@ -163,7 +180,7 @@ class PluginBookingReservationCrudController extends CrudController
                 'function_name' => 'getIsProcessed', // the method in your Model
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
                 'limit' => 10000, // Limit the number of characters shown
-            ],
+            ],*/
             /*[
                 'name'  => 'pin',
                 'label' => 'PIN',
@@ -179,13 +196,15 @@ class PluginBookingReservationCrudController extends CrudController
                 'limit' => 10000, // Limit the number of characters shown
             ],
             [
-                // run a function on the CRUD model and show its return value
                 'name'  => 'is_payed',
-                'label' => 'Pagato', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsPayed', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'label' => 'Pagato',
+                'type'  => 'editable_switch',
+
+                // Optionals
+                // All the options available on editable_checkbox are available here too, plus;
+                'color'   => 'success',
+                'onLabel' => '✓',
+                'offLabel' => '✕',
             ],
             /*[
                 // run a function on the CRUD model and show its return value
@@ -825,6 +844,7 @@ class PluginBookingReservationCrudController extends CrudController
 
     public function store()
     {
+
         $this->crud->hasAccessOrFail('create');
 
         // execute the FormRequest authorization and validation, if one is required
@@ -834,9 +854,14 @@ class PluginBookingReservationCrudController extends CrudController
         $item = $this->crud->create($this->crud->getStrippedSaveRequest($request));
         $this->data['entry'] = $this->crud->entry = $item;
 
+        $item->plugin_booking_status_id = 1;
+        $item->save();
+
         $date_start = Carbon::createFromFormat('Y-m-d', $this->crud->entry->date_start);
         $date_end = Carbon::createFromFormat('Y-m-d', $this->crud->entry->date_end);
         $diff_in_day = $date_start->diffInDays($date_end);
+
+
 
         // show a success message
         \Alert::success(trans('backpack::crud.insert_success'))->flash();
@@ -880,7 +905,6 @@ class PluginBookingReservationCrudController extends CrudController
 
         // execute the FormRequest authorization and validation, if one is required
         $request = $this->crud->validateRequest();
-
 
         // update the row in the db
         $item = $this->crud->update($request->get($this->crud->model->getKeyName()),
