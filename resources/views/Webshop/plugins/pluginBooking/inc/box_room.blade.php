@@ -56,8 +56,13 @@ if(\Session::has('buy')){
                                 <h6 class="text-button-color">{{ @$labels['booking-servizi-inclusi'] }}</h6>
                                 <ul class="style-1 grid-columns-2">
                                     @foreach($services as $service)
-                                        <?php $service_item = \App\Models\PluginBookingServices::find($service->plugin_booking_service_id);?>
+                                        <?php
+                                            $service_item = \App\Models\PluginBookingServices::find($service->plugin_booking_service_id);
+                                            ?>
+
+                                        @if($service_item)
                                         <li>{{ $service_item->name }}</li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             </div>

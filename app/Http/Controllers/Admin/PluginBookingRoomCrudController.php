@@ -126,6 +126,16 @@ class PluginBookingRoomCrudController extends CrudController
                 'onLabel' => '✓',
                 'offLabel' => '✕',
             ],
+            [
+                // run a function on the CRUD model and show its return value
+                'name'  => 'services',
+                'label' => 'Servizi', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'getServices', // the method in your Model
+                'limit' => 1000,
+                'orderable' => false
+                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
+            ],
         ]);
 
         /**

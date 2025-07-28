@@ -38,6 +38,8 @@ class PluginBookingRoomImagesCrudController extends CrudController
 
         $this->crud->setListView(backpack_view('plugins.pluginBooking.room_images.list'));
         $this->crud->setReorderView(backpack_view('plugins.pluginBooking.room_images.reorder'));
+        $this->crud->setEditView(backpack_view('plugins.pluginBooking.room_images.edit'));
+        $this->crud->setCreateView(backpack_view('plugins.pluginBooking.room_images.create'));
 
         if(request()->has('room_id')){
             $this->crud->query->where("plugin_booking_room_id", request()->get('room_id'));

@@ -126,7 +126,12 @@ class PluginBookingRoom extends Model
         }
     }
 
-
+    public function getServices()
+    {
+        if($this->services){
+            return count($this->services);
+        }
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

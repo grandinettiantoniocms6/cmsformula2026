@@ -90,13 +90,20 @@ class PluginBookingReservationCrudController extends CrudController
         $this->crud->query->join("users", "users.id", "=", "plugins_booking_reservations.user_id");
         $this->crud->query->where("is_hidden", 0);
 
+        $this->crud->with(['user', 'rooms', 'status', 'payment']);
 
-        if(\request()->has('ko')){
-            $status = PluginBookingStatus::where("is_annullato", 1)->get()->pluck("id", "id")->toArray();
-            $this->crud->addClause('whereIn', 'plugin_booking_status_id', $status);
+        $routeName = \Route::currentRouteName();
+
+        if($routeName == "plugin-booking-reservation.edit"){
+
         }else{
-            $status = PluginBookingStatus::where("is_annullato", "!=", 1)->get()->pluck("id", "id")->toArray();
-            $this->crud->addClause('whereIn', 'plugin_booking_status_id', $status);
+            if(\request()->has('ko')){
+                $status = PluginBookingStatus::where("is_annullato", 1)->get()->pluck("id", "id")->toArray();
+                $this->crud->addClause('whereIn', 'plugin_booking_status_id', $status);
+            }else{
+                $status = PluginBookingStatus::where("is_annullato", "!=", 1)->get()->pluck("id", "id")->toArray();
+                $this->crud->addClause('whereIn', 'plugin_booking_status_id', $status);
+            }
         }
 
         $this->crud->setListView(backpack_view('plugins.pluginBooking.list'));
@@ -171,21 +178,6 @@ class PluginBookingReservationCrudController extends CrudController
                 'onLabel' => '✓',
                 'offLabel' => '✕',
             ],
-
-           /* [
-                // run a function on the CRUD model and show its return value
-                'name'  => 'is_processed',
-                'label' => 'Proces.', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getIsProcessed', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
-            ],*/
-            /*[
-                'name'  => 'pin',
-                'label' => 'PIN',
-                'type'  => 'text',
-            ],*/
             [
                 // run a function on the CRUD model and show its return value
                 'name'  => 'plugin_booking_status_id',
@@ -206,15 +198,6 @@ class PluginBookingReservationCrudController extends CrudController
                 'onLabel' => '✓',
                 'offLabel' => '✕',
             ],
-            /*[
-                // run a function on the CRUD model and show its return value
-                'name'  => 'type_id',
-                'label' => 'Tipo', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getType', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
-            ],*/
             [
                 // run a function on the CRUD model and show its return value
                 'name'  => 'payment_id',
@@ -703,8 +686,9 @@ class PluginBookingReservationCrudController extends CrudController
 
         $this->crud->addField([   // select2_from_array
             'name'        => 'note',
-            'label'       => "Note",
+            'label'       => "1Note",
             'type'        => 'ckeditor',
+            "value" => $item->note,
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
@@ -719,8 +703,6 @@ class PluginBookingReservationCrudController extends CrudController
                 'tab' => $type->is_checkin ? 'Check-in' : 'Prenotazione',
             ]);
         }
-
-
 
         $this->crud->addField([   // CustomHTML
             'name' => 'separator_services',
@@ -737,6 +719,7 @@ class PluginBookingReservationCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
+            "value" => $item->business_name,
             'tab' => "Fatturazione"
         ]);
 
@@ -747,6 +730,7 @@ class PluginBookingReservationCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
+            "value" => $item->vat,
             'tab' => "Fatturazione"
         ]);
 
@@ -757,6 +741,7 @@ class PluginBookingReservationCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
+            "value" => $item->pec,
             'tab' => "Fatturazione"
         ]);
 
@@ -767,6 +752,7 @@ class PluginBookingReservationCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
+            "value" => $item->sdi,
             'tab' => "Fatturazione"
         ]);
 
@@ -777,6 +763,7 @@ class PluginBookingReservationCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-3'
             ],
+            "value" => $item->address_invoice,
             'tab' => "Fatturazione"
         ]);
 
@@ -787,6 +774,7 @@ class PluginBookingReservationCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-1'
             ],
+            "value" => $item->street_invoice,
             'tab' => "Fatturazione"
         ]);
 
@@ -797,6 +785,7 @@ class PluginBookingReservationCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-1'
             ],
+            "value" => $item->zip_invoice,
             'tab' => "Fatturazione"
         ]);
 
@@ -807,6 +796,7 @@ class PluginBookingReservationCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-2'
             ],
+            "value" => $item->city_invoice,
             'tab' => "Fatturazione"
         ]);
 
@@ -817,6 +807,7 @@ class PluginBookingReservationCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-2'
             ],
+            "value" => $item->province_invoice,
             'tab' => "Fatturazione"
         ]);
 
@@ -827,10 +818,9 @@ class PluginBookingReservationCrudController extends CrudController
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-2'
             ],
+            "value" => $item->state_invoice,
             'tab' => "Fatturazione"
         ]);
-
-
 
     }
 

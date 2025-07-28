@@ -364,13 +364,13 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                                 ->whereNotIn("plugin_booking_status_id", $status)
                                 ->count();
                             ?>
-                        <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-booking-reservation') }}'><i class='nav-icon la la-key'></i> <span>Prenotazioni
-                                @if($processed > 0)
-                                        <span class="badge badge-info">{{ $processed }}</span>
-                                    @endif
-                                    </span>
-                            </a>
-                        </li>
+                            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-booking-reservation') }}'><i class='nav-icon la la-key'></i> <span>Prenotazioni
+                                    @if($processed > 0)
+                                            <span class="badge badge-info">{{ $processed }}</span>
+                                        @endif
+                                        </span>
+                                </a>
+                            </li>
 
                             <?php
                             $types = \App\Models\PluginBookingType::get();
