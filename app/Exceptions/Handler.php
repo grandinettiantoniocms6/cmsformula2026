@@ -53,6 +53,8 @@ class Handler extends ExceptionHandler
                 if(!is_numeric(strpos($exception->getMessage(), "Supported methods"))
                     && !is_numeric(strpos($exception->getMessage(), "not supported"))
                     && !is_numeric(strpos($exception->getMessage(), "Unauthenticated"))
+                    && !is_numeric(strpos($exception->getMessage(), "Autenticazione"))
+                    && !is_numeric(strpos($exception->getMessage(), "Too many login"))
                     && !is_numeric(strpos($exception->getMessage(), "The route"))
                 ){
                     try{
