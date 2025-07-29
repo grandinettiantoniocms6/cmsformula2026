@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Sentry\Laravel\Facade as Sentry;
+
 
 class Handler extends ExceptionHandler
 {
@@ -36,6 +38,11 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        // Invia a Sentry solo se è un errore da riportare e Sentry è attivo
+        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+            Sentry::captureException($exception);
+        }
+
         if(env('LOCAL') == 0 && env('MAIL_PASSWORD') != ""){
             $vet = ["", "The GET method is not supported for this route. Supported methods: POST.",
                 "The given data was invalid.", "CSRF token mismatch.",
