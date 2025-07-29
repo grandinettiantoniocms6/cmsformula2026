@@ -34,7 +34,10 @@ class PluginBookingReservationRoom extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
+    public function room()
+    {
+        return $this->belongsTo(PluginBookingRoom::class, 'plugin_booking_room_id');
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

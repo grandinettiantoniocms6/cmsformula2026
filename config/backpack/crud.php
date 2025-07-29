@@ -456,5 +456,9 @@ return [
         // "zu_ZA" => "Zulu (South Africa)",
         // "zu" => "Zulu"
     ],
-
+    'operations' => [
+        'list' => [
+            'async' => true,
+        ],
+    ],
 ];

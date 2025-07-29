@@ -99,28 +99,7 @@ class PluginBookingServicesCrudController extends CrudController
             'label' => 'Qta richiesta',
             'type'  => 'switch',
              ]
-            /*[
-                'name'  => 'is_active',
-                'label' => 'Visibile',
-                'type'  => 'editable_switch',
 
-                // Optionals
-                // All the options available on editable_checkbox are available here too, plus;
-                'color'   => 'success',
-                'onLabel' => '✓',
-                'offLabel' => '✕',
-            ],
-            [
-                'name'  => 'is_edit_qty',
-                'label' => 'Qta richiesta',
-                'type'  => 'editable_switch',
-
-                // Optionals
-                // All the options available on editable_checkbox are available here too, plus;
-                'color'   => 'success',
-                'onLabel' => '✓',
-                'offLabel' => '✕',
-            ],*/
         ]);
 
         $types = PluginBookingType::orderBy("name", "asc")->get()->pluck("name", "id")->toArray();

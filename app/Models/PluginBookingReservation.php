@@ -69,16 +69,21 @@ class PluginBookingReservation extends Model
         }
     }
 
-    public function getRooms(){
-        $html = "";
-        if($this->rooms){
-            foreach ($this->rooms as $room){
-                $item = PluginBookingRoom::find($room->plugin_booking_room_id);
-                $html.= "<span class='badge badge-light'>$item->name</span> <br> <span class='badge badge-warning'>$item->sku</span>";
-            }
-        }
+    public function getRooms()
+    {
+        return \Cache::remember("reservation-rooms-html-{$this->id}", 300, function () {
+            $html = '';
 
-        return $html;
+            foreach ($this->rooms as $roomRel) {
+                $room = $roomRel->room;
+                if ($room) {
+                    $html .= "<span class='badge badge-light'>{$room->name}</span><br>";
+                    $html .= "<span class='badge badge-warning'>{$room->sku}</span><br>";
+                }
+            }
+
+            return $html ?: '-';
+        });
     }
 
     public function getPayment(){
@@ -140,22 +145,24 @@ class PluginBookingReservation extends Model
         }
     }
 
-    public function checkDocument(){
-        $partecipants = PluginBookingReservationRoomCheckin::where("plugin_booking_reservation_room_id", $this->id)
-            ->whereNull("document_file")
-            ->count();
+    public function checkDocument()
+    {
+        return \Cache::remember("reservation-checkdocs-{$this->id}", 300, function () {
+            $missing = PluginBookingReservationRoomCheckin::where("plugin_booking_reservation_room_id", $this->id)
+                ->whereNull("document_file")
+                ->count();
 
-        $partecipants_count = PluginBookingReservationRoomCheckin::where("plugin_booking_reservation_room_id", $this->id)
-            ->count();
+            $total = PluginBookingReservationRoomCheckin::where("plugin_booking_reservation_room_id", $this->id)
+                ->count();
 
-        if($partecipants_count){
-            if(is_numeric($partecipants) && $partecipants > 0){
-                return "<span class='badge badge-danger'>Mancano $partecipants documenti</span>";
-            }else{
-                return "<span class='badge badge-success'>OK</span>";
+            if ($total === 0) return '-';
+
+            if ($missing > 0) {
+                return "<span class='badge badge-danger'>Mancano $missing documenti</span>";
             }
-        }
 
+            return "<span class='badge badge-success'>OK</span>";
+        });
     }
     /*
     |--------------------------------------------------------------------------
@@ -175,8 +182,9 @@ class PluginBookingReservation extends Model
         return $this->belongsTo(PluginBookingPayments::class, "plugin_booking_payment_id");
     }
 
-    public function rooms(){
-        return $this->hasMany(PluginBookingReservationRoom::class);
+    public function rooms()
+    {
+        return $this->hasMany(PluginBookingReservationRoom::class)->with('room');
     }
 
     public function type(){

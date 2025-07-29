@@ -19,6 +19,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class PluginBookingReservationCrudController
@@ -90,7 +91,7 @@ class PluginBookingReservationCrudController extends CrudController
         $this->crud->query->join("users", "users.id", "=", "plugins_booking_reservations.user_id");
         $this->crud->query->where("is_hidden", 0);
 
-        $this->crud->with(['user', 'rooms', 'status', 'payment']);
+        $this->crud->with(['user', 'rooms.room', 'status', 'payment']);
 
         $routeName = \Route::currentRouteName();
 
@@ -152,24 +153,10 @@ class PluginBookingReservationCrudController extends CrudController
             [
                 'name'  => 'rooms',
                 'label' => 'Struttura',
-                'type'  => 'closure',
-                'function' => function($entry) {
-                    $html = '';
-
-                    if ($entry->rooms) {
-                        foreach ($entry->rooms as $room) {
-                            // Assumiamo che la relazione $room abbia già i dati del PluginBookingRoom
-                            $item = \App\Models\PluginBookingRoom::find($room->plugin_booking_room_id);
-                            if ($item) {
-                                $html .= "<span class='badge badge-light'>{$item->name}</span><br>";
-                                $html .= "<span class='badge badge-warning'>{$item->sku}</span><br>";
-                            }
-                        }
-                    }
-
-                    return $html ?: '-';
-                },
+                'type'  => 'model_function',
+                'function_name' => 'getRooms', // the method in your Model
                 'escaped' => false,
+                'limit' => 10000, // Limit the number of characters shown
             ],
             [
                 // run a function on the CRUD model and show its return value
@@ -246,26 +233,10 @@ class PluginBookingReservationCrudController extends CrudController
             [
                 'name'  => 'check_document',
                 'label' => 'Documenti',
-                'type'  => 'closure',
-                'function' => function($entry) {
-                    $missingCount = \App\Models\PluginBookingReservationRoomCheckin::where("plugin_booking_reservation_room_id", $entry->id)
-                        ->whereNull("document_file")
-                        ->count();
-
-                    $totalCount = \App\Models\PluginBookingReservationRoomCheckin::where("plugin_booking_reservation_room_id", $entry->id)
-                        ->count();
-
-                    if ($totalCount) {
-                        if ($missingCount > 0) {
-                            return "<span class='badge badge-danger'>Mancano $missingCount documenti</span>";
-                        } else {
-                            return "<span class='badge badge-success'>OK</span>";
-                        }
-                    }
-
-                    return '-';
-                },
+                'type'  => 'model_function',
+                'function_name' => 'checkDocument', // the method in your Model
                 'escaped' => false, // necessario per permettere badge HTML
+                'limit' => 10000, // Limit the number of characters shown
             ],
         ]);
 
@@ -314,9 +285,13 @@ class PluginBookingReservationCrudController extends CrudController
 
 
         if(\request()->has('ko')){
-            $status = PluginBookingStatus::where("is_annullato", 1)->get()->pluck("name", "id")->toArray();
+            $status = Cache::remember('booking_status_active', 3600, function () {
+                return PluginBookingStatus::where("is_annullato", 1)->pluck("name", "id")->toArray();
+            });
         }else{
-            $status = PluginBookingStatus::where("is_annullato", 0)->get()->pluck("name", "id")->toArray();
+            $status = Cache::remember('booking_status_active', 3600, function () {
+                return PluginBookingStatus::where("is_annullato", 0)->pluck("name", "id")->toArray();
+            });
         }
 
         // dropdown filter
@@ -328,7 +303,12 @@ class PluginBookingReservationCrudController extends CrudController
             $this->crud->addClause('where', 'plugin_booking_status_id', $value);
         });
 
-        $options = User::selectRaw("CONCAT(name, ' (', email, ')') as name, id")->get()->pluck("name", "id")->toArray();
+        $options = \Cache::remember('filter_users_dropdown', 3600, function () {
+            return User::selectRaw("CONCAT(name, ' (', email, ')') as name, id")
+                ->get()
+                ->pluck("name", "id")
+                ->toArray();
+        });
         $this->crud->addFilter([
             'name'  => 'user_id',
             'type'  => 'select2',
@@ -354,7 +334,10 @@ class PluginBookingReservationCrudController extends CrudController
         }
 
 
-        $rooms = PluginBookingRoom::get()->pluck("name", "id")->toArray();
+        $rooms = Cache::remember('filter_booking_rooms_dropdown', 3600, function () {
+            return PluginBookingRoom::pluck("name", "id")->toArray();
+        });
+
         $this->crud->addFilter([
             'name'  => 'plugin_booking_room_id',
             'type'  => 'select2',
