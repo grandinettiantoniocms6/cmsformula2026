@@ -41,7 +41,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jarallax/2.0.3/jarallax.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js" defer></script>
 
-@if(trim($website->iubenda_cookie_banner) != '')
+
+<!-- Banner Iubenda o Banner Cookieconsent2 con if su ENV -->
+@if(env('IUBENDA') == 1)
     {!! $website->iubenda_cookie_banner !!}
 @else
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
@@ -71,8 +73,8 @@
         });
     </script>
 @endif
+<!-- end ENV -->
 
 @yield('player_video')
-
 
 <script  src="{{ url('templates/Webshop/js/script.js') }}" defer></script>
