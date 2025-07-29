@@ -6,7 +6,9 @@ use App\Models\Page;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
-
+Route::get('/test-errore-500', function () {
+    throw new \Exception("Simulazione errore 500");
+});
 
 Route::get('/test_db_gest', function () {
     $anapiDB = \DB::connection('mysql_2');
