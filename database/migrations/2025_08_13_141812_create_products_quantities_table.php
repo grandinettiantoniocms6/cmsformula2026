@@ -24,7 +24,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger("plugin_product_id")->nullable();
             $table->text("name")->nullable();
-            $table->string("lang")->nullable();
             $table->float('price')->nullable();
             $table->softDeletes();
             $table->timestamps();

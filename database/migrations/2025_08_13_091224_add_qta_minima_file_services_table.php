@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('is_caricamento_file')->default(0);
             $table->boolean('is_textarea_message')->default(0);
             $table->boolean('is_caricamento_file_required')->default(0);
-            $table->boolean('is_textarea_message_file_required')->default(0);
+            $table->boolean('is_textarea_message_required')->default(0);
             $table->boolean('is_services_adding_required')->default(0);
         });
 

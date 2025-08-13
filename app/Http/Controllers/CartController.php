@@ -238,6 +238,8 @@ class CartController extends Controller
     }
 
     public function add_cart(Request $request){
+        $shopSetting = ShopSettings::first();
+
         $product = PluginProducts::find($request->input('id'));
         if($product){
             //nel carrello deve andare sempre il prezzo IVATO
@@ -269,7 +271,7 @@ class CartController extends Controller
                 ->where("quantity_min", "<=", $qty)
                 ->orderBy("quantity_min", "DESC")
                 ->first();
-            if($products_quantities){
+            if($products_quantities && $shopSetting->is_qta_minima){
                 $vat = $product->tax ? $product->tax->value : 22;
                 $vat_calculate = ($vat / 100) + 1;
 
@@ -373,6 +375,8 @@ class CartController extends Controller
     }
 
     public function update_cart(Request $request){
+        $shopSetting = ShopSettings::first();
+
         $cart = $this->loading_cart(true);
         $quantities = $request->get('quantity');
         if($cart){
@@ -387,13 +391,12 @@ class CartController extends Controller
                         ->where("quantity_min", "<=", $quantities)
                         ->orderBy("quantity_min", "DESC")
                         ->first();
-                    if($products_quantities){
+                    if($products_quantities && $shopSetting->is_qta_minima){
                         $vat = $product_item->tax ? $product_item->tax->value : 22;
                         $vat_calculate = ($vat / 100) + 1;
 
                         $finalPrice = $products_quantities->price * $vat_calculate;
                     }
-
 
                     if(key_exists($product->product_id, $quantities)){
                         $product->qty = $quantities[$product->product_id];

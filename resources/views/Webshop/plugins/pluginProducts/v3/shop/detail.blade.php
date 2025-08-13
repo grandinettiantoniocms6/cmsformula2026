@@ -337,7 +337,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                                                  $products_quantities = \App\Models\PluginProductsQuantities::where("plugin_product_id", $itemProduct->id)
                                                      ->get();
                                             ?>
-                                            @if($products_quantities)
+                                            @if($products_quantities && $shopSetting->is_qta_minima)
                                                 <table class="table">
                                                     <tr><th>Quantità minima</th><th>Prezzo</th></tr>
                                                     @foreach($products_quantities as $pq)
@@ -349,12 +349,25 @@ $shopSetting = \App\Models\ShopSettings::first();
                                                 </table>
                                             @endif
 
-
-                                            <form method="post" action="{{ route('add.cart.product') }}" class="product-form">
+                                            <form method="post" action="{{ route('add.cart.product') }}" class="product-form" @if($shopSetting->is_caricamento_file) enctype="multipart/form-data" @endif>
                                                 {{ csrf_field() }}
                                                 <input type="hidden" name="id" value="{{ $itemProduct->id }}">
 
                                                 @include("$thema.plugins.pluginProducts.v3.shop.box_extra")
+
+                                                @if($shopSetting->is_caricamento_file && $itemProduct->is_caricamento_file)
+                                                    <div class="form-group">
+                                                        <label>Caricare un file @if($itemProduct->is_caricamento_file_required) * @endif</label>
+                                                        <input class="form-control" name="file" id="file"  type="file" @if($itemProduct->is_caricamento_file_required) required @endif>
+                                                    </div>
+                                                @endif
+
+                                                @if($shopSetting->is_textarea_message && $itemProduct->is_textarea_message)
+                                                    <div class="form-group">
+                                                        <label>Inserisci numerazione / testo @if($itemProduct->is_textarea_message_required) * @endif</label>
+                                                        <input class="form-control" name="message" id="message"  type="text" @if($itemProduct->is_textarea_message_required) required @endif>
+                                                    </div>
+                                                @endif
 
                                                 <div class="product-form-group row">
                                                     <div class="input-group input-spinner w-auto col-auto">
