@@ -20,7 +20,9 @@ use App\Models\PluginProductsImagesSize;
 use App\Models\PluginProductsLangs;
 use App\Models\PluginProductsOptions;
 use App\Models\PluginProductsPrices;
+use App\Models\PluginProductsQuantities;
 use App\Models\PluginProductsRelated;
+use App\Models\PluginProductsServices;
 use App\Models\PluginProductsSettings;
 use App\Models\ShopAttributes;
 use App\Models\ShopAttributesCategories;
@@ -646,6 +648,8 @@ class PluginProductsCrudController extends CrudController
 
         $adminPlugin = AdminPlugin::where("name", "pluginProducts")->first();
         if($adminPlugin->version == 3){
+            $shopSetting = ShopSettings::first();
+
             $vet = [
                 [
                     // run a function on the CRUD model and show its return value
@@ -678,6 +682,7 @@ class PluginProductsCrudController extends CrudController
                     'name'  => 'name',
                     'label' => 'Nome',
                     'type'  => 'text',
+                    'limit' => 10000, // Limit the number of characters shown
                 ],
                 [
                     'name'  => 'price',
@@ -689,7 +694,7 @@ class PluginProductsCrudController extends CrudController
                     'label' => 'Qta',
                     'type'  => 'number',
                 ],*/
-                [
+                /*[
                     // 1-n relationship
                     'label'     => 'Tasse', // Table column heading
                     'type'      => 'select',
@@ -697,10 +702,10 @@ class PluginProductsCrudController extends CrudController
                     'entity'    => 'tax', // the method that defines the relationship in your Model
                     'attribute' => 'value', // foreign key attribute that is shown to user
                     'model'     => "App\Models\ShopTaxes", // foreign key model
-                ],
+                ],*/
                 [
                     'name'  => 'is_active',
-                    'label' => 'Visibile',
+                    'label' => 'Vis.',
                     'type'  => 'editable_switch',
 
                     // Optionals
@@ -711,7 +716,7 @@ class PluginProductsCrudController extends CrudController
                 ],
                 [
                     'name'  => 'is_purchasable',
-                    'label' => 'Acquistabile',
+                    'label' => 'Acq.',
                     'type'  => 'editable_switch',
 
                     // Optionals
@@ -731,16 +736,47 @@ class PluginProductsCrudController extends CrudController
                     'limit' => 10000, // Limit the number of characters shown
                 ],
                 */
-                [
-                    // run a function on the CRUD model and show its return value
-                    'name'  => 'is_in_menu',
-                    'label' => 'Azioni', // Table column heading
-                    'type'  => 'model_function',
-                    'function_name' => 'getMenu', // the method in your Model
-                    // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                    'limit' => 10000, // Limit the number of characters shown
-                ]
+
             ];
+
+            if($shopSetting->is_caricamento_file){
+                $vet[] = [
+                    'name'  => 'is_caricamento_file',
+                    'label' => 'Carica File',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
+                ];
+            }
+
+            if($shopSetting->is_textarea_message){
+                $vet[] = [
+                    'name'  => 'is_textarea_message',
+                    'label' => 'Mess.Custom',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
+                ];
+            }
+
+            $vet[] =  [
+                // run a function on the CRUD model and show its return value
+                'name'  => 'is_in_menu',
+                'label' => 'Azioni', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'getMenu', // the method in your Model
+                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
+                'limit' => 10000, // Limit the number of characters shown
+            ];
+
         }else{
             $vet = [
                 [
@@ -1324,7 +1360,7 @@ class PluginProductsCrudController extends CrudController
             ]);
 
             $this->crud->addField([
-                'name'  => 'qty',
+                'name'  => 'qty_max',
                 'label' => 'Quantità Max',
                 'type'  => 'number',
                 'value' => $qty_max,
@@ -1581,8 +1617,21 @@ class PluginProductsCrudController extends CrudController
 
 
         $products_langs = [];
+        $products_quantities = [];
+        $products_services = [];
+        $product = null;
+
         if($parameters){
             $products_langs = PluginProductsLangs::where("product_id", $parameters['id'])->get()->pluck("id", "lang")->toArray();
+
+            $products_quantities = PluginProductsQuantities::where("plugin_product_id", $parameters['id'])
+                ->get();
+
+            $products_services = PluginProductsServices::where("plugin_product_id", $parameters['id'])
+                ->get();
+
+            $product = PluginProducts::find($parameters['id']);
+
         }
 
         $this->crud->addField([   // CustomHTML
@@ -1614,6 +1663,58 @@ class PluginProductsCrudController extends CrudController
                         'class' => 'form-group col-md-3'
                     ],
                 ]);
+            }
+
+            if($shopSetting->is_qta_minima){
+                $this->crud->addField([   // CustomHTML
+                    'name' => 'html_quantities',
+                    'type' => 'custom_html',
+                    'value' => view(backpack_view("plugins.pluginProducts.inc.quantities"), compact('products_quantities'))->render(),
+                    'tab' => 'Quantità minima',
+                ]);
+            }
+
+            if($shopSetting->is_services_adding){
+                $this->crud->addField([   // CustomHTML
+                    'name' => 'html_services',
+                    'type' => 'custom_html',
+                    'value' => view(backpack_view("plugins.pluginProducts.inc.services"), compact('products_services','product'))->render(),
+                    'tab' => 'Servizi aggiuntivi',
+                ]);
+            }
+
+            if($shopSetting->is_caricamento_file || $shopSetting->is_textarea_message){
+                if($shopSetting->is_caricamento_file){
+                    $this->crud->addField([   // Checkbox
+                        'name' => 'is_caricamento_file',
+                        'label' => 'Inserire possibilità caricamento file?',
+                        'type' => 'switch',
+                        'tab' => "Campi aggiuntivi"
+                    ]);
+
+                    $this->crud->addField([   // Checkbox
+                        'name' => 'is_caricamento_file_required',
+                        'label' => 'Rendere obbligatorio il caricamento file?',
+                        'type' => 'switch',
+                        'tab' => "Campi aggiuntivi"
+                    ]);
+                }
+
+                if($shopSetting->is_textarea_message){
+                    $this->crud->addField([   // Checkbox
+                        'name' => 'is_textarea_message',
+                        'label' => 'Inserire possibilità messaggio personalizzato?',
+                        'type' => 'switch',
+                        'tab' => "Campi aggiuntivi"
+                    ]);
+
+                    $this->crud->addField([   // Checkbox
+                        'name' => 'is_textarea_message_required',
+                        'label' => 'Rendere obbligatorio il messaggio personalizzato?',
+                        'type' => 'switch',
+                        'tab' => "Campi aggiuntivi"
+                    ]);
+                }
             }
         }
     }
@@ -1929,8 +2030,48 @@ class PluginProductsCrudController extends CrudController
             }
         }
 
-        \Artisan::call('set:products_search', ['id'=> $this->crud->entry->id]);
+        if($request->has('min_quantities')){
+            $min_quantities = $request->get('min_quantities');
+            $price_quantities = $request->get('price_quantities');
 
+            PluginProductsQuantities::where("plugin_product_id", $this->crud->entry->id)->delete();
+
+            if($min_quantities){
+                foreach ($min_quantities as $k=>$quantity){
+                    PluginProductsQuantities::create([
+                       "plugin_product_id" =>  $this->crud->entry->id,
+                       "quantity_min" => $quantity,
+                       "price" => $price_quantities[$k]
+                    ]);
+                }
+            }
+        }
+
+        if($request->has('name_services')){
+            $name_services = $request->get('name_services');
+            $price_services = $request->get('price_services');
+
+            PluginProductsServices::where("plugin_product_id", $this->crud->entry->id)->delete();
+            if($name_services){
+                foreach ($name_services as $k=>$name){
+                    PluginProductsServices::create([
+                        "plugin_product_id" =>  $this->crud->entry->id,
+                        "name" => $name,
+                        "price" => $price_services[$k]
+                    ]);
+                }
+            }
+        }
+
+        if($request->has('is_services_adding_required')){
+            $this->crud->entry->is_services_adding_required = 1;
+            $this->crud->entry->save();
+        }else{
+            $this->crud->entry->is_services_adding_required = 0;
+            $this->crud->entry->save();
+        }
+
+        \Artisan::call('set:products_search', ['id'=> $this->crud->entry->id]);
 
         return $this->crud->performSaveAction($item->getKey());
     }
@@ -2172,6 +2313,48 @@ class PluginProductsCrudController extends CrudController
                 ]);
             }
         }
+
+        if($request->has('min_quantities')){
+            $min_quantities = $request->get('min_quantities');
+            $price_quantities = $request->get('price_quantities');
+
+            PluginProductsQuantities::where("plugin_product_id", $this->crud->entry->id)->delete();
+
+            if($min_quantities){
+                foreach ($min_quantities as $k=>$quantity){
+                    PluginProductsQuantities::create([
+                        "plugin_product_id" =>  $this->crud->entry->id,
+                        "quantity_min" => $quantity,
+                        "price" => $price_quantities[$k]
+                    ]);
+                }
+            }
+        }
+
+        if($request->has('name_services')){
+            $name_services = $request->get('name_services');
+            $price_services = $request->get('price_services');
+
+            PluginProductsServices::where("plugin_product_id", $this->crud->entry->id)->delete();
+            if($name_services){
+                foreach ($name_services as $k=>$name){
+                    PluginProductsServices::create([
+                        "plugin_product_id" =>  $this->crud->entry->id,
+                        "name" => $name,
+                        "price" => $price_services[$k]
+                    ]);
+                }
+            }
+        }
+
+        if($request->has('is_services_adding_required')){
+            $this->crud->entry->is_services_adding_required = 1;
+            $this->crud->entry->save();
+        }else{
+            $this->crud->entry->is_services_adding_required = 0;
+            $this->crud->entry->save();
+        }
+
 
         \Artisan::call('set:products_search', ['id'=> $this->crud->entry->id]);
 

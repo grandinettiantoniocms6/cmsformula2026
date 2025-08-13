@@ -23,6 +23,7 @@ use App\Models\OrderProduct;
 use App\Models\Page;
 use App\Models\Payment;
 use App\Models\PluginProducts;
+use App\Models\PluginProductsQuantities;
 use App\Models\Product;
 use App\Models\Promotion;
 use App\Models\Shipping;
@@ -263,6 +264,18 @@ class CartController extends Controller
                 $qty = $product->qty;
             }
 
+            //------------------PRODUCT QUANTITY
+            $products_quantities = PluginProductsQuantities::where("plugin_product_id", $product->id)
+                ->where("quantity_min", "<=", $qty)
+                ->orderBy("quantity_min", "DESC")
+                ->first();
+            if($products_quantities){
+                $vat = $product->tax ? $product->tax->value : 22;
+                $vat_calculate = ($vat / 100) + 1;
+
+                $finalPrice = $products_quantities->price * $vat_calculate;
+            }
+
             if(\Session::has('user_id')){
                 $check = Cart::where("product_id", $request->input('id'))
                     ->where("user_id", \Session::get('user_id'))
@@ -369,10 +382,24 @@ class CartController extends Controller
                     //nel carrello deve andare sempre il prezzo IVATO
                     $finalPrice = $product_item->get_promo_price(true);
 
+                    //------------------PRODUCT QUANTITY
+                    $products_quantities = PluginProductsQuantities::where("plugin_product_id", $product_item->id)
+                        ->where("quantity_min", "<=", $quantities)
+                        ->orderBy("quantity_min", "DESC")
+                        ->first();
+                    if($products_quantities){
+                        $vat = $product_item->tax ? $product_item->tax->value : 22;
+                        $vat_calculate = ($vat / 100) + 1;
+
+                        $finalPrice = $products_quantities->price * $vat_calculate;
+                    }
+
+
                     if(key_exists($product->product_id, $quantities)){
                         $product->qty = $quantities[$product->product_id];
                         $product->price = $finalPrice;
                     }
+
                     if(\Session::has('user_id')){
                         if(key_exists($product->product_id, $quantities)){
                             $check = Cart::where("product_id", $product->product_id)

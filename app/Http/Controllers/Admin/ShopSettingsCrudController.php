@@ -964,8 +964,38 @@ class ShopSettingsCrudController extends CrudController
                 $trans = new AdminLanguageController();
                 $trans->fields_lang("shopSetting", $this->crud, $shopSetting);
 
+                $this->crud->addField([   // Checkbox
+                    'name' => 'is_qta_minima',
+                    'label' => 'Inserire possibilità quantità minima di acquisto nei prodotti?',
+                    'type' => 'switch',
+                    'tab' => "Generale"
+                ]);
+
+                $this->crud->addField([   // Checkbox
+                    'name' => 'is_caricamento_file',
+                    'label' => 'Inserire possibilità caricamento file nei prodotti?',
+                    'type' => 'switch',
+                    'tab' => "Generale"
+                ]);
+
+                $this->crud->addField([   // Checkbox
+                    'name' => 'is_textarea_message',
+                    'label' => 'Inserire possibilità messaggio personalizzato nei prodotti?',
+                    'type' => 'switch',
+                    'tab' => "Generale"
+                ]);
+
+                $this->crud->addField([   // Checkbox
+                    'name' => 'is_services_adding',
+                    'label' => 'Inserire possibilità di inserire servizi aggiuntivi nei prodotti?',
+                    'type' => 'switch',
+                    'tab' => "Generale"
+                ]);
+
 
             }
+
+
         }
 
 

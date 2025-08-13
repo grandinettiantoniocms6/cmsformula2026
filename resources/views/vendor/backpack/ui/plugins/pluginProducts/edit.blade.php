@@ -11,6 +11,10 @@
 
 @endphp
 
+@push('after_styles')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
+@endpush
+
 @section('header')
     <h3 class="page-title mb-0">
         <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
@@ -78,7 +82,7 @@
 @endsection
 
 @push('after_scripts')
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script type="text/javascript">
         <?php
         $langs = \App\Models\AdminLanguage::where("is_active", 1)->get();
@@ -100,7 +104,10 @@
             });
             @endforeach
         @endif
+
     </script>
+
+    @include(backpack_view('plugins.pluginProducts.js'))
 
 @endpush
 

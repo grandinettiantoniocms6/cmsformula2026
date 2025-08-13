@@ -135,12 +135,14 @@ $shopSetting = \App\Models\ShopSettings::first();
                                         $start_price = $itemProduct->price_2;
                                     }
                                 }
+
                                 $promo_price = $itemProduct->get_promo_price();
 
                                 $vat = $itemProduct->tax ? $itemProduct->tax->value : 22;
                                 $vat_calculate = ($vat / 100) + 1;
 
-                                $p_temp = $itemProduct; ?>
+                                $p_temp = $itemProduct;
+                                ?>
 
                                 @if($pluginSetting->show_prices == 1 || ($pluginSetting->is_price_on_demand == 1 && $pluginSetting->show_prices == 0 && \Session::get("user_id")))
                                     @include("$thema.plugins.pluginProducts.v3.shop.calculate_price")
@@ -301,7 +303,6 @@ $shopSetting = \App\Models\ShopSettings::first();
                         @endif
 
                         <?php
-
                         $has_figli = 0;
                         if($itemProduct->is_variant == 0){
                             $has_figli = \App\Models\PluginProducts::where("is_variant", 1)->where("group_id", $itemProduct->group_id)
@@ -331,6 +332,22 @@ $shopSetting = \App\Models\ShopSettings::first();
                                         ?>
 
                                         @if($pluginSetting->is_add_to_cart == 1 || ($pluginSetting->is_price_on_demand == 1 && $pluginSetting->is_add_to_cart == 0 && \Session::get("user_id")) )
+
+                                            <?php
+                                                 $products_quantities = \App\Models\PluginProductsQuantities::where("plugin_product_id", $itemProduct->id)
+                                                     ->get();
+                                            ?>
+                                            @if($products_quantities)
+                                                <table class="table">
+                                                    <tr><th>Quantità minima</th><th>Prezzo</th></tr>
+                                                    @foreach($products_quantities as $pq)
+                                                        <tr>
+                                                            <td>{{ $pq->quantity_min }}</td>
+                                                            <td>{{ number_format($pq->price * $vat_calculate,2,",",".") }} &euro;</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </table>
+                                            @endif
 
 
                                             <form method="post" action="{{ route('add.cart.product') }}" class="product-form">
