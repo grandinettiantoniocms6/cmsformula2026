@@ -107,6 +107,16 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                             @endforeach
                         @endif
 
+                        @if($product->pivot->message)
+                            <br><br>
+                            <div><em>Messaggio:</em> {{ $product->pivot->message }}</div>
+                        @endif
+
+                        @if($product->pivot->file)
+                            <br>
+                            <div><em>File:</em> <a href="{{ url("uploads/{$product->pivot->file}") }}" target="_blank">Vedi</a> </div>
+                        @endif
+
                     @if($product->pivot->is_gift == 1)
                         <br>
                         <i class="fa fa-gift"></i>

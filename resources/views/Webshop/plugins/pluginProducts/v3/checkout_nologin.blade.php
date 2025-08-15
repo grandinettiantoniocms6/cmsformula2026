@@ -364,6 +364,18 @@ $website = \App\Models\WebsiteSetting::first();
                                                     </div>
                                                 @endif
                                             @endif
+
+                                            @if(property_exists($item, "message"))
+                                                <div class="extra">
+                                                    <div><em>Messaggio:</em> {{ $item->message }}</div>
+                                                </div>
+                                            @endif
+
+                                            @if(property_exists($item, "file"))
+                                                <div class="extra">
+                                                    <div><em>File:</em> <a href="{{ url("uploads/$item->file") }}" target="_blank">Vedi</a> </div>
+                                                </div>
+                                            @endif
                                         </td>
                                         <td>{!! $symbol !!} <?php echo number_format($productTotal,2, ',','.'); ?></td>
                                     </tr>

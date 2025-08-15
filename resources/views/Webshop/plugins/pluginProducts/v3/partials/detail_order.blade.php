@@ -86,6 +86,18 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                             <small>{{ $value }}</small>
                         @endforeach
                     @endif
+
+                    @if($product->pivot->message)
+                        <div class="extra">
+                            <div><em>Messaggio:</em> {{ $product->pivot->message }}</div>
+                        </div>
+                    @endif
+
+                    @if($product->pivot->file)
+                        <div class="extra">
+                            <div><em>File:</em> <a href="{{ url("uploads/{$product->pivot->file}") }}" target="_blank">Vedi</a> </div>
+                        </div>
+                    @endif
                 </td>
                 <td data-column="Q.tà" data-fluid="100">x {{ $product->pivot->quantity }}</td>
                 <td data-column="Prezzo" class="text-end" data-fluid="100">{!! $symbol !!}

@@ -410,6 +410,16 @@
                                         <small>{{ $value }}</small>
                                     @endforeach
                                 @endif
+
+                                @if($op->message)
+                                    <br>
+                                    <div><em>Messaggio:</em> {{ $op->message }}</div>
+                                @endif
+
+                                @if($op->file)
+                                    <br>
+                                    <div><em>File:</em> <a href="{{ url("uploads/{$op->file}") }}" target="_blank">Vedi</a> </div>
+                                @endif
                             </td>
                             <td>
                                     {{ number_format($op->price_with_tax,3, ',','.') }}

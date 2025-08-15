@@ -113,6 +113,19 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                                                 </div>
                                             @endif
                                         @endif
+
+                                        @if(property_exists($item, "message"))
+                                            <div class="extra">
+                                                <div><em>Messaggio:</em> {{ $item->message }}</div>
+                                            </div>
+                                        @endif
+
+                                        @if(property_exists($item, "file"))
+                                            <div class="extra">
+                                                <div><em>File:</em> <a href="{{ url("uploads/$item->file") }}" target="_blank">Vedi</a> </div>
+                                            </div>
+                                        @endif
+
                                     </td>
                                     <td class="product-quantity" data-column="Q.tà">
                                             <div class="input-group input-spinner">

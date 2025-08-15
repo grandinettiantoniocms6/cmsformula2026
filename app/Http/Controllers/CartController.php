@@ -278,6 +278,17 @@ class CartController extends Controller
                 $finalPrice = $products_quantities->price * $vat_calculate;
             }
 
+            $path = null;
+            if ($request->hasFile('file')) {
+                // Salva il file nella cartella storage/app/public/uploads
+                $path = $request->file('file')->store('orders', 'public');
+            }
+
+            $message = null;
+            if ($request->has('message')) {
+                $message = $request->get('message');
+            }
+
             if(\Session::has('user_id')){
                 $check = Cart::where("product_id", $request->input('id'))
                     ->where("user_id", \Session::get('user_id'))
@@ -288,6 +299,8 @@ class CartController extends Controller
                         "user_id" => \Session::get('user_id'),
                         "price" => round($finalPrice,3),
                         "qty" => $qty,
+                        "file" => $path,
+                        "message" => $message,
                         "created_at" => Carbon::now()->toDateTimeString()
                     ]);
 
@@ -305,6 +318,7 @@ class CartController extends Controller
                     }
 
                 }
+
             }else{
                 $v_ = [];
                 $in_cart = \Session::get("cart.products");
@@ -323,6 +337,8 @@ class CartController extends Controller
                     $obj->product_name = $product->name;
                     $obj->qty = $qty;
                     $obj->price = round($finalPrice,3);
+                    $obj->file = $path;
+                    $obj->message = $message;
 
                     if($request->has('extra')){
                         $extra = $request->get('extra');
@@ -357,6 +373,9 @@ class CartController extends Controller
                     $obj->product_name = $product->name;
                     $obj->qty = $item->qty;
                     $obj->price = $item->price;
+
+                    $obj->file = $item->file;
+                    $obj->message = $item->message;
 
                     $obj->extra = ShopCartExtra::where("cart_id", $item->id)->get()->pluck("value", "extra_id")->toArray();
 
@@ -917,6 +936,8 @@ class CartController extends Controller
                         "price" => $price,
                         "price_with_tax" => $price_with_tax,
                         "quantity" => $item->qty,
+                        "file" => $item->file,
+                        "message" => $item->message,
                         "custom_label_1" => $product->custom_1,
                         "custom_label_2" => $product->custom_2
                     ]);
