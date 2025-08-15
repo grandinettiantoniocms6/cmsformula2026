@@ -9,6 +9,7 @@ use App\Models\AdminPlugin;
 use App\Models\AdminThumb;
 use App\Models\Page;
 use App\Models\PluginForms;
+use App\Models\PluginProductImport;
 use App\Models\PluginProducts;
 use App\Models\PluginProductsAttachments;
 use App\Models\PluginProductsAttributes;
@@ -742,7 +743,7 @@ class PluginProductsCrudController extends CrudController
             if($shopSetting->is_caricamento_file){
                 $vet[] = [
                     'name'  => 'is_caricamento_file',
-                    'label' => 'Carica File',
+                    'label' => 'File',
                     'type'  => 'editable_switch',
 
                     // Optionals
@@ -756,7 +757,7 @@ class PluginProductsCrudController extends CrudController
             if($shopSetting->is_textarea_message){
                 $vet[] = [
                     'name'  => 'is_textarea_message',
-                    'label' => 'Mess.Custom',
+                    'label' => 'Mess.',
                     'type'  => 'editable_switch',
 
                     // Optionals
@@ -2713,6 +2714,113 @@ class PluginProductsCrudController extends CrudController
         return redirect()->to(  "/plugins/pluginProducts/export.csv");
     }
 
+    public function importSpecialMappingSave(Request $req)
+    {
+        $fields = [
+            "sku",
+            "name",
+            /*"slug",
+            "meta_title",
+            "meta_description",
+            "meta_key",
+            "description_short",
+            "description",
+            "tags",
+            "custom_1",
+            "custom_2",*/
+            "category",
+            "brand",
+           // "is_active",
+           // "images",
+            "price",
+            "qty",
+          /*  "tax",
+            "parent_sku",
+            "code_article",
+            "ean13"*/
+        ];
+
+
+        $id = $req->get('id');
+        $name = $req->get('name');
+        $mapping = $req->get('mapping');
+
+        $error = "";
+        foreach ($fields as $field){
+            if(!in_array($field, $mapping)){
+                $error .= "<br>$field";
+            }
+        }
+
+        if(trim($error) != ""){
+            return back()
+                ->with('error', "Campi obbligatori nel mapping: <br>$error");
+        }
+
+        $config = PluginProductImport::find($id);
+        $config->name = $name;
+        $config->mapping = json_encode($mapping);
+        $config->save();
+
+        \Alert::success("Operazione effettuata con successo!")->flash();
+        return redirect()->to("/admin/plugin/pluginProducts/import_export");
+
+    }
+
+    public function importSpecialMapping(Request $req)
+    {
+        $req->validate([
+            'file' => 'required|max:20480'
+        ]);
+
+        $config_id = (int) $req->get('config_id');
+
+        if($req->file()) {
+            $temp = explode(".", $req->file->getClientOriginalName());
+            $fileName = "import.$temp[1]";
+            $req->file('file')->storeAs('/', $fileName, 'public_plugin_products');
+
+            $file = url("/plugins/pluginProducts/import.csv");
+            $row = 1;
+            if (($handle = fopen($file, "r")) !== FALSE) {
+                while (($data = fgetcsv($handle, 10000, ";")) !== FALSE) {
+                     break;
+                }
+
+                if($config_id == 0){
+                    $result = [];
+                    foreach ($data as $field) {
+                        $result[$field] = null;
+                    }
+
+                    $plugin = PluginProductImport::create([
+                        "name" => "Temp name",
+                        "mapping" => json_encode($result)
+                    ]);
+
+                    return redirect()->to("/admin/plugin/pluginProducts/import_export?id={$plugin->id}");
+
+                }else{
+                    $config = PluginProductImport::find($config_id);
+
+                    $v_mapping = json_decode($config->mapping, true);
+                    dd($v_mapping);
+
+                    $row = 1;
+                    if (($handle = fopen($file, "r")) !== FALSE) {
+                        while (($data = fgetcsv($handle, 10000, ";")) !== FALSE) {
+                            break;
+                        }
+                    }
+
+
+                }
+            }
+        }
+
+        return redirect()->back();
+
+    }
 
     public function import(Request $req){
         /*

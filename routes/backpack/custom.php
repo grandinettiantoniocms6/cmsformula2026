@@ -200,6 +200,6 @@ Route::group([
     Route::get('filemanager', function () {
         return view('vendor/backpack/custom/filemanager');
     })->name('backpack.filemanager');
-
+    Route::crud('plugin-product-import', 'PluginProductImportCrudController');
 }); // this should be the absolute last line of this file
 

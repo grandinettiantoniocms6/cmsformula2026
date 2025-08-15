@@ -369,6 +369,22 @@ $shopSetting = \App\Models\ShopSettings::first();
                                                     </div>
                                                 @endif
 
+                                                @if($shopSetting->is_services_adding)
+                                                    <?php
+                                                      $productServices = \App\Models\PluginProductsServices::where("plugin_product_id", $itemProduct->id)->get();
+                                                    ?>
+
+                                                    @if($productServices)
+                                                        @foreach($productServices as $pS)
+                                                            <div class="form-control mt-1">
+                                                                <input type="radio" name="services" value="{{ $pS->id }}"> {{ $pS->name }}
+                                                                <span class="text text-info">+ {{ number_format($pS->price,2,",",".") }} &euro;</span>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                                    <br>
+                                                @endif
+
                                                 <div class="product-form-group row">
                                                     <div class="input-group input-spinner w-auto col-auto">
                                                         <button class="quantity-minus btn btn-default button-minus" type="button" onclick="decreaseValue('#qty')" aria-label="Riduci"><i class="fas fa-minus"></i></button>

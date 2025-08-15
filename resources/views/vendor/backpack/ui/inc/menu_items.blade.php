@@ -459,3 +459,5 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
     @endforeach
 @endif
 
+
+<x-backpack::menu-item title="Plugin product imports" icon="la la-question" :link="backpack_url('plugin-product-import')" />

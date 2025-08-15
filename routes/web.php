@@ -138,6 +138,10 @@ Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => 
     Route::post('plugin/pluginProducts/export',['as' => 'pluginProducts.export', 'uses'=>'PluginProductsCrudController@export']);
     Route::post('plugin/pluginProducts/import',['as' => 'pluginProducts.import', 'uses'=>'PluginProductsCrudController@import']);
     Route::post('plugin/pluginProducts/import_maison',['as' => 'pluginProducts.import_maison', 'uses'=>'PluginProductsCrudController@import_maison']);
+
+    Route::post('plugin/pluginProducts/importSpecialMapping',['as' => 'pluginProducts.importSpecialMapping', 'uses'=>'PluginProductsCrudController@importSpecialMapping']);
+    Route::post('plugin/pluginProducts/importSpecialMappingSave',['as' => 'pluginProducts.importSpecialMappingSave', 'uses'=>'PluginProductsCrudController@importSpecialMappingSave']);
+
     Route::post('plugin/pluginProducts/create_combinations',['as' => 'pluginProducts.create_combinations', 'uses'=>'PluginProductsCrudController@create_combinations']);
     Route::post('plugin/pluginProducts/associate_combinations',['as' => 'pluginProducts.associate_combinations', 'uses'=>'PluginProductsCrudController@associate_combinations']);
 

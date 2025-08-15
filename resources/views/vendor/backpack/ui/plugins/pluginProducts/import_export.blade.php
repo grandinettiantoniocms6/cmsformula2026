@@ -112,6 +112,140 @@
                 </div>
             </div>
         </div>
+
+        @if(env('IMPORT_SPECIAL') == 1)
+        <div class="col-sm-12">
+            <div class="card h-100 shadow-none">
+                <div class="card-header bg-light font-weight-bold">Import SPECIAL</div>
+                <div class="card-body">
+
+                    <?php
+                    $url = route('pluginProducts.importSpecialMapping');
+                    ?>
+
+                    <form method="post" action="{{ $url }}" enctype="multipart/form-data" class="position-relative" id="form-import-special">
+                        {{ csrf_field() }}
+
+                        @if ($message = Session::get('success'))
+                            <div class="alert alert-success">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @endif
+
+
+                        <div class="form-loader" hidden>
+                            <div class="spinner-border text-primary" role="status"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file" name="file" class="form-control" id="file-special">
+                                <label class="custom-file-label" for="file-special">Scegli file</label>
+                            </div>
+                        </div>
+
+                        <?php
+                            $configs = \App\Models\PluginProductImport::get();
+                        ?>
+
+                        <div class="form-group">
+                            <label>Configurazioni</label>
+                            <select class="form-control" name="config_id">
+                                <option value="0">Nuova Configurazione</option>
+                                @if(count($configs))
+                                    @foreach($configs as $config)
+                                        <option value="{{ $config->id }}">{{ $config->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+
+                        <button type="submit" name="submit" value="load" class="btn btn-dark btn-block"><span>Carica</span></button>
+
+                    </form>
+
+                    @if(\request()->has('id'))
+                        <?php
+                           $url = route('pluginProducts.importSpecialMappingSave');
+                           $pluginImport = \App\Models\PluginProductImport::find(\request()->get('id'));
+                           $v_mapping = json_decode($pluginImport->mapping, true);
+
+                           $fields = [
+                                "sku",
+                                "name",
+                                "slug",
+                                "meta_title",
+                                "meta_description",
+                                "meta_key",
+                                "description_short",
+                                "description",
+                                "tags",
+                                "custom_1",
+                                "custom_2",
+                                "category",
+                                "brand",
+                                "is_active",
+                                "images",
+                                "price",
+                                "qty",
+                                "tax",
+                                "parent_sku",
+                                "code_article",
+                                "ean13"
+                            ];
+                        ?>
+
+                        <hr>
+                        <form method="post" action="{{ $url }}" enctype="multipart/form-data" class="position-relative">
+                             {{ csrf_field() }}
+
+                            <input type="hidden" name="id" value="{{ $pluginImport->id }}">
+
+                            <div class="form-group">
+                                <label>Nome configurazione</label>
+                                <input type="text" class="form-control" name="name" value="{{ $pluginImport->name }}">
+                            </div>
+
+                            @if($v_mapping)
+                                @if ($message = Session::get('error'))
+                                    <div class="alert alert-error">
+                                        <strong>{!! $message !!}</strong>
+                                    </div>
+                                @endif
+
+                                <table width="100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome colonna</th>
+                                            <th>Nome campo DB</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($v_mapping as $key=>$value)
+                                        <tr>
+                                            <td>{{ $key }}</td>
+                                            <td>
+                                                <select class="form-control" name="mapping[{{ $key }}]">
+                                                    <option value=""></option>
+                                                    @foreach($fields as $field)
+                                                        <option value="{{ $field }}">{{ $field }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
+
+                            <button type="submit" name="submit" class="btn btn-dark btn-block"><span>Salva</span></button>
+
+                        </form>
+                    @endif
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 @endsection
 
@@ -151,4 +285,6 @@
             });
        // });
     </script>
+
+
 @endsection
