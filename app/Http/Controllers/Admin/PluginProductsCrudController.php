@@ -683,7 +683,7 @@ class PluginProductsCrudController extends CrudController
                     'name'  => 'name',
                     'label' => 'Nome',
                     'type'  => 'text',
-                    'limit' => 10000, // Limit the number of characters shown
+                    'limit' => 40, // Limit the number of characters shown
                 ],
                 [
                     'name'  => 'price',
@@ -752,12 +752,36 @@ class PluginProductsCrudController extends CrudController
                     'onLabel' => '✓',
                     'offLabel' => '✕',
                 ];
+
+                $vet[] = [
+                    'name'  => 'is_caricamento_file_required',
+                    'label' => 'File*',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
+                ];
             }
 
             if($shopSetting->is_textarea_message){
                 $vet[] = [
                     'name'  => 'is_textarea_message',
                     'label' => 'Mess.',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
+                ];
+
+                $vet[] = [
+                    'name'  => 'is_textarea_message_required',
+                    'label' => 'Mess.*',
                     'type'  => 'editable_switch',
 
                     // Optionals
@@ -812,7 +836,7 @@ class PluginProductsCrudController extends CrudController
                     'name'  => 'name',
                     'label' => 'Nome',
                     'type'  => 'text',
-                    'limit' => 1000
+                    'limit' => 40
                 ],
                 [
                     // run a function on the CRUD model and show its return value
@@ -1676,12 +1700,12 @@ class PluginProductsCrudController extends CrudController
             }
 
             if($shopSetting->is_services_adding){
-                $this->crud->addField([   // CustomHTML
+               /* $this->crud->addField([   // CustomHTML
                     'name' => 'html_services',
                     'type' => 'custom_html',
                     'value' => view(backpack_view("plugins.pluginProducts.inc.services"), compact('products_services','product'))->render(),
                     'tab' => 'Servizi aggiuntivi',
-                ]);
+                ]);*/
             }
 
             if($shopSetting->is_caricamento_file || $shopSetting->is_textarea_message){
@@ -1690,14 +1714,20 @@ class PluginProductsCrudController extends CrudController
                         'name' => 'is_caricamento_file',
                         'label' => 'Inserire possibilità caricamento file?',
                         'type' => 'switch',
-                        'tab' => "Campi aggiuntivi"
+                        'tab' => "Campi aggiuntivi",
+                        'wrapperAttributes' => [
+                            'class' => 'form-group col-md-6'
+                        ],
                     ]);
 
                     $this->crud->addField([   // Checkbox
                         'name' => 'is_caricamento_file_required',
                         'label' => 'Rendere obbligatorio il caricamento file?',
                         'type' => 'switch',
-                        'tab' => "Campi aggiuntivi"
+                        'tab' => "Campi aggiuntivi",
+                        'wrapperAttributes' => [
+                            'class' => 'form-group col-md-6'
+                        ],
                     ]);
                 }
 
@@ -1706,14 +1736,20 @@ class PluginProductsCrudController extends CrudController
                         'name' => 'is_textarea_message',
                         'label' => 'Inserire possibilità messaggio personalizzato?',
                         'type' => 'switch',
-                        'tab' => "Campi aggiuntivi"
+                        'tab' => "Campi aggiuntivi",
+                        'wrapperAttributes' => [
+                            'class' => 'form-group col-md-6'
+                        ],
                     ]);
 
                     $this->crud->addField([   // Checkbox
                         'name' => 'is_textarea_message_required',
                         'label' => 'Rendere obbligatorio il messaggio personalizzato?',
                         'type' => 'switch',
-                        'tab' => "Campi aggiuntivi"
+                        'tab' => "Campi aggiuntivi",
+                        'wrapperAttributes' => [
+                            'class' => 'form-group col-md-6'
+                        ],
                     ]);
                 }
             }

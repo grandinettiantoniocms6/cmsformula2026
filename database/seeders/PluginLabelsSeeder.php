@@ -3503,6 +3503,60 @@ class PluginLabelsSeeder extends Seeder
         ]);
 
         $vet = [];
+        $vet["it"] = "Quantità minima";
+        $vet["en"] = "Qty Min.";
+        $vet["fr"] = "";
+        $vet["de"] = "";
+        $vet["es"] = "";
+        $vet["ru"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+        \App\Models\PluginProductsLabels::firstOrCreate(["key" => "detail-qty-min"],[
+            "value" => $vet,
+        ]);
+
+        $vet = [];
+        $vet["it"] = "Prezzo";
+        $vet["en"] = "Price";
+        $vet["fr"] = "";
+        $vet["de"] = "";
+        $vet["es"] = "";
+        $vet["ru"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+        \App\Models\PluginProductsLabels::firstOrCreate(["key" => "detail-qty-price"],[
+            "value" => $vet,
+        ]);
+
+        $vet = [];
+        $vet["it"] = "Caricare un file";
+        $vet["en"] = "Upload a file";
+        $vet["fr"] = "";
+        $vet["de"] = "";
+        $vet["es"] = "";
+        $vet["ru"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+        \App\Models\PluginProductsLabels::firstOrCreate(["key" => "detail-carica-file"],[
+            "value" => $vet,
+        ]);
+
+        $vet = [];
+        $vet["it"] = "Inserisci numerazione / testo";
+        $vet["en"] = "Insert numbering / text";
+        $vet["fr"] = "";
+        $vet["de"] = "";
+        $vet["es"] = "";
+        $vet["ru"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+        \App\Models\PluginProductsLabels::firstOrCreate(["key" => "detail-carica-msg"],[
+            "value" => $vet,
+        ]);
+
+
+
+        $vet = [];
         $vet["it"] = "Totale";
         $vet["en"] = "Total";
         $vet["fr"] = "";

@@ -639,6 +639,16 @@ class PluginProducts extends Model
             }
         }
 
+        //AGGIUNTA NELLA MODIFICA CHE UNA O PIù OPZIONI POSSONO AVERE DEI PREZZI AGGIUNTIVI
+        if($this->is_variant == 1){
+            $sum_price_options = \App\Models\ShopAttributesProducts::selectRaw("shop_attributes_options.*")
+                ->join("shop_attributes_options", "shop_attributes_options.id", "=", "option_id")
+                ->whereNull("shop_attributes_options.deleted_at")
+                ->where("product_id", $this->id)->sum("price");
+
+            $priceStart = $priceStart + $sum_price_options;
+        }
+
         $promo_priority = Promotion::whereRaw("(start_date <= '$now' AND expiration_date >='$now') AND is_forced = 1")
             ->count();
 
@@ -701,9 +711,6 @@ class PluginProducts extends Model
 
             return $priceStart;
         }
-
-
-
 
         if(($plugin->show_prices || $adminPlugin->version == 3) && $this->promo_price !== null && trim($this->promo_price) != "" && $this->data_promo_end && $this->data_promo_start){
             $data_start = Carbon::createFromFormat("Y-m-d", $this->data_promo_start);

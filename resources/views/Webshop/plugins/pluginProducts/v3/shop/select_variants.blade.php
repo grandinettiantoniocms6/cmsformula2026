@@ -123,6 +123,10 @@
                                 if(!$variantProduct){
                                     continue;
                                 }
+
+                                $vat = $variantProduct->tax ? $variantProduct->tax->value : 22;
+                                $vat_calculate = ($vat / 100) + 1;
+
                                 $cat_prod_name = "";
                                 $cat_prod_slug = "no-categoria";
                                 $cat_prod = $variantProduct->category();
@@ -132,9 +136,25 @@
                                 }
                                 ?>
                                 @if($option_selected_2 == $option->id)
-                                     <option value="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$variantProduct->slug]) }}" selected>{{ $option->value }}</option>
+                                     <option value="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$variantProduct->slug]) }}" selected>{{ $option->value }}
+                                         @if($option->price)
+                                             @if(env('VIEW_WITH_IVA') == 1)
+                                                 (+{{ number_format($option->price * $vat_calculate, 2, ",", ".") }} &euro;)
+                                             @else
+                                                 (+{{ number_format($option->price, 2, ",", ".") }} &euro;)
+                                             @endif
+                                         @endif
+                                     </option>
                                 @else
-                                     <option value="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$variantProduct->slug]) }}">{{ $option->value }}</option>
+                                     <option value="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$variantProduct->slug]) }}">{{ $option->value }}
+                                         @if($option->price)
+                                             @if(env('VIEW_WITH_IVA') == 1)
+                                                 (+{{ number_format($option->price * $vat_calculate, 2, ",", ".") }} &euro;)
+                                             @else
+                                                 (+{{ number_format($option->price, 2, ",", ".") }} &euro;)
+                                             @endif
+                                         @endif
+                                     </option>
                                 @endif
                             @endforeach
                         </select>

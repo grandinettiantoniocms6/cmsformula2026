@@ -64,6 +64,11 @@ class ShopAttributesOptionsCrudController extends CrudController
                 'type'  => 'text',
             ],
             [
+                'name'  => 'price',
+                'label' => '+Prezzo',
+                'type'  => 'text',
+            ],
+            [
                 // 1-n relationship
                 'label'     => 'Attributo', // Table column heading
                 'type'      => 'select',
@@ -127,6 +132,12 @@ class ShopAttributesOptionsCrudController extends CrudController
                 'name'  => 'icon',
                 'label' => 'Icona',
                 'type'  => 'browse',
+                'wrapper' => ['class' => 'form-group col-md-4'],
+            ],
+            [   // repeatable
+                'name'  => 'price',
+                'label' => 'Prezzo aggiuntivo (iva esclusa)',
+                'type'  => 'text',
                 'wrapper' => ['class' => 'form-group col-md-4'],
             ],
             [

@@ -38,8 +38,6 @@ $shopSetting = \App\Models\ShopSettings::first();
                     $images[] = $image->image;
                 }
             }
-
-
         }
 
         /* Se non si vuole vedere le foto delle varianti commento da riga 36 a riga 40 */
@@ -136,6 +134,17 @@ $shopSetting = \App\Models\ShopSettings::first();
                                     }
                                 }
 
+                                if($itemProduct){
+                                    if($itemProduct->is_variant == 1){
+                                        $sum_price_options = \App\Models\ShopAttributesProducts::selectRaw("shop_attributes_options.*")
+                                            ->join("shop_attributes_options", "shop_attributes_options.id", "=", "option_id")
+                                            ->whereNull("shop_attributes_options.deleted_at")
+                                            ->where("product_id", $itemProduct->id)->sum("price");
+
+                                        $start_price = $start_price + $sum_price_options;
+                                    }
+                                }
+
                                 $promo_price = $itemProduct->get_promo_price();
 
                                 $vat = $itemProduct->tax ? $itemProduct->tax->value : 22;
@@ -148,10 +157,12 @@ $shopSetting = \App\Models\ShopSettings::first();
                                     @include("$thema.plugins.pluginProducts.v3.shop.calculate_price")
 
                                     @if($symbol == "&euro;")
-                                        <?php $price_srp = $itemProduct->price_srp;
+                                        <?php
+                                        $price_srp = $itemProduct->price_srp;
                                         if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_country_user_listino_2'))){
                                             $price_srp = $itemProduct->price_2_srp;
-                                        } ?>
+                                        }
+                                        ?>
 
                                         @if($price_srp != 0)
                                             <ins class="new-price">{{ @$labels['shop-srp'] }} {!! $symbol !!}
@@ -337,13 +348,19 @@ $shopSetting = \App\Models\ShopSettings::first();
                                                  $products_quantities = \App\Models\PluginProductsQuantities::where("plugin_product_id", $itemProduct->id)
                                                      ->get();
                                             ?>
-                                            @if($products_quantities && $shopSetting->is_qta_minima)
+                                            @if(count($products_quantities) && $shopSetting->is_qta_minima)
                                                 <table class="table">
-                                                    <tr><th>Quantità minima</th><th>Prezzo</th></tr>
+                                                    <tr><th>{{ @$labels['detail-qty-min'] }}</th><th>{{ @$labels['detail-qty-price'] }}</th></tr>
                                                     @foreach($products_quantities as $pq)
                                                         <tr>
                                                             <td>{{ $pq->quantity_min }}</td>
-                                                            <td>{{ number_format($pq->price * $vat_calculate,2,",",".") }} &euro;</td>
+                                                            <td>
+                                                                @if(env('VIEW_WITH_IVA') == 1)
+                                                                    {{ number_format($pq->price * $vat_calculate, 2, ",", ".") }} &euro;
+                                                                @else
+                                                                    {{ number_format($pq->price, 2, ",", ".") }} &euro;
+                                                                @endif
+                                                            </td>
                                                         </tr>
                                                     @endforeach
                                                 </table>
@@ -357,21 +374,22 @@ $shopSetting = \App\Models\ShopSettings::first();
 
                                                 @if($shopSetting->is_caricamento_file && $itemProduct->is_caricamento_file)
                                                     <div class="form-group">
-                                                        <label>Caricare un file @if($itemProduct->is_caricamento_file_required) * @endif</label>
+                                                        <label>{{ @$labels['detail-carica-file'] }} @if($itemProduct->is_caricamento_file_required) * @endif</label>
                                                         <input class="form-control" name="file" id="file"  type="file" @if($itemProduct->is_caricamento_file_required) required @endif>
                                                     </div>
                                                 @endif
 
                                                 @if($shopSetting->is_textarea_message && $itemProduct->is_textarea_message)
                                                     <div class="form-group">
-                                                        <label>Inserisci numerazione / testo @if($itemProduct->is_textarea_message_required) * @endif</label>
+                                                        <label>{{ @$labels['detail-carica-msg'] }} @if($itemProduct->is_textarea_message_required) * @endif</label>
                                                         <input class="form-control" name="message" id="message"  type="text" @if($itemProduct->is_textarea_message_required) required @endif>
                                                     </div>
                                                 @endif
 
                                                 @if($shopSetting->is_services_adding)
                                                     <?php
-                                                      $productServices = \App\Models\PluginProductsServices::where("plugin_product_id", $itemProduct->id)->get();
+                                                      //$productServices = \App\Models\PluginProductsServices::where("plugin_product_id", $itemProduct->id)->get();
+                                                      $productServices = null;
                                                     ?>
 
                                                     @if($productServices)

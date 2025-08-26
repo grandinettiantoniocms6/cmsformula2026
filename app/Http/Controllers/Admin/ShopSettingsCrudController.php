@@ -985,12 +985,12 @@ class ShopSettingsCrudController extends CrudController
                     'tab' => "Generale"
                 ]);
 
-                $this->crud->addField([   // Checkbox
+                /*$this->crud->addField([   // Checkbox
                     'name' => 'is_services_adding',
                     'label' => 'Inserire possibilità di inserire servizi aggiuntivi nei prodotti?',
                     'type' => 'switch',
                     'tab' => "Generale"
-                ]);
+                ]);*/
 
 
             }

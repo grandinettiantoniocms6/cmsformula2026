@@ -1292,16 +1292,18 @@ class PluginProductsController extends Controller
                         }else{
                             $product->price_view = "";
                         }
-
                     }
 
+                    //il prodotto ha figli?
+                    $figli = PluginProducts::where("group_id", $product->group_id)->where("is_variant", 1)->get();
+                    if(count($figli) == 0){
+                        if($pluginSetting->view_addcart_autocomplete_topbar_ecommerce == 1){
+                            $url_add = route('add.cart.product.search');
+                            $product->add_cart = "$url_add?id=$product->id";
 
-                    if($pluginSetting->view_addcart_autocomplete_topbar_ecommerce == 1){
-                        $url_add = route('add.cart.product.search');
-                        $product->add_cart = "$url_add?id=$product->id";
-
-                        if($pluginSetting->icon_button_autocomplete_topbar_ecommerce){
-                            $product->button_cart = "<i class='$pluginSetting->icon_button_autocomplete_topbar_ecommerce'></i>";
+                            if($pluginSetting->icon_button_autocomplete_topbar_ecommerce){
+                                $product->button_cart = "<i class='$pluginSetting->icon_button_autocomplete_topbar_ecommerce'></i>";
+                            }
                         }
                     }
                 }
