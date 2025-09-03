@@ -1,6 +1,6 @@
 <?php $website = \App\Models\WebsiteSetting::first(); ?>
 
-<section>
+<section data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 justify-content-center mb-5 md-mb-6" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 

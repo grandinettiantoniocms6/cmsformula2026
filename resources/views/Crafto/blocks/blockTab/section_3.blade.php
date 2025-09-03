@@ -1,4 +1,4 @@
-<section class="block-tabs style-{{ $item->style }} mt-4" id="block-tabs-{{ $item->id }}">
+<section class="block-tabs style-{{ $item->style }} mt-4" id="block-tabs-{{ $item->id }}" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }} mt-{{ $item->mt }}px">
         <div class="tab">
             @if($array)

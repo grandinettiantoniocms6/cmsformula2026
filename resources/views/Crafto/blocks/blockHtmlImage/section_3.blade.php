@@ -22,7 +22,7 @@ if($descriptionBlocco){
 
 ?>
 
-<section class="big-section overflow-hidden ps-6 pe-6" style="background-color: {{ $item->bgcolor }}; margin-top: 0px">
+<section class="big-section overflow-hidden ps-6 pe-6" style="background-color: {{ $item->bgcolor }}; margin-top: 0px" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
 
         @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")

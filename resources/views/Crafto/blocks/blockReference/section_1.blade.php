@@ -22,7 +22,7 @@ if($descriptionBlocco){
 ?>
 
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-    <section class="pt-5 pb-5">
+    <section class="pt-5 pb-5" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-12 col-xl-12 col-lg-8 text-center position-relative page-title-double-large">
@@ -37,7 +37,7 @@ if($descriptionBlocco){
 @endif
 
 
-<section class="pt-0 block-referenze style-{{ $item->style }}">
+<section class="pt-0 block-referenze style-{{ $item->style }}" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="container">
         <div class="row">
 

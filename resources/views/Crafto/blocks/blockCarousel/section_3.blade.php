@@ -1,4 +1,4 @@
-<section class="pt-50px overflow-hidden">
+<section class="pt-50px overflow-hidden" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="container-fluid p-0">
         <div class="row align-items-center g-0">
             <div class="col-12 position-relative swiper-dark-pagination" data-anime='{ "translateX": [150, 0], "opacity": [0,1], "duration": 1200, "delay": 100, "staggervalue": 150, "easing": "easeOutQuad" }'>

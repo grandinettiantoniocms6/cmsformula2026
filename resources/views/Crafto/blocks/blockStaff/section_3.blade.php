@@ -1,6 +1,6 @@
 <?php $website = \App\Models\WebsiteSetting::first(); ?>
 
-<section class="background-repeat position-relative overflow-hidden mt-2">
+<section class="background-repeat position-relative overflow-hidden mt-2" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <div class="row row-cols-1 row-cols-lg-4 row-cols-sm-2" data-anime='{ "el": "childs", "translateY": [30, 0], "translateX": [-30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
 

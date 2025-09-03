@@ -29,7 +29,7 @@ if($descriptionBlocco){
         $bgimage = $item->bgimage;
     ?>
 
-    <section class="background-position-center-top pt-3 sm-pt-50px" style="@if($item->bgimage) background-image: url('{{ $item->bgimage }}') @endif; background-color: {{ $item->background_color }}!important;">
+    <section class="background-position-center-top pt-3 sm-pt-50px" style="@if($item->bgimage) background-image: url('{{ $item->bgimage }}') @endif; background-color: {{ $item->background_color }}!important;" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
         <div class="{{ $item->fullwidth }}">
             <div class="row align-items-center">
                 <div class="col-lg-12 text-center">

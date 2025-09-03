@@ -1,4 +1,4 @@
-<section class="block-tabs style-{{ $item->style }} mt-4" id="block-tabs-{{ $item->id }}">
+<section class="block-tabs style-{{ $item->style }} mt-4" id="block-tabs-{{ $item->id }}" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }} mt-{{ $item->mt }}px">
         <div class="row align-items-center" data-anime='{ "el": "childs", "translateY": [0, 0], "opacity": [0,1], "duration": 1200, "delay": 150, "staggervalue": 300, "easing": "easeOutQuad" }'>
             <div class="col-xl-3 col-lg-4 col-md-12 tab-style-05 md-mb-30px sm-mb-20px">

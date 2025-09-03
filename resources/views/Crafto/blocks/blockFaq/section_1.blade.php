@@ -1,4 +1,4 @@
-<section class="block-faq mt-3">
+<section class="block-faq mt-3" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <h3 class="title" data-anime='{ "translateX": [0, 0], "opacity": [0,1], "duration": 600, "delay":150, "staggervalue": 150, "easing": "easeOutQuad" }'>{{ $item->name }}</h3>
             <div class="accordion" id="accordion-{{ $item->id }}">

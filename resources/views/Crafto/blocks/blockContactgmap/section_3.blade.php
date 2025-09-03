@@ -1,4 +1,4 @@
-<section class="block-contact-map" id="block-contact-map-{{ $value->block_id }}">
+<section class="block-contact-map" id="block-contact-map-{{ $value->block_id }}" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="container-fluid px-0 overflow-hidden space-{{ $item->margin_top }}">
         <div class="row gx-0 align-items-center">
             <div class="col-lg-12 order-1 order-lg-2 wow animate__fadeInDown" data-wow-duration=".3s">

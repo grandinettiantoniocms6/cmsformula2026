@@ -130,7 +130,7 @@
             }
         </style>
 
-            <section id="block-separator-{{ $value->id }}" class="block-separator bg-overlay image-wrapper jarallax">
+            <section id="block-separator-{{ $value->id }}" class="block-separator bg-overlay image-wrapper jarallax" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
                 <div class="container-fluid page-container">
                     <div class="row mt-md-3 p-5">
                         <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-5">

@@ -1,4 +1,4 @@
-<section class="block-imagelink">
+<section class="block-imagelink" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         @if($array)
                 <?php $i = 1;?>
