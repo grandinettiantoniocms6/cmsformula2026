@@ -97,7 +97,7 @@
 
         ?>
 
-        <section class="block-metrox pt-0 pb-0">
+        <section class="block-metrox pt-0 pb-0" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
             <div class="{{ $item->fullwidth }}">
                 <div class="row @if($item->fullwidth == 'container-full') g-0 @endif" style="margin-top:{{ $item->mt }}px;">
 

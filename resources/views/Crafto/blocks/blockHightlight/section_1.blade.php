@@ -27,7 +27,7 @@ if($descriptionBlocco){
 ?>
 
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-    <section class="overflow-hidden position-relative border-radius-6px lg-border-radius-0px z-index-0" style="background-color: {{ $item->background_color }}!important; @if($item->bgimage) background-image: url('{{ $item->bgimage }}') @endif">
+    <section class="overflow-hidden position-relative border-radius-6px lg-border-radius-0px z-index-0" style="background-color: {{ $item->background_color }}!important; @if($item->bgimage) background-image: url('{{ $item->bgimage }}') @endif" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
         <div class="{{ $item->fullwidth }}">
             <div class="row align-items-center mb-6 sm-mb-9 text-center text-lg-start mt-5">
                 <div class="col-lg-5 md-mb-20px">

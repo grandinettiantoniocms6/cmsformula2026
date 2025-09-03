@@ -1,5 +1,4 @@
-
-<section class="md-pt-0">
+<section class="md-pt-0" data-anime='{"translateX": [50, 0], "opacity": [1,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <div class="row">
 

@@ -22,7 +22,7 @@ if($descriptionBlocco){
 
 ?>
 
-<section class="big-section overflow-hidden ps-6 pe-6">
+<section class="big-section overflow-hidden ps-6 pe-6" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <div class="row">
 

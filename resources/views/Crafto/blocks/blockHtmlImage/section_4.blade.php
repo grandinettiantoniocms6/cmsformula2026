@@ -1,5 +1,5 @@
 
-<section class="overflow-hidden big-section position-relative" style="background-color: {{ $item->bgcolor }}; margin-top: 0px">
+<section class="overflow-hidden big-section position-relative" style="background-color: {{ $item->bgcolor }}; margin-top: 0px" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <div class="row align-items-center">
             <div class="col-12">

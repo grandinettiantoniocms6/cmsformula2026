@@ -115,7 +115,7 @@
 
             <!-- start section -->
             @if(trim($value->foto) != "")
-                <section class="banner position-relative" data-parallax-background-ratio="0.5" style="background-image: url('{{ $foto }}'); margin-top: {{ $item->mt }}px!important; margin-bottom: {{ $item->mb }}px!important;">
+                <section class="banner position-relative" data-parallax-background-ratio="0.5" style="background-image: url('{{ $foto }}'); margin-top: {{ $item->mt }}px!important; margin-bottom: {{ $item->mb }}px!important;" data-anime='{"opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
             @else
                 <section id="{{ $item->id }}" style="background-color: {!! $value->bgcolor !!}; margin-top: {{ $item->mt }}px!important; margin-bottom: {{ $item->mb }}px!important; height: {{ $item->height }}!important; ">
             @endif

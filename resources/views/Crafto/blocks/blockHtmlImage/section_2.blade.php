@@ -31,7 +31,7 @@ if($descriptionBlocco){
     </div>
 </section>
 
-<section class="background-position-center-top pb-0" style="background-color: {{ $item->bgcolor }}; margin-top: 0px">
+<section class="background-position-center-top pb-0" style="background-color: {{ $item->bgcolor }}; margin-top: 0px" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <div class="row mb-0 xs-mb-10 overlap-section">
             <div class="col-12 position-relative">

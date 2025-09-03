@@ -1,4 +1,4 @@
-<section class="block-contact-map lg-h-auto position-relative" id="block-contact-map-{{ $value->block_id }}" style="margin-top: {{ $item->margin_top }}px; margin-bottom: {{ $item->margin_bottom }}px;">
+<section class="block-contact-map lg-h-auto position-relative" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }' id="block-contact-map-{{ $value->block_id }}" style="margin-top: {{ $item->margin_top }}px; margin-bottom: {{ $item->margin_bottom }}px;">
     <div class="container-fluid px-0 overflow-hidden">
         <div class="row gx-0 align-items-center">
             <div class="col-lg-6 order-2 order-lg-1 wow animate__fadeInUp" data-wow-duration=".3s">

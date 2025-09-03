@@ -121,7 +121,7 @@ case "checkbox":
                  } else {
 
                 echo "
-                <div class='position-relative terms-condition-box text-start d-inline-block mb-40px mt-40px form-check $classCheck'>
+                <div class='position-relative terms-condition-box text-start d-inline-block mb-20px mt-20px form-check $classCheck'>
                     <label class='form-check-label' for='pfc_privacy_control_$id'>
                         <input type='checkbox' name='$field' value='1' class='terms-condition check-box align-middle form-check-input' id='pfc_privacy_control_$id' $required data-cons-preference='$field'>
                         <span class='box fs-14'>
@@ -135,7 +135,7 @@ case "checkbox":
         }else{
 
             echo "
-            <div class='position-relative terms-condition-box text-start d-inline-block mb-40px mt-40px form-check $classCheck'>
+            <div class='position-relative terms-condition-box text-start d-inline-block mb-20px mt-20px form-check $classCheck'>
                 <label class='form-check-label' for='pfc_privacy_control_$id'>
                     <input type='checkbox' name='$field' value='1' class='terms-condition check-box align-middle form-check-input' id='pfc_privacy_control_$id' $required data-cons-preference='$field'>
                         <span class='box fs-14'>
@@ -209,7 +209,7 @@ case "button":
 
     <?php
     $key = config('app.recaptcha_key');
-    echo "<button class='button btn btn-medium btn-dark-gray btn-box-shadow btn-round-edge primary-font submit g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> $title </span></button>";
+    echo "<button class='button btn btn-medium btn-dark-gray btn-box-shadow btn-round-edge primary-font mb-20px mt-20px submit g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> $title </span></button>";
     break;
 case "attributes":
     if($plugin->show_attributes_form_contact == 1){

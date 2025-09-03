@@ -1,4 +1,4 @@
-<section class="mt-2">
+<section class="mt-2" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="container">
         <div class="row">
 

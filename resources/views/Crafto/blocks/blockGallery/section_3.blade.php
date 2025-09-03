@@ -19,7 +19,7 @@ if($descriptionBlocco){
 }
 ?>
 
-<section class="pt-0">
+<section class="pt-0" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
 
         @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
