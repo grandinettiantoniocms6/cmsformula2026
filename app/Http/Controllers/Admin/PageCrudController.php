@@ -47,7 +47,8 @@ class PageCrudController extends CrudController
         $new->save();
 
         //blocks
-        $list = \DB::table("blocks_pages")->where("page_id", $id)->whereNull("deleted_at")->get();
+        $list = \DB::table("blocks_pages")->where("page_id", $id)
+            ->whereNull("deleted_at")->get();
         if($list){
             foreach ($list as $block){
                 $adminBlock = \App\Models\AdminBlock::where("name", $block->type)->first();
@@ -57,17 +58,11 @@ class PageCrudController extends CrudController
                         $resultArray = json_decode(json_encode($item), true);
                         unset($resultArray['id']);
 
-                        \DB::table($adminBlock->name_table)->insert($resultArray);
+                        if($block->is_ereditable_from_id){
 
-                        $last = \DB::table($adminBlock->name_table)->where("name", $resultArray['name'])
-                          //  ->whereNull("deleted_at")
-                            ->orderBy("id", "desc")
-                            ->first();
-
-                        if($last){
                             PageBlock::insert([
                                 "type" => $block->type,
-                                "obj_id" => $last->id,
+                                "obj_id" => $block->obj_id,
                                 "page_id" => $new->id,
                                 "position" => $block->position,
                                 "col" => $block->col,
@@ -85,12 +80,50 @@ class PageCrudController extends CrudController
                                         $resultArray = json_decode(json_encode($bItem), true);
                                         unset($resultArray['id']);
 
-                                        $resultArray['block_id'] = $last->id;
+                                        $resultArray['block_id'] = $block->id;
                                         \DB::table($adminBlock->name_table)->insert($resultArray);
                                     }
                                 }
                             }
+
+                        }else{
+                            \DB::table($adminBlock->name_table)->insert($resultArray);
+
+                            $last = \DB::table($adminBlock->name_table)->where("name", $resultArray['name'])
+                                //  ->whereNull("deleted_at")
+                                ->orderBy("id", "desc")
+                                ->first();
+
+                            if($last){
+                                PageBlock::insert([
+                                    "type" => $block->type,
+                                    "obj_id" => $last->id,
+                                    "page_id" => $new->id,
+                                    "position" => $block->position,
+                                    "col" => $block->col,
+                                    "order" => $block->order,
+                                    "is_active" => $block->is_active,
+                                    "is_ereditable" => $block->is_ereditable,
+                                    "is_ereditable_from_id" => $block->is_ereditable_from_id,
+                                    "created_at" => Carbon::now()->toDateTimeString()
+                                ]);
+
+                                if($adminBlock->is_multi == 1){
+                                    $block_list_items = \DB::table($adminBlock->name_table)->where("block_id", $block->obj_id)->get();
+                                    if($block_list_items){
+                                        foreach ($block_list_items as $bItem){
+                                            $resultArray = json_decode(json_encode($bItem), true);
+                                            unset($resultArray['id']);
+
+                                            $resultArray['block_id'] = $last->id;
+                                            \DB::table($adminBlock->name_table)->insert($resultArray);
+                                        }
+                                    }
+                                }
+                            }
                         }
+
+
                     }
                 }
             }

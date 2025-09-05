@@ -144,7 +144,7 @@ class ShopCompaniesCrudController extends CrudController
             'type'        => 'select2_from_array',
             'options'     => $countries,
             'allows_null' => false,
-            'default'     => 348, //Italia
+            'default'     => 106, //Italia
             'allows_multiple' => false, // OPTIONAL; needs you to cast this to array in your model;
         ]);
 

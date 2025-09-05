@@ -1,3 +1,8 @@
+<?php
+$adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
+$pluginSetting = \App\Models\PluginProductsSettings::first();
+    ?>
+
 <div class="modal" role="dialog" id="modalProductView">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -6,7 +11,7 @@
             </div>
             <div class="modal-body">
                 <div class="single-product row py-0">
-                    @include("$thema.plugins.pluginProducts.v3.shop.type_detail_photo_modal_view")
+                    @include("Webshop.plugins.pluginProducts.v3.shop.type_detail_photo_modal_view")
                     <div class="col-md-7">
                         <div class="product-details">
                             <div class="product-meta">
@@ -67,7 +72,7 @@
 
                                                 $p_temp = $tempProduct;
                                                 ?>
-                                                @include("$thema.plugins.pluginProducts.v3.shop.calculate_price")
+                                                @include("Webshop.plugins.pluginProducts.v3.shop.calculate_price")
                                             </a>
                                         </div>
                                     @endforeach
