@@ -69,6 +69,7 @@
                                                 @include("$thema.plugins.pluginProducts.v3.shop.calculate_price")
                                             </a>
                                         </div>
+
                                     @endforeach
                                 </div>
                             </div>
