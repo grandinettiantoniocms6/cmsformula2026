@@ -157,7 +157,16 @@ $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first()
                                     @include("Webshop.plugins.pluginProducts.v3.shop.html_variants")
                                 @endif
 
-                                @if($itemProduct->is_purchasable == 1 && $shopSetting->type_view_variant == 1 && $promo_price > 0)
+                                <?php
+                                    $has_figli = 0;
+                                    if($itemProduct->is_variant == 0){
+                                        $has_figli = \App\Models\PluginProducts::where("is_variant", 1)->where("group_id", $itemProduct->group_id)
+                                            ->where("is_active", 1)
+                                            ->count();
+                                    }
+                                ?>
+
+                                @if($itemProduct->is_purchasable == 1 && $shopSetting->type_view_variant == 1 && $promo_price > 0 && $has_figli == 0)
                                     @if($itemProduct->qty == 0)
                                         <div class="alert alert-warning">
                                             <strong>{{ @$labels['shop-attenzione'] }}:</strong> {{ @$labels['shop-prodotto-non-disponibile'] }}
@@ -170,9 +179,14 @@ $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first()
                                         @else
                                             @if(!$itemProduct->in_cart())
                                                 <?php
+                                                $min = 1;
                                                 $max = $itemProduct->qty;
                                                 if($itemProduct->qty_max){
                                                     $max = $itemProduct->qty_max;
+                                                }
+
+                                                if($itemProduct->qty_min){
+                                                    $min = $itemProduct->qty_min;
                                                 }
                                                 ?>
 
@@ -186,7 +200,7 @@ $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first()
                                                             <div class="product-form-group row">
                                                                 <div class="input-group input-spinner w-auto col-auto">
                                                                     <button class="quantity-minus btn btn-default button-minus" type="button" onclick="decreaseValue('#qty_{{ $itemProduct->id }}')"><i class="fas fa-minus"></i></button>
-                                                                    <input class="quantity form-control form-control-qty" type="number" name="qty" min="1" @if($plugin->is_qty_infinite == 0) max="{{ $max }}" @endif value="1" id="qty_{{ $itemProduct->id }}">
+                                                                    <input class="quantity form-control form-control-qty" type="number" name="qty" min="{{ $min }}" @if($plugin->is_qty_infinite == 0) max="{{ $max }}" @endif value="{{ $min }}" id="qty_{{ $itemProduct->id }}">
                                                                     <button class="quantity-plus btn btn-default button-plus" type="button" onclick="increaseValue('#qty_{{ $itemProduct->id }}')"><i class="fas fa-plus"></i></button>
                                                                 </div>
                                                                 <a class="btn btn-primary col-auto" onclick="add_modal_cart({{ $itemProduct->id }})">

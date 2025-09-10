@@ -3503,8 +3503,8 @@ class PluginLabelsSeeder extends Seeder
         ]);
 
         $vet = [];
-        $vet["it"] = "Quantità minima";
-        $vet["en"] = "Qty Min.";
+        $vet["it"] = "Sconto su Quantità";
+        $vet["en"] = "Sconto su Quantità";
         $vet["fr"] = "";
         $vet["de"] = "";
         $vet["es"] = "";
@@ -3555,6 +3555,32 @@ class PluginLabelsSeeder extends Seeder
         ]);
 
 
+        $vet = [];
+        $vet["it"] = "Testo";
+        $vet["en"] = "Text";
+        $vet["fr"] = "";
+        $vet["de"] = "";
+        $vet["es"] = "";
+        $vet["ru"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+        \App\Models\PluginProductsLabels::firstOrCreate(["key" => "testo-custom"],[
+            "value" => $vet,
+        ]);
+
+        $vet = [];
+        $vet["it"] = "Anteprima";
+        $vet["en"] = "Preview";
+        $vet["fr"] = "";
+        $vet["de"] = "";
+        $vet["es"] = "";
+        $vet["ru"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+        \App\Models\PluginProductsLabels::firstOrCreate(["key" => "testo-vedi-file"],[
+            "value" => $vet,
+        ]);
+
 
         $vet = [];
         $vet["it"] = "Totale";
@@ -3568,6 +3594,20 @@ class PluginLabelsSeeder extends Seeder
         \App\Models\PluginProductsLabels::firstOrCreate(["key" => "shop-myarea-totale-ordine"],[
             "value" => $vet,
         ]);
+
+        $vet = [];
+        $vet["it"] = "Opzioni aggiuntive";
+        $vet["en"] = "Additional options";
+        $vet["fr"] = "";
+        $vet["de"] = "";
+        $vet["es"] = "";
+        $vet["ru"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+        \App\Models\PluginProductsLabels::firstOrCreate(["key" => "shop-opzioni-aggiuntive"],[
+            "value" => $vet,
+        ]);
+
 
         $vet = [];
         $vet["it"] = "Richiedi Assistenza su questo ordine";

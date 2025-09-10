@@ -268,6 +268,8 @@ class PluginProductsCategoriesCrudController extends CrudController
         $lang->update_lang("pluginProductsCategories", $this->crud, $request);
         $this->crud->entry->save();
 
+        \Artisan::call('set:products_categories_search');
+
         return $this->crud->performSaveAction($item->getKey());
     }
 
@@ -291,6 +293,8 @@ class PluginProductsCategoriesCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang("pluginProductsCategories", $this->crud, $request);
         $this->crud->entry->save();
+
+        \Artisan::call('set:products_categories_search');
 
         return $this->crud->performSaveAction($item->getKey());
     }

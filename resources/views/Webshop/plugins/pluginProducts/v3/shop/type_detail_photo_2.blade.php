@@ -2,8 +2,11 @@
     <div class="gallery-wrap">
         <div class="row row-cols-2 gx-2">
             @if(count($images))
-                @foreach($images as $image)
+                @foreach($images as $k=>$image)
                     <?php
+                    if($images_isext[$k] == 1){
+                        $url = $image;
+                    }else{
                         $basename = basename($image);
                         $temp = explode(".", $basename);
 
@@ -28,6 +31,8 @@
                         if (file_exists($checkImage)) {
                             $url = url($checkImage);
                         }
+                    }
+
                     ?>
                     <div class="col">
                         <div class="product-image active mb-1">

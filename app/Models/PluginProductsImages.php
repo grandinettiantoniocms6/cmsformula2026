@@ -30,6 +30,11 @@ class PluginProductsImages extends Model
     */
 
     public function get_foto_mini(){
+        if($this->is_ext == 1){
+            $url = $this->image;
+            return "<img src='$url' width='60'>";
+        }
+
         if($this->image){
             $basename = basename($this->image);
             $temp = explode(".", $basename);
@@ -52,6 +57,10 @@ class PluginProductsImages extends Model
     // Funzione nuova che genera le THUMB Plugin Prodotti
     public function setImageAttribute($value)
     {
+        if($this->is_ext == 1){
+            return;
+        }
+
         $attribute_name = "image";
         $disk = config('backpack.base.root_disk_name');
         $destination_path = "public/thumb/plugin_products";

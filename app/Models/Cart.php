@@ -12,7 +12,7 @@ class Cart extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['product_id','user_id','qty','price','file','message','services'];
+    protected $fillable = ['product_id','user_id','qty','price','file','message','services', 'price_unit', 'price_add', 'total_cart'];
 
     // protected $hidden = [];
     // protected $dates = [];

@@ -320,7 +320,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(PluginProducts::class, "shop_order_product", "order_id", "product_id")->withPivot(['name', 'sku', 'price', 'price_with_tax',  'quantity','custom_label_1', 'custom_label_2','file','message','services']);
+        return $this->belongsToMany(PluginProducts::class, "shop_order_product", "order_id", "product_id")->withPivot(['name', 'sku', 'price', 'price_with_tax',  'quantity','custom_label_1', 'custom_label_2','file','message','services', 'price_unit', 'price_add']);
     }
 
     /*

@@ -225,10 +225,18 @@ class CartController extends Controller
 
         $cart = $this->loading_cart(true);
 
+        $count = 0;
+        if($cart){
+            foreach ($cart as $item){
+                $count += $item->qty;
+            }
+        }
+
+
         if($request->has('modal')){
             return response()->json([
                "ok" => 1,
-               "count" => count($cart)
+               "count" => $count
             ]);
         }
 
@@ -238,12 +246,51 @@ class CartController extends Controller
     }
 
     public function add_cart(Request $request){
-        $shopSetting = ShopSettings::first();
 
         $product = PluginProducts::find($request->input('id'));
         if($product){
+            $qty = 1;
+            if($product->qty_min){
+                $qty = $product->qty_min;
+            }
+
+            if($request->has('qty')){
+                $qty = (int) $request->get('qty');
+            }
+
+            if($qty > $product->qty){
+                $qty = $product->qty;
+            }
+
             //nel carrello deve andare sempre il prezzo IVATO
-            $finalPrice = $product->get_promo_price(true);
+            $finalPrice = $product->get_promo_price_cart($qty, true);
+
+            $priceStart = $product->price;
+
+            //------------------PRODUCT QUANTITY
+            $shopSetting = ShopSettings::first();
+            if($shopSetting->is_qta_minima){
+                $products_quantities = PluginProductsQuantities::where("plugin_product_id", $product->id)
+                    ->where("quantity_min", "<=", $qty)
+                    ->orderBy("quantity_min", "DESC")
+                    ->first();
+
+                if($products_quantities && $shopSetting->is_qta_minima){
+                    $priceStart = $products_quantities->price;
+                }
+            }
+
+            //AGGIUNTA NELLA MODIFICA CHE UNA O PIù OPZIONI POSSONO AVERE DEI PREZZI AGGIUNTIVI
+            $priceAdd = 0;
+            if($product->is_variant == 1){
+                $sum_price_options = \App\Models\ShopAttributesProducts::selectRaw("shop_attributes_options.*")
+                    ->join("shop_attributes_options", "shop_attributes_options.id", "=", "option_id")
+                    ->whereNull("shop_attributes_options.deleted_at")
+                    ->where("product_id", $product->id)->sum("price");
+
+                $priceAdd = $sum_price_options;
+            }
+
 
             if($request->has('extra')){
                 $extra = $request->get('extra');
@@ -257,26 +304,7 @@ class CartController extends Controller
                 }
             }
 
-            $qty = 1;
-            if($request->has('qty')){
-                $qty = (int) $request->get('qty');
-            }
 
-            if($qty > $product->qty){
-                $qty = $product->qty;
-            }
-
-            //------------------PRODUCT QUANTITY
-            $products_quantities = PluginProductsQuantities::where("plugin_product_id", $product->id)
-                ->where("quantity_min", "<=", $qty)
-                ->orderBy("quantity_min", "DESC")
-                ->first();
-            if($products_quantities && $shopSetting->is_qta_minima){
-                $vat = $product->tax ? $product->tax->value : 22;
-                $vat_calculate = ($vat / 100) + 1;
-
-                $finalPrice = $products_quantities->price * $vat_calculate;
-            }
 
             $path = null;
             if ($request->hasFile('file')) {
@@ -297,11 +325,14 @@ class CartController extends Controller
                     $cart = Cart::create([
                         "product_id" => $request->input('id'),
                         "user_id" => \Session::get('user_id'),
-                        "price" => round($finalPrice,3),
+                        "price" => $finalPrice,
                         "qty" => $qty,
+                        "total_cart" => $finalPrice * $qty,
                         "file" => $path,
                         "message" => $message,
-                        "created_at" => Carbon::now()->toDateTimeString()
+                        "created_at" => Carbon::now()->toDateTimeString(),
+                        "price_unit" => $priceStart,
+                        "price_add" => $priceAdd
                     ]);
 
                     if($request->has('extra')){
@@ -332,13 +363,20 @@ class CartController extends Controller
                 }
 
                 if(!in_array($request->input('id'), $v_)){
+                    /*$calc_total =round($finalPrice,3) * $qty;
+                    $truncate = $this->truncate($calc_total, 2);
+                    $prezzo_ivato_calcolato_unitario = $truncate / $qty;*/
+
                     $obj = new \stdClass();
                     $obj->product_id = $request->input('id');
                     $obj->product_name = $product->name;
                     $obj->qty = $qty;
-                    $obj->price = round($finalPrice,3);
+                    $obj->price = $finalPrice;
+                    $obj->total_cart = $finalPrice * $qty;
                     $obj->file = $path;
                     $obj->message = $message;
+                    $obj->price_unit = $priceStart;
+                    $obj->price_add = $priceAdd;
 
                     if($request->has('extra')){
                         $extra = $request->get('extra');
@@ -373,7 +411,9 @@ class CartController extends Controller
                     $obj->product_name = $product->name;
                     $obj->qty = $item->qty;
                     $obj->price = $item->price;
-
+                    $obj->price_add = $item->price_add;
+                    $obj->price_unit = $item->price_unit;
+                    $obj->total_cart = $item->total_cart;
                     $obj->file = $item->file;
                     $obj->message = $item->message;
 
@@ -403,24 +443,37 @@ class CartController extends Controller
                 $product_item = PluginProducts::find($product->product_id);
                 if($product_item){
                     //nel carrello deve andare sempre il prezzo IVATO
-                    $finalPrice = $product_item->get_promo_price(true);
+                    $finalPrice = $product_item->get_promo_price_cart($quantities[$product->product_id], true);
 
+                    $priceStart = $product_item->price;
                     //------------------PRODUCT QUANTITY
                     $products_quantities = PluginProductsQuantities::where("plugin_product_id", $product_item->id)
-                        ->where("quantity_min", "<=", $quantities)
+                        ->where("quantity_min", "<=", $quantities[$product->product_id])
                         ->orderBy("quantity_min", "DESC")
                         ->first();
                     if($products_quantities && $shopSetting->is_qta_minima){
-                        $vat = $product_item->tax ? $product_item->tax->value : 22;
-                        $vat_calculate = ($vat / 100) + 1;
-
-                        $finalPrice = $products_quantities->price * $vat_calculate;
+                        $priceStart = $products_quantities->price;
                     }
+
+                    //AGGIUNTA NELLA MODIFICA CHE UNA O PIù OPZIONI POSSONO AVERE DEI PREZZI AGGIUNTIVI
+                    $priceAdd = 0;
+                    if($product_item->is_variant == 1){
+                        $sum_price_options = \App\Models\ShopAttributesProducts::selectRaw("shop_attributes_options.*")
+                            ->join("shop_attributes_options", "shop_attributes_options.id", "=", "option_id")
+                            ->whereNull("shop_attributes_options.deleted_at")
+                            ->where("product_id", $product_item->id)->sum("price");
+
+                        $priceAdd = $sum_price_options;
+                    }
+
 
                     if(key_exists($product->product_id, $quantities)){
                         $product->qty = $quantities[$product->product_id];
                         $product->price = $finalPrice;
                     }
+
+                    $product->price_unit = $priceStart;
+                    $product->price_add = $priceAdd;
 
                     if(\Session::has('user_id')){
                         if(key_exists($product->product_id, $quantities)){
@@ -726,7 +779,11 @@ class CartController extends Controller
                             "product_id" => $product->product_id,
                             "user_id" => $authUser->id,
                             "qty" => $product->qty,
-                            "price" => $product->price
+                            "price" => $product->price,
+                            "price_unit" => $product->price_unit,
+                            "price_add" => $product->price_add,
+                            "message" => $product->message,
+                            "file" => $product->file
                         ]);
 
                         if(property_exists($product, "extra")){
@@ -939,7 +996,9 @@ class CartController extends Controller
                         "file" => $item->file,
                         "message" => $item->message,
                         "custom_label_1" => $product->custom_1,
-                        "custom_label_2" => $product->custom_2
+                        "custom_label_2" => $product->custom_2,
+                        "price_unit" => $item->price_unit,
+                        "price_add" => $item->price_add
                     ]);
 
                     if($product->is_subscription){
@@ -1166,6 +1225,58 @@ class CartController extends Controller
             echo "Email inviata";
         }catch (\Throwable $e) {
         }
+    }
+
+    public function truncate($value, $precision = 2) {
+        $factor = pow(10, $precision);
+        return floor($value * $factor) / $factor;
+    }
+
+     public function bcround($number, $precision = 2) {
+        $modifier = $number >= 0 ? 0.5 : -0.5;
+        $factor = pow(10, $precision);
+        return floor($number * $factor + $modifier) / $factor;
+    }
+
+    // tronca verso il basso (OK per numeri >= 0)
+    public function truncate_floor(float $value, int $precision = 2): float {
+        $factor = 10 ** $precision;
+        return floor($value * $factor) / $factor;
+    }
+
+    public function count_decimals($value): int
+    {
+        // 1) normalizza in stringa
+        if (is_float($value)) {
+            // evita artefatti binari (es. 0.9520000000001)
+            $value = rtrim(rtrim(sprintf('%.14F', $value), '0'), '.');
+        } else {
+            $value = (string) $value;
+        }
+        $s = trim(str_replace(' ', '', $value));
+
+        // 2) se ci sono sia "," che ".", considera decimale l'ULTIMO simbolo
+        $lastComma = strrpos($s, ',');
+        $lastDot   = strrpos($s, '.');
+        if ($lastComma !== false && $lastDot !== false) {
+            $pos = max($lastComma, $lastDot);
+            $int = str_replace(['.', ','], '', substr($s, 0, $pos)); // rimuovi migliaia
+            $dec = substr($s, $pos + 1);
+            return strlen($dec);
+        }
+
+        // 3) solo virgola → decimale
+        if (strpos($s, ',') !== false) {
+            return strlen(substr($s, strpos($s, ',') + 1));
+        }
+
+        // 4) solo punto → decimale
+        if (strpos($s, '.') !== false) {
+            return strlen(substr($s, strpos($s, '.') + 1));
+        }
+
+        // 5) intero puro
+        return 0;
     }
 
 }

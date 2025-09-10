@@ -1,4 +1,13 @@
 <div class="product-wrap">
+    <?php
+    $has_figli = 0;
+    if($product->is_variant == 0){
+        $has_figli = \App\Models\PluginProducts::where("is_variant", 1)->where("group_id", $product->group_id)
+            ->where("is_active", 1)
+            ->count();
+    }
+    ?>
+
     <div class="product product-list">
         <figure class="product-media">
             <a href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}">
@@ -141,7 +150,7 @@
                             @endif
 
                             @if(count($vet_ids) > 0 && $shopSetting->view_variants_in_list == 1)
-                                <button type="button" onclick="modal_view_list_variant({{ $product->id }})"><u>{{ count($vet_ids) }} {{ @$labels['shop-varianti-disponibili'] }}</u></button>
+                                <button class="btn btn-light" type="button" onclick="modal_view_list_variant({{ $product->id }})"><u>{{ count($vet_ids) }} {{ @$labels['shop-varianti-disponibili'] }}</u></button>
                                 <div id="box_variants_list_{{ $product->id }}"></div>
                             @else
                                 @if(count($vet_ids) > 0 && $shopSetting->view_variants_in_list == 2)
@@ -205,7 +214,7 @@
                     </div>
                 </div>
 
-                @if($shopSetting->is_add_to_cart_list && $product->is_purchasable)
+                @if($shopSetting->is_add_to_cart_list && $product->is_purchasable && $has_figli == 0)
                     <div class="col-auto">
                         <form method="post" action="{{ route('add.cart.product') }}" id="add-cart-from-list-{{ $product->id }}">
                             {{ csrf_field() }}
@@ -229,14 +238,23 @@
                             </div>
                         </form>
                     </div>
+                @else
+                    <div class="col-auto">
+                        <a class="btn btn-lg btn-primary" href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}">
+                            <i class="bi bi-bag-plus"></i>
+                            <span class="sr-only">Dettaglio</span>
+                        </a>
+                    </div>
                 @endif
             </div>
 
-                @if($adminPlugin->version == 3 || !$product->is_purchasable)
+            @if(!$shopSetting->is_add_to_cart_list || !$product->is_purchasable)
+                @if($adminPlugin->version == 3)
                     <div class="product-action product-action-2">
                         <a href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}" class="btn btn-product btn-primary" title="{{ $product->name }}">{{ @$labels['dettaglio-prodotto'] }}</a>
                     </div>
                 @endif
+            @endif
         </div>
     </div>
 </div>

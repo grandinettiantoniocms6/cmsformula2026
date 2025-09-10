@@ -26,6 +26,23 @@
                 <small><a href="#" onclick="history.back()" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
             @endif
         @endif
+
+        <?php
+        $link_anteprima = "";
+        $url_anteprima = null;
+        if($entry->is_active == 1){
+            $lang = \App::getLocale();
+            $lang_up = strtoupper($lang);
+
+            $url_plugin_product = env("PLUGIN_PRODUCTS_URL_$lang_up");
+            $url_site = env("APP_URL");
+
+            $url_anteprima = "$url_site/$url_plugin_product/anteprima/$entry->slug";
+        }
+        ?>
+        @if($url_anteprima)
+        <a href="{{ $url_anteprima }}" class="btn btn-sm btn-light" target="_blank">ANTEPRIMA</a>
+        @endif
     </h3>
 @endsection
 

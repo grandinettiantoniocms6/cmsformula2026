@@ -117,6 +117,11 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                                 </a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('pluginProducts.import_export') }}"><i class="nav-icon las la-exchange-alt"></i> Import/Export</a></li>
+
+                            @if(env('IMPORT_SPECIAL') == 1)
+                               <li class="nav-item"><a class="nav-link" href="{{ backpack_url('plugin-product-import') }}"><i class="nav-icon las la-exchange-alt"></i> Import Config.</a></li>
+                            @endif
+
                         @endif
 
                         @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
@@ -458,6 +463,3 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
         @endif
     @endforeach
 @endif
-
-
-<x-backpack::menu-item title="Plugin product imports" icon="la la-question" :link="backpack_url('plugin-product-import')" />

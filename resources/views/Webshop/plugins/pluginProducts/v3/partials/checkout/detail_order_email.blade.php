@@ -25,6 +25,12 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
             $extra_list = \App\Models\ShopOrderProductExtra::where("shop_order_id", $product->pivot->order_id)->where("shop_product_id", $product->id)
                 ->get()->pluck("value", "extra_id")->toArray();
             ?>
+
+            @php
+                $vat = $product->tax ? $product->tax->value : 22;
+                $vat_calculate = ($vat / 100) + 1;
+            @endphp
+
             <tr>
                 <td>
                     <?php
@@ -32,10 +38,14 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                     ?>
                     @if($product->is_variant == 1)
                         <?php
-                        $padre = \App\Models\PluginProducts::where("group_id", $product->group_id)->where("is_variant", 0)->first();
-                        if($padre && $product->include_photo_padre == 1){
-                            $coverPadre = $padre->getCover();
-                            echo "<img width='30' class='card' src='$coverPadre'>";
+                        if($product->include_photo_padre == 1){
+                            $padre = \App\Models\PluginProducts::where("group_id", $product->group_id)->where("is_variant", 0)->first();
+                            if($padre){
+                                $coverPadre = $padre->getCover();
+                                echo "<img width='30' class='card' src='$coverPadre'>";
+                            }
+                        }else{
+                            echo "<img width='30' class='card' src='$cover'>";
                         }
                         ?>
                         <img width="30" class="card" src="{{ $cover }}" alt="{{ $product->pivot->name }}">
@@ -59,9 +69,23 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                             @endif
                         @endif
 
-                        <br/><strong>x {{ $product->pivot->quantity }}</strong> <small>
-                            ({!! $symbol !!} {{ $product->price }})
-                        </small>
+                            @if($product->pivot->price_add > 0)
+                                <?php
+                                if(env('VIEW_WITH_IVA') == 1){
+                                    $sum_price_options = number_format($product->pivot->price_add * $vat_calculate,2,",",".");
+                                }else{
+                                    $sum_price_options = number_format($product->pivot->price_add,2,",",".");
+                                }
+                                ?>
+                                @if(env('VIEW_WITH_IVA') == 1)
+                                    <br><small>{{ @$labels['shop-carrello-prezzo'] }}: &euro; {{ number_format($product->pivot->price_unit * $vat_calculate,2,",",".") }}</small>
+                                    <br><small>{{ @$labels['shop-opzioni-aggiuntive'] }}: &euro; {{ $sum_price_options }}</small>
+                                @else
+                                    <br><small>{{ @$labels['shop-carrello-prezzo'] }}: &euro; {{ number_format($product->pivot->price_unit,2,",",".") }}</small>
+                                    <br><small>{{ @$labels['shop-opzioni-aggiuntive'] }}: &euro; {{ $sum_price_options }}</small>
+                                @endif
+                            @endif
+                            <br><small>{{ @$labels['shop-carrello-qta'] }}: {{ $product->pivot->quantity }}</small>
 
                         @if($extra_list)
                             <br>
@@ -76,12 +100,14 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
 
                         @if($product->pivot->message)
                             <br><br>
-                            <div><em>Messaggio:</em> {{ $product->pivot->message }}</div>
+                            <div><em>{{ @$labels['testo-custom'] }}:</em> {{ $product->pivot->message }}</div>
                         @endif
 
                         @if($product->pivot->file)
                             <br>
-                            <div><em>File:</em> <a href="{{ url("uploads/{$product->pivot->file}") }}" target="_blank">Vedi</a> </div>
+                            <div><em>File:</em> <a href="{{ url("uploads/{$product->pivot->file}") }}" target="_blank">
+                                    {{ @$labels['testo-vedi-file'] }}
+                                </a> </div>
                         @endif
 
                     @if($product->pivot->is_gift == 1)

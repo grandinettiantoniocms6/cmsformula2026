@@ -48,9 +48,17 @@ $shopSetting = \App\Models\ShopSettings::first();
                                         @if($categories)
                                             @foreach($categories as $categoryItem)
                                                 <?php
+                                                $cat_slug = null;
                                                 $tot = 0;
-                                                $cat_slug = $categoryItem['slug'][\App::getLocale()];
-                                                $cat_name = $categoryItem['name'][\App::getLocale()];
+                                                if(key_exists(\App::getLocale(), $categoryItem['slug'])){
+                                                    $cat_slug = $categoryItem['slug'][\App::getLocale()];
+                                                }
+
+                                                $cat_name = null;
+                                                if(key_exists(\App::getLocale(), $categoryItem['name'])){
+                                                    $cat_name = $categoryItem['name'][\App::getLocale()];
+                                                }
+
                                                 ?>
                                                 @if(count($categoryItem['figli']) > 0)
                                                     @foreach($categoryItem['figli'] as $figlio)
@@ -66,17 +74,26 @@ $shopSetting = \App\Models\ShopSettings::first();
                                                             <ul class="megamenu columns-1">
                                                                 @foreach($categoryItem['figli'] as $figlio)
                                                                     <?php
-                                                                    $cat_slug = $figlio['slug'][\App::getLocale()];
-                                                                    $cat_name = $figlio['name'][\App::getLocale()];
+                                                                    $cat_slug = null;
+                                                                    if(key_exists(\App::getLocale(), $figlio['slug'])){
+                                                                        $cat_slug = $figlio['slug'][\App::getLocale()];
+                                                                    }
+
+                                                                        $cat_name = null;
+                                                                    if(key_exists(\App::getLocale(), $figlio['name'])){
+                                                                        $cat_name = $figlio['name'][\App::getLocale()];
+                                                                    }
                                                                     ?>
-                                                                    @if($figlio['count'] > 0)
+                                                                    @if($figlio['count'] > 0 && $cat_slug && $cat_name)
                                                                         <li><a class="dropdown-item" href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></li>
                                                                     @endif
                                                                 @endforeach
                                                             </ul>
                                                         </li>
                                                     @else
-                                                        <li><a href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></li>
+                                                        @if($cat_slug && $cat_name)
+                                                            <li><a href="{{ route("pluginProducts.".\App::getLocale(), [$cat_slug]) }}">{{ $cat_name }}</a></li>
+                                                        @endif
                                                     @endif
                                                 @endif
                                             @endforeach

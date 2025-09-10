@@ -16,6 +16,7 @@ use App\Models\PluginProductsAttributes;
 use App\Models\PluginProductsBrands;
 use App\Models\PluginProductsCategories;
 use App\Models\PluginProductsCategoriesProducts;
+use App\Models\PluginProductsCategoriesSearch;
 use App\Models\PluginProductsImages;
 use App\Models\PluginProductsImagesSize;
 use App\Models\PluginProductsLangs;
@@ -23,6 +24,7 @@ use App\Models\PluginProductsOptions;
 use App\Models\PluginProductsPrices;
 use App\Models\PluginProductsQuantities;
 use App\Models\PluginProductsRelated;
+use App\Models\PluginProductsSearch;
 use App\Models\PluginProductsServices;
 use App\Models\PluginProductsSettings;
 use App\Models\ShopAttributes;
@@ -57,6 +59,48 @@ class PluginProductsCrudController extends CrudController
 
 
     use \Backpack\CRUD\app\Http\Controllers\Operations\CloneOperation { clone as traitClone; }
+
+    public function saveMinorUpdate()
+    {
+
+        $this->setupListOperation();
+
+        CRUD::hasAccessOrFail('list');
+
+        $this->minorUpdateRequest = CRUD::getRequest();
+        $this->minorUpdateEntry = CRUD::getModel()->findOrFail($this->minorUpdateRequest->id);
+
+        // Validate request
+        $this->saveMinorUpdateFormValidation();
+
+        // Update entry
+        $this->minorUpdateEntry = $this->saveMinorUpdateEntry();
+
+        $product = PluginProducts::find($this->minorUpdateRequest->id);
+
+        \Artisan::call('set:products_search', ['id'=> $product->id]);
+
+        $figli = PluginProducts::where("group_id", $product->group_id)->get();
+        if($figli){
+            foreach ($figli as $figlio){
+                $field = $this->minorUpdateRequest->attribute;
+
+                $figlio->$field = $this->minorUpdateRequest->value;
+                $figlio->save();
+
+                \Artisan::call('set:products_search', ['id'=> $figlio->id]);
+
+            }
+        }
+
+
+        \Artisan::call('set:products_categories_search');
+
+        return [
+            'saved' => $this->minorUpdateEntry,
+            'row' => $this->getMinorUpdateRow(),
+        ];
+    }
 
     public function create_combinations(Request $request){
         $padre_id = $request->get('padre_id');
@@ -769,7 +813,7 @@ class PluginProductsCrudController extends CrudController
             if($shopSetting->is_textarea_message){
                 $vet[] = [
                     'name'  => 'is_textarea_message',
-                    'label' => 'Mess.',
+                    'label' => 'Testo',
                     'type'  => 'editable_switch',
 
                     // Optionals
@@ -781,7 +825,7 @@ class PluginProductsCrudController extends CrudController
 
                 $vet[] = [
                     'name'  => 'is_textarea_message_required',
-                    'label' => 'Mess.*',
+                    'label' => 'Testo*',
                     'type'  => 'editable_switch',
 
                     // Optionals
@@ -1030,6 +1074,7 @@ class PluginProductsCrudController extends CrudController
         $price_SRP_dollar = null;
         $qty = null;
         $qty_max = null;
+        $qty_min = null;
         $product = null;
         $code_article = null;
 
@@ -1075,6 +1120,7 @@ class PluginProductsCrudController extends CrudController
 
             $qty = $product->qty;
             $qty_max = $product->qty_max;
+            $qty_min = $product->qty_min;
             $code_article = $product->code_article;
 
 
@@ -1375,7 +1421,7 @@ class PluginProductsCrudController extends CrudController
 
             $this->crud->addField([
                 'name'  => 'qty',
-                'label' => 'Quantità',
+                'label' => 'Quantità in Magazzino',
                 'type'  => 'number',
                 'value' => $qty,
                 'wrapperAttributes' => [
@@ -1385,8 +1431,19 @@ class PluginProductsCrudController extends CrudController
             ]);
 
             $this->crud->addField([
+                'name'  => 'qty_min',
+                'label' => 'Quantità Min per ordine',
+                'type'  => 'number',
+                'value' => $qty_min,
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-4'
+                ],
+                'tab' => 'Impostazioni'
+            ]);
+
+            $this->crud->addField([
                 'name'  => 'qty_max',
-                'label' => 'Quantità Max',
+                'label' => 'Quantità Max per ordine',
                 'type'  => 'number',
                 'value' => $qty_max,
                 'wrapperAttributes' => [
@@ -1690,69 +1747,80 @@ class PluginProductsCrudController extends CrudController
                 ]);
             }
 
-            if($shopSetting->is_qta_minima){
-                $this->crud->addField([   // CustomHTML
-                    'name' => 'html_quantities',
-                    'type' => 'custom_html',
-                    'value' => view(backpack_view("plugins.pluginProducts.inc.quantities"), compact('products_quantities'))->render(),
-                    'tab' => 'Quantità minima',
-                ]);
-            }
+            if($parameters){
 
-            if($shopSetting->is_services_adding){
-               /* $this->crud->addField([   // CustomHTML
-                    'name' => 'html_services',
-                    'type' => 'custom_html',
-                    'value' => view(backpack_view("plugins.pluginProducts.inc.services"), compact('products_services','product'))->render(),
-                    'tab' => 'Servizi aggiuntivi',
-                ]);*/
-            }
 
-            if($shopSetting->is_caricamento_file || $shopSetting->is_textarea_message){
-                if($shopSetting->is_caricamento_file){
-                    $this->crud->addField([   // Checkbox
-                        'name' => 'is_caricamento_file',
-                        'label' => 'Inserire possibilità caricamento file?',
-                        'type' => 'switch',
-                        'tab' => "Campi aggiuntivi",
-                        'wrapperAttributes' => [
-                            'class' => 'form-group col-md-6'
-                        ],
-                    ]);
+                $figli = PluginProducts::where("group_id", $product->group_id)->where("is_variant", 1)->get();
 
-                    $this->crud->addField([   // Checkbox
-                        'name' => 'is_caricamento_file_required',
-                        'label' => 'Rendere obbligatorio il caricamento file?',
-                        'type' => 'switch',
-                        'tab' => "Campi aggiuntivi",
-                        'wrapperAttributes' => [
-                            'class' => 'form-group col-md-6'
-                        ],
-                    ]);
+                if(count($figli) == 0 || $product->is_variant == 1){
+                    if($shopSetting->is_qta_minima){
+                        $this->crud->addField([   // CustomHTML
+                            'name' => 'html_quantities',
+                            'type' => 'custom_html',
+                            'value' => view(backpack_view("plugins.pluginProducts.inc.quantities"), compact('products_quantities'))->render(),
+                            'tab' => 'Sconto quantità',
+                        ]);
+                    }
+
+                    if($shopSetting->is_services_adding){
+                        /* $this->crud->addField([   // CustomHTML
+                             'name' => 'html_services',
+                             'type' => 'custom_html',
+                             'value' => view(backpack_view("plugins.pluginProducts.inc.services"), compact('products_services','product'))->render(),
+                             'tab' => 'Servizi aggiuntivi',
+                         ]);*/
+                    }
+
+                    if($shopSetting->is_caricamento_file || $shopSetting->is_textarea_message){
+                        if($shopSetting->is_caricamento_file){
+                            $this->crud->addField([   // Checkbox
+                                'name' => 'is_caricamento_file',
+                                'label' => 'Inserire possibilità caricamento file?',
+                                'type' => 'switch',
+                                'tab' => "Impostazioni extra",
+                                'wrapperAttributes' => [
+                                    'class' => 'form-group col-md-6'
+                                ],
+                            ]);
+
+                            $this->crud->addField([   // Checkbox
+                                'name' => 'is_caricamento_file_required',
+                                'label' => 'Rendere obbligatorio il caricamento file?',
+                                'type' => 'switch',
+                                'tab' => "Impostazioni extra",
+                                'wrapperAttributes' => [
+                                    'class' => 'form-group col-md-6'
+                                ],
+                            ]);
+                        }
+
+                        if($shopSetting->is_textarea_message){
+                            $this->crud->addField([   // Checkbox
+                                'name' => 'is_textarea_message',
+                                'label' => 'Inserire possibilità testo personalizzato?',
+                                'type' => 'switch',
+                                'tab' => "Impostazioni extra",
+                                'wrapperAttributes' => [
+                                    'class' => 'form-group col-md-6'
+                                ],
+                            ]);
+
+                            $this->crud->addField([   // Checkbox
+                                'name' => 'is_textarea_message_required',
+                                'label' => 'Rendere obbligatorio il testo personalizzato?',
+                                'type' => 'switch',
+                                'tab' => "Impostazioni extra",
+                                'wrapperAttributes' => [
+                                    'class' => 'form-group col-md-6'
+                                ],
+                            ]);
+                        }
+                    }
                 }
 
-                if($shopSetting->is_textarea_message){
-                    $this->crud->addField([   // Checkbox
-                        'name' => 'is_textarea_message',
-                        'label' => 'Inserire possibilità messaggio personalizzato?',
-                        'type' => 'switch',
-                        'tab' => "Campi aggiuntivi",
-                        'wrapperAttributes' => [
-                            'class' => 'form-group col-md-6'
-                        ],
-                    ]);
 
-                    $this->crud->addField([   // Checkbox
-                        'name' => 'is_textarea_message_required',
-                        'label' => 'Rendere obbligatorio il messaggio personalizzato?',
-                        'type' => 'switch',
-                        'tab' => "Campi aggiuntivi",
-                        'wrapperAttributes' => [
-                            'class' => 'form-group col-md-6'
-                        ],
-                    ]);
-                }
             }
+
         }
     }
 
@@ -1827,6 +1895,8 @@ class PluginProductsCrudController extends CrudController
             $figli = PluginProducts::where("group_id", $item->group_id)->where("is_variant", 1)->get();
             if($figli){
                 foreach ($figli as $figlio){
+                    \Artisan::call('set:products_search', ['id'=> $figlio->id]);
+
                     PluginProductsCategoriesProducts::where("plugin_product_product_id", $figlio->id)->delete();
                     if($categories){
                         foreach ($categories as $catID){
@@ -2067,11 +2137,11 @@ class PluginProductsCrudController extends CrudController
             }
         }
 
+
+        PluginProductsQuantities::where("plugin_product_id", $this->crud->entry->id)->delete();
         if($request->has('min_quantities')){
             $min_quantities = $request->get('min_quantities');
             $price_quantities = $request->get('price_quantities');
-
-            PluginProductsQuantities::where("plugin_product_id", $this->crud->entry->id)->delete();
 
             if($min_quantities){
                 foreach ($min_quantities as $k=>$quantity){
@@ -2351,11 +2421,11 @@ class PluginProductsCrudController extends CrudController
             }
         }
 
+
+        PluginProductsQuantities::where("plugin_product_id", $this->crud->entry->id)->delete();
         if($request->has('min_quantities')){
             $min_quantities = $request->get('min_quantities');
             $price_quantities = $request->get('price_quantities');
-
-            PluginProductsQuantities::where("plugin_product_id", $this->crud->entry->id)->delete();
 
             if($min_quantities){
                 foreach ($min_quantities as $k=>$quantity){
@@ -2750,113 +2820,7 @@ class PluginProductsCrudController extends CrudController
         return redirect()->to(  "/plugins/pluginProducts/export.csv");
     }
 
-    public function importSpecialMappingSave(Request $req)
-    {
-        $fields = [
-            "sku",
-            "name",
-            /*"slug",
-            "meta_title",
-            "meta_description",
-            "meta_key",
-            "description_short",
-            "description",
-            "tags",
-            "custom_1",
-            "custom_2",*/
-            "category",
-            "brand",
-           // "is_active",
-           // "images",
-            "price",
-            "qty",
-          /*  "tax",
-            "parent_sku",
-            "code_article",
-            "ean13"*/
-        ];
 
-
-        $id = $req->get('id');
-        $name = $req->get('name');
-        $mapping = $req->get('mapping');
-
-        $error = "";
-        foreach ($fields as $field){
-            if(!in_array($field, $mapping)){
-                $error .= "<br>$field";
-            }
-        }
-
-        if(trim($error) != ""){
-            return back()
-                ->with('error', "Campi obbligatori nel mapping: <br>$error");
-        }
-
-        $config = PluginProductImport::find($id);
-        $config->name = $name;
-        $config->mapping = json_encode($mapping);
-        $config->save();
-
-        \Alert::success("Operazione effettuata con successo!")->flash();
-        return redirect()->to("/admin/plugin/pluginProducts/import_export");
-
-    }
-
-    public function importSpecialMapping(Request $req)
-    {
-        $req->validate([
-            'file' => 'required|max:20480'
-        ]);
-
-        $config_id = (int) $req->get('config_id');
-
-        if($req->file()) {
-            $temp = explode(".", $req->file->getClientOriginalName());
-            $fileName = "import.$temp[1]";
-            $req->file('file')->storeAs('/', $fileName, 'public_plugin_products');
-
-            $file = url("/plugins/pluginProducts/import.csv");
-            $row = 1;
-            if (($handle = fopen($file, "r")) !== FALSE) {
-                while (($data = fgetcsv($handle, 10000, ";")) !== FALSE) {
-                     break;
-                }
-
-                if($config_id == 0){
-                    $result = [];
-                    foreach ($data as $field) {
-                        $result[$field] = null;
-                    }
-
-                    $plugin = PluginProductImport::create([
-                        "name" => "Temp name",
-                        "mapping" => json_encode($result)
-                    ]);
-
-                    return redirect()->to("/admin/plugin/pluginProducts/import_export?id={$plugin->id}");
-
-                }else{
-                    $config = PluginProductImport::find($config_id);
-
-                    $v_mapping = json_decode($config->mapping, true);
-                    dd($v_mapping);
-
-                    $row = 1;
-                    if (($handle = fopen($file, "r")) !== FALSE) {
-                        while (($data = fgetcsv($handle, 10000, ";")) !== FALSE) {
-                            break;
-                        }
-                    }
-
-
-                }
-            }
-        }
-
-        return redirect()->back();
-
-    }
 
     public function import(Request $req){
         /*
@@ -3865,8 +3829,12 @@ class PluginProductsCrudController extends CrudController
             PluginProductsImages::truncate();
             PluginProductsAttachments::truncate();
             PluginProductsLangs::truncate();
+            PluginProductsCategories::truncate();
             PluginProductsCategoriesProducts::truncate();
             ShopAttributesProducts::truncate();
+
+            PluginProductsSearch::truncate();
+            PluginProductsCategoriesSearch::truncate();
 
             return redirect()->back();
         }
@@ -3927,6 +3895,151 @@ class PluginProductsCrudController extends CrudController
                     }
                 }
                 break;
+
+            case "active_file":
+                $list = PluginProducts::withTrashed()->whereIn("id", $ids)->get();
+                if($list){
+                    foreach ($list as $product){
+                        $product->is_caricamento_file = 1;
+                        $product->save();
+
+                        $figli = PluginProducts::where("group_id", $product->group_id)->get();
+                        if($figli){
+                            foreach ($figli as $figlio){
+                                $figlio->is_caricamento_file = 1;
+                                $figlio->save();
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case "deactive_file":
+                $list = PluginProducts::withTrashed()->whereIn("id", $ids)->get();
+                if($list){
+                    foreach ($list as $product){
+                        $product->is_caricamento_file = 0;
+                        $product->save();
+
+                        $figli = PluginProducts::where("group_id", $product->group_id)->get();
+                        if($figli){
+                            foreach ($figli as $figlio){
+                                $figlio->is_caricamento_file = 0;
+                                $figlio->save();
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case "active_file_required":
+                $list = PluginProducts::withTrashed()->whereIn("id", $ids)->get();
+                if($list){
+                    foreach ($list as $product){
+                        $product->is_caricamento_file_required = 1;
+                        $product->save();
+
+                        $figli = PluginProducts::where("group_id", $product->group_id)->get();
+                        if($figli){
+                            foreach ($figli as $figlio){
+                                $figlio->is_caricamento_file_required = 1;
+                                $figlio->save();
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case "deactive_file_required":
+                $list = PluginProducts::withTrashed()->whereIn("id", $ids)->get();
+                if($list){
+                    foreach ($list as $product){
+                        $product->is_caricamento_file_required = 0;
+                        $product->save();
+
+                        $figli = PluginProducts::where("group_id", $product->group_id)->get();
+                        if($figli){
+                            foreach ($figli as $figlio){
+                                $figlio->is_caricamento_file_required = 0;
+                                $figlio->save();
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case "active_message":
+                $list = PluginProducts::withTrashed()->whereIn("id", $ids)->get();
+                if($list){
+                    foreach ($list as $product){
+                        $product->is_textarea_message = 1;
+                        $product->save();
+
+                        $figli = PluginProducts::where("group_id", $product->group_id)->get();
+                        if($figli){
+                            foreach ($figli as $figlio){
+                                $figlio->is_textarea_message = 1;
+                                $figlio->save();
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case "deactive_message":
+                $list = PluginProducts::withTrashed()->whereIn("id", $ids)->get();
+                if($list){
+                    foreach ($list as $product){
+                        $product->is_textarea_message = 0;
+                        $product->save();
+
+                        $figli = PluginProducts::where("group_id", $product->group_id)->get();
+                        if($figli){
+                            foreach ($figli as $figlio){
+                                $figlio->is_textarea_message = 0;
+                                $figlio->save();
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case "active_message_required":
+                $list = PluginProducts::withTrashed()->whereIn("id", $ids)->get();
+                if($list){
+                    foreach ($list as $product){
+                        $product->is_textarea_message_required = 1;
+                        $product->save();
+
+                        $figli = PluginProducts::where("group_id", $product->group_id)->get();
+                        if($figli){
+                            foreach ($figli as $figlio){
+                                $figlio->is_textarea_message_required = 1;
+                                $figlio->save();
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case "deactive_message_required":
+                $list = PluginProducts::withTrashed()->whereIn("id", $ids)->get();
+                if($list){
+                    foreach ($list as $product){
+                        $product->is_textarea_message_required = 0;
+                        $product->save();
+
+                        $figli = PluginProducts::where("group_id", $product->group_id)->get();
+                        if($figli){
+                            foreach ($figli as $figlio){
+                                $figlio->is_textarea_message_required = 0;
+                                $figlio->save();
+                            }
+                        }
+                    }
+                }
+                break;
+
 
         }
 

@@ -80,6 +80,10 @@ class PluginProducts extends Model
     {
         $photo = PluginProductsImages::where("product_id", $this->id)->orderBy("order", "asc")->first();
         if($photo){
+            if($photo->is_ext == 1){
+                $url = $photo->image;
+                return "<img src='$url' width='60'>";
+            }
 
             $basename = basename($photo->image);
             $temp = explode(".", $basename);
@@ -441,6 +445,12 @@ class PluginProducts extends Model
         $check = PluginProductsImages::where("product_id", $this->id)->orderBy("order", "asc")->first();
         $cover = url('uploads/no-image.jpg');
         if($check){
+            if($check->is_ext == 1){
+                $url = $check->image;
+                return $url;
+            }
+
+
             $basename = basename($check->image);
             $temp = explode(".", $basename);
 
@@ -491,6 +501,11 @@ class PluginProducts extends Model
 
         $cover = url('uploads/no-image.jpg');
         if($check){
+            if($check->is_ext == 1){
+                $url = $check->image;
+                return $url;
+            }
+
             $basename = basename($check->image);
             $temp = explode(".", $basename);
 
@@ -530,6 +545,11 @@ class PluginProducts extends Model
         $check = PluginProductsImages::where("product_id", $this->id)->orderBy("order", "asc")->first();
         $cover = 'uploads/no-image.jpg';
         if($check){
+            if($check->is_ext == 1){
+                $url = $check->image;
+                return $url;
+            }
+
             if(is_numeric(strpos($check->image, "uploads"))){
                 $url = $check->image;
             }else{
@@ -546,6 +566,11 @@ class PluginProducts extends Model
         $check = PluginProductsImages::where("product_id", $this->id)->orderBy("order", "desc")->first();
         $cover = url('uploads/no-image.jpg');
         if($check){
+            if($check->is_ext == 1){
+                $url = $check->image;
+                return $url;
+            }
+
             if(is_numeric(strpos($check->image, "uploads"))){
                 $url = url($check->image);
             }else{
@@ -569,6 +594,11 @@ class PluginProducts extends Model
                 $i = 0;
                 foreach ($list as $image){
                     if($i == $k){
+                        if($image->is_ext == 1){
+                            $url = $image->image;
+                            return $url;
+                        }
+
                         $basename = basename($image->image);
                         $temp = explode(".", $basename);
 
@@ -626,6 +656,141 @@ class PluginProducts extends Model
         $adminPlugin = AdminPlugin::where("name", "pluginProducts")->first();
 
         $priceStart = $this->price;
+
+        if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_country_user_dollar'))){
+            if($this->price_dollar){
+                $priceStart = $this->price_dollar;
+            }
+        }
+
+        if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_country_user_listino_2'))){
+            if($this->price_2){
+                $priceStart = $this->price_2;
+            }
+        }
+
+        //AGGIUNTA NELLA MODIFICA CHE UNA O PIù OPZIONI POSSONO AVERE DEI PREZZI AGGIUNTIVI
+        if($this->is_variant == 1){
+            $sum_price_options = \App\Models\ShopAttributesProducts::selectRaw("shop_attributes_options.*")
+                ->join("shop_attributes_options", "shop_attributes_options.id", "=", "option_id")
+                ->whereNull("shop_attributes_options.deleted_at")
+                ->where("product_id", $this->id)->sum("price");
+
+            $priceStart = $priceStart + $sum_price_options;
+        }
+
+        $promo_priority = Promotion::whereRaw("(start_date <= '$now' AND expiration_date >='$now') AND is_forced = 1")
+            ->count();
+
+        if($promo_priority > 0){
+            $categories_ids = PluginProductsCategoriesProducts::where("plugin_product_product_id", $this->id)->get()
+                ->pluck("plugin_product_category_id")
+                ->toArray();
+
+            //controllo se esistono promozioni per categoria
+            if(count($categories_ids)){
+                $promotions = Promotion::whereIn("category_id", $categories_ids)
+                    ->whereRaw("(start_date <= '$now' AND expiration_date >='$now')")
+                    ->get();
+
+                if($promotions){
+                    foreach ($promotions as $promo){
+                        if ($promo->discount_type == "Amount") {
+                            /*if(env('VIEW_WITH_IVA') == 1){
+                                $priceStart = round($this->price + (($this->price * $this->tax->value)/100),2);
+                            }*/
+                            $priceStart = round($this->getFinalPrice(),2);
+
+                            $priceStart = $priceStart - $promo->reduction;
+                        } else {
+                            $priceStart = $priceStart - (($priceStart * ($promo->reduction)) / 100);
+                        }
+                    }
+                }
+            }
+
+            if($this->brand_id !== null) {
+                $promotions = Promotion::where("brand_id", $this->brand_id)
+                    ->whereNull("category_id")
+                    ->whereRaw("(start_date <= '$now' AND expiration_date >='$now')")
+                    ->get();
+                if (count($promotions)) {
+                    foreach ($promotions as $promo) {
+                        if ($promo->discount_type == "Amount") {
+                            /*if(env('VIEW_WITH_IVA') == 1){
+                                $priceStart = round($this->price + (($this->price * $this->tax->value)/100),2);
+                            }*/
+
+                            $priceStart = round($this->getFinalPrice(),2);
+                            $priceStart = $priceStart - $promo->reduction;
+                        } else {
+                            $priceStart = $priceStart - (($priceStart * ($promo->reduction)) / 100);
+                        }
+                    }
+                }
+            }
+
+            if($piuiva){
+                $finalPrice = ($priceStart + (($priceStart * $this->tax->value)/100));
+                $finalPrice = $this->clear_price_centesimi($finalPrice);
+
+                return $finalPrice;
+            }
+
+            $priceStart = $this->clear_price_centesimi($priceStart);
+
+            return $priceStart;
+        }
+
+        if(($plugin->show_prices || $adminPlugin->version == 3) && $this->promo_price !== null && trim($this->promo_price) != "" && $this->data_promo_end && $this->data_promo_start){
+            $data_start = Carbon::createFromFormat("Y-m-d", $this->data_promo_start);
+            $data_end = Carbon::createFromFormat("Y-m-d", $this->data_promo_end);
+
+            if($now_base->gt($data_start) && $now_base->lt($data_end)){
+                if($piuiva){
+                    $finalPrice = ($this->promo_price + (($this->promo_price * $this->tax->value)/100));
+                    $finalPrice = $this->clear_price_centesimi($finalPrice);
+                    return $finalPrice;
+                }
+
+                $this->promo_price = $this->clear_price_centesimi($this->promo_price);
+                return $this->promo_price;
+            }
+        }
+
+        if($piuiva){
+            $finalPrice = ($priceStart + (($priceStart * $this->tax->value)/100));
+            $finalPrice = $this->clear_price_centesimi($finalPrice);
+            return $finalPrice;
+        }
+
+        $priceStart = $this->clear_price_centesimi($priceStart);
+
+        return $priceStart;
+    }
+
+    public function get_promo_price_cart($qty, $piuiva = null){
+        $shopSetting = ShopSettings::first();
+
+        $now = Carbon::now()->toDateTimeString();
+        $now_base = Carbon::now();
+
+        $plugin = PluginProductsSettings::first();
+        $adminPlugin = AdminPlugin::where("name", "pluginProducts")->first();
+
+        $priceStart = $this->price;
+
+        //------------------PRODUCT QUANTITY
+        if($shopSetting->is_qta_minima){
+            $products_quantities = PluginProductsQuantities::where("plugin_product_id", $this->id)
+                ->where("quantity_min", "<=", $qty)
+                ->orderBy("quantity_min", "DESC")
+                ->first();
+            if($products_quantities && $shopSetting->is_qta_minima){
+                $priceStart = $products_quantities->price;
+            }
+        }
+
 
         if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_country_user_dollar'))){
             if($this->price_dollar){

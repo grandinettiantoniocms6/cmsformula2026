@@ -370,6 +370,9 @@
                         <?php
                         $product = \App\Models\PluginProducts::withTrashed()->where("id", $op->product_id)->first();
 
+                        $vat = $product->tax ? $product->tax->value : 22;
+                        $vat_calculate = ($vat / 100) + 1;
+
                         $cover = $product->getCover();
                         $extra_list = \App\Models\ShopOrderProductExtra::where("shop_order_id", $order->id)->where("shop_product_id", $product->id)
                             ->get()->pluck("value", "extra_id")->toArray();
@@ -390,8 +393,10 @@
                                 @endif
                             </td>
                             <td>
-                                {{ $op->name }}<br/>
+                                <strong>{{ $op->name }}</strong>
+                                <br/>
                                 <span class="font-12">SKU: {{ $op->sku }}</span>
+
 
                                 @if($op->custom_label_1 !== null && trim($op->custom_label_1) != "")
                                     <br><label class="badge badge-primary">{{ $op->custom_label_1 }}</label>
@@ -400,6 +405,15 @@
                                     <br><label class="badge badge-primary">{{ $op->custom_label_2 }}</label>
                                 @endif
 
+                                @if($op->price_add > 0)
+                                        <?php
+                                        $sum_price_options = number_format($op->price_add,2,",",".");
+                                        ?>
+                                        <div class="line-height-md">Prezzo: &euro; {{ number_format($op->price_unit,2,",",".") }}</div>
+                                        <div class="line-height-md">Opzioni aggiuntive: &euro; {{ $sum_price_options }}</div>
+                                        <div class="line-height-md">Prezzo no iva: &euro; {{ number_format(($op->price_unit + $op->price_add),2,",",".") }}</div>
+                                @endif
+                                <br>
                                 @if($extra_list)
                                     <br>
                                     @foreach($extra_list as $extra_id => $value)
@@ -413,12 +427,12 @@
 
                                 @if($op->message)
                                     <br>
-                                    <div><em>Messaggio:</em> {{ $op->message }}</div>
+                                    <div><em>Testo:</em> {{ $op->message }}</div>
                                 @endif
 
                                 @if($op->file)
                                     <br>
-                                    <div><em>File:</em> <a href="{{ url("uploads/{$op->file}") }}" target="_blank">Vedi</a> </div>
+                                    <div><em>File:</em> <a href="{{ url("uploads/{$op->file}") }}" target="_blank">Anteprima</a> </div>
                                 @endif
                             </td>
                             <td>

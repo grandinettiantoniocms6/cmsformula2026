@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\AdminPlugin;
 use App\Models\AreaCountry;
 use App\Models\Banner;
 use App\Models\Brand;
@@ -787,7 +788,6 @@ class AjaxController extends Controller
                     $html = \View::make("common.pluginProducts.shop.radio_html_variants", compact('attribute_item','options'))->render();
                 }else{
                     if(count($options)) {
-
                         $html = \View::make("common.pluginProducts.shop.select_html_variants", compact('attribute_item','options'))->render();
                     }else{
                         $tempProduct = PluginProducts::find($ids[0]);
@@ -879,6 +879,7 @@ class AjaxController extends Controller
         $plugin = PluginProductsSettings::first();
 
         $images = [];
+        $images_isext = [];
 
         $padre = null;
         if($itemProduct->is_variant == 1 && $shopSetting->type_view_variant == 3){
@@ -892,6 +893,7 @@ class AjaxController extends Controller
                     if(count($padre->images)){
                         foreach($padre->images as $image){
                             $images[] = $image->image;
+                            $images_isext[] = $image->is_ext;
                         }
                     }
                 }
@@ -901,12 +903,14 @@ class AjaxController extends Controller
             if(count($itemProduct->images)){
                 foreach($itemProduct->images as $image){
                     $images[] = $image->image;
+                    $images_isext[] = $image->is_ext;
                 }
             }
         }else{
             if(count($itemProduct->images)){
                 foreach($itemProduct->images as $image){
                     $images[] = $image->image;
+                    $images_isext[] = $image->is_ext;
                 }
             }
         }
@@ -921,7 +925,7 @@ class AjaxController extends Controller
             $path = "Webshop.plugins.pluginProducts.v3.partials.modal_detail_product";
         }
 
-        $html = \View::make($path, compact('itemProduct', 'shopSetting', 'labels','images','website','plugin','categories_products'))->render();
+        $html = \View::make($path, compact('itemProduct', 'shopSetting', 'labels','images','website','plugin','categories_products', 'images_isext'))->render();
         echo $html;
     }
 
@@ -947,6 +951,8 @@ class AjaxController extends Controller
         $labels = PluginProductsLabels::get()->pluck("value", "key")->toArray();
         $website = WebsiteSetting::first();
         $plugin = PluginProductsSettings::first();
+
+        $adminPlugin = AdminPlugin::where("name", "pluginProducts")->first();
 
         $images = [];
 
@@ -1046,9 +1052,10 @@ class AjaxController extends Controller
             $vet_ids = $v_final;
         }
 
-        $html = \View::make("common.pluginProducts.partials.modal_detail_product_variants", compact('itemProduct','padre', 'shopSetting', 'labels','images','website','plugin','categories_products', 'vet_ids'))->render();
+        $thema = env('TEMA');
+        $html = \View::make("common.pluginProducts.partials.modal_detail_product_variants", compact('adminPlugin','thema', 'itemProduct','padre', 'shopSetting', 'labels','images','website','plugin','categories_products', 'vet_ids'))->render();
         if(env('TEMA') == "Webshop"){
-            $html = \View::make("Webshop.plugins.pluginProducts.v3.partials.modal_detail_product_variants", compact('itemProduct','padre', 'shopSetting', 'labels','images','website','plugin','categories_products', 'vet_ids'))->render();
+            $html = \View::make("Webshop.plugins.pluginProducts.v3.partials.modal_detail_product_variants", compact('adminPlugin','thema', 'itemProduct','padre', 'shopSetting', 'labels','images','website','plugin','categories_products', 'vet_ids'))->render();
         }
         echo $html;
     }

@@ -6,8 +6,7 @@
             </div>
             <div class="modal-body">
                 <div class="single-product row py-0">
-                    @include("$thema.plugins.pluginProducts.v3.shop.type_detail_photo_modal_view")
-                    <div class="col-md-7">
+                    <div class="col-md-12">
                         <div class="product-details">
                             <div class="product-meta">
                                 <div class="row">

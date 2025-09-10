@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ShopProductsVariantsRequest;
 use App\Models\AdminPlugin;
+use App\Models\ShopSettings;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
@@ -91,36 +92,13 @@ class ShopProductsVariantsCrudController extends CrudController
                     'limit' => 10000, // Limit the number of characters shown
                 ],
                 [
-                    // run a function on the CRUD model and show its return value
-                    'name'  => 'category_list',
-                    'label' => 'Categorie', // Table column heading
-                    'type'  => 'model_function',
-                    'function_name' => 'getCategories', // the method in your Model
-                    // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                    'limit' => 10000, // Limit the number of characters shown
-                ],
-               /* [
-                    // 1-n relationship
-                    'label'     => 'Brand', // Table column heading
-                    'type'      => 'select',
-                    'name'      => 'brand_id', // the column that contains the ID of that connected entity;
-                    'entity'    => 'brand', // the method that defines the relationship in your Model
-                    'attribute' => 'name', // foreign key attribute that is shown to user
-                    'model'     => "App\Models\PluginsProductsBrands", // foreign key model
-                ],*/
-                [
                     'name'  => 'price',
                     'label' => 'Prezzo',
                     'type'  => 'text',
                 ],
-                /*[
-                    'name'  => 'qty',
-                    'label' => 'Qta',
-                    'type'  => 'number',
-                ],*/
                 [
                     'name'  => 'is_active',
-                    'label' => 'Visibile',
+                    'label' => 'Vis.',
                     'type'  => 'editable_switch',
 
                     // Optionals
@@ -131,7 +109,7 @@ class ShopProductsVariantsCrudController extends CrudController
                 ],
                 [
                     'name'  => 'is_purchasable',
-                    'label' => 'Acquistabile',
+                    'label' => 'Acq.',
                     'type'  => 'editable_switch',
 
                     // Optionals
@@ -140,28 +118,72 @@ class ShopProductsVariantsCrudController extends CrudController
                     'onLabel' => '✓',
                     'offLabel' => '✕',
                 ],
-                [
-                    'name'  => 'is_evidenza',
-                    'label' => 'In evidenza',
-                    'type'  => 'editable_switch',
-
-                    // Optionals
-                    // All the options available on editable_checkbox are available here too, plus;
-                    'color'   => 'success',
-                    'onLabel' => '✓',
-                    'offLabel' => '✕',
-                ],
-                [
-                    // run a function on the CRUD model and show its return value
-                    'name'  => 'is_in_menu',
-                    'label' => 'Gestione', // Table column heading
-                    'type'  => 'model_function',
-                    'function_name' => 'getMenu', // the method in your Model
-                    // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                    'limit' => 10000, // Limit the number of characters shown
-                ]
-
             ];
+
+            $shopSetting = ShopSettings::first();
+            if($shopSetting->is_caricamento_file){
+                $vet[] = [
+                    'name'  => 'is_caricamento_file',
+                    'label' => 'File',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
+                ];
+
+                $vet[] = [
+                    'name'  => 'is_caricamento_file_required',
+                    'label' => 'File*',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
+                ];
+            }
+
+            if($shopSetting->is_textarea_message){
+                $vet[] = [
+                    'name'  => 'is_textarea_message',
+                    'label' => 'Testo',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
+                ];
+
+                $vet[] = [
+                    'name'  => 'is_textarea_message_required',
+                    'label' => 'Testo*',
+                    'type'  => 'editable_switch',
+
+                    // Optionals
+                    // All the options available on editable_checkbox are available here too, plus;
+                    'color'   => 'success',
+                    'onLabel' => '✓',
+                    'offLabel' => '✕',
+                ];
+            }
+
+            $vet[] =  [
+                // run a function on the CRUD model and show its return value
+                'name'  => 'is_in_menu',
+                'label' => 'Azioni', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'getMenu', // the method in your Model
+                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
+                'limit' => 10000, // Limit the number of characters shown
+            ];
+
+
         }
 
 

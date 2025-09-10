@@ -7,31 +7,35 @@ $shopSetting = \App\Models\ShopSettings::first();
     <div class="gallery-wrap">
         <div class="owl-carousel owl-theme" id="image-carousel">
             @if(count($images))
-                @foreach($images as $image)
+                @foreach($images as $k=>$image)
                     <?php
-                    $basename = basename($image);
-                    $temp = explode(".", $basename);
+                    if($images_isext[$k] == 1){
+                        $url = $image;
+                    }else{
+                        $basename = basename($image);
+                        $temp = explode(".", $basename);
 
-                    if(is_numeric(strpos($image, "uploads"))){
-                        $url = url("$image");
-                    } else {
-                        $url = url("uploads/products/$image");
-                    }
-
-                    if (key_exists(1, $temp)) {
-                        $checkImage = "thumb/plugin_products/$temp[0]-large.webp";
-                    } else {
-                        $checkImage = "thumb/plugin_products/$temp[0]-large";
-                    }
-
-                    if(is_numeric(strpos($image, "uploads/special_images"))){
-                        if (key_exists(1, $temp)) {
-                            $checkImage = "thumb/special_images/{$itemProduct->id}/$temp[0]-large.webp";
+                        if(is_numeric(strpos($image, "uploads"))){
+                            $url = url("$image");
+                        } else {
+                            $url = url("uploads/products/$image");
                         }
-                    }
 
-                    if (file_exists($checkImage)) {
-                        $url = url($checkImage);
+                        if (key_exists(1, $temp)) {
+                            $checkImage = "thumb/plugin_products/$temp[0]-large.webp";
+                        } else {
+                            $checkImage = "thumb/plugin_products/$temp[0]-large";
+                        }
+
+                        if(is_numeric(strpos($image, "uploads/special_images"))){
+                            if (key_exists(1, $temp)) {
+                                $checkImage = "thumb/special_images/{$itemProduct->id}/$temp[0]-large.webp";
+                            }
+                        }
+
+                        if (file_exists($checkImage)) {
+                            $url = url($checkImage);
+                        }
                     }
                     ?>
                     <div class="product-image">
@@ -49,38 +53,40 @@ $shopSetting = \App\Models\ShopSettings::first();
         <div class="owl-carousel owl-theme my-2" id="thumb-carousel">
             <?php $i=0; ?>
             @if(count($images))
-                @foreach($images as $image)
+                @foreach($images as $k=>$image)
                     <?php
                     $class = "";
                     if($i == 0){
                         $class = "active";
                     }
-
-                    $basename = basename($image);
-                    $temp = explode(".", $basename);
-
-                    if(is_numeric(strpos($image, "uploads"))){
-                        $url = url("$image");
+                    if($images_isext[$k] == 1){
+                        $url = $image;
                     }else{
-                        $url = url("uploads/products/$image");
-                    }
+                        $basename = basename($image);
+                        $temp = explode(".", $basename);
 
-                    if (key_exists(1, $temp)) {
-                        $checkImage = "thumb/plugin_products/$temp[0]-gallery.webp";
-                    } else {
-                        $checkImage = "thumb/plugin_products/$temp[0]-gallery";
-                    }
+                        if(is_numeric(strpos($image, "uploads"))){
+                            $url = url("$image");
+                        }else{
+                            $url = url("uploads/products/$image");
+                        }
 
-                    if(is_numeric(strpos($image, "uploads/special_images"))){
                         if (key_exists(1, $temp)) {
-                            $checkImage = "thumb/special_images/{$itemProduct->id}/$temp[0]-large.webp";
+                            $checkImage = "thumb/plugin_products/$temp[0]-gallery.webp";
+                        } else {
+                            $checkImage = "thumb/plugin_products/$temp[0]-gallery";
+                        }
+
+                        if(is_numeric(strpos($image, "uploads/special_images"))){
+                            if (key_exists(1, $temp)) {
+                                $checkImage = "thumb/special_images/{$itemProduct->id}/$temp[0]-large.webp";
+                            }
+                        }
+
+                        if (file_exists($checkImage)) {
+                            $url = url($checkImage);
                         }
                     }
-
-                    if (file_exists($checkImage)) {
-                        $url = url($checkImage);
-                    }
-
                     ?>
                     <div class="product-thumb <?php echo $class; ?>>"><img src="{{ $url }}" alt="{{ $itemProduct->name }}" width="100" height="100" class="card img-fluid"></div>
                 @endforeach

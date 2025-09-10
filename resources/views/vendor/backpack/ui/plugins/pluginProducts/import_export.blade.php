@@ -171,9 +171,16 @@
                            $v_mapping = json_decode($pluginImport->mapping, true);
 
                            $fields = [
+                                "parent_sku",
                                 "sku",
                                 "name",
-                                "slug",
+                                "category",
+                                "subcategory",
+                                "images",
+                                "price",
+                                "qty",
+                                "options_1",
+                                "options_2",
                                 "meta_title",
                                 "meta_description",
                                 "meta_key",
@@ -182,14 +189,9 @@
                                 "tags",
                                 "custom_1",
                                 "custom_2",
-                                "category",
                                 "brand",
                                 "is_active",
-                                "images",
-                                "price",
-                                "qty",
                                 "tax",
-                                "parent_sku",
                                 "code_article",
                                 "ean13"
                             ];
@@ -206,12 +208,24 @@
                                 <input type="text" class="form-control" name="name" value="{{ $pluginImport->name }}">
                             </div>
 
+                            <div class="form-group">
+                                <label>Nome primo attributo da creare</label>
+                                <input type="text" class="form-control" name="name_attribute_1" value="{{ @$pluginImport->name_attribute_1 }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nome secondo attributo da creare</label>
+                                <input type="text" class="form-control" name="name_attribute_1" value="{{ @$pluginImport->name_attribute_2 }}">
+                            </div>
+
                             @if($v_mapping)
                                 @if ($message = Session::get('error'))
                                     <div class="alert alert-error">
                                         <strong>{!! $message !!}</strong>
                                     </div>
                                 @endif
+
+                                <h5 class="text text-danger">SKU, NAME, CATEGORY, PRICE OBBLIGATORI</h5>
 
                                 <table width="100%">
                                     <thead>
@@ -228,7 +242,10 @@
                                                 <select class="form-control" name="mapping[{{ $key }}]">
                                                     <option value=""></option>
                                                     @foreach($fields as $field)
-                                                        <option value="{{ $field }}">{{ $field }}</option>
+                                                        <option value="{{ $field }}"
+                                                            {{ old("mapping.$key") == $field ? 'selected' : '' }}>
+                                                            {{ $field }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </td>

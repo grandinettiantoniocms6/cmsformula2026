@@ -7,6 +7,7 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
 if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_country_user_listino_2'))){
     $symbol = "&euro;";
 }
+$cart_class = new \App\Http\Controllers\CartController();
 ?>
 
 <section class="border-top border-bottom py-3 py-sm-4">
@@ -99,9 +100,30 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                                                 <div class="fw-bold">{{ $product->sku }}</div>
                                             @else
                                                 <div class="fw-bold">{{ $product->name }}</div>
-                                                <div class="font-sm mt-1"><b>{{ @$labels['sku'] }}:</b> {{ $product->sku }}</div>
+                                                <div class="font-sm mt-1"><b>{{ @$labels['sku'] }}:</b>
+                                                    {{ $product->sku }}
+                                                </div>
+
+                                                @if($item->price_add > 0)
+                                                    <div class="font-sm mt-1"><b>{{ @$labels['shop-carrello-prezzo'] }}:</b>
+                                                        @if(env('VIEW_WITH_IVA') == 1)
+                                                            ({{ number_format($item->price_unit * $vat_calculate,2,",",".") }} &euro;)
+                                                        @else
+                                                            ({{ number_format($item->price_unit,2,",",".") }} &euro;)
+                                                        @endif
+                                                    </div>
+
+                                                    <div class="font-sm mt-1"><b>{{ @$labels['shop-opzioni-aggiuntive'] }}:</b>
+                                                        @if(env('VIEW_WITH_IVA') == 1)
+                                                            ({{ number_format($item->price_add * $vat_calculate,2,",",".") }} &euro;)
+                                                        @else
+                                                            ({{ number_format($item->price_add,2,",",".") }} &euro;)
+                                                        @endif
+                                                    </div>
+                                                @endif
                                             @endif
                                         </a>
+                                        <br>
                                         @if(property_exists($item, "extra"))
                                             @if($item->extra)
                                                 <div class="extra">
@@ -114,16 +136,23 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                                             @endif
                                         @endif
 
-                                        @if(property_exists($item, "message"))
-                                            <div class="extra">
-                                                <div><em>Messaggio:</em> {{ $item->message }}</div>
-                                            </div>
+                                        @if($product->is_textarea_message)
+                                            @if(property_exists($item, "message"))
+                                                <div class="extra">
+                                                    <div><em>{{ @$labels['testo-custom'] }}:</em> {{ $item->message }}</div>
+                                                </div>
+                                            @endif
                                         @endif
 
-                                        @if(property_exists($item, "file"))
-                                            <div class="extra">
-                                                <div><em>File:</em> <a href="{{ url("uploads/$item->file") }}" target="_blank">Vedi</a> </div>
-                                            </div>
+                                        @if($product->is_caricamento_file)
+                                            @if(property_exists($item, "file"))
+                                                <div class="extra">
+                                                    <div><em>File:</em> <a href="{{ url("uploads/$item->file") }}" target="_blank">
+                                                            {{ @$labels['testo-vedi-file'] }}
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         @endif
 
                                     </td>
@@ -143,12 +172,11 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                                             </div>
                                     </td>
                                     @php
-                                        //$productTotal = ($item->price * $vat_calculate) * $item->qty;
 
-                                        $productTotal = ($item->price) * $item->qty;
+                                        //$productTotal = ($item->price * $vat_calculate) * $item->qty;
+                                        $productTotal = $cart_class->truncate_floor($item->total_cart);
                                         $tot = $tot + $productTotal;
                                         $prezzoNoIva = $productTotal / ((100 + $vat)/100);
-
 
                                         $v_tax[$vat] += $productTotal - $prezzoNoIva;
                                         $totNoTax = $totNoTax + $prezzoNoIva;
@@ -204,7 +232,7 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                                 <tfoot>
                                     <tr>
                                         <th>{{ @$labels['shop-totale-carrello'] }}</th>
-                                        <td class="text-end fw-bold">{!! $symbol !!}<span id="total_view"><?php echo number_format(round($tot,3),2, ',','.'); ?></span></td>
+                                        <td class="text-end fw-bold">{!! $symbol !!} <span id="total_view"><?php echo number_format(round($tot,3),2, ',','.'); ?></span></td>
                                     </tr>
                                 </tfoot>
                             </table>

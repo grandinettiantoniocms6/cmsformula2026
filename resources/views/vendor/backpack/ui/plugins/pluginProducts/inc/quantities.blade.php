@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header list-group-item-accent-secondary bg-light font-600 border-bottom-0 py-2">
         <div class="row align-items-center">
-            <div class="col line-height-sm">Quantità minima</div>
+            <div class="col line-height-sm">Sconto su quantità</div>
             <div class="col-auto">
                 <button type="button" class="btn btn-dark btn-sm py-1" id="add-quantity"><i class="icon-plus fa-15"></i> <span class="d-none d-md-inline">Aggiungi</span></button>
             </div>
@@ -12,7 +12,7 @@
             @foreach($products_quantities as $item)
                 <div class="col-md-12 well repeatable-element row m-1 p-2" id="box_quantity_{{ $item->id }}">
                     <div class="form-group col-md-4">
-                        <label>Minimo</label>
+                        <label>Pezzi minimo</label>
                         <input type="number" class="form-control" name="min_quantities[]" id="min_quantities_{{ $item->id }}" value="{{ @$item->quantity_min }}" required>
                     </div>
 

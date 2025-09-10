@@ -332,6 +332,27 @@ $website = \App\Models\WebsiteSetting::first();
                                                 @if(trim($product->custom_2) != "") <label class="product-label product-label-custom-color-2">{{ $product->custom_2 }}</label> @endif
                                             </div>
 
+                                            @if($item->price_add > 0)
+                                                <?php
+                                                if(env('VIEW_WITH_IVA') == 1){
+                                                    $sum_price_options = number_format($item->price_add * $vat_calculate,2,",",".");
+                                                }else{
+                                                    $sum_price_options = number_format($item->price_add,2,",",".");
+                                                }
+                                                ?>
+                                                @if(env('VIEW_WITH_IVA') == 1)
+                                                    <div class="line-height-md">{{ @$labels['shop-carrello-prezzo'] }}: &euro; {{ number_format($item->price_unit * $vat_calculate,2,",",".") }}</div>
+                                                    <div class="line-height-md">{{ @$labels['shop-opzioni-aggiuntive'] }}: &euro; {{ $sum_price_options }}</div>
+                                                @else
+                                                    <div class="line-height-md">{{ @$labels['shop-carrello-prezzo'] }}: &euro; {{ number_format($item->price_unit,2,",",".") }}</div>
+                                                    <div class="line-height-md">{{ @$labels['shop-opzioni-aggiuntive'] }}: &euro; {{ $sum_price_options }}</div>
+                                                @endif
+                                            @endif
+
+                                            <div class="line-height-md">{{ @$labels['shop-carrello-qta'] }}: {{ $item->qty }}</div>
+
+                                            <br>
+
                                             @if(property_exists($item, "extra"))
                                                 @if($item->extra)
                                                     <div class="extra">
@@ -344,22 +365,25 @@ $website = \App\Models\WebsiteSetting::first();
                                                 @endif
                                             @endif
 
-                                            @if(property_exists($item, "message"))
-                                                <div class="extra">
-                                                    <div><em>Messaggio:</em> {{ $item->message }}</div>
-                                                </div>
+                                            @if($product->is_textarea_message)
+                                                @if(property_exists($item, "message"))
+                                                    <div class="extra">
+                                                        <div><em>{{ @$labels['testo-custom'] }}:</em> {{ $item->message }}</div>
+                                                    </div>
+                                                @endif
                                             @endif
 
-                                            @if(property_exists($item, "file"))
-                                                <div class="extra">
-                                                    <div><em>File:</em> <a href="{{ url("uploads/$item->file") }}" target="_blank">Vedi</a> </div>
-                                                </div>
+                                            @if($product->is_caricamento_file)
+                                                @if(property_exists($item, "file"))
+                                                    <div class="extra">
+                                                        <div><em>File:</em> <a href="{{ url("uploads/$item->file") }}" target="_blank">{{ @$labels['testo-vedi-file'] }}</a> </div>
+                                                    </div>
+                                                @endif
                                             @endif
 
                                         </td>
-                                        <td class="text-end">{!! $symbol !!} <?php echo number_format($product->price,2, ',','.'); ?>
-                                            <br>
-                                            <strong>x {{ $item->qty }}</strong>
+                                        <td class="text-end">{!! $symbol !!}
+                                              <?php echo number_format($item->price_unit + $item->price_add,2, ',','.'); ?>
                                         </td>
                                     </tr>
                                     @php

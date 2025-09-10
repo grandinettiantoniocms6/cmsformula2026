@@ -21,7 +21,7 @@ $shopSetting = \App\Models\ShopSettings::first();
         ->get();
 
     $images = [];
-
+    $images_isext = [];
     if($itemProduct->is_variant == 1 && in_array($shopSetting->type_view_variant, [3,4])){
         $padre = \App\Models\PluginProducts::where("group_id", $itemProduct->group_id)->where("is_variant", 0)->first();
         if(!$padre){
@@ -36,6 +36,7 @@ $shopSetting = \App\Models\ShopSettings::first();
             if(count($padre->images)){
                 foreach($padre->images as $image){
                     $images[] = $image->image;
+                    $images_isext[] = $image->is_ext;
                 }
             }
         }
@@ -44,12 +45,14 @@ $shopSetting = \App\Models\ShopSettings::first();
         if(count($itemProduct->images)){
             foreach($itemProduct->images as $image){
                 $images[] = $image->image;
+                $images_isext[] = $image->is_ext;
             }
         }
     }else{
         if(count($itemProduct->images)){
             foreach($itemProduct->images as $image){
                 $images[] = $image->image;
+                $images_isext[] = $image->is_ext;
             }
         }
     }
@@ -66,7 +69,16 @@ $shopSetting = \App\Models\ShopSettings::first();
         }
     }
 
+    $has_figli = 0;
+    if($itemProduct->is_variant == 0){
+        $has_figli = \App\Models\PluginProducts::where("is_variant", 1)->where("group_id", $itemProduct->group_id)
+            ->where("is_active", 1)
+            ->count();
+    }
+
+
     ?>
+
 <!-- Webisland aggiunge le briciole di pane -->
 @if($shopSetting->bread_crumbs == "1")
     <section style="height: {{ $shopSetting->height_section_bc }}px; background-color: {{ $shopSetting->bgcolor_bc }}; padding: {{ $shopSetting->padding_section_bc }}rem;">
@@ -134,6 +146,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                                     }
                                 }
 
+                                $sum_price_options = 0;
                                 if($itemProduct){
                                     if($itemProduct->is_variant == 1){
                                         $sum_price_options = \App\Models\ShopAttributesProducts::selectRaw("shop_attributes_options.*")
@@ -154,6 +167,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                                 ?>
 
                                 @if($pluginSetting->show_prices == 1 || ($pluginSetting->is_price_on_demand == 1 && $pluginSetting->show_prices == 0 && \Session::get("user_id")))
+
                                     @include("$thema.plugins.pluginProducts.v3.shop.calculate_price")
 
                                     @if($symbol == "&euro;")
@@ -313,14 +327,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                             @endif
                         @endif
 
-                        <?php
-                        $has_figli = 0;
-                        if($itemProduct->is_variant == 0){
-                            $has_figli = \App\Models\PluginProducts::where("is_variant", 1)->where("group_id", $itemProduct->group_id)
-                                ->where("is_active", 1)
-                                ->count();
-                        }
-                        ?>
+
 
                         @if($itemProduct->is_purchasable == 1 && in_array($shopSetting->type_view_variant, [1,4]) && $promo_price > 0 && $has_figli == 0)
                             @if($itemProduct->qty == 0)
@@ -335,11 +342,15 @@ $shopSetting = \App\Models\ShopSettings::first();
                                 @else
                                     @if(!$itemProduct->in_cart())
                                         <?php
+                                        $min = 1;
                                         $max = $itemProduct->qty;
                                         if($itemProduct->qty_max){
                                             $max = $itemProduct->qty_max;
                                         }
 
+                                        if($itemProduct->qty_min){
+                                            $min = $itemProduct->qty_min;
+                                        }
                                         ?>
 
                                         @if($pluginSetting->is_add_to_cart == 1 || ($pluginSetting->is_price_on_demand == 1 && $pluginSetting->is_add_to_cart == 0 && \Session::get("user_id")) )
@@ -351,19 +362,81 @@ $shopSetting = \App\Models\ShopSettings::first();
                                             @if(count($products_quantities) && $shopSetting->is_qta_minima)
                                                 <table class="table">
                                                     <tr><th>{{ @$labels['detail-qty-min'] }}</th><th>{{ @$labels['detail-qty-price'] }}</th></tr>
-                                                    @foreach($products_quantities as $pq)
+
+
+
+                                                    <?php
+                                                        $map_qty = [];
+                                                        if($itemProduct->qty_min){
+                                                            $map_qty[] = $itemProduct->qty_min;
+                                                        }
+
+                                                        if($products_quantities){
+                                                            foreach ($products_quantities as $pq){
+                                                                $map_qty[] = $pq->quantity_min;
+                                                            }
+
+                                                        }
+
+                                                        if($itemProduct->qty_max){
+                                                            $map_qty[] = $itemProduct->qty_max;
+                                                        }else{
+                                                            $map_qty[] = $itemProduct->qty;
+                                                        }
+
+                                                        $ranges = [];
+                                                        for ($i = 0; $i < count($map_qty) - 1; $i++) {
+                                                            if($i == count($map_qty) - 2){
+                                                                $step = $map_qty[$i+1];
+                                                                $ranges[$map_qty[$i]] = "da {$map_qty[$i]} a {$step}";
+                                                            }else{
+                                                                $step = $map_qty[$i+1] - 1;
+                                                                $ranges[$map_qty[$i]] = "da {$map_qty[$i]} a {$step}";
+                                                            }
+                                                        }
+                                                     ?>
+
+                                                    @foreach($ranges as $min_price=>$label)
+                                                        <?php
+                                                            $sconto_qty = \App\Models\PluginProductsQuantities::where("plugin_product_id", $itemProduct->id)
+                                                                ->where("quantity_min", $min_price)
+                                                                ->first();
+                                                        ?>
+
                                                         <tr>
-                                                            <td>{{ $pq->quantity_min }}</td>
+                                                            <td>{{ $label }}</td>
                                                             <td>
-                                                                @if(env('VIEW_WITH_IVA') == 1)
-                                                                    {{ number_format($pq->price * $vat_calculate, 2, ",", ".") }} &euro;
+                                                                @if($sconto_qty)
+                                                                    @if(env('VIEW_WITH_IVA') == 1)
+                                                                       {{ number_format($sconto_qty->price + $sum_price_options * $vat_calculate, 2, ",", ".") }} &euro;
+                                                                    @else
+                                                                       {{ number_format($sconto_qty->price + $sum_price_options, 2, ",", ".") }} &euro;
+                                                                    @endif
                                                                 @else
-                                                                    {{ number_format($pq->price, 2, ",", ".") }} &euro;
+                                                                    @if($min_price == $itemProduct->qty_min)
+                                                                        @if(env('VIEW_WITH_IVA') == 1)
+                                                                              {{ number_format($itemProduct->price + $sum_price_options * $vat_calculate, 2, ",", ".") }} &euro;
+                                                                          @else
+                                                                              {{ number_format($itemProduct->price + $sum_price_options, 2, ",", ".") }} &euro;
+                                                                          @endif
+                                                                    @endif
                                                                 @endif
                                                             </td>
                                                         </tr>
                                                     @endforeach
                                                 </table>
+                                            @endif
+
+                                            @if($itemProduct->qty_min)
+                                                <div class="alert alert-danger">
+                                                    Per questo prodotto è richiesta una quantità minima acquistabile di {{ $itemProduct->qty_min }} pezzi.
+                                                </div>
+                                            @endif
+
+                                            @if($itemProduct->qty_max)
+                                                <div class="alert alert-danger">
+                                                    Per questo prodotto puoi acquistare fino ad un massimo di {{ $itemProduct->qty_max }} pezzi.
+                                                </div>
                                             @endif
 
                                             <form method="post" action="{{ route('add.cart.product') }}" class="product-form" @if($shopSetting->is_caricamento_file) enctype="multipart/form-data" @endif>
@@ -382,7 +455,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                                                 @if($shopSetting->is_textarea_message && $itemProduct->is_textarea_message)
                                                     <div class="form-group">
                                                         <label>{{ @$labels['detail-carica-msg'] }} @if($itemProduct->is_textarea_message_required) * @endif</label>
-                                                        <input class="form-control" name="message" id="message"  type="text" @if($itemProduct->is_textarea_message_required) required @endif>
+                                                        <textarea class="form-control" name="message" id="message" @if($itemProduct->is_textarea_message_required) required @endif></textarea>
                                                     </div>
                                                 @endif
 
@@ -403,10 +476,12 @@ $shopSetting = \App\Models\ShopSettings::first();
                                                     <br>
                                                 @endif
 
+
+
                                                 <div class="product-form-group row">
                                                     <div class="input-group input-spinner w-auto col-auto">
                                                         <button class="quantity-minus btn btn-default button-minus" type="button" onclick="decreaseValue('#qty')" aria-label="Riduci"><i class="fas fa-minus"></i></button>
-                                                        <input class="quantity form-control form-control-qty" type="number" name="qty" min="1" @if($pluginSetting->is_qty_infinite == 0) max="{{ $max }}" @endif id="qty" value="1" aria-label="Quantità" style="max-width: 40px!important">
+                                                        <input class="quantity form-control form-control-qty" type="number" name="qty" min="{{ $min }}" @if($pluginSetting->is_qty_infinite == 0) max="{{ $max }}" @endif id="qty" value="{{ $min }}" aria-label="Quantità" style="max-width: 40px!important">
                                                         <button class="quantity-plus btn btn-default button-plus" type="button" onclick="increaseValue('#qty')" aria-label="Aumenta"><i class="fas fa-plus"></i></button>
                                                     </div>
                                                     <button class="btn btn-primary col-auto" type="submit">

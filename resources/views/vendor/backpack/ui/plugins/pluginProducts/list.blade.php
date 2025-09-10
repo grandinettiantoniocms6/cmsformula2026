@@ -13,6 +13,8 @@
        $dashboard_class = new \App\Http\Controllers\Admin\DashboardController();
        $vCheckSlug = $dashboard_class->check_duplicate_slug($crud->model->getTable());
   }
+
+   $shopSetting = \App\Models\ShopSettings::first();
 @endphp
 
 @section('header')
@@ -64,6 +66,31 @@
                   <div class="dropdown d-inline-block show">
                       <a class="btn btn-sm btn-success dropdown-toggle" href="#" role="button" id="esporta" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Azioni</a>
                       <div class="dropdown-menu" aria-labelledby="esporta">
+
+                          @if($shopSetting->is_caricamento_file)
+                              <button type="submit" class="dropdown-item" name="button" value="active_file" form="formSave">Attiva caricamento File</button>
+                              <button type="submit" class="dropdown-item" name="button" value="deactive_file" form="formSave">Disattiva caricamento File</button>
+
+                              <hr>
+
+                              <button type="submit" class="dropdown-item" name="button" value="active_file_required" form="formSave">Attiva caricamento File Obbligatorio</button>
+                              <button type="submit" class="dropdown-item" name="button" value="deactive_file_required" form="formSave">Disattiva caricamento File Obbligatorio</button>
+
+                              <hr>
+                          @endif
+
+                          @if($shopSetting->is_textarea_message)
+
+                              <button type="submit" class="dropdown-item" name="button" value="active_message" form="formSave">Attiva caricamento Testo</button>
+                              <button type="submit" class="dropdown-item" name="button" value="deactive_message" form="formSave">Disattiva caricamento Testo</button>
+
+                              <hr>
+
+                              <button type="submit" class="dropdown-item" name="button" value="active_message_required" form="formSave">Attiva caricamento Testo Obbligatorio</button>
+                              <button type="submit" class="dropdown-item" name="button" value="deactive_message_required" form="formSave">Disattiva caricamento Testo Obbligatorio</button>
+                          @endif
+
+                              <hr>
                           <button type="submit" class="dropdown-item" name="button" value="delete" form="formSave">Cancella</button>
                           @if(backpack_user()->roles[0]->id == 1)
                               <button type="submit" class="dropdown-item" name="button" value="truncate" form="formSave">Svuota DB</button>

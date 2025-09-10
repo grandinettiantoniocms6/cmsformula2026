@@ -138,6 +138,7 @@ class ShopAttributesOptionsCrudController extends CrudController
                 'name'  => 'price',
                 'label' => 'Prezzo aggiuntivo (iva esclusa)',
                 'type'  => 'text',
+                'default' => 0,
                 'wrapper' => ['class' => 'form-group col-md-4'],
             ],
             [

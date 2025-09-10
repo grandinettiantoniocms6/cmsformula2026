@@ -22,7 +22,7 @@
    }
 
    if($attribute_item){
-       $options = \App\Models\ShopAttributesOptions::selectRaw("shop_attributes_options.value,shop_attributes_products.id")
+       $options = \App\Models\ShopAttributesOptions::selectRaw("shop_attributes_options.*,shop_attributes_products.id, shop_attributes_products.product_id")
            ->join("shop_attributes_products", "shop_attributes_options.id", "shop_attributes_products.option_id")
            ->where("attribute_id", $attribute_item->id)
            ->whereIn("product_id", $figli_ids)
@@ -60,10 +60,38 @@
             <select name="first_attribute" class="form-select" id="first_attribute">
                 <option value="" selected="selected">{{ @$labels['shop-seleziona'] }}</option>
                 @foreach($options as $option)
+                    <?php
+                        $variantProduct = \App\Models\PluginProducts::find($option->product_id);
+                        if(!$variantProduct){
+                            continue;
+                        }
+
+                        $vat = $variantProduct->tax ? $variantProduct->tax->value : 22;
+                        $vat_calculate = ($vat / 100) + 1;
+                    ?>
+
                     @if($option_selected == $option->value)
-                        <option value="{{ $option->id }}" selected>{{ $option->value }}</option>
+                        <option value="{{ $option->id }}" selected>
+                            {{ $option->value }}
+                            @if($option->price)
+                                @if(env('VIEW_WITH_IVA') == 1)
+                                    (+{{ number_format($option->price * $vat_calculate, 2, ",", ".") }} &euro;)
+                                @else
+                                    (+{{ number_format($option->price, 2, ",", ".") }} &euro;)
+                                @endif
+                            @endif
+                        </option>
                     @else
-                        <option value="{{ $option->id }}">{{ $option->value }}</option>
+                        <option value="{{ $option->id }}">
+                            {{ $option->value }}
+                            @if($option->price)
+                                @if(env('VIEW_WITH_IVA') == 1)
+                                    (+{{ number_format($option->price * $vat_calculate, 2, ",", ".") }} &euro;)
+                                @else
+                                    (+{{ number_format($option->price, 2, ",", ".") }} &euro;)
+                                @endif
+                            @endif
+                        </option>
                     @endif
                 @endforeach
             </select>

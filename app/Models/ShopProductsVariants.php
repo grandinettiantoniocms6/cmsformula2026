@@ -69,6 +69,11 @@ class ShopProductsVariants extends Model
     {
         $photo = PluginProductsImages::where("product_id", $this->id)->orderBy("order", "asc")->first();
         if($photo){
+            if($photo->is_ext == 1){
+                $url = $photo->image;
+                return "<img src='$url' width='60'>";
+            }
+
             if(is_numeric(strpos($photo->image, "uploads"))){
                 $url = url("$photo->image");
             }else{

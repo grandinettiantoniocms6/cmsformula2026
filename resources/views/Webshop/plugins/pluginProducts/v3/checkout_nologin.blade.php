@@ -340,10 +340,16 @@ $website = \App\Models\WebsiteSetting::first();
                                 @foreach ($cart as $item)
                                     @php
                                         $product = \App\Models\PluginProducts::with("tax")->find($item->product_id);
+                                        if(!$product){
+                                            continue;
+                                        }
+
                                         $productTotal = $item->price * $item->qty;
 
                                         $vat = $product->tax ? $product->tax->value : 22;
                                         $vat_calculate = ($vat / 100) + 1;
+
+
                                     @endphp
                                     <tr>
                                         <td>
@@ -352,7 +358,28 @@ $website = \App\Models\WebsiteSetting::first();
                                                 @if(trim($product->custom_1) != "") <label class="product-label product-label-custom-color-1">{{ $product->custom_1 }}</label> @endif
                                                 @if(trim($product->custom_2) != "") <label class="product-label product-label-custom-color-2">{{ $product->custom_2 }}</label> @endif
                                             </div>
-                                            <strong>x {{ $item->qty }}</strong>
+
+                                            @if($item->price_add > 0)
+                                                <?php
+                                                if(env('VIEW_WITH_IVA') == 1){
+                                                    $sum_price_options = number_format($item->price_add * $vat_calculate,2,",",".");
+                                                }else{
+                                                    $sum_price_options = number_format($item->price_add,2,",",".");
+                                                }
+                                                ?>
+                                                @if(env('VIEW_WITH_IVA') == 1)
+                                                    <div class="line-height-md">{{ @$labels['shop-carrello-prezzo'] }}: &euro; {{ number_format($item->price_unit * $vat_calculate,2,",",".") }}</div>
+                                                    <div class="line-height-md">{{ @$labels['shop-opzioni-aggiuntive'] }}: &euro; {{ $sum_price_options }}</div>
+                                                @else
+                                                    <div class="line-height-md">{{ @$labels['shop-carrello-prezzo'] }}: &euro; {{ number_format($item->price_unit,2,",",".") }}</div>
+                                                    <div class="line-height-md">{{ @$labels['shop-opzioni-aggiuntive'] }}: &euro; {{ $sum_price_options }}</div>
+                                                @endif
+                                            @endif
+
+                                            <div class="line-height-md">{{ @$labels['shop-carrello-qta'] }}: {{ $item->qty }}</div>
+
+                                            <br>
+
                                             @if(property_exists($item, "extra"))
                                                 @if($item->extra)
                                                     <div class="extra">
@@ -365,19 +392,25 @@ $website = \App\Models\WebsiteSetting::first();
                                                 @endif
                                             @endif
 
-                                            @if(property_exists($item, "message"))
-                                                <div class="extra">
-                                                    <div><em>Messaggio:</em> {{ $item->message }}</div>
-                                                </div>
+                                            @if($product->is_textarea_message)
+                                                @if(property_exists($item, "message"))
+                                                    <div class="extra">
+                                                        <div><em>{{ @$labels['testo-custom'] }}:</em> {{ $item->message }}</div>
+                                                    </div>
+                                                @endif
                                             @endif
 
-                                            @if(property_exists($item, "file"))
-                                                <div class="extra">
-                                                    <div><em>File:</em> <a href="{{ url("uploads/$item->file") }}" target="_blank">Vedi</a> </div>
-                                                </div>
+                                            @if($product->is_caricamento_file)
+                                                @if(property_exists($item, "file"))
+                                                    <div class="extra">
+                                                        <div><em>File:</em> <a href="{{ url("uploads/$item->file") }}" target="_blank">{{ @$labels['testo-vedi-file'] }}</a> </div>
+                                                    </div>
+                                                @endif
                                             @endif
                                         </td>
-                                        <td>{!! $symbol !!} <?php echo number_format($productTotal,2, ',','.'); ?></td>
+                                        <td>{!! $symbol !!}
+                                             <?php echo number_format($item->price_unit + $item->price_add,2, ',','.'); ?>
+                                        </td>
                                     </tr>
                                     @php
                                         $tot = $tot + $productTotal;
@@ -393,14 +426,14 @@ $website = \App\Models\WebsiteSetting::first();
                                 <tbody id="checkout_tbody">
                                 @if(env('HIDE_TASSE') == 0)
                                     <tr>
-                                        <td>{{ @$labels['shop-partials-tot-tasse-esc'] }}</td>
+                                        <th>{{ @$labels['shop-partials-tot-tasse-esc'] }}</th>
                                         <td>{!! $symbol !!} <span id="total_no_tax">{{ number_format(round($totNoTax, 2),2, ',','.') }}</span></td>
                                     </tr>
 
                                     @if($v_tax)
                                         @foreach($v_tax as $k=>$v)
                                             <tr>
-                                                <td>{{ @$labels['shop-checkout-tasse'] }} <small>{{ (int) $k }}%</small></td>
+                                                <th>{{ @$labels['shop-checkout-tasse'] }} <small>{{ (int) $k }}%</small></th>
                                                 <td>{!! $symbol !!} <span id="sum_tax">@php echo number_format(round($v,2),2, ',','.'); @endphp</span></td>
                                             </tr>
                                         @endforeach

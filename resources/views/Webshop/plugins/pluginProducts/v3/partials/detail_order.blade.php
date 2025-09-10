@@ -76,6 +76,25 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                         @endif
                     </h6>
 
+
+                    @if($product->pivot->price_add > 0)
+                            <?php
+                            if(env('VIEW_WITH_IVA') == 1){
+                                $sum_price_options = number_format($product->pivot->price_add * $vat_calculate,2,",",".");
+                            }else{
+                                $sum_price_options = number_format($product->pivot->price_add,2,",",".");
+                            }
+                            ?>
+                        @if(env('VIEW_WITH_IVA') == 1)
+                            <div class="line-height-md">{{ @$labels['shop-carrello-prezzo'] }}: &euro; {{ number_format($product->pivot->price_unit * $vat_calculate,2,",",".") }}</div>
+                            <div class="line-height-md">{{ @$labels['shop-opzioni-aggiuntive'] }}: &euro; {{ $sum_price_options }}</div>
+                        @else
+                            <div class="line-height-md">{{ @$labels['shop-carrello-prezzo'] }}: &euro; {{ number_format($product->pivot->price_unit,2,",",".") }}</div>
+                            <div class="line-height-md">{{ @$labels['shop-opzioni-aggiuntive'] }}: &euro; {{ $sum_price_options }}</div>
+                        @endif
+                    @endif
+
+
                     @if($extra_list)
                         <br>
                         @foreach($extra_list as $extra_id => $value)
@@ -89,19 +108,22 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
 
                     @if($product->pivot->message)
                         <div class="extra">
-                            <div><em>Messaggio:</em> {{ $product->pivot->message }}</div>
+                            <div><em>{{ @$labels['testo-custom'] }}:</em> {{ $product->pivot->message }}</div>
                         </div>
                     @endif
 
                     @if($product->pivot->file)
                         <div class="extra">
-                            <div><em>File:</em> <a href="{{ url("uploads/{$product->pivot->file}") }}" target="_blank">Vedi</a> </div>
+                            <div><em>File:</em> <a href="{{ url("uploads/{$product->pivot->file}") }}" target="_blank">
+                                    {{ @$labels['testo-vedi-file'] }}
+                                </a>
+                            </div>
                         </div>
                     @endif
                 </td>
                 <td data-column="Q.tà" data-fluid="100">x {{ $product->pivot->quantity }}</td>
                 <td data-column="Prezzo" class="text-end" data-fluid="100">{!! $symbol !!}
-                        {{ $product->price }}
+                        <?php echo number_format($product->pivot->price_unit + $product->pivot->price_add,2, ',','.'); ?>
                 </td>
             </tr>
             @php
