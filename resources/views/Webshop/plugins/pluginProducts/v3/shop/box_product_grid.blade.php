@@ -241,12 +241,14 @@
                         </form>
                     </div>
                 @else
+                    @if($product->is_purchasable)
                     <div class="col-auto">
                         <a class="btn btn-lg btn-primary" href="{{ route("pluginProducts.detail.".\App::getLocale(), [$cat_prod_slug,$product->slug]) }}">
                             <i class="bi bi-bag-plus"></i>
                             <span class="sr-only">Dettaglio</span>
                         </a>
                     </div>
+                    @endif
                 @endif
             </div>
 

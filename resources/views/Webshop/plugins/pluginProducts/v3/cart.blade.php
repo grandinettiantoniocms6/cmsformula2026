@@ -174,7 +174,9 @@ $cart_class = new \App\Http\Controllers\CartController();
                                     @php
 
                                         //$productTotal = ($item->price * $vat_calculate) * $item->qty;
-                                        $productTotal = $cart_class->truncate_floor($item->total_cart);
+                                        //$productTotal = $cart_class->truncate_floor($item->total_cart);
+                                        $productTotal = ($item->price_unit + $item->price_add) * $vat_calculate;
+
                                         $tot = $tot + $productTotal;
                                         $prezzoNoIva = $productTotal / ((100 + $vat)/100);
 
@@ -182,7 +184,7 @@ $cart_class = new \App\Http\Controllers\CartController();
                                         $totNoTax = $totNoTax + $prezzoNoIva;
                                     @endphp
 
-                                    <td class="product-price" data-column="Totale">{!! $symbol !!} <?php echo number_format($productTotal,2, ',','.'); ?></td>
+                                    <td class="product-price" data-column="Totale">{!! $symbol !!} <?php echo number_format(($item->price_unit + $item->price_add) * $vat_calculate,2, ',','.'); ?></td>
                                     <td class="product-remove" data-column="Rimuovi dal carrello">
                                         <a class="btn btn-sm btn-remove" href="{{ route('remove.cart.list') }}?id={{ $item->product_id }}"><span data-bs-toggle="tooltip" title="" data-original-title="Rimuovi/Remove"><i class="fas fa-times"></i></span></a>
                                     </td>

@@ -348,8 +348,6 @@ $website = \App\Models\WebsiteSetting::first();
 
                                         $vat = $product->tax ? $product->tax->value : 22;
                                         $vat_calculate = ($vat / 100) + 1;
-
-
                                     @endphp
                                     <tr>
                                         <td>
