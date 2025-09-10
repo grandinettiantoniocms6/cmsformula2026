@@ -40,6 +40,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 
 /**
@@ -945,6 +946,8 @@ class PluginProductsCrudController extends CrudController
             2 => 'Non visibile',
             3 => 'In evidenza',
             4 => 'Non in evidenza',
+            5 => 'Acquistabile',
+            6 => 'Non Acquistabile',
         ], function($value) { // if the filter is active
             switch ($value){
                 case 1:
@@ -958,6 +961,12 @@ class PluginProductsCrudController extends CrudController
                     break;
                 case 4:
                     $this->crud->addClause('where', 'is_evidenza', 0);
+                    break;
+                case 5:
+                    $this->crud->addClause('where', 'is_purchasable', 1);
+                    break;
+                case 6:
+                    $this->crud->addClause('where', 'is_purchasable', 0);
                     break;
             }
             // $this->crud->addClause('where', 'status', $value);
@@ -987,6 +996,7 @@ class PluginProductsCrudController extends CrudController
             }
         }
 
+        asort($categories);
         $this->crud->addFilter([
             'name'  => 'category_id',
             'type'  => 'select2',
@@ -994,8 +1004,15 @@ class PluginProductsCrudController extends CrudController
         ], function () use ($categories) {
             return $categories;
         }, function ($value) { // if the filter is active
+            $cat = PluginProductsCategories::find($value);
+            if($cat->parent_id == 0){
+                $cat_ids = PluginProductsCategories::where("parent_id", $cat->id)->get()->pluck('id', 'id')->toArray();
+                $cat_ids[$cat->id] = $cat->id;
+            }else{
+                $cat_ids[$value] = $value;
+            }
 
-            $ids = PluginProductsCategoriesProducts::where("plugin_product_category_id", $value)->pluck("plugin_product_product_id", "plugin_product_product_id")->toArray();
+            $ids = PluginProductsCategoriesProducts::whereIn("plugin_product_category_id", $cat_ids)->pluck("plugin_product_product_id", "plugin_product_product_id")->toArray();
             if(count($ids)){
                 $this->crud->addClause('whereIn', 'id', $ids);
             }else{

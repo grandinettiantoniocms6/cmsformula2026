@@ -353,7 +353,7 @@
                     <tr>
                         <th></th>
                         <th>Prodotto</th>
-                        <th>Prezzo</th>
+                        <!--<th>Prezzo</th>-->
                         <th>Quantità</th>
                         <th class="text-right">Totale</th>
                     </tr>
@@ -435,9 +435,9 @@
                                     <div><em>File:</em> <a href="{{ url("uploads/{$op->file}") }}" target="_blank">Anteprima</a> </div>
                                 @endif
                             </td>
-                            <td>
+                           <!-- <td>
                                     {{ number_format($op->price_with_tax,3, ',','.') }}
-                            </td>
+                            </td> -->
                             <td>{{ $op->quantity }}</td>
                             <td class="text-right">
                                     {{ number_format($op->price_with_tax * $op->quantity,2, ',','.').' '.$order->currency->name }}
@@ -455,12 +455,12 @@
 
                     @if(env('HIDE_TASSE') == 0)
                         <tr>
-                            <th class="text-right" colspan="4">Imponibile:</th>
+                            <th class="text-right" colspan="3">Imponibile:</th>
                             <td class="text-right">{{ number_format(round($subTotal, 2),2, ',','.') }} {{ $order->currency->name }}</td>
                         </tr>
 
                         <tr>
-                            <th class="text-right" colspan="4">Spese di spedizione @if($userOrder->type_client == 1) (iva escl.) @endif:</th>
+                            <th class="text-right" colspan="3">Spese di spedizione @if($userOrder->type_client == 1) (iva escl.) @endif:</th>
                             <td class="text-right">
                                 @if($userOrder->type_client == 1)
                                     {{ $order->total_shipping.' '.$order->currency->name }}
@@ -471,7 +471,7 @@
                         </tr>
 
                         <tr>
-                            <th class="text-right" colspan="4">IVA:</th>
+                            <th class="text-right" colspan="3">IVA:</th>
                             <td class="text-right">
                                 @if($userOrder->type_client == 1)
                                     {{  number_format(round($total - $subTotal + ($order->total_shipping_tax - $order->total_shipping), 2),2, ',','.') }} {{ $order->currency->name }}
@@ -483,7 +483,7 @@
                     @endif
                     @if($order->code_coupon)
                         <tr>
-                            <th class="text-right" colspan="4">Sconto Coupon:</th>
+                            <th class="text-right" colspan="3">Sconto Coupon:</th>
                             <td class="text-right">
                                 <strong>- {{ (number_format($order->total_coupon,2, ",", ".")).' '.$order->currency->name }}</strong>
                             </td>
@@ -495,20 +495,20 @@
                             foreach ($order->extra as $extra){
                             ?>
                             <tr>
-                                <th class="text-right" colspan="4">{{ $extra->name }}:</th>
+                                <th class="text-right" colspan="3">{{ $extra->name }}:</th>
                                 <td class="text-right">{{ number_format($extra->pivot->price,2, ".", ",") }} {{ $order->currency->name }}</td>
                             </tr>
                             <?php }
                             } ?>
                         @endif
                         <tr>
-                            <th class="text-right" colspan="4">Totale:</th>
+                            <th class="text-right" colspan="3">Totale:</th>
                             <td class="text-right"><strong>{{ ($order->total_tax - $order->total_coupon) + $order->total_extra + $order->total_shipping_tax.' '.$order->currency->name }}</strong></td>
                         </tr>
 
                         @if($order->total_giftcard > 0)
                             <tr>
-                                <th class="text-right" colspan="4"><strong>Totale da pagare:</strong><br>({{ $order->number_giftcard }})</th>
+                                <th class="text-right" colspan="3"><strong>Totale da pagare:</strong><br>({{ $order->number_giftcard }})</th>
                                 <td class="text-right"><strong>{{ ($order->total_tax - $order->total_coupon - $order->total_giftcard) + $order->total_extra + $order->total_shipping_tax.' '.$order->currency->name }}</strong></td>
                             </tr>
                         @endif
@@ -519,7 +519,7 @@
                             foreach ($order->extra as $extra){
                             ?>
                             <tr>
-                                <th class="text-right" colspan="4">{{ $extra->name }}:</th>
+                                <th class="text-right" colspan="3">{{ $extra->name }}:</th>
                                 <td class="text-right">{{ number_format($extra->pivot->price,2, ".", ",") }}</td>
                             </tr>
                             <?php
@@ -527,13 +527,13 @@
                             } ?>
                         @endif
                         <tr>
-                            <th class="text-right" colspan="4">Totale:</th>
+                            <th class="text-right" colspan="3">Totale:</th>
                             <td class="text-right"><strong>{{ number_format($order->total_tax + $order->total_shipping_tax + $order->total_extra, 2,",",".").' '.$order->currency->name }}</strong></td>
                         </tr>
 
                         @if($order->total_giftcard > 0)
                             <tr>
-                                <th class="text-right" colspan="4"><strong>Totale con Gift Card:</strong><br>({{ $order->number_giftcard }})</th>
+                                <th class="text-right" colspan="3"><strong>Totale con Gift Card:</strong><br>({{ $order->number_giftcard }})</th>
                                 <td class="text-right"><strong>{{ $order->total_tax + $order->total_shipping_tax + $order->total_extra - $order->total_giftcard.' '.$order->currency->name }}</strong></td>
                             </tr>
                         @endif
