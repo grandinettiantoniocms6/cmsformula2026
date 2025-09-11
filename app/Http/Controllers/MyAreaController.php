@@ -657,7 +657,7 @@ class MyAreaController extends Controller
         }
 
         $order->load(["products", "payment", "status"]);
-        $shipping = Address::with("country")->withTrashed()->find($order->shipping_address_id);
+        $shipping = Address::withTrashed()->find($order->shipping_address_id);
         $billing = Company::withTrashed()->find($order->billing_company_id);
         $companies = Company::where("user_id", $user->id)->get();
 

@@ -175,7 +175,7 @@ $cart_class = new \App\Http\Controllers\CartController();
 
                                         //$productTotal = ($item->price * $vat_calculate) * $item->qty;
                                         //$productTotal = $cart_class->truncate_floor($item->total_cart);
-                                        $productTotal = ($item->price_unit + $item->price_add) * $vat_calculate;
+                                        $productTotal = (($item->price_unit + $item->price_add) * $item->qty) * $vat_calculate;
 
                                         $tot = $tot + $productTotal;
                                         $prezzoNoIva = $productTotal / ((100 + $vat)/100);
