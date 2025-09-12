@@ -27,7 +27,7 @@ if($descriptionBlocco){
             @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
                 <div class="col-12 col-lg-12 text-center" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
                     <span class="ps-25px pe-25px mb-15px text-uppercase text-dark-gray text-base-color fs-12 lh-40 fw-700 border-radius-100px bg-solitude-blue d-inline-flex">{{ $titleBlocco[\App::getLocale()] }}</span>
-                    <h2 class="alt-font text-white fw-800">{!! $descriptionBlocco[\App::getLocale()] !!} </h2>
+                    <p>{!! $descriptionBlocco[\App::getLocale()] !!} </p>
                 </div>
             @endif
         </div>
