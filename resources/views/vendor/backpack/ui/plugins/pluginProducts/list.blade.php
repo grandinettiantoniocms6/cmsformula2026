@@ -44,8 +44,20 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            @foreach($vCheckSlug as $html)
-                                {!! $html !!}
+                            @foreach($vCheckSlug as $k=>$html)
+                                <?php
+                                   $sku = \DB::table("plugins_products")
+                                        ->whereNull("deleted_at")
+                                        ->whereRaw("slug LIKE '%\"$k\"%'")->get()->pluck("sku", "sku")->toArray();
+                                ?>
+                                @if(count($sku))
+                                    {!! $html !!} {{ implode(", ", $sku) }}
+                                @else
+                                    {!! $html !!}
+                                @endif
+                                <hr>
+
+
                             @endforeach
                         </div>
                     </div>

@@ -532,26 +532,29 @@ class DashboardController extends Controller
 
             foreach ($list as $pp){
                 $tempSlug = json_decode($pp->slug, true);
-                foreach ($tempSlug as $v){
-                    $label = $v;
+                if($tempSlug){
+                    foreach ($tempSlug as $v){
+                        $label = $v;
 
-                    if($label == "/"){
-                        continue;
-                    }
+                        if($label == "/"){
+                            continue;
+                        }
 
-                    if($label == ""){
-                        continue;
-                    }
+                        if($label == ""){
+                            continue;
+                        }
 
-                    if($label === null){
-                        continue;
-                    }
+                        if($label === null){
+                            continue;
+                        }
 
-                    $cont = $pp->tot;
-                    if($cont > 1){
-                        $vCheckSlug[$label] = "<p>Permalink <strong>$label</strong> presente <strong>$cont volte</strong></p>";
+                        $cont = $pp->tot;
+                        if($cont > 1){
+                            $vCheckSlug[$label] = "<p>Permalink <strong>$label</strong> presente <strong>$cont volte</strong></p>";
+                        }
                     }
                 }
+
             }
         }
 

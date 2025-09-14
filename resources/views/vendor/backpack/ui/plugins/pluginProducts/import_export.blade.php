@@ -160,6 +160,9 @@
                             </select>
                         </div>
 
+                        @if(count($configs))
+                        <button type="submit" name="submit" value="view" class="btn btn-light btn-block"><span>Vedi</span></button>
+                        @endif
                         <button type="submit" name="submit" value="load" class="btn btn-dark btn-block"><span>Carica</span></button>
 
                     </form>
@@ -170,32 +173,9 @@
                            $pluginImport = \App\Models\PluginProductImport::find(\request()->get('id'));
                            $v_mapping = json_decode($pluginImport->mapping, true);
 
-                           $fields = [
-                                "parent_sku",
-                                "sku",
-                                "name",
-                                "category",
-                                "subcategory",
-                                "images",
-                                "price",
-                                "qty",
-                                "options_1",
-                                "options_2",
-                                "meta_title",
-                                "meta_description",
-                                "meta_key",
-                                "description_short",
-                                "description",
-                                "tags",
-                                "custom_1",
-                                "custom_2",
-                                "brand",
-                                "is_active",
-                                "tax",
-                                "code_article",
-                                "ean13"
-                            ];
-                        ?>
+                           $fields = config('cmsformula.fields_import_special');
+                           $fields = array_combine($fields, $fields);
+                           ?>
 
                         <hr>
                         <form method="post" action="{{ $url }}" enctype="multipart/form-data" class="position-relative">
@@ -225,8 +205,6 @@
                                     </div>
                                 @endif
 
-                                <h5 class="text text-danger">SKU, NAME, CATEGORY, PRICE OBBLIGATORI</h5>
-
                                 <table width="100%">
                                     <thead>
                                         <tr>
@@ -235,15 +213,51 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <?php
+                                      $fields_labels = config('cmsformula.fields_import_special_labels');
+                                    ?>
                                     @foreach($v_mapping as $key=>$value)
+
                                         <tr>
                                             <td>{{ $key }}</td>
                                             <td>
                                                 <select class="form-control" name="mapping[{{ $key }}]">
                                                     <option value=""></option>
-                                                    @foreach($fields as $field)
-                                                        <option value="{{ $field }}"
-                                                            {{ old("mapping.$key") == $field ? 'selected' : '' }}>
+                                                    @foreach($fields as $k=>$field)
+                                                        <?php
+                                                        if(trim($field) == "category"){
+                                                            $field = "category* (CASO 1: string, CASO 2: string,string,string)";
+                                                        }
+                                                        if(trim($field) == "images"){
+                                                            $field = "images (CASO 1: string, CASO 2: string,string,string)";
+                                                        }
+                                                        if(trim($field) == "options_1"){
+                                                            $field = "options_1 (string)";
+                                                        }
+                                                        if(trim($field) == "options_2"){
+                                                            $field = "options_2 (string)";
+                                                        }
+                                                        if(trim($field) == "sku"){
+                                                            $field = "sku*";
+                                                        }
+                                                        if(trim($field) == "name"){
+                                                            $field = "name*";
+                                                        }
+                                                        if(trim($field) == "price"){
+                                                            $field = "price*";
+                                                        }
+                                                        if(trim($field) == "qty"){
+                                                            $field = "qty (integer, se non associata mette di default 1000)";
+                                                        }
+                                                        if(trim($field) == "tax"){
+                                                            $field = "tax (integer, se non associata mette di default 22%)";
+                                                        }
+                                                        if(trim($field) == "is_active"){
+                                                            $field = "is_active (integer, 0-1, se non associata mette 1 in creazione prodotto)";
+                                                        }
+                                                        ?>
+                                                        <option value="{{ $k }}"
+                                                            {{ old("mapping.$key") == $k ? 'selected' : '' }}>
                                                             {{ $field }}
                                                         </option>
                                                     @endforeach

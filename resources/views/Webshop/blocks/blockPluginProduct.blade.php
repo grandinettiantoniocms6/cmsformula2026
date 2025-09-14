@@ -26,25 +26,31 @@ $description = json_decode($item->description, true);
                         <?php
                         if ($value->category_id) {
                             $category = \App\Models\PluginProductsCategories::where("id", $value->category_id)->first();
-                            $category_slug = $category->slug;
 
-                            if ($value->is_random) {
-                                $products = \App\Models\PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
-                                    ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                                    ->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
-                                    ->where("plugins_products_categories_products.plugin_product_category_id", $value->category_id)
-                                    ->where("plugins_products.is_active", 1)
-                                    ->inRandomOrder()
-                                    ->take($value->number_max)
-                                    ->get();
+                            $products = null;
+                            $category_slug = null;
+                            if($category){
+                                $category_slug = $category->slug;
 
-                            } else {
-                                $products = \App\Models\PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
-                                    ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-                                    ->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
-                                    ->where("plugins_products_categories_products.plugin_product_category_id", $value->category_id)
-                                    ->where("plugins_products.is_active", 1)->take($value->number_max)->get();
+                                if ($value->is_random) {
+                                    $products = \App\Models\PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
+                                        ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
+                                        ->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
+                                        ->where("plugins_products_categories_products.plugin_product_category_id", $value->category_id)
+                                        ->where("plugins_products.is_active", 1)
+                                        ->inRandomOrder()
+                                        ->take($value->number_max)
+                                        ->get();
+
+                                } else {
+                                    $products = \App\Models\PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
+                                        ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
+                                        ->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
+                                        ->where("plugins_products_categories_products.plugin_product_category_id", $value->category_id)
+                                        ->where("plugins_products.is_active", 1)->take($value->number_max)->get();
+                                }
                             }
+
 
                         } else {
                             $category = null;
@@ -84,8 +90,10 @@ $description = json_decode($item->description, true);
                     @endif
 
                 </div>
+                @if($category_slug)
                 <a class="btn btn-primary mb-4"
                    href="{{ route("pluginProducts.".\App::getLocale(), [$category_slug]) }}">{{ @$labels['vedi-tutti'] }}</a>
+                @endif
             @endforeach
         @endif
     </div>

@@ -20,4 +20,30 @@ return [
         "Fri" => "Venerdi",
         "Sat" => "Sabato"
     ],
+    'fields_import_special' => [
+        "parent_sku",
+        "sku",
+        "name",
+        "category",
+        "subcategory",
+        "images",
+        "price",
+        "qty",
+        "options_1",
+        "options_2",
+        "meta_title",
+        "meta_description",
+        "meta_key",
+        "description_short",
+        "description",
+       // "tags",
+       // "custom_1",
+      //  "custom_2",
+        "brand",
+        "is_active",
+        "tax",
+        "code_article",
+        "ean13"
+    ]
+
 ];
