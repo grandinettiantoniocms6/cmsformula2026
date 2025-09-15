@@ -126,7 +126,7 @@
                                 <div class="col-xl-5 offset-xl-1 col-lg-6" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
                                     @if(trim($title[\App::getLocale()])!="")
-                                        <h3 style="color: {{ $value->txtcolor }};" class="fw-600 mb-60px md-mb-40px mt-20px text-dark-gray alt-font ls-minus-2px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
+                                        <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-2px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
                                     @endif
 
                                     @if(trim($description[\App::getLocale()])!="")
@@ -182,7 +182,7 @@
                                 <div class="col-md-10 col-xl-5 offset-xl-1 col-lg-6" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
                                     @if(trim($title[\App::getLocale()])!="")
-                                        <h3 style="color: {{ $value->txtcolor }};" class="fw-600 mb-60px md-mb-40px mt-20px text-dark-gray alt-font ls-minus-2px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
+                                        <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-2px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
                                     @endif
 
                                     @if(trim($description[\App::getLocale()])!="")

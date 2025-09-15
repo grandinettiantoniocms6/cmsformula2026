@@ -154,7 +154,7 @@ if($descriptionBlocco){
                                                         <div class="opacity-extra-medium bg-gradient-dark-transparent"></div>
                                                         <div class="image-content h-100 w-100 ps-15 pe-15 pt-13 pb-13 md-p-10 d-flex justify-content-bottom align-items-start flex-column">
                                                             <div class="hover-label-icon position-relative z-index-9">
-                                                                <div class="label bg-camarone fw-600 text-white text-uppercase border-radius-30px ps-20px pe-20px fs-12 ls-05px">{{ $abstract[\App::getLocale()] }}</div>
+                                                                <div class="label bg-red fw-600 text-white text-uppercase border-radius-30px ps-20px pe-20px fs-12 ls-05px">{{ $abstract[\App::getLocale()] }}</div>
                                                             </div>
                                                             <div class="mt-auto d-flex align-items-start w-100 z-index-1 position-relative overflow-hidden flex-column">
                                                                 <span class="text-white fw-600 fs-20">{{ $title[\App::getLocale()] }}</span>
