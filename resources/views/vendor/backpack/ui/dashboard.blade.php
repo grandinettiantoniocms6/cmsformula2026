@@ -167,6 +167,7 @@
                                         ->orderBy("tot", "desc")
                                         ->take(10)
                                         ->get();
+
                                     ?>
                                     @if($list)
                                         <table class="table table-borderless line-height-sm mb-0" id="table-top-prodotti">
@@ -182,6 +183,12 @@
                                             @foreach($list as $v)
                                                 <?php
                                                 $name = json_decode($v->name, true);
+                                                if(!$name){
+                                                    continue;
+                                                }
+                                                if(!key_exists("it", $name)){
+                                                    continue;
+                                                }
                                                 ?>
                                                 <tr>
                                                     <td width="50">{{ $i }}°</td>

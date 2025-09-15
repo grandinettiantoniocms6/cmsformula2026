@@ -139,8 +139,8 @@
 
                         <div class="form-group">
                             <div class="custom-file">
-                                <input type="file" name="file" class="form-control" id="file-special">
-                                <label class="custom-file-label" for="file-special">Scegli file</label>
+                                <input type="file" name="file" class="form-control" id="file-special" value="{{ old('file') }}">
+                                <label class="custom-file-label" for="file-special">Scegli file (csv con separatore ;)</label>
                             </div>
                         </div>
 
@@ -150,20 +150,20 @@
 
                         <div class="form-group">
                             <label>Configurazioni</label>
-                            <select class="form-control" name="config_id">
+                            <select class="form-control" name="config_id" id="config_id">
                                 <option value="0">Nuova Configurazione</option>
                                 @if(count($configs))
                                     @foreach($configs as $config)
-                                        <option value="{{ $config->id }}">{{ $config->name }}</option>
+                                        <option value="{{ $config->id }}" @if($config->id == \request()->get("id")) selected @endif>{{ $config->name }}</option>
                                     @endforeach
                                 @endif
                             </select>
                         </div>
 
                         @if(count($configs))
-                        <button type="submit" name="submit" value="view" class="btn btn-light btn-block"><span>Vedi</span></button>
+                        <button type="submit" name="submit" value="view" id="view_config" class="btn btn-light btn-block" style="display: none;"><span>Vedi configurazione</span></button>
                         @endif
-                        <button type="submit" name="submit" value="load" class="btn btn-dark btn-block"><span>Carica</span></button>
+                        <button type="submit" name="submit" value="load" class="btn btn-dark btn-block"><span>Importa</span></button>
 
                     </form>
 
@@ -195,7 +195,7 @@
 
                             <div class="form-group">
                                 <label>Nome secondo attributo da creare</label>
-                                <input type="text" class="form-control" name="name_attribute_1" value="{{ @$pluginImport->name_attribute_2 }}">
+                                <input type="text" class="form-control" name="name_attribute_2" value="{{ @$pluginImport->name_attribute_2 }}">
                             </div>
 
                             @if($v_mapping)
@@ -257,7 +257,7 @@
                                                         }
                                                         ?>
                                                         <option value="{{ $k }}"
-                                                            {{ old("mapping.$key") == $k ? 'selected' : '' }}>
+                                                            {{ old("mapping.$key") == $k || $value == $k ? 'selected' : '' }}>
                                                             {{ $field }}
                                                         </option>
                                                     @endforeach
@@ -292,6 +292,15 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             bsCustomFileInput.init();
+        });
+
+        $("#config_id").change(function (){
+            var value = $(this).val();
+            if(value != 0){
+                $("#view_config").show();
+            }else{
+                $("#view_config").hide();
+            }
         });
 
         //jQuery('form').each(function(){
