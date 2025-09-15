@@ -7,6 +7,8 @@ use App\Models\PluginProductsCategories;
 use App\Models\PluginProductsCategoriesProducts;
 use App\Models\ShopAttributes;
 use App\Models\ShopAttributesCategories;
+use App\Models\ShopAttributesOptions;
+use App\Models\ShopAttributesProducts;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\Request;
@@ -341,6 +343,20 @@ class ShopAttributesCrudController extends CrudController
 
 
         return $this->crud->performSaveAction($item->getKey());
+    }
+
+    public function destroy($id)
+    {
+        $this->crud->hasAccessOrFail('delete');
+
+        // get entry ID from Request (makes sure its the last ID for nested resources)
+        $id = $this->crud->getCurrentEntryId() ?? $id;
+
+        ShopAttributesCategories::where("shop_attribute_id", $id)->delete();
+        ShopAttributesOptions::where("shop_attribute_id", $id)->delete();
+        ShopAttributesProducts::where("attribute_id", $id)->delete();
+
+        return $this->crud->delete($id);
     }
 
     public function saveReorder()

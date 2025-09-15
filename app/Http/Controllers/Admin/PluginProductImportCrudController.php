@@ -301,6 +301,11 @@ class PluginProductImportCrudController extends CrudController
                             case "options_1":
                                 if(trim($value) != ""){
                                     $attribute = ShopAttributes::whereRaw("name LIKE '%\"it\":\"{$config->name_attribute_1}\"%'")->first();
+                                    if(!$attribute){
+                                        $attribute = ShopAttributes::create([
+                                            "name" => trim($config->name_attribute_1)
+                                        ]);
+                                    }
                                     if($attribute){
                                         $v_opt = explode("," , $value);
                                         if (count($v_opt)) {
@@ -326,6 +331,11 @@ class PluginProductImportCrudController extends CrudController
                             case "options_2":
                                 if(trim($value) != ""){
                                     $attribute = ShopAttributes::whereRaw("name LIKE '%\"it\":\"{$config->name_attribute_2}\"%'")->first();
+                                    if(!$attribute){
+                                        $attribute = ShopAttributes::create([
+                                            "name" => trim($config->name_attribute_2)
+                                        ]);
+                                    }
                                     if($attribute){
                                         $v_opt = explode("," , $value);
                                         if (count($v_opt)) {
@@ -799,6 +809,12 @@ class PluginProductImportCrudController extends CrudController
         if($categories_total && ($config->name_attribute_1 || $config->name_attribute_2)){
             if($config->name_attribute_1){
                 $attribute = ShopAttributes::whereRaw("name LIKE '%\"it\":\"{$config->name_attribute_1}\"%'")->first();
+                if(!$attribute){
+                    $attribute = ShopAttributes::create([
+                        "name" => trim($config->name_attribute_1)
+                    ]);
+                }
+
                 foreach ($categories_total as $cat_id){
                     ShopAttributesCategories::create([
                        "shop_attribute_id" => $attribute->id,
@@ -809,6 +825,12 @@ class PluginProductImportCrudController extends CrudController
 
             if($config->name_attribute_2){
                 $attribute = ShopAttributes::whereRaw("name LIKE '%\"it\":\"{$config->name_attribute_2}\"%'")->first();
+                if(!$attribute){
+                    $attribute = ShopAttributes::create([
+                        "name" => trim($config->name_attribute_2)
+                    ]);
+                }
+
                 foreach ($categories_total as $cat_id){
                     ShopAttributesCategories::create([
                         "shop_attribute_id" => $attribute->id,
