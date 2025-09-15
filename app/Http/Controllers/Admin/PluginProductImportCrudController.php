@@ -395,12 +395,12 @@ class PluginProductImportCrudController extends CrudController
                                 break;
                             case "brand":
                                 if(trim($value) != ""){
-                                    $brand = PluginProductsBrands::whereRaw("name LIKE '%\"it\":\"$data[$k]\"%'")->first();
+                                    $brand = PluginProductsBrands::whereRaw("name LIKE '%\"it\":\"$value\"%'")->first();
                                     if(!$brand){
                                         $brand = PluginProductsBrands::create([
-                                            "name" => $data[$k],
-                                            "slug" => Str::slug($data[$k], '-'),
-                                            "is_active" => 0,
+                                            "name" => $value,
+                                            "slug" => Str::slug($value, '-'),
+                                            "is_active" => 1,
                                             "created_at" => Carbon::now()->toDateTimeString()
                                         ]);
                                     }
@@ -580,6 +580,8 @@ class PluginProductImportCrudController extends CrudController
                                 $product['is_active'] = 1;
                             }
 
+                            $product['qty'] = 1000;
+
                             $product['group_id'] = $group_id;
                             $padre = PluginProducts::create($product);
 
@@ -646,8 +648,6 @@ class PluginProductImportCrudController extends CrudController
                             //controllo se per caso esiste il padre tramite parent_sku
                             $padre = PluginProducts::where("sku", $product["parent_sku"])->where("is_variant", 0)->first();
                             if($padre){
-
-
                                 $product['sku'] = "{$product['parent_sku']}_{$product['sku']}";
                                 $product['slug'] = ["it" => \Str::slug("{$product['name']['it']} {$product['sku']}")];
                                 $product['is_variant'] = 1;

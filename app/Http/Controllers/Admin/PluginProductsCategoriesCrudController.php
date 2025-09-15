@@ -334,6 +334,8 @@ class PluginProductsCategoriesCrudController extends CrudController
             return false;
         }
 
+        \Artisan::call('set:products_categories_search');
+
         return 'success for '.$count.' items';
     }
 }

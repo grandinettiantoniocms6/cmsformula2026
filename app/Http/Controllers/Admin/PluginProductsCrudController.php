@@ -3847,9 +3847,9 @@ class PluginProductsCrudController extends CrudController
             PluginProductsAttachments::truncate();
             PluginProductsLangs::truncate();
             PluginProductsCategories::truncate();
+            PluginProductsBrands::truncate();
             PluginProductsCategoriesProducts::truncate();
             ShopAttributesProducts::truncate();
-
             PluginProductsSearch::truncate();
             PluginProductsCategoriesSearch::truncate();
 

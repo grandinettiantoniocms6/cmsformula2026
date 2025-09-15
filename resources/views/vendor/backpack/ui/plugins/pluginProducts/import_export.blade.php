@@ -140,7 +140,7 @@
                         <div class="form-group">
                             <div class="custom-file">
                                 <input type="file" name="file" class="form-control" id="file-special" value="{{ old('file') }}">
-                                <label class="custom-file-label" for="file-special">Scegli file (csv con separatore ;)</label>
+                                <label class="custom-file-label" for="file-special">Scegli file (csv con separatore ; oppure xls)</label>
                             </div>
                         </div>
 
@@ -189,12 +189,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Nome primo attributo da creare</label>
+                                <label>Nome attributo 1</label>
                                 <input type="text" class="form-control" name="name_attribute_1" value="{{ @$pluginImport->name_attribute_1 }}">
                             </div>
 
                             <div class="form-group">
-                                <label>Nome secondo attributo da creare</label>
+                                <label>Nome attributo 2</label>
                                 <input type="text" class="form-control" name="name_attribute_2" value="{{ @$pluginImport->name_attribute_2 }}">
                             </div>
 
@@ -231,12 +231,6 @@
                                                         if(trim($field) == "images"){
                                                             $field = "images (CASO 1: string, CASO 2: string,string,string)";
                                                         }
-                                                        if(trim($field) == "options_1"){
-                                                            $field = "options_1 (string)";
-                                                        }
-                                                        if(trim($field) == "options_2"){
-                                                            $field = "options_2 (string)";
-                                                        }
                                                         if(trim($field) == "sku"){
                                                             $field = "sku*";
                                                         }
@@ -254,6 +248,12 @@
                                                         }
                                                         if(trim($field) == "is_active"){
                                                             $field = "is_active (integer, 0-1, se non associata mette 1 in creazione prodotto)";
+                                                        }
+                                                        if(trim($field) == "options_1"){
+                                                            $field = "options_1 (string, opzioni per l'attributo 1)";
+                                                        }
+                                                        if(trim($field) == "options_2"){
+                                                            $field = "options_2 (string, opzioni per l'attributo 2)";
                                                         }
                                                         ?>
                                                         <option value="{{ $k }}"
