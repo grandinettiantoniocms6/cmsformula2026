@@ -6,6 +6,20 @@
 
 
 @section('content')
+    @if($message = Session::get('success'))
+        <div class="alert alert-success">
+            <strong>{{ $message }}</strong>
+        </div>
+    @endif
+
+    @if(count($errors) > 0)
+        <ul class="alert alert-danger list-unstyled">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
+
     <div class="row gutter-3">
         @if(env("PROJECT_NAME") != "Maison-Flaneur")
         <div class="col-sm-6">
@@ -51,29 +65,13 @@
                     <form method="post" action="{{ $url }}" enctype="multipart/form-data" class="position-relative" id="form-import">
                         {{ csrf_field() }}
 
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @endif
-
-                        @if (count($errors) > 0)
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
                         <div class="form-loader" hidden>
                             <div class="spinner-border text-primary" role="status"></div>
                         </div>
 
                         <div class="form-group">
                             <div class="custom-file">
-                                <input type="file" name="file" class="form-control" id="file">
+                                <input type="file" name="file" class="form-control form-control-file invisible" id="file">
                                 <label class="custom-file-label" for="file">Scegli file</label>
                             </div>
                         </div>
@@ -114,14 +112,12 @@
         </div>
 
         @if(env('IMPORT_SPECIAL') == 1)
-        <div class="col-sm-12">
+        <div class="col-sm-12 mt-4">
             <div class="card h-100 shadow-none">
                 <div class="card-header bg-light font-weight-bold">Import SPECIAL</div>
                 <div class="card-body">
 
-                    <?php
-                    $url = route('pluginProducts.importSpecialMapping');
-                    ?>
+                    <?php $url = route('pluginProducts.importSpecialMapping'); ?>
 
                     <form method="post" action="{{ $url }}" enctype="multipart/form-data" class="position-relative" id="form-import-special">
                         {{ csrf_field() }}
@@ -139,18 +135,16 @@
 
                         <div class="form-group">
                             <div class="custom-file">
-                                <input type="file" name="file" class="form-control" id="file-special" value="{{ old('file') }}">
+                                <input type="file" name="file_special" class="form-control form-control-file invisible" id="file-special" value="{{ old('file') }}">
                                 <label class="custom-file-label" for="file-special">Scegli file (csv con separatore ; oppure xls)</label>
                             </div>
                         </div>
 
-                        <?php
-                            $configs = \App\Models\PluginProductImport::get();
-                        ?>
+                        <?php $configs = \App\Models\PluginProductImport::get(); ?>
 
                         <div class="form-group">
                             <label>Configurazioni</label>
-                            <select class="form-control" name="config_id" id="config_id">
+                            <select class="custom-select" name="config_id" id="config_id">
                                 <option value="0">Nuova Configurazione</option>
                                 @if(count($configs))
                                     @foreach($configs as $config)
@@ -164,7 +158,6 @@
                         <button type="submit" name="submit" value="view" id="view_config" class="btn btn-light btn-block" style="display: none;"><span>Vedi configurazione</span></button>
                         @endif
                         <button type="submit" name="submit" value="load" class="btn btn-dark btn-block"><span>Importa</span></button>
-
                     </form>
 
                     @if(\request()->has('id'))
@@ -177,8 +170,7 @@
                            $fields = array_combine($fields, $fields);
                            ?>
 
-                        <hr>
-                        <form method="post" action="{{ $url }}" enctype="multipart/form-data" class="position-relative">
+                        <form method="post" action="{{ $url }}" enctype="multipart/form-data" class="position-relative mt-4">
                              {{ csrf_field() }}
 
                             <input type="hidden" name="id" value="{{ $pluginImport->id }}">
@@ -303,28 +295,37 @@
             }
         });
 
-        //jQuery('form').each(function(){
-            //var id = jQuery(this).attr('id');
-            var id = "form-import";
+        jQuery('form').each(function(){
+            var id = jQuery(this).attr('id');
             jQuery('#'+id).ajaxForm({
                 beforeSend: function() {
+                    console.log('form: ' + id);
                 },
                 uploadProgress: function(event, position, total, percentComplete) {
                     jQuery('#'+id).find('.form-loader').attr('hidden', false);
                 },
                 error: function (response, status, e) {
+                    var message = '';
+
+                    if (status === "error" && response.responseJSON && response.responseJSON.message) {
+                        if (response.responseJSON.message === "validation.required"  ) {
+                            message = 'Campo File obbligatorio';
+                        } else {
+                            message = 'Nessun messaggio disponibile';
+                        }
+
+                        jQuery('#'+id).prepend('<div class="alert alert-danger py-2">' + message +'</div>');
+                    }
+
                     jQuery('#'+id).find('.form-loader').attr('hidden', true);
-                    jQuery('#'+id).prepend('<div class="alert alert-danger py-2"><strong>Campo File obbligatorio</strong></div>');
                 },
                 success: function () {
                     console.log('success');
                     jQuery('#'+id).find('.form-loader').attr('hidden', true);
                     jQuery('#'+id).find('input[type="file"]').val('');
-                    jQuery('#'+id).prepend('<div class="alert alert-success py-2"><strong>File caricato con successo</strong></div>');
+                    jQuery('#'+id).prepend('<div class="alert alert-success py-2">File caricato con successo</div>');
                 }
             });
-       // });
+        });
     </script>
-
-
 @endsection
