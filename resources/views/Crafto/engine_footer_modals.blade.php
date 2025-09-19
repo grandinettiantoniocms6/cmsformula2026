@@ -10,7 +10,7 @@
                     {!! $website->text_footer_1 !!}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn btn-small btn-round-edge btn-box-shadow fw-700" data-bs-dismiss="modal">Chiudi</button>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                     {!! $website->text_footer_2 !!}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn btn-small btn-round-edge btn-box-shadow fw-700" data-bs-dismiss="modal">Chiudi</button>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
                     {!! $website->text_footer_3 !!}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn btn-small btn-round-edge btn-box-shadow fw-700" data-bs-dismiss="modal">Chiudi</button>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
                     {!! $website->text_footer_4 !!}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <button type="button" class="btn btn-small btn-round-edge btn-box-shadow fw-700" data-bs-dismiss="modal">Chiudi</button>
                 </div>
             </div>
         </div>
