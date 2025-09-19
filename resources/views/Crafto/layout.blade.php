@@ -102,7 +102,7 @@ if($admin_template->nav_style){
 
 
     @include('common.engine_customerly')
-    @include('common.engine_popup_modal')
+    @include('common.engine_popup_modal_crafto')
     @include('common.engine_wapp')
     @include('common.js_common')
     <script>
