@@ -21,11 +21,18 @@ $labelPlugins = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->
 
     <link rel="canonical" href="{{ env('APP_URL') }}<?php echo $_SERVER['REQUEST_URI'];?>">
 
+    @include('Webshop.inc.script')
+    @include('common.js_common')
+
     @include('common.consent_solution_iubenda')
     @include('common.gdprtools')
     <!-- {!! \NoCaptcha::renderJs() !!} -->
     @include('common.tag_analytics')
     @include('common.mailchimp')
+
+    @include('common.engine_googlegta')
+    @include('common.engine_customerly')
+    @include('Webshop.inc.script_autocomplete')
 
     @yield('recaptcha')
 
@@ -36,8 +43,6 @@ $labelPlugins = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->
 
 <body>
 
-
-@include('common.engine_googlegta')
 <div id="modal_view"></div>
 
 @yield('topbar')
@@ -53,13 +58,8 @@ $labelPlugins = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->
 
 <div id="back-to-top" role="button" aria-label="Torna Sopra"><i class="bi bi-chevron-up"></i></div>
 
-@include('Webshop.inc.script')
-@include('common.js_common')
-
 @include('Webshop.engine_popup_modal')
-@include('common.engine_customerly')
 @include('common.engine_wapp')
-@include('Webshop.inc.script_autocomplete')
 
 @yield('after_scripts')
 @stack('custom_scripts')
