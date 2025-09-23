@@ -19,7 +19,7 @@ function view(el, view) {
     }
 }
 
-/*
+
 $('[data-toggle="show"]').click(function() {
     var $showhideEl = $(this).data('target');
     $($showhideEl).addClass('show');
@@ -28,7 +28,7 @@ $('[data-toggle="show"]').click(function() {
 $('[data-toggle="hide"]').click(function() {
     var $showhideEl = $(this).data('target');
     $($showhideEl).removeClass('show');
-});*/
+});
 
 
 document.addEventListener("DOMContentLoaded", function(){

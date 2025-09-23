@@ -56,7 +56,6 @@ $labelPlugins = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->
 @include('Webshop.inc.script')
 @include('common.js_common')
 
-@include('common.tag_analytics_shiny')
 @include('Webshop.engine_popup_modal')
 @include('common.engine_customerly')
 @include('common.engine_wapp')
