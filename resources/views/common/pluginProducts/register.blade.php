@@ -123,7 +123,10 @@ $shopSetting = \App\Models\ShopSettings::first();
 
 
                                     <div class="form-group my-0">
-                                        <button id="submit_button" type="submit" class="btn btn-primary btn-block btn-lg mt-auto" @if($website->btn_background) style="background-color: {{ $website->btn_background }}" @endif>{{ @$labels['shop-registrati-registrati-3'] }}</button>
+                                        <?php
+                                            $key = config('app.recaptcha_key');
+                                            echo "<button class='button btn g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> {$labels['shop-registrati-registrati-3']} </span></button>";
+                                        ?>
                                     </div> <!-- form-group// -->
                                 </form>
 

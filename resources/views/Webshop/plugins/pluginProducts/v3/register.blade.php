@@ -50,7 +50,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                     @endif
                                 </div>
 
-                                <form id="register-form" method="post" action="{{ route('index.registerProcess') }}" class="form-validate">
+                                <form id="form" method="post" action="{{ route('index.registerProcess') }}">
                                     @honeypot
 
                                     {{ csrf_field() }}
@@ -116,7 +116,10 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                         </div>
                                     </div>
 
-                                    <button id="submit_button" type="submit" class="btn btn-primary btn-lg w-100" @if($website->btn_background) style="background-color: {{ $website->btn_background }}" @endif>{{ @$labels['register-registrati-registrati-3'] }}</button>
+                                    <?php
+                                    $key = config('app.recaptcha_key');
+                                    echo "<button class='button btn btn-primary g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> {$labels['register-registrati-registrati-3']} </span></button>";
+                                    ?>
                                 </form>
                             @endif
                         @endif
@@ -439,9 +442,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                                     <label class="form-check-label" for="check_newsletter">{{ @$labels['register-registrati-newsletter'] }}</label>
                                                 </div>
                                             </div>
-
-                                            <button id="submit_button" type="submit" class="btn btn-primary btn-lg w-100" @if($website->btn_background) style="background-color: {{ $website->btn_background }}" @endif>{{ @$labels['shop-registrati-registrati-3'] }}</button>
-
+                                            <button id="submit_button" class="btn btn-primary btn-lg w-100" @if($website->btn_background) style="background-color: {{ $website->btn_background }}" @endif>{{ @$labels['shop-registrati-registrati-3'] }}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -517,7 +518,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
             },
         });
 
-        $('#register-form').validate({
+        /*$('#register-form').validate({
             errorElement: "em",
             errorPlacement: function ( error, element ) {
                 error.addClass( "invalid-feedback" );
@@ -547,7 +548,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
             unhighlight: function (element, errorClass, validClass) {
                 $( element ).addClass( "is-valid" ).removeClass( "is-invalid" );
             },
-        });
+        });*/
     </script>
 
     @if($pluginSetting->type_registration_form > 0)
