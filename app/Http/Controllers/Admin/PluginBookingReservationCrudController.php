@@ -125,7 +125,7 @@ class PluginBookingReservationCrudController extends CrudController
         $this->crud->removeButton("delete");
         // Columns.
 
-        /*$this->crud->setColumns([
+        $this->crud->setColumns([
             [
                 'name'  => 'id',
                 'label' => 'ID',
@@ -238,11 +238,11 @@ class PluginBookingReservationCrudController extends CrudController
                 'escaped' => false, // necessario per permettere badge HTML
                 'limit' => 10000, // Limit the number of characters shown
             ],
-        ]);*/
+        ]);
 
         // Filtro di ricerca By Websiland
 
-        /*$this->crud->addFilter([
+        $this->crud->addFilter([
             'type'  => 'date_range',
             'name'  => 'from_to',
             'label' => 'Data Soggiorno'
@@ -346,7 +346,7 @@ class PluginBookingReservationCrudController extends CrudController
             return $rooms;
         }, function ($value) { // if the filter is active
             $this->crud->addClause('where', 'plugin_booking_room_id', $value);
-        });*/
+        });
     }
 
     /**
