@@ -319,11 +319,16 @@
 
                     jQuery('#'+id).find('.form-loader').attr('hidden', true);
                 },
-                success: function () {
-                    console.log('success');
-                    jQuery('#'+id).find('.form-loader').attr('hidden', true);
-                    jQuery('#'+id).find('input[type="file"]').val('');
-                    jQuery('#'+id).prepend('<div class="alert alert-success py-2">File caricato con successo</div>');
+                success: function (data) {
+                    if(data.url){
+                        window.location.href = data.url;
+                    }else{
+                        console.log('success', data);
+                        jQuery('#'+id).find('.form-loader').attr('hidden', true);
+                        jQuery('#'+id).find('input[type="file"]').val('');
+                        jQuery('#'+id).prepend('<div class="alert alert-success py-2">File caricato con successo</div>');
+                    }
+
                 }
             });
         });

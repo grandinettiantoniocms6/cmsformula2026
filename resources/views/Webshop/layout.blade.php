@@ -58,9 +58,9 @@ $labelPlugins = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->
 @include('Webshop.engine_popup_modal')
 @include('common.tag_analytics_shiny')
 
-@include('Webshop.inc.script_autocomplete')
 @include('common.engine_wapp')
 @include('common.js_common')
+@include('Webshop.inc.script_autocomplete')
 
 @yield('after_scripts')
 @stack('custom_scripts')

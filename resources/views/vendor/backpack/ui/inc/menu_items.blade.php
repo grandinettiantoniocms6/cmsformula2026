@@ -97,7 +97,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                 ?>
 
             @if(backpack_user()->roles[0]->id < 5)
-                <li class="nav-item nav-dropdown">
+                <li class="nav-item nav-dropdown open">
                     <a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-{{ $aP->icon }} nav-icon"></i> {{ $aP->label }}</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginProducts') }}"><i class="nav-icon las la-shopping-bag"></i> {{ env('PLUGIN_PRODUCTS_LABEL_ADMIN', 'Prodotti') }}</a></li>
@@ -136,7 +136,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
             @endif
             @if($aP->version == 3)
                 @if(backpack_user()->roles[0]->id < 5)
-                    <li class="nav-item nav-dropdown">
+                    <li class="nav-item nav-dropdown open">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-{{ $aP->icon }} nav-icon"></i> ShopFormula</a>
                         <ul class="nav-dropdown-items">
                                 <?php

@@ -156,7 +156,7 @@ class PluginProductImportCrudController extends CrudController
     public function importSpecialMapping(Request $req)
     {
         $req->validate([
-            'file' => 'required|max:20480'
+            'file_special' => 'required|max:20480'
         ]);
 
         $config_id = (int) $req->get('config_id');
@@ -165,16 +165,16 @@ class PluginProductImportCrudController extends CrudController
         $langs = AdminLanguage::where("is_active", 1)->get()->pluck("name", "name")->toArray();
 
         if($req->file()) {
-            $name_original = $req->file->getClientOriginalName();
-            $extension = $req->file->getClientOriginalExtension();
+            $name_original = $req->file_special->getClientOriginalName();
+            $extension = $req->file_special->getClientOriginalExtension();
 
             $fileName = "import.$extension";
-            $req->file('file')->storeAs('/', $fileName, 'public_plugin_products');
+            $req->file('file_special')->storeAs('/', $fileName, 'public_plugin_products');
 
             if($extension == "xlsx" || $extension == "xls"){
                 if($config_id == 0){
                     // Legge tutte le righe come collection
-                    $data = \Excel::toCollection(null, $req->file('file'))->first();
+                    $data = \Excel::toCollection(null, $req->file('file_special'))->first();
 
                     // Prima riga come intestazioni
                     $headers = array_map('strtolower', $data->shift()->toArray());
@@ -188,14 +188,22 @@ class PluginProductImportCrudController extends CrudController
                         "mapping" => json_encode($result)
                     ]);
 
+                    return response()->json([
+                        "url" => "/admin/plugin/pluginProducts/import_export?id={$plugin->id}"
+                    ]);
+
                     return redirect()->to("/admin/plugin/pluginProducts/import_export?id={$plugin->id}");
                 }else{
                     if($button == "view"){
+                        return response()->json([
+                            "url" => "/admin/plugin/pluginProducts/import_export?id={$config_id}"
+                        ]);
+
                         return redirect()->to("/admin/plugin/pluginProducts/import_export?id={$config_id}");
                     }
 
                     // Legge tutte le righe come collection
-                    $data = \Excel::toCollection(null, $req->file('file'))->first();
+                    $data = \Excel::toCollection(null, $req->file('file_special'))->first();
 
                     // Prima riga come intestazioni
                     $headers = array_map('strtolower', $data->shift()->toArray());
@@ -245,10 +253,18 @@ class PluginProductImportCrudController extends CrudController
                             "mapping" => json_encode($result)
                         ]);
 
+                        return response()->json([
+                            "url" => "/admin/plugin/pluginProducts/import_export?id={$plugin->id}"
+                        ]);
+
                         return redirect()->to("/admin/plugin/pluginProducts/import_export?id={$plugin->id}");
 
                     }else{
                         if($button == "view"){
+                            return response()->json([
+                                "url" => "/admin/plugin/pluginProducts/import_export?id={$config_id}"
+                            ]);
+
                             return redirect()->to("/admin/plugin/pluginProducts/import_export?id={$config_id}");
                         }
 
@@ -839,9 +855,13 @@ class PluginProductImportCrudController extends CrudController
                 }
             }
         }
-        die;
 
-        return redirect()->back()->withInput();
+        return response()->json([
+            "url" => null,
+            "message" => "Caricati $row righe"
+        ]);
+
+       // return redirect()->back()->withInput();
 
     }
 }
