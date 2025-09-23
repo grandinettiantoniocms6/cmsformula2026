@@ -53,13 +53,13 @@ $labelPlugins = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->
 
 <div id="back-to-top" role="button" aria-label="Torna Sopra"><i class="bi bi-chevron-up"></i></div>
 
-@include('common.engine_customerly')
 @include('Webshop.inc.script')
-@include('Webshop.engine_popup_modal')
-@include('common.tag_analytics_shiny')
-
-@include('common.engine_wapp')
 @include('common.js_common')
+
+@include('common.tag_analytics_shiny')
+@include('Webshop.engine_popup_modal')
+@include('common.engine_customerly')
+@include('common.engine_wapp')
 @include('Webshop.inc.script_autocomplete')
 
 @yield('after_scripts')
