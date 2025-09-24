@@ -886,7 +886,11 @@ class PluginBookingReservationCrudController extends CrudController
 
         $tot = 0;
         $rooms = $request->get('rooms');
+
         if($rooms){
+
+            PluginBookingReservationRoom::where("plugin_booking_reservation_id", $this->crud->entry->id)->delete();
+
             $type_id = null;
             $plugin_booking_room_id = null;
 
@@ -1266,5 +1270,18 @@ class PluginBookingReservationCrudController extends CrudController
         }
 
         return redirect()->back();
+    }
+
+    public function delete_room($id)
+    {
+        $item = PluginBookingReservationRoom::where("id", $id)->first();
+        if($item){
+          $item->delete();
+        }
+
+        \Alert::success("Cancellata con successo")->flash();
+        return redirect()->back();
+
+
     }
 }

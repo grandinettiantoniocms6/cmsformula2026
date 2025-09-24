@@ -4,7 +4,7 @@
         $room = \App\Models\PluginBookingRoom::where("id", $item->plugin_booking_room_id)->first();
         $partecipants = \App\Models\PluginBookingReservationRoomCheckin::where("plugin_booking_reservation_room_id", $id)->get();
         ?>
-        <div class="card mb-2">
+        <div id="box_parent_{{ $room->id }}" class="card mb-2">
             <div class="card-header bg-light">
                 <div class="row align-items-center">
                     <div class="col"><h4 class="mb-0">{{ $room->name }}
@@ -20,11 +20,13 @@
                         @if($type)
                             @if($type->is_checkin)
                                 <a class="btn btn-dark btn-sm" href="javascript:add_checkin({{ $room->id }});"><span>Aggiungi</span></a>
+
+                                @if(count($rooms) > 1)
+                                <a class="btn-danger btn btn-sm" href="{{ route('pluginBookings.delete_room', $item->id) }}">Elimina</a>
+                                @endif
                             @endif
                         @endif
                     </div>
-
-
                 </div>
 
                 @if($type)
@@ -44,6 +46,8 @@
                     @endif
                 @endif
             </div>
+
+
         </div>
         <div id="box_{{ $room->id }}">
             @if($partecipants)

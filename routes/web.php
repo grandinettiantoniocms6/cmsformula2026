@@ -181,6 +181,8 @@ Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => 
     Route::get('/pluginBookings/send_pin/{id}', ['as' => 'pluginBookings.send_pin', 'uses'=>'PluginBookingReservationCrudController@send_pin']);
     Route::get('/pluginBookings/send_sollecito/{id}', ['as' => 'pluginBookings.send_sollecito', 'uses'=>'PluginBookingReservationCrudController@send_sollecito']);
 
+    Route::get('/pluginBookings/delete_room/{id}', ['as' => 'pluginBookings.delete_room', 'uses'=>'PluginBookingReservationCrudController@delete_room']);
+
     Route::post('plugin/pluginCaccia/actions',['as' => 'pluginCaccia.actions', 'uses'=>'PluginCacciaHuntersCrudController@actions']);
     Route::any('plugin/pluginCaccia/graduatoria',['as' => 'pluginCaccia.graduatoria', 'uses'=>'PluginCacciaHuntersCrudController@graduatoria']);
     Route::get('plugin/pluginCaccia/import',['as' => 'pluginCaccia.import', 'uses'=>'PluginCacciaHuntersCrudController@import']);
