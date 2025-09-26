@@ -16,6 +16,7 @@ use App\Models\ShopAttributes;
 use App\Models\ShopAttributesCategories;
 use App\Models\ShopAttributesOptions;
 use App\Models\ShopAttributesProducts;
+use App\Models\ShopSettings;
 use App\Models\Tax;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -161,6 +162,8 @@ class PluginProductImportCrudController extends CrudController
 
         $config_id = (int) $req->get('config_id');
         $button = $req->get('submit');
+
+        $shopSetting = ShopSettings::first();
 
         $langs = AdminLanguage::where("is_active", 1)->get()->pluck("name", "name")->toArray();
 
@@ -554,6 +557,8 @@ class PluginProductImportCrudController extends CrudController
                         $product["slug"] = [];
                     }
 
+                    $product["is_purchasable"] = $shopSetting->is_add_to_cart_list;
+
                     //CONTROLLO IL PARENT_SKU
                     $padre = null;
                     if(key_exists("parent_sku", $product) && ((!str_contains($product["parent_sku"], $product["sku"])) || $product['sku'] == "")){
@@ -597,6 +602,8 @@ class PluginProductImportCrudController extends CrudController
                             }
 
                             $product['qty'] = 1000;
+
+                            $product["is_purchasable"] = $shopSetting->is_add_to_cart_list;
 
                             $product['group_id'] = $group_id;
                             $padre = PluginProducts::create($product);
@@ -656,6 +663,8 @@ class PluginProductImportCrudController extends CrudController
                         $product['slug'] = ["it" => \Str::slug("{$product['name']['it']} {$product['parent_sku']}")];
                     }
 
+                    $product["is_purchasable"] = $shopSetting->is_add_to_cart_list;
+
                     $itemP = PluginProducts::where("sku", $product["sku"])->first();
 
                     if(key_exists("parent_sku", $product) && !$padre){
@@ -707,6 +716,8 @@ class PluginProductImportCrudController extends CrudController
                         if(!key_exists('is_active', $product)){
                             $product['is_active'] = 1;
                         }
+
+                        $product["is_purchasable"] = $shopSetting->is_add_to_cart_list;
 
                         $itemP = PluginProducts::create($product);
 
@@ -789,13 +800,11 @@ class PluginProductImportCrudController extends CrudController
 
                     }
 
-
-
                     $row++;
 
-                    if($row == 150){
+                    /*if($row == 150){
                         break;
-                    }
+                    }*/
                 }
             }
 

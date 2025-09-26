@@ -442,7 +442,10 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                                     <label class="form-check-label" for="check_newsletter">{{ @$labels['register-registrati-newsletter'] }}</label>
                                                 </div>
                                             </div>
-                                            <button id="submit_button" class="btn btn-primary btn-lg w-100" @if($website->btn_background) style="background-color: {{ $website->btn_background }}" @endif>{{ @$labels['shop-registrati-registrati-3'] }}</button>
+                                                <?php
+                                                $key = config('app.recaptcha_key');
+                                                echo "<button class='btn btn-primary btn-lg w-100 btn g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> {$labels['shop-registrati-registrati-3']} </span></button>";
+                                                ?>
                                         </div>
                                     </div>
                                 </div>

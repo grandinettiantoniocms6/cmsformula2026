@@ -1005,19 +1005,23 @@ class PluginProductsCrudController extends CrudController
             return $categories;
         }, function ($value) { // if the filter is active
             $cat = PluginProductsCategories::find($value);
-            if($cat->parent_id == 0){
-                $cat_ids = PluginProductsCategories::where("parent_id", $cat->id)->get()->pluck('id', 'id')->toArray();
-                $cat_ids[$cat->id] = $cat->id;
-            }else{
-                $cat_ids[$value] = $value;
+            if($cat){
+                if($cat->parent_id == 0){
+                    $cat_ids = PluginProductsCategories::where("parent_id", $cat->id)->get()->pluck('id', 'id')->toArray();
+                    $cat_ids[$cat->id] = $cat->id;
+                }else{
+                    $cat_ids[$value] = $value;
+                }
+
+                $ids = PluginProductsCategoriesProducts::whereIn("plugin_product_category_id", $cat_ids)->pluck("plugin_product_product_id", "plugin_product_product_id")->toArray();
+                if(count($ids)){
+                    $this->crud->addClause('whereIn', 'id', $ids);
+                }else{
+                    $this->crud->addClause('whereIn', 'id', [0]);
+                }
             }
 
-            $ids = PluginProductsCategoriesProducts::whereIn("plugin_product_category_id", $cat_ids)->pluck("plugin_product_product_id", "plugin_product_product_id")->toArray();
-            if(count($ids)){
-                $this->crud->addClause('whereIn', 'id', $ids);
-            }else{
-                $this->crud->addClause('whereIn', 'id', [0]);
-            }
+
         });
 
 
