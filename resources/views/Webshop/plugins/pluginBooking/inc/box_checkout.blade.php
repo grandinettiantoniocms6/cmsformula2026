@@ -108,7 +108,7 @@ $tot = $session->total;
                 </div>
             @else
 
-                <form id="form" method="post" action="{{ route('pluginBooking.checkout.it') }}" class="card validation">
+                <form id="form" method="post" action="{{ route('pluginBooking.checkout.it') }}" class="card">
                     {{ csrf_field() }}
                     <div class="p-4 p-md-5">
                         <h4 class="text-center">{{ @$labels['booking-register-title'] }}</h4>
