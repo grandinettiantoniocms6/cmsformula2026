@@ -10,7 +10,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
         $title = $blockNews->title;
         $description = $blockNews->description;
         $slug =$blockNews->slug;
-        $col = "";
+        $col = 12;
 
         $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
         $category = $blockNews->category;
@@ -340,6 +340,10 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
             @else
 
             <!-- ++++++++++ Grid news -->
+
+            <?php
+                $col = 12;
+                ?>
 
                 <section class="pt-3 ps-11 pe-11 xl-ps-2 xl-pe-2">
 
