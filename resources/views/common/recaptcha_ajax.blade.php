@@ -33,8 +33,6 @@
                 }
             });
 
-            alert(error);
-
             if(error == 0){
                // $("#submit_button").attr("disabled", true);
 
@@ -59,11 +57,9 @@
                         },
                         {
                             success: function(response) {
-                                alert("test");
-
                                 console.log("ok", response);
 
-                                $.ajax({
+                                /*$.ajax({
                                     type: 'POST',
                                     url: '{{ route('pluginBooking.checkout.it') }}',
                                     data: $("#"+id).serialize(),
@@ -80,7 +76,51 @@
                                         }
                                     },
                                     error: function() {}
+                                });*/
+
+
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '{{ route('pluginBooking.checkout.it') }}',
+                                    data: $('#form').serialize(),         // <-- usa #form
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('input[name="_token"]').val() // per sicurezza
+                                    },
+                                    dataType: 'json',                      // <-- ci aspettiamo JSON
+                                    success: function (data, textStatus, jqXHR) {
+                                        // 1) Caso JSON esplicito
+                                        if (data && typeof data === 'object') {
+                                            if (data.error == 1) {
+                                                Swal.fire({ title: "Attenzione", html: data.message, icon: "error", timer: 4000 });
+                                                return;
+                                            }
+                                            if (data.url) {
+                                                window.location.assign(data.url);
+                                                return;
+                                            }
+                                        }
+
+                                        // 2) Caso il server ha fatto redirect 302: jQuery segue e ti dà l’HTML finale.
+                                        //    In quel caso usiamo l’URL finale della XHR.
+                                        const finalURL = jqXHR && jqXHR.responseURL;
+                                        if (finalURL) {
+                                            window.location.assign(finalURL);
+                                            return;
+                                        }
+
+                                        // 3) Fallback: se non abbiamo nulla, fai submit normale del form
+                                        document.getElementById('form').submit();
+                                    },
+                                    error: function (jqXHR) {
+                                        // utile per capire se è 419/422 ecc.
+                                        Swal.fire({
+                                            title: "Errore",
+                                            text: "Invio non riuscito (" + jqXHR.status + ")",
+                                            icon: "error"
+                                        });
+                                    }
                                 });
+
                             },
                             error: function(response) {
                                 e.preventDefault();
