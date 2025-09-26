@@ -22,7 +22,7 @@ if(\Session::has('buy')){
 @endsection
 
 @section('recaptcha')
-    @include('common.recaptcha')
+    @include('common.recaptcha_ajax')
 @endsection
 
 @section('meta')
