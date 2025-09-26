@@ -40,6 +40,13 @@
             }
         ?>
         <ins class="new-price">A partire da {!! $symbol !!} {{ number_format($a_partire_da_price, 2, ",", ".") }}</ins>
+        @if(env('VIEW_WITH_IVA') == 1)
+            @if($vat > 0)
+                <span class="vat">{{ @$labels['shop-label-iva-inclusa'] }} {{ (int) $vat }}%</span>
+            @endif
+        @else
+            <span class="vat">{{ @$labels['shop-label-iva-esclusa'] }}</span>
+        @endif
     @else
         @if($promo_price)
             @if(env('VIEW_WITH_IVA') == 1)

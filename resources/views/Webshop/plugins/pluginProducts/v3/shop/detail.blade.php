@@ -527,60 +527,71 @@ $shopSetting = \App\Models\ShopSettings::first();
                             @include("Webshop.plugins.pluginProducts.v3.shop.size_guide")
 
                             @if($adminPlugin->version < 3)
-                                @if($plugin->is_print_pdf == 1)
-                                    <p><a class="btn btn-primary" href="{{ route("pluginProducts.pdf.".\App::getLocale(), $itemProduct->id) }}" target="_blank"><i class="fas fa-file-pdf"></i> {{ @$labels['scarica-pdf'] }}</a> </p>
-                                @else
-                                    @if(count($itemProduct->attachmentsList))
-                                        <?php
-                                        if($shopSetting->box_attachments == 0){
-                                            $ancora = "#altre-info";
-                                        }else{
-                                            $ancora = "#allegati-lista";
-                                        }
-                                        ?>
-                                        <p><a class="btn btn-primary" href="{{ $ancora }}">{{ @$labels['allegati-prodotto'] }}</a> </p>
-                                    @endif
-                                @endif
-
-                                @if($plugin->show_form_contact == 1)
-                                    &nbsp;&nbsp; <p><a class="btn btn-primary" href="#block-product-contact"><!--i class="fas fa-euro-sign"></i--> {{ @$labels['richiedi-preventivo'] }} </a></p>
-                                @endif
+                                <div class="row">
+                                    <div class="col-auto">
+                                        @if($plugin->is_print_pdf == 1)
+                                            <a class="btn btn-primary" href="{{ route("pluginProducts.pdf.".\App::getLocale(), $itemProduct->id) }}" target="_blank">
+                                                <i class="fas fa-file-pdf"></i> {{ @$labels['scarica-pdf'] }}</a>
+                                        @else
+                                            @if(count($itemProduct->attachmentsList))
+                                                    <?php
+                                                    if($shopSetting->box_attachments == 0){
+                                                        $ancora = "#altre-info";
+                                                    }else{
+                                                        $ancora = "#allegati-lista";
+                                                    }
+                                                    ?>
+                                                <a class="btn btn-primary" href="{{ $ancora }}">{{ @$labels['allegati-prodotto'] }}</a>
+                                            @endif
+                                        @endif
+                                    </div>
+                                    <div class="col-auto">
+                                        @if($plugin->show_form_contact == 1)
+                                            &nbsp;&nbsp;<a class="btn btn-primary" href="#block-product-contact"><!--i class="fas fa-euro-sign"></i--> {{ @$labels['richiedi-preventivo'] }} </a>
+                                        @endif
+                                    </div>
+                                </div>
                             @else
-                                @if($plugin->show_form_contact == 1)
-                                    &nbsp;&nbsp; <p><a class="btn btn-primary" href="#block-product-contact"><!--i class="fas fa-euro-sign"></i--> {{ @$labels['richiedi-preventivo'] }} </a></p>
-                                @endif
-
-                                @if($shopSetting->is_add_to_wishlist)
-                                    @if(\Session::has("user_id"))
-                                        @if($itemProduct->in_wishlist(\Session::get('user_id')))
-                                            <a href="#" onclick="remove_wishlist({{ $itemProduct->id }})" class="btn btn-primary"><i class="fas fa-heart me-1"></i> {{ @$labels['shop-rimuovi-preferiti'] }}</a>
-                                        @else
-                                            <a href="#" onclick="add_wishlist({{ $itemProduct->id }})" class="btn btn-outline-primary"><i class="far fa-heart me-1"></i> {{ @$labels['shop-aggiungi-preferiti'] }}</a>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        @if($plugin->show_form_contact == 1)
+                                            <a class="btn btn-primary" href="#block-product-contact">{{ @$labels['richiedi-preventivo'] }}</a>
                                         @endif
-                                    @else
-                                        <a href="{{ route('login') }}" class="btn btn-outline-primary" title="{{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}"><i class="far fa-heart me-2"></i> {{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}</a>
+                                    </div>
+                                    @if($shopSetting->is_add_to_wishlist)
+                                        <div class="col-auto">
+                                                @if(\Session::has("user_id"))
+                                                    @if($itemProduct->in_wishlist(\Session::get('user_id')))
+                                                        <a href="#" onclick="remove_wishlist({{ $itemProduct->id }})" class="btn btn-primary"><i class="fas fa-heart me-1"></i> {{ @$labels['shop-rimuovi-preferiti'] }}</a>
+                                                    @else
+                                                        <a href="#" onclick="add_wishlist({{ $itemProduct->id }})" class="btn btn-outline-primary"><i class="far fa-heart me-1"></i> {{ @$labels['shop-aggiungi-preferiti'] }}</a>
+                                                    @endif
+                                                @else
+                                                    <a href="{{ route('login') }}" class="btn btn-outline-primary" title="{{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}"><i class="far fa-heart me-2"></i> {{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}</a>
+                                                @endif
+                                        </div>
                                     @endif
-                                @endif
+                                    <div class="col-auto">
+                                        @if(env('SLUG_COMPARE') && $pluginSetting->is_comparations)
+                                            <?php
+                                            $indexClass = new \App\Http\Controllers\PluginProductsController();
+                                            $cartCompare = $indexClass->loading_compare();
+                                            ?>
+                                            @if(!in_array($itemProduct->id, $cartCompare))
+                                                <a id="compare_{{ $itemProduct->id }}" href="{{ route('advice.compare', $itemProduct->id) }}" class="btn btn-outline-primary btn-compare"><i class="fas fa-balance-scale me-1"></i> {{ @$labels['shop-compara'] }}</a>
+                                            @else
+                                                <a id="compare_{{ $itemProduct->id }}" href="{{ route('advice.compare.remove', $itemProduct->id) }}" class="btn btn-primary btn-compare"><i class="fas fa-balance-scale-left me-1"></i> {{ @$labels['shop-rimuovi-da-comparazione'] }}</a>
+                                            @endif
 
-                                @if(env('SLUG_COMPARE') && $pluginSetting->is_comparations)
-                                        <?php
-                                        $indexClass = new \App\Http\Controllers\PluginProductsController();
-                                        $cartCompare = $indexClass->loading_compare();
-                                        ?>
-                                    <span id="compare_{{ $itemProduct->id }}">
-                                    @if(!in_array($itemProduct->id, $cartCompare))
-                                            <a href="{{ route('advice.compare', $itemProduct->id) }}" class="btn btn-outline-primary btn-compare"><i class="fas fa-balance-scale me-1"></i> {{ @$labels['shop-compara'] }}</a>
-                                        @else
-                                            <a href="{{ route('advice.compare.remove', $itemProduct->id) }}" class="btn btn-primary btn-compare"><i class="fas fa-balance-scale-left me-1"></i> {{ @$labels['shop-rimuovi-da-comparazione'] }}</a>
+                                            <a class="btn btn-outline-primary btn-compare" href="{{ route('comparatore') }}"><i class="fas fa-exchange-alt me-1"></i> {{ @$labels['shop-vai-alla-comparazione'] }}</a>
                                         @endif
-                                </span>
-
-                                    <a class="btn btn-outline-primary btn-compare" href="{{ route('comparatore') }}"><i class="fas fa-exchange-alt me-1"></i> {{ @$labels['shop-vai-alla-comparazione'] }}</a>
-                                @endif
-
-                                @if($plugin->is_print_pdf == 1)
-                                    <a href="{{ route("pluginProducts.pdf.".\App::getLocale(), $itemProduct->id) }}" class="btn btn-outline-primary"><i class="fas fa-file-pdf me-1"></i> {{ @$labels['scarica-pdf'] }}</a>
-                                @endif
+                                    </div>
+                                    <div class="col-auto">
+                                        @if($plugin->is_print_pdf == 1)
+                                            <a href="{{ route("pluginProducts.pdf.".\App::getLocale(), $itemProduct->id) }}" class="btn btn-outline-primary"><i class="fas fa-file-pdf me-1"></i> {{ @$labels['scarica-pdf'] }}</a>
+                                        @endif
+                                    </div>
+                                </div>
                             @endif
                         </div>
                     </div>

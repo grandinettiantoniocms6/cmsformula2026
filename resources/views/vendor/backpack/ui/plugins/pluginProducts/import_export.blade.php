@@ -26,7 +26,7 @@
             <div class="card h-100 shadow-none">
                 <div class="card-header bg-light font-weight-bold">Export</div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('pluginProducts.export') }}" class="position-relative" id="form-export">
+                    <form method="post" action="{{ route('pluginProducts.export') }}" class="position-relative">
                         {{ csrf_field() }}
 
                         <div class="form-loader" hidden>
