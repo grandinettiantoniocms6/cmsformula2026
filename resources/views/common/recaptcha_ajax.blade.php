@@ -78,17 +78,28 @@
                                     error: function() {}
                                 });*/
 
+                                grecaptcha.ready(function () {
+                                    grecaptcha.execute('{{ config('app.recaptcha_key') }}', {action: 'submit'}).then(function (token) {
+                                        const $f = $('#form');
+                                        const $existing = $f.find('input[name="g-recaptcha-response"]');
+                                        if ($existing.length) $existing.val(token);
+                                        else $f.append('<input type="hidden" name="g-recaptcha-response" value="'+ token +'">');
+
+                                        // poi chiama l'AJAX (il blocco sopra)
+                                    });
+                                });
 
                                 $.ajax({
                                     type: 'POST',
                                     url: '{{ route('pluginBooking.checkout.it') }}',
-                                    data: $('#form').serialize(),         // <-- usa #form
+                                    data: $('#form').serialize(),
                                     headers: {
-                                        'X-CSRF-TOKEN': $('input[name="_token"]').val() // per sicurezza
+                                        'X-CSRF-TOKEN': $('input[name="_token"]').val(),
+                                        'Accept': 'application/json',
+                                        'X-Requested-With': 'XMLHttpRequest'
                                     },
-                                    dataType: 'json',                      // <-- ci aspettiamo JSON
+                                    dataType: 'json',
                                     success: function (data, textStatus, jqXHR) {
-                                        // 1) Caso JSON esplicito
                                         if (data && typeof data === 'object') {
                                             if (data.error == 1) {
                                                 Swal.fire({ title: "Attenzione", html: data.message, icon: "error", timer: 4000 });
@@ -99,31 +110,28 @@
                                                 return;
                                             }
                                         }
-
-                                        // 2) Caso il server ha fatto redirect 302: jQuery segue e ti dà l’HTML finale.
-                                        //    In quel caso usiamo l’URL finale della XHR.
                                         const finalURL = jqXHR && jqXHR.responseURL;
                                         if (finalURL) {
                                             window.location.assign(finalURL);
                                             return;
                                         }
-
-                                        // 3) Fallback: se non abbiamo nulla, fai submit normale del form
                                         document.getElementById('form').submit();
                                     },
                                     error: function (jqXHR) {
-                                        // utile per capire se è 419/422 ecc.
-                                        Swal.fire({
-                                            title: "Errore",
-                                            text: "Invio non riuscito (" + jqXHR.status + ")",
-                                            icon: "error"
-                                        });
+                                        console.log('Status', jqXHR.status);
+                                        console.log('Response', jqXHR.responseText);
+                                        let html = 'Invio non riuscito (' + jqXHR.status + ')';
+                                        if (jqXHR.responseJSON && jqXHR.responseJSON.errors) {
+                                            const list = Object.values(jqXHR.responseJSON.errors)
+                                                .flat().map(e => `<li>${e}</li>`).join('');
+                                            html = `<ul style="text-align:left">${list}</ul>`;
+                                        }
+                                        Swal.fire({ title: "Errori di validazione", html, icon: "error" });
                                     }
                                 });
 
                             },
                             error: function(response) {
-                                e.preventDefault();
                             }
                         }
                     ]);

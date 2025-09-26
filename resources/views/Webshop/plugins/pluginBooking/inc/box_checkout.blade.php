@@ -202,7 +202,7 @@ $tot = $session->total;
                         <div class="form-group">
                             <?php
                             $key = config('app.recaptcha_key');
-                            echo "<button class='button btn btn-lg btn-primary w-100 g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> {$labels['booking-login-registrati']} </span></button>";
+                            echo "<button class='button btn btn-lg btn-primary w-100 g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='button' id='submit_button' > <span style='color: {$website->btn_txt_color}'> {$labels['booking-login-registrati']} </span></button>";
                             ?>
                         </div>
                     </div>
