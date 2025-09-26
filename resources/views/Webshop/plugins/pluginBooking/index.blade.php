@@ -21,9 +21,6 @@ if(\Session::has('buy')){
     @include("$thema.inc.head")
 @endsection
 
-@section('recaptcha')
-    @include('common.recaptcha_ajax')
-@endsection
 
 @section('meta')
     @include("$thema.inc.meta")

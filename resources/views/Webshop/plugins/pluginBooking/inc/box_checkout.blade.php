@@ -236,6 +236,8 @@ $tot = $session->total;
             </div>
         </div>
     </div>
+
+    @include('common.recaptcha_ajax')
 @else
     @include('Webshop.plugins.pluginBooking.inc.box_payments')
 @endif
