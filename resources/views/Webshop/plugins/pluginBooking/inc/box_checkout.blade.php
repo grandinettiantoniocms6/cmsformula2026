@@ -118,13 +118,13 @@ $tot = $session->total;
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-label">{{ @$labels['booking-register-first-name'] }}*</label>
-                                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="" value="{{ old('first_name') }}" required>
+                                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="" value="{{ old('first_name') }}" data-cons-subject="first_name" required>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-label">{{ @$labels['booking-register-last-name'] }}*</label>
-                                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="" value="{{ old('last_name') }}" required>
+                                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="" value="{{ old('last_name') }}" data-cons-subject="last_name" required>
                                 </div>
                             </div>
                         </div>
@@ -140,7 +140,7 @@ $tot = $session->total;
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label class="form-label">Email *</label>
-                                    <input  type="email" class="form-control" id="email" name="email" placeholder="" value="{{ old('email') }}" data-rule-nowhitespace="true" data-rule-emailstrict="true" data-rule-emailfull="true" autocomplete="email" required>
+                                    <input  type="email" class="form-control" id="email" name="email" placeholder="" value="{{ old('email') }}" data-rule-nowhitespace="true" data-rule-emailstrict="true" data-rule-emailfull="true" autocomplete="email" data-cons-subject="email" required>
                                 </div>
                             </div>
                         </div>
