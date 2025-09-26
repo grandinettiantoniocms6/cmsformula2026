@@ -148,7 +148,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                 </div>
                             @else
 
-                           <form method="post" action="{{ route('index.registerProcessFull') }}" id="form">
+                           <form id="form" method="post" action="{{ route('index.registerProcessFull') }}" >
                                @honeypot
 
                                @if(\request()->has('plugin_product_id'))
@@ -444,7 +444,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                             </div>
                                                 <?php
                                                 $key = config('app.recaptcha_key');
-                                                echo "<button class='btn btn-primary btn-lg w-100 btn g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> {$labels['shop-registrati-registrati-3']} </span></button>";
+                                                echo "<button class='button btn btn-primary btn-lg w-100 g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> {$labels['register-registrati-registrati-3']} </span></button>";
                                                 ?>
                                         </div>
                                     </div>

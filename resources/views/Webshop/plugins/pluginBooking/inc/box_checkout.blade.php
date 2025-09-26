@@ -108,7 +108,7 @@ $tot = $session->total;
                 </div>
             @else
 
-                <form id="register-form" method="post" action="{{ route('pluginBooking.checkout.it') }}" class="card validation">
+                <form id="form" method="post" action="{{ route('pluginBooking.checkout.it') }}" class="card validation">
                     {{ csrf_field() }}
                     <div class="p-4 p-md-5">
                         <h4 class="text-center">{{ @$labels['booking-register-title'] }}</h4>
@@ -200,7 +200,10 @@ $tot = $session->total;
                         </div>
 
                         <div class="form-group">
-                            <button type="button" onclick="validate_form('register-form')" data-form-id="register-form" class="btn btn-lg btn-primary w-100">{{ @$labels['booking-login-registrati'] }}</button>
+                            <?php
+                            $key = config('app.recaptcha_key');
+                            echo "<button class='button btn btn-lg btn-primary w-100 g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> {$labels['booking-login-registrati']} </span></button>";
+                            ?>
                         </div>
                     </div>
                 </form>
