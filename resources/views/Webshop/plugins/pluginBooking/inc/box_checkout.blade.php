@@ -211,6 +211,8 @@ $tot = $session->total;
         </div>
     </div>
 
+    @include('common.recaptcha_ajax')
+
     <div class="modal" id="recovery_password" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
             <div class="modal-content">
@@ -237,7 +239,6 @@ $tot = $session->total;
         </div>
     </div>
 
-    @include('common.recaptcha_ajax')
 @else
     @include('Webshop.plugins.pluginBooking.inc.box_payments')
 @endif

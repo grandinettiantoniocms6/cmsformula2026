@@ -4,7 +4,7 @@
     ?>
 
     <!-- v3 -->
-    <script class="_iub_cs_activate" type="text/plain" src="https://www.google.com/recaptcha/api.js?render={{config('app.recaptcha_key')}}"></script>
+    <script class="_iub_cs_activate" src="https://www.google.com/recaptcha/api.js?render={{config('app.recaptcha_key')}}"></script>
     <script>
         function onSubmit(token) {
             var error = 0;
