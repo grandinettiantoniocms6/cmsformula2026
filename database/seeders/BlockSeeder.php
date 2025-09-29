@@ -228,7 +228,7 @@ class BlockSeeder extends Seeder
 
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockVideobg"],[
             "label" => "Video Header",
-            "name" => "Blocco video background",
+            "name" => "blockVideobg",
             "name_table" => "blocks_videobgs",
             "is_active" => 0,
             "is_ordinable" => 0
@@ -236,7 +236,7 @@ class BlockSeeder extends Seeder
 
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockFaq"],[
             "label" => "Faq",
-            "name" => "Blocco Faq",
+            "name" => "blockFaq",
             "name_table" => "blocks_faqs",
             "is_active" => 0,
             "is_ordinable" => 1,
@@ -443,10 +443,6 @@ class BlockSeeder extends Seeder
 
 
         // Nuove label dalla riga successiva
-
-
-
-
 
     }
 }

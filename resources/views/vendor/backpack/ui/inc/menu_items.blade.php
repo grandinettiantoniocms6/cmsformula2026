@@ -463,5 +463,17 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                 </li>
             @endif
         @endif
+
+            @if($aP->name == "pluginLabel")
+                @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
+                    <li class="nav-item nav-dropdown open">
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-{{ $aP->icon }} nav-icon"></i>Plugin Etichette</a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item"><a class="nav-link" href="{{ backpack_url('plugin-labels') }}"><i class="nav-icon las la-id-card"></i> Etichette</a></li>
+                            <li class='nav-item'><a class='nav-link' href='{{ backpack_url('plugin-labels-settings') }}/1/edit'><i class='la la-cog nav-icon'></i> Impostazioni</a></li>
+                        </ul>
+                    </li>
+                @endif
+            @endif
     @endforeach
 @endif
