@@ -10,7 +10,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
         $title = $blockNews->title;
         $description = $blockNews->description;
         $slug =$blockNews->slug;
-        $col = 12;
+        $col = "";
 
         $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
         $category = $blockNews->category;
@@ -342,8 +342,8 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
             <!-- ++++++++++ Grid news -->
 
             <?php
-                $col = 12;
-                ?>
+                $col = "";
+            ?>
 
                 <section class="pt-3 ps-11 pe-11 xl-ps-2 xl-pe-2">
 
@@ -376,8 +376,11 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
                         <div class="row">
                             <div class="col-12">
 
-                                <ul class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-{{ $col }}col md-grid-2col sm-grid-2col xs-grid-1col gutter-extra-large">
-                                    <li class="grid-sizer"></li>
+                                <!--<ul class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-extra-large">-->
+
+                                <ul class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-extra-large">
+
+                                <li class="grid-sizer"></li>
 
                                     @if($news)
 

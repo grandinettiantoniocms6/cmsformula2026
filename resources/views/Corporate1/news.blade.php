@@ -340,6 +340,13 @@
 
 @else
 
+
+        <!-- Definisco variabile $col altrimenti darò errore lato front -->
+        <?php
+            $col = "";
+        ?>
+
+
                                         <!-- Grid news -->
 
                                                 <section class="pt-3 ps-11 pe-11 xl-ps-2 xl-pe-2">
