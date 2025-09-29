@@ -52,6 +52,7 @@ class BlockSeeder extends Seeder
             "is_multi" => 1
         ]);
 
+
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockHero"],[
             "label" => "Hero",
             "name" => "blockHero",
