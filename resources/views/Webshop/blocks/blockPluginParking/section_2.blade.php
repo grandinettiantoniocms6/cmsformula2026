@@ -232,7 +232,7 @@ $setting  = \App\Models\PluginParkingSetting::first();
                             <div class="col-sm-12 mb-4">
                                 <div class="has-float-label">
                                     <label class="floated">{{ @$labels['parking-targa-veicolo'] }}</label>
-                                    <input type="text" id="targa" name="targa" placeholder="Digita la targa del tuo veicolo" class="form-control bg-white" required>
+                                    <input type="text" id="targa" name="targa" placeholder="Digita la targa del tuo veicolo" class="form-control bg-white">
                                 </div>
                             </div>
                         </div>
