@@ -467,7 +467,7 @@
                                 <div class="card-header">
                                     <div class="row gutter-1 align-items-center flex-grow-1">
                                         <div class="col">
-                                            <h5 class="line-height-xs my-0">Top Camere</h5>
+                                            <h5 class="line-height-xs my-0">Top</h5>
                                         </div>
                                         <div class="col-auto">
                                             <div class="dropdown">
@@ -775,7 +775,7 @@
                                 <div class="card-header">
                                     <div class="row gutter-1 align-items-center flex-grow-1">
                                         <div class="col">
-                                            <h5 class="line-height-xs my-0">Top Camere</h5>
+                                            <h5 class="line-height-xs my-0">Top</h5>
                                         </div>
                                         <div class="col-auto">
                                             <div class="dropdown">
@@ -826,7 +826,7 @@
                                 <div class="card-header">
                                     <div class="row gutter-1 align-items-center flex-grow-1">
                                         <div class="col">
-                                            <h5 class="line-height-xs my-0">Top Camere</h5>
+                                            <h5 class="line-height-xs my-0">Top</h5>
                                         </div>
                                         <div class="col-auto">
                                             <div class="dropdown">
@@ -883,7 +883,7 @@
                                 <div class="card-header">
                                     <div class="row gutter-1 align-items-center flex-grow-1">
                                         <div class="col">
-                                            <h5 class="line-height-xs my-0">Top Camere</h5>
+                                            <h5 class="line-height-xs my-0">Top</h5>
                                         </div>
                                         <div class="col-auto">
                                             <div class="dropdown">
