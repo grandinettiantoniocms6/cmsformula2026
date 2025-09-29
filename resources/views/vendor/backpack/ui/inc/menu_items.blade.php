@@ -269,14 +269,16 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                             ?>
                         @if($status)
                             @foreach($status as $s)
-                                    <?php
-                                    $count = \App\Models\PluginOrders::where("plugin_order_status_id", $s->id)->where("date_delivery", ">=", $now)->count();
-                                    ?>
+                                <?php
+                                $count = \App\Models\PluginOrders::where("plugin_order_status_id", $s->id)->where("date_delivery", ">=", $now)->count();
+                                ?>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ backpack_url('pluginOrders') }}?s={{ $s->id }}">- {{ $s->name }}
-                                        @if($count > 0)
-                                            <span class="badge badge-info" style="background-color:{{ $s->color }};">{{ $count }}</span>
-                                        @endif
+                                    <a class="nav-link" href="{{ backpack_url('pluginOrders') }}?s={{ $s->id }}">
+                                        <i class="nav-icon las la-shopping-bag"></i> <span>{{ $s->name }}
+                                            @if($count > 0)
+                                                <span class="badge badge-info">{{ $count }}</span>
+                                            @endif
+                                    </span>
                                     </a>
                                 </li>
                             @endforeach

@@ -46,8 +46,8 @@ class PluginOrdersCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/pluginOrders');
         CRUD::setEntityNameStrings('ordine', 'ordini');
 
-        $this->crud->query->selectRaw('plugins_orders.*');
-        $this->crud->addClause('join', 'plugins_orders_clients', 'plugins_orders_clients.id', 'plugin_order_client_id');
+        //$this->crud->query->selectRaw('plugins_orders.*');
+        //$this->crud->addClause('join', 'plugins_orders_clients', 'plugins_orders_clients.id', 'plugin_order_client_id');
 
         if(\request()->has('s')){
             $this->crud->query->where("plugin_order_status_id", \request()->get('s'));
