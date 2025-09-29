@@ -18990,7 +18990,7 @@ section {
   }
 }
 /* Navigation breakpoint start - Quando parte il menu mobile */
-@media (max-width: 1190px) {
+@media (min-width: 1190px) {
   .header-demo.navbar .navbar-nav .premium-element {
     background-image: none !important;
   }

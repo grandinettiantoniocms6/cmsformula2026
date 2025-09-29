@@ -252,15 +252,20 @@ class BlockNewsCrudController extends CrudController
             } // FIne Perso per Webshop
 
 
-            $this->crud->addField([   // repeatable
-                'name'        => 'col',
-                'label'   => 'Numero di New per riga',
-                'type'        => 'select_from_array',
-                'options'     => ['3' => '4 new per riga', '4' => '3 news per riga', '6' => '2 news per riga', '12' => '1 news per riga' ],
-                'allows_null' => false,
-                'default'     => '4',
-                'wrapper' => ['class' => 'form-group col-md-6']
-            ]);
+                // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
+                if(env('TEMA') == 'Crafto' ) {
+
+                    $this->crud->addField([   // repeatable
+                        'name'        => 'col',
+                        'label'   => 'Numero di New per riga',
+                        'type'        => 'select_from_array',
+                        'options'     => ['4' => '4 new per riga', '3' => '3 news per riga', '2' => '2 news per riga' ],
+                        'allows_null' => false,
+                        'default'     => '4',
+                        'wrapper' => ['class' => 'form-group col-md-6']
+                    ]);
+
+                } // FIne Perso per Crafto
 
             $this->crud->addField([   // repeatable
                 'name'  => 'height',
