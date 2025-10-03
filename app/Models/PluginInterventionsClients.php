@@ -33,7 +33,19 @@ class PluginInterventionsClients extends Model
 
     public function getFullNameAttribute()
     {
-        return trim("{$this->first_name} {$this->last_name}");
+        return trim("{$this->first_name} {$this->last_name}")."<br>".$this->mobile;
+    }
+
+    public function getFullNameWithMobileAttribute()
+    {
+        $name = trim("{$this->first_name} {$this->last_name}");
+
+        if (strlen($name) > 40) {
+            $name = substr($name, 0, 40) . '...';
+        }
+
+        // Attenzione: qui mobile è quello del CLIENTE
+        return $name . ($this->mobile ? '<br>' . $this->mobile : '');
     }
 
     public function getMenu()

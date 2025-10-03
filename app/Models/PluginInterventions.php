@@ -164,6 +164,19 @@ class PluginInterventions extends Model
         }
     }
 
+    public function getIsPriority(){
+        if($this->is_priority == 1){
+            //$url = route('dashboard.set.field.boolean', ['plugins_interventions', $this->id, "is_priority", 0]);
+            //return "<a href='$url' class='text text-danger'><i class=\"las la-exclamation la-2x\"></i></a>";
+            return "<div id='priority_$this->id'><a href='javascript:change_annullato($this->id, 0)' class='text text-success'><i class=\"las la-trash la-2x\"></i></a></div>";
+        }else{
+            //$url = route('dashboard.set.field.boolean', ['plugins_interventions',$this->id, "is_priority", 1]);
+            //return "<a href='$url' class='text text-dark'><i class=\"las la-exclamation la-2x \"></i></a>";
+            return "<div id='priority_$this->id'><a href='javascript:change_annullato($this->id, 1)' class='text text-dark'><i class=\"las la-trash la-2x\"></i></a></div>";
+        }
+    }
+
+
 
 
 

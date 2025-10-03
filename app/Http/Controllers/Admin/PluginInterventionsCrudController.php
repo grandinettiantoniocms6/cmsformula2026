@@ -34,7 +34,6 @@ class PluginInterventionsCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
-    use \Backpack\EditableColumns\Http\Controllers\Operations\MinorUpdateOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -57,6 +56,31 @@ class PluginInterventionsCrudController extends CrudController
         $this->crud->query->leftJoin('plugins_interventions_clients as pic', 'pic.id', '=', 'plugins_interventions.client_id');
         $this->crud->query->select('plugins_interventions.*'); // evita select * della join
 
+        // blocco data/orario già formattato (con <br>) – niente Carbon in PHP
+        $this->crud->query->selectRaw("
+  CONCAT(
+    DATE_FORMAT(plugins_interventions.date_intervention, '%d/%m/%Y'),
+    CASE
+      WHEN plugins_interventions.is_all_day = 1 THEN ' <br> Tutto il giorno'
+      WHEN plugins_interventions.start IS NOT NULL AND plugins_interventions.end IS NOT NULL
+        THEN CONCAT(' <br> Dalle ', DATE_FORMAT(plugins_interventions.start,'%H:%i'),' alle ', DATE_FORMAT(plugins_interventions.end,'%H:%i'))
+      ELSE ''
+    END
+  ) AS date_block
+");
+
+// indirizzo completo (come faceva getAddress)
+        $this->crud->query->selectRaw("
+  REPLACE(
+    TRIM(CONCAT(
+      COALESCE(plugins_interventions.address,''),' ',
+      COALESCE(plugins_interventions.civico,''),' - ',
+      COALESCE(plugins_interventions.comune,''),' ',
+      COALESCE(plugins_interventions.provincia,'')
+    )),
+    ' - ', '<br>'
+  ) AS full_address
+");
        // $this->crud->query->selectRaw("plugins_interventions.*");
        // $this->crud->query->join("plugins_interventions_clients", "plugins_interventions_clients.id", "=", "client_id");
 
@@ -164,47 +188,44 @@ class PluginInterventionsCrudController extends CrudController
                 'orderable' => false
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
             ],
-            /*[
-                // run a function on the CRUD model and show its return value
-                'name'  => 'id',
-                'label' => '#', // Table column heading
-                'type'  => 'text',
-            ],*/
+            // Data + orario già precalcolati in SQL
             [
-                // run a function on the CRUD model and show its return value
-                'name'  => 'date_intervention',
-                'label' => 'Data intervento', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getDate', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'name'       => 'date_block',
+                'label'      => 'Data intervento',
+                'type'       => 'text',
+                'escaped'    => false, // serve per <br>
+                // Ordina realmente per data e poi per start (usando indici)
+                'orderLogic' => function ($query, $column, $direction) {
+                    $query->orderBy('plugins_interventions.date_intervention', $direction)
+                        ->orderBy('plugins_interventions.start', 'asc');
+                },
             ],
+
+            // Cliente – usa relationship + accessor full_name sul model Client
             [
-                // run a function on the CRUD model and show its return value
-                'name'  => 'client_id',
-                'label' => 'Cliente', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getClient', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'name'      => 'client',
+                'label'     => 'Cliente',
+                'type'      => 'relationship',
+                'attribute' => 'full_name_with_mobile', // usa accessor
+                'escaped'   => false, // per permettere <br>
                 'searchLogic' => function ($query, $column, $searchTerm) {
-                    $query->orWhere('plugins_interventions_clients.last_name', 'like', '%'.$searchTerm.'%');
-                    $query->orWhere('plugins_interventions_clients.first_name', 'like', '%'.$searchTerm.'%');
-                    $query->orWhere('plugins_interventions_clients.mobile', 'like', '%'.$searchTerm.'%');
-                    $query->orWhere('plugins_interventions.address', 'like', '%'.$searchTerm.'%');
-                    $query->orWhere('plugins_interventions.cap', 'like', '%'.$searchTerm.'%');
-                    $query->orWhere('plugins_interventions.comune', 'like', '%'.$searchTerm.'%');
-                    $query->orWhere('plugins_interventions.frazione', 'like', '%'.$searchTerm.'%');
-                }
+                    $query->orWhere('pic.last_name', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('pic.first_name', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('pic.mobile', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('plugins_interventions.address', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('plugins_interventions.cap', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('plugins_interventions.comune', 'like', '%'.$searchTerm.'%')
+                        ->orWhere('plugins_interventions.frazione', 'like', '%'.$searchTerm.'%');
+                },
             ],
+
+            // Indirizzo – già precalcolato in SQL
             [
-                // run a function on the CRUD model and show its return value
-                'name'  => 'address',
-                'label' => 'Indirizzo', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getAddress', // the method in your Model
-                //'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'name'  => 'full_address',
+                'label' => 'Indirizzo',
+                'type'  => 'text',
+                'limit' => 1000,
+                'escaped' => false, // serve per <br>
             ],
             [
                 // run a function on the CRUD model and show its return value
@@ -215,23 +236,12 @@ class PluginInterventionsCrudController extends CrudController
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
                 'limit' => 10000, // Limit the number of characters shown
             ],
-            /*[
-                 // run a function on the CRUD model and show its return value
-                 'name'  => 'laborer_id',
-                 'label' => 'Manovale', // Table column heading
-                 'type'  => 'model_function',
-                 'function_name' => 'getLaborer', // the method in your Model
-                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                 'limit' => 10000, // Limit the number of characters shown
-             ],*/
             [
-                // run a function on the CRUD model and show its return value
-                'name'  => 'vehicle_id',
-                'label' => 'Mezzo', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getVehicle', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
+                'name'      => 'vehicle',
+                'label'     => 'Mezzo',
+                'type'      => 'relationship',
+                'attribute' => 'name_with_code_block', // accessor che hai appena creato
+                'escaped'   => false, // serve per il <br>
             ],
             [
                 // run a function on the CRUD model and show its return value

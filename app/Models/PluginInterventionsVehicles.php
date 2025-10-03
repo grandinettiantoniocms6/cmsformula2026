@@ -31,10 +31,14 @@ class PluginInterventionsVehicles extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function getNameWithCodeAttribute()
+    public function getNameWithCodeBlockAttribute()
     {
-        return "{$this->name} ({$this->code})";
+        $name = $this->name ?? '';
+        $code = $this->code ?? '';
+
+        return "{$name}<br>{$code}";
     }
+
 
     public function getColor(){
         return "<span style='color: {$this->color}'>Testo colore</span>";
