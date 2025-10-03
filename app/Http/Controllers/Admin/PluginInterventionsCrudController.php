@@ -177,7 +177,7 @@ class PluginInterventionsCrudController extends CrudController
         $this->crud->removeButton("update");
         $this->crud->removeButton("delete");
 
-        /*
+
         $this->crud->setColumns([
             [
                 // run a function on the CRUD model and show its return value
@@ -281,7 +281,7 @@ class PluginInterventionsCrudController extends CrudController
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
                 'limit' => 10000, // Limit the number of characters shown
             ]
-        ]);  */
+        ]);
 
         // FILTRI ATTIVATI daterange filter
 
