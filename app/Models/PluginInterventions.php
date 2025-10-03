@@ -154,6 +154,18 @@ class PluginInterventions extends Model
         }
     }
 
+    public function getIsDelivery(){
+        if($this->is_delivery == 1){
+            //$url = route('dashboard.set.field.boolean', ['plugins_interventions', $this->id, "is_delivery", 0]);
+            return "<div id='delivery_$this->id'><a href='javascript:change_delivery($this->id, 0)' class='text text-success'><i class=\"las la-list la-2x\"></i></a></div>";
+        }else{
+            // $url = route('dashboard.set.field.boolean', ['plugins_interventions',$this->id, "is_delivery", 1]);
+            return "<div id='delivery_$this->id'><a href='javascript:change_delivery($this->id, 1)' class='text text-dark'><i class=\"las la-list la-2x\"></i></a></div>";
+        }
+    }
+
+
+
 
     public function getMenu()
     {
