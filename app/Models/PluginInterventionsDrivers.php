@@ -30,6 +30,10 @@ class PluginInterventionsDrivers extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public function getFullNameAttribute()
+    {
+        return trim("{$this->first_name} {$this->last_name}");
+    }
 
     /*
     |--------------------------------------------------------------------------

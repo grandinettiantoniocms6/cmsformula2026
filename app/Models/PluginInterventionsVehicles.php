@@ -30,6 +30,12 @@ class PluginInterventionsVehicles extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+
+    public function getNameWithCodeAttribute()
+    {
+        return "{$this->name} ({$this->code})";
+    }
+
     public function getColor(){
         return "<span style='color: {$this->color}'>Testo colore</span>";
     }

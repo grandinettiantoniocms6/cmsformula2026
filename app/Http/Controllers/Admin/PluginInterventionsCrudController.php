@@ -51,8 +51,14 @@ class PluginInterventionsCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/plugin-interventions');
         CRUD::setEntityNameStrings('intervento', 'interventi');
 
-        $this->crud->query->selectRaw("plugins_interventions.*");
-        $this->crud->query->join("plugins_interventions_clients", "plugins_interventions_clients.id", "=", "client_id");
+        $this->crud->query->with(['client', 'driver', 'laborer', 'vehicle', 'status']);
+
+        // se ti serve la join solo per la ricerca sul cliente, tieni LEFT JOIN minima
+        $this->crud->query->leftJoin('plugins_interventions_clients as pic', 'pic.id', '=', 'plugins_interventions.client_id');
+        $this->crud->query->select('plugins_interventions.*'); // evita select * della join
+
+       // $this->crud->query->selectRaw("plugins_interventions.*");
+       // $this->crud->query->join("plugins_interventions_clients", "plugins_interventions_clients.id", "=", "client_id");
 
         // ordinamento per data e orario
         //$this->crud->query->orderBy("plugins_interventions.date_intervention", "desc");
@@ -209,15 +215,15 @@ class PluginInterventionsCrudController extends CrudController
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
                 'limit' => 10000, // Limit the number of characters shown
             ],
-           /*[
-                // run a function on the CRUD model and show its return value
-                'name'  => 'laborer_id',
-                'label' => 'Manovale', // Table column heading
-                'type'  => 'model_function',
-                'function_name' => 'getLaborer', // the method in your Model
-                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 10000, // Limit the number of characters shown
-            ],*/
+            /*[
+                 // run a function on the CRUD model and show its return value
+                 'name'  => 'laborer_id',
+                 'label' => 'Manovale', // Table column heading
+                 'type'  => 'model_function',
+                 'function_name' => 'getLaborer', // the method in your Model
+                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
+                 'limit' => 10000, // Limit the number of characters shown
+             ],*/
             [
                 // run a function on the CRUD model and show its return value
                 'name'  => 'vehicle_id',

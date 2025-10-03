@@ -30,6 +30,11 @@ class PluginInterventionsStatus extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public function getNameBadgeAttribute()
+    {
+        $color = $this->color ?: '#ccc';
+        return "<span style='padding:3px; background-color:{$color}; color:black;'>{$this->name}</span>";
+    }
 
     public function getColor(){
         return "<span style='color: {$this->color}'>Testo colore</span>";

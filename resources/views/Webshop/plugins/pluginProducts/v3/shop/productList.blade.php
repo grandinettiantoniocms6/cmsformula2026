@@ -119,7 +119,7 @@ $optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray()
 
 
                 <div class="col-lg main-content">
-                    <div class="listing row gx-2 gx-lg-3 @if($shopSetting->shop_view_list == "list") row-cols-1 list-view @else row-cols-2 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }} grid-view @endif" id="box_result_products">
+                    <div class="listing row gx-2 gx-lg-3 @if($shopSetting->shop_view_list == "list") row-cols-1 list-view @else row-cols-1 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }} grid-view @endif" id="box_result_products">
                         @foreach($products as $product)
                                 <?php
                                 $vet_ids = [];
