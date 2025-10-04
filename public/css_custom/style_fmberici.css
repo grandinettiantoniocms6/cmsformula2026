@@ -96,7 +96,7 @@ img {
 }
 
 ul li {
-  list-style: circle;
+  list-style: disc;
 }
 a {
   color: var(--medium-gray);
