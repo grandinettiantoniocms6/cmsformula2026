@@ -74,7 +74,7 @@ class PluginCounterCrudController extends CrudController
                 'type'  => 'model_function',
                 'function_name' => 'getDays', // the method in your Model
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-                'limit' => 100000, // Limit the number of characters shown
+                'limit' => 10000000000000, // Limit the number of characters shown
             ],
         ]);
 
@@ -99,7 +99,7 @@ class PluginCounterCrudController extends CrudController
         $trans->fields_lang("pluginCounters", $this->crud);
 
         $this->crud->addField([   // Upload
-            'label' => "Scegli un'icona <a href=\"https://fontawesome.com/icons?d=gallery\" target=\"_blank\">Clicca qui</a> - Incolla il codice HTML",
+            'label' => "Scegli un'icona <a href=\"https://fontawesome.com/icons?d=gallery\" target=\"_blank\">Clicca qui</a> - Incolla il codice HTML tipo:  i class=fa-brands fa-whatsapp fa-6x....   ",
             'name' => "icon",
             'type' => 'text',
             'wrapperAttributes' => [ 'class' => 'form-group col-md-6']

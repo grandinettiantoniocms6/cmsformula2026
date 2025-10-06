@@ -147,7 +147,7 @@ class BlockPluginCounterCrudController extends CrudController
                 'attributes' => [
                     'class'       => 'custom-select',
                 ],
-                'options'     => [1 => 'Style 1: classico', 2 => 'Style 2: Da fare...'],
+                'options'     => [1 => 'Style 1: classico'],
                 'allows_null' => false,
                 'default'     => 1,
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
