@@ -227,7 +227,6 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
                                               <img src="{{ $foto }}" alt="" class="border-radius-5px">
                                         </div> -->
 
-
                                         @if($blockNews->foto2)
                                             <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
                                                 <img src="{{ $foto2 }}" alt="" class="border-radius-5px">
