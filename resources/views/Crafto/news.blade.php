@@ -301,7 +301,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
                                                         <div class="col-12 px-0">
                                                             @if($altre_news)
                                                             <ul class="blog-classic blog-wrapper grid grid-4col xl-grid-4col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-double-extra-large" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                                                <li class="grid-sizer"></li>
+                                                                <li style="list-style: none!important;" class="grid-sizer"></li>
                                                                     @foreach($altre_news as $altre)
                                                                         <?php
                                                                             $news_url = route('news.slug', $altre->slug);
@@ -345,7 +345,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
                 $col = "";
             ?>
 
-                <section class="pt-3 ps-11 pe-11 xl-ps-2 xl-pe-2">
+                <section class="pt-3 ps-11 pe-11 xl-ps-2 xl-pe-1">
 
                     @if($news)
                         @foreach($news as $value)
@@ -378,9 +378,9 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
                                 <!--<ul class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-extra-large">-->
 
-                                <ul class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-3col md-grid-2col sm-grid-2col xs-grid-1col gutter-extra-large">
+                                <ul style="list-style: none!important;" class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-3col md-grid-1col sm-grid-1col xs-grid-1col gutter-extra-large">
 
-                                <li class="grid-sizer"></li>
+                                <li style="list-style: none!important;" class="grid-sizer"></li>
 
                                     @if($news)
 
@@ -442,7 +442,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
                                             <!-- CICLO NEWS -->
 
-                                            <li class="grid-item">
+                                            <li class="grid-item" style="list-style: none!important;">
                                                 <div class="card border-0 border-radius-4px box-shadow-extra-large box-shadow-extra-large-hover">
                                                     @if($col != 12)
                                                         @if($value->foto)
@@ -500,7 +500,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
                             <!-- Paginazione News -->
                             <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
-                                <ul class="pagination pagination-style-01 fs-13 fw-500 mb-0">
+                                <ul style="list-style: none!important;" class="pagination pagination-style-01 fs-13 fw-500 mb-0">
                                     @if($news)
                                         {{ $news->links() }}
                                     @endif

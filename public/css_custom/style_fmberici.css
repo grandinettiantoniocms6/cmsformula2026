@@ -96,7 +96,7 @@ img {
 }
 
 ul li {
-  list-style: disc;
+  list-style: none;
 }
 a {
   color: var(--medium-gray);
@@ -19303,61 +19303,6 @@ footer .footer-navbar .nav-item:last-child a {
 }
 /* End effetto Zoom */
 
-
-
-
-/* Vari CSS per elenchi puntati */
-
-/* Elenco puntato spunta arancio */
-.list-icon.list-icon-colored li::before, .list-icon.icon-list-colored i { color: #ff9000; }
-.list-icon.list-icon-check li::before {
-    content: "\f00c";
-    font-family: "Font Awesome 5 Free";
-}
-.list-icon li::before {
-    margin-left: -20px;
-    position: absolute;
-    font-size: 12px;
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    font-weight: 900;
-}
-.list-icon li {
-    margin-bottom: 10px;
-    margin-left: 20px;
-}
-.list-icon {
-    list-style: none;
-}
-/* Altro elenco puntato con la i di info */
-.list-icon.list-icon-info li::before {
-    content: "\f05a";
-    font-family: "Font Awesome 5 Free";
-}
-/* altro Elenco puntato spunta arancio freccia bold bianca*/
-.list-icon.list-icon-uncheck li::before {
-    content: "\f144";
-    font-family: "Font Awesome 5 Free";
-}
-/*Altro Elenco puntato spunta arancio freccia sottile bianca*/
-.list-icon.list-icon-arrow-circle li::before {
-    content: "\f0a9";
-    font-family: "Font Awesome 5 Free";
-}
-/* Altro elenco puntato circolare con puntino bianco */
-.list-icon.list-icon-circle li::before {
-    content: "\f192";
-    font-family: "Font Awesome 5 Free";
-}
-/* Elenco puntato arrow arancione */
-.list-icon.list-icon-arrow li::before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f054";
-}
-
-/* Fine elenchi puntati */
 
 /* Effetti Mouseover Immagini Gallery o per altri blocchi */
 

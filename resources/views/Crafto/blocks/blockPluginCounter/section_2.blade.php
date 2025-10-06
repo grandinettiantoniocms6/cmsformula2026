@@ -72,12 +72,12 @@ $now = \Carbon\Carbon::now()->toDateString();
 
                         <div class="feature-box-content mb-8">
                             @if($days)
-                                <h2 style="color: {{ $counter->number_color }}; font-size: {{ $counter->counter_size }};" class="d-inline-block align-middle counter-number fw-700 counter" data-to="<?php echo $days["$now"];?>" data-speed="1000"><?php echo number_format($days["$now"],2, ",", ".");?>.</h2>
+                                <h2 style="color: {{ $counter->number_color }}; font-size: {{ $counter->counter_size }};" class="d-inline-block align-middle counter-number fw-700 counter" data-to="<?php echo $days["$now"];?>" data-speed="1000"><?php echo number_format($days["$now"],2, ",", ".");?>. </h2> <span style="font-size: 26px!important; color: {{ $counter->subtitle_color }};">{{ $counter->description }}</span>
                             @else
-                                <h2 style="color: {{ $counter->number_color }}; font-size: {{ $counter->counter_size }};" class="d-inline-block align-middle counter-number fw-700 counter" data-to="<?php echo $counter->start;?>" data-speed="1000"><?php echo $counter->start;?>.</h2>
+                                <h2 style="color: {{ $counter->number_color }}; font-size: {{ $counter->counter_size }};" class="d-inline-block align-middle counter-number fw-700 counter" data-to="<?php echo $counter->start;?>" data-speed="1000"><?php echo $counter->start;?>. </h2> <span style="font-size: 26px!important; color: {{ $counter->subtitle_color }};">{{ $counter->description }}</span>
                             @endif
                             <h6 style="color: {{ $counter->title_color }};">{{ $counter->title }}</h6>
-                            <span class="description" style="color: {{ $counter->subtitle_color }};">{{ $counter->description }}</span>
+
                         </div>
 
                     </div>

@@ -116,7 +116,7 @@ img {
   height: auto;
 }
 ul li {
-    list-style: disc;
+    list-style: none;
 }
 a {
   color: var(--medium-gray);
