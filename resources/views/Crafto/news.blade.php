@@ -219,11 +219,14 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
                             <div class="container">
                                 <div class="row justify-content-center" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
                                     <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center"
-                                        @if($blockNews->foto)
-                                            <div class="col-lg-12 last-paragraph-no-margin">
-                                                <img src="{{ $foto }}" alt="" class="border-radius-5px">
-                                            </div>
-                                        @endif
+
+                                       <!-- commendo per non far vedere la foto 1 nel dettaglio news -->
+
+                                        <!-- se riattivo devo mettere if e endif
+                                        <div class="col-lg-12 last-paragraph-no-margin">
+                                              <img src="{{ $foto }}" alt="" class="border-radius-5px">
+                                        </div> -->
+
 
                                         @if($blockNews->foto2)
                                             <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
