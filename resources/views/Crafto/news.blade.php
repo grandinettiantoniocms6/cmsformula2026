@@ -311,11 +311,14 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
                                                                         ?>
                                                                             <li class="grid-item">
                                                                                 <div class="card bg-transparent border-0 h-100">
+                                                                                    <!-- commento in quanto mette sempre la foto della 1° news
                                                                                     <div class="blog-image position-relative overflow-hidden border-radius-4px">
                                                                                         @if($blockNews->foto)
                                                                                             <a href="{{ $news_url }}"><img src="/{{ $blockNews->foto }}" alt="" /></a>
                                                                                         @endif
                                                                                     </div>
+                                                                                    -->
+
                                                                                     <div class="card-body px-0 pb-30px pt-30px xs-pb-15px last-paragraph-no-margin">
                                                                                         <a href="{{ $news_url }}" class="card-title mb-0 fw-500 fs-18 lh-30 text-dark-gray d-inline-block">{{ $altre->title }}</a>
                                                                                     </div>
