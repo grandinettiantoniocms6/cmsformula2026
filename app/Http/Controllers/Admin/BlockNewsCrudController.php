@@ -190,20 +190,7 @@ class BlockNewsCrudController extends CrudController
                 'wrapper' => ['class' => 'form-group col-md-6']
             ]);
 
-            // Permette di scegliere uno o stili di un blocco (parte html)
-            $this->crud->addField([   // select_from_array
-                'name'        => 'style',
-                'label'       => "Seleziona stile",
-                'type'        => 'select_from_array',
-                'attributes' => [
-                    'class' => 'custom-select',
-                ],
-                'options'     => [1 => 'Style 1', 2 => 'Style 2', 3 => 'Style 3'],
-                'allows_null' => false,
-                'default'     => 1,
-                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
-            ]);
+
 
 
             $this->crud->addField([   // select_from_array
@@ -250,6 +237,24 @@ class BlockNewsCrudController extends CrudController
                 ]);
 
             } // FIne Perso per Webshop
+
+
+            if(env('TEMA') == 'Crafto' ) {
+                // Permette di scegliere uno o stili di un blocco (parte html)
+                $this->crud->addField([   // select_from_array
+                    'name' => 'style',
+                    'label' => "Seleziona stile",
+                    'type' => 'select_from_array',
+                    'attributes' => [
+                        'class' => 'custom-select',
+                    ],
+                    'options' => [1 => 'Style 1', 2 => 'Style 2', 3 => 'Style 3'],
+                    'allows_null' => false,
+                    'default' => 1,
+                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                    'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                ]);
+            }
 
 
                 // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
@@ -415,9 +420,9 @@ class BlockNewsCrudController extends CrudController
             ],
         ]);
 
-        // aggiungo qui in caso di title in setting blocco per aver il titolo multilang
-        $trans = new AdminLanguageController();
-        $trans->fields_lang("blockNewsConf", $this->crud);
+       // aggiungo qui in caso di title in setting blocco per aver il titolo multilang
+       // $trans = new AdminLanguageController();
+       // $trans->fields_lang("blockNewsConf", $this->crud);
 
     }
 

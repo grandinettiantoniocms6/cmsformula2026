@@ -39,7 +39,7 @@ class BlockNewsRequest extends FormRequest
             'title' => 'required',
             'slug' => 'required',
             'date' => 'required',
-            'description' => 'required',
+            //'description' => 'required',
             'category' => 'required'
         ];
 
