@@ -53,7 +53,7 @@
             <div class="collapse navbar-collapse @if($website->is_search_in_header) flex-grow-0 @endif" id="navbar-main-collapse">
                 <div class="navbar-header">
                     <a class="navbar-brand-mobile" href="{{ url('/') }}">
-                        @if($website->logo2)
+                        @if(isset($website->logo2))
                             <?php
                             $logo_exist = false;
                             if(file_exists(public_path($website->logo2))){

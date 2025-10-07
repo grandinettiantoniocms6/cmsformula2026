@@ -105,7 +105,6 @@ case "checkbox":
         $contenuto_pagina = "";
 
         if(is_numeric(strpos($url_pagina, "https"))){
-
             if(is_numeric(strpos($url_pagina, "https://www.iubenda.com"))){
                  echo "
                  <div class='position-relative terms-condition-box text-start d-inline-block mb-40px mt-10px form-check $classCheck'>
@@ -118,33 +117,25 @@ case "checkbox":
                 </div>
                 <script>(function (w,d) {var loader = function () {var s = d.createElement('script'), tag = d.getElementsByTagName('script')[0]; s.src='https://cdn.iubenda.com/iubenda.js'; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener('load', loader, false);}else if(w.attachEvent){w.attachEvent('onload', loader);}else{w.onload = loader;}})(window, document);</script>";
 
-                 } else {
-
-                echo "
-                <div class='position-relative terms-condition-box text-start d-inline-block mb-20px mt-20px form-check $classCheck'>
+            } else {
+                echo "<div class='position-relative terms-condition-box text-start d-inline-block mb-20px mt-20px form-check $classCheck'>
                     <label class='form-check-label' for='pfc_privacy_control_$id'>
                         <input type='checkbox' name='$field' value='1' class='terms-condition check-box align-middle form-check-input' id='pfc_privacy_control_$id' $required data-cons-preference='$field'>
                         <span class='box fs-14'>
                             <a class='iubenda-nostyle no-brand iubenda-noiframe iubenda-embed iubenda-noiframe' href='$url_pagina' target='_blank'>$title</a>
                         </span>
                     </label>
-                </div>
-
-                ";
+                </div> ";
             }
         }else{
-
-            echo "
-            <div class='position-relative terms-condition-box text-start d-inline-block mb-20px mt-20px form-check $classCheck'>
+            echo "<div class='position-relative terms-condition-box text-start d-inline-block mb-20px mt-20px form-check $classCheck'>
                 <label class='form-check-label' for='pfc_privacy_control_$id'>
                     <input type='checkbox' name='$field' value='1' class='terms-condition check-box align-middle form-check-input' id='pfc_privacy_control_$id' $required data-cons-preference='$field'>
                         <span class='box fs-14'>
                             <a href='#' data-bs-toggle='modal' data-bs-target='#checkbox_$id'>$title</a>
                         </span>
                 </label>
-            </div>
-            ";
-
+            </div>";
         }
 
         $lang = \App::getLocale();
@@ -177,7 +168,15 @@ case "checkbox":
                 </div>';
 
     } else {
-        echo "<div class='form-group form-check mb-2'><input type='checkbox' name='$field' value='1' class='form-check-input' id='check_$id' $required data-cons-preference='$field'> <label class='form-check-label' for='check_$id'>$title</label></div>";
+        echo "<div class='position-relative terms-condition-box text-start d-inline-block mb-20px mt-20px form-check $classCheck'>
+                <label class='form-check-label' for='check_$id'>
+                    <input type='checkbox' name='$field' value='1' class='terms-condition check-box align-middle form-check-input' id='check_$id' $required data-cons-preference='$field'>
+                        <span class='box fs-14'>
+                            $title
+                        </span>
+                </label>
+            </div>";
+
     }
     break;
 case "select":

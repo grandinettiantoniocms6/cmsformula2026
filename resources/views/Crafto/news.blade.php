@@ -4,6 +4,7 @@ $fullwidth = null;
 $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 ?>
 
+<!-- SE ENTRA IN QUESTO IF VUOL DIRE CHE STO VEDENDO IL DETTAGLIO -->
 @if($blockNews)
         <?php
         $padre = \App\Models\BlockNews::where("id", $blockNews->block_id)->first();
@@ -155,8 +156,6 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
                 $foto6 = url($blockNews->foto);
             }
         }
-
-
         ?>
 
         @section('meta')
@@ -222,42 +221,43 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
                                        <!-- commendo per non far vedere la foto 1 nel dettaglio news -->
 
-                                        <!-- se riattivo devo mettere if e endif
-                                        <div class="col-lg-12 last-paragraph-no-margin">
-                                              <img src="{{ $foto }}" alt="" class="border-radius-5px">
-                                        </div> -->
+                                        @if($blockNews->foto)
+                                            <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
+                                                  <img src="{{ $foto }}" alt="" class="border-radius-5px">
+                                            </div>
+                                        @endif
 
                                         @if($blockNews->foto2)
-                                            <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
+                                            <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
                                                 <img src="{{ $foto2 }}" alt="" class="border-radius-5px">
                                             </div>
                                         @endif
 
                                         @if($blockNews->foto3)
-                                            <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
+                                            <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
                                                 <img src="{{ $foto3 }}" alt="" class="border-radius-5px">
                                             </div>
                                         @endif
 
                                         @if($blockNews->foto4)
-                                            <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
+                                            <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
                                                 <img src="{{ $foto4 }}" alt="" class="border-radius-5px">
                                             </div>
                                         @endif
 
                                         @if($blockNews->foto5)
-                                            <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
+                                            <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
                                                 <img src="{{ $foto5 }}" alt="" class="border-radius-5px">
                                             </div>
                                         @endif
 
                                         @if($blockNews->foto6)
-                                            <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
+                                            <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
                                                 <img src="{{ $foto6 }}" alt="" class="border-radius-5px">
                                             </div>
                                         @endif
 
-                                        <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin">
+                                        <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin">
                                             <p>{!! $description !!}</p>
                                         </div>
                                     </div>
@@ -344,7 +344,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
             @else
 
-            <!-- ++++++++++ Grid news -->
+            <!-- SE ENTRO QUI VADO NELLA LISTA DELLE NEWS ++++++++++ Grid news -->
 
             <?php
                 $col = "";

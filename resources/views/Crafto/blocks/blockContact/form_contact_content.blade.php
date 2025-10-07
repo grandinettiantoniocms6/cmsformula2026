@@ -1,6 +1,5 @@
 <?php
 $website = \App\Models\WebsiteSetting::first();
-
 echo "<div class='section-field col-md-$col' data-anime='{'translateX': [50, 0], 'opacity': [0,1], 'duration': 800, 'staggervalue': 300, 'easing': 'easeOutQuad' }' >";
 
 switch ($type){
