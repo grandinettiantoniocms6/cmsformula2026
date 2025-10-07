@@ -212,7 +212,6 @@ if($blockNews->foto6){
             <div class="col-lg-10 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
 
                 <!-- commendo per non far vedere la foto 1 nel dettaglio news -->
-
                 @if($blockNews->foto)
                     <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
                         <img src="{{ $foto }}" alt="" class="border-radius-5px">
