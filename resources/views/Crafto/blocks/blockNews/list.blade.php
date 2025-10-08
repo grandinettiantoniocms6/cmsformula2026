@@ -67,7 +67,7 @@ $col = "";
     <div class="{{ $fullwidth }}">
         <div class="row">
             <div class="col-12">
-                <ul style="list-style: none!important;" class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-3col md-grid-1col sm-grid-1col xs-grid-1col gutter-extra-large">
+                <ul style="list-style: none!important;" class="blog-grid blog-wrapper grid-loading grid grid-{{ $col }}col xl-grid-{{ $col }}col lg-grid-{{ $col }}col md-grid-{{ $col }}col sm-grid-1col xs-grid-1col gutter-extra-large">
                     <li style="list-style: none!important;" class="grid-sizer"></li>
                     @if($news)
                         @foreach($news as $value)

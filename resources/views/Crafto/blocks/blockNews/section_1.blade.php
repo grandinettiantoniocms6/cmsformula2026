@@ -1,3 +1,4 @@
+<!-- Style 1 Grid -->
 <li class="grid-item" style="list-style: none!important;">
     <div class="card border-0 border-radius-4px box-shadow-extra-large box-shadow-extra-large-hover">
         @if($col != 12)
@@ -26,17 +27,16 @@
                 <div class="me-auto">
                     @if($value->date)
                         <span class="blog-date fw-500 d-inline-block">
-                                                                        {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("d") }}
+                            {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("d") }}
                             <!-- Nuovo metodo per il print dei mesi in ita -->
                                 <?php
                                 $month = \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("m");
                                 $month_view = config("cmsformula.months")[$month];
                                 ?>
                             {{ $month_view }}
-
                             {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("y") }}
                             <!-- / Date -->
-                                                                    </span>
+                        </span>
                     @endif
                     <div class="d-inline-block author-name">
                         <a href="{{ $news_url }}" class="text-dark-gray text-dark-gray-hover text-decoration-line-bottom fw-600">{{ $labelSite['read-news'] }}</a>
