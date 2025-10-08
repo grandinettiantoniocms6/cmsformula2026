@@ -1,5 +1,14 @@
 /* Crefto custom senza passare dal SAAS */
 
+/* Blocco HTML Image link */
+
+.border-radius-10px {
+  border-radius: 0px !important;
+}
+
+
+
+
 
 /* Banner Sito in costruzione per amministratori */
 #offline { position: sticky; left: 0; top: 0; height: 30px; font-size: 14px; }

@@ -140,7 +140,7 @@
                             </span>
 
                             @if(trim($title[\App::getLocale()])!="")
-                                <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-2px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
+                                <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-0px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
                             @endif
 
                             <div class="row row-cols-1" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
@@ -173,14 +173,14 @@
 
                         <div class="col-xl-5 col-lg-6 md-mb-14 sm-mb-18 xs-mb-23 position-relative" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
                             @if(trim($foto) != "")
-                                <div class="w-75 sm-w-80" data-animation-delay="200" data-shadow-animation="true" data-bottom-top="transform: translateY(50px)" data-top-bottom="transform: translateY(-50px)">
-                                    <img class="border-radius-6px w-100" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
+                                <div class="w-100 100" data-animation-delay="200" data-shadow-animation="true" data-bottom-top="transform: translateY(50px)" data-top-bottom="transform: translateY(-50px)">
+                                    <img class="border-radius-0px w-100" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
                                 </div>
                             @endif
 
                             @if(trim($foto3) != "")
                                 <div class="w-55 overflow-hidden position-absolute right-15px xs-w-55 bottom-minus-50px" data-shadow-animation="true" data-animation-delay="100" data-bottom-top="transform: translateY(20px)" data-top-bottom="transform: translateY(-20px)">
-                                    <img src="{{ $foto3 }}" alt="{{ $title[\App::getLocale()] }}" class="border-radius-6px box-shadow-quadruple-large w-100" />
+                                    <img src="{{ $foto3 }}" alt="{{ $title[\App::getLocale()] }}" class="border-radius-0px box-shadow-quadruple-large w-100" />
                                 </div>
                             @endif
 
@@ -198,7 +198,7 @@
                         <div class="col-xl-5 offset-xl-1 col-lg-6 text-center text-lg-start" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 150, "staggervalue": 300, "easing": "easeOutQuad" }'>
 
                             @if(trim($title[\App::getLocale()])!="")
-                                <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-2px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
+                                <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-0px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
                             @endif
 
                             <div class="row row-cols-1" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
@@ -250,14 +250,14 @@
                         <!-- A -->
                         <div class="col-xl-5 col-lg-6 md-mb-14 sm-mb-18 xs-mb-23 position-relative" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
                             @if(trim($foto) != "")
-                                <div class="w-75 sm-w-80" data-animation-delay="200" data-shadow-animation="true" data-bottom-top="transform: translateY(50px)" data-top-bottom="transform: translateY(-50px)">
-                                    <img class="border-radius-6px w-100" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
+                                <div class="w-100 sm-w-100" data-animation-delay="200" data-shadow-animation="true" data-bottom-top="transform: translateY(50px)" data-top-bottom="transform: translateY(-50px)">
+                                    <img class="border-radius-0px w-100" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
                                 </div>
                             @endif
 
                             @if(trim($foto3) != "")
                                 <div class="w-55 overflow-hidden position-absolute right-15px xs-w-55 bottom-minus-50px" data-shadow-animation="true" data-animation-delay="100" data-bottom-top="transform: translateY(20px)" data-top-bottom="transform: translateY(-20px)">
-                                    <img src="{{ $foto3 }}" alt="{{ $title[\App::getLocale()] }}" class="border-radius-6px box-shadow-quadruple-large w-100" />
+                                    <img src="{{ $foto3 }}" alt="{{ $title[\App::getLocale()] }}" class="border-radius-0px box-shadow-quadruple-large w-100" />
                                 </div>
                             @endif
 

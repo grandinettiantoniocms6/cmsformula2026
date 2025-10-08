@@ -107,19 +107,8 @@ class BlockFaqCrudController extends CrudController
                 'wrapper' => ['class' => 'form-group col-md-6']
             ]);
 
-            $this->crud->addField([   // repeatable
-                'name'        => 'fullwidth',
-                'label'   => 'Seleziona larghezza blocco',
-                'type'        => 'select_from_array',
-                'attributes' => [
-                    'class' => 'custom-select',
-                ],
-                'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
-                'allows_null' => false,
-                'default'     => 'container',
-                'wrapper' => ['class' => 'form-group col-md-6']
-            ]);
 
+            /*
             // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
             if(env('TEMA') == 'Crafto' ) {
 
@@ -141,7 +130,37 @@ class BlockFaqCrudController extends CrudController
 
             }
             // fine dei campi perso Crafto
+            */
 
+
+
+
+            $this->crud->addField([   // repeatable
+                'name'        => 'fullwidth',
+                'label'   => 'Seleziona larghezza blocco',
+                'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
+                'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
+                'allows_null' => false,
+                'default'     => 'container',
+                'wrapper' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // select_from_array
+                'name'        => 'style',
+                'label'       => "Seleziona uno stile",
+                'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
+                'options'     => [1 => 'Style 1', 2 => 'Style 2'],
+                'allows_null' => false,
+                'default'     => 1,
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
 
 
 
@@ -194,6 +213,7 @@ class BlockFaqCrudController extends CrudController
             // gli input di settaggio blocco da memorizzare
             $this->crud->entry->name = $request->get('name');
             $this->crud->entry->fullwidth = $request->get('fullwidth');
+            $this->crud->entry->style = $request->get('style');
             $this->crud->entry->save();
         }
 

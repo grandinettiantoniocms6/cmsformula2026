@@ -126,11 +126,11 @@
                                 <div class="col-xl-5 offset-xl-1 col-lg-6" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
                                     @if(trim($title[\App::getLocale()])!="")
-                                        <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-2px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
+                                        <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-0px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
                                     @endif
 
                                     @if(trim($description[\App::getLocale()])!="")
-                                        <p class="w-80 lg-w-90 sm-w-100">{!! $description[\App::getLocale()] !!}</p>
+                                        <p class="w-80 lg-w-100 sm-w-100">{!! $description[\App::getLocale()] !!}</p>
                                     @endif
 
                                     <div class="d-inline-flex flex-wrap">
@@ -157,7 +157,7 @@
                                 <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
                                     @if(trim($foto) != "")
                                         <figure class="position-relative m-0">
-                                            <img class="lg-w-90 border-radius-10px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
+                                            <img class="lg-w-100 border-radius-0px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
                                         </figure>
                                     @endif
                                 </div>
@@ -171,7 +171,7 @@
                                 <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
                                     @if(trim($foto) != "")
                                         <figure class="position-relative m-0">
-                                            <img class="lg-w-90 border-radius-10px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
+                                            <img class="lg-w-100 border-radius-0px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
                                         </figure>
                                     @endif
                                 </div>
@@ -182,11 +182,11 @@
                                 <div class="col-md-10 col-xl-5 offset-xl-1 col-lg-6" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
                                     @if(trim($title[\App::getLocale()])!="")
-                                        <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-2px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
+                                        <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-0px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
                                     @endif
 
                                     @if(trim($description[\App::getLocale()])!="")
-                                        <p class="w-80 lg-w-90 sm-w-100">{!! $description[\App::getLocale()] !!}</p>
+                                        <p class="w-80 lg-w-100 sm-w-100">{!! $description[\App::getLocale()] !!}</p>
                                     @endif
 
                                     <div class="d-inline-flex flex-wrap">

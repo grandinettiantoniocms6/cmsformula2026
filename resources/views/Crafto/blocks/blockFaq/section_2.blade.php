@@ -1,57 +1,59 @@
-<section class="block-faq wow animate__fadeInUp" data-wow-duration=".3s">
+<section class="big-section block-faq mt-3" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
-        <h3 class="title">{{ $item->name }}</h3>
+        <div class="row">
+            <h3 class="title" data-anime='{ "translateX": [0, 0], "opacity": [0,1], "duration": 600, "delay":150, "staggervalue": 150, "easing": "easeOutQuad" }'>{{ $item->name }}</h3>
 
-        <div class="accordion" id="accordion-{{ $item->id }}">
-            @if($array)
-                    <?php $i = 0;?>
-                @foreach($array as $value)
-                        <?php
-                        $id = $value->id;
-                        $title = json_decode($value->title, true);
-                        if($title === null){
-                            $title = [];
-                        }
+            <div class="accordion accordion-style-02" id="accordion-{{ $item->id }}" data-active-icon="icon-feather-chevron-up" data-inactive-icon="icon-feather-chevron-down" data-anime='{ "el": "childs", "translateX": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
-                        $description = json_decode($value->description, true);
-                        if($description === null){
-                            $description = [];
-                        }
+                @if($array)
+                        <?php $i = 0;?>
+                    @foreach($array as $value)
+                            <?php
+                            $id = $value->id;
+                            $title = json_decode($value->title, true);
+                            if($title === null){
+                                $title = [];
+                            }
 
-                        $active = '';
-                        $collapsed = 'collapsed';
-                        if($i == 0){
-                            $active = 'show';
-                            $collapsed = '';
-                        }
+                            $description = json_decode($value->description, true);
+                            if($description === null){
+                                $description = [];
+                            }
 
-                        if(!key_exists(\App::getLocale(), $title)){
-                            $title[\App::getLocale()] = "";
-                        }
+                            $active = '';
+                            $collapsed = 'collapsed';
+                            if($i == 0){
+                                $active = 'show';
+                                $collapsed = '';
+                            }
 
-                        if(!key_exists(\App::getLocale(), $description)){
-                            $description[\App::getLocale()] = "";
-                        }
-                        ?>
+                            if(!key_exists(\App::getLocale(), $title)){
+                                $title[\App::getLocale()] = "";
+                            }
 
-                    <div class="accordion-item {{ $active }}">
-                        <div class="accordion-header">
-                            <button class="accordion-button {{ $collapsed }}" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-collapse-{{ $item->id }}-{{ $i }}" aria-expanded="false" aria-controls="collapseTwo">
-                                {{ $title[\App::getLocale()] }}
-                            </button>
-                        </div>
-                        <div id="accordion-collapse-{{ $item->id }}-{{ $i }}" class="accordion-collapse collapse {{$active }}" data-bs-parent="#accordion-{{ $item->id }}">
-                            <div class="accordion-body">
-                                {!! $description[\App::getLocale()] !!}
-                            </div>
-                        </div>
-                    </div>
-                        <?php $i++;?>
-                @endforeach
-            @endif
+                            if(!key_exists(\App::getLocale(), $description)){
+                                $description[\App::getLocale()] = "";
+                            }
+                            ?>
+
+                                <div class="accordion-item {{ $active }}" data-anime='{ "translateX": [0, 0], "opacity": [0,1], "duration": 600, "delay":150, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                                    <div class="accordion-header border-bottom border-color-extra-medium-gray">
+                                        <button class="accordion-button {{ $collapsed }}" style="background-color:#ffffff!important; border-color: #ffffff!important; border: 0px;" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-collapse-{{ $item->id }}-{{ $i }}" aria-expanded="false" aria-controls="collapseTwo">
+                                            <b>{{ $title[\App::getLocale()] }}</b>
+                                        </button>
+                                    </div>
+                                    <div id="accordion-collapse-{{ $item->id }}-{{ $i }}" class="accordion-collapse collapse {{$active }}" data-bs-parent="#accordion-{{ $item->id }}">
+                                        <div class="accordion-body last-paragraph-no-margin border-color-light-medium-gray">
+                                            {!! $description[\App::getLocale()] !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php $i++;?>
+
+
+                    @endforeach
+                @endif
+            </div>
         </div>
-
     </div>
 </section>
-
-
