@@ -137,7 +137,7 @@
                             @endif
 
                             @if(trim($button[\App::getLocale()])!="")
-                                <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-medium btn-gradient-pink-orange">{{ $button[\App::getLocale()] }}</a>
+                                <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-medium btn-dark-gray btn-round-edge primary-font mb-20px mt-20px" style="background-color: {{ $value->color_button }}; color: {{ $value->color_txt_button }};">{{ $button[\App::getLocale()] }}</a>
                             @endif
                         </div>
                     </div>

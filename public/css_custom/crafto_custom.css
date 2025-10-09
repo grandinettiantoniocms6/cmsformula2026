@@ -6,9 +6,11 @@
   border-radius: 0px !important;
 }
 
-
-
-
+/* Rimuove il Colore del bordo sul Blocco FAQ */
+.accordion-button:focus {
+    box-shadow: none !important;
+    border-color: #ffffff !important;
+}
 
 /* Banner Sito in costruzione per amministratori */
 #offline { position: sticky; left: 0; top: 0; height: 30px; font-size: 14px; }
