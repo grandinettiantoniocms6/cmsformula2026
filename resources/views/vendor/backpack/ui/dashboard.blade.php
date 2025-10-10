@@ -46,23 +46,25 @@
                         </div>
                     </div>
 
-                    <?php
-                    $page_count = \App\Models\Page::count();
-                    $websetting = \App\Models\WebsiteSetting::first();
-                    $page_percentage = ($page_count * 100) / $websetting->number_max_page;
-                    ?>
+                    @if(env('NASCONDI_FRONTEND') == 0)
+                        <?php
+                        $page_count = \App\Models\Page::count();
+                        $websetting = \App\Models\WebsiteSetting::first();
+                        $page_percentage = ($page_count * 100) / $websetting->number_max_page;
+                        ?>
 
-                    <div class="progress-group mb-3 mt-auto">
-                        <div class="progress-group-header mb-2">
-                            <div class="font-lg">Pagine</div>
-                            <div class="ml-auto font-weight-bold">{{ $page_count }} su {{ $websetting->number_max_page }} disponibili</div>
-                        </div>
-                        <div class="progress-group-bars">
-                            <div class="progress progress-xs">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $page_percentage }}%" aria-valuenow="{{ $page_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-group mb-3 mt-auto">
+                            <div class="progress-group-header mb-2">
+                                <div class="font-lg">Pagine</div>
+                                <div class="ml-auto font-weight-bold">{{ $page_count }} su {{ $websetting->number_max_page }} disponibili</div>
+                            </div>
+                            <div class="progress-group-bars">
+                                <div class="progress progress-xs">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $page_percentage }}%" aria-valuenow="{{ $page_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
 
                     <?php
                     $folder_path = public_path("/uploads");
@@ -87,26 +89,29 @@
     </div>
 
     <div class="row gutter-3">
-        <div class="col-6 col-sm-4 col-xl-2 mb-3">
-            <a class="card card-link p-2" href="/admin/page/create">
-                <i class="hgi hgi-stroke hgi-add-circle"></i>
-                <h6>Nuova pagina</h6>
-            </a>
-        </div><!-- /.col-->
 
-        <div class="col-6 col-sm-4 col-xl-2 mb-3">
-            <a class="card card-link p-2" href="/admin/page">
-                <i class="hgi hgi-stroke hgi-file-01"></i>
-                <h6>Elenco Pagine</h6>
-            </a>
-        </div><!-- /.col-->
+        @if(env('NASCONDI_FRONTEND') == 0)
+            <div class="col-6 col-sm-4 col-xl-2 mb-3">
+                <a class="card card-link p-2" href="/admin/page/create">
+                    <i class="hgi hgi-stroke hgi-add-circle"></i>
+                    <h6>Nuova pagina</h6>
+                </a>
+            </div><!-- /.col-->
 
-        <div class="col-6 col-sm-4 col-xl-2 mb-3">
-            <a class="card card-link p-2" href="/admin/elfinder">
-                <i class="nav-icon hgi hgi-stroke hgi-image-add-02"></i>
-                <h6>File Manager</h6>
-            </a>
-        </div><!-- /.col-->
+            <div class="col-6 col-sm-4 col-xl-2 mb-3">
+                <a class="card card-link p-2" href="/admin/page">
+                    <i class="hgi hgi-stroke hgi-file-01"></i>
+                    <h6>Elenco Pagine</h6>
+                </a>
+            </div><!-- /.col-->
+
+            <div class="col-6 col-sm-4 col-xl-2 mb-3">
+                <a class="card card-link p-2" href="/admin/elfinder">
+                    <i class="nav-icon hgi hgi-stroke hgi-image-add-02"></i>
+                    <h6>File Manager</h6>
+                </a>
+            </div><!-- /.col-->
+        @endif
 
         <div class="col-6 col-sm-4 col-xl-2 mb-3">
             <a class="card card-link p-2" href="/admin/websiteSetting/1/edit">

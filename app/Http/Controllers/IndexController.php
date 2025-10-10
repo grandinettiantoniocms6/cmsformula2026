@@ -103,6 +103,10 @@ class IndexController extends Controller
     public function index($slug = null)
     {
 
+        if(env('NASCONDI_FRONTEND') == 1){
+            return redirect()->to("/admin");
+        }
+
         $website = WebsiteSetting::first();
         $menu = $this->get_menu();
         $page = $this->check_page($slug);
