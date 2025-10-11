@@ -125,7 +125,7 @@ $agent = new \Jenssegers\Agent\Agent();
                         }
                         ?>
 
-                        <section class="top-space-margin p-0 full-screen md-h-600px sm-h-500px section-dark" data-parallax-background-ratio="0.8" style="background-image: url('{{ $foto }}')">
+                        <section class="top-space-margin p-0 full-screen md-h-600px sm-h-500px section-dark" data-parallax-background-ratio="0.8" style="background-image: url('{{ $value->foto }}')">
                             <div class="layer" style="background-color: rgba(0, 0, 0, 0.{{ $item->alpha }}); position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
                             <div class="container h-100">
                                 <div class="row align-items-center h-100">
