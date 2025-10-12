@@ -1,5 +1,17 @@
 /* Crefto custom senza passare dal SAAS */
 
+@media (max-width: 1399px) {
+    .menu-main-container { display: none !important; }
+    button.menu-toggle { display: block !important; }
+}
+
+@media (min-width: 1400px) {
+    .menu-main-container { display: flex !important; }
+    button.menu-toggle { display: none !important; }
+}
+
+
+
 /* Blocco HTML Image link */
 
 .border-radius-10px {

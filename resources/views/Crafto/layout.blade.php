@@ -60,6 +60,7 @@ if($admin_template->nav_style){
 ?>
 
 <body data-mobile-nav-style="{{ $nav_style }}">
+<div class="box-layout">
 <!-- start cursor -->
 <div class="cursor-page-inner">
     <div class="circle-cursor circle-cursor-inner"></div>
@@ -78,7 +79,7 @@ if($admin_template->nav_style){
     @else
         <header id="header" class="header default fullWidth" style="position:relative!important;">
     @endif
-        </header>
+
 
     @yield('content_header')
     @yield('content')
@@ -157,5 +158,7 @@ if($admin_template->nav_style){
 
     @yield('after_scripts')
 
+        </header>
+</div>
 </body>
 </html>

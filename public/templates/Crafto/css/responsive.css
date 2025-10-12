@@ -18963,8 +18963,9 @@
         width: 60%;
     }
 }
-/* Navigation breakpoint start */
-@media (max-width: 991px) {
+/* Navigation breakpoint start - quando far partire il mobile menu, o hamburger menu  era 991 */
+/* ************************** menu mobile menu hamburger menu ********************************* */
+@media (max-width: 1350px) {
     .header-demo.navbar .navbar-nav .premium-element {
         background-image: none !important;
     }
