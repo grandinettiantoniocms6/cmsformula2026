@@ -193,8 +193,6 @@
                 </div>
 
             </div>
-        </nav>
-
-        <!-- end navigation -->
+    </nav>
 </header>
-<!-- end header -->
+

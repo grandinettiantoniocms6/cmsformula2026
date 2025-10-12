@@ -60,7 +60,7 @@ if($admin_template->nav_style){
 ?>
 
 <body data-mobile-nav-style="{{ $nav_style }}">
-<div class="box-layout">
+
 <!-- start cursor -->
 <div class="cursor-page-inner">
     <div class="circle-cursor circle-cursor-inner"></div>
@@ -74,14 +74,18 @@ if($admin_template->nav_style){
 @yield('topbar')
 @yield('header_menu')
 
+<!-- K righe 78-82 ?
     @if($website->header_background)
         <header id="header" class="header default fullWidth" style="background-color: {{ $website->header_background }}!important; position:relative!important;">
     @else
         <header id="header" class="header default fullWidth" style="position:relative!important;">
     @endif
 
+-->
+
 
     @yield('content_header')
+
     @yield('content')
     @yield('content_footer')
 
@@ -157,8 +161,5 @@ if($admin_template->nav_style){
     </script>
 
     @yield('after_scripts')
-
-        </header>
-</div>
 </body>
 </html>
