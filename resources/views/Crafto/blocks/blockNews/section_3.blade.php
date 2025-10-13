@@ -4,7 +4,7 @@
         <div class="feature-box-icon">
 
             @if($value->date)
-                <time class="text-center post-date border-radius-3px text-uppercase fw-800 d-inline-block bg-dark-gray text-white" style="padding: 25px;">
+                <time class="text-center post-date border-radius-3px text-uppercase fw-800 d-inline-block" style="padding: 25px; background-color: {{ $contenitore->bgcolor }}; color: {{ $contenitore->date_color }};">
                     {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("d") }}
                     <!-- Nuovo metodo per il print dei mesi in ita -->
                         <?php

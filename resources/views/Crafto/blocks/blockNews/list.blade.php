@@ -2,7 +2,7 @@
 <?php
 $style = 1;
 $date = null;
-$bg_color = "#000";
+$bg_color = "#13ab68";
 $date_color = "#fff";
 $id_block = 0;
 $height = null;
