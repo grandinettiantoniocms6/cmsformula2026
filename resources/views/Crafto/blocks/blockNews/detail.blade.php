@@ -1,4 +1,6 @@
 <?php
+
+$website = \App\Models\WebsiteSetting::first();
 $padre = \App\Models\BlockNews::where("id", $blockNews->block_id)->first();
 $title = $blockNews->title;
 $description = $blockNews->description;
@@ -307,7 +309,7 @@ if($page_temp){
                                         <a href="{{ $news_url }}"><img src="/{{ $blockNews->foto }}" alt="" /></a>
                                                                                             @endif
                                     </div>
--->
+                                    -->
 
                                     <div class="card-body px-0 pb-30px pt-30px xs-pb-15px last-paragraph-no-margin">
                                         <a href="{{ $news_url }}" class="card-title mb-0 fw-500 fs-18 lh-30 text-dark-gray d-inline-block">{{ $altre->title }}</a>
@@ -322,10 +324,10 @@ if($page_temp){
             </div>
         </div>
 
+        <!-- TORNA ALLE NEWS -->
         <div class="row">
             <div class="col-12">
-                <a class="btn btn-dark-gray btn-small btn-round-edge" href="/news">{{ $labelSite['back-to-news'] }}</a>
-
+                <a class="btn btn-small btn-round-edge" style="background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }}; color: {{ $website->btn_txt_color }};" href="/news">{{ $labelSite['back-to-news'] }}</a>
             </div>
         </div>
 
