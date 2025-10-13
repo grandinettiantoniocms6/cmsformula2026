@@ -151,6 +151,16 @@ class BlockIconCrudController extends CrudController
                 'wrapperAttributes' => ['class' => 'form-group col-md-4']
             ]);
 
+            $this->crud->addField([   // repeatable
+                'name'  => 'bg_section_icon',
+                'label' => 'Colore sfondo Section Icone',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-4']
+            ]);
+
 
 
                             // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
@@ -392,6 +402,8 @@ class BlockIconCrudController extends CrudController
             $this->crud->entry->bgcolor_button_hover = $request->get('bgcolor_button_hover');
             $this->crud->entry->bgcolor_hover = $request->get('bgcolor_hover');
             $this->crud->entry->bgcolor_over = $request->get('bgcolor_over');
+            $this->crud->entry->bg_section_icon = $request->get('bg_section_icon');
+
 
             $this->crud->entry->save();
         }

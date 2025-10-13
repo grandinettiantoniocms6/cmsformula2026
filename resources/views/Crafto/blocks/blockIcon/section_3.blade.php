@@ -21,12 +21,12 @@ if($descriptionBlocco){
 
 ?>
 
-<section class="pt-5 pb-5" data-anime='{"scale": [0.1, 1], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+<section class="pt-5 pb-5" style="background-color: {{ $item->bg_section_icon }}!important;" data-anime='{"scale": [0.1, 1], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <div class="row justify-content-center mb-3">
             @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
             <div class="col-12 col-lg-12 text-center" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px bg-solitude-blue d-inline-flex"><i class="bi bi-box-seam fs-16 me-5px"></i>{{ $titleBlocco[\App::getLocale()] }}</span>
+                <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px bg-solitude-blue d-inline-flex">{{ $titleBlocco[\App::getLocale()] }}</span>
                 <p>{!! $descriptionBlocco[\App::getLocale()] !!} </p>
             </div>
             @endif
@@ -114,7 +114,7 @@ if($descriptionBlocco){
                         ?>
 
 
-                        <!-- start features box item col-lg-  -->
+
                             <div class="col-lg-{{ $item->col }} col-md-6 col-sm-6 mb-3 icon-with-text-style-04 transition-inner-all md-mb-30px" data-anime='{"scale": [0.1, 1], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
                                 <div class="feature-box border-radius-10px box-shadow-quadruple-large-hover p-15 lg-pt-15 lg-pb-15 lg-ps-10 lg-pe-10" data-wow-duration=".3s" style="background-color: {{ $value->bgcolor }}!important;">
 

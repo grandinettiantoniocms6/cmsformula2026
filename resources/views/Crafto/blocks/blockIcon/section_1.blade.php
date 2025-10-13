@@ -21,7 +21,7 @@ if($descriptionBlocco){
 
 ?>
 
-<section class="pt-5 pb-5" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }' >
+<section class="pt-5 pb-5" style="background-color: {{ $item->bg_section_icon }}!important;" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }' >
     <div class="{{ $item->fullwidth }}">
         <div class="row justify-content-center mb-4">
             @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
@@ -117,7 +117,7 @@ if($descriptionBlocco){
 
 
 
-                    <div class="col-lg-{{ $item->col }} icon-with-text-style-03 lg-mb-50px xs-mb-40px transition-inner-all" style="background-color: {{ $value->bgcolor }}!important;" data-anime='{"scale": [0.1, 1], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                    <div class="col-lg-{{ $item->col }} icon-with-text-style-03 md-mb-30px transition-inner-all" style="background-color: {{ $value->bgcolor }}!important;" data-anime='{"scale": [0.1, 1], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
                         <div class="feature-box ps-7 pe-7 sm-ps-4 sm-pe-4">
 
                             @if($value->icon)
