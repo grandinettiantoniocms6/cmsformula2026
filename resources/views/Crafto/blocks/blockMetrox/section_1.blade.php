@@ -141,7 +141,7 @@
                         @endif
 
                             <div class="col-md-auto col-lg-6" style="padding:{{ $item->pd }}px; background-color: {{ $value->bg_color }};" data-anime='{"translateX": [50, 0], "opacity": [1,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                <h2 class="title" style="font-size: {{ $value->h_title }}px; color: {{ $value->color_title }}; font-family: "{{ $value->google_font }}", Helvetica, Arial, sans-serif ;">{{ $title[\App::getLocale()] }}</h2>
+                                <h2 class="title" style="font-size: {{ $value->h_title }}px; color: {{ $value->color_title }};">{{ $title[\App::getLocale()] }}</h2>
                                 <h3 class="subtitle" style="font-size: {{ $value->h_subtitle }}px; color: {{ $value->color_subtitle }};">{{ $subtitle[\App::getLocale()] }}</h3>
                                 <div class="description">{!! $description[\App::getLocale()] !!}</div>
 
