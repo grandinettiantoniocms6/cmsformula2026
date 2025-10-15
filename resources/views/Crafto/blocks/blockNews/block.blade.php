@@ -6,64 +6,25 @@ $bg_color = "#13ab68";
 $date_color = "#fff";
 $id_block = 0;
 $height = null;
+
+$contenitore = $item;
+
+$col = $contenitore->col;
+$height = $contenitore->height;
+$fullwidth = $contenitore->fullwidth;
+$style = $contenitore->style;
+$date = $contenitore->date;
+$bg_color = $contenitore->bgcolor;
+$date_color = $contenitore->date_color;
+$id_block = $contenitore->id;
+$height = $contenitore->height;
+
+$title_cat_color = $contenitore->title_cat_color;
+$title_news_color = $contenitore->title_news_color;
 ?>
-@if($news)
-    @foreach($news as $value)
-            <?php
-            $contenitore = \App\Models\BlockNews::where("id", $value->block_id)->first();
-            $col = $contenitore->col;
-            $height = $contenitore->height;
-            $fullwidth = $contenitore->fullwidth;
-            $style = $contenitore->style;
-            $date = $contenitore->date;
-            $bg_color = $contenitore->bgcolor;
-            $date_color = $contenitore->date_color;
-            $id_block = $contenitore->id;
-            $height = $contenitore->height;
 
-            $title_cat_color = $contenitore->title_cat_color;
-            $title_news_color = $contenitore->title_news_color;
-
-            if($style == null){
-                $style = 1;
-            }
-            break;
-            ?>
-    @endforeach
-@endif
-
-
-<?php
-$col = "";
-?>
 
 <section class="pt-3 ps-11 pe-11 xl-ps-2 xl-pe-1">
-
-    @if($news)
-        @foreach($news as $value)
-                <?php
-                $contenitore = \App\Models\BlockNews::where("id", $value->block_id)->first();
-                $col = $contenitore->col;
-                $height = $contenitore->height;
-                $fullwidth = $contenitore->fullwidth;
-                $style = $contenitore->style;
-                $date = $contenitore->date;
-                $bg_color = $contenitore->bgcolor;
-                $date_color = $contenitore->date_color;
-                $id_block = $contenitore->id;
-                $height = $contenitore->height;
-
-                $title_cat_color = $contenitore->title_cat_color;
-                $title_news_color = $contenitore->title_news_color;
-
-                if($style == null){
-                    $style = 1;
-                }
-                break;
-                ?>
-        @endforeach
-    @endif
-
     <div class="{{ $fullwidth }}">
         <div class="row">
             <div class="col-12">
@@ -132,15 +93,6 @@ $col = "";
                             <!-- / CICLO NEWS -->
 
                         @endforeach
-                    @endif
-                </ul>
-            </div>
-
-            <!-- Paginazione News -->
-            <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
-                <ul style="list-style: none!important;" class="pagination pagination-style-01 fs-13 fw-500 mb-0">
-                    @if($news)
-                        {{ $news->links() }}
                     @endif
                 </ul>
             </div>

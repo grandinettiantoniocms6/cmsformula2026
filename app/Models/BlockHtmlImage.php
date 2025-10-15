@@ -69,7 +69,16 @@ class BlockHtmlImage extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -108,7 +117,16 @@ class BlockHtmlImage extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -145,7 +163,16 @@ class BlockHtmlImage extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -182,7 +209,16 @@ class BlockHtmlImage extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -219,7 +255,16 @@ class BlockHtmlImage extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -256,7 +301,16 @@ class BlockHtmlImage extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -293,7 +347,16 @@ class BlockHtmlImage extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -330,7 +393,16 @@ class BlockHtmlImage extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -367,7 +439,16 @@ class BlockHtmlImage extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -404,7 +485,16 @@ class BlockHtmlImage extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -445,7 +535,16 @@ class BlockHtmlImage extends Model
         if (Str::startsWith($value, 'data:image'))
         {
             // 0. Make the image
-            $image = \Image::make($value)->encode('jpg', 90);
+                 // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
             // 1. Generate a filename.
             $filename = md5($value.time()).'.jpg';
@@ -486,7 +585,16 @@ class BlockHtmlImage extends Model
         if (Str::startsWith($value, 'data:image'))
         {
             // 0. Make the image
-            $image = \Image::make($value)->encode('jpg', 90);
+               // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
             // 1. Generate a filename.
             $filename = md5($value.time()).'.jpg';
@@ -661,4 +769,35 @@ class BlockHtmlImage extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    function resolveImagePath(string $value): string
+    {
+        // 1) URL remoti → li lasci così (poi passerai i byte/stream)
+        if (\Str::startsWith($value, ['http://', 'https://'])) {
+            return $value;
+        }
+
+        // 2) Già assoluto (/home/..., /var/..., /... )
+        if (\Str::startsWith($value, '/')) {
+            return $value;
+        }
+
+        // 3) Relativo che esiste dalla CWD
+        if (is_file($value)) {
+            return realpath($value);
+        }
+
+        // 4) Relativo sotto public/ (es. "uploads/hero/foo.png" o "storage/foo.png")
+        $pub = public_path(ltrim($value, '/'));
+        if (is_file($pub)) {
+            return $pub;
+        }
+
+        // 5) Relativo sul disco 'public' (storage/app/public/...)
+        if (\Storage::disk('public')->exists($value)) {
+            return \Storage::disk('public')->path($value);
+        }
+
+        throw new \RuntimeException("File non trovato: {$value}");
+    }
 }

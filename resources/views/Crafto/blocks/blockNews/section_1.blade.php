@@ -4,7 +4,9 @@
         @if($col != 12)
             @if($value->foto)
                 <div class="blog-image">
-                    <a href="{{ $news_url }}" class="d-block"><img src="{{ $value->get_foto_list() }}" alt="" /></a>
+                    @if(isset($news_url))
+                        <a href="{{ $news_url }}" class="d-block"><img src="{{ $value->get_foto_list() }}" alt="" /></a>
+                    @endif
 
                     @if(count($v_category))
                         <div class="blog-categories">
@@ -21,25 +23,33 @@
         @endif
 
         <div class="card-body p-12">
-            <a href="{{ $news_url }}" class="card-title mb-15px fw-600 fs-17 lh-26 text-dark-gray text-dark-gray-hover d-inline-block">{{ $title }}</a>
-            <p>{{ $abstract }}</p>
+            @if(isset($news_url))
+                <a href="{{ $news_url }}" class="card-title mb-15px fw-600 fs-17 lh-26 text-dark-gray text-dark-gray-hover d-inline-block">{{ $title }}</a>
+            @endif
+            @if(isset($abstract))
+               <p>{{ $abstract }}</p>
+            @endif
             <div class="author d-flex justify-content-center align-items-center position-relative overflow-hidden fs-14 text-uppercase">
                 <div class="me-auto">
-                    @if($value->date)
-                        <span class="blog-date fw-500 d-inline-block">
-                            {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("d") }}
-                            <!-- Nuovo metodo per il print dei mesi in ita -->
-                                <?php
-                                $month = \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("m");
-                                $month_view = config("cmsformula.months")[$month];
-                                ?>
-                            {{ $month_view }}
-                            {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("y") }}
-                            <!-- / Date -->
-                        </span>
+                    @if(isset($value))
+                        @if($value->date)
+                            <span class="blog-date fw-500 d-inline-block">
+                                {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("d") }}
+                                <!-- Nuovo metodo per il print dei mesi in ita -->
+                                    <?php
+                                    $month = \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("m");
+                                    $month_view = config("cmsformula.months")[$month];
+                                    ?>
+                                {{ $month_view }}
+                                {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$value->date)->format("y") }}
+                                <!-- / Date -->
+                            </span>
+                        @endif
                     @endif
                     <div class="d-inline-block author-name">
-                        <a href="{{ $news_url }}" class="text-dark-gray text-dark-gray-hover text-decoration-line-bottom fw-600">{{ $labelSite['read-news'] }}</a>
+                        @if(isset($news_url))
+                            <a href="{{ $news_url }}" class="text-dark-gray text-dark-gray-hover text-decoration-line-bottom fw-600">{{ $labelSite['read-news'] }}</a>
+                        @endif
                     </div>
                 </div>
             </div>

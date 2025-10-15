@@ -64,7 +64,16 @@ class BlockHtmlTwocol extends Model
         $basename = basename($value);
         $nameFile = explode(".", $basename);
         // Setto le misure che devono avere le img x slideshow lato front
-        $image = \Image::make($value)->encode('webp', 90);
+        // $value può essere assoluto o relativo
+        $absolute = $this->resolveImagePath($value);
+
+        // Se è un URL remoto, meglio usare i byte/stream
+        if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+            $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+            $image  = \Image::make($bytes)->encode('webp', 90);
+        } else {
+            $image  = \Image::make($absolute)->encode('webp', 90);
+        }
 
         $image->fit(1200, 800, function ($constraint) {
             $constraint->aspectRatio();
@@ -73,7 +82,16 @@ class BlockHtmlTwocol extends Model
         \Storage::disk($disk)->put($destination_path.'/'.$filename, $image->stream());
 
         // Setto le misure che devono avere le img x slideshow lato Admin
-        $image = \Image::make($value)->encode('webp', 90);
+        // $value può essere assoluto o relativo
+        $absolute = $this->resolveImagePath($value);
+
+        // Se è un URL remoto, meglio usare i byte/stream
+        if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+            $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+            $image  = \Image::make($bytes)->encode('webp', 90);
+        } else {
+            $image  = \Image::make($absolute)->encode('webp', 90);
+        }
         $image->fit(220, 180, function ($constraint) {
             $constraint->aspectRatio();
         });
@@ -239,4 +257,35 @@ class BlockHtmlTwocol extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    function resolveImagePath(string $value): string
+    {
+        // 1) URL remoti → li lasci così (poi passerai i byte/stream)
+        if (\Str::startsWith($value, ['http://', 'https://'])) {
+            return $value;
+        }
+
+        // 2) Già assoluto (/home/..., /var/..., /... )
+        if (\Str::startsWith($value, '/')) {
+            return $value;
+        }
+
+        // 3) Relativo che esiste dalla CWD
+        if (is_file($value)) {
+            return realpath($value);
+        }
+
+        // 4) Relativo sotto public/ (es. "uploads/hero/foo.png" o "storage/foo.png")
+        $pub = public_path(ltrim($value, '/'));
+        if (is_file($pub)) {
+            return $pub;
+        }
+
+        // 5) Relativo sul disco 'public' (storage/app/public/...)
+        if (\Storage::disk('public')->exists($value)) {
+            return \Storage::disk('public')->path($value);
+        }
+
+        throw new \RuntimeException("File non trovato: {$value}");
+    }
 }

@@ -118,7 +118,16 @@ class BlockHero extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -156,7 +165,16 @@ class BlockHero extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -194,7 +212,16 @@ class BlockHero extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
-                $image = \Image::make($value)->encode('webp', 90);
+                // $value può essere assoluto o relativo
+                $absolute = $this->resolveImagePath($value);
+
+                // Se è un URL remoto, meglio usare i byte/stream
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
+                    $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
+                    $image  = \Image::make($bytes)->encode('webp', 90);
+                } else {
+                    $image  = \Image::make($absolute)->encode('webp', 90);
+                }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
                 $height = $thumb->height_max != 0 ? $thumb->height_max : null;
@@ -345,6 +372,32 @@ class BlockHero extends Model
         return $html;
     }
 
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESSORS
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
     function resolveImagePath(string $value): string
     {
         // 1) URL remoti → li lasci così (poi passerai i byte/stream)
@@ -375,28 +428,4 @@ class BlockHero extends Model
 
         throw new \RuntimeException("File non trovato: {$value}");
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | RELATIONS
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | SCOPES
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESSORS
-    |--------------------------------------------------------------------------
-    */
-
-    /*
-    |--------------------------------------------------------------------------
-    | MUTATORS
-    |--------------------------------------------------------------------------
-    */
 }

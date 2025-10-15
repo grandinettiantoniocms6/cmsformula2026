@@ -37,6 +37,7 @@
                                     ->take($item->number_news_home)
                                     ->get();
                             }
+
                             break;
                         case "blocks_gallerys":
                             if($item->is_pagination == 1){
