@@ -71,6 +71,12 @@ class BlockHero extends Model
 
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
+                $value = public_path(ltrim($value, '/'));   // -> /var/www/project/public/uploads/hero/...
+
+                if (! is_file($value)) {
+                    throw new \RuntimeException("File non trovato: {$value}");
+                }
+
                 $image = \Image::make($value)->encode('webp', 90);
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
