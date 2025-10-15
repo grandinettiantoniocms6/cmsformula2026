@@ -348,12 +348,12 @@ class BlockHero extends Model
     function resolveImagePath(string $value): string
     {
         // 1) URL remoti → li lasci così (poi passerai i byte/stream)
-        if (Str::startsWith($value, ['http://', 'https://'])) {
+        if (\Str::startsWith($value, ['http://', 'https://'])) {
             return $value;
         }
 
         // 2) Già assoluto (/home/..., /var/..., /... )
-        if (Str::startsWith($value, '/')) {
+        if (\Str::startsWith($value, '/')) {
             return $value;
         }
 
@@ -369,8 +369,8 @@ class BlockHero extends Model
         }
 
         // 5) Relativo sul disco 'public' (storage/app/public/...)
-        if (Storage::disk('public')->exists($value)) {
-            return Storage::disk('public')->path($value);
+        if (\Storage::disk('public')->exists($value)) {
+            return \Storage::disk('public')->path($value);
         }
 
         throw new \RuntimeException("File non trovato: {$value}");
