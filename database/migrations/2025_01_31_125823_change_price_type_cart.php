@@ -14,7 +14,7 @@ class ChangePriceTypeCart extends Migration
     public function up()
     {
         Schema::table('shop_cart', function (Blueprint $table) {
-            $table->float('price', 8, 3)->change();
+            $table->double('price')->change();
         });
     }
 

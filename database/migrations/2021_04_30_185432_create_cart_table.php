@@ -18,7 +18,7 @@ class CreateCartTable extends Migration
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('qty')->default(1);
-            $table->float('price');
+            $table->double('price');
             $table->timestamps();
         });
     }

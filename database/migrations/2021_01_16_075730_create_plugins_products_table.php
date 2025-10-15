@@ -30,7 +30,7 @@ class CreatePluginsProductsTable extends Migration
             $table->boolean('is_active')->nullable();
             $table->boolean('is_evidenza')->nullable();
 
-            $table->float('price')->nullable();
+            $table->double('price')->nullable();
             $table->text('video')->nullable();
             $table->unsignedInteger('qty')->nullable();
             $table->unsignedInteger('qty_year')->nullable();

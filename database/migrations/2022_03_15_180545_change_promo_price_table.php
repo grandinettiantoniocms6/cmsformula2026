@@ -14,7 +14,7 @@ class ChangePromoPriceTable extends Migration
     public function up()
     {
         Schema::table('plugins_products', function (Blueprint $table) {
-            $table->float('promo_price', 8, 3)->change();
+            $table->double('promo_price')->change();
         });
     }
 
