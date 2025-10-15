@@ -26,7 +26,7 @@ class BlockHeroRequest extends FormRequest
     public function rules()
     {
         // qui metto solo i request dei campi presenti su modifica blocco (no campi multi)
-        if (\Str::contains(url()->full(), 'multi')) {
+        if(\Str::contains(url()->full(), 'multi') || ($_SERVER['REQUEST_METHOD'] == "POST" && is_numeric(strpos($_SERVER['HTTP_REFERER'], "multi")))){
             return [
                 'name' => 'required'
             ];
