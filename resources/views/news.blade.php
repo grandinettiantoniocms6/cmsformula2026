@@ -5,19 +5,27 @@
     @include("$thema.inc.head")
 @endsection
 
-
+<?php
+$admin_template = \App\Models\AdminTemplate::where("name", $thema)->first();
+$inc = "inc";
+if($admin_template->inc){
+    $inc = $admin_template->inc;
+}
+?>
 
 @if($website->is_online == 1 || backpack_user() || is_numeric(strpos(env('APP_URL'), "stage")))
     @section('topbar')
-        @include("$thema.inc.topbar")
+        @if($thema != "Crafto")
+            @include("$thema.$inc.topbar")
+        @endif
     @endsection
 
-@section('topbar_ecommerce')
-    @include("$thema.inc.topbar_ecommerce")
-@endsection
+    @section('topbar_ecommerce')
+        @include("$thema.$inc.topbar_ecommerce")
+    @endsection
 
     @section('header_menu')
-        @include("$thema.inc.header_menu")
+        @include("$thema.$inc.header_menu")
     @endsection
 
     @section('content_header')
@@ -44,10 +52,10 @@
     @endsection
 
     @section('content_footer')
-        @include("$thema.inc.content_footer")
+        @include("$thema.$inc.content_footer")
     @endsection
 @else
-    @include("$thema.inc.content_offline")
+    @include("$thema.$inc.content_offline")
 @endif
 
 

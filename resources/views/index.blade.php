@@ -6,7 +6,6 @@ $inc = "inc";
 if($admin_template->inc){
     $inc = $admin_template->inc;
 }
-
 ?>
 @extends("$thema.layout")
 

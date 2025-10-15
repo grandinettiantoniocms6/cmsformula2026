@@ -61,7 +61,7 @@
             @endif
         @endif
 
-        @if($page->is_homepage == 0 && ($position == "footer" || $position == "header"))
+        @if($page->is_homepage == 0 && ($position == "footer" || $position == "header" || $position = "content"))
             @if($pb->is_ereditable_from_id !== null)
 
             @else
@@ -76,7 +76,9 @@
                 </button>
                 <!--<a href="{{ route('pages.blocks.delete', [$page->id, $pb->id]) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Cancella"><i class="las la-times"></i></a>-->
                 @if($order == 1 && $is_multi == 0)
+                    <!--
                     <a href="<?php echo $url_order;?>" class="btn btn-dark btn-sm" data-toggle="tooltip" title="Ordina"><i class="la la-arrows-v"></i></a>
+                    -->
                 @endif
             @endif
         @else
