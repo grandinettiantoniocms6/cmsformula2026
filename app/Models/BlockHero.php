@@ -75,11 +75,11 @@ class BlockHero extends Model
                 $absolute = $this->resolveImagePath($value);
 
                 // Se è un URL remoto, meglio usare i byte/stream
-                if (Str::startsWith($absolute, ['http://', 'https://'])) {
+                if (\Str::startsWith($absolute, ['http://', 'https://'])) {
                     $bytes  = file_get_contents($absolute); // o Http::get(...)->body()
-                    $image  = Image::make($bytes)->encode('webp', 90);
+                    $image  = \Image::make($bytes)->encode('webp', 90);
                 } else {
-                    $image  = Image::make($absolute)->encode('webp', 90);
+                    $image  = \Image::make($absolute)->encode('webp', 90);
                 }
 
                 $width = $thumb->width_max != 0 ? $thumb->width_max : null;
