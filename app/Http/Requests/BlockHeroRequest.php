@@ -26,7 +26,7 @@ class BlockHeroRequest extends FormRequest
     public function rules()
     {
         // qui metto solo i request dei campi presenti su modifica blocco (no campi multi)
-        if (\Str::contains(url()->current(), 'multi')) {
+        if (\Str::contains(url()->full(), 'multi')) {
             return [
                 'name' => 'required'
             ];
