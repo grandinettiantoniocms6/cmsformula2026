@@ -72,7 +72,7 @@ class BlockHero extends Model
         if(count($adminThumb)){
             foreach ($adminThumb as $thumb){
                 // $value può essere assoluto o relativo
-                $absolute = resolveImagePath($value);
+                $absolute = $this->resolveImagePath($value);
 
                 // Se è un URL remoto, meglio usare i byte/stream
                 if (Str::startsWith($absolute, ['http://', 'https://'])) {
@@ -343,6 +343,37 @@ class BlockHero extends Model
         </script>';
 
         return $html;
+    }
+
+    function resolveImagePath(string $value): string
+    {
+        // 1) URL remoti → li lasci così (poi passerai i byte/stream)
+        if (Str::startsWith($value, ['http://', 'https://'])) {
+            return $value;
+        }
+
+        // 2) Già assoluto (/home/..., /var/..., /... )
+        if (Str::startsWith($value, '/')) {
+            return $value;
+        }
+
+        // 3) Relativo che esiste dalla CWD
+        if (is_file($value)) {
+            return realpath($value);
+        }
+
+        // 4) Relativo sotto public/ (es. "uploads/hero/foo.png" o "storage/foo.png")
+        $pub = public_path(ltrim($value, '/'));
+        if (is_file($pub)) {
+            return $pub;
+        }
+
+        // 5) Relativo sul disco 'public' (storage/app/public/...)
+        if (Storage::disk('public')->exists($value)) {
+            return Storage::disk('public')->path($value);
+        }
+
+        throw new \RuntimeException("File non trovato: {$value}");
     }
 
     /*
