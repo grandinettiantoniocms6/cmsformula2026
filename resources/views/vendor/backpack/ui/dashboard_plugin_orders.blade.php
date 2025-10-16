@@ -142,35 +142,39 @@
                     <div class="row">
                         <div class="col-sm-3">
                             <h5>Ultimi 7 giorni</h5>
-                            <table width="100%" class="table table-responsive">
-                                @foreach($last_7_days as $k=> $v)
-                                    <tr>
-                                        <td>
-                                            {{ \Carbon\Carbon::createFromFormat("Y-m-d", $k)->format("d/m/Y") }}
-                                        </td>
-                                        <td class="float-right">
-                                            {{ number_format($v, 2, ",", ".") }} &euro;
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    @foreach($last_7_days as $k=> $v)
+                                        <tr>
+                                            <td>
+                                                {{ \Carbon\Carbon::createFromFormat("Y-m-d", $k)->format("d/m/Y") }}
+                                            </td>
+                                            <td class="float-right">
+                                                {{ number_format($v, 2, ",", ".") }} &euro;
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <h5>Andamento mensile</h5>
-                            <table width="100%" class="table table-responsive">
-                                @foreach($list as $k=> $v)
-                                    <tr>
-                                        <td>
-                                            {{ $month[$k] }}
-                                        </td>
-                                        <td class="text-right">
-                                            @if(key_exists($k, $list))
-                                              {{ number_format($list[$k], 2, ",", ".") }} &euro;
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    @foreach($list as $k=> $v)
+                                        <tr>
+                                            <td>
+                                                {{ $month[$k] }}
+                                            </td>
+                                            <td class="text-right">
+                                                @if(key_exists($k, $list))
+                                                {{ number_format($list[$k], 2, ",", ".") }} &euro;
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <?php
@@ -187,18 +191,20 @@
 
                            <h5>Top 10 prodotti</h5>
                             @if($list)
-                                <table width="100%" class="table table-responsive">
-                                    @foreach($list as $v)
-                                        <tr>
-                                            <td>
-                                                {{ $v->name }}
-                                            </td>
-                                            <td class="text-right">
-                                                {{ $v->tot }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        @foreach($list as $v)
+                                            <tr>
+                                                <td>
+                                                    {{ $v->name }}
+                                                </td>
+                                                <td class="text-right">
+                                                    {{ $v->tot }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </div>
                             @endif
                         </div>
 
@@ -217,18 +223,20 @@
 
                             <h5>Classifica reparti</h5>
                             @if($list)
-                                <table width="100%" class="table table-responsive">
-                                    @foreach($list as $v)
-                                        <tr>
-                                            <td>
-                                                {{ $v->name }}
-                                            </td>
-                                            <td class="text-right">
-                                                {{ $v->tot }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </table>
+                                 <div class="table-responsive">
+                                     <table class="table">
+                                         @foreach($list as $v)
+                                             <tr>
+                                                 <td>
+                                                     {{ $v->name }}
+                                                 </td>
+                                                 <td class="text-right">
+                                                     {{ $v->tot }}
+                                                 </td>
+                                             </tr>
+                                         @endforeach
+                                     </table>
+                                 </div>
                             @endif
                         </div>
                     </div>

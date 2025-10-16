@@ -17,11 +17,10 @@
                                 <h5 class="my-0">Cliente</h5>
                             </div>
                             <div class="card-body">
-                                <div class="form-group">
+                                <div class="form-group" id="box_cliente">
                                     <label>Cerca cliente</label>
                                     <select class="form-control select2" id="choose-baseuser" name="baseuser_id"></select>
                                 </div>
-                                <!--<a class="btn btn-dark btn-block" href="#" id="new_client">Nuovo Cliente?</a>-->
                             </div>
                             <div class="card-footer">
                                 <div class="form-group" id="box_baseuser">
@@ -168,6 +167,7 @@
         width: '100%',
         multiple: false,
         minimumInputLength: 1,
+        dropdownParent: $('#box_cliente'),
         ajax: {
             url: "{{ route('PluginOrder.clients_autocomplete') }}",
             processResults: function (data) {
