@@ -149,7 +149,7 @@
                                             <td>
                                                 {{ \Carbon\Carbon::createFromFormat("Y-m-d", $k)->format("d/m/Y") }}
                                             </td>
-                                            <td class="float-right">
+                                            <td class="text-right">
                                                 {{ number_format($v, 2, ",", ".") }} &euro;
                                             </td>
                                         </tr>
