@@ -22,21 +22,20 @@ if($descriptionBlocco){
 ?>
 
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-    <section class="pt-5 pb-5" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+    <section class="pt-5 pb-5" style="background-color: {{ $item->box_bgcolor }}" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-12 col-xl-6 col-lg-8 text-center position-relative page-title-double-large">
                     <div class="d-flex flex-column justify-content-center extra-very-small-screen">
-                        <h1 class="text-dark-gray alt-font ls-minus-1px fw-700 mb-20px">{{ $titleBlocco[\App::getLocale()] }}</h1>
+                        <h1 class="alt-font ls-minus-1px fw-700 mb-20px" style="color: {{ $item->title_color }};">{{ $titleBlocco[\App::getLocale()] }}</h1>
                         <h2 class="d-inline-block fw-400 ls-0px w-80 xs-w-100 mx-auto">{!! $descriptionBlocco[\App::getLocale()] !!}</h2>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+
 @endif
 
-<section class="pt-0 ps-11 pe-11 xl-ps-2 xl-pe-2" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <div class="row">
             <div class="col-12">
@@ -149,23 +148,33 @@ if($descriptionBlocco){
                                                       </a>
                                                     @endif
 
-                                                    <div class="blog-categories" style="margin-right: 95%;">
-                                                        <span class="categories-btn text-uppercase alt-font fw-600 fs-24 lh-26" style="align:left; font-size: 14px!important; background-color: {!! $value->bgcolor !!}; color: {!! $value->txtcolor !!};">{{ $text_etichetta[\App::getLocale()] }}</span>
-                                                    </div>
 
-                                                    <!-- If PDF exist -->
-                                                    @if(trim($value->file) != "" || $value->file)
+                                                    @if(trim(json_decode($value->text_etichetta, true)[\App::getLocale()] ?? '') !== '')
                                                         <div class="blog-categories">
-                                                            <a href="{{ $value->file }}" target="_blank" class="categories-btn bg-white text-dark-gray text-dark-gray-hover text-uppercase alt-font fw-700">
-                                                                <span><i class="far fa-file-pdf"></i> {{ @$labels['pdf-download'] }}</span>
-                                                            </a>
+                                                            <span class="categories-btn bg-white text-dark-gray text-dark-gray-hover text-uppercase alt-font fw-700"
+                                                                style="background-color: {{ $value->bgcolor }};
+                                                                color: {{ $value->txtcolor }};">
+                                                                    {{ json_decode($value->text_etichetta, true)[\App::getLocale()] }}
+                                                            </span>
+
+                                                            <!-- If PDF exist -->
+                                                            @if(trim($value->file) != "" || $value->file)
+                                                                <a href="{{ $value->file }}" target="_blank" class="categories-btn bg-white text-dark-gray text-dark-gray-hover text-uppercase alt-font fw-700">
+                                                                    <span><i class="far fa-file-pdf"></i> {{ @$labels['pdf-download'] }}</span>
+                                                                </a>
+                                                            @endif
+
                                                         </div>
                                                     @endif
+
+
                                                 </div>
 
 
-                                            <div class="card-body p-12">
-                                                <span class="card-title mb-15px fw-600 fs-20 lh-26 text-dark-gray text-dark-gray-hover">{{ $title[\App::getLocale()] }}</span>
+                                            <div class="card-body p-6">
+                                                <span class="card-title mb-15px fw-600 fs-20 lh-26 text-dark-gray text-dark-gray-hover" style="color: {{ $item->title_color }}; padding-left: 20px; padding-right: 20px;">
+                                                    {{ $title[\App::getLocale()] }}
+                                                </span>
                                                 <p>{!! $description[\App::getLocale()] !!}</p>
 
                                                 <div class="author d-flex justify-content-center align-items-center position-relative overflow-hidden fs-14 text-uppercase">

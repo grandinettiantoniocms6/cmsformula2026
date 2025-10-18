@@ -23,21 +23,21 @@
 ?>
 
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-<section class="pt-5 pb-5" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-    <div class="container">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-12 col-xl-12 col-lg-8 text-center position-relative page-title-double-large">
-                <div class="d-flex flex-column justify-content-center extra-very-small-screen">
-                    <h1 class="text-dark-gray alt-font ls-minus-1px fw-700 mb-20px">{{ $titleBlocco[\App::getLocale()] }}</h1>
-                    <h2 class="d-inline-block fw-400 ls-0px w-80 xs-w-100 mx-auto">{!! $descriptionBlocco[\App::getLocale()] !!}</h2>
+
+    <section class="position-relative overflow-hidden pt-5 pb-5" style="background-color: {{ $item->box_bgcolor }};">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-12 col-xl-12 col-lg-8 text-center position-relative page-title-double-large">
+                    <div class="d-flex flex-column justify-content-center extra-very-small-screen">
+                        <h1 class="text-dark-gray alt-font ls-minus-1px fw-700 mb-20px" style="color: {{ $item->title_color }};">{{ $titleBlocco[\App::getLocale()] }}</h1>
+                        <h2 class="d-inline-block fw-400 ls-0px w-80 xs-w-100 mx-auto">{!! $descriptionBlocco[\App::getLocale()] !!}</h2>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+
 @endif
 
-<section class="block-grids style-{{ $item->style }}" id="block-grids-{{ $item->id }}" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <div class="row">
             <div class="col-12 filter-content">
@@ -157,12 +157,20 @@
                                                 <div class="portfolio-overlay bg-dark-gray" style="background-color: #637c8e;"></div>
                                         </div>
 
-                                        <div class="portfolio-caption pt-30px pb-30px lg-pt-20px lg-pb-20px">
-                                            <div class="blog-categories">
-                                                <span class="categories-btn text-uppercase alt-font fw-700" style="font-size: 16px!important; margin-bottom: 8px; background-color: {!! $value->bgcolor !!}; color: {!! $value->txtcolor !!};">{{ $text_etichetta[\App::getLocale()] }}</span>
-                                            </div>
+                                        <div class="portfolio-caption pt-30px pb-30px lg-pt-20px lg-pb-20px" style="padding-left: 20px; padding-right: 20px;">
 
-                                            <div class="fw-600 fs-18 lh-30 text-uppercase" style="color: {{ $item->title_color }}!important;">{{ $title[\App::getLocale()] }}</div>
+
+                                            @if(trim(json_decode($value->text_etichetta, true)[\App::getLocale()] ?? '') !== '')
+                                                <div class="blog-categories">
+                                                    <span class="categories-btn text-uppercase alt-font fw-700"
+                                                          style="background-color: {{ $value->bgcolor }};
+                                                                 color: {{ $value->txtcolor }};">
+                                                        {{ json_decode($value->text_etichetta, true)[\App::getLocale()] }}
+                                                    </span>
+                                                </div>
+                                            @endif
+
+                                            <div class="fw-600 fs-18 lh-30 text-uppercase">{{ $title[\App::getLocale()] }}</div>
                                             <span>{!! $description[\App::getLocale()] !!}</span>
 
                                             @if(trim($button[\App::getLocale()])!="")

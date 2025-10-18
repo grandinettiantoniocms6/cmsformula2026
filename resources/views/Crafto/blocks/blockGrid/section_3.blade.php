@@ -23,21 +23,23 @@
 ?>
 
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-<section class="pt-5 pb-5" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+
+<section class="pt-5 block-grids style-{{ $item->style }}" style="background-color: {{ $item->box_bgcolor }}" id="block-grids-{{ $item->id }}" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
+
+    <div class="separator-line-9px bg-base-color position-absolute top-0px right-0px" data-bottom-top="width: 15%" data-center-top="width: 50%;"></div>
     <div class="container">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-12 col-xl-12 col-lg-8 text-center position-relative page-title-double-large">
-                <div class="d-flex flex-column justify-content-center extra-very-small-screen">
-                    <h1 class="text-dark-gray alt-font ls-minus-1px fw-700 mb-20px">{{ $titleBlocco[\App::getLocale()] }}</h1>
-                    <h2 class="d-inline-block fw-400 ls-0px w-80 xs-w-100 mx-auto">{!! $descriptionBlocco[\App::getLocale()] !!}</h2>
-                </div>
+        <div class="row justify-content-center mb-2">
+            <div class="col-xl-12 col-lg-9 col-md-10 text-center" data-anime='{ "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px bg-solitude-blue d-inline-flex">{{ $titleBlocco[\App::getLocale()] }}</span>
+                <p>{!! $descriptionBlocco[\App::getLocale()] !!}</p>
             </div>
         </div>
     </div>
-</section>
+
+
 @endif
 
-<section class="block-grids style-{{ $item->style }}" id="block-grids-{{ $item->id }}" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
+
     <div class="{{ $item->fullwidth }}">
         <div class="row">
             <div class="col-12 filter-content">
@@ -148,25 +150,19 @@
                                                 @if($url != "#")
                                             </a>
                                         @endif
-
-                                        <div class="blog-categories" style="margin-right: 95%;">
-                                            <span class="categories-btn text-uppercase alt-font fw-600 fs-24 lh-26" style="align:left; font-size: 14px!important; background-color: {!! $value->bgcolor !!}; color: {!! $value->txtcolor !!};">{{ $text_etichetta[\App::getLocale()] }}</span>
-                                        </div>
-
-                                        <!-- If PDF exist -->
-                                        @if(trim($value->file) != "" || $value->file)
-                                            <div class="blog-categories">
-                                                <a href="{{ $value->file }}" target="_blank" class="categories-btn bg-white text-dark-gray text-dark-gray-hover text-uppercase alt-font fw-700">
-                                                    <span><i class="far fa-file-pdf"></i> {{ @$labels['pdf-download'] }}</span>
-                                                </a>
-                                            </div>
-                                        @endif
                                     </div>
 
                                     <div class="portfolio-caption pt-30px pb-30px lg-pt-20px lg-pb-20px" style="padding-left: 20px; padding-right: 20px;">
-                                        <div class="blog-categories">
-                                            <span class="categories-btn text-uppercase alt-font fw-700" style="font-size: 16px!important; margin-bottom: 8px; background-color: {!! $value->bgcolor !!}; color: {!! $value->txtcolor !!};">{{ $text_etichetta[\App::getLocale()] }}</span>
-                                        </div>
+
+                                        @if(trim(json_decode($value->text_etichetta, true)[\App::getLocale()] ?? '') !== '')
+                                            <div class="blog-categories">
+                                                    <span class="categories-btn text-uppercase alt-font fw-700"
+                                                          style="background-color: {{ $value->bgcolor }};
+                                                                 color: {{ $value->txtcolor }};">
+                                                        {{ json_decode($value->text_etichetta, true)[\App::getLocale()] }}
+                                                    </span>
+                                            </div>
+                                        @endif
 
                                         <div class="fw-600 fs-18 lh-30 text-uppercase" style="color: {{ $item->title_color }}!important;">{{ $title[\App::getLocale()] }}</div>
                                         <span>{!! $description[\App::getLocale()] !!}</span>

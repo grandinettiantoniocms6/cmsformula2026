@@ -1,8 +1,5 @@
 <?php $website = \App\Models\WebsiteSetting::first(); ?>
 
-<section class="bg-very-light-gray pt-5 pb-5" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-    <div class="{{ $item->fullwidth }}">
-
                 @if($array)
                     <?php $i = 1;?>
                 @foreach($array as $value)
@@ -116,6 +113,8 @@
                         // fine thumb
 
                         ?>
+<section class="pt-5 pb-5" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }' style="background-color: {{ $value->bgcolor }};">
+    <div class="{{ $item->fullwidth }}">
 
                 <div class="row align-items-center justify-content-md-center g-xl-0 g-1" style="padding-bottom: {{ $item->pb }}px;">
                             @if($perc == 0)
