@@ -157,7 +157,7 @@ class BlockGridCrudController extends CrudController
 
             }
 
-                            // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
+                            // CAMPI VISUALIZZATI SOLO CON IL TEMA CREFTO //////////////////
                             if(env('TEMA') == 'Crafto' ) {
 
                                 $this->crud->addField([   // repeatable

@@ -544,6 +544,26 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     }
                     break;
 
+                case "blockDocumentConf":
+                    $fields = ["title",'description'];
+                    $fields_types = ["text", "content"];
+                    $fields_label = ["Titolo", "Riassunto"];
+
+                    if(count($parameters)) {
+                        $item = BlockDocument::find($item_id);
+                    }
+                    break;
+
+                case "blockMetroxConf":
+                    $fields = ["title",'description'];
+                    $fields_types = ["text", "content"];
+                    $fields_label = ["Titolo", "Riassunto"];
+
+                    if(count($parameters)) {
+                        $item = BlockMetrox::find($item_id);
+                    }
+                    break;
+
 
     // Fine dei nuovi case stampa tit e descr lato front
 
@@ -1170,9 +1190,18 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockHightlightConf":
                 $fields = ["title", "description"];
                 break;
+            case "blockDocumentConf":
+                $fields = ["title", "description"];
+                break;
+            case "blockMetroxConf":
+                $fields = ["title", "description"];
+                break;
 
 
 
+
+
+            // END di XCONF2
 
 
             case "blockHtml":

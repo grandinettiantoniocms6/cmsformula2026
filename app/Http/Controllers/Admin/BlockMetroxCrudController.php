@@ -159,6 +159,21 @@ class BlockMetroxCrudController extends CrudController
                 'wrapper' => ['class' => 'form-group col-md-6']
             ]);
 
+            /* per non fare una migration ho usato questa tabella 'color_button' non utilizzata dal blocco
+            ma non lo uso in quanto non funziona bene su questo blocco
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'color_button',
+                'label' => 'Colore sfondo section',
+                'type'  => 'color_picker2',
+                'default' => null,
+                // optional
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-12']
+            ]);
+
+            */
+
 
             /* FINE degli input che vedo quando modifica il nome del blocco - gli input tecnici no moltiligua */
 
@@ -253,6 +268,12 @@ class BlockMetroxCrudController extends CrudController
          * - CRUD::field('price')->type('number');
          * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
+
+        // aggiungo qui in caso di title in setting blocco per aver il titolo multilang
+        $trans = new AdminLanguageController();
+        $trans->fields_lang("blockMetroxConf", $this->crud);
+
+
     }
 
     /**
@@ -293,6 +314,7 @@ class BlockMetroxCrudController extends CrudController
             $this->crud->entry->fullwidth = $request->get('fullwidth');
             $this->crud->entry->style = $request->get('style');
             $this->crud->entry->mt = $request->get('mt');
+            //$this->crud->entry->color_button = $request->get('color_button');
             $this->crud->entry->save();
         }
 
