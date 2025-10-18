@@ -1,3 +1,28 @@
+<?php
+$website = \App\Models\WebsiteSetting::first();
+$labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
+
+$titleBlocco = json_decode($item->title, true);
+if($titleBlocco){
+    if(!key_exists(\App::getLocale(), $titleBlocco)){
+        $titleBlocco[\App::getLocale()] = "";
+    }
+}else{
+    $titleBlocco[\App::getLocale()] = "";
+}
+
+$descriptionBlocco = json_decode($item->description, true);
+if($descriptionBlocco){
+    if(!key_exists(\App::getLocale(), $descriptionBlocco)){
+        $descriptionBlocco[\App::getLocale()] = "";
+    }
+}else{
+    $descriptionBlocco[\App::getLocale()] = "";
+}
+
+?>
+
+
 <section class="block-faq mt-3" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <h3 class="title" data-anime='{ "translateX": [0, 0], "opacity": [0,1], "duration": 600, "delay":150, "staggervalue": 150, "easing": "easeOutQuad" }'>{{ $item->name }}</h3>

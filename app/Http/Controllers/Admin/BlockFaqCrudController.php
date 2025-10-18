@@ -176,6 +176,14 @@ class BlockFaqCrudController extends CrudController
                 ]);
             }
         }
+
+
+        // aggiungo qui in caso di title in setting blocco per aver il titolo multilang
+        $trans = new AdminLanguageController();
+        $trans->fields_lang("blockFaqConf", $this->crud);
+
+
+
     }
 
     /**

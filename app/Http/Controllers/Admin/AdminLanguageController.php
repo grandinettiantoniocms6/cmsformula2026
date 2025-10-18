@@ -564,6 +564,19 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     }
                     break;
 
+                case "blockFaqConf":
+                    $fields = ["title",'description'];
+                    $fields_types = ["text", "content"];
+                    $fields_label = ["Titolo", "Riassunto"];
+
+                    if(count($parameters)) {
+                        $item = BlockFaq::find($item_id);
+                    }
+                    break;
+
+
+
+
 
     // Fine dei nuovi case stampa tit e descr lato front
 
@@ -1194,6 +1207,9 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 $fields = ["title", "description"];
                 break;
             case "blockMetroxConf":
+                $fields = ["title", "description"];
+                break;
+            case "blockFaqConf":
                 $fields = ["title", "description"];
                 break;
 
