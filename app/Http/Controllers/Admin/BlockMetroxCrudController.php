@@ -125,17 +125,24 @@ class BlockMetroxCrudController extends CrudController
             ]);
 
             $this->crud->addField([   // repeatable
-                'name'  => 'mt',
-                'label' => 'Margin-top: Impostare un valore da 0 a max 120 (Es: 10, 20, 30 eccetera - 0 nessun margine)',
+                'name'  => 'pt',
+                'label' => 'Altezza sezione: Impostare un valore da 1 a 10',
                 'type'  => 'text',
-                'wrapper' => ['class' => 'form-group col-md-6']
+                'wrapper' => ['class' => 'form-group col-md-4']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'mt',
+                'label' => 'Margin-top: Impostare un valore da 0 a max 100',
+                'type'  => 'text',
+                'wrapper' => ['class' => 'form-group col-md-4']
             ]);
 
             $this->crud->addField([   // repeatable
                 'name'  => 'pd',
-                'label' => 'Padding: Impostare un valore da 10 a max 200 per creare uno spazio lungo i 4 lati',
+                'label' => 'Padding: Impostare un valore da 10 a max 150',
                 'type'  => 'text',
-                'wrapper' => ['class' => 'form-group col-md-6']
+                'wrapper' => ['class' => 'form-group col-md-4']
             ]);
 
             $this->crud->addField([   // select_from_array
@@ -314,6 +321,7 @@ class BlockMetroxCrudController extends CrudController
             $this->crud->entry->fullwidth = $request->get('fullwidth');
             $this->crud->entry->style = $request->get('style');
             $this->crud->entry->mt = $request->get('mt');
+            $this->crud->entry->pt = $request->get('pt');
             //$this->crud->entry->color_button = $request->get('color_button');
             $this->crud->entry->save();
         }

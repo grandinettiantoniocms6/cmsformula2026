@@ -124,7 +124,7 @@
                         <div class="col-xl-5 offset-xl-1 col-lg-6 text-center text-lg-start" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 150, "staggervalue": 300, "easing": "easeOutQuad" }'>
 
                             <!-- span sopra title -->
-                            <span class="pe-25px mb-20px text-uppercase text-base-color fs-14 lh-42px fw-700 border-radius-100px bg-gradient-very-light-gray-transparent d-inline-block">
+                            <span class="pe-25px mb-20px text-uppercase text-base-color fs-14 lh-42px fw-700 border-radius-100px d-inline-block" style="background-color: {{ $website->color_gen2 }};">
                                 <div class="feature-box feature-box-left-icon-middle">
                                         <div class="feature-box-icon me-15px">
                                             @if(trim($value->icon) != "")
@@ -140,7 +140,7 @@
                             </span>
 
                             @if(trim($title[\App::getLocale()])!="")
-                                <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-0px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
+                                <span style="background-color: {{ $website->color_gen2 }}; color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px ls-minus-0px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></span>
                             @endif
 
                             <div class="row row-cols-1" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
@@ -198,7 +198,7 @@
                         <div class="col-xl-5 offset-xl-1 col-lg-6 text-center text-lg-start" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 150, "staggervalue": 300, "easing": "easeOutQuad" }'>
 
                             @if(trim($title[\App::getLocale()])!="")
-                                <h3 style="color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px text-dark-gray ls-minus-0px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></h3>
+                                <span style="background-color: {{ $website->color_gen2 }}; color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px ls-minus-0px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></span>
                             @endif
 
                             <div class="row row-cols-1" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
