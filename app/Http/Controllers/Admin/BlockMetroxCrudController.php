@@ -128,6 +128,7 @@ class BlockMetroxCrudController extends CrudController
                 'name'  => 'pt',
                 'label' => 'Altezza sezione: Impostare un valore da 1 a 10',
                 'type'  => 'text',
+                'default'     => 5,
                 'wrapper' => ['class' => 'form-group col-md-4']
             ]);
 

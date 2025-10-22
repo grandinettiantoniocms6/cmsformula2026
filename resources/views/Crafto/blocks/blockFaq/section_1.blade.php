@@ -29,7 +29,7 @@ if($descriptionBlocco){
         <div class="container">
             <div class="row justify-content-center mb-2">
                 <div class="col-xl-12 col-lg-9 col-md-10 text-center" data-anime='{ "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                    <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px bg-solitude-blue d-inline-flex">{{ $titleBlocco[\App::getLocale()] }}</span>
+                    <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" style="background-color: {{ $website->color_gen2 }};">{{ $titleBlocco[\App::getLocale()] }}</span>
                     <p>{!! $descriptionBlocco[\App::getLocale()] !!}</p>
                 </div>
             </div>

@@ -145,8 +145,8 @@ if($descriptionBlocco){
                     <!-- Secondo blocco -->
 
                     <div class="col-md-auto col-lg-6 order-2 order-lg-1" style="padding:{{ $item->pd }}px; background-color: {{ $value->bg_color }};" data-anime='{"translateX": [50, 0], "opacity": [1,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                        <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" style="font-size: {{ $value->h_title }}px; background-color: {{ $website->color_gen2 }}; color: {{ $value->color_title }};">{{ $title[\App::getLocale()] }}</span>
-                        <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" style="font-size: {{ $value->h_subtitle }}px; background-color: {{ $website->color_gen2 }}; color: {{ $value->color_subtitle }};">{{ $subtitle[\App::getLocale()] }}</span>
+                        <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" style="background-color: {{ $website->color_gen2 }}; font-size: {{ $value->h_title }}px; color: {{ $value->color_title }};">{{ $title[\App::getLocale()] }}</span>
+                        <p style="font-size: {{ $value->h_subtitle }}px; color: {{ $value->color_subtitle }};">{{ $subtitle[\App::getLocale()] }}</p>
                         <div class="description">{!! $description[\App::getLocale()] !!}</div>
                         @if(trim($button[\App::getLocale()])!="")
                             <a target="{{ $type_href }}" class="btn btn-large btn-dark-gray btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" href="{{ $url }}">
@@ -180,8 +180,8 @@ if($descriptionBlocco){
                         @endif
 
                             <div class="col-md-auto col-lg-6" style="padding:{{ $item->pd }}px; background-color: {{ $value->bg_color }};" data-anime='{"translateX": [50, 0], "opacity": [1,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" style="font-size: {{ $value->h_title }}px; background-color: {{ $website->color_gen2 }}; color: {{ $value->color_title }};">{{ $title[\App::getLocale()] }}</span>
-                                <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" style="font-size: {{ $value->h_subtitle }}px; ackground-color: {{ $website->color_gen2 }}; color: {{ $value->color_subtitle }};">{{ $subtitle[\App::getLocale()] }}</span>
+                                <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" style="background-color: {{ $website->color_gen2 }}; font-size: {{ $value->h_title }}px; color: {{ $value->color_title }};">{{ $title[\App::getLocale()] }}</span>
+                                <p style="font-size: {{ $value->h_subtitle }}px; color: {{ $value->color_subtitle }};">{{ $subtitle[\App::getLocale()] }}</p>
                                 <div class="description">{!! $description[\App::getLocale()] !!}</div>
 
                                 @if(trim($button[\App::getLocale()])!="")
