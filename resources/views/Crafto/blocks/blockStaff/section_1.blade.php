@@ -1,7 +1,43 @@
-<?php $website = \App\Models\WebsiteSetting::first(); ?>
+<?php
+$website = \App\Models\WebsiteSetting::first();
+
+$titleBlocco = json_decode($item->title, true);
+if($titleBlocco){
+    if(!key_exists(\App::getLocale(), $titleBlocco)){
+        $titleBlocco[\App::getLocale()] = "";
+    }
+}else{
+    $titleBlocco[\App::getLocale()] = "";
+}
+
+$descriptionBlocco = json_decode($item->description, true);
+if($descriptionBlocco){
+    if(!key_exists(\App::getLocale(), $descriptionBlocco)){
+        $descriptionBlocco[\App::getLocale()] = "";
+    }
+}else{
+    $descriptionBlocco[\App::getLocale()] = "";
+}
+
+?>
+
+<section class="pt-5 pb-1" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }' >
+    <div class="{{ $item->fullwidth }}">
+        <div class="row justify-content-center mb-4">
+            @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
+                <div class="col-12 col-lg-12 text-center" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                    <span class="ps-25px pe-25px mb-15px text-uppercase text-dark-gray text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" style="background-color: {{ $website->color_gen2 }}; color: {{ $website->color_gen3 }}!important;" >{{ $titleBlocco[\App::getLocale()] }}</span>
+                    <p>{!! $descriptionBlocco[\App::getLocale()] !!} </p>
+                </div>
+            @endif
+        </div>
+    </div>
+</section>
+
 
 <section class="bg-very-light-gray background-position-center-top sm-background-image-none block-staff" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
+
         <div class="row row-cols-1 row-cols-lg-3 row-cols-sm-2" data-anime='{ "el": "childs", "translateX": [-50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
         @if($array)

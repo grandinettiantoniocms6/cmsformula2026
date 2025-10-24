@@ -482,7 +482,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
 
 
     // XCONF1 QUI creo i vari case per avere titolo e descrizione nei "CONF" dei blocchi dove mi serve tit e desc multilingua lato front
-    // quando cambio il nome del blocco nella parte evidenziata in giallo, devo poi selezionare: App/Model
+    // quando cambio il nome del blocco devo poi selezionare: App/Model
 
                 case "blockIconConf":
                     $fields = ["title", 'description'];
@@ -571,6 +571,16 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
 
                     if(count($parameters)) {
                         $item = BlockFaq::find($item_id);
+                    }
+                    break;
+
+                case "blockStaffConf":
+                    $fields = ["title",'description'];
+                    $fields_types = ["text", "content"];
+                    $fields_label = ["Titolo", "Riassunto"];
+
+                    if(count($parameters)) {
+                        $item = BlockStaff::find($item_id);
                     }
                     break;
 
@@ -1212,6 +1222,10 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockFaqConf":
                 $fields = ["title", "description"];
                 break;
+            case "blockStaffConf":
+                $fields = ["title", "description"];
+                break;
+
 
 
 
@@ -1303,7 +1317,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 $fields = ["title",'description','date'];
                 break;
             case "blockStaff":
-                $fields = ['name_surname','role','phone','email','social_1','url_1','social_2','url_2','social_3','url_3','social_4','url_4','url_interno','url','button'];
+                $fields = ["title", "description",'name_surname','role','phone','email','social_1','url_1','social_2','url_2','social_3','url_3','social_4','url_4','url_interno','url','button'];
                 break;
             case "blockContactgmap":
                 $fields = ['subtitle','title','description','description2'];

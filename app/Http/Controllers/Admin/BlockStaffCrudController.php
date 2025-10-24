@@ -295,11 +295,19 @@ class BlockStaffCrudController extends CrudController
             }
         }
 
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
          * - CRUD::addField(['name' => 'price', 'type' => 'number']));
          */
+
+
+        // aggiungo qui in caso di title in setting blocco per aver il titolo multilang
+        $trans = new AdminLanguageController();
+        $trans->fields_lang("blockStaffConf", $this->crud);
+
+
     }
 
     /**
