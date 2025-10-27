@@ -20,7 +20,7 @@
             <!-- elFinder translation (OPTIONAL) -->
             <script src="<?= asset($dir."/js/i18n/elfinder.$locale.js") ?>"></script>
         <?php } ?>
-        
+
         <!-- elFinder initialization (REQUIRED) -->
         <script type="text/javascript" charset="utf-8">
             // Helper function to get parameters from the query string.
@@ -40,13 +40,23 @@
                     <?php if ($locale) { ?>
                         lang: '<?= $locale ?>', // locale
                     <?php } ?>
-                    customData: { 
+                    customData: {
                         _token: '<?= csrf_token() ?>'
                     },
                     url: '<?= route('elfinder.connector') ?>',  // connector URL
                     soundPath: '<?= asset($dir.'/sounds') ?>',
-                    getFileCallback : function(file) {
-                        window.opener.CKEDITOR.tools.callFunction(funcNum, file.url);
+                    getFileCallback: function (file) {
+                        // NON usare url.replace('//','/') perché rompe https://
+                        try {
+                            // Normalizza in modo sicuro SOLO il path
+                            var u = new URL(file.url, window.location.origin);
+                            u.pathname = u.pathname.replace('/s/', '/'); // <-- rimuove il segmento incriminato
+                            window.opener.CKEDITOR.tools.callFunction({{ $funcNum ?? '0' }}, u.toString());
+                        } catch (e) {
+                            // fallback “best effort”
+                            var safe = String(file.url || '').replace('/s/', '/');
+                            window.opener.CKEDITOR.tools.callFunction({{ $funcNum ?? '0' }}, safe);
+                        }
                         window.close();
                     },
                     themes: {
