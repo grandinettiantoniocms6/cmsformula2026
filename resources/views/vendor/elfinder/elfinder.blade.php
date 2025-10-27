@@ -64,9 +64,15 @@
 
                         // se è un file (non cartella), apri con URL ripulito
                         if (file && file.mime !== 'directory') {
+                            alert('⚡ Override OPEN attivo! File: ' + (file.name || ''));
+
                             var url = file.url || fm.url(file.hash) || file.path || '';
-                            window.open(normalizeUrl(url), '_blank');
-                            // risolvi subito per non far proseguire l'open originale
+                            alert('URL originale: ' + url);
+
+                            url = normalizeUrl(url);
+                            alert('URL pulito: ' + url);
+
+                            window.open(url, '_blank');
                             return $.Deferred().resolve();
                         }
 
