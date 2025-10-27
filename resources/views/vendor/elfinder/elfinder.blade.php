@@ -7,13 +7,18 @@
 
     <script>
         (function($){
+            // normalizza: 1) // -> / (senza toccare http://)  2) /uploads/s/ -> /uploads/
             function normalizeUrl(u){
                 if (!u) return '';
-                // 1. collassa // in / (tranne in http://)
                 u = u.replace(/([^:]\/)\/+/g, '$1');
-                // 2. rimuovi /s/ se appare dopo /uploads/
                 u = u.replace(/\/uploads\/s\//, '/uploads/');
                 return u;
+            }
+            // leggi parametri query (serve CKEditorFuncNum)
+            function getUrlParam(paramName) {
+                var re = new RegExp('[?&]' + paramName + '=([^&]+)');
+                var match = window.location.search.match(re);
+                return match ? decodeURIComponent(match[1]) : null;
             }
 
             $(function(){
@@ -27,13 +32,24 @@
                     theme: 'default',
                     soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
 
-                    // se usi "Scegli" altrove
+                    // <<< OVERRIDE per CKEditor + doppio click
                     getFileCallback: function(file, fm){
                         var url = file && (file.url || fm.url(file.hash) || file.path || '');
-                        window.open(normalizeUrl(url), '_blank');
-                    },
-                    commandsOptions: { getfile: { oncomplete: 'open' } },
+                        url = normalizeUrl(url);
 
+                        // se la finestra è stata aperta da CKEditor, rimanda l'URL pulito
+                        var funcNum = getUrlParam('CKEditorFuncNum');
+                        if (window.opener && window.opener.CKEDITOR && funcNum) {
+                            window.opener.CKEDITOR.tools.callFunction(funcNum, url);
+                            window.close();
+                        } else {
+                            // fallback: apri in nuova tab
+                            window.open(url, '_blank');
+                        }
+                    },
+                    commandsOptions: { getfile: { oncomplete: 'close' } },
+
+                    // ripulisci anche subito dopo upload e all'apertura cartelle
                     handlers: {
                         upload: function(ev, fm){
                             var added = (ev.data && ev.data.added) || [];
@@ -50,47 +66,13 @@
                     }
                 });
 
+                // patcha anche fm.url() per sicurezza
                 var fm = $node.elfinder('instance');
-
-                // Patch fm.url() -> sempre URL normalizzato
-                var _url = fm.url;
-                fm.url = function(hash){
-                    return normalizeUrl(_url.call(fm, hash));
-                };
-
-                // ✅ Override del comando "open" per i file (non directory)
-                var openCmd = fm.getCommand('open');
-                if (openCmd) {
-                    var origExec = openCmd.exec;
-                    openCmd.exec = function(hashes, opts){
-                        hashes = hashes && hashes.length ? hashes : fm.selected();
-                        var file = hashes && hashes.length ? fm.file(hashes[0]) : null;
-
-                        // se è un file (non cartella), apri con URL ripulito
-                        if (file && file.mime !== 'directory') {
-                            alert('⚡ Override OPEN attivo! File: ' + (file.name || ''));
-
-                            var url = file.url || fm.url(file.hash) || file.path || '';
-                            alert('URL originale: ' + url);
-
-                            url = normalizeUrl(url);
-                            alert('URL pulito: ' + url);
-
-                            window.open(url, '_blank');
-                            return $.Deferred().resolve();
-                        }
-
-                        // altrimenti comportamento standard (aprire cartelle)
-                        return origExec.call(this, hashes, opts);
-                    };
+                if (fm) {
+                    var _url = fm.url;
+                    fm.url = function(hash){ return normalizeUrl(_url.call(fm, hash)); };
+                    fm.bind('url', function(e){ if (e.data && e.data.url) e.data.url = normalizeUrl(e.data.url); });
                 }
-
-                // In più, normalizza qualsiasi URL emesso dall'evento 'url'
-                fm.bind('url', function(e){
-                    if (e && e.data && e.data.url) {
-                        e.data.url = normalizeUrl(e.data.url);
-                    }
-                });
             });
         })(jQuery);
     </script>
