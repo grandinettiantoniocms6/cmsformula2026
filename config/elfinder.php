@@ -10,7 +10,7 @@ return [
     | The dir where to store the images (relative from public).
     |
     */
-    'dir' => [],
+    'dir' => [],  // <— NON usare 'dir' se usi i dischi
 
     /*
     |--------------------------------------------------------------------------
@@ -26,10 +26,6 @@ return [
     |    ]
     */
     'disks' => [
-        'uploads' => [
-            'alias' => 'uploads',   // nome mostrato a sinistra
-            'URL'   => '/uploads',  // URL esplicito (evita slash finali)
-        ],
     ],
 
     /*
@@ -67,7 +63,22 @@ return [
     |
     */
 
-    'roots' => null,
+    'roots' => [[
+        'driver'        => 'LocalFileSystem',
+        'alias'         => 'uploads',
+        'path'          => public_path('uploads'),
+        'URL'           => '/uploads',     // niente slash finale -> niente “//”
+        'accessControl' => 'Barryvdh\Elfinder\Elfinder::checkAccess',
+        'tmbPath'       => 'tmb',          // relative alla root => public/uploads/tmb
+        // opzionale: nascondi la cartella tmb nell’interfaccia
+        'attributes'    => [[
+            'pattern' => '/^tmb$/',
+            'read'    => false,
+            'write'   => false,
+            'hidden'  => true,
+            'lock'    => true,
+        ]],
+    ]],
 
     /*
     |--------------------------------------------------------------------------
@@ -79,18 +90,14 @@ return [
     |
     */
     'options' => [
-        'imgLib'  => 'gd',   // o 'imagick' se ce l’hai
-        'tmbSize' => 140,    // opzionale: grandezza thumb
+        'imgLib'  => 'gd',   // o 'imagick'
+        'tmbSize' => 140,
     ],
 
     'root_options' => [
-        // salva le thumbs in /public/uploads/.tmb (cartella nascosta)
-        'tmbPath' => '.tmb',
-        // e dillo anche come URL pubblico (così può servirle via file)
-        'tmbURL'  => '/uploads/.tmb',
-        // nascondi la cartella .tmb dall’interfaccia
+        'tmbPath' => storage_path('app/elfinder-tmb'),
         'attributes' => [[
-            'pattern' => '/^\.tmb$/',
+            'pattern' => '/^tmb$/',
             'read'    => false,
             'write'   => false,
             'hidden'  => true,
