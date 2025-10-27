@@ -10,7 +10,7 @@ return [
     | The dir where to store the images (relative from public).
     |
     */
-    'dir' => ['uploads'],
+    'dir' => [],
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,10 @@ return [
     |    ]
     */
     'disks' => [
-        // 'uploads',
+        'uploads' => [
+            'alias' => 'uploads',   // nome mostrato a sinistra
+            'URL'   => '/uploads',  // URL esplicito (evita slash finali)
+        ],
     ],
 
     /*
@@ -75,21 +78,23 @@ return [
     | See https://github.com/Studio-42/elFinder/wiki/Connector-configuration-options-2.1
     |
     */
-
     'options' => [
-        "tmbPath" => "tmb"
+        'imgLib'  => 'gd',   // o 'imagick' se ce l’hai
+        'tmbSize' => 140,    // opzionale: grandezza thumb
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Root Options
-    |--------------------------------------------------------------------------
-    |
-    | These options are merged, together with every root by default.
-    | See https://github.com/Studio-42/elFinder/wiki/Connector-configuration-options-2.1#root-options
-    |
-    */
     'root_options' => [
-        "tmbPath" => "tmb"
+        // salva le thumbs in /public/uploads/.tmb (cartella nascosta)
+        'tmbPath' => '.tmb',
+        // e dillo anche come URL pubblico (così può servirle via file)
+        'tmbURL'  => '/uploads/.tmb',
+        // nascondi la cartella .tmb dall’interfaccia
+        'attributes' => [[
+            'pattern' => '/^\.tmb$/',
+            'read'    => false,
+            'write'   => false,
+            'hidden'  => true,
+            'lock'    => true,
+        ]],
     ],
 ];

@@ -696,9 +696,6 @@ class PluginProducts extends Model
                 if($promotions){
                     foreach ($promotions as $promo){
                         if ($promo->discount_type == "Amount") {
-                            /*if(env('VIEW_WITH_IVA') == 1){
-                                $priceStart = round($this->price + (($this->price * $this->tax->value)/100),2);
-                            }*/
                             $priceStart = round($this->getFinalPrice(),2);
 
                             $priceStart = $priceStart - $promo->reduction;
@@ -717,10 +714,6 @@ class PluginProducts extends Model
                 if (count($promotions)) {
                     foreach ($promotions as $promo) {
                         if ($promo->discount_type == "Amount") {
-                            /*if(env('VIEW_WITH_IVA') == 1){
-                                $priceStart = round($this->price + (($this->price * $this->tax->value)/100),2);
-                            }*/
-
                             $priceStart = round($this->getFinalPrice(),2);
                             $priceStart = $priceStart - $promo->reduction;
                         } else {
@@ -732,12 +725,8 @@ class PluginProducts extends Model
 
             if($piuiva){
                 $finalPrice = ($priceStart + (($priceStart * $this->tax->value)/100));
-                $finalPrice = $this->clear_price_centesimi($finalPrice);
-
                 return $finalPrice;
             }
-
-            $priceStart = $this->clear_price_centesimi($priceStart);
 
             return $priceStart;
         }
@@ -749,23 +738,17 @@ class PluginProducts extends Model
             if($now_base->gt($data_start) && $now_base->lt($data_end)){
                 if($piuiva){
                     $finalPrice = ($this->promo_price + (($this->promo_price * $this->tax->value)/100));
-                    $finalPrice = $this->clear_price_centesimi($finalPrice);
                     return $finalPrice;
                 }
 
-                $this->promo_price = $this->clear_price_centesimi($this->promo_price);
                 return $this->promo_price;
             }
         }
 
         if($piuiva){
             $finalPrice = ($priceStart + (($priceStart * $this->tax->value)/100));
-            $finalPrice = $this->clear_price_centesimi($finalPrice);
             return $finalPrice;
         }
-
-        $priceStart = $this->clear_price_centesimi($priceStart);
-
         return $priceStart;
     }
 
@@ -831,9 +814,6 @@ class PluginProducts extends Model
                 if($promotions){
                     foreach ($promotions as $promo){
                         if ($promo->discount_type == "Amount") {
-                            /*if(env('VIEW_WITH_IVA') == 1){
-                                $priceStart = round($this->price + (($this->price * $this->tax->value)/100),2);
-                            }*/
                             $priceStart = round($this->getFinalPrice(),2);
 
                             $priceStart = $priceStart - $promo->reduction;
@@ -844,6 +824,8 @@ class PluginProducts extends Model
                 }
             }
 
+
+
             if($this->brand_id !== null) {
                 $promotions = Promotion::where("brand_id", $this->brand_id)
                     ->whereNull("category_id")
@@ -852,10 +834,6 @@ class PluginProducts extends Model
                 if (count($promotions)) {
                     foreach ($promotions as $promo) {
                         if ($promo->discount_type == "Amount") {
-                            /*if(env('VIEW_WITH_IVA') == 1){
-                                $priceStart = round($this->price + (($this->price * $this->tax->value)/100),2);
-                            }*/
-
                             $priceStart = round($this->getFinalPrice(),2);
                             $priceStart = $priceStart - $promo->reduction;
                         } else {
@@ -867,12 +845,8 @@ class PluginProducts extends Model
 
             if($piuiva){
                 $finalPrice = ($priceStart + (($priceStart * $this->tax->value)/100));
-                $finalPrice = $this->clear_price_centesimi($finalPrice);
-
                 return $finalPrice;
             }
-
-            $priceStart = $this->clear_price_centesimi($priceStart);
 
             return $priceStart;
         }
@@ -884,43 +858,25 @@ class PluginProducts extends Model
             if($now_base->gt($data_start) && $now_base->lt($data_end)){
                 if($piuiva){
                     $finalPrice = ($this->promo_price + (($this->promo_price * $this->tax->value)/100));
-                    $finalPrice = $this->clear_price_centesimi($finalPrice);
                     return $finalPrice;
                 }
 
-                $this->promo_price = $this->clear_price_centesimi($this->promo_price);
                 return $this->promo_price;
             }
         }
 
         if($piuiva){
-            $finalPrice = ($priceStart + (($priceStart * $this->tax->value)/100));
-            $finalPrice = $this->clear_price_centesimi($finalPrice);
+            $finalPrice = (float) bcadd(
+                $priceStart,
+                bcdiv(bcmul($priceStart, $this->tax->value, 4), '100', 4),
+                2 // <-- arrotonda a 2 decimali
+            );
+
+            //$finalPrice = ($priceStart + (($priceStart * $this->tax->value)/100));
             return $finalPrice;
         }
 
-        $priceStart = $this->clear_price_centesimi($priceStart);
-
         return $priceStart;
-    }
-
-    public function clear_price_centesimi($price){
-        /*$temp_strlen = explode(".", $price);
-        if(key_exists(1, $temp_strlen)){
-            $strlen = strlen($temp_strlen[1]);
-
-            if($strlen == 4){
-                $temp_strlen[1] = substr($temp_strlen[1], 0, 2);
-                return (float) "$temp_strlen[0].$temp_strlen[1]";
-            }
-
-            if($strlen == 3){
-                $temp_strlen[1] = substr($temp_strlen[1], 0, 1);
-                return (float) "$temp_strlen[0].$temp_strlen[1]";
-            }
-        }*/
-
-        return $price;
     }
 
     public function get_vet_ids($shopSetting){

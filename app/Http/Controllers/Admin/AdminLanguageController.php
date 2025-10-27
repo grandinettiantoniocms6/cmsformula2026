@@ -1371,7 +1371,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 $fields = ['name','slug'];
                 break;
             case "pluginProductsCategories":
-                $fields = ['name','slug','description'];
+                $fields = ['name','slug','description','meta_description'];
                 break;
             case "pluginProductsSettings":
                 $fields = ["title", "subtitle", "no_results", "label_qty_success", "label_qty_error", "message_info_list_products"];

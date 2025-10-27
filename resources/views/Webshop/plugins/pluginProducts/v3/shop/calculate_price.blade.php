@@ -34,9 +34,9 @@
             $vat = $figlio_first->tax ? $figlio_first->tax->value : 22;
             $vat_calculate = ($vat / 100) + 1;
             if(env('VIEW_WITH_IVA') == 1){
-                $a_partire_da_price = $p_temp->clear_price_centesimi($figlio_first->price * $vat_calculate);
+                $a_partire_da_price = $figlio_first->price * $vat_calculate;
             }else{
-                $a_partire_da_price = $p_temp->clear_price_centesimi($figlio_first->price);
+                $a_partire_da_price = $figlio_first->price;
             }
         ?>
         <ins class="new-price">A partire da {!! $symbol !!} {{ number_format($a_partire_da_price, 2, ",", ".") }}</ins>
@@ -52,10 +52,10 @@
             @if(env('VIEW_WITH_IVA') == 1)
                 <div class="prices">
                     @if($start_price != $promo_price)
-                        <ins class="new-price">{!! $symbol !!} {{ number_format($p_temp->clear_price_centesimi($promo_price * $vat_calculate), 2, ",", ".") }}</ins>
-                        <del class="old-price">{!! $symbol !!} {{ number_format($p_temp->clear_price_centesimi($start_price * $vat_calculate), 2, ",", ".") }}</del>
+                        <ins class="new-price">{!! $symbol !!} {{ number_format($promo_price * $vat_calculate, 2, ",", ".") }}</ins>
+                        <del class="old-price">{!! $symbol !!} {{ number_format($start_price * $vat_calculate, 2, ",", ".") }}</del>
                     @else
-                        <ins class="new-price">{!! $symbol !!} {{ number_format($p_temp->clear_price_centesimi($promo_price * $vat_calculate), 2, ",", ".") }}</ins>
+                        <ins class="new-price">{!! $symbol !!} {{ number_format($promo_price * $vat_calculate, 2, ",", ".") }}</ins>
                     @endif
                 </div>
                 @if($vat > 0)
@@ -64,10 +64,10 @@
             @else
                 <div class="prices">
                     @if($start_price != $promo_price)
-                        <ins class="new-price">{!! $symbol !!} {{ number_format($p_temp->clear_price_centesimi($promo_price), 2, ",", ".") }}</ins>
-                        <del class="old-price">{!! $symbol !!} {{ number_format($p_temp->clear_price_centesimi($start_price), 2, ",", ".") }}</del>
+                        <ins class="new-price">{!! $symbol !!} {{ number_format($promo_price, 2, ",", ".") }}</ins>
+                        <del class="old-price">{!! $symbol !!} {{ number_format($start_price, 2, ",", ".") }}</del>
                     @else
-                        <ins class="new-price">{!! $symbol !!} {{ number_format($p_temp->clear_price_centesimi($promo_price), 2, ",", ".") }}</ins>
+                        <ins class="new-price">{!! $symbol !!} {{ number_format($promo_price, 2, ",", ".") }}</ins>
                     @endif
                 </div>
                 <span class="vat">{{ @$labels['shop-label-iva-esclusa'] }}</span>
