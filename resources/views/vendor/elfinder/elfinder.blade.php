@@ -2,40 +2,95 @@
 
 @section('after_scripts')
 
-        @include('vendor.elfinder.common_scripts')
-        @include('vendor.elfinder.common_styles')
+    @include('vendor.elfinder.common_scripts')
+    @include('vendor.elfinder.common_styles')
 
-        <!-- elFinder initialization (REQUIRED) -->
-        <script type="text/javascript" charset="utf-8">
-            // Documentation for client options:
-            // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
-            $(document).ready(function() {
-                $('#elfinder').elfinder({
-                    // set your elFinder options here
-                    @if($locale)
-                        lang: '{{ $locale }}', // locale
-                    @endif
-                    customData: { 
-                        _token: '{{ csrf_token() }}'
-                    },
-                    uiOptions: {
-                        theme: 'smooth'  // tema fisso
-                    },
-                    url : '{{ route("elfinder.connector") }}',  // connector URL
-                    soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
-                    cssAutoLoad : false,
+    <script>
+        (function($){
+            function normalizeUrl(u){
+                // Collassa // in /, preservando http:// e https://
+                return (u || '').replace(/([^:]\/)\/+/g, '$1');
+            }
+
+            $(function(){
+                var $node = $('#elfinder').elfinder({
+                    @if($locale) lang: '{{ $locale }}', @endif
+                    url: '{{ route("elfinder.connector") }}',
+                    customData: { _token: '{{ csrf_token() }}' },
+                    uiOptions: { theme: 'smooth' },
+                    cssAutoLoad: false,
                     height: $(window).height() - 150,
-                    theme: 'default'
+                    theme: 'default',
+                    soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
+
+                    // se usi "Scegli" altrove
+                    getFileCallback: function(file, fm){
+                        var url = file && (file.url || fm.url(file.hash) || file.path || '');
+                        window.open(normalizeUrl(url), '_blank');
+                    },
+                    commandsOptions: { getfile: { oncomplete: 'open' } },
+
+                    handlers: {
+                        upload: function(ev, fm){
+                            var added = (ev.data && ev.data.added) || [];
+                            added.forEach(function(f){
+                                if (f.url)  f.url  = normalizeUrl(f.url);
+                                if (f.path) f.path = f.path.replace(/^\/+/, '');
+                            });
+                        },
+                        open: function(ev, fm){
+                            fm.files().forEach(function(f){
+                                if (f && f.url) f.url = normalizeUrl(f.url);
+                            });
+                        }
+                    }
+                });
+
+                var fm = $node.elfinder('instance');
+
+                // Patch fm.url() -> sempre URL normalizzato
+                var _url = fm.url;
+                fm.url = function(hash){
+                    return normalizeUrl(_url.call(fm, hash));
+                };
+
+                // ✅ Override del comando "open" per i file (non directory)
+                var openCmd = fm.getCommand('open');
+                if (openCmd) {
+                    var origExec = openCmd.exec;
+                    openCmd.exec = function(hashes, opts){
+                        hashes = hashes && hashes.length ? hashes : fm.selected();
+                        var file = hashes && hashes.length ? fm.file(hashes[0]) : null;
+
+                        // se è un file (non cartella), apri con URL ripulito
+                        if (file && file.mime !== 'directory') {
+                            var url = file.url || fm.url(file.hash) || file.path || '';
+                            window.open(normalizeUrl(url), '_blank');
+                            // risolvi subito per non far proseguire l'open originale
+                            return $.Deferred().resolve();
+                        }
+
+                        // altrimenti comportamento standard (aprire cartelle)
+                        return origExec.call(this, hashes, opts);
+                    };
+                }
+
+                // In più, normalizza qualsiasi URL emesso dall'evento 'url'
+                fm.bind('url', function(e){
+                    if (e && e.data && e.data.url) {
+                        e.data.url = normalizeUrl(e.data.url);
+                    }
                 });
             });
-        </script>
+        })(jQuery);
+    </script>
 @endsection
 
 @php
-  $breadcrumbs = [
-    trans('backpack::crud.admin') => url(config('backpack.base.route_prefix'), 'dashboard'),
-    trans('backpack::crud.file_manager') => false,
-  ];
+    $breadcrumbs = [
+      trans('backpack::crud.admin') => url(config('backpack.base.route_prefix'), 'dashboard'),
+      trans('backpack::crud.file_manager') => false,
+    ];
 @endphp
 
 @section('header')
@@ -45,6 +100,5 @@
 @endsection
 
 @section('content')
-        <!-- Element where elFinder will be created (REQUIRED) -->
-        <div id="elfinder"></div>
+    <div id="elfinder"></div>
 @endsection
