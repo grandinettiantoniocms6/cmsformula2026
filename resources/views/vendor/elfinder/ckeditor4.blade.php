@@ -30,7 +30,6 @@
                     url: '{{ route("elfinder.connector") }}',  // connector URL
                     soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
                         getFileCallback: function (file) {
-                            alert("aaa");
                             // NON usare url.replace('//','/') perché rompe https://
                             try {
                                 // Normalizza in modo sicuro SOLO il path
