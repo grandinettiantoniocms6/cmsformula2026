@@ -8,8 +8,12 @@
     <script>
         (function($){
             function normalizeUrl(u){
-                // Collassa // in /, preservando http:// e https://
-                return (u || '').replace(/([^:]\/)\/+/g, '$1');
+                if (!u) return '';
+                // 1. collassa // in / (tranne in http://)
+                u = u.replace(/([^:]\/)\/+/g, '$1');
+                // 2. rimuovi /s/ se appare dopo /uploads/
+                u = u.replace(/\/uploads\/s\//, '/uploads/');
+                return u;
             }
 
             $(function(){
