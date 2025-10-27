@@ -4,73 +4,53 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Upload dir
+    | Non usare 'dir' se usi roots/disks
     |--------------------------------------------------------------------------
-    |
-    | The dir where to store the images (relative from public).
-    |
     */
-    'dir' => [],  // <— NON usare 'dir' se usi i dischi
+    'dir' => [],
 
     /*
     |--------------------------------------------------------------------------
-    | Filesystem disks (Flysytem)
+    | Non usiamo i dischi qui (configuriamo una root esplicita)
     |--------------------------------------------------------------------------
-    |
-    | Define an array of Filesystem disks, which use Flysystem.
-    | You can set extra options, example:
-    |
-    | 'my-disk' => [
-    |        'URL' => url('to/disk'),
-    |        'alias' => 'Local storage',
-    |    ]
     */
-    'disks' => [
-    ],
+    'disks' => [],
 
     /*
     |--------------------------------------------------------------------------
-    | Routes group config
+    | Route di elFinder
     |--------------------------------------------------------------------------
-    |
-    | The default group settings for the elFinder routes.
-    |
     */
-
     'route' => [
         'prefix'     => config('backpack.base.route_prefix', 'admin').'/elfinder',
-        'middleware' => ['web', config('backpack.base.middleware_key', 'admin')], //Set to null to disable middleware filter
+        'middleware' => ['web', config('backpack.base.middleware_key', 'admin')],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Access filter
+    | Access control
     |--------------------------------------------------------------------------
-    |
-    | Filter callback to check the files
-    |
     */
-
     'access' => 'Barryvdh\Elfinder\Elfinder::checkAccess',
 
     /*
     |--------------------------------------------------------------------------
-    | Roots
+    | Root esplicita: /public/uploads
     |--------------------------------------------------------------------------
-    |
-    | By default, the roots file is LocalFileSystem, with the above public dir.
-    | If you want custom options, you can set your own roots below.
-    |
+    | - URL senza slash finale => niente '//' nei link
+    | - tmbPath relativo alla root => /public/uploads/tmb
     */
-
     'roots' => [[
         'driver'        => 'LocalFileSystem',
         'alias'         => 'uploads',
         'path'          => public_path('uploads'),
-        'URL'           => '/uploads',     // niente slash finale -> niente “//”
+        'URL'           => '/uploads', // <-- niente slash finale
         'accessControl' => 'Barryvdh\Elfinder\Elfinder::checkAccess',
-        'tmbPath'       => 'tmb',          // relative alla root => public/uploads/tmb
-        // opzionale: nascondi la cartella tmb nell’interfaccia
+
+        // Thumbnails
+        'tmbPath'       => 'tmb',
+
+        // Nascondi la cartella tmb dall'interfaccia
         'attributes'    => [[
             'pattern' => '/^tmb$/',
             'read'    => false,
@@ -82,26 +62,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Options
+    | Opzioni globali del connector
     |--------------------------------------------------------------------------
-    |
-    | These options are merged, together with 'roots' and passed to the Connector.
-    | See https://github.com/Studio-42/elFinder/wiki/Connector-configuration-options-2.1
-    |
     */
     'options' => [
-        'imgLib'  => 'gd',   // o 'imagick'
+        'imgLib'  => 'gd',   // o 'imagick' se installato
         'tmbSize' => 140,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Root options di default (applicate a ogni root)
+    |--------------------------------------------------------------------------
+    | Lasciamo vuoto per evitare di sovrascrivere tmbPath definito nella root.
+    */
     'root_options' => [
-        'tmbPath' => storage_path('app/elfinder-tmb'),
-        'attributes' => [[
-            'pattern' => '/^tmb$/',
-            'read'    => false,
-            'write'   => false,
-            'hidden'  => true,
-            'lock'    => true,
-        ]],
+        // aggiungi qui eventuali opzioni comuni a tutte le roots
     ],
 ];
