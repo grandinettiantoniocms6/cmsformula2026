@@ -29,10 +29,22 @@
                     },
                     url: '{{ route("elfinder.connector") }}',  // connector URL
                     soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
-                    getFileCallback : function(file) {
-                        window.opener.CKEDITOR.tools.callFunction(funcNum, file.url);
-                        window.close();
-                    },
+                        getFileCallback: function (file) {
+                            alert("aaa");
+                            // NON usare url.replace('//','/') perché rompe https://
+                            try {
+                                // Normalizza in modo sicuro SOLO il path
+                                var u = new URL(file.url, window.location.origin);
+                                u.pathname = u.pathname.replace('/s/', '/'); // <-- rimuove il segmento incriminato
+
+                                window.opener.CKEDITOR.tools.callFunction({{ $funcNum ?? '0' }}, u.toString());
+                            } catch (e) {
+                                // fallback “best effort”
+                                var safe = String(file.url || '').replace('/s/', '/');
+                                window.opener.CKEDITOR.tools.callFunction({{ $funcNum ?? '0' }}, safe);
+                            }
+                            window.close();
+                        },
                     themes: {
                         default : 'https://cdn.jsdelivr.net/gh/RobiNN1/elFinder-Material-Theme/manifests/material-gray.json',
                         dark : 'https://cdn.jsdelivr.net/gh/RobiNN1/elFinder-Material-Theme/manifests/material-default.json',

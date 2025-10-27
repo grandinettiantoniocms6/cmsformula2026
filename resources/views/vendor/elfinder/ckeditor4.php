@@ -51,6 +51,7 @@
                             // Normalizza in modo sicuro SOLO il path
                             var u = new URL(file.url, window.location.origin);
                             u.pathname = u.pathname.replace('/s/', '/'); // <-- rimuove il segmento incriminato
+
                             window.opener.CKEDITOR.tools.callFunction({{ $funcNum ?? '0' }}, u.toString());
                         } catch (e) {
                             // fallback “best effort”
