@@ -866,19 +866,21 @@ class PluginProducts extends Model
         }
 
         if($piuiva){
-            /*$finalPrice = (float) bcadd(
-                $priceStart,
-                bcdiv(bcmul($priceStart, $this->tax->value, 4), '100', 4),
-                2 // <-- arrotonda a 2 decimali
-            );*/
+            $taxRate   = (float)$this->tax->value / 100;
+            $netUnit   = (float)$priceStart;
 
-            $finalPrice = round(
-                (float)$priceStart * (1 + ((float)$this->tax->value / 100)),
-                2,
-                PHP_ROUND_HALF_UP
-            );
+            // conta i decimali effettivi del prezzo unitario
+            $decimals = strlen(substr(strrchr(rtrim(number_format($netUnit, 3, '.', ''), '0'), '.'), 1));
 
-            //$finalPrice = ($priceStart + (($priceStart * $this->tax->value)/100));
+            if ($decimals > 2) {
+                // Prezzo con più di 2 decimali → arrotonda per unità (es. 49.181)
+                $unitGross = round($netUnit * (1 + $taxRate), 2, PHP_ROUND_HALF_UP);
+                $finalPrice = round($unitGross, 2, PHP_ROUND_HALF_UP);
+            } else {
+                // Prezzo con 2 decimali → calcolo sul totale (es. 10.10)
+                $finalPrice = $netUnit * (1 + $taxRate);
+            }
+
             return $finalPrice;
         }
 

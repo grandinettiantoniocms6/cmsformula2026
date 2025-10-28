@@ -304,8 +304,6 @@ class CartController extends Controller
                 }
             }
 
-
-
             $path = null;
             if ($request->hasFile('file')) {
                 // Salva il file nella cartella storage/app/public/uploads
@@ -327,7 +325,7 @@ class CartController extends Controller
                         "user_id" => \Session::get('user_id'),
                         "price" => $finalPrice,
                         "qty" => $qty,
-                        "total_cart" => $finalPrice * $qty,
+                        "total_cart" => $finalPrice * $qty,  //round($finalPrice * $qty, 2, PHP_ROUND_HALF_UP),
                         "file" => $path,
                         "message" => $message,
                         "created_at" => Carbon::now()->toDateTimeString(),
@@ -490,12 +488,12 @@ class CartController extends Controller
                                     $check->qty = $quantities[$product->product_id];
                                 }
 
-                                $check->total_cart = $check->price * $check->qty;
+                                $check->total_cart = $check->price * $check->qty; //round($check->price * $check->qty, 2, PHP_ROUND_HALF_UP);
                                 $check->save();
                             }
                         }
                     }else{
-                        $product->total_cart = $product->price * $product->qty;
+                        $product->total_cart = $product->price * $product->qty; //round($product->price * $product->qty, 2, PHP_ROUND_HALF_UP);
                     }
                 }
             }

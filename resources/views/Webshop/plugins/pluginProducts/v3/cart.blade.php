@@ -181,7 +181,6 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                                             </div>
                                     </td>
                                     @php
-                                        //$productTotal = (($item->price_unit + $item->price_add) * $item->qty) * $vat_calculate;
                                         $productTotal = $item->total_cart;
                                         $tot = $tot + $productTotal;
                                         $prezzoNoIva = $productTotal / ((100 + $vat)/100);
