@@ -438,6 +438,7 @@ class CartController extends Controller
         $shopSetting = ShopSettings::first();
 
         $cart = $this->loading_cart(true);
+
         $quantities = $request->get('quantity');
         if($cart){
             foreach ($cart as $product){
@@ -493,6 +494,8 @@ class CartController extends Controller
                                 $check->save();
                             }
                         }
+                    }else{
+                        $product->total_cart = $product->price * $product->qty;
                     }
                 }
             }

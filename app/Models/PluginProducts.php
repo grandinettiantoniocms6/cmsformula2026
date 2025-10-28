@@ -866,10 +866,16 @@ class PluginProducts extends Model
         }
 
         if($piuiva){
-            $finalPrice = (float) bcadd(
+            /*$finalPrice = (float) bcadd(
                 $priceStart,
                 bcdiv(bcmul($priceStart, $this->tax->value, 4), '100', 4),
                 2 // <-- arrotonda a 2 decimali
+            );*/
+
+            $finalPrice = round(
+                (float)$priceStart * (1 + ((float)$this->tax->value / 100)),
+                2,
+                PHP_ROUND_HALF_UP
             );
 
             //$finalPrice = ($priceStart + (($priceStart * $this->tax->value)/100));
