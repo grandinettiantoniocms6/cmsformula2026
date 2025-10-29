@@ -554,14 +554,24 @@ $website = \App\Models\WebsiteSetting::first();
 
             $("#country_id").val("106").trigger('change');
             $("#fatturazione").hide();
-            $('#name').attr('required', 'false');
+
+            /*$('#name').attr('required', 'false');
             $('#fiscal_code_vat').attr('required', 'false');
             $('#city_fatt').attr('required', 'false');
             $('#province_fatt').attr('required', 'false');
             $('#address_fatt').attr('required', 'false');
             $('#number_street_fatt').attr('required', 'false');
             $('#business_name').attr('required', 'false');
-            $('#country_id_fatt').attr('required', 'false');
+            $('#country_id_fatt').attr('required', 'false');*/
+
+            $('#name').removeAttr('required');
+            $('#fiscal_code_vat').removeAttr('required');
+            $('#city_fatt').removeAttr('required');
+            $('#province_fatt').removeAttr('required');
+            $('#address_fatt').removeAttr('required');
+            $('#number_street_fatt').removeAttr('required');
+            $('#business_name').removeAttr('required');
+            $('#country_id_fatt').removeAttr('required');
 
             $('#name').attr('disabled', 'true');
             $('#fiscal_code_vat').attr('disabled', 'true');
@@ -591,8 +601,8 @@ $website = \App\Models\WebsiteSetting::first();
                     $('#fiscal_code_vat').removeAttr('required');
                 } else {
                     $("#box_azienda").show();
-                    $('#business_name').attr('required', 'true');
-                    $('#fiscal_code_vat').attr('required', 'true');
+                    $('#business_name').attr('required', true);
+                    $('#fiscal_code_vat').attr('required', true);
                 }
 
                 $("#campi_aggiuntivi_fatturazione_privato").html("");
@@ -627,13 +637,14 @@ $website = \App\Models\WebsiteSetting::first();
                 }
 
                 if($('#fatturazione').is(':visible')){
-                    $('#type_client').attr('required', 'true');
-                    $('#name').attr('required', 'true');
-                    $('#fiscal_code_vat').attr('required', 'true');
-                    $('#city_fatt').attr('required', 'true');
-                    $('#province_fatt').attr('required', 'true');
-                    $('#address_fatt').attr('required', 'true');
-                    $('#number_street_fatt').attr('required', 'true');
+
+                    $('#type_client').attr('required', true);
+                    $('#name').attr('required', true);
+                    $('#fiscal_code_vat').attr('required', true);
+                    $('#city_fatt').attr('required', true);
+                    $('#province_fatt').attr('required', true);
+                    $('#address_fatt').attr('required', true);
+                    $('#number_street_fatt').attr('required', true);
 
                     $('#name').removeAttr('disabled');
                     $('#fiscal_code_vat').removeAttr('disabled');
@@ -645,7 +656,18 @@ $website = \App\Models\WebsiteSetting::first();
                     $('#country_id_fatt').removeAttr('disabled');
                 }else{
                     $('#campi_aggiuntivi').html("");
-                    $('#type_client').attr('required', 'false');
+
+                    $('#type_client').removeAttr('required');
+                    $('#name').removeAttr('required');
+                    $('#fiscal_code_vat').removeAttr('required');
+                    $('#city_fatt').removeAttr('required');
+                    $('#province_fatt').removeAttr('required');
+                    $('#address_fatt').removeAttr('required');
+                    $('#number_street_fatt').removeAttr('required');
+                    $('#business_name').removeAttr('required');
+                    $('#country_id_fatt').removeAttr('required');
+
+                    /*$('#type_client').attr('required', 'false');
                     $('#name').attr('required', 'false');
                     $('#fiscal_code_vat').attr('required', 'false');
                     $('#city_fatt').attr('required', 'false');
@@ -653,7 +675,7 @@ $website = \App\Models\WebsiteSetting::first();
                     $('#address_fatt').attr('required', 'false');
                     $('#number_street_fatt').attr('required', 'false');
                     $('#business_name').attr('required', 'false');
-                    $('#country_id_fatt').attr('required', 'false');
+                    $('#country_id_fatt').attr('required', 'false');*/
 
                     $('#name').attr('disabled', 'true');
                     $('#fiscal_code_vat').attr('disabled', 'true');
