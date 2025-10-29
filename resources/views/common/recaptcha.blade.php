@@ -11,6 +11,7 @@
             $('form#form').find('input').each(function() {
                 if ($(this).prop('required')) {
                     var sType = $(this).attr('type');
+                    var sName = $(this).attr('name');
 
                     if(sType == "checkbox"){
                         var id = $(this).attr("id");
@@ -21,7 +22,7 @@
                     }else{
                         if($(this).val() == ""){
 
-                            console.log(sType+' required');
+                            console.log(sName+' required');
 
                             error++;
                         }
