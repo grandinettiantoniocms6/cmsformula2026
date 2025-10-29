@@ -21,7 +21,7 @@
                     }else{
                         if($(this).val() == ""){
 
-                            console.log('altro required');
+                            console.log(sType+' required');
 
                             error++;
                         }
