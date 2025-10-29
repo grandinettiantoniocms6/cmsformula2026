@@ -7,8 +7,6 @@
     <script class="_iub_cs_activate" type="text/plain" src="https://www.google.com/recaptcha/api.js?render={{config('app.recaptcha_key')}}"></script>
     <script>
         function onSubmit(token) {
-
-
             var error = 0;
             $('form#form').find('input').each(function() {
                 if ($(this).prop('required')) {
@@ -18,9 +16,13 @@
                         var id = $(this).attr("id");
                         if(!$('#' + id).is(":checked")){
                             error++;
+                            console.log('checkbox required');
                         }
                     }else{
                         if($(this).val() == ""){
+
+                            console.log('altro required');
+
                             error++;
                         }
                     }
@@ -31,6 +33,7 @@
                 if ($(this).prop('required')) {
                     if($(this).val() == ""){
                         error++;
+                        console.log('textarea required');
                     }
                 }
             });
