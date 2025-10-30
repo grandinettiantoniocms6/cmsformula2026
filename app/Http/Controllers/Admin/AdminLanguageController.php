@@ -25,6 +25,7 @@ use App\Models\BlockIcon;
 use App\Models\BlockImage;
 use App\Models\BlockImageLink;
 use App\Models\BlockLastwork;
+use App\Models\BlockListOfLink;
 use App\Models\BlockMetro;
 use App\Models\BlockMetrox;
 use App\Models\BlockNews;
@@ -468,6 +469,18 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                         $item = BlockMetrox::find($item_id);
                     }
                     break;
+                case "blockListOfLink":
+                    $fields = ["title",'label','url_interno','url','button'];
+                    $fields_types = ["text", "text", "select2_from_array", "text", "text"];
+                    $fields_label = ["Titolo", "Etichetta", "URL interno", "URL esterno", "Testo Link"];
+                    if(count($parameters)) {
+                        $item = BlockListOfLink::class::find($item_id);
+                    }
+                    break;
+
+
+
+
                 // qui incollo nuovi blocchi futuri
 
 
@@ -581,6 +594,16 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
 
                     if(count($parameters)) {
                         $item = BlockStaff::find($item_id);
+                    }
+                    break;
+
+                case "blockListOfLinkConf":
+                    $fields = ["title"];
+                    $fields_types = ["text"];
+                    $fields_label = ["Titolo"];
+
+                    if(count($parameters)) {
+                        $item = BlockListOfLink::find($item_id);
                     }
                     break;
 
@@ -1225,6 +1248,9 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockStaffConf":
                 $fields = ["title", "description"];
                 break;
+            case "blockListOfLinkConf":
+                $fields = ["title"];
+                break;
 
 
 
@@ -1357,6 +1383,9 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 break;
             case "blockMetrox":
                 $fields = ['title','subtitle','description','url_interno','url','button'];
+                break;
+            case "blockListOfLink":
+                $fields = ["title",'label','url_interno','url','button'];
                 break;
 
 

@@ -75,6 +75,7 @@ Route::group([
     Route::crud('blockScrollbar', 'BlockScrollbarCrudController');
     Route::crud('blockOnePhoto', 'BlockOnePhotoCrudController');
     Route::crud('blockMetrox', 'BlockMetroxCrudController');
+    Route::crud('blockListOfLink', 'BlockListOfLinkCrudController');
 
 
     // rotte Plugin Tutorial e Contatore
@@ -201,5 +202,6 @@ Route::group([
         return view('vendor/backpack/custom/filemanager');
     })->name('backpack.filemanager');
     Route::crud('plugin-product-import', 'PluginProductImportCrudController');
+
 }); // this should be the absolute last line of this file
 

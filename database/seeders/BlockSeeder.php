@@ -107,8 +107,6 @@ class BlockSeeder extends Seeder
             "is_multi" => 1
         ]);
 
-
-
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockIcon"],[
             "label" => "Icone",
             "name" => "blockIcon",
@@ -180,7 +178,6 @@ class BlockSeeder extends Seeder
             "is_ordinable" => 1,
             "is_multi" => 1
         ]);
-
 
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockPortfolio2"],[
             "label" => "Portfolio",
@@ -420,6 +417,15 @@ class BlockSeeder extends Seeder
             "label" => "Griglia di elementi",
             "name" => "blockGrid",
             "name_table" => "blocks_grids",
+            "is_active" => 1,
+            "is_ordinable" => 1,
+            "is_multi" => 1
+        ]);
+
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockListOfLink"],[
+            "label" => "Elenco di Links",
+            "name" => "blockListOfLink",
+            "name_table" => "blocks_list_of_links",
             "is_active" => 1,
             "is_ordinable" => 1,
             "is_multi" => 1
