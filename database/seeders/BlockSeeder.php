@@ -421,6 +421,16 @@ class BlockSeeder extends Seeder
             "is_multi" => 1
         ]);
 
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockProgressbar"],[
+            "label" => "Progress Bar",
+            "name" => "blockProgressbar",
+            "name_table" => "blocks_progress_bars",
+            "is_active" => 0,
+            "is_ordinable" => 1,
+            "is_multi" => 1
+        ]);
+
+
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockListOfLink"],[
             "label" => "Elenco di Links",
             "name" => "blockListOfLink",

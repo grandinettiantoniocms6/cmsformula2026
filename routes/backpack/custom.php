@@ -76,6 +76,7 @@ Route::group([
     Route::crud('blockOnePhoto', 'BlockOnePhotoCrudController');
     Route::crud('blockMetrox', 'BlockMetroxCrudController');
     Route::crud('blockListOfLink', 'BlockListOfLinkCrudController');
+    Route::crud('blockProgressbar', 'BlockProgressbarCrudController');
 
 
     // rotte Plugin Tutorial e Contatore
