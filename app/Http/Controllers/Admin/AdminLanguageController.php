@@ -37,6 +37,7 @@ use App\Models\BlockPluginProduct;
 use App\Models\BlockPortfolio;
 use App\Models\BlockPortfolio2;
 use App\Models\BlockPrice;
+use App\Models\BlockProgressbar;
 use App\Models\BlockReference;
 use App\Models\BlockScrollbar;
 use App\Models\BlockSeparator;
@@ -477,6 +478,16 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                         $item = BlockListOfLink::class::find($item_id);
                     }
                     break;
+                case "blockProgressbar":
+                    $fields = ["title",'description','label','skill','url_interno','url','button'];
+                    $fields_types = ["text", "content", "text", "text", "select2_from_array", "text", "text"];
+                    $fields_label = ["Titolo", "Descrizione", "Etichetta", "Skill", "URL interno", "URL esterno", "Testo pulsante"];
+
+                    // NB: quando cambio il blocco mettere App/Model
+                    if(count($parameters)) {
+                        $item = BlockProgressbar::find($item_id);
+                    }
+                    break;
 
 
 
@@ -604,6 +615,15 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
 
                     if(count($parameters)) {
                         $item = BlockListOfLink::find($item_id);
+                    }
+                    break;
+                case "blockProgressbarConf":
+                    $fields = ["title",'description'];
+                    $fields_types = ["text", "content"];
+                    $fields_label = ["Titolo", "Riassunto"];
+
+                    if(count($parameters)) {
+                        $item = BlockProgressbar::find($item_id);
                     }
                     break;
 
@@ -1251,6 +1271,9 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockListOfLinkConf":
                 $fields = ["title"];
                 break;
+            case "blockProgressbarConf":
+                $fields = ["title", "description"];
+                break;
 
 
 
@@ -1387,6 +1410,10 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockListOfLink":
                 $fields = ["title",'label','url_interno','url','button'];
                 break;
+            case "blockProgressbar":
+                $fields = ["title",'description','label','skill','url_interno','url','button'];
+                break;
+
 
 
             // Qui i case dei blocchi Plugins
