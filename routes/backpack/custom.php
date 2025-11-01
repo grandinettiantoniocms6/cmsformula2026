@@ -77,6 +77,8 @@ Route::group([
     Route::crud('blockMetrox', 'BlockMetroxCrudController');
     Route::crud('blockListOfLink', 'BlockListOfLinkCrudController');
     Route::crud('blockProgressbar', 'BlockProgressbarCrudController');
+    Route::crud('blockScrollingtext', 'BlockScrollingtextCrudController');
+
 
 
     // rotte Plugin Tutorial e Contatore
@@ -84,10 +86,12 @@ Route::group([
     Route::crud('pluginCounter', 'PluginCounterCrudController');
     Route::crud('blockPluginCounter', 'BlockPluginCounterCrudController');
 
+
     // rotte Plugin Inviti
     Route::crud('pluginInvitations', 'PluginInvitationsCrudController');
     Route::crud('pluginInvitationsSettings', 'PluginInvitationsSettingsCrudController');
     Route::crud('pluginInvitationsUsersSettings', 'PluginInvitationsUsersSettingsCrudController');
+
 
     // rotte Plugin Prodotti
     Route::crud('pluginProducts', 'PluginProductsCrudController');

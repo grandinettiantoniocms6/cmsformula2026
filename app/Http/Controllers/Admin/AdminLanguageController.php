@@ -40,6 +40,7 @@ use App\Models\BlockPrice;
 use App\Models\BlockProgressbar;
 use App\Models\BlockReference;
 use App\Models\BlockScrollbar;
+use App\Models\BlockScrollingtext;
 use App\Models\BlockSeparator;
 use App\Models\BlockSlideshow;
 use App\Models\BlockStaff;
@@ -488,6 +489,20 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                         $item = BlockProgressbar::find($item_id);
                     }
                     break;
+                case "blockScrollingtext":
+                    $fields = ["title",'url_interno','url'];
+                    $fields_types = ["text", "select2_from_array", "text"];
+                    $fields_label = ["Titolo", "URL interno", "URL esterno"];
+
+                    // NB: quando cambio il blocco mettere App/Model
+                    if(count($parameters)) {
+                        $item = BlockScrollingtext::find($item_id);
+                    }
+                    break;
+
+
+
+
 
 
 
@@ -1340,7 +1355,6 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockPortfolio2":
                 $fields = ['title','description','url_interno','url','button'];
                 break;
-
             case "blockGallery":
                 $fields = ["title", "description"];
                 break;
@@ -1413,6 +1427,15 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockProgressbar":
                 $fields = ["title",'description','label','skill','url_interno','url','button'];
                 break;
+            case "blockProgressbar":
+                $fields = ["title",'url_interno','url'];
+                break;
+            case "blockScrollingtext":
+                $fields = ["title",'url_interno','url'];
+                break;
+
+
+
 
 
 

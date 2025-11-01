@@ -430,7 +430,6 @@ class BlockSeeder extends Seeder
             "is_multi" => 1
         ]);
 
-
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockListOfLink"],[
             "label" => "Elenco di Links",
             "name" => "blockListOfLink",
@@ -439,6 +438,16 @@ class BlockSeeder extends Seeder
             "is_ordinable" => 1,
             "is_multi" => 1
         ]);
+
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockScrollingtext"],[
+            "label" => "Testo scorrevole",
+            "name" => "blockScrollingtext",
+            "name_table" => "blocks_scrolling_texts",
+            "is_active" => 0,
+            "is_ordinable" => 1,
+            "is_multi" => 1
+        ]);
+
 
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockPluginBookingSearchType"],[
             "label" => "Blocco Plugin Booking Tipologia di prenotazione",
