@@ -448,6 +448,21 @@ class BlockSeeder extends Seeder
             "is_multi" => 1
         ]);
 
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockCountdown"],[
+            "label" => "Countdown",
+            "name" => "blockCountdown",
+            "name_table" => "blocks_countdowns",
+            "is_active" => 0,
+            "is_ordinable" => 1,
+            "is_multi" => 1
+        ]);
+
+
+
+
+
+
+
 
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockPluginBookingSearchType"],[
             "label" => "Blocco Plugin Booking Tipologia di prenotazione",

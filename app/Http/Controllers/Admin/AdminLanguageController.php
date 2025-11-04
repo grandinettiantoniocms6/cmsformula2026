@@ -11,6 +11,7 @@ use App\Models\BlockCarousel;
 use App\Models\BlockCollage;
 use App\Models\BlockContact;
 use App\Models\BlockContactgmap;
+use App\Models\BlockCountdown;
 use App\Models\BlockDocument;
 use App\Models\BlockFaq;
 use App\Models\BlockFlusso;
@@ -493,15 +494,20 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     $fields = ["title",'url_interno','url'];
                     $fields_types = ["text", "select2_from_array", "text"];
                     $fields_label = ["Titolo", "URL interno", "URL esterno"];
-
                     // NB: quando cambio il blocco mettere App/Model
                     if(count($parameters)) {
                         $item = BlockScrollingtext::find($item_id);
                     }
                     break;
-
-
-
+                case "blockCountdown":
+                    $fields = ["title",'description',];
+                    $fields_types = ["text" ,'content'];
+                    $fields_label = ["Titolo", "Descrizione"];
+                    // NB: quando cambio il blocco mettere App/Model
+                    if(count($parameters)) {
+                        $item = BlockCountdown::class::find($item_id);
+                    }
+                    break;
 
 
 
@@ -1433,6 +1439,10 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockScrollingtext":
                 $fields = ["title",'url_interno','url'];
                 break;
+            case "blockCountdown":
+                $fields = ["title" ,'description',];
+                break;
+
 
 
 

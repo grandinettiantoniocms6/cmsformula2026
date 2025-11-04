@@ -78,6 +78,7 @@ Route::group([
     Route::crud('blockListOfLink', 'BlockListOfLinkCrudController');
     Route::crud('blockProgressbar', 'BlockProgressbarCrudController');
     Route::crud('blockScrollingtext', 'BlockScrollingtextCrudController');
+    Route::crud('blockCountdown', 'BlockCountdownCrudController');
 
 
 
