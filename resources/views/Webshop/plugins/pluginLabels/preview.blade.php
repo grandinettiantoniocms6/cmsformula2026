@@ -2,7 +2,18 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+        <!--
+        /* Roboto non si legge
+
         @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+        */
+        -->
+
+
 
         /* Variables */
         html, body, div, span, applet, object, iframe,
@@ -34,7 +45,7 @@
 
         body {
             line-height: 1;
-            font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Oxygen, Fira Sans, Droid Sans, Arial, sans-serif;
+            font-family: "Lato", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Oxygen, Fira Sans, Droid Sans, Arial, sans-serif;
             background: #f1f4f8;
         }
 
@@ -145,33 +156,34 @@
         .title-container {
             margin-bottom: 20px;
             text-align: center;
-            color: #7d5943;
+            color: #5b4235;
             letter-spacing: -0.4px;
             padding: 0 25px;
         }
         .title-container h1 {
-            font-size: 38px;
+            font-size: 32px;
         }
         #recipe-container {
             margin: 20px 0;
             text-align: center;
-            color: #7d5943;
+            color: #5b4235;
+            /*color: #7d5943;*/
             padding: 0 5%;
         }
         #description-container {
             margin: 20px 0;
             text-align: center;
-            color: #7d5943;
+            /*color: #7d5943;*/
             padding: 0 10%;
         }
         #recipe-container h3 {
             font-size: 28px;
             line-height: 36px;
-            font-weight: 300;
+            font-weight: 400;
         }
         #description-container h2 {
             font-size: 30px;
-            font-weight: 300;
+            font-weight: 400;
             border-top: 1px solid #DEC7A4;
             border-bottom: 1px solid #DEC7A4;
             line-height: 1.1;
@@ -182,7 +194,7 @@
             margin-top: 50px;
             margin-bottom: 35px;
             text-align: center;
-            color: #7d5943;
+            color: #5b4235;
             padding: 0 70px;
             font-size: 26px;
             font-weight: bold;
@@ -200,10 +212,10 @@
         }
         .address-container {
             padding: 0 15px;
-            color: #7d5943;
+            color: #5b4235;
             line-height: 30px;
             font-size: 22px;
-            font-weight: 300;
+            font-weight: 400;
             text-align: center;
         }
         .address-container .title {
@@ -213,7 +225,7 @@
         }
         #weight-container {
             margin: 35px 5% 0;
-            color: #7d5943;
+            color: #5b4235;
         }
         #weight-container .small-border {
             border-top: 1px solid #DEC7A4;
@@ -223,7 +235,7 @@
             margin: 0 auto;
             text-align: center;
             font-size: 32px;
-            color: #7d5943;
+            color: #5b4235;
             font-weight: 300;
         }
         #weight-container table td {
@@ -236,8 +248,8 @@
         }
         #tabella-nutrizionale table {
             width: 100%;
-            color: #7d5943;
-            font-weight: 300;
+            color: #5b4235;
+            font-weight: 400;
             text-align: left;
             font-size: 26px;
         }
@@ -258,7 +270,7 @@
             padding: 35px 0;
             background-color: #F4E0B9;
             margin: auto;
-            font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Oxygen, Fira Sans, Droid Sans, Arial, sans-serif;
+            font-family: "Lato", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Oxygen, Fira Sans, Droid Sans, Arial, sans-serif;
         }
         .table-cell {
             display: table-cell;
