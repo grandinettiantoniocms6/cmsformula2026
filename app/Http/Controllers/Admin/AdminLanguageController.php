@@ -287,7 +287,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     break;
                 case "blockGallery":
                     $fields = ["title",'description'];
-                    $fields_types = ["text", "text"];
+                    $fields_types = ["text", "content"];
                     $fields_label = ["Nome", "Sottotitolo"];
                     if(count($parameters)) {
                         $item = BlockGallery::find($item_id);
