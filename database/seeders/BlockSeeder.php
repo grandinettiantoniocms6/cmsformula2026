@@ -457,6 +457,15 @@ class BlockSeeder extends Seeder
             "is_multi" => 1
         ]);
 
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockHtmlbook"],[
+            "label" => "Testo Html con 4 immagini",
+            "name" => "blockHtmlbook",
+            "name_table" => "blocks_htmlbooks",
+            "is_active" => 1,
+            "is_ordinable" => 1,
+            "is_multi" => 1
+        ]);
+
 
 
 

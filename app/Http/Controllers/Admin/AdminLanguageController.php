@@ -20,6 +20,7 @@ use App\Models\BlockGrid;
 use App\Models\BlockHero;
 use App\Models\BlockHightlight;
 use App\Models\BlockHtml;
+use App\Models\BlockHtmlbook;
 use App\Models\BlockHtmlImage;
 use App\Models\BlockHtmlTwocol;
 use App\Models\BlockIcon;
@@ -506,6 +507,14 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     // NB: quando cambio il blocco mettere App/Model
                     if(count($parameters)) {
                         $item = BlockCountdown::class::find($item_id);
+                    }
+                    break;
+                case "blockHtmlbook":
+                    $fields = ["title",'description','url_interno','url','button'];
+                    $fields_types = ["text", "content", "select2_from_array", "text", "text"];
+                    $fields_label = ["Titolo", "Descrizione", "URL interno", "URL esterno", "Label pulsante"];
+                    if(count($parameters)) {
+                        $item = BlockHtmlbook::find($item_id);
                     }
                     break;
 
@@ -1441,6 +1450,9 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 break;
             case "blockCountdown":
                 $fields = ["title" ,'description',];
+                break;
+            case "blockHtmlbook":
+                $fields = ["title",'description','url_interno','url','button'];
                 break;
 
 

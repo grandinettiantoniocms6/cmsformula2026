@@ -79,6 +79,7 @@ Route::group([
     Route::crud('blockProgressbar', 'BlockProgressbarCrudController');
     Route::crud('blockScrollingtext', 'BlockScrollingtextCrudController');
     Route::crud('blockCountdown', 'BlockCountdownCrudController');
+    Route::crud('blockHtmlbook', 'BlockHtmlbookCrudController');
 
 
 
