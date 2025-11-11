@@ -167,11 +167,11 @@
         #recipe-container h3 {
             font-size: 28px;
             line-height: 36px;
-            font-weight: 300;
+            font-weight: 200;
         }
         #description-container h2 {
             font-size: 30px;
-            font-weight: 300;
+            font-weight: 200;
             border-top: 1px solid #DEC7A4;
             border-bottom: 1px solid #DEC7A4;
             line-height: 1.1;
@@ -203,7 +203,7 @@
             color: #7d5943;
             line-height: 30px;
             font-size: 22px;
-            font-weight: 300;
+            font-weight: 200;
             text-align: center;
         }
         .address-container .title {
@@ -224,7 +224,7 @@
             text-align: center;
             font-size: 32px;
             color: #7d5943;
-            font-weight: 300;
+            font-weight: 200;
         }
         #weight-container table td {
             padding: 5px 15px;
@@ -237,7 +237,7 @@
         #tabella-nutrizionale table {
             width: 100%;
             color: #7d5943;
-            font-weight: 300;
+            font-weight: 200;
             text-align: left;
             font-size: 26px;
         }
