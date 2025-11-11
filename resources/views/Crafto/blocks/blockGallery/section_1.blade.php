@@ -24,9 +24,9 @@ if($descriptionBlocco){
 
         @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
             <div class="row align-items-center mb-6">
-                <div class="col-md-9 last-paragraph-no-margin">
+                <div class="col-md-12 last-paragraph-no-margin">
                     <h3 class="text-dark-gray fw-600 ls-minus-1px mb-20px">{{ $titleBlocco[\App::getLocale()] }}</h3>
-                    <p class="w-95 sm-w-100">{{ $descriptionBlocco[\App::getLocale()] }}</p>
+                    <p class="w-95 sm-w-100">{!! $descriptionBlocco[\App::getLocale()] !!}</p>
                 </div>
             </div>
         @endif
