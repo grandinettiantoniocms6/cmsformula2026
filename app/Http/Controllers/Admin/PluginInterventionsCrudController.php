@@ -195,12 +195,11 @@ class PluginInterventionsCrudController extends CrudController
                 'label'      => 'Data intervento',
                 'type'       => 'text',
                 'escaped'    => false, // serve per <br>
-                'orderable'  => true,
                 // Ordina realmente per data e poi per start (usando indici)
-               /* 'orderLogic' => function ($query, $column, $direction) {
+                'orderLogic' => function ($query, $column, $direction) {
                     $query->orderBy('plugins_interventions.date_intervention', $direction)
                         ->orderBy('plugins_interventions.start', 'asc');
-                },*/
+                },
             ],
 
             // Cliente – usa relationship + accessor full_name sul model Client
