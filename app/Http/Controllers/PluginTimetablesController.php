@@ -10,17 +10,19 @@ class PluginTimetablesController extends Controller
         $thema = env('TEMA');
 
         $timetable = \App\Models\PluginTimetables::find($id);
-        $timetables_days = \App\Models\PluginTimetablesDay::where("plugin_timetable_id",  $timetable->id)
-            ->groupBy("day")
-            ->get();
+        if($timetable){
+            $timetables_days = \App\Models\PluginTimetablesDay::where("plugin_timetable_id",  $timetable->id)
+                ->groupBy("day")
+                ->get();
 
 
-        $html = view("$thema.plugins.pluginTimetables.pdf", compact('timetable','timetables_days'))->render();
-        $pdf->loadHTML($html)->setPaper('a4')->setOrientation('landscape');
+            $html = view("$thema.plugins.pluginTimetables.pdf", compact('timetable','timetables_days'))->render();
+            $pdf->loadHTML($html)->setPaper('a4')->setOrientation('landscape');
 
-        $footerHtml = "";
-        $pdf->setOption('footer-html', $footerHtml );
-        return $pdf->download("$timetable->name.pdf");
+            $footerHtml = "";
+            $pdf->setOption('footer-html', $footerHtml );
+            return $pdf->download("$timetable->name.pdf");
+        }
     }
 
 }

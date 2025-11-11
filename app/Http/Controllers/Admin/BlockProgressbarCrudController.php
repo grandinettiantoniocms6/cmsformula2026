@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\BlockMetroxRequest;
-use App\Models\BlockMetrox;
+use App\Http\Requests\BlockProgressbarRequest;
+use App\Models\BlockProgressbar;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class BlockMetroxCrudController
+ * Class BlockProgressbarCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class BlockMetroxCrudController extends CrudController
+class BlockProgressbarCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -21,7 +21,7 @@ class BlockMetroxCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 
-    public $block = "blockMetrox";
+    public $block = "blockProgressbar";
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -29,9 +29,9 @@ class BlockMetroxCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\BlockMetrox::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/blockMetrox');
-        CRUD::setEntityNameStrings('Blocco Metrox', 'Blocchi Metrox');
+        CRUD::setModel(\App\Models\BlockProgressbar::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/blockProgressbar');
+        CRUD::setEntityNameStrings('Blocco Progress bar', 'Blocchi Progress bar');
 
         $this->crud->setListView(backpack_view('custom_list_multi'));
         $this->crud->setReorderView(backpack_view('custom_reorder_multi'));
@@ -44,12 +44,13 @@ class BlockMetroxCrudController extends CrudController
         $this->crud->query->orderBy("lft", "asc");
 
         $this->crud->isReorderEnabled();
+
     }
 
     protected function setupReorderOperation()
     {
         // define which model attribute will be shown on draggable elements se uso title mette solo scritta
-        $this->crud->set('reorder.label', 'foto');
+        $this->crud->set('reorder.label', 'title');
         // define how deep the admin is allowed to nest the items
         // for infinite levels, set it to 0
         $this->crud->set('reorder.max_level', 2);
@@ -70,16 +71,15 @@ class BlockMetroxCrudController extends CrudController
 
         // Columns.
         $this->crud->setColumns([
-            // Nuovo modo di chiamare le foto + funzione Thumb
-            [
-                // run a function on the CRUD model and show its return value
+            // Cosa visualizzare nella tabela lato admin foto + titolo
+            /*[
                 'name'  => 'foto',
                 'label' => 'Foto', // Table column heading
                 'type'  => 'model_function',
                 'function_name' => 'get_foto_mini', // the method in your Model
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
                 'limit' => 10000, // Limit the number of characters shown
-            ],
+            ], */
             [
                 'name'  => 'title',
                 'label' => 'Nome',
@@ -111,8 +111,8 @@ class BlockMetroxCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(BlockMetroxRequest::class);
-
+        // NB: quando cambio nome blocco sotto qui devo scelgiere App/http/Request
+        CRUD::setValidation(BlockProgressbarRequest::class);
         /* Qui ci vanno gli input che vedo quando modifica il nome del blocco - gli input tecnici sulla icona Ingranaggio */
 
         if(request()->has('multi')){
@@ -125,25 +125,70 @@ class BlockMetroxCrudController extends CrudController
             ]);
 
             $this->crud->addField([   // repeatable
-                'name'  => 'pt',
-                'label' => 'Altezza sezione: Impostare un valore da 1 a 10',
-                'type'  => 'text',
-                'default'     => 5,
-                'wrapper' => ['class' => 'form-group col-md-4']
+                'name'  => 'color_title',
+                'label' => 'Colore Titolo',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'bgcolor',
+                'label' => 'Colore di sfondo blocco ',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'color_label',
+                'label' => 'Colore testo etichetta',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'bgcolor_label',
+                'label' => 'Colore sfondo etichetta',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'txtcolor_button',
+                'label' => 'Colore testo pulsante',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'bgcolor_button',
+                'label' => 'Colore sfondo pulsante',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
 
             $this->crud->addField([   // repeatable
                 'name'  => 'mt',
-                'label' => 'Margin-top: Impostare un valore da 0 a max 100',
+                'label' => 'Margin-top: (da 1 a 5 min - 10, 20, 30, 40, 50 max) )',
                 'type'  => 'text',
-                'wrapper' => ['class' => 'form-group col-md-4']
-            ]);
-
-            $this->crud->addField([   // repeatable
-                'name'  => 'pd',
-                'label' => 'Padding: Impostare un valore da 10 a max 150',
-                'type'  => 'text',
-                'wrapper' => ['class' => 'form-group col-md-4']
+                'wrapper' => ['class' => 'form-group col-md-6']
             ]);
 
             $this->crud->addField([   // select_from_array
@@ -167,6 +212,21 @@ class BlockMetroxCrudController extends CrudController
                 'wrapper' => ['class' => 'form-group col-md-6']
             ]);
 
+            /* per non fare una migration ho usato questa tabella 'color_button' non utilizzata dal blocco
+            ma non lo uso in quanto non funziona bene su questo blocco
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'color_button',
+                'label' => 'Colore sfondo section',
+                'type'  => 'color_picker2',
+                'default' => null,
+                // optional
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-12']
+            ]);
+
+            */
+
 
             /* FINE degli input che vedo quando modifica il nome del blocco - gli input tecnici no moltiligua */
 
@@ -181,8 +241,8 @@ class BlockMetroxCrudController extends CrudController
             ]);
 
             $this->crud->addField([   // repeatable
-                'name'  => 'bg_color',
-                'label' => 'Colore sfondo blocco testo',
+                'name'  => 'txtcolor_skill',
+                'label' => 'Colore testo Skill',
                 'type'  => 'color_picker2',
                 // optional
                 'default' => null,
@@ -191,8 +251,8 @@ class BlockMetroxCrudController extends CrudController
             ]);
 
             $this->crud->addField([   // repeatable
-                'name'  => 'color_title',
-                'label' => 'Colore Titolo',
+                'name'  => 'bgcolor_skill',
+                'label' => 'Colore sfondo / barra Skill',
                 'type'  => 'color_picker2',
                 // optional
                 'default' => null,
@@ -200,33 +260,14 @@ class BlockMetroxCrudController extends CrudController
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
 
+
             $this->crud->addField([   // repeatable
-                'name'  => 'h_title',
-                'label' => 'Font Size Titolo (Esempio: 20 | min 12 - max 72)',
+                'name'  => 'percent_skill',
+                'label' => 'Numero percentuale raggiunto per la Skill (Esempio: da 25 - max 100)',
                 'type'  => 'number',
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
 
-            /* Commento in Google Font in quanto non è fattibile
-
-            $this->crud->addField([   // repeatable
-                'name'  => 'color_subtitle',
-                'label' => 'Colore sotto titolo',
-                'type'  => 'color_picker2',
-                // optional
-                //  'default' => null,
-                'color_picker_options' => ['customClass' => 'custom-class'],
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
-            ]);
-
-            */
-
-            $this->crud->addField([   // repeatable
-                'name'  => 'h_subtitle',
-                'label' => 'Font Size sotto titolo (Esempio: 20 | min 12 - max 72)',
-                'type'  => 'number',
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
-            ]);
 
             $this->crud->addField([   // select_from_array
                 'name'        => 'type_href',
@@ -264,7 +305,9 @@ class BlockMetroxCrudController extends CrudController
 
         // aggiungo qui in caso di title in setting blocco per aver il titolo multilang
         $trans = new AdminLanguageController();
-        $trans->fields_lang("blockMetroxConf", $this->crud);
+        $trans->fields_lang("blockProgressbarConf", $this->crud);
+
+
 
 
     }
@@ -279,7 +322,6 @@ class BlockMetroxCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
-
     /** questa è la funzione per il salvataggio */
     public function update()
     {
@@ -303,12 +345,16 @@ class BlockMetroxCrudController extends CrudController
 
         if($request->has('name')){
             $this->crud->entry->name = $request->get('name');
-            $this->crud->entry->pd = $request->get('pd');
             $this->crud->entry->fullwidth = $request->get('fullwidth');
             $this->crud->entry->style = $request->get('style');
             $this->crud->entry->mt = $request->get('mt');
-            $this->crud->entry->pt = $request->get('pt');
-            //$this->crud->entry->color_button = $request->get('color_button');
+            $this->crud->entry->color_title = $request->get('color_title');
+            $this->crud->entry->color_label = $request->get('color_label');
+            $this->crud->entry->bgcolor_label = $request->get('bgcolor_label');
+            $this->crud->entry->bgcolor = $request->get('bgcolor');
+            $this->crud->entry->txtcolor_button = $request->get('txtcolor_button');
+            $this->crud->entry->bgcolor_button = $request->get('bgcolor_button');
+
             $this->crud->entry->save();
         }
 
@@ -337,8 +383,8 @@ class BlockMetroxCrudController extends CrudController
         $lang = new AdminLanguageController();
         $lang->update_lang($this->block, $this->crud, $request);
 
-        // Se metto desc ogni nuovo record aggiunto va all'inizio
-        $lft = BlockMetrox::whereNotNull("block_id")
+        // Se metto desc ogni nuovo record aggiunto va all'inizio NB: quando cambio il nomeBlocco su $lft scelgo App/Model
+        $lft = BlockProgressbar::whereNotNull("block_id")
             ->where("id", "!=", $this->crud->entry->id)
             ->orderBy("lft", "asc")->first();
         if($lft){
@@ -368,7 +414,8 @@ class BlockMetroxCrudController extends CrudController
             return false;
         }
 
-        $list = BlockMetrox::get();
+        // Anche qui NB: quando cambio il nomeBlocco su $list scelgo App/Model
+        $list = BlockProgressbar::get();
         if($list){
             foreach ($list as $item){
                 $item->lft = $item->lft * 1000;

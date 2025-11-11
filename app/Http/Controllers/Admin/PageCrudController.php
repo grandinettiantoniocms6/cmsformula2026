@@ -599,17 +599,15 @@ class PageCrudController extends CrudController
         }
 
         // Se metto desc ogni nuovo record aggiunto va all'inizio
-        $lft = Page::where("id", "!=", $this->crud->entry->id)
-            ->orderBy("lft", "asc")->first();
+        $lft = Page::find(1);
         if($lft){
-            $this->crud->entry->lft = $lft->lft - 1;
+            $this->crud->entry->lft = $lft->lft + 1;
         }else{
             $this->crud->entry->lft = 1000;
         }
 
         $this->crud->entry->parent_id = null;
         $this->crud->entry->depth = 1;
-
         $this->crud->entry->save();
 
         //salvo tutte le ereditarietà per la pagina create

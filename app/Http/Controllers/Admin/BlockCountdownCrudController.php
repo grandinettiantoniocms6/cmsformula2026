@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\BlockMetroxRequest;
-use App\Models\BlockMetrox;
+use App\Http\Requests\BlockCountdownRequest;
+use App\Models\BlockCountdown;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class BlockMetroxCrudController
+ * Class BlockCountdownCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class BlockMetroxCrudController extends CrudController
+class BlockCountdownCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -21,7 +21,7 @@ class BlockMetroxCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ReorderOperation;
 
-    public $block = "blockMetrox";
+    public $block = "blockCountdown";
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
      *
@@ -29,9 +29,9 @@ class BlockMetroxCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\BlockMetrox::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/blockMetrox');
-        CRUD::setEntityNameStrings('Blocco Metrox', 'Blocchi Metrox');
+        CRUD::setModel(\App\Models\BlockCountdown::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/blockCountdown');
+        CRUD::setEntityNameStrings('Blocco Countdown', 'Blocchi Countdowns');
 
         $this->crud->setListView(backpack_view('custom_list_multi'));
         $this->crud->setReorderView(backpack_view('custom_reorder_multi'));
@@ -42,14 +42,13 @@ class BlockMetroxCrudController extends CrudController
         }
 
         $this->crud->query->orderBy("lft", "asc");
-
         $this->crud->isReorderEnabled();
     }
 
     protected function setupReorderOperation()
     {
         // define which model attribute will be shown on draggable elements se uso title mette solo scritta
-        $this->crud->set('reorder.label', 'foto');
+        $this->crud->set('reorder.label', 'title');
         // define how deep the admin is allowed to nest the items
         // for infinite levels, set it to 0
         $this->crud->set('reorder.max_level', 2);
@@ -61,7 +60,6 @@ class BlockMetroxCrudController extends CrudController
      * @see  https://backpackforlaravel.com/docs/crud-operation-list-entries
      * @return void
      */
-
     protected function setupListOperation()
     {
         $this->crud->removeButton("delete");
@@ -111,7 +109,7 @@ class BlockMetroxCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(BlockMetroxRequest::class);
+        CRUD::setValidation(BlockCountdownRequest::class);
 
         /* Qui ci vanno gli input che vedo quando modifica il nome del blocco - gli input tecnici sulla icona Ingranaggio */
 
@@ -125,25 +123,60 @@ class BlockMetroxCrudController extends CrudController
             ]);
 
             $this->crud->addField([   // repeatable
+                'name'  => 'color_title',
+                'label' => 'Colore Titolo',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
                 'name'  => 'pt',
-                'label' => 'Altezza sezione: Impostare un valore da 1 a 10',
+                'label' => 'Margin-top: (da 1 a 10 min) )',
                 'type'  => 'text',
-                'default'     => 5,
-                'wrapper' => ['class' => 'form-group col-md-4']
+                'wrapper' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // Browse
+                'name'  => 'foto',
+                'label' => 'Scegliere un immagine di sfondo (misure consigliate 1920x450)',
+                'type'  => 'browse',
+                'wrapper' => ['class' => 'form-group col-md-12']
             ]);
 
             $this->crud->addField([   // repeatable
-                'name'  => 'mt',
-                'label' => 'Margin-top: Impostare un valore da 0 a max 100',
-                'type'  => 'text',
-                'wrapper' => ['class' => 'form-group col-md-4']
+                'name'  => 'alpha',
+                'label' => 'Filigrana immagine (0 nulla - 10 leggera - 90 pesante - tra 20 e 80 custom - 100 colore pieno)',
+                'type'  => 'number',
+                'default' => '0',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-6'
+                ],
+                'attributes' => [
+                    'min' => 0,
+                    'max' => 100,
+                    'step' => 10,
+                ],
             ]);
 
             $this->crud->addField([   // repeatable
-                'name'  => 'pd',
-                'label' => 'Padding: Impostare un valore da 10 a max 150',
+                'name'  => 'bgcolor',
+                'label' => 'Oppure selezionare un colore di sfondo',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-12']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'height',
+                'label' => 'Altezza sezione (Impostare un valore in pixel)',
                 'type'  => 'text',
-                'wrapper' => ['class' => 'form-group col-md-4']
+                'default'     => 450,
+                'wrapper' => ['class' => 'form-group col-md-6']
             ]);
 
             $this->crud->addField([   // select_from_array
@@ -174,69 +207,39 @@ class BlockMetroxCrudController extends CrudController
 
             /* Qui invece ci vanno gli input che vedo quando aggiungo le righe al blocco multilingua */
 
-            $this->crud->addField([   // Browse
-                'name'  => 'foto',
-                'label' => 'Foto',
-                'type'  => 'browse'
+            $this->crud->addField([   // repeatable
+                'name'  => 'year',
+                'label' => 'Anno',
+                'type'  => 'number',
+                'wrapperAttributes' => ['class' => 'form-group col-md-4']
             ]);
 
             $this->crud->addField([   // repeatable
-                'name'  => 'bg_color',
-                'label' => 'Colore sfondo blocco testo',
-                'type'  => 'color_picker2',
-                // optional
-                'default' => null,
-                'color_picker_options' => ['customClass' => 'custom-class'],
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                'name'  => 'mounth',
+                'label' => 'Mese (Digitare il mese in numeri, esempio: per aprile scrivere 04)',
+                'type'  => 'number',
+                'wrapperAttributes' => ['class' => 'form-group col-md-4']
             ]);
 
             $this->crud->addField([   // repeatable
-                'name'  => 'color_title',
-                'label' => 'Colore Titolo',
-                'type'  => 'color_picker2',
-                // optional
-                'default' => null,
-                'color_picker_options' => ['customClass' => 'custom-class'],
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                'name'  => 'day',
+                'label' => 'Giorno del mese',
+                'type'  => 'number',
+                'wrapperAttributes' => ['class' => 'form-group col-md-4']
             ]);
 
             $this->crud->addField([   // repeatable
-                'name'  => 'h_title',
-                'label' => 'Font Size Titolo (Esempio: 20 | min 12 - max 72)',
+                'name'  => 'hours',
+                'label' => 'Ora',
                 'type'  => 'number',
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
 
-            /* Commento in Google Font in quanto non è fattibile
-
             $this->crud->addField([   // repeatable
-                'name'  => 'color_subtitle',
-                'label' => 'Colore sotto titolo',
-                'type'  => 'color_picker2',
-                // optional
-                //  'default' => null,
-                'color_picker_options' => ['customClass' => 'custom-class'],
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
-            ]);
-
-            */
-
-            $this->crud->addField([   // repeatable
-                'name'  => 'h_subtitle',
-                'label' => 'Font Size sotto titolo (Esempio: 20 | min 12 - max 72)',
+                'name'  => 'minutes',
+                'label' => 'Minuto',
                 'type'  => 'number',
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
-            ]);
-
-            $this->crud->addField([   // select_from_array
-                'name'        => 'type_href',
-                'label'       => "Apertura link interno",
-                'type'        => 'select_from_array',
-                'options'     => ['_blank' => 'Nuova pagina', '_self' => 'Stessa pagina'],
-                'allows_null' => false,
-                'default'     => '_self',
-                'wrapperAttributes' => ['class' => 'form-group col-md-12']
-                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
             ]);
 
 
@@ -303,11 +306,16 @@ class BlockMetroxCrudController extends CrudController
 
         if($request->has('name')){
             $this->crud->entry->name = $request->get('name');
-            $this->crud->entry->pd = $request->get('pd');
+            $this->crud->entry->color_title = $request->get('color_title');
+            $this->crud->entry->bgcolor = $request->get('bgcolor');
+            $this->crud->entry->alpha = $request->get('alpha');
+            $this->crud->entry->foto = $request->get('foto');
+            $this->crud->entry->pt = $request->get('pt');
+            $this->crud->entry->height = $request->get('height');
             $this->crud->entry->fullwidth = $request->get('fullwidth');
             $this->crud->entry->style = $request->get('style');
-            $this->crud->entry->mt = $request->get('mt');
-            $this->crud->entry->pt = $request->get('pt');
+
+
             //$this->crud->entry->color_button = $request->get('color_button');
             $this->crud->entry->save();
         }
@@ -338,7 +346,7 @@ class BlockMetroxCrudController extends CrudController
         $lang->update_lang($this->block, $this->crud, $request);
 
         // Se metto desc ogni nuovo record aggiunto va all'inizio
-        $lft = BlockMetrox::whereNotNull("block_id")
+        $lft = BlockCountdown::whereNotNull("block_id")
             ->where("id", "!=", $this->crud->entry->id)
             ->orderBy("lft", "asc")->first();
         if($lft){
@@ -368,7 +376,7 @@ class BlockMetroxCrudController extends CrudController
             return false;
         }
 
-        $list = BlockMetrox::get();
+        $list = BlockCountdown::get();
         if($list){
             foreach ($list as $item){
                 $item->lft = $item->lft * 1000;
