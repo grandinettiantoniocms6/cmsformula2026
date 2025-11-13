@@ -324,6 +324,7 @@ Route::post('paypal-transaction-error', array('as' => 'paypal-transaction-error'
     Route::post('checkout/get_fatturazione_checkout', ['as' => 'ajax.checkout.get_fatturazione_checkout', 'uses' => 'AjaxController@get_fatturazione_checkout']);
     Route::post('checkout/get_fields_custom_checkout', ['as' => 'ajax.checkout.get_fields_custom_checkout', 'uses' => 'AjaxController@get_fields_custom_checkout']);
 
+    Route::post('checkout/get_payment_by_id', ['as' => 'ajax.checkout.get_payment_by_id', 'uses' => 'AjaxController@get_payment_by_id']);
 
 
     Route::post('/plugin_parking/send_request', ['as' => 'plugin_parking.send_request', 'uses' => 'PluginParkingController@send_request'])->middleware(ProtectAgainstSpam::class);

@@ -11,6 +11,26 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
 <?php
 $website = \App\Models\WebsiteSetting::first();
 ?>
+@php
+    $tot = 0;
+    $totShip = 0;
+    $totNoTax = 0;
+    $v_tax = [];
+     foreach ($cart as $item){
+        $product = \App\Models\PluginProducts::find($item->product_id);
+        if(!$product){
+            continue;
+        }
+
+        $productTotal = $item->price * $item->qty;
+        $tot = $tot + $productTotal;
+
+        $vat = $product->tax ? $product->tax->value : 22;
+        $vat_calculate = ($vat / 100) + 1;
+        $v_tax[$vat] = 0;
+    }
+@endphp
+
 
 <section class="border-top border-bottom py-3 py-sm-4">
     <div class="container">
@@ -19,19 +39,6 @@ $website = \App\Models\WebsiteSetting::first();
 </section>
 
 <section class="page-checkout py-4 py-lg-5">
-    @php
-        $tot = 0;
-        $totShip = 0;
-        $totNoTax = 0;
-    @endphp
-
-    @foreach ($cart as $item)
-        @php
-            $productTotal = $item->price * $item->qty;
-            $tot = $tot + $productTotal;
-        @endphp
-    @endforeach
-
     <form method="post" action="{{ route('save.order_new') }}" id="form">
         {{ csrf_field() }}
         <div class="container">
@@ -277,31 +284,56 @@ $website = \App\Models\WebsiteSetting::first();
                                     @php $i = 0; @endphp
                                     @foreach ($payments as $payment)
                                         @php
-                                            $checked = '';
-                                            $active_class = '';
-                                            $class = 'is_not_contrassegno';
+                                           $payment->total_min_cart_contrassegno = (float) $payment->total_min_cart_contrassegno;
+                                           $payment->total_max_cart_contrassegno = (float) $payment->total_max_cart_contrassegno;
 
-                                            if($i == 0){
-                                                $checked = 'checked';
-                                                $active_class = 'active';
-                                            }
-                                            if($payment->is_contrassegno){
-                                                $class = 'is_contrassegno';
-                                            }
-                                            if($hasContrassegno == 0){
-                                                $class = '';
-                                            }
+                                           $checked = '';
+                                           $active_class = '';
+                                           $class = 'is_not_contrassegno';
 
-                                            if($payment->name == "GiftCard"){
-                                                $class = 'gift_card';
-                                            }
+                                           if($i == 0){
+                                               $checked = 'checked';
+                                               $active_class = 'active';
+                                           }
+                                           if($payment->is_contrassegno){
+                                               $class = '';
+                                               if($payment->total_min_cart_contrassegno >= 0 || $payment->total_max_cart_contrassegno >= 0){
+                                                   if($tot >= $payment->total_min_cart_contrassegno && $tot <= $payment->total_max_cart_contrassegno){
+                                                        $class = '';
+                                                   }else{
+                                                        $class = 'is_contrassegno';
+                                                   }
+                                               }
+                                           }
+
+                                           if($hasContrassegno == 0){
+                                               $class = '';
+                                           }
+
+                                           if($payment->name == "GiftCard"){
+                                               $class = 'gift_card';
+                                           }
                                         @endphp
 
                                         <div class="form-check card-check">
                                             <input type="radio" name="payment_id" id="payment_id_{{ $i }}" value="{{ $payment->id }}" class="form-check-input {{ $class }}" {{ $checked }} onchange="change_payment({{ $payment->id }})">
                                             <label class="card card-body {{ $active_class }}" for="payment_id_{{ $i }}" @if($payment->name == "GiftCard") id="giftcard_payment" @endif>
                                                 <h6 class="mb-1">{{ $payment->name }}</h6>
-                                                <div class="text-muted font-sm">{{ $payment->info }}</div>
+                                                <div class="text-muted font-sm">
+                                                    {{ $payment->info }}
+
+                                                    @if($payment->is_contrassegno)
+                                                        @if($payment->total_min_cart_contrassegno > 0 || $payment->total_max_cart_contrassegno > 0)
+                                                           <p>Per carrelli da {{ number_format((float)$payment->total_min_cart_contrassegno,2,",", ".") }}&euro;
+                                                            a {{ number_format((float)$payment->total_max_cart_contrassegno,2,",", ".") }}&euro;
+
+                                                            @if($payment->price_contrassegno)
+                                                               <strong>Prezzo: {{ number_format($payment->price_contrassegno,2,",", ".") }} &euro;</strong>
+                                                            @endif
+                                                           </p>
+                                                        @endif
+                                                    @endif
+                                                </div>
                                             </label>
                                         </div>
 
@@ -320,23 +352,6 @@ $website = \App\Models\WebsiteSetting::first();
 
                             <table class="table table-sm table-cart-summary font-sm">
                                 <tbody>
-                                @php
-                                    $tot = 0;
-                                    $totShip = 0;
-                                    $totNoTax = 0;
-                                    $v_tax = [];
-                                     foreach ($cart as $item){
-                                        $product = \App\Models\PluginProducts::find($item->product_id);
-                                        if(!$product){
-                                            continue;
-                                        }
-
-                                        $vat = $product->tax ? $product->tax->value : 22;
-                                        $vat_calculate = ($vat / 100) + 1;
-                                        $v_tax[$vat] = 0;
-                                    }
-                                @endphp
-
                                 @foreach ($cart as $item)
                                     @php
                                         $product = \App\Models\PluginProducts::with("tax")->find($item->product_id);
@@ -411,7 +426,6 @@ $website = \App\Models\WebsiteSetting::first();
                                         </td>
                                     </tr>
                                     @php
-                                        $tot = $tot + $productTotal;
                                         $totShip = $totShip + ($item->qty * $product->getShipPrice($item->price));
                                         $prezzoNoIva = $productTotal / ((100+$product->tax->value)/100);
 
@@ -443,6 +457,7 @@ $website = \App\Models\WebsiteSetting::first();
                                 @endphp
                                     <tr id="discount_coupon"></tr>
                                     <tr id="shipping_view"></tr>
+                                    <tr id="payment_contrassegno"></tr>
                                 </tbody>
                                 <tbody>
                                     <tr class="text-danger">

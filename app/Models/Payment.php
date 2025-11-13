@@ -21,7 +21,7 @@ class Payment extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id','store'];
-    protected $fillable = ["name", "info", "is_contrassegno", "is_paypal"];
+    protected $fillable = ["name", "info", "is_contrassegno", "is_paypal", "price_contrassegno", "total_min_cart_contrassegno", "total_max_cart_contrassegno"];
     // protected $hidden = [];
     // protected $dates = [];
 

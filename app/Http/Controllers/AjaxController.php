@@ -54,6 +54,14 @@ class AjaxController extends Controller
         dd("test");
     }
 
+    public function get_payment_by_id(Request $request)
+    {
+        $id = $request->get('id');
+        $payment = Payment::find($id);
+        return response()->json($payment);
+
+    }
+
     public function get_cities_by_province(Request $request){
         $provinceID = $request->input('id');
         $element = $request->input('element');
