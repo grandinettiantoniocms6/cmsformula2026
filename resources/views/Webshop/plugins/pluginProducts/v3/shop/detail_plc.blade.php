@@ -21,7 +21,7 @@ $shopSetting = \App\Models\ShopSettings::first();
         ->get();
 
     $images = [];
-
+    $images_isext = [];
     if($itemProduct->is_variant == 1 && in_array($shopSetting->type_view_variant, [3,4])){
         $padre = \App\Models\PluginProducts::where("group_id", $itemProduct->group_id)->where("is_variant", 0)->first();
         if(!$padre){
@@ -36,22 +36,23 @@ $shopSetting = \App\Models\ShopSettings::first();
             if(count($padre->images)){
                 foreach($padre->images as $image){
                     $images[] = $image->image;
+                    $images_isext[] = $image->is_ext;
                 }
             }
-
-
         }
 
         /* Se non si vuole vedere le foto delle varianti commento da riga 36 a riga 40 */
         if(count($itemProduct->images)){
             foreach($itemProduct->images as $image){
                 $images[] = $image->image;
+                $images_isext[] = $image->is_ext;
             }
         }
     }else{
         if(count($itemProduct->images)){
             foreach($itemProduct->images as $image){
                 $images[] = $image->image;
+                $images_isext[] = $image->is_ext;
             }
         }
     }
