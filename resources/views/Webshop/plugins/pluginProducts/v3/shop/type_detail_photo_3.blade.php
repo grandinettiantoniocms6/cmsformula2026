@@ -8,7 +8,7 @@ $shopSetting = \App\Models\ShopSettings::first();
             @if(count($images))
                 @foreach($images as $k=>$image)
                     <?php
-                    if($images_isext[$k] == 1){
+                    if(isset($images_isext[$k]) == 1){
                         $url = $image;
                     }else{
                         $basename = basename($image);
