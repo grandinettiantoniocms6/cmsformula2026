@@ -232,6 +232,7 @@ class BlockSeeder extends Seeder
             "is_ordinable" => 0
         ]);
 
+
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockFaq"],[
             "label" => "Faq",
             "name" => "blockFaq",
