@@ -74,13 +74,13 @@ class ShopShippingsCrudController extends CrudController
                 // optionally override the Yes/No texts
                 //'options' => [0 => 'Non attivo', 1 => 'Attivo']
             ],
-            [
+            /*[
                 'name' => 'is_contrassegno',
                 'label' => 'Contrassegno',
                 'type' => 'boolean',
                 // optionally override the Yes/No texts
                 //'options' => [0 => 'Non attivo', 1 => 'Attivo']
-            ]
+            ]*/
         ]);
 
         /**
@@ -194,13 +194,13 @@ class ShopShippingsCrudController extends CrudController
                 'type' => 'checkbox',
                 'tab' => 'Generale'
             ],*/
-            [   // Checkbox
+            /*[   // Checkbox
                 'name' => 'is_contrassegno',
                 'label' => 'Spedizione in contrassegno?',
                 'type' => 'switch',
                 'tab' => 'Generale',
                 'wrapper' => ['class' => 'form-group col-md-4']
-            ],
+            ],*/
             [ // select_from_array
                 'name' => 'type_ship',
                 'label' => "Tipo spedizione",
