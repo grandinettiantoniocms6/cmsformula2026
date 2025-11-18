@@ -753,6 +753,12 @@ class MyAreaController extends Controller
                     }
                 }
 
+                if($payment->is_contrassegno){
+                    $order->total_payment_tax = $payment->price_contrassegno;
+                }else{
+                    $order->total_payment_tax = 0;
+                }
+
                 $order->payment_id = $payment_id;
                 $order->save();
             }

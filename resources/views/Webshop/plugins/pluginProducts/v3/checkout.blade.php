@@ -423,6 +423,7 @@ $website = \App\Models\WebsiteSetting::first();
                                       $tot = $tot;
                                     @endphp
                                     <tr id="discount_coupon"></tr>
+                                    <tr id="payment_contrassegno"></tr>
 
                                 </tbody>
                                 <tbody>
@@ -435,6 +436,7 @@ $website = \App\Models\WebsiteSetting::first();
                                             <input type="hidden" name="total_extra" id="total_extra" value="0">
                                             <input type="hidden" name="total_coupon" id="total_coupon" value="0">
                                             <input type="hidden" name="total_gift" id="total_gift" value="0">
+                                            <input type="hidden" name="total_payment" id="total_payment" value="0">
                                         </td>
                                     </tr>
                                     <tr id="giftcard" class="text-danger"></tr>

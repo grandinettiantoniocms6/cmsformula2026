@@ -165,10 +165,23 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
             <td style="text-align: center!important"><span class="h4">{!! $symbol !!} <?php echo number_format($order->total_shipping_tax,2, ',','.'); ?></span></td>
         </tr>
 
+        @if($order->total_payment_tax > 0)
+                <?php
+                $payment = \App\Models\Payment::withTrashed()->find($order->payment_id);
+                ?>
+            @if($payment)
+                <tr class="active">
+                    <td></td>
+                    <td style="text-align: right!important"><strong>{{ $payment->name }}</strong></td>
+                    <td style="text-align: center!important"><span class="h4">{!! $symbol !!} <?php echo number_format($order->total_payment_tax,2, ',','.'); ?></span></td>
+                </tr>
+            @endif
+        @endif
+
         <tr class="active">
             <td></td>
             <td style="text-align: right!important"><strong>{{ @$labels['shop-partials-tit-totale'] }}</strong></td>
-            <td style="text-align: center!important"><strong>{!! $symbol !!} <?php echo number_format((($order->total_tax - $order->total_coupon) + $order->total_shipping_tax + $order->total_extra),2, ',','.');?></strong></td>
+            <td style="text-align: center!important"><strong>{!! $symbol !!} <?php echo number_format((($order->total_tax - $order->total_coupon) + $order->total_shipping_tax + $order->total_extra + $order->total_payment_tax),2, ',','.');?></strong></td>
         </tr>
     @else
         <tr>
@@ -177,10 +190,23 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
             <td style="text-align: center!important"><span class="h4">{!! $symbol !!} <?php echo number_format($order->total_shipping_tax,2, ',','.'); ?></span></td>
         </tr>
 
+        @if($order->total_payment_tax > 0)
+            <?php
+            $payment = \App\Models\Payment::withTrashed()->find($order->payment_id);
+            ?>
+            @if($payment)
+                <tr class="active">
+                    <td></td>
+                    <td style="text-align: right!important"><strong>{{ $payment->name }}</strong></td>
+                    <td style="text-align: center!important"><span class="h4">{!! $symbol !!} <?php echo number_format($order->total_payment_tax,2, ',','.'); ?></span></td>
+                </tr>
+            @endif
+        @endif
+
         <tr class="active">
             <td></td>
             <td style="text-align: right!important"><strong>{{ @$labels['shop-partials-tit-totale'] }}</strong></td>
-            <td style="text-align: center!important"><strong>{!! $symbol !!} <?php echo number_format(($order->total_tax + $order->total_extra + $order->total_shipping_tax),2, ',','.');?></strong></td>
+            <td style="text-align: center!important"><strong>{!! $symbol !!} <?php echo number_format(($order->total_tax + $order->total_extra + $order->total_shipping_tax + $order->total_payment_tax),2, ',','.');?></strong></td>
         </tr>
     @endif
 

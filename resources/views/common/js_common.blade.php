@@ -448,6 +448,7 @@ $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArra
                 if(data){
                     if(data.is_contrassegno == 0){
                         $('#payment_contrassegno').html('');
+                        $('#total_payment').val(0);
 
                         var perc = 1;
                         if(perc > 0) {
@@ -464,6 +465,8 @@ $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArra
                         methodCheckRadioDisabled();
                     }else{
                         var sum_total_contrassegno = parseFloat(data.price_contrassegno);
+                        $('#total_payment').val(sum_total_contrassegno);
+
                         var sum_total_contrassegno_format = sum_total_contrassegno.toFixed(2).replace(".", ",");
                         $('#payment_contrassegno').html('<th>Contrassegno</th><td class="text-right">€ ' + sum_total_contrassegno_format + '</td>');
 

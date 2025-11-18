@@ -501,6 +501,16 @@
                             <?php }
                             } ?>
                         @endif
+
+                        @if($order->total_payment_tax > 0)
+                            <tr>
+                                <th class="text-right" colspan="3">Pagamento @if($userOrder->type_client == 1) (iva escl.) @endif:</th>
+                                <td class="text-right">
+                                    {{ $order->total_payment_tax.' '.$order->currency->name }}
+                                </td>
+                            </tr>
+                        @endif
+
                         <tr>
                             <th class="text-right" colspan="3">Totale:</th>
                             <td class="text-right"><strong>{{ ($order->total_tax - $order->total_coupon) + $order->total_extra + $order->total_shipping_tax.' '.$order->currency->name }}</strong></td>
@@ -526,9 +536,24 @@
                             }
                             } ?>
                         @endif
+
+                        @if($order->total_payment_tax > 0)
+                            <?php
+                            $payment = \App\Models\Payment::withTrashed()->find($order->payment_id);
+                            ?>
+                            @if($payment)
+                                <tr>
+                                    <th class="text-right" colspan="3">{{ $payment->name }} @if($userOrder->type_client == 1) (iva escl.) @endif:</th>
+                                    <td class="text-right">
+                                        {{ $order->total_payment_tax.' '.$order->currency->name }}
+                                    </td>
+                                </tr>
+                            @endif
+                        @endif
+
                         <tr>
                             <th class="text-right" colspan="3">Totale:</th>
-                            <td class="text-right"><strong>{{ number_format($order->total_tax + $order->total_shipping_tax + $order->total_extra, 2,",",".").' '.$order->currency->name }}</strong></td>
+                            <td class="text-right"><strong>{{ number_format($order->total_tax + $order->total_shipping_tax + $order->total_extra + $order->total_payment_tax, 2,",",".").' '.$order->currency->name }}</strong></td>
                         </tr>
 
                         @if($order->total_giftcard > 0)

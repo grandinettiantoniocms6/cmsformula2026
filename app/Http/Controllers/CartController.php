@@ -960,6 +960,7 @@ class CartController extends Controller
             "total_extra" => $request->get('total_extra'),
             "total_shipping" => ($request->get('total_ship')/1.22),
             "total_shipping_tax" => $request->get('total_ship'),
+            "total_payment_tax" => $request->get('total_payment'),
             "total_giftcard" => $request->get('total_gift'),
             "code_coupon" => $coupon ? $coupon->code : null,
             "total_coupon" => $total_coupon,

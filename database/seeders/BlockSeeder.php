@@ -26,6 +26,16 @@ class BlockSeeder extends Seeder
                "is_ordinable" => 0
         ]);
 
+        //BLOCCO DA AGGIUNGERE PER DIFFERENZIARE SE E' VENDIBILE SU UN DETERMINATO TEMA. SE E' PER TUTTI ALLORA NON METTI NULLA oppure metti templates => null
+        /*\App\Models\AdminBlock::where("name", "blockHtml")->update([
+            "templates" => null
+        ]);*/
+
+        /*\App\Models\AdminBlock::where("name", "blockHtml")->update([
+            "templates" => "Webshop"
+        ]);*/
+
+
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockImage"],[
             "label" => "Header pagina",
             "name" => "blockImage",

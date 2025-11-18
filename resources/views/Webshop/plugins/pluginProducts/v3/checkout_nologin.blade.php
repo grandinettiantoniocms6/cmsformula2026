@@ -301,6 +301,7 @@ $website = \App\Models\WebsiteSetting::first();
                                                    if($tot >= $payment->total_min_cart_contrassegno && $tot <= $payment->total_max_cart_contrassegno){
                                                         $class = '';
                                                    }else{
+                                                        continue;
                                                         $class = 'is_contrassegno';
                                                    }
                                                }
@@ -324,11 +325,9 @@ $website = \App\Models\WebsiteSetting::first();
 
                                                     @if($payment->is_contrassegno)
                                                         @if($payment->total_min_cart_contrassegno > 0 || $payment->total_max_cart_contrassegno > 0)
-                                                           <p>Per carrelli da {{ number_format((float)$payment->total_min_cart_contrassegno,2,",", ".") }}&euro;
-                                                            a {{ number_format((float)$payment->total_max_cart_contrassegno,2,",", ".") }}&euro;
-
+                                                           <p>
                                                             @if($payment->price_contrassegno)
-                                                               <strong>Prezzo: {{ number_format($payment->price_contrassegno,2,",", ".") }} &euro;</strong>
+                                                               <strong>(&euro; {{ number_format($payment->price_contrassegno,2,",", ".") }})</strong>
                                                             @endif
                                                            </p>
                                                         @endif
@@ -469,6 +468,7 @@ $website = \App\Models\WebsiteSetting::first();
                                             <input type="hidden" name="total_extra" id="total_extra" value="0">
                                             <input type="hidden" name="total_coupon" id="total_coupon" value="0">
                                             <input type="hidden" name="total_gift" id="total_gift" value="0">
+                                            <input type="hidden" name="total_payment" id="total_payment" value="0">
                                         </td>
                                     </tr>
                                     <tr id="giftcard" class="text-danger"></tr>
