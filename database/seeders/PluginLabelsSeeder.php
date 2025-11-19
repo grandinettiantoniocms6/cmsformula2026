@@ -587,10 +587,10 @@ class PluginLabelsSeeder extends Seeder
         ]);
 
         $vet = [];
-        $vet["it"] = "Totale";
-        $vet["en"] = "Total";
+        $vet["it"] = "Prezzo unit.";
+        $vet["en"] = "Unit price";
         $vet["fr"] = "";
-        $vet["de"] = "Gesamt";
+        $vet["de"] = "Stückpreis";
         $vet["es"] = "";
         $vet["ru"] = "";
         $vet["srb"] = "";
