@@ -100,7 +100,10 @@ class PluginProductsController extends Controller
             }
         }
 
-        die;
+        if($request->has("ajax")){
+            die;
+        }
+
 
         //SPECIAL PAGE SHOPS
         $special_urls = [];
