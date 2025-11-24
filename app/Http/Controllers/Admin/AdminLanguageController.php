@@ -667,15 +667,15 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     $fields = ["title", "dati", "title_footer_1", "text_footer_1", "title_footer_2",
                         "text_footer_2", "title_footer_3", "text_footer_3",
                         "title_footer_4", "text_footer_4",
-                        "meta_description", "meta_keywords", "topbar_contact_description",
-                        "offline_description", "popup_title", "popup_text",
+                        "meta_description", "meta_keywords", "topbar_contact_description", "topbar_address_text",
+                        "offline_description", "popup_title", "popup_text", "label_extra_button_menu", "link_extra_button_menu",
                         "iubenda_privacy", "iubenda_cookie", "iubenda_cookie_banner",
                         "iubenda_termini"];
                     $fields_types = ["text", "text", "text", "content","text",
-                        "content","text", "content","text", "content", "textarea", "textarea", "text", "content", "text", "content", "textarea", "textarea", "textarea", "textarea"];
+                        "content","text", "content","text", "content", "textarea", "textarea", "text", "text", "text", "text", "content", "text", "text", "textarea", "textarea", "textarea", "textarea"];
                     $fields_label = ["Titolo Sito", "Nome Azienda e P.IVA", "Titolo 1 (Footer)", "Testo 1 (Footer)","Titolo 2 (Footer)", "Testo 2 (Footer)","Titolo 3 (Footer)", "Testo 3 (Footer)",
-                        "Titolo 4 (Footer)", "Testo 4 (Footer)", "Meta description", "Meta keywords", "Frase generica (Topbar)",
-                        "Testo quando sito è offline", "Titolo Popup", "Testo Popup", "Iubenda Privacy (Footer)", "Iubenda Cookie (Footer)",
+                        "Titolo 4 (Footer)", "Testo 4 (Footer)", "Meta description", "Meta keywords", "Frase generica (Topbar)", "Indirizzo Topbar",
+                        "Testo quando sito è offline", "Titolo Popup", "Testo Popup", "Testo pulsante extra top menu", "Link pulsante extra top menu (scrivi solo link della pagina es: contatti)", "Iubenda Privacy (Footer)", "Iubenda Cookie (Footer)",
                         "Iubenda Banner (Footer)", "Iubenda Termini (footer)"];
                     if(count($parameters)) {
                         $item = WebsiteSetting::find($item_id);
@@ -1553,8 +1553,8 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 $fields = ["title", "dati", "title_footer_1", "text_footer_1", "title_footer_2",
                     "text_footer_2", "title_footer_3", "text_footer_3",
                     "title_footer_4", "text_footer_4",
-                    "meta_description", "meta_keywords", "topbar_contact_description",
-                    "offline_description", "popup_title", "popup_text",
+                    "meta_description", "meta_keywords", "topbar_contact_description", "topbar_address_text",
+                    "offline_description", "popup_title", "popup_text", "label_extra_button_menu", "link_extra_button_menu",
                     "iubenda_privacy", "iubenda_cookie", "iubenda_cookie_banner",
                     "iubenda_termini"];
                 break;
