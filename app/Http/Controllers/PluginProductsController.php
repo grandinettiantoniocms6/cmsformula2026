@@ -100,6 +100,8 @@ class PluginProductsController extends Controller
             }
         }
 
+        die;
+
         //SPECIAL PAGE SHOPS
         $special_urls = [];
         $pages_special_shop = Page::where("is_special_shop", 1)->get();
