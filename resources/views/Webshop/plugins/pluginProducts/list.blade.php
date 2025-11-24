@@ -296,7 +296,8 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                  var order_by = $("#order_by").val();
                  var show_number =  $("#show_number").val();
 
-                 var urlClean = "<?php echo env('APP_URL');?><?php echo $_SERVER['REQUEST_URI']; ?>";
+                 alert("aaa");
+                 var urlClean = "{{ request()->fullUrl() }}";
                  var url = new URL(urlClean);
                  var search_params = url.searchParams;
 
