@@ -189,7 +189,7 @@
                         <div class="header-icon">
                            <div class="header-button">
 
-                               <a href="{{ $website->link_extra_button_menu }}" class="btn btn-small btn-rounded btn-box-shadow" style="background-color: {{ $website->bgcolor_extra_button_menu }}; color: {{ $website->txtcolor_extra_button_menu }};">{{ $website->label_extra_button_menu }}</a>
+                               <a href="{{ $website->link_extra_button_menu }}" target="{{ $website->type_href }}" class="btn btn-small btn-rounded btn-box-shadow" style="background-color: {{ $website->bgcolor_extra_button_menu }}; color: {{ $website->txtcolor_extra_button_menu }};">{{ $website->label_extra_button_menu }}</a>
 
                            </div>
                         </div>

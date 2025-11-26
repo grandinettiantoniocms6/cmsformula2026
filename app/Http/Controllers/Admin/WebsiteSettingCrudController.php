@@ -289,6 +289,27 @@ class WebsiteSettingCrudController extends CrudController
             'tab' => 'Header'
         ]);
 
+        $this->crud->addField([   // select_from_array
+            'name'        => 'type_href',
+            'label'       => "Apertura link pulsante extra Top menu (solo su Crafto)",
+            'type'        => 'select_from_array',
+            'options'     => ['_blank' => 'Nuova pagina', '_self' => 'Stessa pagina'],
+            'allows_null' => false,
+            'default'     => '_self',
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-12'
+            ],
+            'tab' => 'Header'
+
+        ]);
+
+        CRUD::addField([
+            'name'  => 'divider1',
+            'type'  => 'custom_html',
+            'value' => '<hr>',
+            'tab' => 'Header'
+        ]);
+
 
 
 
