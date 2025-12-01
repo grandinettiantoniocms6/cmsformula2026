@@ -84,7 +84,7 @@ class BlockPluginProductLastCrudController extends CrudController
 
         $this->crud->addField([   // repeatable
             'name'  => 'in_vetrina',
-            'label' => 'In vetrina',
+            'label' => 'In evidenza',
             'type'  => 'switch',
         ]);
 
