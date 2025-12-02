@@ -116,7 +116,7 @@ if($descriptionBlocco){
 
 
                             <div class="col-lg-{{ $item->col }} col-md-6 col-sm-6 mb-3 icon-with-text-style-04 transition-inner-all md-mb-30px" data-anime='{"scale": [0.1, 1], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                <div class="feature-box border-radius-10px box-shadow-quadruple-large-hover p-15 lg-pt-15 lg-pb-15 lg-ps-10 lg-pe-10" data-wow-duration=".3s" style="background-color: {{ $value->bgcolor }}!important;">
+                                <div class="feature-box border-radius-10px box-shadow-quadruple-large-hover p-10 lg-pt-10 lg-pb-10 lg-ps-10 lg-pe-10" data-wow-duration=".3s" style="background-color: {{ $value->bgcolor }}!important;">
 
                                     @if($value->icon)
                                         <div class="feature-box-icon icon-extra-large mb-25px" style="color: {{ $item->color_icon }}!important;">
@@ -140,7 +140,7 @@ if($descriptionBlocco){
 
                                         @if($url != "#")
                                             <a target="{{ $type_href }}" href="{{ $url }}">
-                                                <span class="d-inline-block fs-19 fw-500 mb-5px" style="color:{!! $value->color_title !!};">{{ $title[\App::getLocale()] }}</span>
+                                                <span class="d-inline-block fs-19 fw-500 mb-5px" style="color:{!! $value->color_title !!}; margin-top: 25px;">{{ $title[\App::getLocale()] }}</span>
                                                 <p class="text-white opacity-5">{!! $description[\App::getLocale()] !!} </p>
                                             </a>
                                         @else

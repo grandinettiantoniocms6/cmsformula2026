@@ -4,7 +4,7 @@ $agent = new \Jenssegers\Agent\Agent();
 ?>
 
 <section class="p-0 top-space-margin position-relative overflow-hidden">
-    <div class="swiper full-screen swiper-number-pagination-style-01 md-h-auto" data-slider-options='{ "slidesPerView": 1, "loop": true, "pagination": { "el": ".swiper-number", "clickable": true }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "autoplay": { "delay": 4000, "disableOnInteraction": false },  "keyboard": { "enabled": true, "onlyInViewport": true }, "effect": "{{ $item->effect }}" }' data-number-pagination="1">
+    <div class="swiper full-screen swiper-number-pagination-style-01 md-h-auto" data-slider-options='{ "slidesPerView": 1, "loop": true, "pagination": { "el": ".swiper-number", "clickable": true }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "autoplay": { "delay": 6500, "disableOnInteraction": false },  "keyboard": { "enabled": true, "onlyInViewport": true }, "effect": "{{ $item->effect }}" }' data-number-pagination="1">
         <div class="swiper-wrapper">
 
             @if($array)
@@ -130,13 +130,13 @@ $agent = new \Jenssegers\Agent\Agent();
                             <div class="swiper-slide" >
                                 <div class="container-fluid h-100 g-0">
                                     <div class="row h-100 p-0">
-                                        <div class="col-xxl-5 col-lg-6 text-white bg-very-light-green cover-background ps-6 xxl-ps-4 sm-ps-15px order-2 order-lg-1 md-pt-50px md-pb-15 xs-pb-20" style="background-color: {{ $value->left_bgcolor }}; height: 100%;" >
+                                        <div class="col-xxl-5 col-lg-6 text-white bg-very-light-green cover-background ps-6 xxl-ps-4 sm-ps-15px order-2 order-lg-1 md-pt-80px md-pb-15 xs-pb-20" style="background-color: {{ $value->left_bgcolor }}; height: 100%;" >
                                             <div class="d-flex justify-content-center align-items-lg-start align-items-center text-lg-start text-center flex-column h-100" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
                                                 @if($title[\App::getLocale()])
-                                                    <span class="fs-15 fw-500 ls-05px mb-20px d-inline-block border-bottom border-2 border-color-transparent-white-very-light text-uppercase" style="color: {{ $value->title_background }};">{!! $title[\App::getLocale()] !!}</span>
+                                                    <span class="fs-24 fw-500 ls-05px mb-20px d-inline-block border-bottom border-2 border-color-transparent-white-very-light text-uppercase" style="color: {{ $value->title_background }};">{!! $title[\App::getLocale()] !!}</span>
                                                 @endif
                                                 @if($abstract[\App::getLocale()])
-                                                <div class="fs-60 lg-fs-60 fw-600 ls-minus-2px md-w-80 sm-w-100 xs-w-90">
+                                                <div class="fs-40 lg-fs-40 fw-500 ls-minus-2px md-w-80 sm-w-100 xs-w-90">
                                                     <span>{!! $abstract[\App::getLocale()] !!}</span>
                                                 </div>
                                                 @endif

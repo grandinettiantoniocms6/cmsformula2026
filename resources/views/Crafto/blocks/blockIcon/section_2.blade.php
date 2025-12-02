@@ -119,7 +119,7 @@ if($descriptionBlocco){
                                 <!-- start new features box item -->
                                 <div class="col-lg-{{ $item->col }} col-md-6 col-sm-6 mb-3 icon-with-text-style-09 transition-inner-all md-mb-30px" data-anime='{"scale": [0.1, 1], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
                                     <div class="feature-box" >
-                                        <div class="box-move-bottom-top pt-18 pb-18 ps-15 pe-15 transition-inner-all" style="background-color: {{ $value->bgcolor }}!important;">
+                                        <div class="box-move-bottom-top pt-10 pb-10 ps-10 pe-10 transition-inner-all" style="background-color: {{ $value->bgcolor }}!important;">
 
                                             @if($value->icon)
                                                 <div class="feature-box-icon feature-box-icon-rounded icon-extra-large bg-slate-blue w-120px h-120px rounded-circle mb-25px box-shadow-medium mx-auto" style="color: {{ $item->color_icon }}!important;">
@@ -141,7 +141,7 @@ if($descriptionBlocco){
 
                                             <div class="feature-box-content last-paragraph-no-margin overflow-hidden">
                                                 @if($url != "#")
-                                                    <span class="d-inline-block fw-500 fs-18" style="color:{!! $value->color_title !!};">{{ $title[\App::getLocale()] }}</span>
+                                                    <span class="d-inline-block fw-700 fs-20 pb-5 pt-10" style="color:{!! $value->color_title !!};">{{ $title[\App::getLocale()] }}</span>
                                                     <p class="w-90 m-auto">{!! $description[\App::getLocale()] !!}</p>
 
                                                 @else
@@ -149,8 +149,8 @@ if($descriptionBlocco){
                                                     <p class="w-90 m-auto">{!! $description[\App::getLocale()] !!}</p>
                                                 @endif
                                                 @if(trim($button[\App::getLocale()])!="")
-                                                    <div class="move-bottom-top mt-15px">
-                                                        <a target="{{ $type_href }}" href="{{ $url }}" style="color:{!! $value->color_text_button !!};" class="hover-link btn btn-link btn-medium ls-05px">{{ $button[\App::getLocale()] }}</a>
+                                                    <div class="move-bottom-top mt-15px mb-30px">
+                                                        <a target="{{ $type_href }}" href="{{ $url }}" style="color:{!! $value->color_text_button !!} ; background-color:{!! $value->bgcolor_button !!}; border-color: {!! $value->bgcolor_button !!};" class="btn btn-very-small btn-rounded btn-dark-gray text-white btn-box-shadow ps-15px pe-15px pt-5px pb-5px lh-16">{{ $button[\App::getLocale()] }}</a>
                                                     </div>
                                                 @endif
 

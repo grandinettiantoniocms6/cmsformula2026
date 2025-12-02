@@ -189,6 +189,20 @@ class BlockSlideshowCrudController extends CrudController
                 ],
             ]);
 
+            $this->crud->addField([   // select_from_array
+                'name'        => 'effect',
+                'label'       => "Seleziona un effetto slide",
+                'type'        => 'select_from_array',
+                'attributes' => [
+                    'class' => 'custom-select',
+                ],
+                'options'     => ['slide' => 'Slide', 'fade' => 'Fade', 'cube' => 'Cube', 'coverflow' => 'Coverflow', 'flip' => 'Flip', 'creative' => 'Creative' ],
+                'allows_null' => false,
+                'default'     => 'slide',
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
 
 
 
