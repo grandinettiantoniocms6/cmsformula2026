@@ -5,6 +5,10 @@
     @include("$thema.inc.head")
 @endsection
 
+@section('recaptcha')
+    @include('common.recaptcha')
+@endsection
+
 @section('meta')
     @include("$thema.inc.meta")
 @endsection

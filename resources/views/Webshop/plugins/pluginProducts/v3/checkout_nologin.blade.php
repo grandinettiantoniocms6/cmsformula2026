@@ -11,6 +11,26 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
 <?php
 $website = \App\Models\WebsiteSetting::first();
 ?>
+@php
+    $tot = 0;
+    $totShip = 0;
+    $totNoTax = 0;
+    $v_tax = [];
+     foreach ($cart as $item){
+        $product = \App\Models\PluginProducts::find($item->product_id);
+        if(!$product){
+            continue;
+        }
+
+        $productTotal = $item->price * $item->qty;
+        $tot = $tot + $productTotal;
+
+        $vat = $product->tax ? $product->tax->value : 22;
+        $vat_calculate = ($vat / 100) + 1;
+        $v_tax[$vat] = 0;
+    }
+@endphp
+
 
 <section class="border-top border-bottom py-3 py-sm-4">
     <div class="container">
@@ -19,19 +39,6 @@ $website = \App\Models\WebsiteSetting::first();
 </section>
 
 <section class="page-checkout py-4 py-lg-5">
-    @php
-        $tot = 0;
-        $totShip = 0;
-        $totNoTax = 0;
-    @endphp
-
-    @foreach ($cart as $item)
-        @php
-            $productTotal = $item->price * $item->qty;
-            $tot = $tot + $productTotal;
-        @endphp
-    @endforeach
-
     <form method="post" action="{{ route('save.order_new') }}" id="form">
         {{ csrf_field() }}
         <div class="container">
@@ -277,31 +284,55 @@ $website = \App\Models\WebsiteSetting::first();
                                     @php $i = 0; @endphp
                                     @foreach ($payments as $payment)
                                         @php
-                                            $checked = '';
-                                            $active_class = '';
-                                            $class = 'is_not_contrassegno';
+                                           $payment->total_min_cart_contrassegno = (float) $payment->total_min_cart_contrassegno;
+                                           $payment->total_max_cart_contrassegno = (float) $payment->total_max_cart_contrassegno;
 
-                                            if($i == 0){
-                                                $checked = 'checked';
-                                                $active_class = 'active';
-                                            }
-                                            if($payment->is_contrassegno){
-                                                $class = 'is_contrassegno';
-                                            }
-                                            if($hasContrassegno == 0){
-                                                $class = '';
-                                            }
+                                           $checked = '';
+                                           $active_class = '';
+                                           $class = 'is_not_contrassegno';
 
-                                            if($payment->name == "GiftCard"){
-                                                $class = 'gift_card';
-                                            }
+                                           if($i == 0){
+                                               $checked = 'checked';
+                                               $active_class = 'active';
+                                           }
+                                           if($payment->is_contrassegno){
+                                               $class = '';
+                                               if($payment->total_min_cart_contrassegno >= 0 || $payment->total_max_cart_contrassegno >= 0){
+                                                   if($tot >= $payment->total_min_cart_contrassegno && $tot <= $payment->total_max_cart_contrassegno){
+                                                        $class = '';
+                                                   }else{
+                                                        continue;
+                                                        $class = 'is_contrassegno';
+                                                   }
+                                               }
+                                           }
+
+                                           if($hasContrassegno == 0){
+                                               $class = '';
+                                           }
+
+                                           if($payment->name == "GiftCard"){
+                                               $class = 'gift_card';
+                                           }
                                         @endphp
 
                                         <div class="form-check card-check">
                                             <input type="radio" name="payment_id" id="payment_id_{{ $i }}" value="{{ $payment->id }}" class="form-check-input {{ $class }}" {{ $checked }} onchange="change_payment({{ $payment->id }})">
                                             <label class="card card-body {{ $active_class }}" for="payment_id_{{ $i }}" @if($payment->name == "GiftCard") id="giftcard_payment" @endif>
                                                 <h6 class="mb-1">{{ $payment->name }}</h6>
-                                                <div class="text-muted font-sm">{{ $payment->info }}</div>
+                                                <div class="text-muted font-sm">
+                                                    {{ $payment->info }}
+
+                                                    @if($payment->is_contrassegno)
+                                                        @if($payment->total_min_cart_contrassegno > 0 || $payment->total_max_cart_contrassegno > 0)
+                                                           <p>
+                                                            @if($payment->price_contrassegno)
+                                                               <strong>(&euro; {{ number_format($payment->price_contrassegno,2,",", ".") }})</strong>
+                                                            @endif
+                                                           </p>
+                                                        @endif
+                                                    @endif
+                                                </div>
                                             </label>
                                         </div>
 
@@ -320,23 +351,6 @@ $website = \App\Models\WebsiteSetting::first();
 
                             <table class="table table-sm table-cart-summary font-sm">
                                 <tbody>
-                                @php
-                                    $tot = 0;
-                                    $totShip = 0;
-                                    $totNoTax = 0;
-                                    $v_tax = [];
-                                     foreach ($cart as $item){
-                                        $product = \App\Models\PluginProducts::find($item->product_id);
-                                        if(!$product){
-                                            continue;
-                                        }
-
-                                        $vat = $product->tax ? $product->tax->value : 22;
-                                        $vat_calculate = ($vat / 100) + 1;
-                                        $v_tax[$vat] = 0;
-                                    }
-                                @endphp
-
                                 @foreach ($cart as $item)
                                     @php
                                         $product = \App\Models\PluginProducts::with("tax")->find($item->product_id);
@@ -411,7 +425,6 @@ $website = \App\Models\WebsiteSetting::first();
                                         </td>
                                     </tr>
                                     @php
-                                        $tot = $tot + $productTotal;
                                         $totShip = $totShip + ($item->qty * $product->getShipPrice($item->price));
                                         $prezzoNoIva = $productTotal / ((100+$product->tax->value)/100);
 
@@ -443,6 +456,7 @@ $website = \App\Models\WebsiteSetting::first();
                                 @endphp
                                     <tr id="discount_coupon"></tr>
                                     <tr id="shipping_view"></tr>
+                                    <tr id="payment_contrassegno"></tr>
                                 </tbody>
                                 <tbody>
                                     <tr class="text-danger">
@@ -454,6 +468,7 @@ $website = \App\Models\WebsiteSetting::first();
                                             <input type="hidden" name="total_extra" id="total_extra" value="0">
                                             <input type="hidden" name="total_coupon" id="total_coupon" value="0">
                                             <input type="hidden" name="total_gift" id="total_gift" value="0">
+                                            <input type="hidden" name="total_payment" id="total_payment" value="0">
                                         </td>
                                     </tr>
                                     <tr id="giftcard" class="text-danger"></tr>
@@ -529,7 +544,10 @@ $website = \App\Models\WebsiteSetting::first();
                         </div>
                     </div>
 
-                    <button class="btn btn-primary btn-lg w-100 my-3" id="submit_button">{{ @$labels['shop-checkout-acquista-ora'] }}</button>
+                    <?php
+                    $key = config('app.recaptcha_key');
+                    echo "<button class='btn btn-primary btn-lg w-100 my-3 g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> {$labels['shop-checkout-acquista-ora']} </span></button>";
+                    ?>
                 </aside>
             </div>
         </div>
@@ -551,14 +569,24 @@ $website = \App\Models\WebsiteSetting::first();
 
             $("#country_id").val("106").trigger('change');
             $("#fatturazione").hide();
-            $('#name').attr('required', 'false');
+
+            /*$('#name').attr('required', 'false');
             $('#fiscal_code_vat').attr('required', 'false');
             $('#city_fatt').attr('required', 'false');
             $('#province_fatt').attr('required', 'false');
             $('#address_fatt').attr('required', 'false');
             $('#number_street_fatt').attr('required', 'false');
             $('#business_name').attr('required', 'false');
-            $('#country_id_fatt').attr('required', 'false');
+            $('#country_id_fatt').attr('required', 'false');*/
+
+            $('#name').removeAttr('required');
+            $('#fiscal_code_vat').removeAttr('required');
+            $('#city_fatt').removeAttr('required');
+            $('#province_fatt').removeAttr('required');
+            $('#address_fatt').removeAttr('required');
+            $('#number_street_fatt').removeAttr('required');
+            $('#business_name').removeAttr('required');
+            $('#country_id_fatt').removeAttr('required');
 
             $('#name').attr('disabled', 'true');
             $('#fiscal_code_vat').attr('disabled', 'true');
@@ -588,8 +616,8 @@ $website = \App\Models\WebsiteSetting::first();
                     $('#fiscal_code_vat').removeAttr('required');
                 } else {
                     $("#box_azienda").show();
-                    $('#business_name').attr('required', 'true');
-                    $('#fiscal_code_vat').attr('required', 'true');
+                    $('#business_name').attr('required', true);
+                    $('#fiscal_code_vat').attr('required', true);
                 }
 
                 $("#campi_aggiuntivi_fatturazione_privato").html("");
@@ -624,13 +652,14 @@ $website = \App\Models\WebsiteSetting::first();
                 }
 
                 if($('#fatturazione').is(':visible')){
-                    $('#type_client').attr('required', 'true');
-                    $('#name').attr('required', 'true');
-                    $('#fiscal_code_vat').attr('required', 'true');
-                    $('#city_fatt').attr('required', 'true');
-                    $('#province_fatt').attr('required', 'true');
-                    $('#address_fatt').attr('required', 'true');
-                    $('#number_street_fatt').attr('required', 'true');
+
+                    $('#type_client').attr('required', true);
+                    $('#name').attr('required', true);
+                    $('#fiscal_code_vat').attr('required', true);
+                    $('#city_fatt').attr('required', true);
+                    $('#province_fatt').attr('required', true);
+                    $('#address_fatt').attr('required', true);
+                    $('#number_street_fatt').attr('required', true);
 
                     $('#name').removeAttr('disabled');
                     $('#fiscal_code_vat').removeAttr('disabled');
@@ -642,7 +671,18 @@ $website = \App\Models\WebsiteSetting::first();
                     $('#country_id_fatt').removeAttr('disabled');
                 }else{
                     $('#campi_aggiuntivi').html("");
-                    $('#type_client').attr('required', 'false');
+
+                    $('#type_client').removeAttr('required');
+                    $('#name').removeAttr('required');
+                    $('#fiscal_code_vat').removeAttr('required');
+                    $('#city_fatt').removeAttr('required');
+                    $('#province_fatt').removeAttr('required');
+                    $('#address_fatt').removeAttr('required');
+                    $('#number_street_fatt').removeAttr('required');
+                    $('#business_name').removeAttr('required');
+                    $('#country_id_fatt').removeAttr('required');
+
+                    /*$('#type_client').attr('required', 'false');
                     $('#name').attr('required', 'false');
                     $('#fiscal_code_vat').attr('required', 'false');
                     $('#city_fatt').attr('required', 'false');
@@ -650,7 +690,7 @@ $website = \App\Models\WebsiteSetting::first();
                     $('#address_fatt').attr('required', 'false');
                     $('#number_street_fatt').attr('required', 'false');
                     $('#business_name').attr('required', 'false');
-                    $('#country_id_fatt').attr('required', 'false');
+                    $('#country_id_fatt').attr('required', 'false');*/
 
                     $('#name').attr('disabled', 'true');
                     $('#fiscal_code_vat').attr('disabled', 'true');

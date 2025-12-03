@@ -437,29 +437,55 @@ $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArra
 
     /** Payment */
     function change_payment(id){
-        var perc = 1;
-        if(perc > 0) {
-            var total = parseFloat($('#total_product').val());
-            var value = (total * perc) / 100;
+        var token = '{{ csrf_token() }}';
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('ajax.checkout.get_payment_by_id') }}',
+            data: 'id='+id+'&_token=' + token,
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                if(data){
+                    if(data.is_contrassegno == 0){
+                        $('#payment_contrassegno').html('');
+                        $('#total_payment').val(0);
 
-            var ship = parseFloat($('#total_ship').val());
+                        var perc = 1;
+                        if(perc > 0) {
+                            var ship = parseFloat($('#total_ship').val());
+                            var total = parseFloat($('#total_product').val());
+                            var new_total = total + ship;
 
-            /*if (id == 2) {
-                var new_total = parseFloat((total + value).toFixed(2));
-                var total_view = (new_total + ship).toFixed(2);
-                $('#total_view').html(total_view);
-                $('#total').val(new_total);
-                $('#service_view').html('<th>Servizio</th><td>€ ' + value.toFixed(2) + '</td>');
-            } else {*/
-                var total = $('#total').val();
-                var new_total = parseFloat((total).toFixed(2));
-                var total_view = (new_total + ship).toFixed(2);
-                $('#total_view').html(total_view);
-                $('#total').val(new_total);
-                $('#service_view').html('');
-            //}
-        }
-        methodCheckRadioDisabled();
+                            var total_view = (new_total).toFixed(2);
+                            $('#total_view').html(total_view);
+                            $('#total').val(new_total);
+                            $('#service_view').html('');
+                        }
+
+                        methodCheckRadioDisabled();
+                    }else{
+                        var sum_total_contrassegno = parseFloat(data.price_contrassegno);
+                        $('#total_payment').val(sum_total_contrassegno);
+
+                        var sum_total_contrassegno_format = sum_total_contrassegno.toFixed(2).replace(".", ",");
+                        $('#payment_contrassegno').html('<th>Contrassegno</th><td class="text-right">€ ' + sum_total_contrassegno_format + '</td>');
+
+                        var ship = parseFloat($('#total_ship').val());
+                        var total = parseFloat($('#total_product').val());
+
+                        var new_total = total + ship + sum_total_contrassegno;
+
+                        var total_view = (new_total).toFixed(2);
+                        $('#total_view').html(total_view);
+                        $('#total').val(new_total);
+                    }
+                }
+
+            },
+            error: function() {}
+        });
+
+
     }
 
 </script>

@@ -1,8 +1,44 @@
+<?php
+$website = \App\Models\WebsiteSetting::first();
+$labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
+
+$titleBlocco = json_decode($item->title, true);
+if($titleBlocco){
+    if(!key_exists(\App::getLocale(), $titleBlocco)){
+        $titleBlocco[\App::getLocale()] = "";
+    }
+}else{
+    $titleBlocco[\App::getLocale()] = "";
+}
+
+$descriptionBlocco = json_decode($item->description, true);
+if($descriptionBlocco){
+    if(!key_exists(\App::getLocale(), $descriptionBlocco)){
+        $descriptionBlocco[\App::getLocale()] = "";
+    }
+}else{
+    $descriptionBlocco[\App::getLocale()] = "";
+}
+
+?>
+
+@if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
+
+    <section class="position-relative overflow-hidden pt-5">
+        <div class="separator-line-9px bg-base-color position-absolute top-0px right-0px" data-bottom-top="width: 15%" data-center-top="width: 50%;"></div>
+        <div class="container">
+            <div class="row justify-content-center mb-2">
+                <div class="col-xl-12 col-lg-9 col-md-10 text-center" data-anime='{ "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                    <span class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" style="background-color: {{ $website->color_gen2 }};">{{ $titleBlocco[\App::getLocale()] }}</span>
+                    <p>{!! $descriptionBlocco[\App::getLocale()] !!}</p>
+                </div>
+            </div>
+        </div>
+@endif
+
 <section class="big-section bg-very-light-gray block-faq mt-3" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         <div class="row">
-            <h3 class="title" data-anime='{ "translateX": [0, 0], "opacity": [0,1], "duration": 600, "delay":150, "staggervalue": 150, "easing": "easeOutQuad" }'>{{ $item->name }}</h3>
-
             <div class="accordion accordion-style-01" id="accordion-{{ $item->id }}" data-active-icon="fa-angle-down" data-inactive-icon="fa-angle-right" data-anime='{ "el": "childs", "translateX": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
                 @if($array)

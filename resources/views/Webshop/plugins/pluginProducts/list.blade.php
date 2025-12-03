@@ -129,7 +129,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
 
                  @else
 
-                     var urlClean = "<?php echo env('APP_URL');?><?php echo $_SERVER['REQUEST_URI']; ?>";
+                     var urlClean = "{{ request()->fullUrl() }}";
                      var url = new URL(urlClean);
                      var search_params = url.searchParams;
 
@@ -188,7 +188,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                  var order_by = $("#order_by").val();
                  var show_number =  $("#show_number").val();
 
-                 var urlClean = "<?php echo env('APP_URL');?><?php echo $_SERVER['REQUEST_URI']; ?>";
+                 var urlClean = "{{ request()->fullUrl() }}";
                  var url = new URL(urlClean);
                  var search_params = url.searchParams;
 
@@ -243,7 +243,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
 
                  var output = $('#myRange').val();
 
-                 var urlClean = "<?php echo env('APP_URL');?><?php echo $_SERVER['REQUEST_URI']; ?>";
+                 var urlClean = "{{ request()->fullUrl() }}";
                  var url = new URL(urlClean);
                  var search_params = url.searchParams;
 
@@ -296,7 +296,7 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
                  var order_by = $("#order_by").val();
                  var show_number =  $("#show_number").val();
 
-                 var urlClean = "<?php echo env('APP_URL');?><?php echo $_SERVER['REQUEST_URI']; ?>";
+                 var urlClean = "{{ request()->fullUrl() }}";
                  var url = new URL(urlClean);
                  var search_params = url.searchParams;
 

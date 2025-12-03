@@ -481,7 +481,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                                                 <div class="product-form-group row">
                                                     <div class="input-group input-spinner w-auto col-auto">
                                                         <button class="quantity-minus btn btn-default button-minus" type="button" onclick="decreaseValue('#qty')" aria-label="Riduci"><i class="fas fa-minus"></i></button>
-                                                        <input class="quantity form-control form-control-qty" type="number" name="qty" min="{{ $min }}" @if($pluginSetting->is_qty_infinite == 0) max="{{ $max }}" @endif id="qty" value="{{ $min }}" aria-label="Quantità" style="max-width: 40px!important">
+                                                        <input class="quantity form-control form-control-qty" type="number" name="qty" min="{{ $min }}" @if($pluginSetting->is_qty_infinite == 0) max="{{ $max }}" @endif id="qty" value="{{ $min }}" aria-label="Quantità" style="max-width: 40px!important" required>
                                                         <button class="quantity-plus btn btn-default button-plus" type="button" onclick="increaseValue('#qty')" aria-label="Aumenta"><i class="fas fa-plus"></i></button>
                                                     </div>
                                                     <button class="btn btn-primary col-auto" type="submit">

@@ -56,7 +56,7 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                                                     <span class="font-weight-normal badge badge-{{ $order->status->className }}">{{ $order->status->name }}</span>
                                                     @endif
                                                 </td>
-                                                <td class="align-middle" data-column="Totale" data-fluid="100">{!! $symbol !!} {{ number_format(($order->total_tax - $order->total_coupon - $order->total_giftcard) + $order->total_shipping_tax + $order->total_extra,2, ',','.') }}</td>
+                                                <td class="align-middle" data-column="Totale" data-fluid="100">{!! $symbol !!} {{ number_format(($order->total_tax - $order->total_coupon - $order->total_giftcard) + $order->total_shipping_tax + $order->total_payment_tax + $order->total_extra,2, ',','.') }}</td>
                                                 <td class="align-middle text-right" data-column="Azioni" data-fluid="100">
                                                     <a class="btn btn-primary btn-sm mx-1 mx-md-0" href="{{ route('order.detail') }}?order_id={{ $order->id }}"><span data-toggle="tooltip" title="{{ @$labels['shop-myarea-dettaglio-ordine'] }}"><i class="fas fa-file-invoice"></i></span></a>
                                                     <a class="btn btn-primary btn-sm" href="{{ route('myarea.support') }}"><span data-toggle="tooltip" title="{{ @$labels['shop-myarea-richiedi-assistenza-ordine'] }}"><i class="fas fa-life-ring"></i></span></a>

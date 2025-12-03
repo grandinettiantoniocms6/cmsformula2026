@@ -26,7 +26,7 @@
 
     ?>
     @if($item->is_with_section && $position != 'footer')
-        <section class="block-html" id="block-html-{{ $item->id }}" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+        <section class="block-html" id="block-html-{{ $item->id }}" data-anime='{"translateY": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
             <div class="container">
                 @if(key_exists(\App::getLocale(), $description))
                     {!! $description[\App::getLocale()] !!}
@@ -34,7 +34,7 @@
             </div>
         </section>
     @else
-        <section style="background-color: {!! $item->bgcolor !!}; background-image: url('{!! $foto !!}'); background-repeat:repeat;background-position:left top;" class="block-html" id="2block-html-{{ $item->id }}" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+        <section @if($position != 'footer') style="background-color: {!! $item->bgcolor !!}; background-image: url('{!! $foto !!}'); background-repeat:repeat;background-position:left top;" @endif class="block-html" id="2block-html-{{ $item->id }}" data-anime='{"translateY": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
             <div class="container-fluid col-lg-{{ $item->col }} mx-auto" style="margin-top: {{ $item->mt }}px;">
                 @if(key_exists(\App::getLocale(), $description))
                     {!! $description[\App::getLocale()] !!}

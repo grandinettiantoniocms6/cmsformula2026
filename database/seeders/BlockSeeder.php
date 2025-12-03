@@ -26,6 +26,16 @@ class BlockSeeder extends Seeder
                "is_ordinable" => 0
         ]);
 
+        //BLOCCO DA AGGIUNGERE PER DIFFERENZIARE SE E' VENDIBILE SU UN DETERMINATO TEMA. SE E' PER TUTTI ALLORA NON METTI NULLA oppure metti templates => null
+        /*\App\Models\AdminBlock::where("name", "blockHtml")->update([
+            "templates" => null
+        ]);*/
+
+        /*\App\Models\AdminBlock::where("name", "blockHtml")->update([
+            "templates" => "Webshop"
+        ]);*/
+
+
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockImage"],[
             "label" => "Header pagina",
             "name" => "blockImage",
@@ -107,8 +117,6 @@ class BlockSeeder extends Seeder
             "is_multi" => 1
         ]);
 
-
-
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockIcon"],[
             "label" => "Icone",
             "name" => "blockIcon",
@@ -181,7 +189,6 @@ class BlockSeeder extends Seeder
             "is_multi" => 1
         ]);
 
-
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockPortfolio2"],[
             "label" => "Portfolio",
             "name" => "blockPortfolio2",
@@ -234,6 +241,7 @@ class BlockSeeder extends Seeder
             "is_active" => 0,
             "is_ordinable" => 0
         ]);
+
 
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockFaq"],[
             "label" => "Faq",
@@ -423,6 +431,58 @@ class BlockSeeder extends Seeder
             "is_ordinable" => 1,
             "is_multi" => 1
         ]);
+
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockProgressbar"],[
+            "label" => "Progress Bar",
+            "name" => "blockProgressbar",
+            "name_table" => "blocks_progress_bars",
+            "is_active" => 0,
+            "is_ordinable" => 1,
+            "is_multi" => 1
+        ]);
+
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockListOfLink"],[
+            "label" => "Elenco di Links",
+            "name" => "blockListOfLink",
+            "name_table" => "blocks_list_of_links",
+            "is_active" => 1,
+            "is_ordinable" => 1,
+            "is_multi" => 1
+        ]);
+
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockScrollingtext"],[
+            "label" => "Testo scorrevole",
+            "name" => "blockScrollingtext",
+            "name_table" => "blocks_scrolling_texts",
+            "is_active" => 0,
+            "is_ordinable" => 1,
+            "is_multi" => 1
+        ]);
+
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockCountdown"],[
+            "label" => "Countdown",
+            "name" => "blockCountdown",
+            "name_table" => "blocks_countdowns",
+            "is_active" => 0,
+            "is_ordinable" => 1,
+            "is_multi" => 1
+        ]);
+
+        \App\Models\AdminBlock::firstOrCreate(["name" => "blockHtmlbook"],[
+            "label" => "Testo Html con 4 immagini",
+            "name" => "blockHtmlbook",
+            "name_table" => "blocks_htmlbooks",
+            "is_active" => 1,
+            "is_ordinable" => 1,
+            "is_multi" => 1
+        ]);
+
+
+
+
+
+
+
 
         \App\Models\AdminBlock::firstOrCreate(["name" => "blockPluginBookingSearchType"],[
             "label" => "Blocco Plugin Booking Tipologia di prenotazione",

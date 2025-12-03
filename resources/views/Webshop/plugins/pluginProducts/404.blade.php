@@ -13,13 +13,17 @@
         @include("$thema.inc.topbar")
     @endsection
 
+    @section('topbar_ecommerce')
+        @include("$thema.inc.topbar_ecommerce")
+    @endsection
+
     @section('header_menu')
         @include("$thema.inc.header_menu")
     @endsection
 
     @section('content')
-        <section class="page-title bg-overlay-black-60 parallax" data-jarallax="{&quot;speed&quot;: 0.6}"
-                @if($plugin->image)
+        <section class="page-title-block image-wrapper bg-overlay bg-overlay-black-60 jarallax block-parallax py-5" @if($plugin->image_height) style="--page-title-height: {{ $plugin->image_height }}px;" @endif>
+        @if($plugin->image)
                      style="background-image: url({{ url($plugin->image) }});"
                 @endif
         >

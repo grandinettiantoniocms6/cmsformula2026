@@ -39,6 +39,7 @@ class Order extends Model
         'total_discount_tax',
         'total_shipping',
         'total_shipping_tax',
+        'total_payment_tax',
         'total',
         'total_tax',
         'code_referral',
@@ -104,7 +105,7 @@ class Order extends Model
 
     public function get_total(){
         $sum = OrderProduct::selectRaw("SUM(price_with_tax * quantity) as tot")->where("order_id", $this->id)->first();
-        $total = ($this->total_tax - $this->total_coupon);
+        $total = (($this->total_tax + $this->total_payment_tax) - $this->total_coupon);
 
         if($sum){
             if($this->total_tax != round($sum->tot,2)){

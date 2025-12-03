@@ -111,6 +111,28 @@ class ShopPaymentsCrudController extends CrudController
             'name'  => 'is_contrassegno',
             'label' => 'Contrassegno?',
             'type'  => 'switch',
+            'wrapper' => ['class' => 'form-group col-md-2']
+        ]);
+
+        $this->crud->addField([   // repeatable
+            'name'  => 'price_contrassegno',
+            'label' => 'Costo Contrassegno',
+            'type'  => 'text',
+            'wrapper' => ['class' => 'form-group col-md-2']
+        ]);
+
+        $this->crud->addField([   // repeatable
+            'name'  => 'total_min_cart_contrassegno',
+            'label' => 'Min Totale Carrello Contrassegno',
+            'type'  => 'text',
+            'wrapper' => ['class' => 'form-group col-md-2']
+        ]);
+
+        $this->crud->addField([   // repeatable
+            'name'  => 'total_max_cart_contrassegno',
+            'label' => 'Max Totale Carrello Contrassegno',
+            'type'  => 'text',
+            'wrapper' => ['class' => 'form-group col-md-2']
         ]);
 
         $this->crud->addField([   // repeatable

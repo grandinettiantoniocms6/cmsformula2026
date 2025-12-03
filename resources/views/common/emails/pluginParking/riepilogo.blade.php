@@ -591,7 +591,6 @@
                                                                     <td>&euro; {{ number_format($data->total,2,",",".") }}</td>
                                                                     </tfoot>
 
-
                                                                 </table>
 
                                                                 <!-- Indicazioni down o Up -->
@@ -599,16 +598,21 @@
                                                                 <table class="table table-sm font-sm" width="100%">
                                                                     <tbody>
 
-                                                                    <tr><br><br><h4><b>Indicazioni aggiuntive</b></h4><br><br>
-                                                                    <b>IL PAGAMENTO E' DA EFFETTUARE IN NAVETTA.</b><br><br>
+                                                                    <tr><b>IL PAGAMENTO E' DA EFFETTUARE IN NAVETTA.</b><br>
+                                                                    <tr><br><br><h4><b>Indicazioni aggiuntive</b></h4><br>
 
-                                                                    <b>Altre indicazioni</b><br><br>
-
-                                                                    <tr>Durante i periodi di alta stagione, sia estivi che invernali, si consiglia, in caso di numerosi bagagli o bagagli voluminosi, di raggiungere prima
-                                                                        l'aeroporto per lasciare passeggeri e bagagli e successivamente recarsi al parcheggio.<br><br>
                                                                         <b>Come accedere al parcheggio:</b><br><br>
-                                                                        Per ragioni di sicurezza il cancello di accesso potrebbe essere chiuso. Sarà sufficiente, all'arrivo, telefonale al numero +39 393 50 80 289 per accedere al parcheggio.
+
+                                                                        <b>Dove siamo:</b> Autopal Parking si trova in <b>Via dell'Artigianato, 32, 37066 Caselle (VR)</b>, <a href="https://www.google.com/maps/dir//Parcheggio+Aeroporto+Verona+-+Autopal+Parking,+Via+dell'Artigianato,+32,+37066+Caselle+VR/@45.4123097,10.8937048,19.54z/data=!4m17!1m7!3m6!1s0x4781e10001ecc3c7:0x9cebe6be52773c05!2sParcheggio+Aeroporto+Verona+-+Autopal+Parking!8m2!3d45.4123619!4d10.8938499!16s%2Fg%2F11whztxxsf!4m8!1m0!1m5!1m1!1s0x4781e10001ecc3c7:0x9cebe6be52773c05!2m2!1d10.8938469!2d45.412314!3e0?authuser=0&entry=ttu&g_ep=EgoyMDI1MTEwNS4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+                                                                            CLICCA QUI PER APRIRE LA GOOGLE MAP che ti porterà davanti al nostro cancello di ingresso al parcheggio.</a><br><br>
+
+                                                                        Per ragioni di sicurezza il cancello di accesso potrebbe essere chiuso. Sarà sufficiente, all'arrivo, telefonare al numero +39 393 50 80 289 per accedere al parcheggio.
                                                                         All'apertura del cancello, seguire la navetta per parcheggiare e caricare i bagagli.<br><br>
+
+                                                                        <b>Altre indicazioni</b><br><br>
+
+                                                                        Durante i periodi di alta stagione, sia estivi che invernali, si consiglia, in caso di numerosi bagagli o bagagli voluminosi, di raggiungere prima
+                                                                        l'aeroporto per lasciare passeggeri e bagagli e successivamente recarsi al parcheggio.<br><br>
 
 
                                                                     <b>Check-In / Partenze</b><br><br>

@@ -8,6 +8,8 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
     $symbol = "&euro;";
 }
 ?>
+
+
 <table class="table table-fluid my-0">
     <thead>
     <tr>
@@ -189,15 +191,40 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
             <td colspan="5" class="text-end d-none d-md-table-cell">{{ @$labels['shop-partials-tot-coupon'] }}</td>
             <td class="text-end" data-column="Spedizione" data-fluid="100">- {!! $symbol !!} {{ number_format(round(($order->total_coupon), 2),2, ',','.') }}</td>
         </tr>
+
+        @if($order->total_payment_tax > 0)
+                <?php
+                $payment = \App\Models\Payment::withTrashed()->find($order->payment_id);
+                ?>
+            @if($payment)
+                <tr class="bg-light">
+                    <td colspan="5" class="text-end d-none d-md-table-cell">{{ $payment->name }}</td>
+                    <td class="text-end" data-column="{{ $payment->name }}" data-fluid="100">{!! $symbol !!} {{ number_format(round(($order->total_payment_tax), 3),2, ',','.') }}</td>
+                </tr>
+            @endif
+        @endif
+
         <tr class="bg-light">
             <td colspan="5" class="text-end d-none d-md-table-cell"><span class="h4">{{ @$labels['shop-partials-totale'] }}</span></td>
-            <td class="text-end" data-column="Totale" data-fluid="100"><span class="h4">{!! $symbol !!} {{ number_format((($order->total_tax - $order->total_coupon) + $order->total_shipping_tax + $order->total_extra),2, ',','.') }}</span></td>
+            <td class="text-end" data-column="Totale" data-fluid="100"><span class="h4">{!! $symbol !!} {{ number_format((($order->total_tax - $order->total_coupon) + $order->total_shipping_tax + $order->total_extra + $order->total_payment_tax),2, ',','.') }}</span></td>
         </tr>
     @else
 
+        @if($order->total_payment_tax > 0)
+                <?php
+                $payment = \App\Models\Payment::withTrashed()->find($order->payment_id);
+                ?>
+            @if($payment)
+                <tr class="bg-light">
+                    <td colspan="5" class="text-end d-none d-md-table-cell">{{ $payment->name }}</td>
+                    <td class="text-end" data-column="{{ $payment->name }}" data-fluid="100">{!! $symbol !!} {{ number_format(round(($order->total_payment_tax), 3),2, ',','.') }}</td>
+                </tr>
+            @endif
+        @endif
+
         <tr class="bg-light">
             <td colspan="5" class="text-end d-none d-md-table-cell"><span class="h4">{{ @$labels['shop-partials-totale-2'] }}</span></td>
-            <td class="text-end" data-column="Totale" data-fluid="100"><span class="h4">{!! $symbol !!} {{ number_format(($order->total_tax + $order->total_extra + $order->total_shipping_tax),2, ',','.') }}</span></td>
+            <td class="text-end" data-column="Totale" data-fluid="100"><span class="h4">{!! $symbol !!} {{ number_format(($order->total_tax + $order->total_extra + $order->total_shipping_tax + $order->total_payment_tax),2, ',','.') }}</span></td>
         </tr>
     @endif
     </tbody>

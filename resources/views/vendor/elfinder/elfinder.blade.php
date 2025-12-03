@@ -2,40 +2,76 @@
 
 @section('after_scripts')
 
-        @include('vendor.elfinder.common_scripts')
-        @include('vendor.elfinder.common_styles')
+    @include('vendor.elfinder.common_scripts')
+    @include('vendor.elfinder.common_styles')
 
-        <!-- elFinder initialization (REQUIRED) -->
-        <script type="text/javascript" charset="utf-8">
-            // Documentation for client options:
-            // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
-            $(document).ready(function() {
-                $('#elfinder').elfinder({
-                    // set your elFinder options here
-                    @if($locale)
-                        lang: '{{ $locale }}', // locale
-                    @endif
-                    customData: { 
-                        _token: '{{ csrf_token() }}'
-                    },
-                    uiOptions: {
-                        theme: 'smooth'  // tema fisso
-                    },
-                    url : '{{ route("elfinder.connector") }}',  // connector URL
-                    soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
-                    cssAutoLoad : false,
+    <script>
+        (function($){
+            function normalizeUrl(u){
+                if (!u) return '';
+                u = u.replace(/([^:]\/)\/+/g, '$1');      // // -> /
+                u = u.replace(/\/uploads\/s\//, '/uploads/'); // /uploads/s/ -> /uploads/
+                return u;
+            }
+            function getUrlParam(name){
+                var m = new RegExp('[?&]' + name + '=([^&]+)').exec(window.location.search);
+                return m ? decodeURIComponent(m[1]) : null;
+            }
+
+            $(function(){
+                var $node = $('#elfinder').elfinder({
+                    @if($locale) lang: '{{ $locale }}', @endif
+                    url: '{{ route("elfinder.connector") }}',
+                    customData: { _token: '{{ csrf_token() }}' },
+                    uiOptions: { theme: 'smooth' },
+                    cssAutoLoad: false,
                     height: $(window).height() - 150,
-                    theme: 'default'
+                    theme: 'default',
+                    soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
+
+                    getFileCallback: function(file) {
+                        var url = file.url.replace('/s/', '/');
+                        url = url.replace('//', '/');
+                        window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, url);
+                        window.close();
+                    },
+
+                    // IMPORTANTISSIMO: non 'open', usa 'close' (o togli la riga)
+                    commandsOptions: { getfile: { oncomplete: 'close' } },
+
+                    handlers: {
+                        upload: function(ev, fm){
+                            var added = (ev.data && ev.data.added) || [];
+                            added.forEach(function(f){
+                                if (f.url)  f.url  = normalizeUrl(f.url);
+                                if (f.path) f.path = f.path.replace(/^\/+/, '');
+                            });
+                        },
+                        open: function(ev, fm){
+                            fm.files().forEach(function(f){
+                                if (f && f.url) f.url = normalizeUrl(f.url);
+                            });
+                        }
+                    }
                 });
+
+                // robustezza extra
+                var fm = $node.elfinder('instance');
+                if (fm) {
+                    var _url = fm.url;
+                    fm.url = function(hash){ return normalizeUrl(_url.call(fm, hash)); };
+                    fm.bind('url', function(e){ if (e.data && e.data.url) e.data.url = normalizeUrl(e.data.url); });
+                }
             });
-        </script>
+        })(jQuery);
+    </script>
 @endsection
 
 @php
-  $breadcrumbs = [
-    trans('backpack::crud.admin') => url(config('backpack.base.route_prefix'), 'dashboard'),
-    trans('backpack::crud.file_manager') => false,
-  ];
+    $breadcrumbs = [
+      trans('backpack::crud.admin') => url(config('backpack.base.route_prefix'), 'dashboard'),
+      trans('backpack::crud.file_manager') => false,
+    ];
 @endphp
 
 @section('header')
@@ -45,6 +81,5 @@
 @endsection
 
 @section('content')
-        <!-- Element where elFinder will be created (REQUIRED) -->
-        <div id="elfinder"></div>
+    <div id="elfinder"></div>
 @endsection

@@ -132,7 +132,7 @@ $agent = new \Jenssegers\Agent\Agent();
                                     <div class="col-xl-7 col-md-9 col-sm-9 position-relative text-white" data-anime='{ "el": "childs", "opacity": [0, 1], "translateY": [30, 0], "staggervalue": 200, "easing": "easeInOutSine" }'>
                                         <div class="fs-65 lh-55 sm-fs-45 fw-600 mb-20px text-shadow-large ls-minus-2px" style="color: {{ $value->title_background }};">{!! $title[\App::getLocale()] !!}</div>
                                         <div>
-                                            <span class="opacity-5 fs-20 w-70 md-w-85 mb-25px fw-300 d-inline-block">{!! $abstract[\App::getLocale()] !!}</span>
+                                            <span class="fs-20 w-70 md-w-85 mb-25px fw-300 d-inline-block">{!! $abstract[\App::getLocale()] !!}</span>
                                         </div>
                                         <div class="icon-with-text-style-08">
                                             <div class="feature-box feature-box-left-icon-middle">

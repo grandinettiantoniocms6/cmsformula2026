@@ -14,10 +14,6 @@
         @include("$thema.inc.topbar")
     @endsection
 
-    @section('topbar_ecommerce')
-        @include("$thema.inc.topbar_ecommerce")
-    @endsection
-
     @section('header_menu')
         @include("$thema.inc.header_menu")
     @endsection

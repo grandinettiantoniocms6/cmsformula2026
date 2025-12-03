@@ -24,6 +24,7 @@ use App\Models\Page;
 use App\Models\Payment;
 use App\Models\PluginProducts;
 use App\Models\PluginProductsQuantities;
+use App\Models\PluginProductsSettings;
 use App\Models\Product;
 use App\Models\Promotion;
 use App\Models\Shipping;
@@ -246,7 +247,7 @@ class CartController extends Controller
     }
 
     public function add_cart(Request $request){
-
+        $pluginSetting = PluginProductsSettings::first();
         $product = PluginProducts::find($request->input('id'));
         if($product){
             $qty = 1;
@@ -258,13 +259,12 @@ class CartController extends Controller
                 $qty = (int) $request->get('qty');
             }
 
-            if($qty > $product->qty){
+            if($qty > $product->qty && $pluginSetting->is_qty_infinite == 0){
                 $qty = $product->qty;
             }
 
             //nel carrello deve andare sempre il prezzo IVATO
             $finalPrice = $product->get_promo_price_cart($qty, true);
-
             $priceStart = $product->price;
 
             //------------------PRODUCT QUANTITY
@@ -304,8 +304,6 @@ class CartController extends Controller
                 }
             }
 
-
-
             $path = null;
             if ($request->hasFile('file')) {
                 // Salva il file nella cartella storage/app/public/uploads
@@ -327,7 +325,7 @@ class CartController extends Controller
                         "user_id" => \Session::get('user_id'),
                         "price" => $finalPrice,
                         "qty" => $qty,
-                        "total_cart" => $finalPrice * $qty,
+                        "total_cart" => $finalPrice * $qty,  //round($finalPrice * $qty, 2, PHP_ROUND_HALF_UP),
                         "file" => $path,
                         "message" => $message,
                         "created_at" => Carbon::now()->toDateTimeString(),
@@ -434,9 +432,11 @@ class CartController extends Controller
     }
 
     public function update_cart(Request $request){
+        $pluginSetting = PluginProductsSettings::first();
         $shopSetting = ShopSettings::first();
 
         $cart = $this->loading_cart(true);
+
         $quantities = $request->get('quantity');
         if($cart){
             foreach ($cart as $product){
@@ -466,7 +466,6 @@ class CartController extends Controller
                         $priceAdd = $sum_price_options;
                     }
 
-
                     if(key_exists($product->product_id, $quantities)){
                         $product->qty = $quantities[$product->product_id];
                         $product->price = $finalPrice;
@@ -475,6 +474,7 @@ class CartController extends Controller
                     $product->price_unit = $priceStart;
                     $product->price_add = $priceAdd;
 
+
                     if(\Session::has('user_id')){
                         if(key_exists($product->product_id, $quantities)){
                             $check = Cart::where("product_id", $product->product_id)
@@ -482,14 +482,18 @@ class CartController extends Controller
                                 ->first();
                             if($check){
                                 $item = PluginProducts::find($product->product_id);
-                                if($quantities[$product->product_id] > $item->qty){
+                                if($quantities[$product->product_id] > $item->qty && ($pluginSetting->is_qty_infinite == 0)){
                                     $check->qty = $item->qty;
                                 }else{
                                     $check->qty = $quantities[$product->product_id];
                                 }
+
+                                $check->total_cart = $check->price * $check->qty; //round($check->price * $check->qty, 2, PHP_ROUND_HALF_UP);
                                 $check->save();
                             }
                         }
+                    }else{
+                        $product->total_cart = $product->price * $product->qty; //round($product->price * $product->qty, 2, PHP_ROUND_HALF_UP);
                     }
                 }
             }
@@ -956,6 +960,7 @@ class CartController extends Controller
             "total_extra" => $request->get('total_extra'),
             "total_shipping" => ($request->get('total_ship')/1.22),
             "total_shipping_tax" => $request->get('total_ship'),
+            "total_payment_tax" => $request->get('total_payment'),
             "total_giftcard" => $request->get('total_gift'),
             "code_coupon" => $coupon ? $coupon->code : null,
             "total_coupon" => $total_coupon,

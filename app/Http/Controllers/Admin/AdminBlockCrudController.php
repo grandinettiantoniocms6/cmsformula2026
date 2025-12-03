@@ -33,6 +33,9 @@ class AdminBlockCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/adminBlock');
         CRUD::setEntityNameStrings('admin blocco', 'admin blocchi');
 
+        $thema = env('TEMA');
+        $this->crud->query->whereRaw("(templates LIKE '%$thema%' OR templates is null)");
+
         $this->crud->setDefaultPageLength(100);
     }
 
@@ -59,6 +62,11 @@ class AdminBlockCrudController extends CrudController
             [
                 'name'  => 'name',
                 'label' => 'Rotta',
+                'type'  => 'text',
+            ],
+            [
+                'name'  => 'templates',
+                'label' => 'Templates',
                 'type'  => 'text',
             ],
             [

@@ -439,9 +439,9 @@ figure:hover + span {
 .block-imagelink #btn-imagelink-1 { background: transparent; background-color: transparent; border: 2px solid; text-transform: uppercase; padding: 10px 15px;}
 
 /* Block HTML */
-
-.block-html .col-lg-9 { flex: 0 0 auto; width: 82%; }
-
+/*
+.block-html .col-lg-9 { flex: 0 0 auto; width: 83%; }
+*/
 
 
 /* REGOLE RESPONSIVE **********/
@@ -483,9 +483,9 @@ figure:hover + span {
 
 
     /* Block HTML */
-
+/*
     .block-html .col-lg-9 { flex: 0 0 auto; width: 82%; }
-
+*/
     /* Testo footer */
 
     .copyright { font-size: 0.9rem; }

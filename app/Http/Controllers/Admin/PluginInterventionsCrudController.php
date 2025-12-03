@@ -81,12 +81,9 @@ class PluginInterventionsCrudController extends CrudController
     ' - ', '<br>'
   ) AS full_address
 ");
-       // $this->crud->query->selectRaw("plugins_interventions.*");
-       // $this->crud->query->join("plugins_interventions_clients", "plugins_interventions_clients.id", "=", "client_id");
 
-        // ordinamento per data e orario
-        //$this->crud->query->orderBy("plugins_interventions.date_intervention", "desc");
-        //$this->crud->query->orderBy("plugins_interventions.start", "asc");
+        $this->crud->query->orderBy("plugins_interventions.date_intervention", "desc");
+        $this->crud->query->orderBy("plugins_interventions.start", "asc");
 
         $this->crud->setListView(backpack_view('plugins.pluginInterventions.list'));
         $this->crud->setEditView(backpack_view('plugins.pluginInterventions.edit'));
@@ -195,6 +192,7 @@ class PluginInterventionsCrudController extends CrudController
                 'label'      => 'Data intervento',
                 'type'       => 'text',
                 'escaped'    => false, // serve per <br>
+                'orderable' => true,
                 // Ordina realmente per data e poi per start (usando indici)
                 'orderLogic' => function ($query, $column, $direction) {
                     $query->orderBy('plugins_interventions.date_intervention', $direction)

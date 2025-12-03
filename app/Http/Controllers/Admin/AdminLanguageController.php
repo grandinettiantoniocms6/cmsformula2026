@@ -11,6 +11,7 @@ use App\Models\BlockCarousel;
 use App\Models\BlockCollage;
 use App\Models\BlockContact;
 use App\Models\BlockContactgmap;
+use App\Models\BlockCountdown;
 use App\Models\BlockDocument;
 use App\Models\BlockFaq;
 use App\Models\BlockFlusso;
@@ -19,12 +20,14 @@ use App\Models\BlockGrid;
 use App\Models\BlockHero;
 use App\Models\BlockHightlight;
 use App\Models\BlockHtml;
+use App\Models\BlockHtmlbook;
 use App\Models\BlockHtmlImage;
 use App\Models\BlockHtmlTwocol;
 use App\Models\BlockIcon;
 use App\Models\BlockImage;
 use App\Models\BlockImageLink;
 use App\Models\BlockLastwork;
+use App\Models\BlockListOfLink;
 use App\Models\BlockMetro;
 use App\Models\BlockMetrox;
 use App\Models\BlockNews;
@@ -36,8 +39,10 @@ use App\Models\BlockPluginProduct;
 use App\Models\BlockPortfolio;
 use App\Models\BlockPortfolio2;
 use App\Models\BlockPrice;
+use App\Models\BlockProgressbar;
 use App\Models\BlockReference;
 use App\Models\BlockScrollbar;
+use App\Models\BlockScrollingtext;
 use App\Models\BlockSeparator;
 use App\Models\BlockSlideshow;
 use App\Models\BlockStaff;
@@ -283,7 +288,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     break;
                 case "blockGallery":
                     $fields = ["title",'description'];
-                    $fields_types = ["text", "text"];
+                    $fields_types = ["text", "content"];
                     $fields_label = ["Nome", "Sottotitolo"];
                     if(count($parameters)) {
                         $item = BlockGallery::find($item_id);
@@ -468,6 +473,55 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                         $item = BlockMetrox::find($item_id);
                     }
                     break;
+                case "blockListOfLink":
+                    $fields = ["title",'label','url_interno','url','button'];
+                    $fields_types = ["text", "text", "select2_from_array", "text", "text"];
+                    $fields_label = ["Titolo", "Etichetta", "URL interno", "URL esterno", "Testo Link"];
+                    if(count($parameters)) {
+                        $item = BlockListOfLink::class::find($item_id);
+                    }
+                    break;
+                case "blockProgressbar":
+                    $fields = ["title",'description','label','skill','url_interno','url','button'];
+                    $fields_types = ["text", "content", "text", "text", "select2_from_array", "text", "text"];
+                    $fields_label = ["Titolo", "Descrizione", "Etichetta", "Skill", "URL interno", "URL esterno", "Testo pulsante"];
+
+                    // NB: quando cambio il blocco mettere App/Model
+                    if(count($parameters)) {
+                        $item = BlockProgressbar::find($item_id);
+                    }
+                    break;
+                case "blockScrollingtext":
+                    $fields = ["title",'url_interno','url'];
+                    $fields_types = ["text", "select2_from_array", "text"];
+                    $fields_label = ["Titolo", "URL interno", "URL esterno"];
+                    // NB: quando cambio il blocco mettere App/Model
+                    if(count($parameters)) {
+                        $item = BlockScrollingtext::find($item_id);
+                    }
+                    break;
+                case "blockCountdown":
+                    $fields = ["title",'description',];
+                    $fields_types = ["text" ,'content'];
+                    $fields_label = ["Titolo", "Descrizione"];
+                    // NB: quando cambio il blocco mettere App/Model
+                    if(count($parameters)) {
+                        $item = BlockCountdown::class::find($item_id);
+                    }
+                    break;
+                case "blockHtmlbook":
+                    $fields = ["title",'description','url_interno','url','button'];
+                    $fields_types = ["text", "content", "select2_from_array", "text", "text"];
+                    $fields_label = ["Titolo", "Descrizione", "URL interno", "URL esterno", "Label pulsante"];
+                    if(count($parameters)) {
+                        $item = BlockHtmlbook::find($item_id);
+                    }
+                    break;
+
+
+
+
+
                 // qui incollo nuovi blocchi futuri
 
 
@@ -482,7 +536,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
 
 
     // XCONF1 QUI creo i vari case per avere titolo e descrizione nei "CONF" dei blocchi dove mi serve tit e desc multilingua lato front
-    // quando cambio il nome del blocco nella parte evidenziata in giallo, devo poi selezionare: App/Model
+    // quando cambio il nome del blocco devo poi selezionare: App/Model
 
                 case "blockIconConf":
                     $fields = ["title", 'description'];
@@ -544,6 +598,68 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     }
                     break;
 
+                case "blockDocumentConf":
+                    $fields = ["title",'description'];
+                    $fields_types = ["text", "content"];
+                    $fields_label = ["Titolo", "Riassunto"];
+
+                    if(count($parameters)) {
+                        $item = BlockDocument::find($item_id);
+                    }
+                    break;
+
+                case "blockMetroxConf":
+                    $fields = ["title",'description'];
+                    $fields_types = ["text", "content"];
+                    $fields_label = ["Titolo", "Riassunto"];
+
+                    if(count($parameters)) {
+                        $item = BlockMetrox::find($item_id);
+                    }
+                    break;
+
+                case "blockFaqConf":
+                    $fields = ["title",'description'];
+                    $fields_types = ["text", "content"];
+                    $fields_label = ["Titolo", "Riassunto"];
+
+                    if(count($parameters)) {
+                        $item = BlockFaq::find($item_id);
+                    }
+                    break;
+
+                case "blockStaffConf":
+                    $fields = ["title",'description'];
+                    $fields_types = ["text", "content"];
+                    $fields_label = ["Titolo", "Riassunto"];
+
+                    if(count($parameters)) {
+                        $item = BlockStaff::find($item_id);
+                    }
+                    break;
+
+                case "blockListOfLinkConf":
+                    $fields = ["title"];
+                    $fields_types = ["text"];
+                    $fields_label = ["Titolo"];
+
+                    if(count($parameters)) {
+                        $item = BlockListOfLink::find($item_id);
+                    }
+                    break;
+                case "blockProgressbarConf":
+                    $fields = ["title",'description'];
+                    $fields_types = ["text", "content"];
+                    $fields_label = ["Titolo", "Riassunto"];
+
+                    if(count($parameters)) {
+                        $item = BlockProgressbar::find($item_id);
+                    }
+                    break;
+
+
+
+
 
     // Fine dei nuovi case stampa tit e descr lato front
 
@@ -551,15 +667,15 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                     $fields = ["title", "dati", "title_footer_1", "text_footer_1", "title_footer_2",
                         "text_footer_2", "title_footer_3", "text_footer_3",
                         "title_footer_4", "text_footer_4",
-                        "meta_description", "meta_keywords", "topbar_contact_description",
-                        "offline_description", "popup_title", "popup_text",
+                        "meta_description", "meta_keywords", "topbar_contact_description", "topbar_address_text",
+                        "offline_description", "popup_title", "popup_text", "label_extra_button_menu", "link_extra_button_menu",
                         "iubenda_privacy", "iubenda_cookie", "iubenda_cookie_banner",
                         "iubenda_termini"];
                     $fields_types = ["text", "text", "text", "content","text",
-                        "content","text", "content","text", "content", "textarea", "textarea", "text", "content", "text", "content", "textarea", "textarea", "textarea", "textarea"];
+                        "content","text", "content","text", "content", "textarea", "textarea", "text", "text", "text", "text", "content", "text", "text", "textarea", "textarea", "textarea", "textarea"];
                     $fields_label = ["Titolo Sito", "Nome Azienda e P.IVA", "Titolo 1 (Footer)", "Testo 1 (Footer)","Titolo 2 (Footer)", "Testo 2 (Footer)","Titolo 3 (Footer)", "Testo 3 (Footer)",
-                        "Titolo 4 (Footer)", "Testo 4 (Footer)", "Meta description", "Meta keywords", "Frase generica (Topbar)",
-                        "Testo quando sito è offline", "Titolo Popup", "Testo Popup", "Iubenda Privacy (Footer)", "Iubenda Cookie (Footer)",
+                        "Titolo 4 (Footer)", "Testo 4 (Footer)", "Meta description", "Meta keywords", "Frase generica (Topbar)", "Indirizzo Topbar",
+                        "Testo quando sito è offline", "Titolo Popup", "Testo Popup", "Testo pulsante extra top menu", "Link pulsante extra top menu (scrivi solo link della pagina es: contatti)", "Iubenda Privacy (Footer)", "Iubenda Cookie (Footer)",
                         "Iubenda Banner (Footer)", "Iubenda Termini (footer)"];
                     if(count($parameters)) {
                         $item = WebsiteSetting::find($item_id);
@@ -1170,9 +1286,31 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockHightlightConf":
                 $fields = ["title", "description"];
                 break;
+            case "blockDocumentConf":
+                $fields = ["title", "description"];
+                break;
+            case "blockMetroxConf":
+                $fields = ["title", "description"];
+                break;
+            case "blockFaqConf":
+                $fields = ["title", "description"];
+                break;
+            case "blockStaffConf":
+                $fields = ["title", "description"];
+                break;
+            case "blockListOfLinkConf":
+                $fields = ["title"];
+                break;
+            case "blockProgressbarConf":
+                $fields = ["title", "description"];
+                break;
 
 
 
+
+
+
+            // END di XCONF2
 
 
             case "blockHtml":
@@ -1232,7 +1370,6 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockPortfolio2":
                 $fields = ['title','description','url_interno','url','button'];
                 break;
-
             case "blockGallery":
                 $fields = ["title", "description"];
                 break;
@@ -1258,7 +1395,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 $fields = ["title",'description','date'];
                 break;
             case "blockStaff":
-                $fields = ['name_surname','role','phone','email','social_1','url_1','social_2','url_2','social_3','url_3','social_4','url_4','url_interno','url','button'];
+                $fields = ["title", "description",'name_surname','role','phone','email','social_1','url_1','social_2','url_2','social_3','url_3','social_4','url_4','url_interno','url','button'];
                 break;
             case "blockContactgmap":
                 $fields = ['subtitle','title','description','description2'];
@@ -1299,6 +1436,29 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
             case "blockMetrox":
                 $fields = ['title','subtitle','description','url_interno','url','button'];
                 break;
+            case "blockListOfLink":
+                $fields = ["title",'label','url_interno','url','button'];
+                break;
+            case "blockProgressbar":
+                $fields = ["title",'description','label','skill','url_interno','url','button'];
+                break;
+            case "blockProgressbar":
+                $fields = ["title",'url_interno','url'];
+                break;
+            case "blockScrollingtext":
+                $fields = ["title",'url_interno','url'];
+                break;
+            case "blockCountdown":
+                $fields = ["title" ,'description',];
+                break;
+            case "blockHtmlbook":
+                $fields = ["title",'description','url_interno','url','button'];
+                break;
+
+
+
+
+
 
 
             // Qui i case dei blocchi Plugins
@@ -1312,7 +1472,7 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 $fields = ['name','slug'];
                 break;
             case "pluginProductsCategories":
-                $fields = ['name','slug','description'];
+                $fields = ['name','slug','description','meta_description'];
                 break;
             case "pluginProductsSettings":
                 $fields = ["title", "subtitle", "no_results", "label_qty_success", "label_qty_error", "message_info_list_products"];
@@ -1393,8 +1553,8 @@ class AdminLanguageController extends \App\Http\Controllers\Controller
                 $fields = ["title", "dati", "title_footer_1", "text_footer_1", "title_footer_2",
                     "text_footer_2", "title_footer_3", "text_footer_3",
                     "title_footer_4", "text_footer_4",
-                    "meta_description", "meta_keywords", "topbar_contact_description",
-                    "offline_description", "popup_title", "popup_text",
+                    "meta_description", "meta_keywords", "topbar_contact_description", "topbar_address_text",
+                    "offline_description", "popup_title", "popup_text", "label_extra_button_menu", "link_extra_button_menu",
                     "iubenda_privacy", "iubenda_cookie", "iubenda_cookie_banner",
                     "iubenda_termini"];
                 break;

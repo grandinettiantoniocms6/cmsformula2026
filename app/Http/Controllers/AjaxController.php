@@ -54,6 +54,14 @@ class AjaxController extends Controller
         dd("test");
     }
 
+    public function get_payment_by_id(Request $request)
+    {
+        $id = $request->get('id');
+        $payment = Payment::find($id);
+        return response()->json($payment);
+
+    }
+
     public function get_cities_by_province(Request $request){
         $provinceID = $request->input('id');
         $element = $request->input('element');
@@ -256,12 +264,27 @@ class AjaxController extends Controller
         $payments = Payment::orderBy("order", "ASC")->get();
         $hasContrassegno = Payment::where("is_contrassegno", 1)->count();
 
+        $tot = 0;
+
+        $class = new CartController();
+        $cart = $class->loading_cart(true);
+        foreach ($cart as $item){
+            $product = \App\Models\PluginProducts::find($item->product_id);
+            if(!$product){
+                continue;
+            }
+
+            $productTotal = $item->total_cart;
+            $tot = $tot + $productTotal;
+        }
+
+
         $html = "";
         if(\Session::has('user_id')){
             $user = User::with("addresses", "companies")->find(\Session::get('user_id'));
-            $html = \View::make("common.pluginProducts.partials.checkout.box_method_payments", compact('user', 'id', 'payments', 'hasContrassegno'))->render();
+            $html = \View::make("common.pluginProducts.partials.checkout.box_method_payments", compact('user', 'id', 'payments', 'hasContrassegno','tot'))->render();
             if(env('TEMA') == "Webshop"){
-                $html = \View::make("Webshop.plugins.pluginProducts.v3.partials.checkout.box_method_payments", compact('user', 'id', 'payments', 'hasContrassegno'))->render();
+                $html = \View::make("Webshop.plugins.pluginProducts.v3.partials.checkout.box_method_payments", compact('user', 'id', 'payments', 'hasContrassegno','tot'))->render();
             }
         }
 

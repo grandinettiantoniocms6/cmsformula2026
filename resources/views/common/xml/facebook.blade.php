@@ -57,9 +57,9 @@
 
                     @if($promo_price)
                         @if(env('VIEW_WITH_IVA') == 1)
-                            <g:price>{{ number_format($p_temp->clear_price_centesimi($promo_price * $vat_calculate), 2, ".", ",") }} EUR</g:price>
+                            <g:price>{{ number_format($promo_price * $vat_calculate, 2, ".", ",") }} EUR</g:price>
                         @else
-                            <g:price>{{ number_format($p_temp->clear_price_centesimi($promo_price), 2, ".", ",") }} EUR</g:price>
+                            <g:price>{{ number_format($promo_price, 2, ".", ",") }} EUR</g:price>
                           @endif
                      @endif
 

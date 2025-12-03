@@ -160,20 +160,47 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                 <th>{{ @$labels['shop-partials-tot-coupon'] }} <small>{{ @$labels['shop-partials-iva-inc'] }}</small></th>
                 <td class="text-end">{!! $symbol !!} <span id="total_no_tax">- {{ number_format(round(($order->total_coupon), 3),2, ',','.') }}</span></td>
             </tr>
+
+         @if($order->total_payment_tax > 0)
+             <?php
+               $payment = \App\Models\Payment::withTrashed()->find($order->payment_id);
+             ?>
+             @if($payment)
+             <tr>
+                 <th>{{ $payment->name }}</th>
+                 <td class="text-end">{!! $symbol !!} {{ number_format(round(($order->total_payment_tax), 3),2, ',','.') }}</td>
+             </tr>
+             @endif
+         @endif
+
         </tbody>
         <tfoot>
             <tr>
                 <th>{{ @$labels['shop-checkout-totale'] }}</th>
-                <td class="text-end">{!! $symbol !!} <span id="total_view">{{ number_format((($order->total_tax - $order->total_coupon) + $order->total_shipping_tax + $order->total_extra),2, ',','.') }}</span></td>
+                <td class="text-end">{!! $symbol !!} <span id="total_view">{{ number_format((($order->total_tax - $order->total_coupon) + $order->total_shipping_tax + $order->total_extra + $order->total_payment_tax),2, ',','.') }}</span></td>
             </tr>
         </tfoot>
     @else
+        @if($order->total_payment_tax > 0)
+                <?php
+                $payment = \App\Models\Payment::withTrashed()->find($order->payment_id);
+                ?>
+            @if($payment)
+                <tr>
+                    <th>{{ $payment->name }}</th>
+                    <td class="text-end">{!! $symbol !!} {{ number_format(round(($order->total_payment_tax), 3),2, ',','.') }}</td>
+                </tr>
+             @endif
+        @endif
+
         </tbody>
         <tfoot>
             <tr>
                 <th>{{ @$labels['shop-checkout-totale'] }}</th>
-                <td class="text-end">{!! $symbol !!} <span id="total_view">{{ number_format(($order->total_tax + $order->total_extra + $order->total_shipping_tax),2, ',','.') }}</span></td>
+                <td class="text-end">{!! $symbol !!} <span id="total_view">{{ number_format(($order->total_tax + $order->total_extra + $order->total_shipping_tax + $order->total_payment_tax),2, ',','.') }}</span></td>
             </tr>
         </tfoot>
     @endif
 </table>
+
+

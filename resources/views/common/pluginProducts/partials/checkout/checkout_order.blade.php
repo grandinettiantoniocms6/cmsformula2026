@@ -102,6 +102,19 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
             <th>{{ @$labels['shop-partials-tit-spedizione'] }}</th>
             <td class="text-right">{!! $symbol !!} <span id="total_no_tax">{{ number_format($order->total_shipping_tax,2, ',','.') }}</span></td>
         </tr>
+        @if($order->total_payment_tax > 0)
+                <?php
+                $payment = \App\Models\Payment::withTrashed()->find($order->payment_id);
+                ?>
+            @if($payment)
+                <tr>
+                    <th>{{ $payment->name }}</th>
+                    <td class="text-end">{!! $symbol !!} {{ number_format(round(($order->total_payment_tax), 3),2, ',','.') }}</td>
+                </tr>
+            @endif
+        @endif
+
+
     </tbody>
     <tfoot>
         <tr>
@@ -114,6 +127,18 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
             <th>{{ @$labels['shop-partials-tit-spedizione'] }}</th>
             <td class="text-right">{!! $symbol !!} <span id="total_no_tax">{{ number_format($order->total_shipping_tax,2, ',','.') }}</span></td>
         </tr>
+
+        @if($order->total_payment_tax > 0)
+                <?php
+                $payment = \App\Models\Payment::withTrashed()->find($order->payment_id);
+                ?>
+            @if($payment)
+                <tr>
+                    <th>{{ $payment->name }}</th>
+                    <td class="text-end">{!! $symbol !!} {{ number_format(round(($order->total_payment_tax), 3),2, ',','.') }}</td>
+                </tr>
+                @endif
+        @endif
     </tbody>
     <tfoot>
         <tr>

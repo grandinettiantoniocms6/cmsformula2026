@@ -75,6 +75,12 @@ Route::group([
     Route::crud('blockScrollbar', 'BlockScrollbarCrudController');
     Route::crud('blockOnePhoto', 'BlockOnePhotoCrudController');
     Route::crud('blockMetrox', 'BlockMetroxCrudController');
+    Route::crud('blockListOfLink', 'BlockListOfLinkCrudController');
+    Route::crud('blockProgressbar', 'BlockProgressbarCrudController');
+    Route::crud('blockScrollingtext', 'BlockScrollingtextCrudController');
+    Route::crud('blockCountdown', 'BlockCountdownCrudController');
+    Route::crud('blockHtmlbook', 'BlockHtmlbookCrudController');
+
 
 
     // rotte Plugin Tutorial e Contatore
@@ -82,10 +88,12 @@ Route::group([
     Route::crud('pluginCounter', 'PluginCounterCrudController');
     Route::crud('blockPluginCounter', 'BlockPluginCounterCrudController');
 
+
     // rotte Plugin Inviti
     Route::crud('pluginInvitations', 'PluginInvitationsCrudController');
     Route::crud('pluginInvitationsSettings', 'PluginInvitationsSettingsCrudController');
     Route::crud('pluginInvitationsUsersSettings', 'PluginInvitationsUsersSettingsCrudController');
+
 
     // rotte Plugin Prodotti
     Route::crud('pluginProducts', 'PluginProductsCrudController');
@@ -201,5 +209,6 @@ Route::group([
         return view('vendor/backpack/custom/filemanager');
     })->name('backpack.filemanager');
     Route::crud('plugin-product-import', 'PluginProductImportCrudController');
+
 }); // this should be the absolute last line of this file
 

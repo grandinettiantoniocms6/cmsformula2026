@@ -17,7 +17,7 @@ class BlockStaff extends Model
     |--------------------------------------------------------------------------
     */
     use HasTranslations;
-    public $translatable = ['social_1','social_2','social_3','social_4','url_1','url_2','url_3','url_4','name_surname','role','phone','email','url_interno','url','button'];
+    public $translatable = ['title','description','social_1','social_2','social_3','social_4','url_1','url_2','url_3','url_4','name_surname','role','phone','email','url_interno','url','button'];
 
     protected $table = 'blocks_staffs';
     // protected $primaryKey = 'id';

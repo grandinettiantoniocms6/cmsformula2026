@@ -67,9 +67,13 @@ class PluginProductsRequests extends Model
 
     public function getField($what){
         $content = json_decode($this->content, true);
-        if(key_exists($what, $content)){
-            return $content[$what];
+
+        if(is_array($content)){
+            if(key_exists($what, $content)){
+                return $content[$what];
+            }
         }
+
     }
 
     public function getMenu(){

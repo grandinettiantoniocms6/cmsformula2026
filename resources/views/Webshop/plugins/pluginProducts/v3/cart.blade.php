@@ -8,6 +8,7 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
     $symbol = "&euro;";
 }
 $cart_class = new \App\Http\Controllers\CartController();
+$pluginSetting = \App\Models\PluginProductsSettings::first();
 ?>
 
 <section class="border-top border-bottom py-3 py-sm-4">
@@ -160,23 +161,27 @@ $cart_class = new \App\Http\Controllers\CartController();
                                             <div class="input-group input-spinner">
                                                 <button class="btn btn-default button-minus" type="button" onclick="decreaseValue('#qty_<?php echo $item->product_id;?>')"><i class="fas fa-minus"></i></button>
                                                 <?php
-                                                $qty_max = $product->qty;
+                                                $min = 1;
+                                                $max = $product->qty;
                                                 if($product->qty_max){
-                                                    $qty_max = $product->qty_max;
+                                                    $max = $product->qty_max;
+                                                }
+
+                                                if($product->qty_min){
+                                                    $min = $product->qty_min;
                                                 }
                                                 ?>
-                                                <input type="text" class="form-control form-control-sm form-control-qty" id="qty_<?php echo $item->product_id;?>" step="1" min="1" max="<?php echo $qty_max;?>"
+                                                <input type="number" class="form-control form-control-sm form-control-qty" id="qty_<?php echo $item->product_id;?>" step="1" min="<?php echo $min;?>"
+                                                       @if($pluginSetting->is_qty_infinite == 0) max="{{ $max }}" @endif
                                                        name="quantity[<?php echo $item->product_id;?>]"
-                                                       value="{{ $item->qty }}">
+                                                       value="{{ $item->qty }}"
+                                                       required
+                                                >
                                                 <button class="btn btn-default button-plus" type="button" onclick="increaseValue('#qty_<?php echo $item->product_id;?>')"><i class="fas fa-plus"></i></button>
                                             </div>
                                     </td>
                                     @php
-
-                                        //$productTotal = ($item->price * $vat_calculate) * $item->qty;
-                                        //$productTotal = $cart_class->truncate_floor($item->total_cart);
-                                        $productTotal = (($item->price_unit + $item->price_add) * $item->qty) * $vat_calculate;
-
+                                        $productTotal = $item->total_cart;
                                         $tot = $tot + $productTotal;
                                         $prezzoNoIva = $productTotal / ((100 + $vat)/100);
 

@@ -54,7 +54,10 @@
 
 @section('content')
     <?php
+    $thema = env('TEMA');
+
     $admin_blocks = \App\Models\AdminBlock::where("is_active", 1)->orderBy("label", "asc")
+        ->whereRaw("(templates LIKE '%$thema%' OR templates is null)")
         ->get()->pluck("label", "name")->toArray();
 
     /*$admin_blocks_exists = \App\Models\PageBlock::selectRaw("blocks_pages.*, admin_blocks.label, admin_blocks.name, admin_blocks.name_table")

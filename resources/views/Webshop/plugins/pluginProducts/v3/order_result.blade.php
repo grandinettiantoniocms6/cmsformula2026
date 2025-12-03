@@ -97,6 +97,7 @@
                         $lang = \App::getLocale();
                         $url = route("pluginProducts.$lang");
                         ?>
+
                         <a href="{{ route('order.detail') }}?order_id={{ $order->id }}" class="btn btn-success w-100"> {{ @$labels['shop-myarea-dettaglio-ordine'] }}</a>
                         <a href="{{ $url }}" class="btn btn-primary w-100"> <i class="bi bi-chevron-left"></i> {{ @$labels['shop-order-result-torna-allo-shopping'] }}</a>
                     </div>

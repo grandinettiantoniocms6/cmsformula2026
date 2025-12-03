@@ -246,11 +246,74 @@ class WebsiteSettingCrudController extends CrudController
             'name'  => 'is_topbar_fixed_desktop',
             'label' => 'Header fissa su PC/Desktop',
             'type'  => 'switch',
+            'default' => 0,
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-6'
             ],
             'tab' => 'Header'
         ]);
+
+        $this->crud->addField([   // Checkbox
+            'name'  => 'is_extra_button_menu',
+            'label' => 'Utilizza pulsante extra Top menu (solo su Crafto)',
+            'type'  => 'switch',
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-6'
+            ],
+            'tab' => 'Header'
+        ]);
+
+        $this->crud->addField([   // color_picker
+            'label'                => 'Colore di sfondo pulsante extra Top menu (solo su Crafto)',
+            'name'                 => 'bgcolor_extra_button_menu',
+            'type'                 => 'color_picker2',
+            'default'              => null,
+            // optional
+            'color_picker_options' => ['customClass' => 'custom-class'],
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-6'
+            ],
+            'tab' => 'Header'
+        ]);
+
+        $this->crud->addField([   // color_picker
+            'label'                => 'Colore del testi pulsante extra Top menu (solo su Crafto)',
+            'name'                 => 'txtcolor_extra_button_menu',
+            'type'                 => 'color_picker2',
+            'default'              => null,
+            // optional
+            'color_picker_options' => ['customClass' => 'custom-class'],
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-6'
+            ],
+            'tab' => 'Header'
+        ]);
+
+        $this->crud->addField([   // select_from_array
+            'name'        => 'type_href',
+            'label'       => "Apertura link pulsante extra Top menu (solo su Crafto)",
+            'type'        => 'select_from_array',
+            'options'     => ['_blank' => 'Nuova pagina', '_self' => 'Stessa pagina'],
+            'allows_null' => false,
+            'default'     => '_self',
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-12'
+            ],
+            'tab' => 'Header'
+
+        ]);
+
+        CRUD::addField([
+            'name'  => 'divider1',
+            'type'  => 'custom_html',
+            'value' => '<hr>',
+            'tab' => 'Header'
+        ]);
+
+
+
+
+
 
 
                 // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
@@ -1522,6 +1585,16 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
         $this->crud->addField([
             'name'  => 'icon_topbar3',
             'label' => 'Icona Frase generica (Es: fas fa-map-marker-alt ) - <a href="https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free" target="_blank">Clicca qui e seleziona la tua icona</a>',
+            'type'  => 'text',
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-6'
+            ],
+            'tab' => 'Topbar'
+        ]);
+
+        $this->crud->addField([
+            'name'  => 'topbar_address_icon',
+            'label' => 'Icona Indirizzo (Es: fas fa-map-marker-alt ) - <a href="https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free" target="_blank">Clicca qui e seleziona la tua icona</a>',
             'type'  => 'text',
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-6'

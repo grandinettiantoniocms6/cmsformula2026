@@ -109,6 +109,18 @@ class Page extends Model
             $linkAnteprima = "/$this->slug";
         }
 
+        $slug_shop_formula = config('config.slug_shop_formula');
+        $slug_plugin_booking = config('config.slug_plugin_booking');
+
+        if(in_array($this->name, $slug_shop_formula)){
+            return "";
+        }
+
+        if(in_array($this->name, $slug_plugin_booking)){
+            return "";
+        }
+
+
         $url_edit = "/admin/page/$this->id/edit";
 
         $pages_count = Page::count();
