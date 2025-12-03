@@ -552,45 +552,45 @@ $shopSetting = \App\Models\ShopSettings::first();
                                     </div>
                                 </div>
                             @else
-                                <div class="row">
-                                    <div class="col-auto">
+                                <div class="row g-2">
+                                    <div class="col-sm-auto">
                                         @if($plugin->show_form_contact == 1)
-                                            <a class="btn btn-primary" href="#block-product-contact">{{ @$labels['richiedi-preventivo'] }}</a>
+                                            <a class="btn btn-primary w-100" href="#block-product-contact">{{ @$labels['richiedi-preventivo'] }}</a>
                                         @endif
                                     </div>
                                     @if($shopSetting->is_add_to_wishlist)
-                                        <div class="col-auto">
-                                                @if(\Session::has("user_id"))
-                                                    @if($itemProduct->in_wishlist(\Session::get('user_id')))
-                                                        <a href="#" onclick="remove_wishlist({{ $itemProduct->id }})" class="btn btn-primary"><i class="fas fa-heart me-1"></i> {{ @$labels['shop-rimuovi-preferiti'] }}</a>
-                                                    @else
-                                                        <a href="#" onclick="add_wishlist({{ $itemProduct->id }})" class="btn btn-outline-primary"><i class="far fa-heart me-1"></i> {{ @$labels['shop-aggiungi-preferiti'] }}</a>
-                                                    @endif
+                                        <div class="col-sm-auto">
+                                            @if(\Session::has("user_id"))
+                                                @if($itemProduct->in_wishlist(\Session::get('user_id')))
+                                                    <a href="#" onclick="remove_wishlist({{ $itemProduct->id }})" class="btn btn-primary w-100"><i class="fas fa-heart me-1"></i> {{ @$labels['shop-rimuovi-preferiti'] }}</a>
                                                 @else
-                                                    <a href="{{ route('login') }}" class="btn btn-outline-primary" title="{{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}"><i class="far fa-heart me-2"></i> {{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}</a>
+                                                    <a href="#" onclick="add_wishlist({{ $itemProduct->id }})" class="btn btn-outline-primary w-100"><i class="far fa-heart me-1"></i> {{ @$labels['shop-aggiungi-preferiti'] }}</a>
                                                 @endif
+                                            @else
+                                                <a href="{{ route('login') }}" class="btn btn-outline-primary w-100" title="{{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}"><i class="far fa-heart me-2"></i> {{ @$labels['shop-accedi-e-aggiungi-preferiti'] }}</a>
+                                            @endif
                                         </div>
                                     @endif
-                                    <div class="col-auto">
+
                                         @if(env('SLUG_COMPARE') && $pluginSetting->is_comparations)
                                             <?php
                                             $indexClass = new \App\Http\Controllers\PluginProductsController();
                                             $cartCompare = $indexClass->loading_compare();
                                             ?>
                                             @if(!in_array($itemProduct->id, $cartCompare))
-                                                <a id="compare_{{ $itemProduct->id }}" href="{{ route('advice.compare', $itemProduct->id) }}" class="btn btn-outline-primary btn-compare"><i class="fas fa-balance-scale me-1"></i> {{ @$labels['shop-compara'] }}</a>
+                                                <div class="col-auto"><a id="compare_{{ $itemProduct->id }}" href="{{ route('advice.compare', $itemProduct->id) }}" class="btn btn-outline-primary btn-compare w-100 font-sm font-sm-md"><i class="fas fa-balance-scale me-1"></i> {{ @$labels['shop-compara'] }}</a></div>
                                             @else
-                                                <a id="compare_{{ $itemProduct->id }}" href="{{ route('advice.compare.remove', $itemProduct->id) }}" class="btn btn-primary btn-compare"><i class="fas fa-balance-scale-left me-1"></i> {{ @$labels['shop-rimuovi-da-comparazione'] }}</a>
+                                                <div class="col-auto"><a id="compare_{{ $itemProduct->id }}" href="{{ route('advice.compare.remove', $itemProduct->id) }}" class="btn btn-primary btn-compare w-100 font-sm font-sm-md"><i class="fas fa-balance-scale-left me-1"></i> {{ @$labels['shop-rimuovi-da-comparazione'] }}</a></div>
                                             @endif
 
-                                            <a class="btn btn-outline-primary btn-compare" href="{{ route('comparatore') }}"><i class="fas fa-exchange-alt me-1"></i> {{ @$labels['shop-vai-alla-comparazione'] }}</a>
+                                             <div class="col col-sm-auto"><a class="btn btn-outline-primary btn-compare w-100 font-sm font-sm-md" href="{{ route('comparatore') }}"><i class="fas fa-exchange-alt me-1"></i> {{ @$labels['shop-vai-alla-comparazione'] }}</a></div>
                                         @endif
-                                    </div>
-                                    <div class="col-auto">
-                                        @if($plugin->is_print_pdf == 1)
-                                            <a href="{{ route("pluginProducts.pdf.".\App::getLocale(), $itemProduct->id) }}" class="btn btn-outline-primary"><i class="fas fa-file-pdf me-1"></i> {{ @$labels['scarica-pdf'] }}</a>
-                                        @endif
-                                    </div>
+
+
+                                    @if($plugin->is_print_pdf == 1)
+                                        <div class="col-auto"><a href="{{ route("pluginProducts.pdf.".\App::getLocale(), $itemProduct->id) }}" class="btn btn-outline-primary w-100"><i class="fas fa-file-pdf me-1"></i> {{ @$labels['scarica-pdf'] }}</a></div>
+                                    @endif
+
                                 </div>
                             @endif
                         </div>
