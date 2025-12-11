@@ -1,5 +1,6 @@
 <?php
 $website = \App\Models\WebsiteSetting::first();
+$labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
 $titleBlocco = json_decode($item->title, true);
 if($titleBlocco){
@@ -141,15 +142,21 @@ if($descriptionBlocco){
                                         @if($url != "#")
                                             <a target="{{ $type_href }}" href="{{ $url }}">
                                                 <span class="d-inline-block fs-19 fw-500 mb-5px" style="color:{!! $value->color_title !!}; margin-top: 25px;">{{ $title[\App::getLocale()] }}</span>
-                                                <p class="text-white opacity-5">{!! $description[\App::getLocale()] !!} </p>
+                                                <p>{!! $description[\App::getLocale()] !!} </p>
                                             </a>
                                         @else
                                             <span class="d-inline-block fs-19 fw-500 mb-5px" style="color:{!! $value->color_title !!};">{{ $title[\App::getLocale()] }}</span>
-                                            <p class="text-white opacity-5">{!! $description[\App::getLocale()] !!} </p>
+                                            <p>{!! $description[\App::getLocale()] !!} </p>
                                         @endif
 
                                         @if(trim($button[\App::getLocale()])!="")
-                                            <a target="{{ $type_href }}" href="{{ $url }}" class="btn" style="color:{!! $value->color_text_button !!} ; background-color:{!! $value->bgcolor_button !!}; border-color: {!! $value->bgcolor_button !!};"><span>{{ $button[\App::getLocale()] }}</span></a>
+                                            <a target="{{ $type_href }}" href="{{ $url }}" class="btn btn-very-small" style="color:{!! $value->color_text_button !!} ; background-color:{!! $value->bgcolor_button !!}; border-color: {!! $value->bgcolor_button !!};"><span>{{ $button[\App::getLocale()] }}</span></a>
+                                        @endif
+                                        <!-- If PDF exist -->
+                                        @if(trim($value->file) != "" || $value->file)
+                                                <br><br><a href="{{ $value->file }}" target="_blank" class="btn btn-link underline-on-hover btn-medium text-dark-gray d-table d-lg-inline-block xl-mb-15px md-mx-auto">
+                                                <span><i class="far fa-file-pdf"></i> {{ @$labels['pdf-download'] }}</span>
+                                            </a>
                                         @endif
 
                                     </div>

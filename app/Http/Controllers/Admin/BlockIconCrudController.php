@@ -164,7 +164,7 @@ class BlockIconCrudController extends CrudController
 
 
                             // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
-                            if(env('TEMA') == 'Webshop' ){
+                            if(env('TEMA') == 'Webshop' ) {
 
                             // Permette di scegliere uno o stili di un blocco (parte html)
                             $this->crud->addField([   // select_from_array
@@ -214,22 +214,51 @@ class BlockIconCrudController extends CrudController
                             // FINE CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP
 
 
-            // Permette di scegliere uno o stili di un blocco (parte html)
-            $this->crud->addField([   // select_from_array
-                'name'        => 'style',
-                'label'       => "Seleziona lo style",
-                'type'        => 'select_from_array',
-                'options'     => [
-                    '1' => 'Style 1: Icone senza pulsante e link',
-                    '2' => 'Style 2: Icone con pulsante a scomparsa e link',
-                    '3' => 'Style 3: Icone con pulsante a vista e link',
+                            // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
+                            if(env('TEMA') == 'Crafto' ) {
+                            // Permette di scegliere uno o stili di un blocco (parte html)
+                            $this->crud->addField([   // select_from_array
+                                'name'        => 'style',
+                                'label'       => "Seleziona lo style",
+                                'type'        => 'select_from_array',
+                                'options'     => [
+                                    '1' => 'Style 1: Icone senza pulsante e link',
+                                    '2' => 'Style 2: Icone con pulsante a scomparsa, link e PDF',
+                                    '3' => 'Style 3: Icone con pulsante a vista, link e PDF',
+                                    '4' => 'Style 4: Icone con pulsante, link, PDF fullwidth',
 
-                ],
-                'allows_null' => false,
-                'default'     => 1,
-                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                'wrapperAttributes' => ['class' => 'form-group col-md-12']
-            ]);
+                                ],
+                                'allows_null' => false,
+                                'default'     => 1,
+                                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                                'wrapperAttributes' => ['class' => 'form-group col-md-12']
+                            ]);
+
+                            }
+                            // FINE CAMPI VISUALIZZATI SOLO CON IL TEMA CRAFTO
+
+                            // CAMPI VISUALIZZATI SOLO CON IL TEMA CORPORATE1//////////////////
+                            if(env('TEMA') == 'Corporate1' ) {
+                                // Permette di scegliere uno o stili di un blocco (parte html)
+                                $this->crud->addField([   // select_from_array
+                                    'name'        => 'style',
+                                    'label'       => "Seleziona lo style",
+                                    'type'        => 'select_from_array',
+                                    'options'     => [
+                                        '1' => 'Style 1',
+                                        '2' => 'Style 2',
+                                        '3' => 'Style 3',
+
+
+                                    ],
+                                    'allows_null' => false,
+                                    'default'     => 1,
+                                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                                    'wrapperAttributes' => ['class' => 'form-group col-md-12']
+                                ]);
+
+                            }
+                            // FINE CAMPI VISUALIZZATI SOLO CON IL TEMA CORPORATE1
 
 
             /*
@@ -254,14 +283,22 @@ class BlockIconCrudController extends CrudController
                 'name' => "icon",
                 'type' => 'text',
                 //'default' => '<i class="fas fa-question"></i>',
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                'wrapperAttributes' => ['class' => 'form-group col-md-12']
             ]);
 
             $this->crud->addField([   // Browse
                 'name'  => 'foto',
                 'label' => 'Se non vuoi usare le icone, carica una foto PNG o JPG (Misura consigliata: 100x100 pixel)',
                 'type'  => 'browse',
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                'wrapperAttributes' => ['class' => 'form-group col-md-12']
+            ]);
+
+            $this->crud->addField([   // Upload
+                'label' => "Eventuale file PDF da far scaricare",
+                'name' => "file",
+                'type'      => 'browse',
+                // optional:
+                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
             ]);
 
             $this->crud->addField([   // repeatable

@@ -120,8 +120,81 @@ class BlockDocumentCrudController extends CrudController
             ]);
 
             $this->crud->addField([   // repeatable
+                'name'  => 'color_title',
+                'label' => 'Colore Titolo presentazione blocco',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'bgcolor',
+                'label' => 'Colore sfondo titolo presentazione blocco',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // select_from_array
+                'name'        => 'style',
+                'label'       => "Seleziona lo style",
+                'type'        => 'select_from_array',
+                'options'     => [
+                    '1' => 'Style 1: Icona PDF senza pulsante (semplice)',
+                    '2' => 'Style 2: Colore o immagine di sfondo + Titolo e pulsante (avanzato only Crafto)',
+                ],
+                'allows_null' => false,
+                'default'     => 1,
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'        => 'text_align',
+                'label'   => 'Allineamento titoli documenti',
+                'type'        => 'select_from_array',
+                'attributes' => [
+                    'class'       => 'custom-select',
+                ],
+                'options'     => ['left' => 'Sinistra', 'center' => 'centrato', 'right' => 'destra'],
+                'allows_null' => false,
+                'default'     => 'center',
+                'wrapper' => ['class' => 'form-group col-md-6']
+            ]);
+
+
+
+            /*
+             $this->crud->addField([   // repeatable
+                'name'  => 'color_text_button',
+                'label' => 'Colore testo pulsanti documenti',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'color_bg_button',
+                'label' => 'Colore sfondo pulsanti documenti',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            */
+
+
+            $this->crud->addField([   // repeatable
                 'name'        => 'col',
-                'label'   => 'Seleziona larghezza colonna',
+                'label'   => 'Selezione il numero di documenti per riga',
                 'type'        => 'select_from_array',
                 'attributes' => [
                     'class'       => 'custom-select',
@@ -132,14 +205,67 @@ class BlockDocumentCrudController extends CrudController
                 'wrapper' => ['class' => 'form-group col-md-6']
             ]);
 
+            $this->crud->addField([   // repeatable
+                'name' => 'pt',
+                'label' => 'Distanza dal margine alto (0 nullo | 5 massimo )',
+                'type' => 'number',
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+
+
         }else{
+
+
             $this->crud->addField([   // Upload
-                'label' => "File",
+                'label' => "Carica il File PDF che vuoi far scaricare (Max 16MB)",
                 'name' => "file",
                 'type'      => 'browse',
                 // optional:
-                'temporary' => 10 // if using a service, such as S3, that requires you to make temporary URLs this will make a URL that is valid for the number of minutes specified
+                'temporary' => 10, // if using a service, such as S3, that requires you to make temporary URLs this
+                // will make a URL that is valid for the number of minutes specified
+                'wrapperAttributes' => ['class' => 'form-group col-md-12']
+
             ]);
+
+            $this->crud->addField([   // select_from_array
+                'name'        => 'type_href',
+                'label'       => "Apertura link documento (stessa pagina o nuova pagina del browser)",
+                'type'        => 'select_from_array',
+                'options'     => ['_blank' => 'Nuova pagina', '_self' => 'Stessa pagina'],
+                'allows_null' => false,
+                'default'     => '_blank',
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'bgcolor',
+                'label' => 'Colore di sfondo blocco documento',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // Browse
+                'name'  => 'foto',
+                'label' => 'Logo del brand (Misura consigliata: 200x80 pixel)',
+                'type'  => 'browse',
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'color_title',
+                'label' => 'Colore titolo nome documento',
+                'type'  => 'color_picker2',
+                // optional
+                'default' => null,
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+
 
             $trans = new AdminLanguageController();
             $trans->fields_lang($this->block, $this->crud);
@@ -201,7 +327,15 @@ class BlockDocumentCrudController extends CrudController
 
         if($request->has('name')){
             $this->crud->entry->name = $request->get('name');
+            $this->crud->entry->color_title = $request->get('color_title');
+            $this->crud->entry->text_align = $request->get('text_align');
+            $this->crud->entry->bgcolor = $request->get('bgcolor');
+            $this->crud->entry->color_text_button = $request->get('color_text_button');
+            $this->crud->entry->color_bg_button = $request->get('color_bg_button');
+            $this->crud->entry->style = $request->get('style');
+            $this->crud->entry->pt = $request->get('pt');
             $this->crud->entry->col = $request->get('col');
+
             $this->crud->entry->save();
         }
 

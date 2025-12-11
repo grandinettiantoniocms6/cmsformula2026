@@ -24,7 +24,7 @@
 
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
 
-    <section class="position-relative overflow-hidden pt-5 pb-5" style="background-color: {{ $item->box_bgcolor }};">
+    <section class="position-relative overflow-hidden pt-5 pb-5" style="background-color: {{ $item->box_bgcolor }};" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-12 col-xl-12 col-lg-8 text-center position-relative page-title-double-large">

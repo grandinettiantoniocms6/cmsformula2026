@@ -1,5 +1,6 @@
 <?php
 $website = \App\Models\WebsiteSetting::first();
+$labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
 $titleBlocco = json_decode($item->title, true);
 if($titleBlocco){
@@ -116,7 +117,6 @@ if($descriptionBlocco){
                             ?>
 
 
-                                <!-- start new features box item -->
                                 <div class="col-lg-{{ $item->col }} col-md-6 col-sm-6 mb-3 icon-with-text-style-09 transition-inner-all md-mb-30px" data-anime='{"scale": [0.1, 1], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
                                     <div class="feature-box" >
                                         <div class="box-move-bottom-top pt-10 pb-10 ps-10 pe-10 transition-inner-all" style="background-color: {{ $value->bgcolor }}!important;">
@@ -140,6 +140,7 @@ if($descriptionBlocco){
                                             @endif
 
                                             <div class="feature-box-content last-paragraph-no-margin overflow-hidden">
+
                                                 @if($url != "#")
                                                     <span class="d-inline-block fw-700 fs-20 pb-5 pt-10" style="color:{!! $value->color_title !!};">{{ $title[\App::getLocale()] }}</span>
                                                     <p class="w-90 m-auto">{!! $description[\App::getLocale()] !!}</p>
@@ -150,8 +151,16 @@ if($descriptionBlocco){
                                                 @endif
                                                 @if(trim($button[\App::getLocale()])!="")
                                                     <div class="move-bottom-top mt-15px mb-30px">
-                                                        <a target="{{ $type_href }}" href="{{ $url }}" style="color:{!! $value->color_text_button !!} ; background-color:{!! $value->bgcolor_button !!}; border-color: {!! $value->bgcolor_button !!};" class="btn btn-very-small btn-rounded btn-dark-gray text-white btn-box-shadow ps-15px pe-15px pt-5px pb-5px lh-16">{{ $button[\App::getLocale()] }}</a>
-                                                    </div>
+                                                        <a target="{{ $type_href }}" href="{{ $url }}" style="color:{!! $value->color_text_button !!} ; background-color:{!! $value->bgcolor_button !!}; border-color: {!! $value->bgcolor_button !!};" class="btn btn-very-small btn-rounded btn-box-shadow ps-15px pe-15px pt-5px pb-5px lh-16">{{ $button[\App::getLocale()] }}</a>
+                                                    <!-- If PDF exist -->
+                                                    @if(trim($value->file) != "" || $value->file)
+                                                        <a href="{{ $value->file }}" target="_blank" class="btn btn-very-small btn-rounded d-table d-lg-inline-block ps-15px pe-15px pt-5px pb-5px lh-16">
+                                                            <span><i class="far fa-file-pdf"></i> {{ @$labels['pdf-download'] }}</span>
+                                                        </a>
+                                                    @endif
+
+
+                                                        </div>
                                                 @endif
 
                                             </div>
@@ -159,7 +168,6 @@ if($descriptionBlocco){
 
                                     </div>
                                 </div>
-                                <!-- end features box item -->
 
 
                     @endforeach
