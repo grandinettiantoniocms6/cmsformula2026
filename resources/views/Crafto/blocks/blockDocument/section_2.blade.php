@@ -1,6 +1,6 @@
 <?php
-$website = \App\Models\WebsiteSetting::first();
-$labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
+    $website = \App\Models\WebsiteSetting::first();
+    $labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
 $titleBlocco = json_decode($item->title, true);
 if($titleBlocco){
