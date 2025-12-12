@@ -24,7 +24,7 @@
 
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
 
-<section class="pt-5 block-grids style-{{ $item->style }}" style="background-color: {{ $item->box_bgcolor }}" id="block-grids-{{ $item->id }}" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
+<section class="pt-{{ $item->pt }} pb-{{ $item->pb }} block-grids style-{{ $item->style }}" style="background-color: {{ $item->box_bgcolor }}" id="block-grids-{{ $item->id }}" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
     <div class="separator-line-9px bg-base-color position-absolute top-0px right-0px" data-bottom-top="width: 15%" data-center-top="width: 50%;"></div>
     <div class="container">

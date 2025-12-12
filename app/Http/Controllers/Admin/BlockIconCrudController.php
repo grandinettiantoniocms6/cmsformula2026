@@ -148,7 +148,7 @@ class BlockIconCrudController extends CrudController
                 // optional
                 'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
-                'wrapperAttributes' => ['class' => 'form-group col-md-4']
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
 
             $this->crud->addField([   // repeatable
@@ -158,7 +158,21 @@ class BlockIconCrudController extends CrudController
                 // optional
                 'default' => null,
                 'color_picker_options' => ['customClass' => 'custom-class'],
-                'wrapperAttributes' => ['class' => 'form-group col-md-4']
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'pt',
+                'label' => 'Margine superiore: imposta un valore numerico (Esempio: 0 nullo, 2 normale - 5 massimo)',
+                'type'  => 'text',
+                'wrapper' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'pb',
+                'label' => 'Margine inferiore: imposta un valore numerico (Esempio: 0 nullo, 2 normale - 5 massimo)',
+                'type'  => 'text',
+                'wrapper' => ['class' => 'form-group col-md-6']
             ]);
 
 
@@ -440,6 +454,8 @@ class BlockIconCrudController extends CrudController
             $this->crud->entry->bgcolor_hover = $request->get('bgcolor_hover');
             $this->crud->entry->bgcolor_over = $request->get('bgcolor_over');
             $this->crud->entry->bg_section_icon = $request->get('bg_section_icon');
+            $this->crud->entry->pt = $request->get('pt');
+            $this->crud->entry->pb = $request->get('pb');
 
 
             $this->crud->entry->save();

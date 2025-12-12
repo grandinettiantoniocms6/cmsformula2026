@@ -22,7 +22,7 @@ if($descriptionBlocco){
 ?>
 
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-    <section class="pt-5 pb-5" style="background-color: {{ $item->box_bgcolor }}" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+    <section class="pt-{{ $item->pt }} pb-{{ $item->pb }}" style="background-color: {{ $item->box_bgcolor }}" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
         <div class="container">
             <div class="row align-items-center justify-content-center">
                 <div class="col-12 col-xl-6 col-lg-8 text-center position-relative page-title-double-large">

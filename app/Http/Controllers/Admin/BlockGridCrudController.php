@@ -231,17 +231,8 @@ class BlockGridCrudController extends CrudController
                 'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
                 'allows_null' => false,
                 'default'     => 'container',
-                'wrapper' => ['class' => 'form-group col-md-6']
+                'wrapper' => ['class' => 'form-group col-md-12']
             ]);
-
-            $this->crud->addField([   // repeatable
-                'name'  => 'mt',
-                'label' => 'Margin-top: Imposta un valore da 0 a max 120 (Es: 10, 20, 30 eccetera - 0 nessun margine)',
-                'type'  => 'text',
-                'wrapper' => ['class' => 'form-group col-md-6']
-            ]);
-
-
 
             $this->crud->addField([   // repeatable
                 'name'  => 'box_bgcolor',
@@ -262,6 +253,29 @@ class BlockGridCrudController extends CrudController
                 'color_picker_options' => ['customClass' => 'custom-class'],
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'pt',
+                'label' => 'Margine superiore: imposta un valore numerico (Esempio: 0 nullo, 2 normale - 5 massimo)',
+                'type'  => 'text',
+                'wrapper' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'pb',
+                'label' => 'Margine inferiore: imposta un valore numerico (Esempio: 0 nullo, 2 normale - 5 massimo)',
+                'type'  => 'text',
+                'wrapper' => ['class' => 'form-group col-md-6']
+            ]);
+
+            /*
+             $this->crud->addField([   // repeatable
+                'name'  => 'mt',
+                'label' => 'Margin-top: Imposta un valore da 0 a max 120 (Es: 10, 20, 30 eccetera - 0 nessun margine)',
+                'type'  => 'text',
+                'wrapper' => ['class' => 'form-group col-md-6']
+            ]);
+            */
 
 
             /* FINE degli input che vedo quando modifica il nome del blocco - gli input tecnici no moltiligua */
@@ -453,6 +467,8 @@ class BlockGridCrudController extends CrudController
             $this->crud->entry->fullwidth = $request->get('fullwidth');
             $this->crud->entry->style = $request->get('style');
             $this->crud->entry->mt = $request->get('mt');
+            $this->crud->entry->pt = $request->get('pt');
+            $this->crud->entry->pb = $request->get('pb');
             $this->crud->entry->box_bgcolor = $request->get('box_bgcolor');
             $this->crud->entry->title_color = $request->get('title_color');
             $this->crud->entry->save();
