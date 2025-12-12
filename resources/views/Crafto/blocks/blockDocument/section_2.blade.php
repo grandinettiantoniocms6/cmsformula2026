@@ -37,7 +37,8 @@ if($descriptionBlocco){
 
 @endif
 
-    <div class="row p-1" data-anime='{ "el": "childs", "translateY": [0, 0], "perspective": [1200,1200], "scale": [1.1, 1], "rotateX": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>
+    <div class="container">
+        <div class="row p-1" data-anime='{ "el": "childs", "translateY": [0, 0], "perspective": [1200,1200], "scale": [1.1, 1], "rotateX": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>
 
         @if($array)
                 @foreach($array as $value)
@@ -148,5 +149,6 @@ if($descriptionBlocco){
                 @endforeach
             @endif
 
+        </div>
     </div>
 </section>
