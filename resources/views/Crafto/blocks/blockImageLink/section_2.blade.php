@@ -1,13 +1,15 @@
 <?php $website = \App\Models\WebsiteSetting::first(); ?>
 
+<section class="pt-5 pb-5" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+    <div class="{{ $item->fullwidth }}">
         @if($array)
                 <?php $i = 1;?>
             @foreach($array as $value)
-
                     <?php
 
                     $pb = $item->pb;
                     $icon = $value->icon;
+                    $foto = $value->foto;
                     $foto2 = $value->foto2;
                     $foto3 = $value->foto3;
                     $bgcolor = $value->bgcolor;
@@ -112,44 +114,36 @@
                     // fine thumb
 
                     ?>
-<section class="pt-5 pb-5" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }' style="background-color: {{ $value->bgcolor }};">
-    <div class="{{ $item->fullwidth }}">
-
-                <div class="row justify-content-center align-items-center mb-3" style="padding-bottom: {{ $item->pb }}px;">
+                <div class="row align-items-center justify-content-md-center g-xl-0 g-1" style="padding-bottom: {{ $item->pb }}px;">
                     @if($perc == 0)
 
                         <!-- secondo item -->
 
-                        <!-- B -->
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 text-center text-lg-start" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 150, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                        <!-- A -->
 
-                            <!-- span sopra title -->
-                            <span class="pe-25px mb-20px text-uppercase text-base-color fs-14 lh-42px fw-700 border-radius-100px d-inline-block" style="background-color: {{ $website->color_gen2 }};">
-                                <div class="feature-box feature-box-left-icon-middle">
-                                        <div class="feature-box-icon me-15px">
-                                            @if(trim($value->icon) != "")
-                                                <div class="icon-large" style="color: {{ $value->txtcolor }}!important;">
-                                                    {!! $value->icon !!}
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="feature-box-content last-paragraph-no-margin">
-                                            <div class="alt-font fw-600 text-dark-gray lh-26">{!! $text_box_icon[\App::getLocale()] !!}</div>
-                                        </div>
-                                    </div>
-                            </span>
+                        <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
+                            @if(trim($foto) != "")
+                                <figure class="position-relative m-0">
+                                    <img class="lg-w-100 border-radius-0px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
+                                </figure>
+                            @endif
+                        </div>
+
+
+                        <!-- B -->
+                        <div class="col-xl-5 offset-xl-1 col-lg-6" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
                             @if(trim($title[\App::getLocale()])!="")
-                                <span style="background-color: {{ $website->color_gen2 }}; color: {{ $value->txtcolor }};" class="mb-60px md-mb-40px mt-20px ls-minus-0px" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></span>
+                                <span style="background-color: {{ $website->color_gen2 }}; color: {{ $value->txtcolor }};" class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></span>
                             @endif
 
-                            <div class="row row-cols-1" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                <div class="col-12 process-step-style-05 position-relative hover-box">
-                                    @if(trim($description[\App::getLocale()])!="")
-                                        <p class="w-80 lg-w-90 sm-w-100">{!! $description[\App::getLocale()] !!}</p>
-                                    @endif
-                                    @if(trim($button[\App::getLocale()])!="")
-                                        <a target="{{ $type_href }}" class="btn btn-large btn-dark-gray btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" href="{{ $url }}">
+                            @if(trim($description[\App::getLocale()])!="")
+                                <p class="w-80 lg-w-100 sm-w-100">{!! $description[\App::getLocale()] !!}</p>
+                            @endif
+
+                            <div class="d-inline-flex flex-wrap">
+                                @if(trim($button[\App::getLocale()])!="")
+                                    <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-large btn-dark-gray btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" >
                                             <span>
                                                 <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
                                                 <span class="btn-icon">
@@ -159,30 +153,10 @@
                                                     <i class="feather icon-feather-arrow-right"></i>
                                                 </span>
                                             </span>
-                                        </a>
+                                    </a>
 
-                                    @endif
-                                </div>
+                                @endif
                             </div>
-
-                        </div>
-
-                        <!-- A -->
-
-
-
-                        <div class="col-xl-5 col-lg-6 md-mb-14 sm-mb-18 xs-mb-23 position-relative" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                            @if(trim($foto) != "")
-                                <div class="w-100 100" data-animation-delay="200" data-shadow-animation="true" data-bottom-top="transform: translateY(50px)" data-top-bottom="transform: translateY(-50px)">
-                                    <img class="border-radius-0px w-100" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
-                                </div>
-                            @endif
-
-                            @if(trim($foto3) != "")
-                                <div class="w-55 overflow-hidden position-absolute right-15px xs-w-55 bottom-minus-50px" data-shadow-animation="true" data-animation-delay="100" data-bottom-top="transform: translateY(20px)" data-top-bottom="transform: translateY(-20px)">
-                                    <img src="{{ $foto3 }}" alt="{{ $title[\App::getLocale()] }}" class="border-radius-0px box-shadow-quadruple-large w-100" />
-                                </div>
-                            @endif
 
                         </div>
 
@@ -193,87 +167,55 @@
                         <!-- primo item -->
 
 
-
                         <!-- B -->
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 text-center text-lg-start" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 150, "staggervalue": 300, "easing": "easeOutQuad" }'>
+
+                        <div class="col-md-10 col-xl-5 offset-xl-1 col-lg-6" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
                             @if(trim($title[\App::getLocale()])!="")
-                                <span style="background-color: {{ $website->color_gen2 }}; color: {{ $value->txtcolor }};" class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span></span>
+                                <span style="background-color: {{ $website->color_gen2 }}; color: {{ $value->txtcolor }};" class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</span>
                             @endif
 
-                            <div class="row row-cols-1" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                <div class="col-12 process-step-style-05 position-relative hover-box">
-                                    @if(trim($description[\App::getLocale()])!="")
-                                        <p class="w-80 lg-w-90 sm-w-100">{!! $description[\App::getLocale()] !!}</p>
-                                    @endif
-                                    @if(trim($button[\App::getLocale()])!="")
-                                        <a target="{{ $type_href }}" class="btn btn-large btn-dark-gray btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" href="{{ $url }}">
-                                            <span>
-                                                <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
-                                                <span class="btn-icon">
-                                                    <i class="feather icon-feather-arrow-right"></i>
-                                                </span>
-                                                <span class="btn-icon">
-                                                    <i class="feather icon-feather-arrow-right"></i>
-                                                </span>
+                            @if(trim($description[\App::getLocale()])!="")
+                                <p class="w-80 lg-w-100 sm-w-100">{!! $description[\App::getLocale()] !!}</p>
+                            @endif
+
+                            <div class="d-inline-flex flex-wrap">
+                                @if(trim($button[\App::getLocale()])!="")
+                                    <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-large btn-dark-gray btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" >
+                                        <span>
+                                            <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
+                                            <span class="btn-icon">
+                                                <i class="feather icon-feather-arrow-right"></i>
                                             </span>
-                                        </a>
+                                            <span class="btn-icon">
+                                                <i class="feather icon-feather-arrow-right"></i>
+                                            </span>
+                                        </span>
+                                    </a>
 
-                                    @endif
-                                </div>
+                                @endif
                             </div>
-
-
-
-                                <!-- span sopra title -->
-                                <span class="pe-25px mb-20px text-uppercase text-base-color fs-14 lh-42px fw-700 border-radius-100px bg-gradient-very-light-gray-transparent d-inline-block">
-                                <div class="feature-box feature-box-left-icon-middle">
-                                        <div class="feature-box-icon me-15px">
-                                            @if(trim($value->icon) != "")
-                                                <div class="icon-large" style="color: {{ $value->txtcolor }}!important;">
-                                                    {!! $value->icon !!}
-                                                </div>
-                                            @endif
-                                        </div>
-                                        <div class="feature-box-content last-paragraph-no-margin">
-                                            <div class="alt-font fw-600 text-dark-gray lh-26">{!! $text_box_icon[\App::getLocale()] !!}</div>
-                                        </div>
-                                    </div>
-                            </span>
-
-
-
-
-
                         </div>
 
                         <!-- A -->
-                        <div class="col-xl-5 col-lg-6 md-mb-14 sm-mb-18 xs-mb-23 position-relative" data-anime='{ "translateY": [0, 0], "opacity": [0,1], "duration": 800, "delay": 100, "staggervalue": 300, "easing": "easeOutQuad" }'>
+
+                        <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
                             @if(trim($foto) != "")
-                                <div class="w-100 sm-w-100" data-animation-delay="200" data-shadow-animation="true" data-bottom-top="transform: translateY(50px)" data-top-bottom="transform: translateY(-50px)">
-                                    <img class="border-radius-0px w-100" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
-                                </div>
+                                <figure class="position-relative m-0">
+                                    <img class="lg-w-100 border-radius-0px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
+                                </figure>
                             @endif
-
-                            @if(trim($foto3) != "")
-                                <div class="w-55 overflow-hidden position-absolute right-15px xs-w-55 bottom-minus-50px" data-shadow-animation="true" data-animation-delay="100" data-bottom-top="transform: translateY(20px)" data-top-bottom="transform: translateY(-20px)">
-                                    <img src="{{ $foto3 }}" alt="{{ $title[\App::getLocale()] }}" class="border-radius-0px box-shadow-quadruple-large w-100" />
-                                </div>
-                            @endif
-
                         </div>
 
                     @endif
 
                 </div>
-
                 <div class="row space-{{ $item->pb }}"></div>
+
                     <?php $i++;?>
+
             @endforeach
         @endif
+
     </div>
 </section>
-
-
-
-
