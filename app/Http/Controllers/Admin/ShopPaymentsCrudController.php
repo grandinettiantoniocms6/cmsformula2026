@@ -118,6 +118,7 @@ class ShopPaymentsCrudController extends CrudController
             'name'  => 'price_contrassegno',
             'label' => 'Costo Contrassegno',
             'type'  => 'text',
+            'default' => 0,
             'wrapper' => ['class' => 'form-group col-md-2']
         ]);
 
@@ -125,6 +126,7 @@ class ShopPaymentsCrudController extends CrudController
             'name'  => 'total_min_cart_contrassegno',
             'label' => 'Min Totale Carrello Contrassegno',
             'type'  => 'text',
+            'default' => 0,
             'wrapper' => ['class' => 'form-group col-md-2']
         ]);
 
@@ -132,6 +134,7 @@ class ShopPaymentsCrudController extends CrudController
             'name'  => 'total_max_cart_contrassegno',
             'label' => 'Max Totale Carrello Contrassegno',
             'type'  => 'text',
+            'default' => 0,
             'wrapper' => ['class' => 'form-group col-md-2']
         ]);
 

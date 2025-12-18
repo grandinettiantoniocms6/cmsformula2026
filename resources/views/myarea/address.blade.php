@@ -38,6 +38,8 @@
     @endsection
 
     @section('content')
+
+
         @if($thema == "Webshop")
             @include("$thema.myarea.address")
         @else
@@ -49,24 +51,17 @@
         @if($address)
             <script>
                 function delete_address() {
-                    swal({
+                    Swal.fire({
                         title: 'Cancellazione indirizzo',
                         text: 'Vuoi eliminare questo indirizzo di Spedizione?',
-                        type: 'warning',
-                        showCloseButton: true,
-                        buttons: {
-                            confirm: {
-                                text: 'OK Cancella',
-                                value: 'confirm',
-                            },
-                            cancel: {
-                                text: 'Annulla',
-                                value: 'cancel',
-                            }
-                        },
-                    }).then((value) => {
-                        if(value === "confirm"){
-                            $(location).attr('href', '/myarea/address_delete/{{ $address->id }}')
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'OK Cancella',
+                        cancelButtonText: 'Annulla',
+                        showCloseButton: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '/myarea/address_delete/{{ $address->id }}';
                         }
                     });
 

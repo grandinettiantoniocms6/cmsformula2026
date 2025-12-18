@@ -284,6 +284,10 @@ $website = \App\Models\WebsiteSetting::first();
                                     @php $i = 0; @endphp
                                     @foreach ($payments as $payment)
                                         @php
+                                           if($payment->is_active == 0){
+                                               continue;
+                                           }
+
                                            $payment->total_min_cart_contrassegno = (float) $payment->total_min_cart_contrassegno;
                                            $payment->total_max_cart_contrassegno = (float) $payment->total_max_cart_contrassegno;
 
