@@ -76,7 +76,7 @@
 
 @section('header')
     <h3 class="page-title mb-0">
-        <span class="text-capitalize">{{ trans('backpack::crud.file_manager') }}</span>
+        <span class="text-capitalize">{{ trans('backpack::crud.file_manager') }}!</span>
     </h3>
 @endsection
 
