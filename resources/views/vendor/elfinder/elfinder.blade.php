@@ -29,12 +29,12 @@
                     theme: 'default',
                     soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
 
-                    getFileCallback: function(file) {
+                    /*getFileCallback: function(file) {
                         var url = file.url.replace('/s/', '/');
                         url = url.replace('//', '/');
                         window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, url);
                         window.close();
-                    },
+                    },*/
 
                     // IMPORTANTISSIMO: non 'open', usa 'close' (o togli la riga)
                     commandsOptions: { getfile: { oncomplete: 'close' } },
