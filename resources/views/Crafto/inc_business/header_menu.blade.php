@@ -1,3 +1,7 @@
+<?php
+$lang = \App::getLocale();
+$lang_ = strtoupper($lang);
+?>
 <!-- start header -->
 <header class="header-with-topbar">
     @if($website->topbar_active == 1 && (env('TOPBAR')) )
@@ -5,7 +9,8 @@
         <div class="header-top-bar" style="background-color: {{ $website->topbar_background }}; color: {{ $website->color_icon_topbar }};">
             <div class="container-fluid">
                 <div class="row h-45px align-items-center m-0">
-                    <div class="col-12 col-lg-7 fw-500 justify-content-lg-start justify-content-center">
+
+                    <div class="col-9 fw-500 justify-content-lg-start justify-content-left">
                         @if($website->topbar_contact_mobile)
                             <span class="me-25px fs-15 md-m-0">
                                 <i class="{{ $website->icon_topbar2 }} {{ $website->sizeicon }}"></i>
@@ -18,9 +23,11 @@
                         @endif
                     </div>
 
-                        <?php $socials = json_decode($website->socials, true); ?>
-                    @if($socials)
-                        <div class="col-md-5 text-end d-none d-lg-flex fs-15">
+                    <div class="col-3 fw-500 justify-content-lg-start justify-content-rigth">
+
+                            <?php $socials = json_decode($website->socials, true); ?>
+                        @if($socials)
+
                             @foreach($socials as $social)
                                 <a href="{{ $social['url'] }}" target="_blank" class="me-25px lg-me-15px">
                                     @if($social['icon'])
@@ -30,8 +37,37 @@
                                     @endif
                                 </a>
                             @endforeach
+
+                        @endif
+
+                        <!-- Gestione lingue -->
+                            <?php
+                            $adminLang = \App\Models\AdminLanguage::where("is_active", 1)->where("is_frontend", 1)
+                                ->orderBy("lft", "asc")
+                                ->get()->pluck("label", "name")->toArray();
+                            ?>
+                        <div class="header-language-icon widget alt-font fw-600">
+                            <div class="header-language dropdown" style="top: -2px!important;">
+                                <a href="javascript:void(0);"><img width="24" height="16" src="{{ url("img/".\App::getLocale().".svg") }}" alt="{{ $lang }}"></a>
+                                <ul class="language-dropdown">
+
+                                    @if(count($adminLang) > 1)
+
+                                        @foreach ($adminLang as $lang => $language)
+                                            @if ($lang != App::getLocale())
+                                                <li>
+                                                    <a class="" title="{{ $lang }}" href="{{ route('lang.switch', $lang) }}"><img width="24" height="16" src="{{ url("img/$lang.svg") }}" alt="{{ $lang }}"></a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+
+                                    @endif
+                                </ul>
+                            </div>
                         </div>
-                    @endif
+                        <!-- / Gestione lingue -->
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,10 +121,6 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <?php
-                    $lang = \App::getLocale();
-                    $lang_ = strtoupper($lang);
-                    ?>
                     <ul class="navbar-nav">
                         @if($menu)
                             @foreach($menu as $item)
@@ -136,28 +168,6 @@
                                 </li>
                             @endforeach
                         @endif
-
-                        <!-- LINGUE -->
-                        <?php
-                        $adminLang = \App\Models\AdminLanguage::where("is_active", 1)->where("is_frontend", 1)
-                            ->orderBy("lft", "asc")
-                            ->get()->pluck("label", "name")->toArray();
-                        ?>
-                        @if(count($adminLang) > 1)
-                            <li class="nav-item nav-item-lang dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img width="24" height="16" src="{{ url("img/".\App::getLocale().".svg") }}" alt="{{ $lang }}"><span class="d-lg-none text-uppercase ms-3 me-auto">{{ $lang }}</span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    @foreach ($adminLang as $lang => $language)
-                                        @if ($lang != App::getLocale())
-                                            <a class="dropdown-item" title="{{ $lang }}" href="{{ route('lang.switch', $lang) }}"><img width="24" height="16" src="{{ url("img/$lang.svg") }}" alt="{{ $lang }}"></a>
-                                        @endif
-                                    @endforeach
-                                </div>
-                            </li>
-                        @endif
-                        <!-- LINGUE -->
 
                     </ul>
                 </div>

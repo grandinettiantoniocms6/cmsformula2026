@@ -25,8 +25,8 @@
 
                     <div class="col-3 fw-500 justify-content-lg-start justify-content-rigth">
 
-                            <?php $socials = json_decode($website->socials, true); ?>
-                        @if($socials)
+                    <?php $socials = json_decode($website->socials, true); ?>
+                    @if($socials)
 
                             @foreach($socials as $social)
                                 <a href="{{ $social['url'] }}" target="_blank" class="me-25px lg-me-15px">
@@ -38,14 +38,14 @@
                                 </a>
                             @endforeach
 
-                        @endif
+                    @endif
 
                         <!-- Gestione lingue -->
-                            <?php
-                            $adminLang = \App\Models\AdminLanguage::where("is_active", 1)->where("is_frontend", 1)
-                                ->orderBy("lft", "asc")
-                                ->get()->pluck("label", "name")->toArray();
-                            ?>
+                        <?php
+                        $adminLang = \App\Models\AdminLanguage::where("is_active", 1)->where("is_frontend", 1)
+                            ->orderBy("lft", "asc")
+                            ->get()->pluck("label", "name")->toArray();
+                        ?>
                         <div class="header-language-icon widget alt-font fw-600">
                             <div class="header-language dropdown" style="top: -2px!important;">
                                 <a href="javascript:void(0);"><img width="24" height="16" src="{{ url("img/".\App::getLocale().".svg") }}" alt="{{ $lang }}"></a>
@@ -69,7 +69,9 @@
 
                     </div>
                 </div>
+
             </div>
+
         </div>
         <!-- / TOPBAR -->
     @endif
@@ -148,6 +150,7 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
 
+
                         <ul class="navbar-nav fw-600">
                             @if($menu)
                                 @foreach($menu as $item)
@@ -198,6 +201,9 @@
                             @endif
 
                         </ul>
+
+
+
 
 
                     </div>

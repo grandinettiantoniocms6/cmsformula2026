@@ -20240,10 +20240,31 @@
         padding-left: 0;
         padding-right: 0;
     }
+
+    /* MOSTRA la top bar */
     header .header-top-bar {
-        display: none;
-        height: 0;
+        position: fixed;
+        top: 0;
+        right: 0px;
+        width: 100%;
+        left: 0;
+        z-index: 100;
+        -webkit-transition: 0.3s;
+        transition: 0.3s;
     }
+
+
+        /* Nascondeva la top bar
+        header .header-top-bar {
+            display: none;
+            height: 0;
+        }
+        */
+
+
+
+
+
     header .header-top-bar + .navbar {
         top: 0;
     }

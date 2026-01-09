@@ -1,28 +1,74 @@
+<?php
+$lang = \App::getLocale();
+$lang_ = strtoupper($lang);
+?>
+
 <!-- start header -->
 <header class="header-with-topbar">
     @if($website->topbar_active == 1 && (env('TOPBAR')) )
         <!-- TOPBAR -->
         <div class="header-top-bar" style="background-color: {{ $website->topbar_background }}; color: {{ $website->color_icon_topbar }};">
             <div class="container-fluid">
-                <div class="row h-45px xs-h-auto align-items-center m-0 xs-pt-5px xs-pb-5px">
-                    <div class="col-lg-5 col-md-7 text-center text-md-start xs-px-0">
-                        @if($website->topbar_scrolltext_active == 1 && (env('TOPBAR_SCORREVOLE')) )
-                            @if($website->topbar_contact_description)
-                                <div class="fw-500" style="color: {{ $website->color_txt_topbar }}; font-size: {{ $website->font_size_topbar }};"><i class="{{ $website->icon_topbar3 }} {{ $website->sizeicon }}" style="color: {{ $website->color_icon_topbar }}"></i> {{ $website->topbar_contact_description }}</div>
-                            @endif
+                <div class="row h-45px align-items-center m-0">
+
+                    <div class="col-9 fw-500 justify-content-lg-start justify-content-left">
+                        @if($website->topbar_contact_mobile)
+                            <span class="me-25px fs-15 md-m-0">
+                                <i class="{{ $website->icon_topbar2 }} {{ $website->sizeicon }}"></i>
+                                <span style="color: {{ $website->color_txt_topbar }}!important;"><a class="me-25px fs-15 md-m-0" style="color: {{ $website->color_txt_topbar }}!important; font-size: {{ $website->font_size_topbar }};" href="tel:{{ $website->topbar_contact_mobile }}">&nbsp; {{ $website->topbar_contact_mobile }}</a></span>
+                            </span>
+                        @endif
+                        @if($website->topbar_contact_email)
+                            <span class="d-xl-inline-block d-none fs-15"><i class="{{ $website->icon_topbar1 }} {{ $website->sizeicon }}"></i>
+                            <span style="color: {{ $website->color_txt_topbar }}!important; font-size: {{ $website->font_size_topbar }};><a href="mailto:{{ $website->topbar_contact_email }}">&nbsp; {{ $website->topbar_contact_email }}</a></span>
                         @endif
                     </div>
-                    @if($website->topbar_contact_mobile)
-                        <div class="col-lg-7 col-md-5 text-end d-none d-md-flex">
-                            <div class="widget fw-500 me-35px lg-me-25px md-me-0" style="color: {{ $website->color_txt_topbar }}; font-size: {{ $website->font_size_topbar }};"><a style="color: {{ $website->color_txt_topbar }};" href="tel:{{ $website->topbar_contact_mobile }}"><i style="color: {{ $website->color_icon_topbar }}" class="{{ $website->icon_topbar2 }} {{ $website->sizeicon }}"></i>{{ $website->topbar_contact_mobile }}</a></div>
-                            @if($website->topbar_contact_email)
-                                <div class="widget fw-500 me-35px lg-me-25px md-me-0"><i style="color: {{ $website->color_icon_topbar }}" class="{{ $website->icon_topbar1 }} {{ $website->sizeicon }}"></i><a href="mailto:{{ $website->topbar_contact_email }}">&nbsp; {{ $website->topbar_contact_email }}</a>
-                                </div>
-                            @endif
-                            <div class="widget fw-500 d-none d-lg-inline-block" style="color: {{ $website->color_txt_topbar }}; font-size: {{ $website->font_size_topbar }};"><i class="{{ $website->topbar_address_icon }} {{ $website->sizeicon }}" style="color: {{ $website->color_icon_topbar }};"></i> {{ $website->topbar_address_text }}</div>
-                        </div>
-                    @endif
 
+                    <div class="col-3 fw-500 justify-content-lg-start justify-content-rigth">
+
+                            <?php $socials = json_decode($website->socials, true); ?>
+                        @if($socials)
+
+                            @foreach($socials as $social)
+                                <a href="{{ $social['url'] }}" target="_blank" class="me-25px lg-me-15px">
+                                    @if($social['icon'])
+                                        <i class="{{ $social['icon'] }} {{ $website->sizeicon }}" style="color: {{ $website->color_icon_topbar }}!important; "></i>
+                                    @else
+                                        {{ $social['name'] }}
+                                    @endif
+                                </a>
+                            @endforeach
+
+                        @endif
+
+                        <!-- Gestione lingue -->
+                            <?php
+                            $adminLang = \App\Models\AdminLanguage::where("is_active", 1)->where("is_frontend", 1)
+                                ->orderBy("lft", "asc")
+                                ->get()->pluck("label", "name")->toArray();
+                            ?>
+                        <div class="header-language-icon widget alt-font fw-600">
+                            <div class="header-language dropdown" style="top: -2px!important;">
+                                <a href="javascript:void(0);"><img width="24" height="16" src="{{ url("img/".\App::getLocale().".svg") }}" alt="{{ $lang }}"></a>
+                                <ul class="language-dropdown">
+
+                                    @if(count($adminLang) > 1)
+
+                                        @foreach ($adminLang as $lang => $language)
+                                            @if ($lang != App::getLocale())
+                                                <li>
+                                                    <a class="" title="{{ $lang }}" href="{{ route('lang.switch', $lang) }}"><img width="24" height="16" src="{{ url("img/$lang.svg") }}" alt="{{ $lang }}"></a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+
+                                    @endif
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- / Gestione lingue -->
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,11 +149,6 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
 
-                        <?php
-                        $lang = \App::getLocale();
-                        $lang_ = strtoupper($lang);
-                        ?>
-
                         <ul class="navbar-nav fw-600">
                             @if($menu)
                                 @foreach($menu as $item)
@@ -156,29 +197,6 @@
                                     </li>
                                 @endforeach
                             @endif
-
-
-
-                            <?php
-                            $adminLang = \App\Models\AdminLanguage::where("is_active", 1)->where("is_frontend", 1)
-                                ->orderBy("lft", "asc")
-                                ->get()->pluck("label", "name")->toArray();
-                            ?>
-                            @if(count($adminLang) > 1)
-                                <li class="nav-item nav-item-lang dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img width="24" height="16" src="{{ url("img/".\App::getLocale().".svg") }}" alt="{{ $lang }}"><span class="d-lg-none text-uppercase ms-3 me-auto">{{ $lang }}</span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end">
-                                        @foreach ($adminLang as $lang => $language)
-                                            @if ($lang != App::getLocale())
-                                                <a class="dropdown-item" title="{{ $lang }}" href="{{ route('lang.switch', $lang) }}"><img width="24" height="16" src="{{ url("img/$lang.svg") }}" alt="{{ $lang }}"></a>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </li>
-                            @endif
-
 
                         </ul>
                     </div>
