@@ -46,12 +46,15 @@
                             ->orderBy("lft", "asc")
                             ->get()->pluck("label", "name")->toArray();
                         ?>
+
+                        @if(count($adminLang) > 1)
+
                         <div class="header-language-icon widget alt-font fw-600">
                             <div class="header-language dropdown" style="top: -2px!important;">
                                 <a href="javascript:void(0);"><img width="24" height="16" src="{{ url("img/".\App::getLocale().".svg") }}" alt="{{ $lang }}"></a>
                                 <ul class="language-dropdown">
 
-                                    @if(count($adminLang) > 1)
+
 
                                         @foreach ($adminLang as $lang => $language)
                                             @if ($lang != App::getLocale())
