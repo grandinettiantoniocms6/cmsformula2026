@@ -209,23 +209,13 @@ $lang_ = strtoupper($lang);
 
                         <!-- Info extra button menu -->
                         @if($website->is_extra_button_menu == 1)
-
+                            <div class="col-auto col-lg-2 text-end d-none d-sm-flex">
                                 <div class="header-icon">
                                     <div class="header-button ms-25px">
                                         <a href="{{ $website->link_extra_button_menu }}" target="{{ $website->type_href }}" class="btn btn-small btn-rounded btn-box-shadow" style="background-color: {{ $website->bgcolor_extra_button_menu }}; color: {{ $website->txtcolor_extra_button_menu }};">{{ $website->label_extra_button_menu }}</a>
                                     </div>
                                 </div>
-
-                        @else
-
-                            <div class="col-auto col-lg-2 text-end d-none d-sm-flex">
-                                <div class="header-icon">
-                                    <div class="header-button">
-                                        <!-- null per lasciare il center top menu -->
-                                    </div>
-                                </div>
                             </div>
-
                         @endif
                         <!-- / Info extra button menu -->
 
