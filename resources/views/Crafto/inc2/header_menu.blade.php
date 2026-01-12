@@ -174,20 +174,31 @@ $lang_ = strtoupper($lang);
                 </div>
             </div>
 
-            <div class="col-auto ms-auto ps-lg-0 d-none d-sm-flex">
-                <!--<div class="header-icon">
-                    <div class="d-none d-xl-inline-block"><div class="fw-600"><a href="tel:1800222000" class="widget-text"><i class="feather icon-feather-phone-call me-10px"></i>1 800 222 000</a></div></div>
-                    <div class="header-button ms-25px">
-                        <a href="demo-logistics-contact-us.html" class="btn btn-small btn-base-color btn-hover-animation-switch btn-round-edge btn-box-shadow fw-700 ls-0px btn-icon-left">
-                                    <span>
-                                        <span class="btn-text">Get a quote</span>
-                                        <span class="btn-icon"><i class="feather icon-feather-mail"></i></span>
-                                        <span class="btn-icon"><i class="feather icon-feather-mail"></i></span>
-                                    </span>
-                        </a>
+            <!-- Info extra button menu -->
+            @if($website->is_extra_button_menu == 1)
+                <div class="col-auto ms-auto ps-lg-0 d-none d-sm-flex">
+                    <div class="header-icon">
+                        <div class="header-button ms-25px">
+
+                            <a href="{{ $website->link_extra_button_menu }}" target="{{ $website->type_href }}" class="btn btn-small btn-rounded btn-box-shadow" style="background-color: {{ $website->bgcolor_extra_button_menu }}; color: {{ $website->txtcolor_extra_button_menu }};">{{ $website->label_extra_button_menu }}</a>
+
+                        </div>
                     </div>
-                </div> -->
-            </div>
+                </div>
+
+            @else
+
+                <div class="col-auto col-lg-2 text-end d-none d-sm-flex">
+                    <div class="header-icon">
+                        <div class="header-button">
+                            <!-- null per lasciare il center top menu -->
+                        </div>
+                    </div>
+                </div>
+
+            @endif
+            <!-- / Info extra button menu -->
+
         </div>
     </nav>
     <!-- end navigation -->
