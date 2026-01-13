@@ -24,21 +24,20 @@ if($descriptionBlocco){
 
 <section class="big-section overflow-hidden ps-6 pe-6" style="background-color: {{ $item->bgcolor }}; margin-top: 0px" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
+        <div class="row justify-content-center mb-3">
 
-        @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-            <div class="row justify-content-center mb-3">
-                <div class="col-12 col-xl-8 text-center">
-                    <span class="text-uppercase text-dark-gray fw-500 lh-22 mb-10px d-block">{{ $titleBlocco[\App::getLocale()] }}</span>
-                    <h2 class="fw-700 ls-minus-1px w-90 mx-auto sm-w-100">{!! $descriptionBlocco[\App::getLocale()] !!}</h2>
+            @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
+                <div class="col-lg-6 col-md-10 md-mb-50px">
+                    <span style="background-color: {{ $website->color_gen2 }}; color: {{ $website->color_gen3 }};" class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                        {{ $titleBlocco[\App::getLocale()] }}
+                    </span>
+                    <p>{!! $descriptionBlocco[\App::getLocale()] !!}</p>
                 </div>
-                <div class="col-lg-12"></div>
-            </div>
-        @endif
+            @endif
 
-        <div class="row align-items-center">
-            <div class="col-12 col-md-12">
-                <div class="swiper position-relative text-slider-style-04" data-slider-options='{ "autoHeight": true, "loop": true, "allowTouchMove": true, "autoplay": { "delay": 4000, "disableOnInteraction": false }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "effect": "fade" }'>
-                    <div class="swiper-wrapper">
+            <div class="col-lg-6 col-md-10 md-mb-50px">
+                <div class="swiper swiper-light-pagination" data-slider-options='{ "slidesPerView": 1, "spaceBetween": 30, "loop": true, "pagination": { "el": ".swiper-pagination-bullets-07", "clickable": true, "dynamicBullets": false }, "autoplay": { "delay": 4000, "disableOnInteraction": false }, "keyboard": { "enabled": true, "onlyInViewport": true }, "breakpoints": { "992": { "slidesPerView": 1 }, "768": { "slidesPerView": 1 }, "320": { "slidesPerView": 1 } }, "effect": "slide" }'>
+                    <div class="swiper-wrapper align-items-center">
 
                         @if($array)
                             @foreach($array as $value)
@@ -117,51 +116,28 @@ if($descriptionBlocco){
 
                                     ?>
 
-                                    <!-- start text slider item -->
-                                <div class="swiper-slide">
-                                    @if(trim($foto) != "")
-                                        <img src="{{ $foto }}" alt="" />
-                                    @endif
-                                    <div class="container position-absolute sm-position-relative bottom-0 right-0px z-index-1 swiper-slide-content">
-                                        <div class="row justify-content-end align-items-end h-100">
-                                            <div class="col-lg-5 col-md-7 p-0">
-                                                <div class="bg-white p-16 lg-p-12">
-                                                    @if(trim($title[\App::getLocale()]) != "")
-                                                        <h2 class="alt-font text-dark-gray fw-600 mb-20px ls-minus-2px">{{ $title[\App::getLocale()] }}</h2>
-                                                    @endif
-
-                                                    @if(trim($description[\App::getLocale()]) != "")
-                                                        <p class="w-90 mb-10px">{!! $description[\App::getLocale()] !!}</p>
-                                                    @endif
-
-                                                    @if(trim($button[\App::getLocale()])!="")
-                                                        <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-link btn-hover-animation-switch btn-large text-dark-gray fw-800">
-                                                            <span>
-                                                                <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
-                                                                <span class="btn-icon"><i class="fa-solid fa-arrow-right fs-14"></i></span>
-                                                                <span class="btn-icon"><i class="fa-solid fa-arrow-right fs-14"></i></span>
-                                                            </span>
-                                                        </a>
-                                                    @endif
-
-                                                </div>
-                                            </div>
+                                        <!-- start text slider item -->
+                                        <div class="swiper-slide border-radius-6px overflow-hidden">
+                                            @if(trim($foto) != "")
+                                                <img src="{{ $foto }}" alt="" />
+                                            @endif
                                         </div>
-                                    </div>
-                                </div>
-                                <!-- end text slider item -->
+                                        <!-- end text slider item -->
 
                             @endforeach
                         @endif
-                    </div>
+
 
                     <!-- start slider navigation -->
-                    <div class="slider-one-slide-prev-1 icon-small swiper-button-prev slider-navigation-style-07 bg-dark-gray text-white box-shadow-small"><i class="bi bi-arrow-down-left"></i></div>
-                    <div class="slider-one-slide-next-1 icon-small swiper-button-next slider-navigation-style-07 bg-dark-gray text-white box-shadow-small"><i class="bi bi-arrow-up-right"></i></div>
+                    <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-style-1 swiper-pagination-bullets-07"></div>
                 </div>
 
             </div>
+
         </div>
+    </div>
+
+    </div>
 </section>
-<!-- end section -->
+
 

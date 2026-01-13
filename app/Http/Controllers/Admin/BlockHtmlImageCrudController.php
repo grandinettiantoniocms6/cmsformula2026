@@ -157,8 +157,13 @@ class BlockHtmlImageCrudController extends CrudController
                     'label' => "Seleziona stile",
                     'type' => 'select_from_array',
                     'options' => [
-                            1 => 'Style 1: Carosello con box bianco, titolo e descrizione fissi',
-                            2 => 'Style 2: Carosello con box bianco, titolo e descrizione fissi (Immagine no thumb)',
+                            1 => 'Style 1: Titolo e descrizione fissa in alto con Carosello immagini e colore sfondo perso',
+                            2 => 'Style 2: Carosello immagini (no thumb), titolo fisso e colore sfondo perso',
+                            3 => 'Style 3: Titolo e testo fisso a sx con Carosello immagini a dx e colore sfondo perso',
+                            4 => 'Style 4: Titolo e testo fisso a sx con Carosello immagini a dx e colore sfondo perso',
+                            7 => 'Style 5: Carosello immagini Moderno con Titolo e testo fisso in alto più titolo,descrizione e link a sx',
+                            //5 => 'Style 5: non lo uso - vecchio codice AC',
+                            //6 => 'Style 6: non lo uso - vecchio codice AC',
                                 /*
 
                                  2 => 'Immagini a sinistra - Testo a destra',
@@ -170,7 +175,7 @@ class BlockHtmlImageCrudController extends CrudController
                     'allows_null' => false,
                     'default' => 1,
                     // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                    'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                    'wrapperAttributes' => ['class' => 'form-group col-md-12']
                 ]);
 
                 $this->crud->addField([   // repeatable
