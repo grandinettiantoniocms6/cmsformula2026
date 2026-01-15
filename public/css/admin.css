@@ -204,8 +204,9 @@ a:hover, a:focus, a:active {
 .sidebar.bg-white .nav-dropdown.open {
     background: #fff;
 }
+/* Colore sfondo sotto-menu admin (esempio: plugin products) */
 .sidebar.bg-white .nav-dropdown.open > .nav-dropdown-items {
-    background: #fbfbfb;
+    background: #f8f8f8;
 }
 
 .sidebar.bg-white .nav-link.active .nav-icon, .sidebar.bg-white .nav-link.active:hover .nav-icon {

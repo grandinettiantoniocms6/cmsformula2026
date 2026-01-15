@@ -157,11 +157,11 @@ class BlockHtmlImageCrudController extends CrudController
                     'label' => "Seleziona stile",
                     'type' => 'select_from_array',
                     'options' => [
-                            1 => 'Style 1: Titolo e descrizione fissa in alto con Carosello immagini e colore sfondo perso',
-                            2 => 'Style 2: Carosello immagini (no thumb), titolo fisso e colore sfondo perso',
-                            3 => 'Style 3: Titolo e testo fisso a sx con Carosello immagini a dx e colore sfondo perso',
-                            4 => 'Style 4: Titolo e testo fisso a sx con Carosello immagini a dx e colore sfondo perso',
-                            7 => 'Style 5: Carosello immagini Moderno con Titolo e testo fisso in alto più titolo,descrizione e link a sx',
+                            1 => 'Style 1: Titolo e descrizione fissa in alto con Carosello immagini e colore sfondo personalizzabile',
+                            2 => 'Style 2: Carosello immagini (no thumb), titolo fisso e colore sfondo personalizzabile',
+                            3 => 'Style 3: Titolo e testo fisso a sx con Carosello immagini a dx e colore sfondo personalizzabile',
+                            4 => 'Style 4: Titolo e testo fisso a dx con Carosello immagini a sx e colore sfondo personalizzabile',
+                            7 => 'Style 5: Carosello immagini Moderno, con Titolo e testo fissi in alto',
                             //5 => 'Style 5: non lo uso - vecchio codice AC',
                             //6 => 'Style 6: non lo uso - vecchio codice AC',
                                 /*

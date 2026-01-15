@@ -15,17 +15,31 @@ class LabelsSeeder extends Seeder
         /* LABELS VARI */
 
         $vet = [];
+        $vet["it"] = "TORNA SU";
+        $vet["en"] = "SCROLL UP";
+        $vet["fr"] = "DÉFILEZ VERS LE HAUT";
+        $vet["de"] = "ZURÜCK ZUM SEITENANFANG";
+        $vet["es"] = "DESPLAZARSE HACIA ARRIBA";
+        $vet["ru"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+
+        \App\Models\Label::firstOrCreate(["key" => "torna-su"],[
+            "value" => $vet,
+        ]);
+
+
+        $vet = [];
         $vet["it"] = "TORNA INDIETRO";
-        $vet["en"] = "BACK";
-        $vet["fr"] = "";
-        $vet["de"] = "";
+        $vet["en"] = "GO BACK";
+        $vet["fr"] = "EN ARRIÈRE";
+        $vet["de"] = "GEH ZURÜCK";
         $vet["es"] = "";
         $vet["srb"] = "";
         $vet["ro"] = "";
         \App\Models\Label::firstOrCreate(["key" => "back-to-page"],[
             "value" => $vet,
         ]);
-
 
 
         /* LABELS BLOCCO GRID */
