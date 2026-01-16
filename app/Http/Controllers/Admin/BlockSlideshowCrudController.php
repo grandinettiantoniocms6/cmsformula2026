@@ -124,11 +124,12 @@ class BlockSlideshowCrudController extends CrudController
                             'label' => "Seleziona uno style di slideshow",
                             'type' => 'select_from_array',
                             'options' => [
-                                1 => 'Style 1: Immagini che scorrono con freccie laterali',
-                                2 => 'Style 2: Immagini che scorrono con puntini di scorrimento in basso',
-                                3 => 'Style 3: Sfondo a sinistra ed immagine a destra - (No Thumbs: dimensioni immagini 1200px x 1000px)',
-                                4 => 'Style 4: Immagini a carosello quadrate scorrevoli con titolo, descrizione, pulsante e sfumatura fissa',
-                                5 => 'Style 5: Immagine fissa con titolo, descrizione e pulsante'
+                                1 => 'Style 1: Frecce laterali, descrizione e titolo a sinistra',
+                                6 => 'Style 2: Frecce laterali, descrizione e titolo al centro',
+                                2 => 'Style 3: Puntini di scorrimento in basso, descrizione e titolo al centro',
+                                3 => 'Style 4: Sfondo a sinistra e immagine a destra - (No Thumbs: dimensioni immagini 1200px x 1000px)',
+                                4 => 'Style 5: Immagini a carosello quadrate scorrevoli con titolo, descrizione, pulsante e sfumatura fissa',
+                                5 => 'Style 6: Immagine fissa con titolo, descrizione e pulsante'
                             ],
                             'allows_null' => false,
                             'default' => 1,
