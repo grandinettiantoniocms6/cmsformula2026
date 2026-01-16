@@ -1,4 +1,6 @@
-<section class="block-imagelink" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+<?php $website = \App\Models\WebsiteSetting::first(); ?>
+
+<section class="pt-5 pb-5" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
         @if($array)
                 <?php $i = 1;?>
@@ -7,7 +9,9 @@
 
                     $pb = $item->pb;
                     $icon = $value->icon;
+                    $foto = $value->foto;
                     $foto2 = $value->foto2;
+                    $foto3 = $value->foto3;
                     $bgcolor = $value->bgcolor;
                     $txtcolor = $value->txtcolor;
 
@@ -19,6 +23,11 @@
                     $description = json_decode($value->description, true);
                     if($description === null){
                         $description = [];
+                    }
+
+                    $text_box_icon = json_decode($value->text_box_icon, true);
+                    if($text_box_icon === null){
+                        $text_box_icon = [];
                     }
 
                     $url_interno = json_decode($value->url_interno, true);
@@ -40,6 +49,10 @@
 
                     if(!key_exists(\App::getLocale(), $description)){
                         $description[\App::getLocale()] = "";
+                    }
+
+                    if(!key_exists(\App::getLocale(), $text_box_icon)){
+                        $text_box_icon[\App::getLocale()] = "";
                     }
 
                     if(!key_exists(\App::getLocale(), $title)){
@@ -68,7 +81,7 @@
                     }
                     $perc = $i%2;
 
-                    // serve per le thumb
+                    // serve per le thumbs
                     $photo = $value->foto;
 
                     // serve per le thumb
@@ -84,88 +97,121 @@
                         }
                     }
 
-                    ?>
+                    //serve per la thumbs foto3
+                    $photo = $value->foto3;
 
-                <div class="row space-{{ $item->pb }}">
+                    if($photo){
+                        $basename = basename($photo);
+                        $temp = explode(".", $basename);
+
+                        $check = "thumb/blocks_images_links/$temp[0]-large.webp";
+                        if(file_exists($check)){
+                            $foto3 = url($check);
+                        }else{
+                            $foto3 = url($photo);
+                        }
+                    }
+                    // fine thumb
+
+                    ?>
+                <div class="row align-items-center justify-content-md-center g-xl-0 g-1" style="padding-bottom: {{ $item->pb }}px;">
                     @if($perc == 0)
 
                         <!-- secondo item -->
-                        <div class="col-lg-4 mb-4 img-sx wow animate__fadeInUp" data-wow-duration=".3s">
+
+                        <!-- A -->
+
+                        <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
                             @if(trim($foto) != "")
-                                <img class="img-fluid mx-auto" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
+                                <figure class="position-relative m-0">
+                                    <img class="lg-w-100 border-radius-0px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
+                                </figure>
                             @endif
                         </div>
 
-                        <div class="col-lg-8 wow animate__fadeInDown" data-wow-duration=".3s" style="background-color: {{ $value->bgcolor }};">
-                            <div class="card-body">
-                                @if(trim($value->icon) != "")
-                                    <div class="icon" style="color: {{ $value->txtcolor }};>
-                                        {!! $value->icon !!}
-                                    </div>
+                        <!-- B -->
+                        <div class="col-xl-5 offset-xl-1 col-lg-6" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
+
+                            @if(trim($title[\App::getLocale()])!="")
+                                <h3 class="text-dark-gray fw-700 ls-minus-1px mb-20px" class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</h3>
+                            @endif
+
+                            @if(trim($description[\App::getLocale()])!="")
+                                <p class="w-80 lg-w-100 sm-w-100">{!! $description[\App::getLocale()] !!}</p>
+                            @endif
+
+                            <div class="d-inline-flex flex-wrap">
+                                @if(trim($button[\App::getLocale()])!="")
+                                    <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-large btn-dark-gray btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" >
+                                            <span>
+                                                <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
+                                                <span class="btn-icon">
+                                                    <i class="feather icon-feather-arrow-right"></i>
+                                                </span>
+                                                <span class="btn-icon">
+                                                    <i class="feather icon-feather-arrow-right"></i>
+                                                </span>
+                                            </span>
+                                    </a>
+
                                 @endif
-                                @if(trim($value->foto2) != "")
-                                    <div class="icon" style="color: {{ $value->txtcolor }};">
-                                        <img src="{{ $value->foto2 }}" title="" loading="lazy">
                             </div>
-                            @endif
+
+                        </div>
+
+                    @else
+
+                        <!-- primo item -->
+
+                        <!-- B -->
+
+                        <div class="col-md-10 col-xl-5 offset-xl-1 col-lg-6" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
                             @if(trim($title[\App::getLocale()])!="")
-                                <h3 class="title" style="color: {{ $value->txtcolor }};">{{ $title[\App::getLocale()] }}</h3>
+                                <h3 class="text-dark-gray fw-700 ls-minus-1px mb-20px" class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</h3>
                             @endif
 
                             @if(trim($description[\App::getLocale()])!="")
-                                <div class="description">{!! $description[\App::getLocale()] !!}</div>
+                                <p class="w-80 lg-w-100 sm-w-100">{!! $description[\App::getLocale()] !!}</p>
                             @endif
-                            @if(trim($button[\App::getLocale()])!="")
-                                <a target="{{ $type_href }}" id="btn-imagelink-1" class="btn btn-primary" style="background-color:{{ $website-> btn_background }}; color:{{ $website-> btn_txt_color }}; border-color:{{ $website-> btn_colorborder }};" href="{{ $url }}"><i class="ti-arrow-right"></i><span>{{ $button[\App::getLocale()] }}</span></a>
+
+                            <div class="d-inline-flex flex-wrap">
+                                @if(trim($button[\App::getLocale()])!="")
+                                    <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-large btn-dark-gray btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" >
+                                        <span>
+                                            <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
+                                            <span class="btn-icon">
+                                                <i class="feather icon-feather-arrow-right"></i>
+                                            </span>
+                                            <span class="btn-icon">
+                                                <i class="feather icon-feather-arrow-right"></i>
+                                            </span>
+                                        </span>
+                                    </a>
+
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- A -->
+
+                        <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
+                            @if(trim($foto) != "")
+                                <figure class="position-relative m-0">
+                                    <img class="lg-w-100 border-radius-0px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
+                                </figure>
                             @endif
                         </div>
+
+                    @endif
+
                 </div>
+                <div class="row space-{{ $item->pb }}"></div>
 
-                @else
+                    <?php $i++;?>
 
-                    <!-- primo item -->
-                    <div id="second20" class="col-lg-8 order-2 order-lg-1 wow animate__fadeInUp" data-wow-duration=".3s" style="background-color: {{ $value->bgcolor }};">
-                        <div class="card-body">
-                            @if(trim($value->icon) != "")
-                                <div class="icon" style="color: {{ $value->txtcolor }};">
-                                    {!! $value->icon !!}
-                                </div>
-                            @endif
-                            @if(trim($value->foto2) != "")
-                                <div class="icon" style="color: {{ $value->txtcolor }};">
-                                    <img src="{{ $value->foto2 }}" title="" loading="lazy">
-                                </div>
-                            @endif
-
-                            @if(trim($title[\App::getLocale()])!="")
-                                <h3 class="title" style="color: {{ $value->txtcolor }};">{{ $title[\App::getLocale()] }}</h3>
-                            @endif
-
-                            @if(trim($description[\App::getLocale()])!="")
-                                <div class="description">{!! $description[\App::getLocale()] !!}</div>
-                            @endif
-                            @if(trim($button[\App::getLocale()])!="")
-                                <a target="{{ $type_href }}" id="btn-imagelink-1" class="btn btn-primary" style="background-color:{{ $website-> btn_background }}; color:{{ $website-> btn_txt_color }}; border-color:{{ $website-> btn_colorborder }};" href="{{ $url }}"><i class="ti-arrow-right"></i><span>{{ $button[\App::getLocale()] }}</span></a>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 mb-4 img-dx order-1 order-lg-2 wow animate__fadeInDown" data-wow-duration=".3s">
-                        @if(trim($foto) != "")
-                            <img class="img-fluid mx-auto" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}" loading="lazy">
-                        @endif
-                    </div>
-
-                @endif
-    </div>
-    <div class="row space-{{ $item->pb }}"></div>
-        <?php $i++;?>
-    @endforeach
+            @endforeach
         @endif
+
     </div>
 </section>
-
-
-
-

@@ -126,7 +126,7 @@ class BlockImageLinkCrudController extends CrudController
                 'label' => 'Padding (00 nullo | 150 massimo) Accetta valori multipli di 10.',
                 'type'  => 'number',
                 'default'     => 30,
-                'wrapperAttributes' => ['class' => 'form-group col-md-4']
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
 
 
@@ -168,6 +168,15 @@ class BlockImageLinkCrudController extends CrudController
             // FINE CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP
 
 
+            $this->crud->addField([   // repeatable
+                'name'        => 'fullwidth',
+                'label'   => 'Seleziona larghezza blocco',
+                'type'        => 'select_from_array',
+                'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
+                'allows_null' => false,
+                'default'     => 'container',
+                'wrapper' => ['class' => 'form-group col-md-6']
+            ]);
 
             // Permette di scegliere uno o stili di un blocco (parte html)
             $this->crud->addField([   // select_from_array
@@ -176,29 +185,17 @@ class BlockImageLinkCrudController extends CrudController
                 'type'        => 'select_from_array',
                 'options'     =>
                     [
-                        1 => 'Style 1: immagine a sx e testo a dx',
-                        2 => 'Style 2: testo a sx e immagine a dx',
-                        //3 => 'Style 3: xxxx ',
+                        1 => 'Style 1: Immagine a sx, testo a dx e colore titolo e sfondo pilotati da admin ( Impostazioni > Sito web > Style ) ',
+                        2 => 'Style 2: Immagine a dx, testo a sx 3 colore titolo e sfondo pilotati da admin ( Impostazioni > Sito web > Style )',
+                        3 => 'Style 3: Immagine a sx, testo a dx e colore titolo predefinito (nero)',
+                        4 => 'Style 4: Immagine a dx, testo a sx e colore titolo predefinito (nero)',
+                        //5 => 'Style 5: Immagine a dx, testo a sx e colore titolo predefinito (nero)',
 
                     ],
                 'allows_null' => false,
                 'default'     => 1,
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                'wrapperAttributes' => ['class' => 'form-group col-md-4']
-            ]);
-
-
-
-
-
-            $this->crud->addField([   // repeatable
-                'name'        => 'fullwidth',
-                'label'   => 'Seleziona larghezza blocco',
-                'type'        => 'select_from_array',
-                'options'     => ['container' => 'Normale', 'container-fluid' => 'Full Width'],
-                'allows_null' => false,
-                'default'     => 'container',
-                'wrapper' => ['class' => 'form-group col-md-4']
+                'wrapperAttributes' => ['class' => 'form-group col-md-12']
             ]);
 
         }else{
