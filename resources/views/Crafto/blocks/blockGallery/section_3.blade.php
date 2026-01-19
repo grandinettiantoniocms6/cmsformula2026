@@ -19,14 +19,14 @@ if($descriptionBlocco){
 }
 ?>
 
-<section class="pt-0" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+<section class="pt-{{ $item->pt }} pb-{{ $item->pb }}" style="background-color: {{ $item->bgcolor }}; text-align: {{ $item->text_align }};" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
 
         @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-            <div class="row align-items-center mb-6">
+            <div class="row align-items-center mb-1">
                 <div class="col-12 col-xl-6 col-lg-8 text-center position-relative page-title-double-large">
                     <div class="d-flex flex-column justify-content-center extra-very-small-screen">
-                        <h1 class="text-dark-gray alt-font ls-minus-1px fw-700 mb-20px">{{ $titleBlocco[\App::getLocale()] }}</h1>
+                        <h1 class="alt-font ls-minus-1px fw-700 mb-20px" style="color: {{ $item->color_title }};">{{ $titleBlocco[\App::getLocale()] }}</h1>
                         <h2 class="d-inline-block fw-400 ls-0px w-80 xs-w-100 mx-auto">{!! $descriptionBlocco[\App::getLocale()] !!}</h2>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ if($descriptionBlocco){
                                             <div class="atropos-scale">
                                                 <div class="atropos-rotate">
                                                     <div class="atropos-inner" data-atropos-offset="3">
-                                                        <div class="portfolio-box bg-gradient-sky-blue-pink">
+                                                        <div class="portfolio-box bg-gradient-top-very-light-gray">
                                                             <div class="portfolio-image">
                                                                 <img src="{{ $foto }}" alt="" />
                                                             </div>

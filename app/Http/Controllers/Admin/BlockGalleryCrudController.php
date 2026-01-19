@@ -227,19 +227,67 @@ class BlockGalleryCrudController extends CrudController
 
             } // fINE PERSO TEMA WEBSHOP
 
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'bgcolor',
+                'label' => 'Colore sfondo Box',
+                'type'  => 'color_picker2',
+                'default' => null,
+                // optional
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'color_title',
+                'label' => 'Colore titolo Box',
+                'type'  => 'color_picker2',
+                'default' => null,
+                // optional
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'pt',
+                'label' => 'Margine superiore: imposta un valore numerico (Esempio: 0 nullo, 2 normale - 5 massimo)',
+                'type'  => 'text',
+                'wrapper' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // repeatable
+                'name'  => 'pb',
+                'label' => 'Margine inferiore: imposta un valore numerico (Esempio: 0 nullo, 2 normale - 5 massimo)',
+                'type'  => 'text',
+                'wrapper' => ['class' => 'form-group col-md-6']
+            ]);
+
+            $this->crud->addField([   // select_from_array
+                'name'        => 'text_align',
+                'label'       => "Allineamento titolo",
+                'type'        => 'select_from_array',
+                'options'     => ['rigth' => 'Destra', 'left' => 'Sinistra', 'center' => 'Centrato'],
+                'allows_null' => false,
+                'default'     => 'center',
+                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                'wrapperAttributes' => ['class' => 'form-group col-md-12']
+            ]);
+
+
             $this->crud->addField([   // select_from_array
                 'name'        => 'style2',
                 'label'       => "Seleziona uno stile (Non disponibile per il template predefinito)",
                 'type'        => 'select_from_array',
                 'options'     => [
-                    1 => 'Style 1',
-                    2 => 'Style 2',
-                    3 => 'Style 3',
+                    1 => 'Style 1: Effetto Zoom-In (Da usare se caricate immagini scattate solo in orizzontale)',
+                    2 => 'Style 2: Effetto Fade+Icona Lente (Da usare se caricate immagini scattate solo in orizzontale)',
+                    3 => 'Style 3: Effetto Fade+Movimento (Da usare se caricate immagini scattate solo in orizzontale)',
+                    4 => 'Style 4: Effetto Zoom-In (NB: Da usare se caricate immagini scattate in verticale e orizzontale)',
                 ],
                 'allows_null' => false,
                 'default'     => 1,
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                'wrapperAttributes' => ['class' => 'form-group col-md-12']
             ]);
 
 
@@ -335,14 +383,20 @@ class BlockGalleryCrudController extends CrudController
         $lang->update_lang($this->block, $this->crud, $request);
 
         if($request->has('name')){
-            // gli input di settaggio blocco da memorizzare
+            // aggiungere gli input di settaggio blocco da memorizzare. altrimenti in admin non li salva
             $this->crud->entry->name = $request->get('name');
             $this->crud->entry->col = $request->get('col');
+            $this->crud->entry->pt = $request->get('pt');
+            $this->crud->entry->pb = $request->get('pb');
+            $this->crud->entry->bgcolor = $request->get('bgcolor');
+            $this->crud->entry->color_title = $request->get('color_title');
+            $this->crud->entry->text_align = $request->get('text_align');
             $this->crud->entry->style = $request->get('style');
             $this->crud->entry->style2 = $request->get('style2');
             $this->crud->entry->fullwidth = $request->get('fullwidth');
             $this->crud->entry->is_pagination = $request->get('is_pagination');
             $this->crud->entry->number_pagination = $request->get('number_pagination');
+
             $this->crud->entry->save();
         }
 

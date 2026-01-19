@@ -88,7 +88,7 @@ if($descriptionBlocco){
                                             <!-- start portfolio item -->
                                             <li class="gallery-box grid-item web branding transition-inner-all">
                                                 @if(trim($foto) != "")
-                                                    <a href="{{ $foto }}" data-group="lightbox-group-gallery">
+                                                    <a href="{{ $value->foto }}" data-group="lightbox-group-gallery">
                                                         <div class="portfolio-box">
                                                             <div class="portfolio-image border-radius-6px">
                                                                 <img src="{{ $foto }}" alt="" />

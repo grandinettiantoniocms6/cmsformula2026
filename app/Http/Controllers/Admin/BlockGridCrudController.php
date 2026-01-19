@@ -188,6 +188,7 @@ class BlockGridCrudController extends CrudController
                                     'wrapperAttributes' => ['class' => 'form-group col-md-6']
                                 ]);
 
+                               // fine person Crafto
                             }
 
                             // CAMPI VISUALIZZATI SOLO CON IL TEMA CORPORATE1//////////////////
