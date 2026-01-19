@@ -229,8 +229,8 @@ class BlockGalleryCrudController extends CrudController
 
 
             $this->crud->addField([   // repeatable
-                'name'  => 'bgcolor',
-                'label' => 'Colore sfondo Box',
+                'name'  => 'color_title',
+                'label' => 'Colore titolo',
                 'type'  => 'color_picker2',
                 'default' => null,
                 // optional
@@ -239,8 +239,8 @@ class BlockGalleryCrudController extends CrudController
             ]);
 
             $this->crud->addField([   // repeatable
-                'name'  => 'color_title',
-                'label' => 'Colore titolo Box',
+                'name'  => 'bgcolor',
+                'label' => 'Colore sfondo box gallery',
                 'type'  => 'color_picker2',
                 'default' => null,
                 // optional
@@ -266,7 +266,7 @@ class BlockGalleryCrudController extends CrudController
                 'name'        => 'text_align',
                 'label'       => "Allineamento titolo",
                 'type'        => 'select_from_array',
-                'options'     => ['rigth' => 'Destra', 'left' => 'Sinistra', 'center' => 'Centrato'],
+                'options'     => ['left' => 'Sinistra', 'center' => 'Centrato'],
                 'allows_null' => false,
                 'default'     => 'center',
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;

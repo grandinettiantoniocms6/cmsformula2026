@@ -19,13 +19,13 @@ if($descriptionBlocco){
 }
 ?>
 
-<section class="pt-{{ $item->pt }} pb-{{ $item->pb }}" style="background-color: {{ $item->bgcolor }}; text-align: {{ $item->text_align }};" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+<section class="pt-{{ $item->pt }} pb-{{ $item->pb }}" style="background-color: {{ $item->bgcolor }};" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
     <div class="{{ $item->fullwidth }}">
 
         @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
             <div class="row align-items-center mb-1">
                 <div class="col-md-12 last-paragraph-no-margin">
-                    <h3 class="fw-600 ls-minus-1px mb-20px" style="color: {{ $item->color_title }};">{{ $titleBlocco[\App::getLocale()] }}</h3>
+                    <h3 class="fw-600 ls-minus-1px mb-20px" style="color: {{ $item->color_title }}; text-align: {{ $item->text_align }};">{{ $titleBlocco[\App::getLocale()] }}</h3>
                     <p class="w-95 sm-w-100">{!! $descriptionBlocco[\App::getLocale()] !!}</p>
                 </div>
             </div>
