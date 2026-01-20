@@ -3,185 +3,175 @@ $website = \App\Models\WebsiteSetting::first();
 $agent = new \Jenssegers\Agent\Agent();
 ?>
 
-<section class="p-0 top-space-margin overflow-hidden pb-25px">
-    <div class="container-fluid p-0">
-        <div class="row align-items-center">
-            <div class="col-12 col-md-12">
-                <div class="outside-box-right-30 sm-outside-box-right-0" data-anime='{ "translateX": [40, 0], "opacity": [0,1], "duration": 800, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                    <div class="swiper base-color" data-slider-options='{ "slidesPerView": 1, "spaceBetween": 25, "loop": true, "autoplay": { "delay": 3000, "disableOnInteraction": false }, "keyboard": { "enabled": true, "onlyInViewport": true }, "breakpoints": { "992": { "slidesPerView": 3 }, "768": { "slidesPerView": 2 }, "320": { "slidesPerView": 1 } }, "effect": "slide" }'>
-                        <div class="swiper-wrapper">
+<section class="p-0 top-space-margin position-relative overflow-hidden">
+    <div class="swiper full-screen swiper-number-pagination-style-01 md-h-auto" data-slider-options='{ "slidesPerView": 1, "loop": true, "pagination": { "el": ".swiper-number", "clickable": true }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "autoplay": { "delay": 6500, "disableOnInteraction": false },  "keyboard": { "enabled": true, "onlyInViewport": true }, "effect": "{{ $item->effect }}" }' data-number-pagination="1">
+        <div class="swiper-wrapper">
 
-                            @if($array)
-                                @foreach($array as $value)
+            @if($array)
+                @foreach($array as $value)
 
-                                        <?php
+                        <?php
 
-                                        $title = json_decode($value->title, true);
-                                        if($title === null){
-                                            $title = [];
-                                        }
+                        $title = json_decode($value->title, true);
+                        if($title === null){
+                            $title = [];
+                        }
 
-                                        $title_background = $value->title_background;
-                                        $slide_height = $item->slide_height;
-                                        $abstract = json_decode($value->abstract, true);
-                                        if($abstract === null){
-                                            $abstract = [];
-                                        }
+                        $title_background = $value->title_background;
+                        $slide_height = $item->slide_height;
+                        $abstract = json_decode($value->abstract, true);
+                        if($abstract === null){
+                            $abstract = [];
+                        }
 
-                                        $url_interno = json_decode($value->url_interno, true);
-                                        if($url_interno === null){
-                                            $url_interno = [];
-                                        }
+                        $url_interno = json_decode($value->url_interno, true);
+                        if($url_interno === null){
+                            $url_interno = [];
+                        }
 
-                                        $url_esterno = json_decode($value->url, true);
-                                        if($url_esterno === null){
-                                            $url_esterno = [];
-                                        }
+                        $url_esterno = json_decode($value->url, true);
+                        if($url_esterno === null){
+                            $url_esterno = [];
+                        }
 
-                                        $button = json_decode($value->button, true);
-                                        if($button === null){
-                                            $button = [];
-                                        }
+                        $button = json_decode($value->button, true);
+                        if($button === null){
+                            $button = [];
+                        }
 
-                                        $type_href = $value->type_href;
+                        $type_href = $value->type_href;
 
-                                        $url = "#";
-                                        if(key_exists(\App::getLocale(), $url_interno)){
-                                            if(trim($url_interno[\App::getLocale()]) != ""){
-                                                $url = "/{$url_interno[\App::getLocale()]}";
-                                            }
-                                        }
-                                        if(key_exists(\App::getLocale(), $url_esterno)){
-                                            if(trim($url_esterno[\App::getLocale()]) != ""){
-                                                $url = $url_esterno[\App::getLocale()];
-                                            }
-                                        }
+                        $url = "#";
+                        if(key_exists(\App::getLocale(), $url_interno)){
+                            if(trim($url_interno[\App::getLocale()]) != ""){
+                                $url = "/{$url_interno[\App::getLocale()]}";
+                            }
+                        }
+                        if(key_exists(\App::getLocale(), $url_esterno)){
+                            if(trim($url_esterno[\App::getLocale()]) != ""){
+                                $url = $url_esterno[\App::getLocale()];
+                            }
+                        }
 
-                                        if(!key_exists(\App::getLocale(), $abstract)){
-                                            $abstract[\App::getLocale()] = "";
-                                        }
+                        if(!key_exists(\App::getLocale(), $abstract)){
+                            $abstract[\App::getLocale()] = "";
+                        }
 
-                                        if(!key_exists(\App::getLocale(), $title)){
-                                            $title[\App::getLocale()] = "";
-                                        }
+                        if(!key_exists(\App::getLocale(), $title)){
+                            $title[\App::getLocale()] = "";
+                        }
 
-                                        if(!key_exists(\App::getLocale(), $button)){
-                                            $button[\App::getLocale()] = "";
-                                        }
+                        if(!key_exists(\App::getLocale(), $button)){
+                            $button[\App::getLocale()] = "";
+                        }
 
-                                        if(!key_exists(\App::getLocale(), $url_interno)){
-                                            $url_interno[\App::getLocale()] = "";
-                                        }
+                        if(!key_exists(\App::getLocale(), $url_interno)){
+                            $url_interno[\App::getLocale()] = "";
+                        }
 
-                                        if(!key_exists(\App::getLocale(), $url_esterno)){
-                                            $url_esterno[\App::getLocale()] = "";
-                                        }
+                        if(!key_exists(\App::getLocale(), $url_esterno)){
+                            $url_esterno[\App::getLocale()] = "";
+                        }
 
-                                        $foto = null;
-                                        if($agent->isMobile() || $agent->isTablet()){
-                                            if($value->foto_mobile){
-                                                $photo = $value->foto_mobile;
-                                            }else{
-                                                $photo = $value->foto;
-                                            }
-                                        }else{
-                                            $photo = $value->foto;
-                                        }
+                        $foto = null;
+                        if($agent->isMobile() || $agent->isTablet()){
+                            if($value->foto_mobile){
+                                $photo = $value->foto_mobile;
+                            }else{
+                                $photo = $value->foto;
+                            }
+                        }else{
+                            $photo = $value->foto;
+                        }
 
-                                        $alt_img = '';
-                                        if($title[\App::getLocale()]){
-                                            $alt_img = strip_tags($title[\App::getLocale()]);
-                                        }elseif ($abstract[\App::getLocale()]) {
-                                            $alt_img = strip_tags($abstract[\App::getLocale()]);
-                                        }
+                        $alt_img = '';
+                        if($title[\App::getLocale()]){
+                            $alt_img = strip_tags($title[\App::getLocale()]);
+                        }elseif ($abstract[\App::getLocale()]) {
+                            $alt_img = strip_tags($abstract[\App::getLocale()]);
+                        }
 
-                                        // serve per le thumb
-                                        if($photo){
-                                            $basename = basename($photo);
-                                            $temp = explode(".", $basename);
+                        // se non uso le thumb
+                        if($value->foto){
+                            $basename = basename($value->foto);
+                            $temp = explode(".", $basename);
+                            $foto = url($value->foto);
+                        }
+                        // end se non uso le thumb
 
-                                            if($agent->isMobile() || $agent->isTablet()){
-                                                $check = "thumb/blocks_slideshows/$temp[0]-mobile.webp";
-                                            }else{
-                                                $check = "thumb/blocks_slideshows/$temp[0]-large.webp";
-                                            }
+                        // Sfondo testo slide
+                        $captionbg = 'transparent';
 
-                                            if(file_exists($check)){
-                                                $foto = url($check);
-                                            }else{
-                                                $foto = url($photo);
-                                            }
-                                        }
+                        if($value->is_alphabg == 1){
+                            switch ($value->alpha_bgtext) {
+                                case 0:
+                                    $alpha_bg = '00';
+                                    break;
+                                case 100:
+                                    $alpha_bg = '';
+                                    break;
+                                default:
+                                    $alpha_bg = $value->alpha_bgtext;
+                            }
+                            $captionbg = $value->bgcolor.$alpha_bg;
+                        }
+                        ?>
 
-                                        // Sfondo testo slide
-                                        $captionbg = 'transparent';
+                        <!-- Velina o layer trasparente sopra img o colore sfondo -->
+                    <style>
+                        .banner::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(120deg, #131313, #1f1f1f); opacity: 0.{{ $value->alpha }}; }
+                        .banner { position: relative; min-height: 60vh; background-size: cover; display: flex; }
+                        .banner::before { z-index: -1; }
+                        .banner > * { z-index: 2; }
+                    </style>
+                    <!-- Velina o layer trasparente sopra img o colore sfondo -->
 
-                                        if($value->is_alphabg == 1){
-                                            switch ($value->alpha_bgtext) {
-                                                case 0:
-                                                    $alpha_bg = '00';
-                                                    break;
-                                                case 100:
-                                                    $alpha_bg = '';
-                                                    break;
-                                                default:
-                                                    $alpha_bg = $value->alpha_bgtext;
-                                            }
-                                            $captionbg = $value->bgcolor.$alpha_bg;
-                                        }
-                                        ?>
-
-                                        <!-- start content carousal item -->
-                                        <div class="swiper-slide">
-                                            <div class="interactive-banner-style-09 position-relative overflow-hidden">
-                                                <img class="w-100" src="{{ $foto }}" alt="" />
-                                                <div class="opacity-full-dark bg-gradient-bottom-dark-transparent"></div>
-                                                <div class="image-content h-100 w-100 p-10 xl-p-30px sm-pe-15px sm-ps-15px text-center d-flex justify-content-end align-items-end flex-column">
-                                                    <div class="w-100">
-                                                        @if($url != "#")
-                                                            <div class="alt-font fw-700 sliding-box-title mb-10px w-80 xl-w-100 md-w-90 sm-w-70 xs-w-100 mx-auto">
-                                                                <a href="{{ $url }}" target="{{ $type_href }}" class="alt-font fw-600 fs-40 lg-fs-24 ls-minus-1px lg-ls-0px">
-                                                                    @if($title[\App::getLocale()])
-                                                                        {!! $title[\App::getLocale()] !!}
-                                                                    @endif
-                                                                </a>
-                                                            </div>
-                                                        @else
-                                                            <div class="alt-font fw-700 sliding-box-title mb-10px w-80 xl-w-100 md-w-90 sm-w-70 xs-w-100 mx-auto">
-                                                                    @if($title[\App::getLocale()])
-                                                                        <span class="alt-font fw-600 fs-40 lg-fs-24 ls-minus-1px lg-ls-0px" style="color:{!! $value->title_background !!};">{!! $title[\App::getLocale()] !!}</span>
-                                                                    @endif
-                                                            </div>
-                                                        @endif
-                                                            @if($abstract[\App::getLocale()])
-                                                                <div class="fs-22 lg-fs-20 fw-300 ls-minus-1px md-w-80 sm-w-100 xs-w-90">
-                                                                    <span>{!! $abstract[\App::getLocale()] !!}</span>
-                                                                </div>
-                                                            @endif
-
-                                                        <div class="d-flex justify-content-center align-items-center xs-lh-22">
-                                                            @if(trim($button[\App::getLocale()])!="")
-                                                                <div class="ms-10px me-10px">
-                                                                    <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-medium btn-rounded btn-box-shadow btn-white text-uppercase fw-700 ps-15px pe-15px pt-5px pb-5px lh-16 mb-20px">{{ $button[\App::getLocale()] }}</a>
-                                                                </div>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
+                    <!-- start slider item -->
+                    <div class="swiper-slide" >
+                        <div class="container-fluid h-100 g-0">
+                            <div class="row h-100 p-0">
+                                <div class="col-xxl-5 col-lg-6 text-white bg-very-light-green cover-background ps-6 xxl-ps-4 sm-ps-15px order-2 order-lg-1 md-pt-80px md-pb-15 xs-pb-20" style="background-color: {{ $value->left_bgcolor }}; height: 100%;" >
+                                    <div class="d-flex justify-content-center align-items-lg-start align-items-center text-lg-start text-center flex-column h-100" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                                        @if($title[\App::getLocale()])
+                                            <span class="fs-24 fw-500 ls-05px mb-20px d-inline-block border-bottom border-2 border-color-transparent-white-very-light text-uppercase" style="color: {{ $value->title_background }};">{!! $title[\App::getLocale()] !!}</span>
+                                        @endif
+                                        @if($abstract[\App::getLocale()])
+                                            <div class="fs-40 lg-fs-40 fw-500 ls-minus-2px md-w-80 sm-w-100 xs-w-90">
+                                                <span>{!! $abstract[\App::getLocale()] !!}</span>
                                             </div>
-                                        </div>
-                                        <!-- end content carousal item -->
+                                        @endif
 
+                                        @if(trim($button[\App::getLocale()])!="")
+                                            <div class="d-inline-block mt-45px sm-mt-30px">
+                                                <a href="{{ $url }}" target="{{ $type_href }}" class="button btn" style='background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }}; color: {{ $website->btn_txt_color }};'>
+                                                        <span>
+                                                            <span><i class="feather icon-feather-arrow-right"></i></span>
+                                                            <span class="btn-double-text ls-minus-05px" data-text="Discover more">{{ $button[\App::getLocale()] }}</span>
+                                                        </span>
+                                                </a>
+                                            </div>
+                                        @endif
 
-
-
-                                @endforeach
-                            @endif
-
+                                    </div>
+                                </div>
+                                <div class="col-xxl-7 col-lg-6 cover-background sm-background-position-top-center order-1 order-lg-2 md-h-500px sm-h-400px" style="background-image:url('{{ $foto }}');">
+                                    <div class="opacity-full-dark bg-gradient-bottom-dark-transparent"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                    <!-- end slider item -->
+
+                @endforeach
+            @endif
+
         </div>
+
+        <!-- start slider navigation -->
+        <div class="position-relative">
+            <div class="swiper-pagination w-auto left-0 md-right-0px text-center swiper-pagination-clickable swiper-number fs-14 ps-6 xxl-ps-4 md-ps-0" style="bottom: 0px!important; background-color: #040404;"></div>
+        </div>
+        <!-- end slider navigation -->
+
     </div>
 </section>
