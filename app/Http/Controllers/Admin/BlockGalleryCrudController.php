@@ -102,6 +102,15 @@ class BlockGalleryCrudController extends CrudController
             ],
             [
                 // run a function on the CRUD model and show its return value
+                'name'  => 'cartella',
+                'label' => 'Cartella', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'get_cartella', // the method in your Model
+                // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
+                'limit' => 10000, // Limit the number of characters shown
+            ],
+            [
+                // run a function on the CRUD model and show its return value
                 'name'  => 'is_in_menu',
                 'label' => 'Azioni', // Table column heading
                 'type'  => 'model_function',

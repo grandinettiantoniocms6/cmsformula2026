@@ -50,6 +50,15 @@ class BlockGallery extends Model
         }
     }
 
+    public function get_cartella(){
+        $page_id = request()->get('page_id');
+        if($this->cartella == "uploads"){
+            return "<a href='/admin/dropzone?table=blocks_gallerys&id=$this->block_id&block=blockGallery&page_id=$page_id'>$this->cartella</a>";
+        }
+        $cartella = basename($this->cartella);
+       return "<a href='/admin/dropzone?table=blocks_gallerys&id=$this->block_id&block=blockGallery&cartella=$cartella&page_id=$page_id'>$this->cartella</a>";
+    }
+
     public function setFotoAttribute($value)
     {
         $attribute_name = "foto";

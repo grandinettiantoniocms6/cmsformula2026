@@ -29,12 +29,21 @@
 
 @section('content')
     <div class="container">
+
+        @if(request()->has('cartella'))
+            <h5>File andranno inseriti nella cartella uploads/<strong>{{ request()->get('cartella') }}</strong> del FileManager</h5>
+        @else
+            <h5>File andranno inseriti nella cartella <strong>uploads/</strong> del FileManager</h5>
+         @endif
+
         <form method="post" action="{{url('admin/image/upload/store')}}" enctype="multipart/form-data"
               class="dropzone sortable dz-clickable sortable" id="dropzone">
 
             <input type="hidden" name="table" value="{{ $table }}">
             <input type="hidden" name="id" value="{{ $id }}">
-
+            @if(request()->has('cartella'))
+                <input type="hidden" name="cartella" value="{{ request()->get('cartella') }}">
+            @endif
             <br>
             @if($images)
                 @foreach($images as $image)
@@ -127,11 +136,6 @@
             Dropzone.options.dropzone =
                 {
                     maxFilesize: 12,
-                    renameFile: function(file) {
-                        var dt = new Date();
-                        var time = dt.getTime();
-                        return time+file.name;
-                    },
                     acceptedFiles: ".jpeg,.jpg,.png,.gif",
                     addRemoveLinks: true,
                     timeout: 50000,
@@ -214,11 +218,6 @@
             Dropzone.options.dropzone =
                 {
                     maxFilesize: 12,
-                    renameFile: function(file) {
-                        var dt = new Date();
-                        var time = dt.getTime();
-                        return time+file.name;
-                    },
                     acceptedFiles: ".jpeg,.jpg,.png,.gif",
                     addRemoveLinks: true,
                     timeout: 50000,

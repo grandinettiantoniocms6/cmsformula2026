@@ -28,6 +28,49 @@ if(request()->has('block')){
 
     <!-- THE ACTUAL CONTENT -->
     <div class="{{ $crud->getListContentClass() }}">
+        <div class="modal fade" id="cartellaModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Cartella di destinazione</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Chiudi">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <label class="mb-1 font-weight-bold">Percorso upload</label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">uploads /</span>
+                            </div>
+
+                            <input type="text"
+                                   id="cartellaName"
+                                   class="form-control"
+                                   placeholder="es. nomecartella (opzionale)">
+                        </div>
+
+                        <small class="form-text text-muted mt-2">
+                            Se lasci vuoto, i file verranno caricati direttamente nella cartella <strong>uploads/</strong>.
+                        </small>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Annulla
+                        </button>
+                        <button type="button" class="btn btn-primary" id="continuaCartella">
+                            Continua
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
 
         <form method="post" action="{{ route('actions') }}" id="formSave">
             {{ csrf_field() }}
@@ -40,8 +83,14 @@ if(request()->has('block')){
               <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
                 <a href="/admin/{{ request()->get('block') }}/create?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-dark" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi nuovo</span></a>
                 @if($showDropzone)
-                <a href="/admin/dropzone?table={{ $adminBlock->name_table }}&id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-warning" data-style="zoom-in"><span class="ladda-label"><i class="la la-plus"></i> Aggiungi multi</span></a>
-                @endif
+                      <a href="/admin/dropzone?table={{ $adminBlock->name_table }}&id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}"
+                         class="btn btn-sm btn-warning open-cartella-modal"
+                         data-href="/admin/dropzone?table={{ $adminBlock->name_table }}&id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}"
+                         id="btnAddMulti">
+                          <i class="la la-plus"></i> Aggiungi multi
+                      </a>
+
+                  @endif
                 <a href="/admin/{{ request()->get('block') }}/reorder?block_id={{ request()->get('block_id') }}&block={{ request()->get('block') }}&page_id={{ request()->get('page_id') }}" class="btn btn-sm btn-outline-dark" data-style="zoom-in"><span class="ladda-label"><i class="la la-arrows"></i> Riordina</span></a>
 
                   <div class="dropdown show d-inline-block">
@@ -212,4 +261,38 @@ if(request()->has('block')){
           }
       });
   </script>
+
+  <script>
+      document.addEventListener('click', function (e) {
+
+          const trigger = e.target.closest('.open-cartella-modal');
+          if (!trigger) return;
+
+          e.preventDefault();
+          e.stopPropagation();
+
+          const baseHref = trigger.dataset.href;
+          const btnContinue = document.getElementById('continuaCartella');
+          const inputCartella = document.getElementById('cartellaName');
+
+          // reset input ogni apertura
+          inputCartella.value = '';
+
+          btnContinue.onclick = function () {
+              const cartella = inputCartella.value.trim();
+              let url = baseHref;
+
+              // se l'input NON è vuoto aggiungo il parametro
+              if (cartella !== '') {
+                  url += '&cartella=' + encodeURIComponent(cartella);
+              }
+
+              window.location.href = url;
+          };
+
+          $('#cartellaModal').modal('show');
+      });
+  </script>
+
+
 @endsection
