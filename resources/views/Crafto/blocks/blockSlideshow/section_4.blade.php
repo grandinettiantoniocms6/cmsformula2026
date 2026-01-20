@@ -131,7 +131,7 @@ $agent = new \Jenssegers\Agent\Agent();
                         <div class="container-fluid h-100 g-0">
                             <div class="row h-100 p-0">
                                 <div class="col-xxl-5 col-lg-6 text-white bg-very-light-green cover-background ps-6 xxl-ps-4 sm-ps-15px order-2 order-lg-1 md-pt-80px md-pb-15 xs-pb-20" style="background-color: {{ $value->left_bgcolor }}; height: 100%;" >
-                                    <div class="d-flex justify-content-center align-items-lg-start align-items-center text-lg-start text-center flex-column h-100" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                                    <div class="d-flex justify-content-center align-items-lg-start align-items-center text-lg-start text-center flex-column h-100 ipad-top-space-margin" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
                                         @if($title[\App::getLocale()])
                                             <span class="fs-24 fw-500 ls-05px mb-20px d-inline-block border-bottom border-2 border-color-transparent-white-very-light text-uppercase" style="color: {{ $value->title_background }};">{!! $title[\App::getLocale()] !!}</span>
                                         @endif
