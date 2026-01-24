@@ -1,4 +1,13 @@
-/* Crefto custom senza passare dal SAAS */
+/* Crafto custom senza passare dal SAAS */
+
+/* Paginazione Blocco Gallery con questo su mobile i numeri se molti vanno a capo */
+
+.pagination-style-01 .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Fine */
 
 @media (max-width: 1399px) {
     .menu-main-container { display: none !important; }

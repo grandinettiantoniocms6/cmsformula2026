@@ -120,18 +120,17 @@ if($descriptionBlocco){
                                 @endforeach
                             @endif
                         </ul>
+            </ul>
 
-            </div>
-
-            <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
-                <ul class="pagination pagination-style-01 fs-13 fw-500 mb-0">
+            <!-- Paginate -->
+            <div class="col-12 mt-4 d-flex justify-content-center">
+                <div class="col-12 mt-4 d-flex justify-content-center pagination-style-01 fs-13 fw-500 mb-0">
                     @if($item->is_pagination)
                         {{ $array->links() }}
                     @endif
-                </ul>
+                </div>
             </div>
 
-            </div>
 
         </div>
     </div>
