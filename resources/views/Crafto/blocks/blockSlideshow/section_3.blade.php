@@ -3,8 +3,8 @@ $website = \App\Models\WebsiteSetting::first();
 $agent = new \Jenssegers\Agent\Agent();
 ?>
 
-<section class="p-0 top-space-margin position-relative overflow-hidden">
-    <div class="swiper full-screen swiper-number-pagination-style-01 md-h-auto" data-slider-options='{ "slidesPerView": 1, "loop": true, "pagination": { "el": ".swiper-number", "clickable": true }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "autoplay": { "delay": 6500, "disableOnInteraction": false },  "keyboard": { "enabled": true, "onlyInViewport": true }, "effect": "{{ $item->effect }}" }' data-number-pagination="1">
+<section class="p-0 bg-dark-gray">
+    <div class="swiper lg-no-parallax full-screen md-h-600px sm-h-500px swiper-light-pagination ipad-top-space-margin" data-slider-options='{ "slidesPerView": 1, "loop": true, "parallax": true, "speed": 1200, "autoplay": { "delay": 4000, "disableOnInteraction": false }, "pagination": { "el": ".swiper-pagination-bullets", "clickable": true }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "keyboard": { "enabled": true, "onlyInViewport": true }, "effect": "{{ $item->effect }}" }'>
         <div class="swiper-wrapper">
 
             @if($array)
@@ -91,13 +91,23 @@ $agent = new \Jenssegers\Agent\Agent();
                             $alt_img = strip_tags($abstract[\App::getLocale()]);
                         }
 
-                        // se non uso le thumb
-                        if($value->foto){
-                            $basename = basename($value->foto);
+                        // serve per le thumb
+                        if($photo){
+                            $basename = basename($photo);
                             $temp = explode(".", $basename);
-                            $foto = url($value->foto);
+
+                            if($agent->isMobile() || $agent->isTablet()){
+                                $check = "thumb/blocks_slideshows/$temp[0]-mobile.webp";
+                            }else{
+                                $check = "thumb/blocks_slideshows/$temp[0]-large.webp";
+                            }
+
+                            if(file_exists($check)){
+                                $foto = url($check);
+                            }else{
+                                $foto = url($photo);
+                            }
                         }
-                        // end se non uso le thumb
 
                         // Sfondo testo slide
                         $captionbg = 'transparent';
@@ -117,61 +127,53 @@ $agent = new \Jenssegers\Agent\Agent();
                         }
                         ?>
 
-                        <!-- Velina o layer trasparente sopra img o colore sfondo -->
-                        <style>
-                            .banner::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(120deg, #131313, #1f1f1f); opacity: 0.{{ $value->alpha }}; }
-                            .banner { position: relative; min-height: 60vh; background-size: cover; display: flex; }
-                            .banner::before { z-index: -1; }
-                            .banner > * { z-index: 2; }
-                        </style>
-                        <!-- Velina o layer trasparente sopra img o colore sfondo -->
+                        <!-- start slider item -->
+                    <div class="swiper-slide overflow-hidden">
+                        <div class="cover-background position-absolute top-0 start-0 w-100 h-100" style="background-image:url('{{ $foto }}');" data-swiper-parallax="1000">
+                            <div class="container h-100" data-swiper-parallax="-300">
+                                <div class="row align-items-center justify-content-center h-100 text-center">
+                                    <div class="col-xl-7 col-lg-9 col-md-10 position-relative text-white">
 
-                            <!-- start slider item -->
-                            <div class="swiper-slide" >
-                                <div class="container-fluid h-100 g-0">
-                                    <div class="row h-100 p-0">
-                                        <div class="col-xxl-5 col-lg-6 text-white bg-very-light-green cover-background ps-6 xxl-ps-4 sm-ps-15px order-2 order-lg-1 md-pt-80px md-pb-15 xs-pb-20" style="background-color: {{ $value->left_bgcolor }}; height: 100%;" >
-                                            <div class="d-flex justify-content-center align-items-lg-start align-items-center text-lg-start text-center flex-column h-100" data-anime='{ "el": "childs", "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                                @if($title[\App::getLocale()])
-                                                    <span class="fs-24 fw-500 ls-05px mb-20px d-inline-block border-bottom border-2 border-color-transparent-white-very-light text-uppercase" style="color: {{ $value->title_background }};">{!! $title[\App::getLocale()] !!}</span>
-                                                @endif
-                                                @if($abstract[\App::getLocale()])
-                                                <div class="fs-40 lg-fs-40 fw-500 ls-minus-2px md-w-80 sm-w-100 xs-w-90">
-                                                    <span>{!! $abstract[\App::getLocale()] !!}</span>
-                                                </div>
-                                                @endif
+                                        @if($abstract[\App::getLocale()])
+                                            <span data-anime='{ "el": "childs", "translateY": [0, 0], "opacity": [0,0.7], "duration": 1500, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                                                    <span class="fw-300 fs-22 opacity-7 mb-15px d-inline-block">{!! $abstract[\App::getLocale()] !!}</span>
+                                                </span>
+                                        @endif
 
-                                                @if(trim($button[\App::getLocale()])!="")
-                                                <div class="d-inline-block mt-45px sm-mt-30px">
-                                                    <a href="{{ $url }}" target="{{ $type_href }}" class="button btn" style='background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }}; color: {{ $website->btn_txt_color }};'>
-                                                        <span>
-                                                            <span><i class="feather icon-feather-arrow-right"></i></span>
-                                                            <span class="btn-double-text ls-minus-05px" data-text="Discover more">{{ $button[\App::getLocale()] }}</span>
+                                        @if($title[\App::getLocale()])
+                                            <span class="opacity-7 fs-80 xs-fs-60 alt-font fw-700 text-shadow-extra-large ls-minus-2px mb-45px sm-mb-30px xs-mb-20px d-inline-block swiper-parallax-fancy-text"
+                                                  style="color: {{ $value->title_background }};" data-fancy-text='{ "effect": "rotate", "string": ["{!! $title[\App::getLocale()] !!}"] }'>
                                                         </span>
-                                                    </a>
-                                                </div>
-                                                @endif
+                                        @endif
 
+                                        @if(trim($button[\App::getLocale()])!="")
+
+                                            <div data-anime='{ "el": "childs", "translateY": [80, 0], "opacity": [0,1], "duration": 600, "delay": 1000, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                                                <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-large btn-transparent-white-light border-1 btn-hover-animation btn-box-shadow btn-round-edge xs-m-10px">
+                                                        <span>
+                                                            <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
+                                                            <span class="btn-icon"><i class="feather icon-feather-arrow-right"></i></span>
+                                                        </span>
+                                                </a>
                                             </div>
-                                        </div>
-                                        <div class="col-xxl-7 col-lg-6 cover-background sm-background-position-top-center order-1 order-lg-2 md-h-500px sm-h-400px" style="background-image:url('{{ $foto }}');">
-                                            <div class="opacity-full-dark bg-gradient-bottom-dark-transparent"></div>
-                                        </div>
+
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>
-                            <!-- end slider item -->
+                        </div>
+                    </div>
+                    <!-- end slider item -->
 
                 @endforeach
             @endif
 
         </div>
 
-        <!-- start slider navigation -->
-        <div class="position-relative">
-            <div class="swiper-pagination w-auto left-0 md-right-0px text-center swiper-pagination-clickable swiper-number fs-14 ps-6 xxl-ps-4 md-ps-0" style="bottom: 0px!important; background-color: #040404;"></div>
-        </div>
-        <!-- end slider navigation -->
+        <!-- start slider pagination -->
+        <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"></div>
+        <!-- end slider pagination -->
 
     </div>
 </section>

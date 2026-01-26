@@ -3,8 +3,8 @@ $website = \App\Models\WebsiteSetting::first();
 $agent = new \Jenssegers\Agent\Agent();
 ?>
 
-<section class="section-dark p-0 bg-dark-gray">
-    <div class="swiper lg-no-parallax full-screen md-h-600px sm-h-500px swiper-light-pagination" data-slider-options='{ "slidesPerView": 1, "loop": true, "parallax": true, "speed": 1500, "autoplay": { "delay": 4000, "disableOnInteraction": false }, "pagination": { "el": ".swiper-pagination-bullets", "clickable": true }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "keyboard": { "enabled": true, "onlyInViewport": true }, "effect": "{{ $item->effect }}" }'>
+<section class="p-0 bg-dark-gray">
+    <div class="swiper lg-no-parallax full-screen md-h-600px sm-h-500px swiper-light-pagination ipad-top-space-margin" data-slider-options='{ "slidesPerView": 1, "loop": true, "parallax": true, "speed": 1200, "pagination": { "el": ".swiper-pagination-bullets", "clickable": true }, "navigation": { "nextEl": ".slider-one-slide-next-1", "prevEl": ".slider-one-slide-prev-1" }, "autoplay": { "delay": 4000, "disableOnInteraction": false }, "keyboard": { "enabled": true, "onlyInViewport": true }, "effect": "{{ $item->effect }}" }'>
         <div class="swiper-wrapper">
 
             @if($array)
@@ -130,31 +130,30 @@ $agent = new \Jenssegers\Agent\Agent();
                         <!-- start slider item -->
                     <div class="swiper-slide overflow-hidden">
                         <div class="cover-background position-absolute top-0 start-0 w-100 h-100" style="background-image:url('{{ $foto }}');" data-swiper-parallax="1000">
-                            <div class="layer" style="background-color: rgba(0, 0, 0, 0.{{ $item->alpha }}); position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
                             <div class="container h-100" data-swiper-parallax="-300">
                                 <div class="row align-items-center justify-content-center h-100 text-center">
                                     <div class="col-xl-7 col-lg-9 col-md-10 position-relative text-white">
 
                                         @if($abstract[\App::getLocale()])
                                             <span data-anime='{ "el": "childs", "translateY": [0, 0], "opacity": [0,0.7], "duration": 1500, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                                        <span class="fw-300 fs-22 opacity-7 mb-15px d-inline-block">{!! $abstract[\App::getLocale()] !!}</span>
-                                                    </span>
+                                                    <span class="fw-300 fs-22 opacity-7 mb-15px d-inline-block">{!! $abstract[\App::getLocale()] !!}</span>
+                                                </span>
                                         @endif
 
                                         @if($title[\App::getLocale()])
                                             <span class="opacity-7 fs-80 xs-fs-60 alt-font fw-700 text-shadow-extra-large ls-minus-2px mb-45px sm-mb-30px xs-mb-20px d-inline-block swiper-parallax-fancy-text"
                                                   style="color: {{ $value->title_background }};" data-fancy-text='{ "effect": "rotate", "string": ["{!! $title[\App::getLocale()] !!}"] }'>
-                                                    </span>
+                                                        </span>
                                         @endif
 
                                         @if(trim($button[\App::getLocale()])!="")
 
                                             <div data-anime='{ "el": "childs", "translateY": [80, 0], "opacity": [0,1], "duration": 600, "delay": 1000, "staggervalue": 300, "easing": "easeOutQuad" }'>
                                                 <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-large btn-transparent-white-light border-1 btn-hover-animation btn-box-shadow btn-round-edge xs-m-10px">
-                                                    <span>
-                                                        <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
-                                                        <span class="btn-icon"><i class="feather icon-feather-arrow-right"></i></span>
-                                                    </span>
+                                                        <span>
+                                                            <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
+                                                            <span class="btn-icon"><i class="feather icon-feather-arrow-right"></i></span>
+                                                        </span>
                                                 </a>
                                             </div>
 
@@ -171,15 +170,14 @@ $agent = new \Jenssegers\Agent\Agent();
             @endif
 
         </div>
+
+        <!-- start slider pagination -->
+        <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets d-block d-md-none"></div>
+        <!-- end slider pagination -->
+        <!-- start slider navigation -->
+        <div class="slider-one-slide-prev-1 icon-very-medium text-white swiper-button-prev slider-navigation-style-06 bg-black-transparent-medium h-60px w-60px d-none d-sm-flex border-radius-100"><i class="bi bi-arrow-left-short"></i></div>
+        <div class="slider-one-slide-next-1 icon-very-medium text-white swiper-button-next slider-navigation-style-06 bg-black-transparent-medium h-60px w-60px d-none d-sm-flex border-radius-100"><i class="bi bi-arrow-right-short"></i></div>
+        <!-- end slider navigation -->
+
     </div>
-
-    <!-- start slider pagination -->
-    <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"></div>
-    <!-- end slider pagination -->
-    <!-- start slider navigation -->
-    <!--<div class="slider-one-slide-prev-1 icon-extra-large text-white swiper-button-prev slider-navigation-style-06 d-none d-sm-inline-block"><i class="line-icon-Arrow-OutLeft"></i></div>
-        <div class="slider-one-slide-next-1 icon-extra-large text-white swiper-button-next slider-navigation-style-06 d-none d-sm-inline-block"><i class="line-icon-Arrow-OutRight"></i></div>-->
-    <!-- end slider navigation -->
-
-
 </section>

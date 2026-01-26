@@ -39,18 +39,32 @@
                             }
 
                             break;
-                        case "blocks_gallerys":
+
+                        // Agg. 24/01/2026
+                        //WI: Blocco gallery la numerazione era trovo lunga e su mobile sbordava, quindi ho messo questo codice
+
+                            case "blocks_gallerys":
                             if($item->is_pagination == 1){
                                 $array = \DB::table($adminBlock->name_table)
                                     ->where("block_id", $item->id)
                                     ->orderBy("lft", "asc")
-                                    ->paginate($item->number_pagination);
+                                    // con simplePaginate escono prec e next
+                                    //->simplePaginate($item->number_pagination);
+
+                                    // con Paginate escono i numeri ma ora vanno a capo
+                                    ->Paginate($item->number_pagination);
 
                             }else{
                                 $array = \DB::table($adminBlock->name_table)
-                                    ->where("block_id", $item->id)->orderBy("lft", "asc")->get();
+                                    ->where("block_id", $item->id)
+                                    ->orderBy("lft", "asc")
+                                    ->get();
                             }
                             break;
+
+                        // Prima il Blocco gallery era così:
+
+
 
                         // Blocco documenti ordinamento automatico per data di creazione
                         case "blocks_documents":
