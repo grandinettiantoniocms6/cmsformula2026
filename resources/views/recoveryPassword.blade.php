@@ -1,4 +1,5 @@
-<?php $thema = env('TEMA'); ?>
+@php($thema = config('theme.name'))
+
 @extends("$thema.layout")
 
 @section('head')
