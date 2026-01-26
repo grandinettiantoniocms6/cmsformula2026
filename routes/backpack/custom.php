@@ -13,10 +13,11 @@ $vet = array_merge(
 
 
 // Attiva le rotte del filemanager
+/*
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => $vet], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
-
+*/
 
 Route::group([
     'prefix'     => config('backpack.base.route_prefix', 'admin'),
