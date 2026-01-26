@@ -125,7 +125,7 @@ Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => 
 
     Route::get('/setBoolean/{table}/{id}/{field}/{value}', ['as' => 'dashboard.set.field.boolean', 'uses'=>'DashboardController@set_field_boolean']);
 
-    Route::get('/block/order/{type}/{id}', ['as' => 'dashboard', 'uses'=>'DashboardController@order_list']);
+    Route::get('/block/order/{type}/{id}', ['as' => 'dashboard.order_list', 'uses'=>'DashboardController@order_list']);
 
     Route::get('/pages_blocks/{page}', ['as' => 'pages.blocks', 'uses'=>'DashboardController@pages_blocks']);
     Route::post('/pages_blocks/{page}/switch', ['as' => 'pages.blocks.switch', 'uses'=>'DashboardController@pages_blocks_switch']);
