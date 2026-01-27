@@ -12,7 +12,87 @@ class LabelsSeeder extends Seeder
     public function run()
     {
 
-        /* LABELS VARI */
+        /* LABELS NUOVI  */
+
+        $vet = [];
+        $vet["it"] = "Ottieni indicazioni";
+        $vet["en"] = "Get directions";
+        $vet["fr"] = "Obtenir un itinéraire";
+        $vet["de"] = "Wegbeschreibung";
+        $vet["es"] = "Obtener direcciones";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+
+        \App\Models\Label::firstOrCreate(["key" => "map-block-contact-gmap"],[
+            "value" => $vet,
+        ]);
+
+        $vet = [];
+        $vet["it"] = "Facebook";
+        $vet["en"] = "Facebook";
+        $vet["fr"] = "Facebook";
+        $vet["de"] = "Facebook";
+        $vet["es"] = "Facebook";
+        $vet["srb"] = "Facebook";
+        $vet["ro"] = "Facebook";
+
+        \App\Models\Label::firstOrCreate(["key" => "fb-block-contact-gmap"],[
+            "value" => $vet,
+        ]);
+
+        $vet = [];
+        $vet["it"] = "Instagram";
+        $vet["en"] = "Instagram";
+        $vet["fr"] = "Instagram";
+        $vet["de"] = "Instagram";
+        $vet["es"] = "Instagram";
+        $vet["srb"] = "Instagram";
+        $vet["ro"] = "Instagram";
+
+        \App\Models\Label::firstOrCreate(["key" => "insta-block-contact-gmap"],[
+            "value" => $vet,
+        ]);
+
+        $vet = [];
+        $vet["it"] = "Linkedin";
+        $vet["en"] = "Linkedin";
+        $vet["fr"] = "Linkedin";
+        $vet["de"] = "Linkedin";
+        $vet["es"] = "Linkedin";
+        $vet["srb"] = "Linkedin";
+        $vet["ro"] = "Linkedin";
+
+        \App\Models\Label::firstOrCreate(["key" => "linkedin-block-contact-gmap"],[
+            "value" => $vet,
+        ]);
+
+        $vet = [];
+        $vet["it"] = "WhatsApp";
+        $vet["en"] = "WhatsApp";
+        $vet["fr"] = "WhatsApp";
+        $vet["de"] = "WhatsApp";
+        $vet["es"] = "WhatsApp";
+        $vet["srb"] = "WhatsApp";
+        $vet["ro"] = "WhatsApp";
+
+        \App\Models\Label::firstOrCreate(["key" => "whatsapp-block-contact-gmap"],[
+            "value" => $vet,
+        ]);
+
+        $vet = [];
+        $vet["it"] = "Fax";
+        $vet["en"] = "Fax";
+        $vet["fr"] = "Fax";
+        $vet["de"] = "Fax";
+        $vet["es"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+
+        \App\Models\Label::firstOrCreate(["key" => "fax-block-contact-gmap"],[
+            "value" => $vet,
+        ]);
+
+
 
         $vet = [];
         $vet["it"] = "TORNA SU";
@@ -40,6 +120,11 @@ class LabelsSeeder extends Seeder
         \App\Models\Label::firstOrCreate(["key" => "back-to-page"],[
             "value" => $vet,
         ]);
+
+
+
+        /* FINE LABELS NUOVI  */
+
 
 
         /* LABELS BLOCCO GRID */
