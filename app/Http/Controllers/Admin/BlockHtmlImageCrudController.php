@@ -122,8 +122,61 @@ class BlockHtmlImageCrudController extends CrudController
             ]);
 
             // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
-            if(env('TEMA') == 'Webshop' ) {
+            if(env('TEMA') == 'Crafto' ) {
 
+                // Permette di scegliere uno o stili di un blocco (parte html)
+                $this->crud->addField([   // select_from_array
+                    'name' => 'style',
+                    'label' => "Seleziona stile",
+                    'type' => 'select_from_array',
+                    'options' => [
+                        1 => 'Style 1: Titolo e descrizione fissa in alto con Carosello immagini e colore sfondo personalizzabile',
+                        2 => 'Style 2: Carosello immagini (no thumb), titolo fisso e colore sfondo personalizzabile',
+                        3 => 'Style 3: Titolo e testo fisso a sx con Carosello immagini a dx e colore sfondo personalizzabile',
+                        4 => 'Style 4: Titolo e testo fisso a dx con Carosello immagini a sx e colore sfondo personalizzabile',
+                        7 => 'Style 5: Carosello immagini Moderno, con Titolo e testo fissi in alto',
+                        //5 => 'Style 5: non lo uso - vecchio codice AC',
+                        //6 => 'Style 6: non lo uso - vecchio codice AC',
+                        /*
+
+                         2 => 'Immagini a sinistra - Testo a destra',
+                         3 => 'Immagini in alto - Testo in basso',
+                         4 => 'Testo in alto - Immagini in basso'
+
+                        */
+                    ],
+                    'allows_null' => false,
+                    'default' => 1,
+                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                    'wrapperAttributes' => ['class' => 'form-group col-md-12']
+                ]);
+
+            }
+
+            // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
+            if(env('TEMA') == 'Corporate1' ) {
+
+                // Permette di scegliere uno o stili di un blocco (parte html)
+                $this->crud->addField([   // select_from_array
+                    'name' => 'style',
+                    'label' => "Seleziona stile",
+                    'type' => 'select_from_array',
+                    'options' => [
+                        1 => 'Style 1: Titolo e descrizione fissa in alto con Carosello immagini e colore sfondo personalizzabile',
+                        2 => 'Style 2: Carosello immagini (no thumb), titolo fisso e colore sfondo personalizzabile',
+                        3 => 'Style 3: Titolo e testo fisso a sx con Carosello immagini a dx e colore sfondo personalizzabile',
+                        4 => 'Style 4: Titolo e testo fisso a dx con Carosello immagini a sx e colore sfondo personalizzabile',
+                    ],
+                    'allows_null' => false,
+                    'default' => 1,
+                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                    'wrapperAttributes' => ['class' => 'form-group col-md-12']
+                ]);
+
+            }
+
+            // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
+            if(env('TEMA') == 'Webshop' ) {
 
                 $this->crud->addField([   // repeatable
                     'name' => 'pb',
@@ -151,42 +204,15 @@ class BlockHtmlImageCrudController extends CrudController
             }
             // FINE CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
 
-                // Permette di scegliere uno o stili di un blocco (parte html)
-                $this->crud->addField([   // select_from_array
-                    'name' => 'style',
-                    'label' => "Seleziona stile",
-                    'type' => 'select_from_array',
-                    'options' => [
-                            1 => 'Style 1: Titolo e descrizione fissa in alto con Carosello immagini e colore sfondo personalizzabile',
-                            2 => 'Style 2: Carosello immagini (no thumb), titolo fisso e colore sfondo personalizzabile',
-                            3 => 'Style 3: Titolo e testo fisso a sx con Carosello immagini a dx e colore sfondo personalizzabile',
-                            4 => 'Style 4: Titolo e testo fisso a dx con Carosello immagini a sx e colore sfondo personalizzabile',
-                            7 => 'Style 5: Carosello immagini Moderno, con Titolo e testo fissi in alto',
-                            //5 => 'Style 5: non lo uso - vecchio codice AC',
-                            //6 => 'Style 6: non lo uso - vecchio codice AC',
-                                /*
-
-                                 2 => 'Immagini a sinistra - Testo a destra',
-                                 3 => 'Immagini in alto - Testo in basso',
-                                 4 => 'Testo in alto - Immagini in basso'
-
-                                */
-                    ],
-                    'allows_null' => false,
-                    'default' => 1,
-                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                    'wrapperAttributes' => ['class' => 'form-group col-md-12']
-                ]);
-
-                $this->crud->addField([   // repeatable
-                    'name'  => 'bgcolor',
-                    'label' => 'Colore sfondo carosello',
-                    'type'  => 'color_picker2',
-                    'default' => null,
-                    // optional
-                    'color_picker_options' => ['customClass' => 'custom-class'],
-                    'wrapperAttributes' => ['class' => 'form-group col-md-6']
-                ]);
+            $this->crud->addField([   // repeatable
+                'name'  => 'bgcolor',
+                'label' => 'Colore sfondo carosello',
+                'type'  => 'color_picker2',
+                'default' => null,
+                // optional
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+            ]);
 
             $this->crud->addField([   // repeatable
                 'name'        => 'fullwidth',
@@ -269,8 +295,6 @@ class BlockHtmlImageCrudController extends CrudController
                 ]);
 
             }
-
-
 
             $this->crud->addField([   // select_from_array
                 'name'        => 'type_href',

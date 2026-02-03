@@ -590,7 +590,9 @@
                             </div>
                         </div>
                         <?php break;
-                    case 3: // Immagini in alto ?>
+
+                        case 3: // Immagini in alto e titolo sotto ?>
+
                     <div class="row space-{{ $item->pb }}">
                         <div class="col-lg-8 mx-auto mb-4">
                             <div id="carousel-block-{{ $value->id }}" class="owl-carousel owl-theme owl-block-carousel owl-autoheight"
@@ -836,7 +838,7 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card" style="text-align: center;">
                                 <div class="card-body">
                                     <h3 class="title" style="color:{{ $website->color_gen1 }}!important;">{{ $title[\App::getLocale()] }}</h3>
                                     <p class="description">{!! $description[\App::getLocale()] !!}</p>
@@ -849,7 +851,9 @@
                             </div>
                         </div>
                     </div>
-                        <?php break;
+
+
+                  <?php break;
 
                     case 4: // Testo alto e Immagini in basso ?>
                         <div class="row space-{{ $item->pb }}">
@@ -857,8 +861,8 @@
                             <!-- Testo in alto -->
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-body">
-                                        <h3 class="title" style="color:{{ $website->color_gen1 }}!important;">{{ $title[\App::getLocale()] }}</h3>
+                                    <div class="card-body" style="text-align: center;">
+                                        <h3 class="title" style="text-align: center; color:{{ $website->color_gen1 }}!important;">{{ $title[\App::getLocale()] }}</h3>
                                         <p class="description">{!! $description[\App::getLocale()] !!}</p>
                                         @if(trim($button[\App::getLocale()])!="")
                                             <a target="{{ $type_href }}" class="btn btn-primary" href="{{ $url }}">
