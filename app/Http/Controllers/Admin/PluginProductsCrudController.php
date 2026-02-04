@@ -81,19 +81,20 @@ class PluginProductsCrudController extends CrudController
 
         \Artisan::call('set:products_search', ['id'=> $product->id]);
 
-        $figli = PluginProducts::where("group_id", $product->group_id)->get();
-        if($figli){
-            foreach ($figli as $figlio){
-                $field = $this->minorUpdateRequest->attribute;
+        if($product->group_id){
+            $figli = PluginProducts::where("group_id", $product->group_id)->where("id", "!=", $product->id)->get();
+            if(count($figli)){
+                foreach ($figli as $figlio){
+                    $field = $this->minorUpdateRequest->attribute;
 
-                $figlio->$field = $this->minorUpdateRequest->value;
-                $figlio->save();
+                    $figlio->$field = $this->minorUpdateRequest->value;
+                    $figlio->save();
 
-                \Artisan::call('set:products_search', ['id'=> $figlio->id]);
+                    \Artisan::call('set:products_search', ['id'=> $figlio->id]);
 
+                }
             }
         }
-
 
         \Artisan::call('set:products_categories_search');
 
