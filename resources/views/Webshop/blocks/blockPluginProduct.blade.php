@@ -38,6 +38,7 @@ $description = json_decode($item->description, true);
                                         ->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
                                         ->where("plugins_products_categories_products.plugin_product_category_id", $value->category_id)
                                         ->where("plugins_products.is_active", 1)
+                                        ->where("plugins_products.is_variant", 0)
                                         ->inRandomOrder()
                                         ->take($value->number_max)
                                         ->get();
@@ -47,7 +48,10 @@ $description = json_decode($item->description, true);
                                         ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
                                         ->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
                                         ->where("plugins_products_categories_products.plugin_product_category_id", $value->category_id)
-                                        ->where("plugins_products.is_active", 1)->take($value->number_max)->get();
+                                        ->where("plugins_products.is_active", 1)
+                                        ->where("plugins_products.is_variant", 0)
+                                        ->take($value->number_max)
+                                        ->get();
                                 }
                             }
 

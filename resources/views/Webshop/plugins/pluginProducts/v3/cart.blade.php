@@ -147,12 +147,14 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
 
                                         @if($product->is_caricamento_file)
                                             @if(property_exists($item, "file"))
-                                                <div class="extra">
-                                                    <div><em>File:</em> <a href="{{ url("uploads/$item->file") }}" target="_blank">
-                                                            {{ @$labels['testo-vedi-file'] }}
-                                                        </a>
+                                                 @if($item->file)
+                                                    <div class="extra">
+                                                        <div><em>File:</em> <a href="{{ url("uploads/$item->file") }}" target="_blank">
+                                                                {{ @$labels['testo-vedi-file'] }}
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             @endif
                                         @endif
 

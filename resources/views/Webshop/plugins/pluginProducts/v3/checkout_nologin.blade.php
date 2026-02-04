@@ -418,9 +418,11 @@ $website = \App\Models\WebsiteSetting::first();
 
                                             @if($product->is_caricamento_file)
                                                 @if(property_exists($item, "file"))
+                                                    @if($item->file)
                                                     <div class="extra">
                                                         <div><em>File:</em> <a href="{{ url("uploads/$item->file") }}" target="_blank">{{ @$labels['testo-vedi-file'] }}</a> </div>
                                                     </div>
+                                                    @endif
                                                 @endif
                                             @endif
                                         </td>

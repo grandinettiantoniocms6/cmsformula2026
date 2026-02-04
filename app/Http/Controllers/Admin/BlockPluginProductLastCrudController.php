@@ -65,6 +65,15 @@ class BlockPluginProductLastCrudController extends CrudController
         ]);
 
         $this->crud->addField([   // repeatable
+            'name'  => 'col_span',
+            'label' => 'Numero di prodotti per riga',
+            'type'        => 'select2_from_array',
+            'options'     => [1=>1, 2=>2, 3=>3, 4=>4, 5=>5, 6=>6],
+            'allows_null' => false,
+            'default'     => 4,
+        ]);
+
+        $this->crud->addField([   // repeatable
             'name'  => 'number_items',
             'label' => 'Numero elementi per blocco',
             'type'  => 'number',

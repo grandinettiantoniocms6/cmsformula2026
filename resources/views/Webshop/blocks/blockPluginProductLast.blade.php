@@ -68,6 +68,7 @@ if($item){
             ->whereNotNull("promo_price")->take($item->number_items)->get();
     }
 }
+
 ?>
 @if(count($vet) && $item)
 <section class="block-productlast" id="block-productlast-{{ $item->id }}">
@@ -94,7 +95,7 @@ if($item){
             @endforeach
         </div>
 
-        <div class="productlast-grid grid-view row row-cols-2 row-cols-sm-2 row-cols-md-{{ $pluginSetting->col_products_for_row }}">
+        <div class="productlast-grid grid-view row row-cols-2 row-cols-sm-2 row-cols-md-{{ $item->col_span }}">
             @if($list_ultimi)
                 @foreach($list_ultimi as $product)
                     <div class="grid-item ultimi all">
