@@ -75,7 +75,7 @@ if($blockNews->foto2){
     if(file_exists($check)){
         $foto2 = url($check);
     }else{
-        $foto2 = url($blockNews->foto);
+        $foto2 = url($blockNews->foto2);
     }
 }
 
@@ -93,7 +93,7 @@ if($blockNews->foto3){
     if(file_exists($check)){
         $foto3 = url($check);
     }else{
-        $foto3 = url($blockNews->foto);
+        $foto3 = url($blockNews->foto3);
     }
 }
 
@@ -111,7 +111,7 @@ if($blockNews->foto4){
     if(file_exists($check)){
         $foto4 = url($check);
     }else{
-        $foto4 = url($blockNews->foto);
+        $foto4 = url($blockNews->foto4);
     }
 }
 
@@ -129,7 +129,7 @@ if($blockNews->foto5){
     if(file_exists($check)){
         $foto5 = url($check);
     }else{
-        $foto5 = url($blockNews->foto);
+        $foto5 = url($blockNews->foto5);
     }
 }
 
@@ -147,7 +147,7 @@ if($blockNews->foto6){
     if(file_exists($check)){
         $foto6 = url($check);
     }else{
-        $foto6 = url($blockNews->foto);
+        $foto6 = url($blockNews->foto6);
     }
 }
 ?>
