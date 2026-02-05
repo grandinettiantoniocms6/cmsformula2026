@@ -1771,6 +1771,41 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                 'tab' => 'Impostazioni Extra'
             ]);
 
+            $this->crud->addField([
+                'name'  => 'azzera_ordini',
+                'type'  => 'custom_html',
+                'value' => '
+                    <a href="'.route('azzera_ordini').'"
+                       class="btn btn-danger"
+                       onclick="return confirm(\'Sei sicuro di voler azzerare tutti gli ordini?\')">
+                        Azzera ordini
+                    </a>
+                ',
+                'tab' => 'Impostazioni Extra',
+            ]);
+
+
+            $abilitato = !\Schema::hasTable('shop_areas');
+
+            $this->crud->addField([
+                'name'  => 'set_shop_areas',
+                'type'  => 'custom_html',
+                'value' => '
+        <a href="'.route('set_shop_areas').'"
+           class="btn btn-danger '.(!$abilitato ? 'disabled' : '').'"
+           '.($abilitato
+                        ? 'onclick="return confirm(\'Sei sicuro di voler caricare shop areas?\')"'
+                        : 'onclick="return false;"').'>
+            Carica shop area zone
+        </a>
+        '.(!$abilitato
+                        ? '<small class="text-muted d-block mt-1">Shop areas già presenti</small>'
+                        : '').'
+    ',
+                'tab' => 'Impostazioni Extra',
+            ]);
+
+
             $this->crud->addField([   // Checkbox
                 'name' => 'number_max_page',
                 'label' => 'Numero di pagine',

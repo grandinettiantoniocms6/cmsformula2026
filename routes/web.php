@@ -122,6 +122,8 @@ Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => 
     Route::post('/sanitize_string', ['as' => 'sanitize_string', 'uses'=>'DashboardController@sanitize_string']);
     Route::get('/eredita/{id}', ['as' => 'eredita', 'uses'=>'DashboardController@eredita']);
     Route::get('/attivazione/{id}', ['as' => 'attivazione', 'uses'=>'DashboardController@attivazione']);
+    Route::get('/azzera_ordini', ['as' => 'azzera_ordini', 'uses'=>'DashboardController@azzera_ordini']);
+    Route::get('/set_shop_areas', ['as' => 'set_shop_areas', 'uses'=>'DashboardController@set_shop_areas']);
 
     Route::get('/setBoolean/{table}/{id}/{field}/{value}', ['as' => 'dashboard.set.field.boolean', 'uses'=>'DashboardController@set_field_boolean']);
 

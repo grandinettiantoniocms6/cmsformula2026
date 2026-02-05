@@ -60,9 +60,9 @@ $description = json_decode($item->description, true);
                             $category = null;
                             $category_slug = null;
                             if ($value->is_random) {
-                                $products = \App\Models\PluginProducts::where("is_active", 1)->inRandomOrder()->take($value->number_max)->get();
+                                $products = \App\Models\PluginProducts::where("is_active", 1)->where("plugins_products.is_variant", 0)->inRandomOrder()->take($value->number_max)->get();
                             } else {
-                                $products = \App\Models\PluginProducts::where("is_active", 1)->take($value->number_max)->get();
+                                $products = \App\Models\PluginProducts::where("is_active", 1)->where("plugins_products.is_variant", 0)->take($value->number_max)->get();
                             }
                         }
                         ?>

@@ -54,6 +54,21 @@ class DashboardController extends Controller
         }
     }
 
+    public function azzera_ordini()
+    {
+        \Artisan::call('app:truncate-order-client');
+        \Alert::success("Ordini svuotati con successo!")->flash();
+        return redirect()->back();
+    }
+
+    public function set_shop_areas()
+    {
+        \Artisan::call('app:set-shop-areas');
+        \Alert::success("Shop area caricati con successo!")->flash();
+        return redirect()->back();
+    }
+
+
     public function access($id){
         if(in_array(backpack_user()->roles[0]->id, [1,2,7])){
             \Session::put("user_id", $id);
