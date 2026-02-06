@@ -10,7 +10,7 @@
             <div class="container-fluid">
                 <div class="row h-45px align-items-center m-0">
 
-                    <div class="col-9 fw-500 justify-content-lg-start justify-content-left">
+                    <div class="col-7 fw-500 justify-content-lg-start justify-content-left">
                         @if($website->topbar_contact_mobile)
                             <span class="me-25px fs-15 md-m-0">
                                 <i class="{{ $website->icon_topbar2 }} {{ $website->sizeicon }}"></i>
@@ -23,7 +23,7 @@
                         @endif
                     </div>
 
-                    <div class="col-3 fw-500 justify-content-lg-start justify-content-rigth">
+                    <div class="col-5 fw-500 justify-content-lg-start justify-content-rigth">
 
                     <?php $socials = json_decode($website->socials, true); ?>
                     @if($socials)
