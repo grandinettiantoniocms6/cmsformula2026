@@ -22,7 +22,7 @@ $description = json_decode($item->description, true);
 
         @if($array)
             @foreach($array as $value)
-                <div class="products-grid grid-view row row-cols-2 row-cols-xl-1 row-cols-sm-2 row-cols-md-{{ $value->col_span }}">
+                <div class="products-grid grid-view row row-cols-2 row-cols-xs-1 row-cols-sm-2 row-cols-md-{{ $value->col_span }}">
                         <?php
                         if ($value->category_id) {
                             $category = \App\Models\PluginProductsCategories::where("id", $value->category_id)->first();
