@@ -403,7 +403,6 @@ figure:hover + span {
 
 /* Blocco Image Link */
 
-
 .block-imagelink .col-lg-6 { padding: 20px; position: relative;top: 20px; }
 .block-imagelink .col-lg-7 { padding: 20px; position: relative;left:-30px;top: 20px; }
 .block-imagelink .title { font-size: 2rem; }
@@ -479,6 +478,14 @@ figure:hover + span {
         margin-bottom: 44px!important;
     }
 
+    /* Griglia prodotti IN UNA COLONNA su Mobile */
+
+    .grid-view .product .product-details {
+            padding: 15px!important;
+    }
+
+
+
 
 }
 
@@ -488,6 +495,11 @@ figure:hover + span {
 *****************************************************/
 @media only screen and (min-width: 450px) and (max-width: 809px) {
 
+    /* Griglia prodotti IN UNA COLONNA su Mobile */
+
+    .grid-view .product .product-details {
+        padding: 15px!important;
+    }
 
     /* Blocco Image Link */
 
