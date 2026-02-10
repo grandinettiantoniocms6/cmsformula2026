@@ -12,7 +12,7 @@ if(is_array($form->content)){
 }
 ?>
 <section id="formpro-{{ $item->form_id }}" class="position-relative z-index-0 sm-pt-0 block-formpro" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
-    <div class="container overflow-hidden position-relative pt-6 sm-pt-40px">
+    <div class="container-fluid col-lg-9 mx-auto overflow-hidden position-relative pt-6 sm-pt-40px">
 
         <h3 class="title">{{ $title }}</h3>
         <p>{{ $subtitle }}</p>

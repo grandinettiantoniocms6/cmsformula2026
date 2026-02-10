@@ -88,7 +88,19 @@ class BlockHtmlCrudController extends CrudController
             'name'        => 'col',
             'label'   => 'Seleziona larghezza colonna',
             'type'        => 'select_from_array',
-            'options'     => ['3' => 'Larghezza minima col-3', '6' => 'Larghezza media col-6', '9' => 'Larghezza alta col-9', '12' => 'Larghezza massima col-12'],
+            'options'     => [
+
+                '3' => 'Larghezza sezione col-3',
+                '4' => 'Larghezza sezione col-4',
+                '5' => 'Larghezza sezione col-5',
+                '6' => 'Larghezza sezione col-6',
+                '7' => 'Larghezza sezione col-7',
+                '8' => 'Larghezza sezione col-8',
+                '9' => 'Larghezza sezione col-9',
+                '10' => 'Larghezza sezione col-10',
+                '11' => 'Larghezza sezione col-11',
+                '12' => 'Larghezza sezione col-12'],
+
             'allows_null' => false,
             'default'     => '12',
             'wrapper' => ['class' => 'form-group col-md-6']

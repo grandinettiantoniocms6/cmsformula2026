@@ -34,7 +34,7 @@
             </div>
         </section>
     @else
-        <section style="background-color: {!! $item->bgcolor !!}; background-image: url('{!! $foto !!}'); background-repeat:repeat;background-position:left top;" class="block-html wow animate__fadeInUp" data-wow-duration=".3s" id="2block-html-{{ $item->id }}">
+        <section @if($position != 'footer') style="background-color: {!! $item->bgcolor !!}; background-image: url('{!! $foto !!}'); background-repeat:repeat;background-position:left top;" @endif class="block-html wow animate__fadeInUp" data-wow-duration=".3s" id="2block-html-{{ $item->id }}">
             <div class="container-fluid space-{{ $item->mt }} col-lg-{{ $item->col }} mx-auto">
                 @if(key_exists(\App::getLocale(), $description))
                     {!! $description[\App::getLocale()] !!}
