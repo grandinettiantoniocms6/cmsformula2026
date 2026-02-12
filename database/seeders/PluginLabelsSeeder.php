@@ -146,6 +146,21 @@ class PluginLabelsSeeder extends Seeder
             "value" => $vet,
         ]);
 
+
+        $vet = [];
+        $vet["it"] = "Ean";
+        $vet["en"] = "Ean";
+        $vet["fr"] = "Ean";
+        $vet["de"] = "Ean";
+        $vet["es"] = "Ean";
+        $vet["ru"] = "Ean";
+        $vet["srb"] = "Ean";
+        $vet["ro"] = "Ean";
+        \App\Models\PluginProductsLabels::firstOrCreate(["key" => "ean"],[
+            "value" => $vet,
+        ]);
+
+
         $vet = [];
         $vet["it"] = "Tags";
         $vet["en"] = "Tags";

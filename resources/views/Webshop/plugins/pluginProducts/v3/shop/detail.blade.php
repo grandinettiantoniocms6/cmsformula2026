@@ -215,7 +215,7 @@ $shopSetting = \App\Models\ShopSettings::first();
                             <div class="product-sku"><b>{{ @$labels['sku'] }}:</b> {{ $itemProduct->sku }} </div>
 
                             @if($itemProduct->ean13)
-                                <div class="product-stock"><b>Ean:</b> {{ $itemProduct->ean13 }}</div>
+                                <div class="product-stock"><b>{{ @$labels['ean'] }}:</b> {{ $itemProduct->ean13 }}</div>
                             @endif
 
                             <div class="product-cats"><b>{{ @$labels['categoria'] }}:</b>
