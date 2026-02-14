@@ -30,18 +30,18 @@
                     url: '{{ route("elfinder.connector") }}',  // connector URL
                     soundPath: '{{ Basset::getUrl(base_path("vendor/studio-42/elfinder/sounds")) }}',
                         getFileCallback: function (file) {
-                            // NON usare url.replace('//','/') perché rompe https://
-                            try {
-                                // Normalizza in modo sicuro SOLO il path
-                                var u = new URL(file.url, window.location.origin);
-                                u.pathname = u.pathname.replace('/s/', '/'); // <-- rimuove il segmento incriminato
+                            var funcNum = getUrlParam('CKEditorFuncNum');
 
-                                window.opener.CKEDITOR.tools.callFunction({{ $funcNum ?? '0' }}, u.toString());
+                            try {
+                                var u = new URL(file.url, window.location.origin);
+                                u.pathname = u.pathname.replace('/s/', '/');
+
+                                window.opener.CKEDITOR.tools.callFunction(funcNum, u.toString());
                             } catch (e) {
-                                // fallback “best effort”
                                 var safe = String(file.url || '').replace('/s/', '/');
-                                window.opener.CKEDITOR.tools.callFunction({{ $funcNum ?? '0' }}, safe);
+                                window.opener.CKEDITOR.tools.callFunction(funcNum, safe);
                             }
+
                             window.close();
                         },
                     themes: {
