@@ -1130,6 +1130,7 @@ class PluginBookingReservationCrudController extends CrudController
 
         if($reservations){
             foreach ($reservations as $reservation){
+                $client_name = "N.D.";
                 if($reservation->user_id == null){
                     $client_name = "ADMIN";
                 }else{
