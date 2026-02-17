@@ -189,7 +189,7 @@ class BlockImageLinkCrudController extends CrudController
                         2 => 'Style 2: Immagine a dx, testo a sx 3 colore titolo e sfondo pilotati da admin ( Impostazioni > Sito web > Style )',
                         3 => 'Style 3: Immagine a sx, testo a dx e colore titolo predefinito (nero)',
                         4 => 'Style 4: Immagine a dx, testo a sx e colore titolo predefinito (nero)',
-                        //5 => 'Style 5: Immagine a dx, testo a sx e colore titolo predefinito (nero)',
+                        5 => 'Style 5: Immagine verticale (No-thumb) a dx, testo a sx - Ideale per dettaglio scheda prodotto (es: cantina vini)',
 
                     ],
                 'allows_null' => false,

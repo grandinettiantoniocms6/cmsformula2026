@@ -118,8 +118,9 @@
                     @if($perc == 0)
 
                         <!-- secondo item -->
+
                         <!-- B -->
-                        <div class="col-xl-5 offset-xl-1 col-lg-6" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                        <div class="col-xl-7 offset-xl-1 col-lg-8" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
                             @if(trim($title[\App::getLocale()])!="")
                                 <h3 class="text-dark-gray fw-700 ls-minus-1px mb-20px" class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</h3>
@@ -150,7 +151,7 @@
 
                         <!-- A -->
 
-                        <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
+                        <div class="col-lg-4 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
                             @if(trim($foto) != "")
                                 <figure class="position-relative m-0">
                                     <img class="lg-w-100 border-radius-0px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
@@ -161,19 +162,20 @@
                     @else
 
                         <!-- primo item -->
+
                         <!-- A -->
 
-                        <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
+                        <div class="col-lg-4 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
                             @if(trim($foto) != "")
                                 <figure class="position-relative m-0">
-                                    <img class="lg-w-100 border-radius-0px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
+                                    <img class="lg-w-100 border-radius-0px" src="{{ $value->foto }}" alt="{{ $title[\App::getLocale()] }}">
                                 </figure>
                             @endif
                         </div>
 
                         <!-- B -->
 
-                        <div class="col-md-10 col-xl-5 offset-xl-1 col-lg-6" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                        <div class="col-md-10 col-xl-7 offset-xl-1 col-lg-8" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
 
                             @if(trim($title[\App::getLocale()])!="")
                                 <h3 class="text-dark-gray fw-700 ls-minus-1px mb-20px" class="ps-25px pe-25px mb-15px text-uppercase text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</h3>
