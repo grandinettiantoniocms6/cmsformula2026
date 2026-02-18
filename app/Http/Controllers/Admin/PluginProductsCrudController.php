@@ -1379,6 +1379,87 @@ class PluginProductsCrudController extends CrudController
                 'wrapperAttributes' => [
                     'class' => 'form-group col-md-6'
                 ],
+                'attributes' => [
+                    'id' => 'price_net'
+                ],
+                'tab' => 'Impostazioni'
+            ]);
+
+            $this->crud->addField([
+                'name' => 'price_vat_helper',
+                'type' => 'custom_html',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-6'
+                ],
+                'value' => '
+
+    <div class="card border-info mb-3">
+        <div class="card-body">
+
+            <h6 class="card-title text-info mb-3">
+                <i class="la la-calculator"></i> Calcolatore prezzo da IVATO a NETTO
+            </h6>
+
+            <div class="form-group">
+                <label>Prezzo (€) IVATO</label>
+                <input
+                    type="text"
+                    id="price_gross"
+                    class="form-control"
+                    autocomplete="off"
+                    placeholder="Inserisci il prezzo ivato per calcolare il netto"
+                >
+                <small class="text-muted">
+                    Questo campo non viene salvato nel database. Serve solo come strumento di calcolo.
+                </small>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        function calcolaNetto() {
+
+            let grossInput = document.getElementById("price_gross");
+            let taxSelect = document.querySelector("select[name=\'tax_id\']");
+            let netInput = document.getElementById("price_net");
+
+            if (!grossInput || !taxSelect || !netInput) return;
+
+            let gross = grossInput.value.replace(",", ".");
+            if (!gross) return;
+
+            let iva = parseFloat(
+                taxSelect.options[taxSelect.selectedIndex].text
+            );
+
+            if (isNaN(iva)) return;
+
+            let netto = parseFloat(gross) / (1 + (iva / 100));
+
+            if (!isNaN(netto)) {
+               netInput.value = parseFloat(netto.toPrecision(7));
+            }
+        }
+
+        // Calcolo quando esco dal campo
+        let grossField = document.getElementById("price_gross");
+        if (grossField) {
+            grossField.addEventListener("blur", calcolaNetto);
+        }
+
+        // Calcolo quando cambio IVA
+        let taxField = document.querySelector("select[name=\'tax_id\']");
+        if (taxField) {
+            taxField.addEventListener("change", calcolaNetto);
+        }
+
+    });
+    </script>
+
+    ',
                 'tab' => 'Impostazioni'
             ]);
 
