@@ -1623,6 +1623,88 @@ class PluginProductsCrudController extends CrudController
                 'label' => 'Prezzo (€) in promozione - (Iva esclusa)  ',
                 'type'  => 'text',
                 'tab' => 'Promozione',
+                'attributes' => [
+                    'id' => 'promo_price_net'
+                ],
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-6'
+                ],
+            ]);
+
+            $this->crud->addField([
+                'name' => 'promo_price_vat_helper',
+                'type' => 'custom_html',
+                'value' => '
+
+    <div class="card border-warning mb-3">
+        <div class="card-body">
+
+            <h6 class="card-title text-warning mb-3">
+                <i class="la la-percentage"></i> Calcolatore prezzo PROMO da IVATO a NETTO
+            </h6>
+
+            <div class="form-group">
+                <label>Prezzo PROMO (€) IVATO</label>
+                <input
+                    type="text"
+                    id="promo_price_gross"
+                    class="form-control"
+                    autocomplete="off"
+                    placeholder="Inserisci il prezzo promo ivato"
+                >
+                <small class="text-muted">
+                    Questo campo non viene salvato nel database.
+                </small>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        function calcolaPromoNetto() {
+
+            let grossInput = document.getElementById("promo_price_gross");
+            let taxSelect = document.querySelector("select[name=\'tax_id\']");
+            let netInput = document.getElementById("promo_price_net");
+
+            if (!grossInput || !taxSelect || !netInput) return;
+
+            let gross = grossInput.value.replace(",", ".");
+            if (!gross) return;
+
+            let iva = parseFloat(
+                taxSelect.options[taxSelect.selectedIndex].text
+            );
+
+            if (isNaN(iva)) return;
+
+            let netto = parseFloat(gross) / (1 + (iva / 100));
+
+            if (!isNaN(netto)) {
+                netInput.value = netto.toFixed(5);
+            }
+        }
+
+        let grossField = document.getElementById("promo_price_gross");
+        if (grossField) {
+            grossField.addEventListener("blur", calcolaPromoNetto);
+        }
+
+        let taxField = document.querySelector("select[name=\'tax_id\']");
+        if (taxField) {
+            taxField.addEventListener("change", calcolaPromoNetto);
+        }
+
+    });
+    </script>
+
+    ',
+                'tab' => 'Promozione',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-6'
+                ],
             ]);
 
             $this->crud->addField([
