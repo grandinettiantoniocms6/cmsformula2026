@@ -56,11 +56,21 @@ class SetProductsSearchCategories extends Command
         $class = new \App\Http\Controllers\PluginProductsController();
         $categories = $class->get_categories_sidebar($categories);
 
-        PluginProductsCategoriesSearch::truncate();
+        // ✔ controlla se la collection NON è vuota
+        if ($categories && $categories->isNotEmpty()) {
 
-        PluginProductsCategoriesSearch::create([
-            "categories" => json_encode($categories)
-        ]);
+            PluginProductsCategoriesSearch::truncate();
+
+            PluginProductsCategoriesSearch::create([
+                "categories" => json_encode($categories)
+            ]);
+
+            $this->info("Categorie aggiornate correttamente.");
+
+        } else {
+
+            $this->warn("Nessuna categoria trovata. Truncate non eseguito.");
+        }
 
     }
 }
