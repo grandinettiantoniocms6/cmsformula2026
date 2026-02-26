@@ -190,9 +190,6 @@ class BlockNewsCrudController extends CrudController
                 'wrapper' => ['class' => 'form-group col-md-6']
             ]);
 
-
-
-
             $this->crud->addField([   // select_from_array
                 'name'        => 'type_order',
                 'label'       => "Tipo ordinamento",
@@ -210,6 +207,14 @@ class BlockNewsCrudController extends CrudController
 
             // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
             if(env('TEMA') == 'Webshop' ) {
+
+                $this->crud->addField([   // repeatable
+                    'name'  => 'height',
+                    'label' => 'Imposta altezza box News in rem (Es: 35) - NB: 1 rem = 16px',
+                    'type'  => 'text',
+                    'default'     => '35',
+                    'wrapper' => ['class' => 'form-group col-md-6']
+                ]);
 
                 $this->crud->addField([   // repeatable
                     'name' => 'col',
@@ -272,13 +277,41 @@ class BlockNewsCrudController extends CrudController
 
                 } // FIne Perso per Crafto
 
-            $this->crud->addField([   // repeatable
-                'name'  => 'height',
-                'label' => 'Imposta altezza box News in rem (Es: 35) - NB: 1 rem = 16px',
-                'type'  => 'text',
-                'default'     => '35',
-                'wrapper' => ['class' => 'form-group col-md-6']
-            ]);
+            // CAMPI VISUALIZZATI SOLO CON IL TEMA Corporate1 //////////////////
+            if(env('TEMA') == 'Corporate1' ) {
+
+                $this->crud->addField([   // repeatable
+                    'name' => 'col',
+                    'label' => 'Numero di New per riga',
+                    'type' => 'select_from_array',
+                    'options' => ['3' => '4 new per riga', '4' => '3 news per riga', '6' => '2 news per riga', '12' => '1 news per riga'],
+                    'allows_null' => false,
+                    'default' => '6',
+                    'wrapper' => ['class' => 'form-group col-md-6']
+                ]);
+
+                // Permette di scegliere uno o stili di un blocco (parte html)
+                $this->crud->addField([   // select_from_array
+                    'name'        => 'style',
+                    'label'       => "Seleziona stile",
+                    'type'        => 'select_from_array',
+                    'attributes' => [
+                        'class' => 'custom-select',
+                    ],
+                    'options'     => [
+                        1 => 'Style Unico',
+                        //2 => 'Style Metro',
+                        //3 => 'Variante Style Classico'
+                    ],
+                    'allows_null' => false,
+                    'default'     => 1,
+                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                    'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                ]);
+
+            } // FIne Perso per Corporate1
+
+
 
             $this->crud->addField([   // repeatable
                 'name'        => 'fullwidth',
