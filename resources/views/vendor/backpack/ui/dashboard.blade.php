@@ -4,6 +4,7 @@
     $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->where("is_active", 1)->where("version", 3)->first();
     $adminPluginBooking = \App\Models\AdminPlugin::where("name", "pluginBookings")->where("is_active", 1)->first();
     $adminPluginParking = \App\Models\AdminPlugin::where("name", "pluginParking")->where("is_active", 1)->first();
+    $shopSetting = \App\Models\ShopSettings::first();
 ?>
 
 @section('header')
@@ -382,8 +383,8 @@
                     </div>
                     <div class="card-body flex-grow-0">
                         <?php
-                        $order_sum = \App\Models\Order::sum("total_tax");
-                        $order_count = \App\Models\Order::count();
+                        $order_sum = \App\Models\Order::where("status_id", $shopSetting->status_default_order)->sum("total_tax");
+                        $order_count = \App\Models\Order::where("status_id", $shopSetting->status_default_order)->count();
                         $product_count = \App\Models\PluginProducts::count();
                         ?>
 
