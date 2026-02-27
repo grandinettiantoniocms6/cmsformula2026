@@ -383,8 +383,8 @@
                     </div>
                     <div class="card-body flex-grow-0">
                         <?php
-                        $order_sum = \App\Models\Order::where("status_id", $shopSetting->status_default_order)->sum("total_tax");
-                        $order_count = \App\Models\Order::where("status_id", $shopSetting->status_default_order)->count();
+                        $order_sum = \App\Models\Order::where("status_id", $shopSetting->status_default_order_dashboard)->sum("total_tax");
+                        $order_count = \App\Models\Order::where("status_id", $shopSetting->status_default_order_dashboard)->count();
                         $product_count = \App\Models\PluginProducts::count();
                         ?>
 
