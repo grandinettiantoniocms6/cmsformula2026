@@ -21,7 +21,7 @@
 @section('content')
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
                     <ul class="nav nav-pills mb-1" id="pills-tab" role="tablist">
@@ -567,7 +567,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-header border-bottom-0"><h5 class="my-0">Cliente</h5></div>
                 <table class="table table-md my-0">
@@ -589,7 +589,7 @@
             </div>
 
             <div class="card">
-                <div class="card-header border-bottom-0"><h5 class="my-0">Status Ordine</h5></div>
+                <div class="card-header border-bottom-0"><h5 class="my-0">Status Ordine attuale</h5></div>
                     <table class="table table-md my-0">
                         <tbody>
                             <tr>
@@ -606,7 +606,7 @@
 
             @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
                 <div class="card">
-                    <div class="card-header"><h5 class="my-0">Cronologia Status</h5></div>
+                    <div class="card-header"><h5 class="my-0">Cronologia Status Ordini</h5></div>
                     <div class="card-body">
                         @if (count($order->statusHistory) > 0)
                             <table class="table table-md table-bordered table-hover">
@@ -636,7 +636,7 @@
 
                                 <div class="form-group">
                                     <select name="status_id" id="status_id" class="custom-select" required>
-                                        <option value=""></option>
+                                        <option value="">Cambia stato ordine</option>
                                         @foreach($orderStatuses as $orderStatus)
                                             <option value="{{ $orderStatus->id }}">{{ $orderStatus->name }}</option>
                                         @endforeach
@@ -644,7 +644,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                   <input type="checkbox" name="notify" value="1" checked> Inviare notifica al Cliente via E-Mail, per il Cambio stato ordine?
+                                   <input type="checkbox" name="notify" value="1" checked> Inviare notifica al Cliente via E-Mail?
                                 </div>
 
                                 <button type="submit" class="btn btn-block btn-primary">Modifica</button>
