@@ -116,7 +116,7 @@ class ShopSettingsCrudController extends CrudController
                 $statusOrder = OrderStatus::get()->pluck("name", "id")->toArray();
                 $this->crud->addField([
                     'name' => 'status_default_order',
-                    'label' => "Impostare lo stato ordine predefinito per il post checkout",
+                    'label' => "Seleziona lo stato degli ordini per calcolare il totale complessivo in euro nella Dashboard.",
                     'type' => 'select_from_array',
                     'options' => $statusOrder,
                     'allows_null' => false,
@@ -522,7 +522,7 @@ class ShopSettingsCrudController extends CrudController
                 $statusOrder = OrderStatus::get()->pluck("name", "id")->toArray();
                 $this->crud->addField([
                     'name' => 'status_default_order',
-                    'label' => "Impostare lo stato ordine predefinito per il post checkout",
+                    'label' => "Impostare lo stato dell’ordine predefinito dopo il checkout.",
                     'type' => 'select_from_array',
                     'options' => $statusOrder,
                     'allows_null' => false,
@@ -534,7 +534,7 @@ class ShopSettingsCrudController extends CrudController
                 $statusOrder = OrderStatus::get()->pluck("name", "id")->toArray();
                 $this->crud->addField([
                     'name' => 'status_default_order_dashboard',
-                    'label' => "Impostare lo stato predefinito per il conteggio degli ordini completati",
+                    'label' => "Seleziona lo stato degli ordini per calcolare il totale complessivo in euro nella Dashboard.",
                     'type' => 'select_from_array',
                     'options' => $statusOrder,
                     'allows_null' => false,
