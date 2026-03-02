@@ -34,7 +34,7 @@
                         <div class="tab-pane pt-1 active" id="tab-shipping-address">
                             <div class="row gutter-3">
                                 <div class="col-md-6">
-                                    <h5 class="mb-2">Indirizzo di spedizione</h5>
+                                    <h5 class="mb-2"><i class="nav-icon las la-truck"></i> Indirizzo di spedizione</h5>
                                     <table class="table table-sm table-striped mb-2">
                                         <tbody>
                                         <tr>
@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     @if ($order->billingCompanyInfo)
-                                        <h5 class="mb-2">Indirizzo di fatturazione</h5>
+                                        <h5 class="mb-2"><i class="nav-icon las la-money-bill"></i> Indirizzo di fatturazione</h5>
                                         <table class="table table-sm table-striped mb-2">
                                             <tr>
                                                 <td>Ragione sociale</td>
@@ -266,7 +266,7 @@
             </div>
 
             <div class="card">
-                <div class="card-header"><h5 class="my-0">Spedizione</h5></div>
+                <div class="card-header"><h5 class="my-0"><i class="nav-icon las la-truck"></i> Spedizione</h5></div>
                 @if($order->shipping)
                     <table class="table table-md my-0">
                         <thead>
@@ -286,7 +286,7 @@
             </div>
 
             <div class="card">
-                <div class="card-header border-bottom-0"><h5 class="my-0">Metodo di pagamento</h5></div>
+                <div class="card-header border-bottom-0"><h5 class="my-0"><i class="nav-icon las la-money-bill"></i> Metodo di pagamento</h5></div>
                 <div class="box-body">
                      @if($payment)
                         <table class="table table-md my-0">
@@ -347,7 +347,7 @@
             @endif
 
             <div class="card">
-                <div class="card-header"><h5 class="my-0">Prodotti</h5></div>
+                <div class="card-header"><h5 class="my-0"><i class="nav-icon las la-shopping-bag"></i> Prodotti</h5></div>
                 <table class="table table-md table-striped my-0">
                     <thead>
                     <tr>
@@ -569,7 +569,7 @@
         </div>
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header border-bottom-0"><h5 class="my-0">Cliente</h5></div>
+                <div class="card-header border-bottom-0"><h5 class="my-0"><i class="nav-icon las la-user-tie"></i> Cliente</h5></div>
                 <table class="table table-md my-0">
                     <tbody>
                         <tr>
@@ -589,7 +589,7 @@
             </div>
 
             <div class="card">
-                <div class="card-header border-bottom-0"><h5 class="my-0">Status Ordine attuale</h5></div>
+                <div class="card-header border-bottom-0"><h5 class="my-0"><i class="nav-icon las la-shopping-bag"></i> Status Ordine attuale</h5></div>
                     <table class="table table-md my-0">
                         <tbody>
                             <tr>
@@ -606,7 +606,7 @@
 
             @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
                 <div class="card">
-                    <div class="card-header"><h5 class="my-0">Cronologia Status Ordini</h5></div>
+                    <div class="card-header"><h5 class="my-0"> <i class="nav-icon las la-bullhorn"></i> Cronologia Status Ordini</h5></div>
                     <div class="card-body">
                         @if (count($order->statusHistory) > 0)
                             <table class="table table-md table-bordered table-hover">
@@ -644,7 +644,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                   <input type="checkbox" name="notify" value="1" checked> Inviare notifica al Cliente via E-Mail?
+                                   <input type="checkbox" name="notify" value="1" checked> <i class="nav-icon las la-bullhorn"></i> Desideri inviare una notifica via E-Mail al Cliente?
                                 </div>
 
                                 <button type="submit" class="btn btn-block btn-primary">Modifica</button>
@@ -658,7 +658,7 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-header"><h5 class="my-0">Modifica metodo di pagamento</h5></div>
+                    <div class="card-header"><h5 class="my-0"><i class="nav-icon las la-money-bill"></i> Modifica metodo di pagamento</h5></div>
                     <div class="card-body">
                         <form action="{{ route('updateOrderPayment') }}" method="POST">
                             {!! csrf_field() !!}
