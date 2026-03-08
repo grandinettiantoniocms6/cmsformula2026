@@ -108,7 +108,7 @@ if($titleBlocco){
 
                                 <li>
                                     @if(trim($button[\App::getLocale()])!="")
-                                        <a href="{{ $url }}" target="{{ $type_href }}" >{{ $button[\App::getLocale()] }}</a>
+                                        <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-base-color btn-medium btn-box-shadow d-table d-lg-inline-block lg-mb-15px md-mx-auto" style="background-color:{{ $website->btn_background }}; color:{{ $website->btn_txt_color }}; border-color: {{ $website->btn_colorborder }};" >{{ $button[\App::getLocale()] }}</a>
                                     @endif
 
                                     @if(trim($label[\App::getLocale()]) != "")
