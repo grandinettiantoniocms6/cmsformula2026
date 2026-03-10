@@ -570,7 +570,7 @@ $labels = \App\Models\PluginBookingLabels::get()->pluck("value", "key")->toArray
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <th>{{ @$labels['booking-myarea-numero-ospiti'] }}</th>
+                                                                        <th>{{ @$labels['booking-myarea-ospiti'] }}</th>
                                                                         <td>
                                                                             @if($type->is_checkin)
                                                                                 <?php
@@ -635,7 +635,14 @@ $labels = \App\Models\PluginBookingLabels::get()->pluck("value", "key")->toArray
                                                                     @if($reservation->total > 0)
                                                                         <tfoot>
                                                                         <th>{{ @$labels['booking-myarea-totale'] }}</th>
-                                                                        <td>&euro; {{ number_format($reservation->total,2,",",".") }}</td>
+                                                                        <td>&euro; {{ number_format($reservation->total,2,",",".") }}
+
+                                                                            @if($reservation->total_acconto)
+                                                                                {{ @$labels['booking-riassume-acconto'] }}
+                                                                                di &euro; {{ number_format($reservation->total_acconto,2,",",".") }}
+                                                                            @endif
+
+                                                                        </td>
                                                                         </tfoot>
                                                                     @endif
                                                                 </table>

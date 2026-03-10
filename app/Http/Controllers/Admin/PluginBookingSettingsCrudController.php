@@ -142,6 +142,23 @@ class PluginBookingSettingsCrudController extends CrudController
             'tab' => 'Email'
         ]);
 
+
+        $this->crud->addField([   // Checkbox
+            'name'  => 'number_days_for_acconto',
+            'label' => 'Numero di giorni minimi per applicare la modalità acconto',
+            'type'  => 'number',
+            'default' => 0,
+            'tab' => 'Acconto'
+        ]);
+
+        $this->crud->addField([   // Checkbox
+            'name'  => 'perc_acconto',
+            'label' => '% di acconto sul totale',
+            'type'  => 'number',
+            'default' => 0,
+            'tab' => 'Acconto'
+        ]);
+
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

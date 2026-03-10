@@ -254,7 +254,13 @@ $labels = \App\Models\PluginBookingLabels::get()->pluck("value", "key")->toArray
                         @if($reservation->total > 0)
                         <tfoot>
                         <th>{{ @$labels['booking-riassume-totale'] }}</th>
-                        <td>&euro; {{ number_format($reservation->total,2,",",".") }}</td>
+                        <td>&euro; {{ number_format($reservation->total,2,",",".") }}
+
+                            @if($reservation->total_acconto)
+                                {{ @$labels['booking-riassume-acconto'] }}
+                                di &euro; {{ number_format($reservation->total_acconto,2,",",".") }}
+                            @endif
+                        </td>
                         </tfoot>
                         @endif
                     </table>
@@ -274,6 +280,13 @@ $labels = \App\Models\PluginBookingLabels::get()->pluck("value", "key")->toArray
 @endif
 
 @section('after_scripts')
+    <?php
+      $total = $reservation->total;
+      if($reservation->total_acconto){
+          $total = $reservation->total_acconto;
+      }
+    ?>
+
     <script>
         paypal.Buttons({
             createOrder: function(data, actions) {
@@ -283,13 +296,13 @@ $labels = \App\Models\PluginBookingLabels::get()->pluck("value", "key")->toArray
                         description: '{{ env('PROJECT_NAME') }} prenotazione n.{{ $reservation->id }}',
                         amount:
                             {
-                                value:'{{ ($reservation->total) }}',
+                                value:'{{ ($total) }}',
                                 breakdown:
                                     {
                                         'item_total':
                                             {
                                                 'currency_code':'EUR',
-                                                'value':'{{ ($reservation->total) }}'
+                                                'value':'{{ ($total) }}'
                                             }
                                     }
                             },

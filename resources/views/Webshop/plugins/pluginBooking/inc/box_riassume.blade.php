@@ -170,9 +170,29 @@ $labels = \App\Models\PluginBookingLabels::get()->pluck("value", "key")->toArray
             @if($tot > 0)
                 <tfoot>
                 <th>{{ @$labels['booking-riassume-totale'] }}</th>
-                <td>&euro; {{ number_format($tot,2,",",".") }}</td>
+                <td>&euro; {{ number_format($tot,2,",",".") }}
+
+                    @if($session->end && $session->start)
+                            <?php
+                            $diff = \Carbon\Carbon::createFromFormat("Y-m-d", $session->start)->diffInDays(\Carbon\Carbon::createFromFormat("Y-m-d", $session->end));
+                            $setting = \App\Models\PluginBookingSettings::first();
+                            ?>
+                        @if($diff >= $setting->number_days_for_acconto && $setting->number_days_for_acconto > 0)
+                            {{ @$labels['booking-riassume-acconto'] }} {{ $setting->perc_acconto }}%
+                            <?php
+                            $perc = 1+($setting->perc_acconto / 100);
+
+                            $tot_acconto = round($tot - ($tot / $perc),2);
+                            ?>
+                            di &euro; {{ number_format($tot_acconto,2,",",".") }}
+                        @endif
+                    @endif
+
+                </td>
                 </tfoot>
             @endif
+
+
         </table>
     </div>
 </div>

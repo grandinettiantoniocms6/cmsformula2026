@@ -5994,6 +5994,21 @@ class PluginLabelsSeeder extends Seeder
 
 
         $vet = [];
+        $vet["it"] = "Acconto";
+        $vet["en"] = "Advance payment";
+        $vet["fr"] = "";
+        $vet["de"] = "Vorauszahlung";
+        $vet["es"] = "";
+        $vet["ru"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+
+        \App\Models\PluginBookingLabels::firstOrCreate(["key" => "booking-riassume-acconto"],[
+            "value" => $vet,
+        ]);
+
+
+        $vet = [];
         $vet["it"] = "Ospiti";
         $vet["en"] = "Guests";
         $vet["fr"] = "";
@@ -7013,6 +7028,20 @@ class PluginLabelsSeeder extends Seeder
         ]);
 
         $vet = [];
+        $vet["it"] = "Ospiti";
+        $vet["en"] = "Guests";
+        $vet["fr"] = "";
+        $vet["de"] = "Gäste";
+        $vet["es"] = "";
+        $vet["ru"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+
+        \App\Models\PluginBookingLabels::firstOrCreate(["key" => "booking-myarea-ospiti"],[
+            "value" => $vet,
+        ]);
+
+        $vet = [];
         $vet["it"] = "N. Ospiti";
         $vet["en"] = "Guests number";
         $vet["fr"] = "";
@@ -7025,6 +7054,7 @@ class PluginLabelsSeeder extends Seeder
         \App\Models\PluginBookingLabels::firstOrCreate(["key" => "booking-myarea-numero-ospiti"],[
             "value" => $vet,
         ]);
+
 
         $vet = [];
         $vet["it"] = "N. Bambini";

@@ -55,6 +55,7 @@ class PluginBookingReservationCrudController extends CrudController
             "plugins_booking_reservations.date_start",
             "plugins_booking_reservations.date_end",
             "plugins_booking_reservations.total",
+            "plugins_booking_reservations.total_acconto",
             "plugins_booking_reservations.user_id",
             "plugins_booking_reservations.is_payed",
             "plugins_booking_reservations.code",
@@ -170,7 +171,10 @@ class PluginBookingReservationCrudController extends CrudController
             [
                 'name'  => 'total',
                 'label' => 'Totale',
-                'type'  => 'text',
+                'type'  => 'model_function',
+                'function_name' => 'getTotal', // the method in your Model
+                'escaped' => false,
+                'limit' => 10000, // Limit the number of characters shown
             ],
             [
                 'name'  => 'is_processed',
@@ -560,12 +564,20 @@ class PluginBookingReservationCrudController extends CrudController
             ]);
         }
 
-
         $this->crud->addField([
             'name'  => 'total',
             'label' => 'Totale',
             'type'  => 'text',
             'attributes' => ['readonly' => 'readonly'],
+            'wrapperAttributes' => [
+                'class' => 'form-group col-md-1'
+            ],
+        ]);
+
+        $this->crud->addField([
+            'name'  => 'total_acconto',
+            'label' => 'Acconto',
+            'type'  => 'text',
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-1'
             ],

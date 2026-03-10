@@ -59,6 +59,16 @@ class PluginBookingReservation extends Model
         return '<a href="#" data-toggle="modal" data-target="#exampleModalNote_'.$this->id.'">'.$this->user->name.'</a>'.$modal.' <br><small>'.$data_created.'</small>';
     }
 
+    public function getTotal()
+    {
+        $html = $this->total;
+        if($this->total_acconto){
+            $html .= "<br>Acconto: $this->total_acconto";
+        }
+
+        return $html;
+    }
+
     public function getIsProcessed(){
         if($this->is_processed == 1){
             $url = route('dashboard.set.field.boolean', ['plugins_booking_reservations', $this->id, "is_processed", 0]);

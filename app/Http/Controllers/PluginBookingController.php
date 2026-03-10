@@ -961,8 +961,9 @@ class PluginBookingController extends Controller
                 }
             }*/
 
-            \Session::put('buy', $session);
         }
+
+        \Session::put('buy', $session);
 
         $html = \View::make("$thema.plugins.pluginBooking.inc.box_checkout", compact('session'))->render();
         return response()->json([
@@ -1063,6 +1064,126 @@ class PluginBookingController extends Controller
             if (\Auth::attempt($credentials)) {
                 \Session::put("user_id", $user->id);
 
+
+                if(\Session::has('buy')){
+                    $session = \Session::get('buy');
+                }
+
+                $type = PluginBookingType::find($session->type);
+
+                $start_carbon = \Carbon\Carbon::createFromFormat("Y-m-d", $session->start);
+                $diff_day = 1;
+
+                if($session->end){
+                    $end_carbon = \Carbon\Carbon::createFromFormat("Y-m-d", $session->end);
+                    $diff_day = $start_carbon->diffInDays($end_carbon);
+                    if($diff_day == 0){
+                        $diff_day = 1;
+                    }
+                }
+
+
+                //$tot = $session->total * $diff_day;
+                $tot = $session->total;
+
+                if($session->services){
+                    foreach($session->services as $k=>$servizio){
+                        $temp = explode("|", $servizio);
+
+                        if(property_exists($session, "services_day")){
+                            if(key_exists($k, $session->services_day)){
+                                $tot = $tot + (($temp[2]*$temp[3]) * $session->services_day[$k]);
+                            }else{
+                                $tot = $tot + ($temp[2]*$temp[3]);
+                            }
+                        }else{
+                            $tot = $tot + ($temp[2]*$temp[3]);
+                        }
+
+                        //$tot = $tot + $temp[2];
+                    }
+                }
+
+                if($session->start_time){
+                    $start_time = Carbon::createFromFormat("H:i", $session->start_time);
+
+                    if(!$session->end_time){
+                        $session->end_time = $start_time->addMinutes($type->duration)->format("H:i:s");
+                    }
+                }
+
+                if(!$session->end){
+                    $session->end = $session->start;
+                }
+
+                $session_temp = $session;
+                $session_temp->html = "";
+
+                $reservation = PluginBookingReservation::create([
+                    "date_start" => $session->start,
+                    "date_end" => $session->end,
+                    "start_time" => $session->start_time,
+                    "end_time" => $session->end_time,
+                    "total" => $tot,
+                    "total_qty" => $session->qty,
+                    "total_qty_bimbi" => $session->qty_bimbi,
+                    "type_id" => $session->type,
+                    "user_id" => $user->id,
+                    "is_payed" => 0,
+                    "plugin_booking_status_id" => $type->default_status_id,
+                    "plugin_booking_room_id" => $session->room_id,
+                    "sessione" => json_encode($session_temp)
+                ]);
+
+                if($reservation) {
+                    $reservation_room = PluginBookingReservationRoom::create([
+                        "plugin_booking_reservation_id" => $reservation->id,
+                        "plugin_booking_room_id" => $session->room_id,
+                        "price" => $session->total
+                    ]);
+
+                    if ($session->services) {
+                        foreach ($session->services as $k => $servizio) {
+                            $temp = explode("|", $servizio);
+                            if (!key_exists(3, $temp)) {
+                                $temp[3] = 1;
+                            }
+
+                            $days = 1;
+                            if (property_exists($session, "services_day")) {
+                                if ((key_exists($k, $session->services_day))) {
+                                    $days = $session->services_day[$k];
+                                }
+                            }
+
+                            PluginBookingReservationService::create([
+                                "plugin_booking_reservation_id" => $reservation->id,
+                                "plugin_booking_service_id" => $temp[0],
+                                "name" => $temp[1],
+                                "price" => $temp[2],
+                                "qty" => $temp[3],
+                                "days" => $days
+                            ]);
+                        }
+                    }
+
+                    if ($type->is_checkin) {
+                        if ($session->partecipants) {
+                            foreach ($session->partecipants as $partecipant) {
+                                PluginBookingReservationRoomCheckin::create([
+                                    "plugin_booking_reservation_room_id" => $reservation_room->id,
+                                    "plugin_booking_reservation_id" => $reservation->id,
+                                    "first_name" => $partecipant['first_name'],
+                                    "last_name" => $partecipant['last_name'],
+                                    "birthdate" => $partecipant['birthdate'],
+                                    "line_code" => "1243"
+                                ]);
+                            }
+                        }
+                    }
+                }
+
+
                 return response()->json([
                     "error" => 0,
                     "url" => route('pluginBooking.riassume.it')
@@ -1159,7 +1280,6 @@ class PluginBookingController extends Controller
 
             if(\Session::has('buy')){
                 $session = \Session::get('buy');
-
             }
 
             $type = PluginBookingType::find($session->type);
@@ -1511,6 +1631,14 @@ class PluginBookingController extends Controller
             }
 
 
+            $tot_acconto = 0;
+            if($session->end && $session->start){
+                $diff = \Carbon\Carbon::createFromFormat("Y-m-d", $session->start)->diffInDays(\Carbon\Carbon::createFromFormat("Y-m-d", $session->end));
+                if($diff >= $setting->number_days_for_acconto && $setting->number_days_for_acconto > 0){
+                    $perc = 1+($setting->perc_acconto / 100);
+                    $tot_acconto = round($tot - ($tot / $perc),2);
+                }
+            }
 
             $reservation = PluginBookingReservation::where("user_id", $user->id)
                 ->where("date_start", $session->start)
@@ -1520,6 +1648,7 @@ class PluginBookingController extends Controller
                 ->first();
 
             if($reservation){
+                $reservation->total_acconto = $tot_acconto;
                 $reservation->plugin_booking_payment_id =  $request->has('payment_id') ? $request->get('payment_id') : null;
                 $reservation->business_name = $request->has('business_name') ? $request->get('business_name') : null;
                 $reservation->vat =  $request->has('vat') ? $request->get('vat') : null;
@@ -1540,6 +1669,7 @@ class PluginBookingController extends Controller
                     "start_time" => $session->start_time,
                     "end_time" => $session->end_time,
                     "total" => $tot,
+                    "total_acconto" => $tot_acconto,
                     "total_qty" => $session->qty,
                     "total_qty_bimbi" => $session->qty_bimbi,
                     "type_id" => $session->type,
@@ -1661,6 +1791,7 @@ class PluginBookingController extends Controller
                                 "start_time" => $session->start_time,
                                 "end_time" => $session->end_time,
                                 "total" => $tot,
+                                "total_acconto" => $tot_acconto,
                                 "total_qty" => $session->qty,
                                 "total_qty_bimbi" => $session->qty_bimbi,
                                 "type_id" => $room_temp->plugin_booking_type_id,
