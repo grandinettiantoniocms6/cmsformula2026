@@ -5994,10 +5994,10 @@ class PluginLabelsSeeder extends Seeder
 
 
         $vet = [];
-        $vet["it"] = "Acconto";
-        $vet["en"] = "Advance payment";
+        $vet["it"] = "Acconto da versare";
+        $vet["en"] = "Deposit to be paid";
         $vet["fr"] = "";
-        $vet["de"] = "Vorauszahlung";
+        $vet["de"] = "Es ist eine Anzahlung zu leisten";
         $vet["es"] = "";
         $vet["ru"] = "";
         $vet["srb"] = "";

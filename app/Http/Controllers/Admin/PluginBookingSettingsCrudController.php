@@ -145,7 +145,7 @@ class PluginBookingSettingsCrudController extends CrudController
 
         $this->crud->addField([   // Checkbox
             'name'  => 'number_days_for_acconto',
-            'label' => 'Numero di giorni minimi per applicare la modalità acconto',
+            'label' => 'Numero di notti minime per applicare la modalità acconto',
             'type'  => 'number',
             'default' => 0,
             'tab' => 'Acconto'

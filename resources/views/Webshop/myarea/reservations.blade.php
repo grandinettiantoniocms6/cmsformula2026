@@ -76,7 +76,14 @@
                                             @else
                                                 -
                                             @endif
+
+                                            @if($reservation->total_acconto > 0)
+                                                <br>
+                                                <small>Acconto</small>
+                                                &euro; {{ number_format($reservation->total_acconto,2,",", ".") }}
+                                            @endif
                                         </td>
+
                                         <td class="text-end" data-column="Azioni">
                                             <a class="btn btn-primary btn-sm" href="{{ route('reservation.detail') }}?reservation_id={{ $reservation->id }}">{{ @$labels['booking-myarea-guarda-prenotazione'] }}</a>
                                             @if($payment)

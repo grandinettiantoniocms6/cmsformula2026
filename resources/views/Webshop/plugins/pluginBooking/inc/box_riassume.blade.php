@@ -178,7 +178,7 @@ $labels = \App\Models\PluginBookingLabels::get()->pluck("value", "key")->toArray
                             $setting = \App\Models\PluginBookingSettings::first();
                             ?>
                         @if($diff >= $setting->number_days_for_acconto && $setting->number_days_for_acconto > 0)
-                            {{ @$labels['booking-riassume-acconto'] }} {{ $setting->perc_acconto }}%
+                           <br> {{ @$labels['booking-riassume-acconto'] }} {{ $setting->perc_acconto }}%
                             <?php
                             $perc = 1+($setting->perc_acconto / 100);
 

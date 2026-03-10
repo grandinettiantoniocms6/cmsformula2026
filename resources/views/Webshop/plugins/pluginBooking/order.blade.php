@@ -257,7 +257,7 @@ $labels = \App\Models\PluginBookingLabels::get()->pluck("value", "key")->toArray
                         <td>&euro; {{ number_format($reservation->total,2,",",".") }}
 
                             @if($reservation->total_acconto)
-                                {{ @$labels['booking-riassume-acconto'] }}
+                                <br> {{ @$labels['booking-riassume-acconto'] }}
                                 di &euro; {{ number_format($reservation->total_acconto,2,",",".") }}
                             @endif
                         </td>
