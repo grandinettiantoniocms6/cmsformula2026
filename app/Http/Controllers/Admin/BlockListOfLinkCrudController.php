@@ -127,7 +127,7 @@ class BlockListOfLinkCrudController extends CrudController
                 'name'        => 'style',
                 'label'       => "Seleziona stile",
                 'type'        => 'select_from_array',
-                'options'     => [1 => 'Style 1'],
+                'options'     => [1 => 'Style 1', 2 => 'Style 2 (solo per footer)'],
                 'allows_null' => false,
                 'default'     => 1,
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
