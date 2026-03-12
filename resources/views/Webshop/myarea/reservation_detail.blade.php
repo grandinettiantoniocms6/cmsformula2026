@@ -178,7 +178,7 @@ if(\Auth::user() && in_array(\Auth::user()->country_id, config('config.default_c
                                     <td>&euro; {{ number_format($reservation->total,2,",",".") }}
                                         @if($reservation->total_acconto)
                                             <br> {{ @$labels['booking-riassume-acconto'] }}
-                                            di &euro; {{ number_format($reservation->total_acconto,2,",",".") }}
+                                            {{ @$labels['booking-riassume-acconto-pari-a'] }} &euro; {{ number_format($reservation->total_acconto,2,",",".") }}
                                         @endif
                                     </td>
                                 </tfoot>

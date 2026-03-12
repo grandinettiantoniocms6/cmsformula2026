@@ -184,7 +184,7 @@ $labels = \App\Models\PluginBookingLabels::get()->pluck("value", "key")->toArray
 
                             $tot_acconto = round($tot - ($tot / $perc),2);
                             ?>
-                            di &euro; {{ number_format($tot_acconto,2,",",".") }}
+                            {{ @$labels['booking-riassume-acconto-pari-a'] }} &euro; {{ number_format($tot_acconto,2,",",".") }}
                         @endif
                     @endif
 

@@ -6007,6 +6007,20 @@ class PluginLabelsSeeder extends Seeder
             "value" => $vet,
         ]);
 
+        $vet = [];
+        $vet["it"] = "pari a";
+        $vet["en"] = "equal to";
+        $vet["fr"] = "";
+        $vet["de"] = "gleich";
+        $vet["es"] = "";
+        $vet["ru"] = "";
+        $vet["srb"] = "";
+        $vet["ro"] = "";
+
+        \App\Models\PluginBookingLabels::firstOrCreate(["key" => "booking-riassume-acconto-pari-a"],[
+            "value" => $vet,
+        ]);
+
 
         $vet = [];
         $vet["it"] = "Ospiti";
