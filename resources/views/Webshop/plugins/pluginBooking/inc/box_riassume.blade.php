@@ -180,9 +180,8 @@ $labels = \App\Models\PluginBookingLabels::get()->pluck("value", "key")->toArray
                         @if($diff >= $setting->number_days_for_acconto && $setting->number_days_for_acconto > 0)
                            <br> {{ @$labels['booking-riassume-acconto'] }} {{ $setting->perc_acconto }}%
                             <?php
-                            $perc = 1+($setting->perc_acconto / 100);
-
-                            $tot_acconto = round($tot - ($tot / $perc),2);
+                            $perc = ($setting->perc_acconto / 100);
+                            $tot_acconto = round($tot * $perc,2);
                             ?>
                             {{ @$labels['booking-riassume-acconto-pari-a'] }} &euro; {{ number_format($tot_acconto,2,",",".") }}
                         @endif
