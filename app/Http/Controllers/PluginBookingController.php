@@ -1635,8 +1635,8 @@ class PluginBookingController extends Controller
             if($session->end && $session->start){
                 $diff = \Carbon\Carbon::createFromFormat("Y-m-d", $session->start)->diffInDays(\Carbon\Carbon::createFromFormat("Y-m-d", $session->end));
                 if($diff >= $setting->number_days_for_acconto && $setting->number_days_for_acconto > 0){
-                    $perc = 1+($setting->perc_acconto / 100);
-                    $tot_acconto = round($tot - ($tot / $perc),2);
+                    $perc = ($setting->perc_acconto / 100);
+                    $tot_acconto = round($tot * $perc,2);
                 }
             }
 
