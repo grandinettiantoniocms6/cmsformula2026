@@ -194,15 +194,19 @@ class ShopAttributesCrudController extends CrudController
         }
 
 
-        $this->crud->addField([   // select2_from_array
-            'name'        => 'categories',
-            'label'       => "Categorie",
-            'type'        => 'select2_from_array',
-            'options'     => $categories,
-            'allows_null' => false,
-            'default'     => null,
-            'value' => $ids,
-            'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+        $this->crud->addField([
+            'name'            => 'categories',
+            'label'           => 'Categorie',
+            'type'            => 'select2_from_array',
+            'options'         => $categories,
+            'allows_null'     => false,
+            'value'           => $ids,
+            'allows_multiple' => true,
+            'attributes' => [
+                'id' => 'categories-select',
+            ],
+            'hint' => '<a href="#" id="select-all-categories">Seleziona tutti</a> |
+               <a href="#" id="deselect-all-categories">Deseleziona tutti</a>',
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],

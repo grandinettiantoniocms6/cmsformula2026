@@ -173,5 +173,26 @@
 
     </script>
 
+    <script>
+        $(function () {
+            const $select = $('#categories-select');
+
+            $(document).on('click', '#select-all-categories', function(e) {
+                e.preventDefault();
+
+                const allValues = $select.find('option').map(function () {
+                    return $(this).val();
+                }).get();
+
+                $select.val(allValues).trigger('change');
+            });
+
+            $(document).on('click', '#deselect-all-categories', function(e) {
+                e.preventDefault();
+                $select.val([]).trigger('change');
+            });
+        });
+    </script>
+
 @endpush
 

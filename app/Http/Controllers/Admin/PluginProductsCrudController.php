@@ -1066,6 +1066,65 @@ class PluginProductsCrudController extends CrudController
             }
         }
 
+        $this->crud->addFilter([
+            'name'  => 'has_variants',
+            'type'  => 'dropdown',
+            'label' => 'Con varianti'
+        ], [
+            1 => 'Sì',
+            0 => 'No',
+        ], function ($value) {
+            if ((int) $value === 1) {
+                $this->crud->query->whereExists(function ($query) {
+                    $query->select(\DB::raw(1))
+                        ->from('plugins_products as children')
+                        ->whereColumn('children.group_id', 'plugins_products.group_id')
+                        ->where('children.is_variant', 1);
+                });
+            }
+
+            if ((int) $value === 0) {
+                $this->crud->query->whereNotExists(function ($query) {
+                    $query->select(\DB::raw(1))
+                        ->from('plugins_products as children')
+                        ->whereColumn('children.group_id', 'plugins_products.group_id')
+                        ->where('children.is_variant', 1);
+                });
+            }
+        });
+
+        $attributesFilter = \App\Models\ShopAttributes::orderBy('name', 'asc')
+            ->pluck('name', 'id')
+            ->toArray();
+
+        $this->crud->addFilter([
+            'name'  => 'attribute_id',
+            'type'  => 'select2',
+            'label' => 'Attributo'
+        ], function () use ($attributesFilter) {
+            return $attributesFilter;
+        }, function ($value) {
+            $this->crud->query->where(function ($query) use ($value) {
+
+                // attributo associato direttamente al padre
+                $query->whereIn('plugins_products.id', function ($sub) use ($value) {
+                    $sub->select('product_id')
+                        ->from('shop_attributes_products')
+                        ->where('attribute_id', $value);
+                })
+
+                    // oppure attributo associato a uno dei figli dello stesso group_id
+                    ->orWhereIn('plugins_products.group_id', function ($sub) use ($value) {
+                        $sub->select('pp.group_id')
+                            ->from('shop_attributes_products as sap')
+                            ->join('plugins_products as pp', 'pp.id', '=', 'sap.product_id')
+                            ->where('sap.attribute_id', $value)
+                            ->whereNotNull('pp.group_id');
+                    });
+
+            });
+        });
+
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
