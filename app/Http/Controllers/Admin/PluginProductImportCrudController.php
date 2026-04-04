@@ -115,14 +115,14 @@ class PluginProductImportCrudController extends CrudController
         $name_attribute_1 = $req->get('name_attribute_1');
         $name_attribute_2 = $req->get('name_attribute_2');
 
-        $attribute = ShopAttributes::whereRaw("name LIKE '%\"it\":\"$name_attribute_1\"%'")->first();
+        $attribute = $this->getOrCreateAttribute($name_attribute_1);
         if(!$attribute){
             ShopAttributes::create([
                 "name" => trim($name_attribute_1)
             ]);
         }
 
-        $attribute = ShopAttributes::whereRaw("name LIKE '%\"it\":\"$name_attribute_2\"%'")->first();
+        $attribute = $this->getOrCreateAttribute($name_attribute_2);
         if(!$attribute){
             ShopAttributes::create([
                 "name" => trim($name_attribute_2)
@@ -221,7 +221,7 @@ class PluginProductImportCrudController extends CrudController
                     //mi creo mapping per chiave valore
                     foreach ($v_mapping as $k=>$v){
                         if($v){
-                            $key = array_search($k, $headers);
+                            $key = array_search(strtolower($k), $headers);
                             $mapping[$key] = $v;
                         }
                     }
@@ -306,6 +306,9 @@ class PluginProductImportCrudController extends CrudController
             }
 
             if(count($products)){
+                $productBySkuCache = [];
+                $maxGroupId = (int) PluginProducts::whereNotNull("group_id")->max("group_id");
+                $importedProductIds = [];
 
                 $row = 1;
                 foreach ($products as $k=>$product){
@@ -319,25 +322,13 @@ class PluginProductImportCrudController extends CrudController
                         switch ($field){
                             case "options_1":
                                 if(trim($value) != ""){
-                                    $attribute = ShopAttributes::whereRaw("name LIKE '%\"it\":\"{$config->name_attribute_1}\"%'")->first();
-                                    if(!$attribute){
-                                        $attribute = ShopAttributes::create([
-                                            "name" => trim($config->name_attribute_1)
-                                        ]);
-                                    }
+                                    $attribute = $this->getOrCreateAttribute($config->name_attribute_1);
                                     if($attribute){
                                         $v_opt = explode("," , $value);
                                         if (count($v_opt)) {
                                             foreach ($v_opt as $opt) {
                                                 $cat = trim($opt);
-                                                $option = ShopAttributesOptions::whereRaw("value LIKE '%\"it\":\"$opt\"%'")->first();
-                                                if (!$option) {
-                                                    $option = ShopAttributesOptions::create([
-                                                        "shop_attribute_id" => $attribute->id,
-                                                        "value" => $cat,
-                                                        "created_at" => Carbon::now()->toDateTimeString()
-                                                    ]);
-                                                }
+                                                $option = $this->getOrCreateAttributeOption($attribute->id, $cat);
                                                 $options_1[] = $option->id;
                                             }
                                         }
@@ -349,25 +340,13 @@ class PluginProductImportCrudController extends CrudController
 
                             case "options_2":
                                 if(trim($value) != ""){
-                                    $attribute = ShopAttributes::whereRaw("name LIKE '%\"it\":\"{$config->name_attribute_2}\"%'")->first();
-                                    if(!$attribute){
-                                        $attribute = ShopAttributes::create([
-                                            "name" => trim($config->name_attribute_2)
-                                        ]);
-                                    }
+                                    $attribute = $this->getOrCreateAttribute($config->name_attribute_2);
                                     if($attribute){
                                         $v_opt = explode("," , $value);
                                         if (count($v_opt)) {
                                             foreach ($v_opt as $opt) {
                                                 $cat = trim($opt);
-                                                $option = ShopAttributesOptions::whereRaw("value LIKE '%\"it\":\"$opt\"%'")->first();
-                                                if (!$option) {
-                                                    $option = ShopAttributesOptions::create([
-                                                        "shop_attribute_id" => $attribute->id,
-                                                        "value" => $cat,
-                                                        "created_at" => Carbon::now()->toDateTimeString()
-                                                    ]);
-                                                }
+                                                $option = $this->getOrCreateAttributeOption($attribute->id, $cat);
                                                 $options_2[] = $option->id;
                                             }
                                         }
@@ -414,15 +393,7 @@ class PluginProductImportCrudController extends CrudController
                                 break;
                             case "brand":
                                 if(trim($value) != ""){
-                                    $brand = PluginProductsBrands::whereRaw("name LIKE '%\"it\":\"$value\"%'")->first();
-                                    if(!$brand){
-                                        $brand = PluginProductsBrands::create([
-                                            "name" => $value,
-                                            "slug" => Str::slug($value, '-'),
-                                            "is_active" => 1,
-                                            "created_at" => Carbon::now()->toDateTimeString()
-                                        ]);
-                                    }
+                                    $brand = $this->getOrCreateBrand($value);
                                     $product["brand_id"] = $brand ? $brand->id : null;
                                 }
                                 unset($product[$field]);
@@ -434,16 +405,7 @@ class PluginProductImportCrudController extends CrudController
                                         foreach ($v_cat as $cat) {
                                             $cat = trim($cat);
                                             //controlla categoria in ITALIANO se non esiste la crea altrimetni l'associa
-                                            $category = PluginProductsCategories::whereRaw("name LIKE '%\"it\":\"$cat\"%'")->first();
-                                            if (!$category) {
-                                                $category = PluginProductsCategories::create([
-                                                    "name" => $cat,
-                                                    "slug" => Str::slug($cat, '-'),
-                                                    "is_active" => 1,
-                                                    "parent_id" => null,
-                                                    "created_at" => Carbon::now()->toDateTimeString()
-                                                ]);
-                                            }
+                                            $category = $this->getOrCreateCategory($cat);
                                             $categories[] = $category->id;
                                             $categories_total[$category->id] = $category->id;
                                         }
@@ -458,16 +420,7 @@ class PluginProductImportCrudController extends CrudController
                                         foreach ($v_cat as $cat) {
                                             $cat = trim($cat);
                                             //controlla categoria in ITALIANO se non esiste la crea altrimetni l'associa
-                                            $category = PluginProductsCategories::whereRaw("name LIKE '%\"it\":\"$cat\"%'")->first();
-                                            if (!$category) {
-                                                $category = PluginProductsCategories::create([
-                                                    "name" => $cat,
-                                                    "slug" => Str::slug($cat, '-'),
-                                                    "is_active" => 1,
-                                                    "parent_id" => null,
-                                                    "created_at" => Carbon::now()->toDateTimeString()
-                                                ]);
-                                            }
+                                            $category = $this->getOrCreateCategory($cat);
                                             $categories[] = $category->id;
                                             $categories_total[$category->id] = $category->id;
                                         }
@@ -501,8 +454,8 @@ class PluginProductImportCrudController extends CrudController
                                 unset($product[$field]);
                                 break;
                             case "tax":
-                                $tax = Tax::where("value", $value)->first();
-                                $products["tax_id"] = $tax ? $tax->id : 1;
+                                $tax = $this->getTaxByValue($value);
+                                $product["tax_id"] = $tax ? $tax->id : 1;
                                 unset($product[$field]);
                                 break;
                             case "ean13":
@@ -516,28 +469,16 @@ class PluginProductImportCrudController extends CrudController
                                 break;
                             case "parent_sku":
                                 if(trim($value) != ""){
-                                    $padre = PluginProducts::where("sku", trim($value))->first();
+                                    $padre = $this->getProductBySkuCached(trim($value), $productBySkuCache);
                                     if($padre){
                                         $field_value["group_id"] = $padre->group_id;
                                         $field_value["is_variant"] = 1;
                                     }else{
-                                        $group = PluginProducts::whereNotNull("group_id")->orderBy("group_id", "desc")->first();
-                                        if($group){
-                                            $group_id = $group->group_id + 1;
-                                        }else{
-                                            $group_id = 1;
-                                        }
-                                        $field_value["group_id"] = $group_id;
+                                        $field_value["group_id"] = $this->nextGroupId($maxGroupId);
                                         $field_value["is_variant"] = 0;
                                     }
                                 }else{
-                                    $group = PluginProducts::whereNotNull("group_id")->orderBy("group_id", "desc")->first();
-                                    if($group){
-                                        $group_id = $group->group_id + 1;
-                                    }else{
-                                        $group_id = 1;
-                                    }
-                                    $field_value["group_id"] = $group_id;
+                                    $field_value["group_id"] = $this->nextGroupId($maxGroupId);
                                 }
                                 break;
                         }
@@ -549,7 +490,7 @@ class PluginProductImportCrudController extends CrudController
                     }
 
                     if(!key_exists("tax", $product)){
-                        $tax = Tax::where("value", 22)->first();
+                        $tax = $this->getTaxByValue(22);
                         $product["tax_id"] = $tax->id; //22%
                     }
 
@@ -567,14 +508,9 @@ class PluginProductImportCrudController extends CrudController
                             //dd($product, "aaa");
                         }
 
-                        $padre = PluginProducts::where("sku", $product["parent_sku"])->where("is_variant", 0)->first();
+                        $padre = $this->getProductBySkuCached($product["parent_sku"], $productBySkuCache, true);
                         if(!$padre){
-                            $group = PluginProducts::whereNotNull("group_id")->orderBy("group_id", "desc")->first();
-                            if($group){
-                                $group_id = $group->group_id + 1;
-                            }else{
-                                $group_id = 1;
-                            }
+                            $group_id = $this->nextGroupId($maxGroupId);
 
                             $product['sku_temp'] = $product['sku'];
                             $product['sku'] = $product['parent_sku'];
@@ -606,15 +542,23 @@ class PluginProductImportCrudController extends CrudController
                             $product["is_purchasable"] = $shopSetting->is_add_to_cart_list;
 
                             $product['group_id'] = $group_id;
+                            $skuTemp = $product['sku_temp'] ?? '';
+                            unset($product['sku_temp']);
                             $padre = PluginProducts::create($product);
+                            $this->rememberProductInSkuCache($padre, $productBySkuCache);
+                            $importedProductIds[] = $padre->id;
 
                             if(count($categories) > 0){
                                 PluginProductsCategoriesProducts::where("plugin_product_product_id", $padre->id)->delete();
+                                $categoryRows = [];
                                 foreach ($categories as $cat_id){
-                                    PluginProductsCategoriesProducts::create([
+                                    $categoryRows[] = [
                                         "plugin_product_category_id" => $cat_id,
                                         "plugin_product_product_id" => $padre->id
-                                    ]);
+                                    ];
+                                }
+                                if ($categoryRows) {
+                                    PluginProductsCategoriesProducts::insert($categoryRows);
                                 }
                             }
 
@@ -623,31 +567,42 @@ class PluginProductImportCrudController extends CrudController
                                 $v_images = explode(",", $images);
                                 if($v_images){
                                     $order = 0;
+                                    $imageRows = [];
                                     foreach ($v_images as $image){
-                                        PluginProductsImages::insert([
+                                        $imageRows[] = [
                                             "product_id" => $padre->id,
                                             "is_ext" => 1,
                                             "image" => $image,
                                             "order" => $order,
                                             "created_at" => Carbon::now()->toDateTimeString()
-                                        ]);
+                                        ];
                                         $order++;
+                                    }
+                                    if ($imageRows) {
+                                        PluginProductsImages::insert($imageRows);
                                     }
                                 }
                             }
 
-                            $product['sku'] = $product['sku_temp'];
+                            $product['sku'] = $skuTemp;
 
+                        }else{
+                            if(trim($padre->name) == ""){
+                                PluginProducts::where("id", $padre->id)->update(
+                                    ["name" => $product['name']]
+                                );
+                            }
                         }
 
                         // $product['include_photo_padre'] = 1;
                         $product['group_id'] = $padre->group_id;
                     }
 
-
                     //SE STA LA RIGA DEL PADRE vai avanti
-                    if($product['parent_sku'] != "" && $product['sku'] == ""){
-                        continue;
+                    if(isset($product['parent_sku'])){
+                        if($product['parent_sku'] != "" && $product['sku'] == ""){
+                            continue;
+                        }
                     }
 
                     $product['is_variant'] = 0;
@@ -665,13 +620,13 @@ class PluginProductImportCrudController extends CrudController
 
                     $product["is_purchasable"] = $shopSetting->is_add_to_cart_list;
 
-                    $itemP = PluginProducts::where("sku", $product["sku"])->first();
+                    $itemP = $this->getProductBySkuCached($product["sku"], $productBySkuCache);
 
                     if(key_exists("parent_sku", $product) && !$padre){
                         if(!$padre){
 
                             //controllo se per caso esiste il padre tramite parent_sku
-                            $padre = PluginProducts::where("sku", $product["parent_sku"])->where("is_variant", 0)->first();
+                            $padre = $this->getProductBySkuCached($product["parent_sku"], $productBySkuCache, true);
                             if($padre){
                                 $product['sku'] = "{$product['parent_sku']}_{$product['sku']}";
                                 $product['slug'] = ["it" => \Str::slug("{$product['name']['it']} {$product['sku']}")];
@@ -679,26 +634,18 @@ class PluginProductImportCrudController extends CrudController
                                 $product['group_id'] = $padre->group_id;
                                 unset($product['parent_sku']);
 
-                                $itemP = PluginProducts::where("sku", $product["sku"])->first();
+                                $itemP = $this->getProductBySkuCached($product["sku"], $productBySkuCache);
                             }
                         }
 
                         if(!$padre){
                             $product['sku'] = $product['parent_sku'];
                         }
-
                     }
 
                     if(!$itemP){
                         if(!key_exists("group_id", $product)){
-                            $group = PluginProducts::whereNotNull("group_id")->orderBy("group_id", "desc")->first();
-                            if($group){
-                                $group_id = $group->group_id + 1;
-                            }else{
-                                $group_id = 1;
-                            }
-
-                            $product['group_id'] = $group_id;
+                            $product['group_id'] = $this->nextGroupId($maxGroupId);
                         }
 
                         foreach ($langs as $lang) {
@@ -720,6 +667,8 @@ class PluginProductImportCrudController extends CrudController
                         $product["is_purchasable"] = $shopSetting->is_add_to_cart_list;
 
                         $itemP = PluginProducts::create($product);
+                        $this->rememberProductInSkuCache($itemP, $productBySkuCache);
+                        $importedProductIds[] = $itemP->id;
 
                     }else{
                         if(key_exists("parent_sku", $product)){
@@ -727,16 +676,23 @@ class PluginProductImportCrudController extends CrudController
                         }
 
                         PluginProducts::where("id", $itemP->id)->update($product);
-                        $itemP = PluginProducts::where("sku", $product["sku"])->first();
+                        $itemP = $this->getProductBySkuCached($product["sku"], $productBySkuCache, false, true);
+                        if($itemP){
+                            $importedProductIds[] = $itemP->id;
+                        }
                     }
 
                     if(count($categories) > 0){
                         PluginProductsCategoriesProducts::where("plugin_product_product_id", $itemP->id)->delete();
+                        $categoryRows = [];
                         foreach ($categories as $cat_id){
-                            PluginProductsCategoriesProducts::create([
+                            $categoryRows[] = [
                                 "plugin_product_category_id" => $cat_id,
                                 "plugin_product_product_id" => $itemP->id
-                            ]);
+                            ];
+                        }
+                        if ($categoryRows) {
+                            PluginProductsCategoriesProducts::insert($categoryRows);
                         }
                     }
 
@@ -744,15 +700,16 @@ class PluginProductImportCrudController extends CrudController
                     ShopAttributesProducts::where("product_id", $itemP->id)->delete();
 
                     $v_options_json = [];
+                    $attributeProductRows = [];
                     if(count($options_1) > 0){
                         foreach ($options_1 as $opt_id){
-                            $option = ShopAttributesOptions::find($opt_id);
+                            $option = $this->getAttributeOptionByIdCached($opt_id);
                             if($option){
-                                ShopAttributesProducts::create([
+                                $attributeProductRows[] = [
                                     "attribute_id" => $option->shop_attribute_id,
                                     "product_id" => $itemP->id,
                                     "option_id" => $opt_id
-                                ]);
+                                ];
 
                                 $v_options_json[] = ["option_id" => $opt_id];
                             }
@@ -761,17 +718,20 @@ class PluginProductImportCrudController extends CrudController
 
                     if(count($options_2) > 0){
                         foreach ($options_2 as $opt_id){
-                            $option = ShopAttributesOptions::find($opt_id);
+                            $option = $this->getAttributeOptionByIdCached($opt_id);
                             if($option){
-                                ShopAttributesProducts::create([
+                                $attributeProductRows[] = [
                                     "attribute_id" => $option->shop_attribute_id,
                                     "product_id" => $itemP->id,
                                     "option_id" => $opt_id
-                                ]);
+                                ];
 
                                 $v_options_json[] = ["option_id" => $opt_id];
                             }
                         }
+                    }
+                    if ($attributeProductRows) {
+                        ShopAttributesProducts::insert($attributeProductRows);
                     }
 
                     if(count($v_options_json)){
@@ -785,16 +745,20 @@ class PluginProductImportCrudController extends CrudController
                         $v_images = explode(",", $images);
                         if($v_images){
                             $order = 0;
+                            $imageRows = [];
                             foreach ($v_images as $image){
-                                PluginProductsImages::insert([
+                                $imageRows[] = [
                                     "product_id" => $itemP->id,
                                     "is_ext" => 1,
                                     "image" => $image,
                                     "order" => $order,
                                     "created_at" => Carbon::now()->toDateTimeString()
-                                ]);
+                                ];
 
                                 $order++;
+                            }
+                            if ($imageRows) {
+                                PluginProductsImages::insert($imageRows);
                             }
                         }
 
@@ -808,25 +772,37 @@ class PluginProductImportCrudController extends CrudController
                 }
             }
 
-            $langs = \App\Models\AdminLanguage::where("is_active", 1)->get()->pluck("name", "name")->toArray();
-            $list = PluginProducts::get();
-            if($list){
-                foreach ($list as $item){
-                    foreach ($langs as $lang){
-                        $check = PluginProductsLangs::where("product_id", $item->id)->where("lang", $lang)->first();
-                        if(!$check){
-                            PluginProductsLangs::create([
-                                "product_id" => $item->id,
-                                "lang" => "$lang",
+            $importedProductIds = array_values(array_unique($importedProductIds ?? []));
+            if (count($importedProductIds) > 0) {
+                $langNames = array_keys($langs);
+                $existingLangRows = PluginProductsLangs::whereIn("product_id", $importedProductIds)
+                    ->whereIn("lang", $langNames)
+                    ->get(["product_id", "lang"]);
+
+                $existingMap = [];
+                foreach ($existingLangRows as $existingRow) {
+                    $existingMap[$existingRow->product_id . "|" . $existingRow->lang] = true;
+                }
+
+                $langRowsToInsert = [];
+                foreach ($importedProductIds as $productId) {
+                    foreach ($langNames as $lang) {
+                        $mapKey = $productId . "|" . $lang;
+                        if (!isset($existingMap[$mapKey])) {
+                            $langRowsToInsert[] = [
+                                "product_id" => $productId,
+                                "lang" => (string) $lang,
                                 "is_active" => 1
-                            ]);
+                            ];
                         }
                     }
                 }
+
+                if ($langRowsToInsert) {
+                    PluginProductsLangs::insert($langRowsToInsert);
+                }
             }
 
-            \Artisan::call('set:products_search', ['id'=> 0]);
-            \Artisan::call('set:products_categories_search');
         }
 
 
@@ -872,5 +848,211 @@ class PluginProductImportCrudController extends CrudController
 
        // return redirect()->back()->withInput();
 
+    }
+
+    public function importSpecialPostImportActions(Request $req)
+    {
+        $runProductsSearch = (bool) $req->boolean('run_products_search');
+        $runProductsCategoriesSearch = (bool) $req->boolean('run_products_categories_search');
+
+        if (!$runProductsSearch && !$runProductsCategoriesSearch) {
+            \Alert::warning("Nessuna operazione selezionata.")->flash();
+            return redirect()->back();
+        }
+
+        $executed = [];
+        if ($runProductsSearch) {
+            \Artisan::call('set:products_search', ['id' => 0]);
+            $executed[] = "set:products_search";
+        }
+        if ($runProductsCategoriesSearch) {
+            \Artisan::call('set:products_categories_search');
+            $executed[] = "set:products_categories_search";
+        }
+
+        \Alert::success("Operazioni post-import completate: " . implode(", ", $executed))->flash();
+        return redirect()->back();
+    }
+
+    private function escapeLikeValue($value)
+    {
+        return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], trim((string) $value));
+    }
+
+    private function getOrCreateAttribute($name)
+    {
+        static $cache = [];
+        $name = trim((string) $name);
+        if ($name === '') {
+            return null;
+        }
+
+        $key = Str::lower($name);
+        if (isset($cache[$key])) {
+            return $cache[$key];
+        }
+
+        $escaped = $this->escapeLikeValue($name);
+        $attribute = ShopAttributes::whereRaw("name LIKE ?", ['%"it":"' . $escaped . '"%'])->first();
+        if (!$attribute) {
+            $attribute = ShopAttributes::create(["name" => $name]);
+        }
+
+        $cache[$key] = $attribute;
+        return $attribute;
+    }
+
+    private function getOrCreateAttributeOption($attributeId, $value)
+    {
+        static $cache = [];
+        $value = trim((string) $value);
+        if ($value === '' || !$attributeId) {
+            return null;
+        }
+
+        $key = $attributeId . ':' . Str::lower($value);
+        if (isset($cache[$key])) {
+            return $cache[$key];
+        }
+
+        $escaped = $this->escapeLikeValue($value);
+        $option = ShopAttributesOptions::where("shop_attribute_id", $attributeId)
+            ->whereRaw("value LIKE ?", ['%"it":"' . $escaped . '"%'])
+            ->first();
+
+        if (!$option) {
+            $option = ShopAttributesOptions::create([
+                "shop_attribute_id" => $attributeId,
+                "value" => $value,
+                "created_at" => Carbon::now()->toDateTimeString()
+            ]);
+        }
+
+        $cache[$key] = $option;
+        return $option;
+    }
+
+    private function getOrCreateBrand($value)
+    {
+        static $cache = [];
+        $value = trim((string) $value);
+        if ($value === '') {
+            return null;
+        }
+
+        $key = Str::lower($value);
+        if (isset($cache[$key])) {
+            return $cache[$key];
+        }
+
+        $escaped = $this->escapeLikeValue($value);
+        $brand = PluginProductsBrands::whereRaw("name LIKE ?", ['%"it":"' . $escaped . '"%'])->first();
+        if (!$brand) {
+            $brand = PluginProductsBrands::create([
+                "name" => $value,
+                "slug" => Str::slug($value, '-'),
+                "is_active" => 1,
+                "created_at" => Carbon::now()->toDateTimeString()
+            ]);
+        }
+
+        $cache[$key] = $brand;
+        return $brand;
+    }
+
+    private function getOrCreateCategory($value)
+    {
+        static $cache = [];
+        $value = trim((string) $value);
+        if ($value === '') {
+            return null;
+        }
+
+        $key = Str::lower($value);
+        if (isset($cache[$key])) {
+            return $cache[$key];
+        }
+
+        $escaped = $this->escapeLikeValue($value);
+        $category = PluginProductsCategories::whereRaw("name LIKE ?", ['%"it":"' . $escaped . '"%'])->first();
+        if (!$category) {
+            $category = PluginProductsCategories::create([
+                "name" => $value,
+                "slug" => Str::slug($value, '-'),
+                "is_active" => 1,
+                "parent_id" => null,
+                "created_at" => Carbon::now()->toDateTimeString()
+            ]);
+        }
+
+        $cache[$key] = $category;
+        return $category;
+    }
+
+    private function getTaxByValue($value)
+    {
+        static $cache = [];
+        $key = (string) $value;
+        if (array_key_exists($key, $cache)) {
+            return $cache[$key];
+        }
+
+        $cache[$key] = Tax::where("value", $value)->first();
+        return $cache[$key];
+    }
+
+    private function nextGroupId(&$maxGroupId)
+    {
+        $maxGroupId = (int) $maxGroupId + 1;
+        return $maxGroupId;
+    }
+
+    private function getProductBySkuCached($sku, array &$cache, $onlyNonVariant = false, $forceRefresh = false)
+    {
+        $sku = trim((string) $sku);
+        if ($sku === '') {
+            return null;
+        }
+
+        $cacheKey = ($onlyNonVariant ? 'base:' : 'all:') . $sku;
+        if (!$forceRefresh && array_key_exists($cacheKey, $cache)) {
+            return $cache[$cacheKey];
+        }
+
+        $query = PluginProducts::where("sku", $sku);
+        if ($onlyNonVariant) {
+            $query->where("is_variant", 0);
+        }
+        $cache[$cacheKey] = $query->first();
+
+        return $cache[$cacheKey];
+    }
+
+    private function rememberProductInSkuCache($product, array &$cache)
+    {
+        if (!$product || !isset($product->sku)) {
+            return;
+        }
+
+        $cache['all:' . $product->sku] = $product;
+        if ((int) $product->is_variant === 0) {
+            $cache['base:' . $product->sku] = $product;
+        }
+    }
+
+    private function getAttributeOptionByIdCached($id)
+    {
+        static $cache = [];
+        $id = (int) $id;
+        if ($id <= 0) {
+            return null;
+        }
+
+        if (array_key_exists($id, $cache)) {
+            return $cache[$id];
+        }
+
+        $cache[$id] = ShopAttributesOptions::find($id);
+        return $cache[$id];
     }
 }

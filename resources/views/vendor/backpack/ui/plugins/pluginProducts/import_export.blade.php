@@ -160,6 +160,28 @@
                         <button type="submit" name="submit" value="load" class="btn btn-dark btn-block"><span>Importa</span></button>
                     </form>
 
+                    <?php $postImportUrl = route('pluginProducts.importSpecialPostImportActions'); ?>
+                    <form method="post" action="{{ $postImportUrl }}" class="position-relative mt-4 p-3 border rounded bg-light">
+                        {{ csrf_field() }}
+                        <h6 class="mb-2">Fase successiva post-import</h6>
+                        <p class="mb-3">Dopo ogni import file, esegui queste operazioni per aggiornare gli indici.</p>
+
+                        <div class="form-group mb-2">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="runProductsSearchPost" name="run_products_search" value="1">
+                                <label class="custom-control-label" for="runProductsSearchPost">Aggiorna indice prodotti (`set:products_search`)</label>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="runProductsCategoriesSearchPost" name="run_products_categories_search" value="1">
+                                <label class="custom-control-label" for="runProductsCategoriesSearchPost">Aggiorna indice categorie (`set:products_categories_search`)</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-outline-dark btn-block"><span>Esegui operazioni post-import</span></button>
+                    </form>
+
                     @if(\request()->has('id'))
                         <?php
                            $url = route('pluginProducts.importSpecialMappingSave');
