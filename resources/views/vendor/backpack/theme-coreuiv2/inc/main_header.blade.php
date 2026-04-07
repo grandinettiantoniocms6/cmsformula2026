@@ -4,13 +4,95 @@
     <i class="la la-bars"></i>
   </button>
 
-  <?php $website_setting = \App\Models\WebsiteSetting::first(); ?>
+  <?php
+  $website_setting = \App\Models\WebsiteSetting::first();
+
+  $normalizeHex = static function (?string $color, string $fallback = '#1b2a4e'): string {
+      $value = trim((string) $color);
+      if ($value === '') {
+          return $fallback;
+      }
+
+      if (preg_match('/^#?[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/', $value) !== 1) {
+          return $fallback;
+      }
+
+      $value = ltrim(strtolower($value), '#');
+      if (strlen($value) === 8) {
+          $value = substr($value, 0, 6);
+      }
+
+      return '#' . $value;
+  };
+
+  $mixWithWhite = static function (string $hex, float $ratio = 0.12): string {
+      $ratio = max(0, min(1, $ratio));
+      $hex = ltrim($hex, '#');
+      $r = hexdec(substr($hex, 0, 2));
+      $g = hexdec(substr($hex, 2, 2));
+      $b = hexdec(substr($hex, 4, 2));
+
+      $r = (int) round($r + (255 - $r) * $ratio);
+      $g = (int) round($g + (255 - $g) * $ratio);
+      $b = (int) round($b + (255 - $b) * $ratio);
+
+      return sprintf('#%02x%02x%02x', $r, $g, $b);
+  };
+
+  $luminance = static function (string $hex): float {
+      $hex = ltrim($hex, '#');
+      $r = hexdec(substr($hex, 0, 2)) / 255;
+      $g = hexdec(substr($hex, 2, 2)) / 255;
+      $b = hexdec(substr($hex, 4, 2)) / 255;
+      return 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
+  };
+
+  $topbarBase = $normalizeHex($website_setting->admin_topbar_background ?? null, '#1b2a4e');
+  $leftbarBase = $normalizeHex($website_setting->admin_leftbar_background ?? null, '#1b2a4e');
+
+  $topbarShade = $mixWithWhite($topbarBase, 0.14);
+  $leftbarShade = $mixWithWhite($leftbarBase, 0.12);
+
+  $topbarText = $luminance($topbarBase) > 0.58 ? '#162d58' : '#eef4ff';
+  $topbarLinkHoverBg = $luminance($topbarBase) > 0.58 ? 'rgba(0, 0, 0, .06)' : 'rgba(255, 255, 255, .14)';
+  ?>
+
+  <style>
+    :root {
+      --admin-topbar-bg: {{ $topbarBase }};
+      --admin-topbar-bg-light: {{ $topbarShade }};
+      --admin-topbar-text: {{ $topbarText }};
+      --admin-topbar-hover-bg: {{ $topbarLinkHoverBg }};
+      --admin-leftbar-bg: {{ $leftbarBase }};
+      --admin-leftbar-bg-light: {{ $leftbarShade }};
+    }
+
+    .app-header {
+      background: linear-gradient(140deg, var(--admin-topbar-bg), var(--admin-topbar-bg-light)) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, .18);
+      box-shadow: 0 8px 20px rgba(8, 17, 44, .16);
+    }
+
+    .app-header .navbar-brand,
+    .app-header .navbar-brand * {
+      color: var(--admin-topbar-text) !important;
+    }
+
+    .app-header .nav-link,
+    .app-header .navbar-toggler {
+      color: var(--admin-topbar-text) !important;
+    }
+
+    .app-header .nav-link:hover {
+      background: var(--admin-topbar-hover-bg);
+    }
+  </style>
 
   <a class="navbar-brand" href="{{ url(backpack_theme_config('home_link')) }}" title="{{ backpack_theme_config('project_name') }}">
     @if($website_setting->logo_admin)
       <img src="{{ url($website_setting->logo_admin) }}" height="55">
     @else
-      {!! backpack_theme_config('project_logo') !!}
+      <img src="{{ url('public/img/commons/admin/logo-dashboard-CMS6_s2.png') }}" height="55" alt="Logo admin">
     @endif
   </a>
 

@@ -642,7 +642,10 @@ class PluginProductsController extends Controller
         $adminLangs = AdminLanguage::where("is_active", 1)->where("is_frontend", 1)->get();
         if($adminLangs){
             foreach ($adminLangs as $item_lang){
-                $item = PluginProducts::whereRaw("slug LIKE '%\"{$item_lang->name}\":\"$currentSlug\"%'")->first();
+                $item = PluginProducts::whereRaw(
+                    "slug LIKE ?",
+                    ['%"' . $item_lang->name . '":"' . $currentSlug . '"%']
+                )->first();
                 if($item){
                     App::setLocale($item_lang->name);
                 }
@@ -671,7 +674,10 @@ class PluginProductsController extends Controller
         }
 
 
-        $itemProduct = PluginProducts::where("is_active", 1)->whereRaw("slug LIKE '%\"$lang\":\"$slug\"%'")->first();
+        $itemProduct = PluginProducts::where("is_active", 1)->whereRaw(
+            "slug LIKE ?",
+            ['%"' . $lang . '":"' . $slug . '"%']
+        )->first();
         if(!$itemProduct){
             return redirect()->route("pluginProducts.404.$lang");
         }

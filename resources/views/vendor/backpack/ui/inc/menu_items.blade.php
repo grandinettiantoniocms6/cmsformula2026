@@ -1,4 +1,153 @@
 <!-- This file is used to store sidebar items, starting with Backpack\Base 0.9.0 -->
+@php
+    $adminPanelFontUrl = null;
+    $adminPanelFontFamily = null;
+    $websiteSetting = \App\Models\WebsiteSetting::select('admin_panel_font')->first();
+
+    if ($websiteSetting && !empty($websiteSetting->admin_panel_font)) {
+        $candidateFontUrl = trim($websiteSetting->admin_panel_font);
+        $parsedHost = parse_url($candidateFontUrl, PHP_URL_HOST);
+        $parsedScheme = parse_url($candidateFontUrl, PHP_URL_SCHEME);
+
+        if (
+            filter_var($candidateFontUrl, FILTER_VALIDATE_URL) &&
+            in_array($parsedScheme, ['http', 'https'], true) &&
+            in_array($parsedHost, ['fonts.googleapis.com', 'fonts.googleapis.com.'], true)
+        ) {
+            $adminPanelFontUrl = $candidateFontUrl;
+            parse_str((string) parse_url($adminPanelFontUrl, PHP_URL_QUERY), $fontQueryString);
+
+            if (!empty($fontQueryString['family'])) {
+                $familyParts = explode('|', (string) $fontQueryString['family']);
+                $firstFamily = explode(':', (string) $familyParts[0])[0] ?? '';
+                $adminPanelFontFamily = trim(str_replace('+', ' ', $firstFamily));
+            }
+        }
+    }
+@endphp
+
+@if($adminPanelFontUrl && $adminPanelFontFamily)
+    <style>
+        @import url('{{ $adminPanelFontUrl }}');
+
+        body,
+        .app-body,
+        .app-header,
+        .main,
+        .page-title,
+        .card,
+        .btn,
+        .table,
+        .form-control,
+        .custom-select,
+        .nav-link,
+        .dropdown-menu,
+        .breadcrumb,
+        h1, h2, h3, h4, h5, h6,
+        p,
+        span,
+        label,
+        small,
+        td,
+        th {
+            font-family: '{{ str_replace("'", "\\'", $adminPanelFontFamily) }}', sans-serif;
+        }
+    </style>
+@endif
+
+<style>
+    .sidebar,
+    .sidebar-nav {
+        background: linear-gradient(160deg, var(--admin-leftbar-bg, #1B2A4E), var(--admin-leftbar-bg-light, #2b477f)) !important;
+    }
+
+    .sidebar .nav,
+    .sidebar .sidebar-nav,
+    .sidebar-nav {
+        padding: .55rem .5rem 1rem !important;
+        gap: .3rem;
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .sidebar .nav-link {
+        border-radius: 12px !important;
+        padding: .62rem .78rem !important;
+        font-weight: 600 !important;
+        letter-spacing: .01em;
+        color: var(--admin-leftbar-bg, #1B2A4E) !important;
+        background: #ffffff !important;
+        transition: background-color .18s ease, color .18s ease, transform .18s ease;
+    }
+
+    .sidebar .nav-item {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .sidebar .nav-link .nav-icon {
+        color: var(--admin-leftbar-bg, #1B2A4E) !important;
+        transition: color .18s ease;
+    }
+
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+        background: #dfe3ea !important;
+        color: var(--admin-leftbar-bg, #1B2A4E) !important;
+        transform: translateX(1px);
+    }
+
+    .sidebar .nav-link:hover .nav-icon,
+    .sidebar .nav-link.active .nav-icon {
+        color: var(--admin-leftbar-bg, #1B2A4E) !important;
+    }
+
+    .sidebar .nav-dropdown.open > .nav-link {
+        background: transparent !important;
+        color: var(--admin-leftbar-bg, #1B2A4E) !important;
+    }
+
+    .sidebar .nav-dropdown.open {
+        border-radius: 12px;
+        overflow: hidden;
+        background: #dfe3ea !important;
+    }
+
+    .sidebar .nav-dropdown-items {
+        margin-top: .2rem;
+        padding-left: .35rem;
+        border-left: 1px solid rgba(255, 255, 255, .3);
+    }
+
+    .sidebar .nav-dropdown.open > .nav-dropdown-items {
+        margin-top: 0;
+        padding: .35rem .35rem .4rem;
+        border-left: 0;
+        border-radius: 0;
+        background: transparent;
+    }
+
+    .sidebar .nav-dropdown.open > .nav-dropdown-items .nav-link {
+        border-radius: 10px !important;
+    }
+
+    .sidebar .nav-dropdown-items .nav-link {
+        font-weight: 500 !important;
+        color: var(--admin-leftbar-bg, #1B2A4E) !important;
+    }
+
+    .sidebar .nav-dropdown-toggle::before {
+        right: .78rem !important;
+    }
+
+    .sidebar .badge {
+        border-radius: 999px;
+        padding: .18rem .46rem;
+        font-size: .68rem;
+        font-weight: 700;
+    }
+</style>
+
 @if(backpack_user()->roles[0]->id < 5)
     <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="hgi hgi-stroke hgi-home-09 nav-icon"></i> Bacheca</a></li>
 @endif
@@ -81,6 +230,35 @@
 $adminPlugin = \App\Models\AdminPlugin::where("is_active", 1)->get();
 
 $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->where("is_active", 1)->where("version", 3)->first();
+$shopFormulaMenuOpen = request()->is('admin/shopOrders*')
+    || request()->is('admin/shopOrdersRequests*')
+    || request()->is('admin/pluginProductsClients*')
+    || request()->is('admin/user-subscription*')
+    || request()->is('admin/pluginProductsBuyers*')
+    || request()->is('admin/shopPayments*')
+    || request()->is('admin/shopShippings*')
+    || request()->is('admin/shopOrdersStatus*')
+    || request()->is('admin/shopCountries*')
+    || request()->is('admin/shopAreas*')
+    || request()->is('admin/shopTaxes*')
+    || request()->is('admin/shopCartRules*')
+    || request()->is('admin/shopPromotions*')
+    || request()->is('admin/shopAttributes*')
+    || request()->is('admin/shopAttributesOptions*')
+    || request()->is('admin/shopSettings*')
+    || request()->is('admin/shop-extra*')
+    || request()->is('admin/pluginInvitations*')
+    || request()->is('admin/pluginInvitationsSettings*')
+    || request()->is('admin/pluginInvitationsUsersSettings*');
+$catalogoMenuOpen = request()->is('admin/pluginProducts*')
+    || request()->is('admin/pluginProductsBrands*')
+    || request()->is('admin/pluginProductsCategories*')
+    || request()->is('admin/pluginProductsAttributes*')
+    || request()->is('admin/pluginProductsContacts*')
+    || request()->is('admin/pluginProductsRequests*')
+    || request()->is('admin/pluginProductsLabels*')
+    || request()->is('admin/pluginProductsSettings*')
+    || request()->is('admin/plugin-product-import*');
 ?>
 
 @if($adminPlugin)
@@ -97,8 +275,8 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
                 ?>
 
             @if(backpack_user()->roles[0]->id < 5)
-                <li class="nav-item nav-dropdown open">
-                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-{{ $aP->icon }} nav-icon"></i> {{ $aP->label }}</a>
+                <li class="nav-item nav-dropdown{{ $catalogoMenuOpen ? ' open' : '' }}">
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon las la-box-open"></i> {{ $aP->label }}</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginProducts') }}"><i class="nav-icon las la-shopping-bag"></i> {{ env('PLUGIN_PRODUCTS_LABEL_ADMIN', 'Prodotti') }}</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginProductsBrands') }}"><i class="nav-icon las la-bookmark"></i> Brand</a></li>
@@ -136,8 +314,8 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
             @endif
             @if($aP->version == 3)
                 @if(backpack_user()->roles[0]->id < 5)
-                    <li class="nav-item nav-dropdown open">
-                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-{{ $aP->icon }} nav-icon"></i> ShopFormula</a>
+                    <li class="nav-item nav-dropdown{{ $shopFormulaMenuOpen ? ' open' : '' }}">
+                        <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon las la-cash-register"></i> ShopFormula</a>
                         <ul class="nav-dropdown-items">
                                 <?php
                                 $shopSetting = \App\Models\ShopSettings::first();
@@ -237,7 +415,7 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
         @if($aP->name == "pluginForms")
             @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
                 <li class="nav-item nav-dropdown">
-                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="la la-{{ $aP->icon }} nav-icon"></i> {{ $aP->label }}</a>
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon lab la-wpforms"></i> {{ $aP->label }}</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginForms') }}"><i class="nav-icon lab la-wpforms"></i> Form</a></li>
                             <?php
@@ -477,3 +655,4 @@ $adminPluginProduct = \App\Models\AdminPlugin::where("name", "pluginProducts")->
             @endif
     @endforeach
 @endif
+

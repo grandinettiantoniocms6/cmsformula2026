@@ -1,0 +1,24 @@
+# Errors
+
+- Nessun errore storico registrato al bootstrap della documentazione.
+- Regola: quando emerge un errore, aggiungere una voce con:
+  - data
+  - contesto
+  - causa radice
+  - soluzione
+  - prevenzione
+- 2026-04-07
+  - Contesto: restyling sidebar non visibile dopo prima modifica.
+  - Causa radice: selettori CSS troppo specifici (`.app-body .sidebar.sidebar-pills`) non allineati al markup effettivo della sidebar renderizzata.
+  - Soluzione: adottati selettori più robusti (`.sidebar`, `.sidebar-nav`, `.sidebar .nav-link`) con priorità `!important` solo dove necessario.
+  - Prevenzione: prima di applicare tema sidebar, verificare sempre classi reali nel DOM renderizzato e non solo convenzioni attese.
+- 2026-04-07
+  - Contesto: migration `add_dashboard_gif_website_settings_table` fallita in produzione locale.
+  - Causa radice: tabella `website_settings` vicina al limite MySQL di dimensione riga (65535 byte), aggiunta colonna `VARCHAR` non consentita.
+  - Soluzione: cambiata colonna `dashboard_gif` da `string` a `text` nella migration.
+  - Prevenzione: su tabelle legacy molto larghe, preferire `TEXT` per nuovi campi opzionali di tipo path/url.
+- 2026-04-07
+  - Contesto: errore SQL 1064 su URL prodotto con slug malformato (decreaseValue(') nella route dettaglio shop.
+  - Causa radice: interpolazione diretta dello slug in whereRaw("slug LIKE ...") in PluginProductsController, con apice non escapato che spezza la query.
+  - Soluzione: sostituite le query raw con placeholder bindati (whereRaw("slug LIKE ?", [...])) nei punti di lookup slug coinvolti nel flusso dettaglio.
+  - Prevenzione: per qualunque whereRaw con valori dinamici usare sempre binding parametrico ed evitare concatenazione stringhe SQL.

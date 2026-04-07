@@ -5,19 +5,31 @@
     $adminPluginBooking = \App\Models\AdminPlugin::where("name", "pluginBookings")->where("is_active", 1)->first();
     $adminPluginParking = \App\Models\AdminPlugin::where("name", "pluginParking")->where("is_active", 1)->first();
     $shopSetting = \App\Models\ShopSettings::first();
+    $websiteSetting = \App\Models\WebsiteSetting::first();
+    $dashboardGif = url("img/dashboard.gif");
+    if($websiteSetting && $websiteSetting->dashboard_gif){
+        if(\Illuminate\Support\Str::startsWith($websiteSetting->dashboard_gif, ["http://", "https://"])){
+            $dashboardGif = $websiteSetting->dashboard_gif;
+        }else{
+            $dashboardGif = url(ltrim($websiteSetting->dashboard_gif, "/"));
+        }
+    }
 ?>
 
 @section('header')
     <meta charset="UTF-8">
-    <h3 class="page-title mb-0">
+    <h3 class="page-title mb-0 d-flex align-items-center justify-content-between flex-wrap gap-2">
         <span class="text-capitalize">Bacheca</span>
+        <small class="dashboard-subtitle">Panoramica operativa</small>
     </h3>
 @endsection
 
 @section('content')
     <div class="row gutter-3">
         <div class="col-xl-8 mb-3">
-            <img src="{{ url("img/dashboard.gif") }}" class="img-fluid">
+            <div class="dashboard-hero-card">
+                <img src="{{ $dashboardGif }}" class="img-fluid dashboard-hero-image" alt="Dashboard preview">
+            </div>
         </div>
         <div class="col-xl-4 mb-3">
             <div class="card card-dashboard">
@@ -93,21 +105,21 @@
 
         @if(env('NASCONDI_FRONTEND') == 0)
             <div class="col-6 col-sm-4 col-xl-2 mb-3">
-                <a class="card card-link p-2" href="/admin/page/create">
+                <a class="card card-link card-link-modern p-2" href="/admin/page/create">
                     <i class="hgi hgi-stroke hgi-add-circle"></i>
                     <h6>Nuova pagina</h6>
                 </a>
             </div><!-- /.col-->
 
             <div class="col-6 col-sm-4 col-xl-2 mb-3">
-                <a class="card card-link p-2" href="/admin/page">
+                <a class="card card-link card-link-modern p-2" href="/admin/page">
                     <i class="hgi hgi-stroke hgi-file-01"></i>
                     <h6>Elenco Pagine</h6>
                 </a>
             </div><!-- /.col-->
 
             <div class="col-6 col-sm-4 col-xl-2 mb-3">
-                <a class="card card-link p-2" href="/admin/elfinder">
+                <a class="card card-link card-link-modern p-2" href="/admin/elfinder">
                     <i class="nav-icon hgi hgi-stroke hgi-image-add-02"></i>
                     <h6>File Manager</h6>
                 </a>
@@ -115,21 +127,21 @@
         @endif
 
         <div class="col-6 col-sm-4 col-xl-2 mb-3">
-            <a class="card card-link p-2" href="/admin/websiteSetting/1/edit">
+            <a class="card card-link card-link-modern p-2" href="/admin/websiteSetting/1/edit">
                 <i class="hgi hgi-stroke hgi-settings-05"></i>
                 <h6>Impostazioni</h6>
             </a>
         </div><!-- /.col-->
 
         <div class="col-6 col-sm-4 col-xl-2 mb-3">
-            <a class="card card-link p-2" href="/admin/pluginTutorial/view">
+            <a class="card card-link card-link-modern p-2" href="/admin/pluginTutorial/view">
                 <i class="hgi hgi-stroke hgi-youtube"></i>
                 <h6>Tutorial</h6>
             </a>
         </div><!-- /.col-->
 
         <div class="col-6 col-sm-4 col-xl-2 mb-3">
-            <a class="card card-link p-2" href="https://www.webisland.it/contatti" target="_blank">
+            <a class="card card-link card-link-modern p-2" href="https://www.webisland.it/contatti" target="_blank">
                 <i class="hgi hgi-stroke hgi-file-01"></i>
                 <h6>Richiedi Assistenza</h6>
             </a>
@@ -1047,6 +1059,246 @@
     <link rel="stylesheet" href="{{ asset('packages/select2/dist/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/select2-bootstrap-theme/dist/select2-bootstrap.min.css') }}">
     <link href="{{ url('/css/dashboard.css') }}" rel="stylesheet">
+    <style>
+        .dashboard-subtitle {
+            color: #64748b;
+            font-size: .95rem;
+            font-weight: 500;
+        }
+
+        .dashboard-hero-card {
+            border-radius: 18px;
+            overflow: hidden;
+            background: radial-gradient(circle at top right, #dbeafe 0%, #eef2ff 35%, #ffffff 100%);
+            box-shadow: 0 14px 40px rgba(15, 23, 42, .08);
+            border: 1px solid #e2e8f0;
+            padding: .5rem;
+        }
+
+        .dashboard-hero-image {
+            width: 100%;
+            border-radius: 14px;
+        }
+
+        .card-dashboard {
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 28px rgba(15, 23, 42, .06);
+        }
+
+        .card-dashboard .card-header {
+            background: linear-gradient(90deg, #f8fafc 0%, #ffffff 100%);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        #carousel-top-1 .card-header,
+        #carousel-top-2 .card-header,
+        #carousel-top-3 .card-header {
+            background: linear-gradient(135deg, #f3f7ff 0%, #eef6ff 48%, #f8fcff 100%);
+            border-bottom: 1px solid #dce8f8;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+
+        #carousel-top-1 .card-header h5,
+        #carousel-top-2 .card-header h5,
+        #carousel-top-3 .card-header h5 {
+            color: #16345f;
+            font-weight: 700;
+            letter-spacing: .015em;
+        }
+
+        #carousel-top-1 .card-header .btn.dropdown-toggle,
+        #carousel-top-2 .card-header .btn.dropdown-toggle,
+        #carousel-top-3 .card-header .btn.dropdown-toggle {
+            background: #ffffff;
+            border: 1px solid #d5e4f7;
+            border-radius: 999px;
+            color: #1d3d6e;
+            font-weight: 600;
+            padding-left: .75rem;
+            padding-right: .75rem;
+        }
+
+        .card-link-modern {
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, .05);
+            transition: all .2s ease;
+            text-decoration: none !important;
+            background: #fff;
+            min-height: 104px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: .35rem;
+        }
+
+        .card-link-modern i {
+            font-size: 1.25rem;
+            color: #0f766e;
+        }
+
+        .card-link-modern h6 {
+            font-weight: 600;
+            margin: 0;
+            color: #0f172a;
+        }
+
+        .card-link-modern:hover {
+            transform: translateY(-3px);
+            border-color: #bae6fd;
+            box-shadow: 0 14px 24px rgba(2, 132, 199, .14);
+        }
+
+        .card-dashboard .table {
+            font-size: .92rem;
+        }
+
+        .card-dashboard .table thead th {
+            color: #475569;
+            font-size: .78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+            border-top: 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .card-dashboard .table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        #table-top-prodotti,
+        #table-top-clienti,
+        #table-top-mensile,
+        #table-top-giorno {
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        #table-top-prodotti thead th,
+        #table-top-clienti thead th,
+        #table-top-mensile thead th,
+        #table-top-giorno thead th {
+            border-bottom: 0;
+            color: #617697;
+            font-size: .73rem;
+            font-weight: 700;
+            letter-spacing: .04em;
+        }
+
+        #table-top-prodotti tbody tr,
+        #table-top-clienti tbody tr,
+        #table-top-mensile tbody tr,
+        #table-top-giorno tbody tr {
+            background: #f7faff;
+            box-shadow: 0 5px 14px rgba(15, 23, 42, .05);
+        }
+
+        #table-top-prodotti tbody td,
+        #table-top-clienti tbody td,
+        #table-top-mensile tbody td,
+        #table-top-giorno tbody td {
+            border-top: 0;
+            border-bottom: 0;
+            padding: .5rem .65rem;
+            color: #1d3558;
+        }
+
+        #table-top-prodotti tbody tr td:first-child,
+        #table-top-clienti tbody tr td:first-child {
+            width: 52px;
+            font-weight: 700;
+            color: #0f3f7f;
+            background: #e6f0ff;
+            border-top-left-radius: 9px;
+            border-bottom-left-radius: 9px;
+            text-align: center;
+        }
+
+        #table-top-prodotti tbody tr td:last-child,
+        #table-top-clienti tbody tr td:last-child,
+        #table-top-mensile tbody tr td:last-child,
+        #table-top-giorno tbody tr td:last-child {
+            border-top-right-radius: 9px;
+            border-bottom-right-radius: 9px;
+            font-weight: 700;
+            color: #144277;
+        }
+
+        .card-dashboard .card-body.flex-grow-0 > .row.align-items-end.border-bottom {
+            border-bottom: 0 !important;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #eef4ff 0%, #f8fbff 100%);
+            padding: .8rem .65rem .15rem;
+            margin-bottom: .75rem;
+        }
+
+        .card-dashboard .card-body.flex-grow-0 > .row.align-items-end.border-bottom .media {
+            align-items: center;
+            background: #ffffff;
+            border: 1px solid #dbe7f6;
+            border-radius: 12px;
+            padding: .65rem .8rem;
+            min-height: 88px;
+            box-shadow: 0 8px 18px rgba(15, 23, 42, .06);
+        }
+
+        .card-dashboard .card-body.flex-grow-0 > .row.align-items-end.border-bottom .media i {
+            color: #1f3a6d;
+            font-size: 2.05rem !important;
+            background: #eaf1ff;
+            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-dashboard .card-body.flex-grow-0 > .row.align-items-end.border-bottom .media .media-body h4 {
+            color: #0f2f61;
+            font-weight: 700;
+            margin-bottom: .1rem !important;
+        }
+
+        .card-dashboard .card-body.flex-grow-0 > .row.align-items-end.border-bottom .media .media-body .text-uppercase {
+            color: #4a5f84;
+            font-size: .7rem;
+            letter-spacing: .04em;
+            font-weight: 700;
+        }
+
+        .card-dashboard .card-body h6.text-uppercase.line-height-xs.mt-3 {
+            color: #334c76;
+            font-weight: 700;
+            letter-spacing: .03em;
+        }
+
+        .progress {
+            border-radius: 999px;
+            background: #e2e8f0;
+        }
+
+        .progress-bar {
+            border-radius: 999px;
+        }
+
+        .dropdown-menu {
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 16px 30px rgba(15, 23, 42, .1);
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-subtitle {
+                width: 100%;
+                margin-top: .25rem;
+            }
+        }
+    </style>
 @endsection
 
 @section('after_scripts')
@@ -1060,5 +1312,6 @@
 
 @section('footer')
 @endsection
+
 
 

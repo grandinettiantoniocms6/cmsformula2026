@@ -542,6 +542,14 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'tab' => 'Google Font'
         ]);
 
+        $this->crud->addField([
+            'label'                => 'Font per pannello admin (URL Google Fonts)',
+            'name'                 => 'admin_panel_font',
+            'type'                 => 'text',
+            'hint'                 => 'Incolla un URL css2 di Google Fonts, es: https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap',
+            'tab' => 'Google Font'
+        ]);
+
 
         /*  ### TAB FOOTER ###  */
 
@@ -1820,6 +1828,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                 'label' => "Logo pannello admin",
                 'name' => "logo_admin",
                 'type'  => 'browse',
+                'default' => 'public/img/commons/admin/logo-dashboard-CMS6_s2.png',
                 'tab' => 'Extra',
                 // 'disk'      => 's3_bucket', // in case you need to show images from a different disk
                 // 'prefix'    => 'uploads/images/profile_pictures/' // in case your db value is only the file name (no path), you can use this to prepend your path to the image src (in HTML), before it's shown to the user;
@@ -1829,9 +1838,49 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                 'label' => "Logo Accesso admin (Dimensioni: 180x90px)",
                 'name' => "logo_login",
                 'type'  => 'browse',
+                'default' => 'public/img/commons/admin/logo-dashboard-CMS6_s2_login.png',
                 'tab' => 'Extra',
                 // 'disk'      => 's3_bucket', // in case you need to show images from a different disk
                 // 'prefix'    => 'uploads/images/profile_pictures/' // in case your db value is only the file name (no path), you can use this to prepend your path to the image src (in HTML), before it's shown to the user;
+            ]);
+
+            $this->crud->addField([
+                'label' => "GIF Dashboard (se vuoto usa quella di default)",
+                'name' => "dashboard_gif",
+                'type'  => 'browse',
+                'tab' => 'Extra'
+            ]);
+
+            $this->crud->addField([   // color_picker
+                'label'                => 'Sfondo topbar',
+                'name'                 => 'admin_topbar_background',
+                'type'                 => 'color_picker2',
+                'default'              => '#1b2a4e',
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-6'
+                ],
+                'tab' => 'Extra'
+            ]);
+
+            $this->crud->addField([   // color_picker
+                'label'                => 'Sfondo barra di sinistra',
+                'name'                 => 'admin_leftbar_background',
+                'type'                 => 'color_picker2',
+                'default'              => '#1b2a4e',
+                'color_picker_options' => ['customClass' => 'custom-class'],
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-6'
+                ],
+                'tab' => 'Extra'
+            ]);
+
+            $this->crud->addField([
+                'label' => "Sfondo login pannello admin (responsive)",
+                'name' => "admin_login_background",
+                'type'  => 'browse',
+                'hint'  => "Se vuoto resta lo sfondo bianco di default",
+                'tab' => 'Extra'
             ]);
 
             $this->crud->addField([
