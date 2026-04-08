@@ -1,8 +1,7 @@
 <?php
 $thema = env('TEMA');
-$adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
 $agent = new \Jenssegers\Agent\Agent();
-$pluginSetting = \App\Models\PluginProductsSettings::first();
+$pluginSetting = $plugin;
 ?>
 @extends("$thema.layout")
 
@@ -96,12 +95,12 @@ $pluginSetting = \App\Models\PluginProductsSettings::first();
             </section>
         @endif
 
-        @include("$thema.plugins.pluginProducts.v3.shop.productList", ['adminPlugin' => $adminPlugin])
+        @include("$thema.plugins.pluginProducts.v3.shop.productList", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $pluginSetting, 'labels' => $labels, 'optionsList' => $optionsList, 'cartCompare' => $cartCompare, 'variantChildCounts' => $variantChildCounts, 'brandNamesById' => $brandNamesById, 'attributeNamesById' => $attributeNamesById, 'agent' => $agent, 'promoPriceByProductId' => $promoPriceByProductId])
 
     @endsection
 
     @section('content_footer')
-        <?php $page = \App\Models\Page::where("is_homepage", 1)->where("is_active", 1)->first(); ?>
+        <?php $page = $pageContentFooter; ?>
         @include("$thema.inc.content_footer")
     @endsection
 @else

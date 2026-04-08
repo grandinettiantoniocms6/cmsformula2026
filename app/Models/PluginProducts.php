@@ -34,6 +34,15 @@ class PluginProducts extends Model
     protected $casts = [
         'attachments' => 'array'
     ];
+
+    protected static $listingPreloadedProductIds = [];
+    protected static $listingImagesByProduct = [];
+    protected static $listingLangImagesByProduct = [];
+    protected static $listingCartByProduct = [];
+    protected static $listingCartLoadedProductIds = [];
+    protected static $listingSessionCartByProduct = null;
+    protected static $listingShopSetting = null;
+    protected static $promoPriceMemo = [];
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -413,20 +422,30 @@ class PluginProducts extends Model
 
     public function in_cart(){
         if(\Session::has('user_id')){
-            return Cart::where("user_id", \Session::get('user_id'))
+            $userId = (int) \Session::get('user_id');
+            if(in_array($this->id, self::$listingCartLoadedProductIds, true)){
+                return self::$listingCartByProduct[$this->id] ?? false;
+            }
+
+            $item = Cart::where("user_id", $userId)
                 ->where("product_id", $this->id)
                 ->first();
+            self::$listingCartByProduct[$this->id] = $item;
+            self::$listingCartLoadedProductIds[] = (int) $this->id;
+            return $item ?: false;
         }else{
-            $cart = \Session::get('cart.products');
-            if($cart){
-                foreach ($cart as $k=>$item){
-                    if($this->id == $item->product_id){
-                        return $item;
+            if(self::$listingSessionCartByProduct === null){
+                self::$listingSessionCartByProduct = [];
+                $cart = \Session::get('cart.products');
+                if($cart){
+                    foreach ($cart as $item){
+                        self::$listingSessionCartByProduct[$item->product_id] = $item;
                     }
                 }
             }
+
+            return self::$listingSessionCartByProduct[$this->id] ?? false;
         }
-        return false;
     }
 
     public function getFinalPrice(){
@@ -494,9 +513,11 @@ class PluginProducts extends Model
 
 
     public function getCover(){
-        $check = PluginProductsLangs::where("product_id", $this->id)->where("lang", \App::getLocale())->whereNotNull("image")->first();
+        $lang = \App::getLocale();
+        $check = $this->getListingLangImageForProduct($lang);
         if(!$check){
-            $check = PluginProductsImages::where("product_id", $this->id)->orderBy("order", "asc")->first();
+            $images = $this->getListingImagesForProduct();
+            $check = $images[0] ?? null;
         }
 
         $cover = url('uploads/no-image.jpg');
@@ -583,13 +604,15 @@ class PluginProducts extends Model
     }
 
     public function getSecondPhoto(){
-        $shopSetting = ShopSettings::first();
-        $k = $shopSetting->mouseover_image_number - 1;
+        $shopSetting = self::getListingShopSetting();
+        $k = ((int) ($shopSetting->mouseover_image_number ?? 1)) - 1;
+        if($k < 0){
+            $k = 0;
+        }
 
-
-        $count = PluginProductsImages::where("product_id", $this->id)->orderBy("order", "asc")->count();
+        $list = $this->getListingImagesForProduct();
+        $count = count($list);
         if($count > 1){
-            $list = PluginProductsImages::where("product_id", $this->id)->orderBy("order", "asc")->get();
             if($list){
                 $i = 0;
                 foreach ($list as $image){
@@ -632,6 +655,121 @@ class PluginProducts extends Model
         return false;
     }
 
+    public static function preloadForListing(array $productIds, $lang = null)
+    {
+        $productIds = array_values(array_unique(array_filter(array_map('intval', $productIds))));
+        if(!count($productIds)){
+            return;
+        }
+
+        $lang = $lang ?: \App::getLocale();
+        if(!array_key_exists($lang, self::$listingLangImagesByProduct)){
+            self::$listingLangImagesByProduct[$lang] = [];
+        }
+
+        $missingProductIds = array_values(array_diff($productIds, self::$listingPreloadedProductIds));
+        if(count($missingProductIds)){
+            $images = PluginProductsImages::whereIn("product_id", $missingProductIds)
+                ->orderBy("order", "asc")
+                ->get();
+            foreach ($images as $image){
+                self::$listingImagesByProduct[$image->product_id][] = $image;
+            }
+            foreach ($missingProductIds as $productId){
+                if(!array_key_exists($productId, self::$listingImagesByProduct)){
+                    self::$listingImagesByProduct[$productId] = [];
+                }
+            }
+
+            $langImages = PluginProductsLangs::whereIn("product_id", $missingProductIds)
+                ->where("lang", $lang)
+                ->whereNotNull("image")
+                ->get();
+            foreach ($langImages as $langImage){
+                self::$listingLangImagesByProduct[$lang][$langImage->product_id] = $langImage;
+            }
+            foreach ($missingProductIds as $productId){
+                if(!array_key_exists($productId, self::$listingLangImagesByProduct[$lang])){
+                    self::$listingLangImagesByProduct[$lang][$productId] = false;
+                }
+            }
+
+            self::$listingPreloadedProductIds = array_values(array_unique(array_merge(self::$listingPreloadedProductIds, $missingProductIds)));
+        }
+
+        if(\Session::has('user_id')){
+            $missingCartIds = array_values(array_diff($productIds, self::$listingCartLoadedProductIds));
+            if(count($missingCartIds)){
+                $userId = (int) \Session::get('user_id');
+                $items = Cart::where("user_id", $userId)
+                    ->whereIn("product_id", $missingCartIds)
+                    ->get();
+
+                foreach ($missingCartIds as $productId){
+                    self::$listingCartByProduct[$productId] = false;
+                }
+                foreach ($items as $item){
+                    self::$listingCartByProduct[$item->product_id] = $item;
+                }
+
+                self::$listingCartLoadedProductIds = array_values(array_unique(array_merge(self::$listingCartLoadedProductIds, $missingCartIds)));
+            }
+        }else{
+            if(self::$listingSessionCartByProduct === null){
+                self::$listingSessionCartByProduct = [];
+                $cart = \Session::get('cart.products');
+                if($cart){
+                    foreach ($cart as $item){
+                        self::$listingSessionCartByProduct[$item->product_id] = $item;
+                    }
+                }
+            }
+        }
+
+        self::getListingShopSetting();
+    }
+
+    protected static function getListingShopSetting()
+    {
+        if(self::$listingShopSetting === null){
+            self::$listingShopSetting = ShopSettings::first();
+        }
+
+        return self::$listingShopSetting;
+    }
+
+    protected function getListingImagesForProduct()
+    {
+        if(array_key_exists($this->id, self::$listingImagesByProduct)){
+            return self::$listingImagesByProduct[$this->id];
+        }
+
+        $list = PluginProductsImages::where("product_id", $this->id)->orderBy("order", "asc")->get();
+        self::$listingImagesByProduct[$this->id] = $list ? $list->all() : [];
+
+        return self::$listingImagesByProduct[$this->id];
+    }
+
+    protected function getListingLangImageForProduct($lang)
+    {
+        if(!array_key_exists($lang, self::$listingLangImagesByProduct)){
+            self::$listingLangImagesByProduct[$lang] = [];
+        }
+
+        if(isset(self::$listingLangImagesByProduct[$lang]) && array_key_exists($this->id, self::$listingLangImagesByProduct[$lang])){
+            return self::$listingLangImagesByProduct[$lang][$this->id] ?: null;
+        }
+
+        $item = PluginProductsLangs::where("product_id", $this->id)
+            ->where("lang", $lang)
+            ->whereNotNull("image")
+            ->first();
+
+        self::$listingLangImagesByProduct[$lang][$this->id] = $item ?: false;
+
+        return $item;
+    }
+
     public function tax()
     {
         return $this->belongsTo(Tax::class, "tax_id");
@@ -649,6 +787,17 @@ class PluginProducts extends Model
 
 
     public function get_promo_price($piuiva = null){
+        $countryId = \Auth::user() ? (int) \Auth::user()->country_id : 0;
+        $memoKey = implode('|', [
+            (int) $this->id,
+            $piuiva ? 1 : 0,
+            $countryId
+        ]);
+
+        if(array_key_exists($memoKey, self::$promoPriceMemo)){
+            return self::$promoPriceMemo[$memoKey];
+        }
+
         $now = Carbon::now()->toDateTimeString();
         $now_base = Carbon::now();
 
@@ -725,9 +874,11 @@ class PluginProducts extends Model
 
             if($piuiva){
                 $finalPrice = ($priceStart + (($priceStart * $this->tax->value)/100));
+                self::$promoPriceMemo[$memoKey] = $finalPrice;
                 return $finalPrice;
             }
 
+            self::$promoPriceMemo[$memoKey] = $priceStart;
             return $priceStart;
         }
 
@@ -738,17 +889,21 @@ class PluginProducts extends Model
             if($now_base->gt($data_start) && $now_base->lt($data_end)){
                 if($piuiva){
                     $finalPrice = ($this->promo_price + (($this->promo_price * $this->tax->value)/100));
+                    self::$promoPriceMemo[$memoKey] = $finalPrice;
                     return $finalPrice;
                 }
 
+                self::$promoPriceMemo[$memoKey] = $this->promo_price;
                 return $this->promo_price;
             }
         }
 
         if($piuiva){
             $finalPrice = ($priceStart + (($priceStart * $this->tax->value)/100));
+            self::$promoPriceMemo[$memoKey] = $finalPrice;
             return $finalPrice;
         }
+        self::$promoPriceMemo[$memoKey] = $priceStart;
         return $priceStart;
     }
 

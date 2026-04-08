@@ -1,4 +1,3 @@
-<?php $labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray(); ?>
 <aside class="col-lg-3 @if($shopSetting->sidebar_position == "sx") sidebar-left @else sidebar-right @endif sidebar show-lg" id="sidebar-shop">
     <div class="sidebar-title close-navbar" data-bs-toggle="collapse" data-bs-target="#sidebar-shop">{{ @$labels['shop-filtri'] }}<i class="fas fa-times"></i></div>
     <div class="sidebar-content">
@@ -109,17 +108,7 @@
             @if(count($brands) && $plugin->show_brands_sidebar == 1)
                 <div class="widget widget-collapsible">
                     @if($brands)
-                        <?php
-                        $v_brands = [];
-                        foreach($brands as $key => $brand_id){
-                            $brand_item = \App\Models\PluginProductsBrands::find($brand_id);
-                            if($brand_item){
-                                $v_brands[$brand_id] = $brand_item->name;
-                            }
-                        }
-
-                        asort($v_brands);
-                        ?>
+                        <?php $v_brands = $brandNamesById ?? []; ?>
 
                         <h3 class="widget-title" data-bs-target="#widget-brand" data-bs-toggle="collapse" aria-expanded="true">{{ @$labels['shop-brand'] }} <i class="bi bi-chevron-down"></i></h3>
                         <div class="widget-body collapse show" id="widget-brand">
@@ -170,12 +159,12 @@
             <div id="box_attributes_filters">
                 @if(count($attributes_v) && $pluginSetting->show_attributes_sidebar == 1)
                     @foreach($attributes_v as $attribute_id => $options)
-                        <?php $item_attribute = \App\Models\ShopAttributes::find($attribute_id); ?>
-                        @if($item_attribute)
+                        <?php $itemAttributeName = $attributeNamesById[$attribute_id] ?? null; ?>
+                        @if($itemAttributeName)
                             @if(count($options))
                                 <div class="widget widget-collapsible">
-                                    <h3 class="widget-title" data-bs-target="#widget-attributes-{{ $item_attribute->id }}" data-bs-toggle="collapse" aria-expanded="true">{{ $item_attribute->name }} <i class="bi bi-chevron-down"></i></h3>
-                                    <div class="widget-body collapse show" id="widget-attributes-{{ $item_attribute->id }}">
+                                    <h3 class="widget-title" data-bs-target="#widget-attributes-{{ $attribute_id }}" data-bs-toggle="collapse" aria-expanded="true">{{ $itemAttributeName }} <i class="bi bi-chevron-down"></i></h3>
+                                    <div class="widget-body collapse show" id="widget-attributes-{{ $attribute_id }}">
                                         @foreach($options as $option_id => $option_value)
                                             <div class="form-check">
                                                 <input onclick="filters_check('options_check');" type="checkbox" class="form-check-input options_check" id="check-option-<?php echo $option_id;?>" name="options_check[]" value="{{ $option_id }}">
