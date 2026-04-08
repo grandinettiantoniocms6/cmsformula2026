@@ -27,3 +27,13 @@
   - Causa radice: `getimagesize` invocato su path relativo DB (`uploads/...`) non risolto come path locale assoluto e senza verifica esistenza file.
   - Soluzione: conversione preventiva del path con `public_path(ltrim(...))` e guardia `is_file(...)` prima della lettura dimensioni immagine.
   - Prevenzione: nelle view Blade evitare `getimagesize` su URL/path relativi non verificati; usare sempre path filesystem assoluto e fallback senza warning se risorsa assente.
+- 2026-04-08
+  - Contesto: eccezione `UrlGenerationException` su route `pluginProducts.detail.*` dopo ottimizzazione del listing.
+  - Causa radice: nel mapping categorie prodotto veniva passato a `route()` lo slug JSON multilingua completo (es. `{"it":"...","en":"..."}`) invece della stringa slug della lingua corrente.
+  - Soluzione: introdotta risoluzione traduzioni in controller per `slug` e `name` (`resolveTranslatedText` con fallback lingua), usando valori scalari nei partial listing.
+  - Prevenzione: quando si estraggono campi translatable direttamente da query SQL raw, normalizzare sempre il valore per lingua prima di usarlo in URL o route params.
+- 2026-04-08
+  - Contesto: errore PHP `Undefined array key "it"` durante rendering listing prodotti.
+  - Causa radice: accesso a cache statica per lingua (`listingLangImagesByProduct[$lang]`) senza inizializzazione preventiva della chiave lingua.
+  - Soluzione: inizializzazione del bucket lingua prima di lettura/scrittura in `preloadForListing` e `getListingLangImageForProduct`.
+  - Prevenzione: su cache statiche multidimensionali indicizzate per lingua/tenant, inizializzare sempre la chiave padre prima di `array_key_exists`/assegnazioni annidate.

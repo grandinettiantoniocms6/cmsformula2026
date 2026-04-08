@@ -2,10 +2,9 @@
     <?php
     $has_figli = 0;
     if($product->is_variant == 0){
-        $has_figli = \App\Models\PluginProducts::where("is_variant", 1)->where("group_id", $product->group_id)
-            ->where("is_active", 1)
-            ->count();
+        $has_figli = (int) ($variantChildCounts[$product->group_id] ?? 0);
     }
+    $promo_price = $promoPriceByProductId[$product->id] ?? $product->get_promo_price();
     ?>
 
     <div class="product product-list">
@@ -42,10 +41,6 @@
             </div>
             <div class="product-action-vertical">
                 @if(env('SLUG_COMPARE') && $adminPlugin->version == 3 && $pluginSetting->is_comparations)
-                    <?php
-                    $indexClass = new \App\Http\Controllers\PluginProductsController();
-                    $cartCompare = $indexClass->loading_compare();
-                    ?>
                     <div id="compare_{{ $product->id }}">
                         @if(!in_array($product->id, $cartCompare))
                             <button type="button" onclick="add_compare({{ $product->id }})" class="btn-product-icon" data-bs-toggle="tooltip" title="{{ @$labels['shop-compara-questo-articolo'] }}"><i class="fas fa-exchange-alt"></i></button>
@@ -109,8 +104,6 @@
                                     $start_price = $product->price_2;
                                 }
                             }
-                            $promo_price = $product->get_promo_price();
-
                             $vat = $product->tax ? $product->tax->value : 22;
                             $vat_calculate = ($vat / 100) + 1;
 
@@ -136,8 +129,6 @@
                                     $start_price = $product->price_2;
                                 }
                             }
-                            $promo_price = $product->get_promo_price();
-
                             $vat = $product->tax ? $product->tax->value : 22;
                             $vat_calculate = ($vat / 100) + 1;
 

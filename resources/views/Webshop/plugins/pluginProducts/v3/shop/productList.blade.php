@@ -1,17 +1,4 @@
-<?php
-$adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
-$shopSetting = \App\Models\ShopSettings::first();
-$pluginSetting = \App\Models\PluginProductsSettings::first();
-$labels = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->toArray();
-
-$indexClass = new \App\Http\Controllers\PluginProductsController();
-$cartCompare = $indexClass->loading_compare();
-$start = microtime(true);
-$agent = new \Jenssegers\Agent\Agent();
-
-$optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray();
-
-?>
+<?php $start = microtime(true); ?>
 
 <section class="page-shop">
     <div class="container-fluid container-2xl">
@@ -124,21 +111,15 @@ $optionsList = \App\Models\ShopAttributesOptions::pluck("icon", "id")->toArray()
                                 <?php
                                 $vet_ids = [];
 
-                                $cat_prod_name = "";
-                                $cat_prod_slug = "no-categoria";
-
-                                $cat_prod = $product->category();
-                                if($cat_prod){
-                                    $cat_prod_name = $cat_prod->name;
-                                    $cat_prod_slug = $cat_prod->slug;
-                                }
+                                $cat_prod_name = $productCategoryMap[$product->id]['name'] ?? "";
+                                $cat_prod_slug = $productCategoryMap[$product->id]['slug'] ?? "no-categoria";
 
                                  $vet_ids = [];
                                  if($product->vet_ids_list){
                                      $vet_ids = json_decode($product->vet_ids_list, true);
                                  }
                                 ?>
-                                @include("$thema.plugins.pluginProducts.v3.shop.box_product_list", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $pluginSetting, "optionsList" => $optionsList])
+                                @include("$thema.plugins.pluginProducts.v3.shop.box_product_list", ['adminPlugin' => $adminPlugin, 'shopSetting' => $shopSetting, 'pluginSetting' => $pluginSetting, "optionsList" => $optionsList, 'cartCompare' => $cartCompare, 'variantChildCounts' => $variantChildCounts, 'promoPriceByProductId' => $promoPriceByProductId])
                         @endforeach
                     </div>
 

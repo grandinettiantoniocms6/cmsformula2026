@@ -37,6 +37,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class PluginProductsController extends Controller
@@ -76,16 +77,11 @@ class PluginProductsController extends Controller
 
     public function pluginProducts(Request $request, $slug = null)
     {
-        $collation = 'utf8mb4_general_ci';
-        $version = DB::selectOne('SELECT VERSION() as version')->version;
-        if (str_starts_with($version, '11.')) {
-            // MariaDB 11+ ha problemi con utf8mb4_general_ci
-            $collation = 'utf8_unicode_ci';
-        }
+        $collation = $this->getSearchCollation();
 
         $startTime = microtime(true);
 
-        $adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
+        $adminPlugin = $this->getAdminPluginCached();
 
         $currenturl = url()->full();
         $currentSlug = basename($currenturl);
@@ -103,22 +99,7 @@ class PluginProductsController extends Controller
 
 
         //SPECIAL PAGE SHOPS
-        $special_urls = [];
-        $pages_special_shop = Page::where("is_special_shop", 1)->get();
-        if($pages_special_shop){
-            foreach ($pages_special_shop as $ps){
-                $special_urls[] = $ps->slug;
-            }
-        }
-
-        if(count($special_urls)){
-            $special_urls_base = $special_urls;
-            foreach ($special_urls_base as $special){
-                foreach ($adminLangs as $item_lang){
-                    $special_urls[] = "$special-{$item_lang->name}";
-                }
-            }
-        }
+        $special_urls = $this->getSpecialUrls($adminLangs);
 
         $lang = \App::getLocale();
         $lang_ = strtoupper($lang);
@@ -163,11 +144,11 @@ class PluginProductsController extends Controller
             }
         }
 
-        $website = WebsiteSetting::first();
+        $website = $this->getWebsiteSettingCached();
 
         $menu = $this->getFrontendMenuTree();
 
-        $plugin = PluginProductsSettings::first();
+        $plugin = $this->getPluginProductsSettingsCached();
         $select_order_by = "$plugin->order_field|$plugin->order_type";
         $agent = new \Jenssegers\Agent\Agent();
         if($agent->isMobile() || $agent->isTablet()){
@@ -509,6 +490,10 @@ class PluginProductsController extends Controller
             ->groupBy("plugins_products.id")
             ->get();
 
+        if(count($products)){
+            PluginProducts::preloadForListing($products->getCollection()->pluck('id')->toArray(), $lang);
+        }
+
         /*$products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
             ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
             ->whereRaw("$sql_categories AND langs LIKE '%,$lang,%' AND plugins_products.is_active = 1")
@@ -532,24 +517,103 @@ class PluginProductsController extends Controller
         $endTime = (microtime(true) - $startTime);
         //echo $endTime;
 
-        $variable = $this->get_all_products_sidebar($products_processed, $plugin);
+        $sidebarCacheKey = $this->buildSidebarCacheKey($request, $lang, $slug, $products_processed->pluck('id')->toArray());
+        $variable = Cache::remember($sidebarCacheKey, now()->addSeconds($this->getFrontendCacheTtl()), function () use ($products_processed, $plugin) {
+            return $this->get_all_products_sidebar($products_processed, $plugin);
+        });
 
         $tags = $variable['tags'];
         $brands = $variable['brands_ids'];
         $attributes_v = $variable['attributes_v'];
         $prices = $variable['prices'];
+        $shopSetting = $this->getShopSettingsCached();
+        $optionsList = $this->getShopOptionsIconMapCached();
+        $cartCompare = $this->loading_compare();
+
+        $variantChildCounts = [];
+        $productCategoryMap = [];
+        $promoPriceByProductId = [];
+        if(count($products)){
+            $productIdsForPage = $products->getCollection()->pluck('id')->toArray();
+
+            $groupsForCount = $products->getCollection()
+                ->where('is_variant', 0)
+                ->pluck('group_id')
+                ->filter()
+                ->unique()
+                ->values()
+                ->toArray();
+
+            if(count($groupsForCount)){
+                $variantChildCounts = PluginProducts::where("is_variant", 1)
+                    ->where("is_active", 1)
+                    ->whereIn("group_id", $groupsForCount)
+                    ->selectRaw("group_id, COUNT(*) as tot")
+                    ->groupBy("group_id")
+                    ->pluck("tot", "group_id")
+                    ->map(function ($value) {
+                        return (int) $value;
+                    })
+                    ->toArray();
+            }
+
+            if(count($productIdsForPage)){
+                $categoryRows = PluginProductsCategoriesProducts::selectRaw("plugins_products_categories_products.plugin_product_product_id as product_id, plugins_products_categories.slug, plugins_products_categories.name")
+                    ->join("plugins_products_categories", "plugins_products_categories.id", "=", "plugins_products_categories_products.plugin_product_category_id")
+                    ->whereIn("plugins_products_categories_products.plugin_product_product_id", $productIdsForPage)
+                    ->orderBy("plugins_products_categories_products.id", "asc")
+                    ->get();
+
+                if(count($categoryRows)){
+                    foreach ($categoryRows as $row){
+                        if(!array_key_exists($row->product_id, $productCategoryMap)){
+                            $categorySlug = $this->resolveTranslatedText($row->slug, $lang);
+                            $categoryName = $this->resolveTranslatedText($row->name, $lang);
+
+                            $productCategoryMap[$row->product_id] = [
+                                "slug" => $categorySlug ?: "no-categoria",
+                                "name" => $categoryName ?: ""
+                            ];
+                        }
+                    }
+                }
+            }
+
+            foreach ($products->getCollection() as $productItem){
+                $promoPriceByProductId[$productItem->id] = $productItem->get_promo_price();
+            }
+        }
+
+        $brandNamesById = [];
+        if(count($brands)){
+            $brandNamesById = PluginProductsBrands::whereIn("id", $brands)
+                ->pluck("name", "id")
+                ->toArray();
+            asort($brandNamesById);
+        }
+
+        $attributeNamesById = [];
+        if(count($attributes_v)){
+            $attributeNamesById = ShopAttributes::whereIn("id", array_keys($attributes_v))
+                ->pluck("name", "id")
+                ->toArray();
+        }
 
         if($ajax_mode == 0){
-            $categories = $this->get_categories_sidebar($categories, $products_processed_total);
+            $categoriesCacheKey = $this->buildCategoriesSidebarCacheKey($lang, $slug, $categories);
+            $categories = Cache::remember($categoriesCacheKey, now()->addSeconds($this->getFrontendCacheTtl()), function () use ($categories, $products_processed_total) {
+                return $this->get_categories_sidebar($categories, $products_processed_total);
+            });
         }
 
         $itemProduct = null;
         $thema = env('TEMA');
 
-        $labels = PluginProductsLabels::get()->pluck("value", "key")->toArray();
+        $labels = $this->getPluginProductLabelsCached();
+        $pageContentFooter = $this->getHomepageActivePageCached();
 
         if($ajax_mode == 0){
-            return view("$thema.plugins.pluginProducts.list", compact('menu', 'page','website', 'plugin', 'products', 'categories', 'itemProduct','tags','labels','category','select_order_by','select_show_number','attributes_v','slug_prodotti','brands','prices'));
+            return view("$thema.plugins.pluginProducts.list", compact('menu', 'page','website', 'plugin', 'products', 'categories', 'itemProduct','tags','labels','category','select_order_by','select_show_number','attributes_v','slug_prodotti','brands','prices','shopSetting','optionsList','cartCompare','variantChildCounts','brandNamesById','attributeNamesById','pageContentFooter','adminPlugin','productCategoryMap','promoPriceByProductId'));
         }else{
 
             $change_brands = 0;
@@ -580,9 +644,8 @@ class PluginProductsController extends Controller
                 $v_checked = explode(",", $request->get('brands_check'));
             }
             $htmlFilterBrands = view("$thema.plugins.pluginProducts.inc.filters_brands_ajax", compact('brands', 'plugin', 'v_checked'))->render();
-            $shopSetting = ShopSettings::first();
 
-            $html = view("$thema.plugins.pluginProducts.inc.productListAjax", compact('menu', 'page','website', 'plugin', 'products', 'categories', 'itemProduct','tags','labels','category','select_order_by','select_show_number','attributes_v','slug_prodotti','brands','shopSetting','adminPlugin'))->render();
+            $html = view("$thema.plugins.pluginProducts.inc.productListAjax", compact('menu', 'page','website', 'plugin', 'products', 'categories', 'itemProduct','tags','labels','category','select_order_by','select_show_number','attributes_v','slug_prodotti','brands','shopSetting','adminPlugin','optionsList','cartCompare','variantChildCounts','productCategoryMap','promoPriceByProductId'))->render();
 
             return response()->json(['error' => '0', 'html' => $html, 'html_filter_attributes' => $htmlFilterAttributes, "html_filter_tags" => $htmlFilterTags, "html_filter_prices" => $htmlFilterPrices, "html_filter_brands" => $htmlFilterBrands, 'change_brands' => $change_brands, 'paginations' => $products]);
         }
@@ -1665,27 +1728,184 @@ class PluginProductsController extends Controller
 
     protected function getFrontendMenuTree()
     {
-        $menu = Page::where("is_in_menu", 1)
-            ->where("is_active", 1)
-            ->where("parent_id", null)
-            ->orderBy("lft", "asc")
-            ->get();
+        $lang = App::getLocale();
 
-        if(!count($menu)){
+        return Cache::remember("frontend:menu_tree:$lang", now()->addSeconds($this->getFrontendCacheTtl()), function () {
+            $menu = Page::where("is_in_menu", 1)
+                ->where("is_active", 1)
+                ->where("parent_id", null)
+                ->orderBy("lft", "asc")
+                ->get();
+
+            if(!count($menu)){
+                return $menu;
+            }
+
+            $childrenByParent = Page::where("is_in_menu", 1)
+                ->whereIn("parent_id", $menu->pluck("id")->toArray())
+                ->orderBy("lft", "asc")
+                ->get()
+                ->groupBy("parent_id");
+
+            foreach ($menu as $item){
+                $item->figli = $childrenByParent->get($item->id, collect());
+            }
+
             return $menu;
+        });
+    }
+
+    protected function getFrontendCacheTtl()
+    {
+        $ttl = (int) env('FRONTEND_PERF_CACHE_TTL', 120);
+        if($ttl < 30){
+            return 30;
         }
 
-        $childrenByParent = Page::where("is_in_menu", 1)
-            ->whereIn("parent_id", $menu->pluck("id")->toArray())
-            ->orderBy("lft", "asc")
-            ->get()
-            ->groupBy("parent_id");
+        return $ttl;
+    }
 
-        foreach ($menu as $item){
-            $item->figli = $childrenByParent->get($item->id, collect());
+    protected function getSearchCollation()
+    {
+        return Cache::remember('plugin_products:search_collation', now()->addHours(12), function () {
+            $collation = 'utf8mb4_general_ci';
+            $version = DB::selectOne('SELECT VERSION() as version')->version;
+            if (str_starts_with($version, '11.')) {
+                // MariaDB 11+ ha problemi con utf8mb4_general_ci
+                $collation = 'utf8_unicode_ci';
+            }
+
+            return $collation;
+        });
+    }
+
+    protected function getAdminPluginCached()
+    {
+        return Cache::remember('plugin_products:admin_plugin', now()->addSeconds($this->getFrontendCacheTtl()), function () {
+            return \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
+        });
+    }
+
+    protected function getWebsiteSettingCached()
+    {
+        return Cache::remember('plugin_products:website_setting', now()->addSeconds($this->getFrontendCacheTtl()), function () {
+            return WebsiteSetting::first();
+        });
+    }
+
+    protected function getPluginProductsSettingsCached()
+    {
+        return Cache::remember('plugin_products:settings', now()->addSeconds($this->getFrontendCacheTtl()), function () {
+            return PluginProductsSettings::first();
+        });
+    }
+
+    protected function getPluginProductLabelsCached()
+    {
+        return Cache::remember('plugin_products:labels', now()->addSeconds($this->getFrontendCacheTtl()), function () {
+            return PluginProductsLabels::get()->pluck("value", "key")->toArray();
+        });
+    }
+
+    protected function getShopSettingsCached()
+    {
+        return Cache::remember('plugin_products:shop_settings', now()->addSeconds($this->getFrontendCacheTtl()), function () {
+            return ShopSettings::first();
+        });
+    }
+
+    protected function getShopOptionsIconMapCached()
+    {
+        return Cache::remember('plugin_products:options_icons', now()->addSeconds($this->getFrontendCacheTtl()), function () {
+            return ShopAttributesOptions::pluck("icon", "id")->toArray();
+        });
+    }
+
+    protected function getHomepageActivePageCached()
+    {
+        return Cache::remember('plugin_products:homepage_active_page', now()->addSeconds($this->getFrontendCacheTtl()), function () {
+            return Page::where("is_homepage", 1)->where("is_active", 1)->first();
+        });
+    }
+
+    protected function getSpecialUrls($adminLangs)
+    {
+        $langNames = collect($adminLangs)->pluck('name')->values()->toArray();
+        $signature = md5(json_encode($langNames));
+
+        return Cache::remember("plugin_products:special_urls:$signature", now()->addSeconds($this->getFrontendCacheTtl()), function () use ($langNames) {
+            $specialUrls = Page::where("is_special_shop", 1)->pluck("slug")->filter()->values()->toArray();
+
+            if(!count($specialUrls)){
+                return [];
+            }
+
+            $expanded = $specialUrls;
+            foreach ($specialUrls as $special){
+                foreach ($langNames as $langName){
+                    $expanded[] = "$special-$langName";
+                }
+            }
+
+            return array_values(array_unique($expanded));
+        });
+    }
+
+    protected function buildSidebarCacheKey(Request $request, $lang, $slug, $productIds)
+    {
+        $query = $request->query();
+        ksort($query);
+        sort($productIds);
+
+        return 'plugin_products:sidebar:' . md5(json_encode([
+            'lang' => $lang,
+            'slug' => (string) $slug,
+            'query' => $query,
+            'ids' => $productIds
+        ]));
+    }
+
+    protected function buildCategoriesSidebarCacheKey($lang, $slug, $categories)
+    {
+        $categoryIds = [];
+        if($categories){
+            $categoryIds = $categories->pluck('id')->toArray();
+            sort($categoryIds);
         }
 
-        return $menu;
+        return 'plugin_products:categories_sidebar:' . md5(json_encode([
+            'lang' => $lang,
+            'slug' => (string) $slug,
+            'ids' => $categoryIds
+        ]));
+    }
+
+    protected function resolveTranslatedText($value, $lang)
+    {
+        if($value === null){
+            return null;
+        }
+
+        $decoded = json_decode($value, true);
+        if(json_last_error() === JSON_ERROR_NONE && is_array($decoded)){
+            if(array_key_exists($lang, $decoded) && trim((string) $decoded[$lang]) !== ''){
+                return $decoded[$lang];
+            }
+
+            if(array_key_exists('it', $decoded) && trim((string) $decoded['it']) !== ''){
+                return $decoded['it'];
+            }
+
+            foreach ($decoded as $item){
+                if(trim((string) $item) !== ''){
+                    return $item;
+                }
+            }
+
+            return null;
+        }
+
+        return $value;
     }
 
 

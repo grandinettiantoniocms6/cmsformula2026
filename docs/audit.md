@@ -105,6 +105,36 @@
   - Rischio/Impatto: basso; output invariato, possibile minima differenza solo in casi anomali di slug duplicati su più lingue (ora ci si ferma al primo match).
 
 - 2026-04-08
+  - Contesto: richiesta riduzione drastica tempi di caricamento mantenendo invariati i risultati del listing prodotti.
+  - Soluzione: introdotta cache frontend a TTL breve (env `FRONTEND_PERF_CACHE_TTL`, default 120s) per menu frontend, settings plugin/website, labels, lista URL speciali e blocchi sidebar (filtri/categorie) con chiavi basate su lingua, slug, querystring e set ID prodotti.
+  - Rischio/Impatto: medio-basso; risultato prodotti invariato, possibile ritardo massimo pari al TTL nell’aggiornamento visuale dei filtri/menu dopo modifiche backoffice.
+
+- 2026-04-08
+  - Contesto: ottimizzazione richiesta su `resources/views/Webshop/plugins/pluginProducts/list.blade.php` e include interni.
+  - Soluzione: rimosse query DB dirette dai Blade principali del listing (`list`, `v3/shop/productList`, `inc/productListAjax`, `v3/inc/sidebar_shop`, `v3/shop/box_product_list`, `v3/shop/box_product_grid`) spostando il caricamento dati nel controller e riusando map pre-calcolate (categorie prodotto, conteggio varianti figlie, nomi brand/attributi, options icons, cart compare, homepage footer).
+  - Rischio/Impatto: basso; resa e risultati prodotti invariati, ridotto carico query per render pagina/lista ajax.
+
+- 2026-04-08
+  - Contesto: regressione routing dopo ottimizzazione listing (`Missing required parameter ... {category}` in route dettaglio prodotto).
+  - Soluzione: corretta costruzione `productCategoryMap` risolvendo `slug`/`name` tradotti per lingua corrente (fallback `it`) prima del passaggio ai Blade, evitando invio JSON multilingua grezzo alla `route()`.
+  - Rischio/Impatto: basso; ripristinato comportamento URL dettaglio invariando output funzionale.
+
+- 2026-04-08
+  - Contesto: richiesta ulteriore riduzione tempi listing dopo ottimizzazioni Blade/controller.
+  - Soluzione: introdotto preload per listing nel model `PluginProducts` (`preloadForListing`) e adattati `getCover`, `getSecondPhoto`, `in_cart` per usare cache in-memory per request (immagini, lang image, stato carrello, shop settings), richiamando preload dal controller dopo paginazione prodotti.
+  - Rischio/Impatto: basso; output invariato, riduzione query ripetute per card prodotto.
+
+- 2026-04-08
+  - Contesto: errore runtime `Undefined array key "it"` in `PluginProducts::preloadForListing`.
+  - Soluzione: aggiunta inizializzazione esplicita del bucket lingua in `listingLangImagesByProduct` prima di accesso/scrittura, sia in `preloadForListing` sia in `getListingLangImageForProduct`.
+  - Rischio/Impatto: molto basso; fix difensivo senza impatto funzionale.
+
+- 2026-04-08
+  - Contesto: richiesta step 1 per ridurre costo calcolo prezzi promo nel listing prodotti.
+  - Soluzione: aggiunta memoization per-request in `PluginProducts::get_promo_price` (chiave per prodotto/paese/iva) e pre-calcolo mappa `promoPriceByProductId` nel controller listing, riusata nei partial `box_product_list` e `box_product_grid`.
+  - Rischio/Impatto: basso; output prezzi invariato, riduzione chiamate ripetute ai rami promozione per card.
+
+- 2026-04-08
   - Contesto: richiesta miglioramento layout moderno per pagina admin Elfinder (`/admin/elfinder`).
   - Soluzione: restyling scoped in `resources/views/vendor/elfinder/elfinder.blade.php` (shell card con gradient, toolbar rifinita, sidebar/cartelle, tabella file, stati hover/selected, status bar e responsive), senza modificare logica JS e funzioni file manager.
   - Rischio/Impatto: basso; modifica solo visuale sulla schermata Elfinder standalone.
