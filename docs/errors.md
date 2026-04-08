@@ -37,3 +37,18 @@
   - Causa radice: accesso a cache statica per lingua (`listingLangImagesByProduct[$lang]`) senza inizializzazione preventiva della chiave lingua.
   - Soluzione: inizializzazione del bucket lingua prima di lettura/scrittura in `preloadForListing` e `getListingLangImageForProduct`.
   - Prevenzione: su cache statiche multidimensionali indicizzate per lingua/tenant, inizializzare sempre la chiave padre prima di `array_key_exists`/assegnazioni annidate.
+
+
+- 2026-04-08
+  - Contesto: progress bar upload import prodotti parte subito da 100% pur con attesa di diversi secondi.
+  - Causa radice: il 100% dell'evento `uploadProgress` indica fine trasferimento file, non fine elaborazione backend dell'import.
+  - Soluzione: introdotto avanzamento visuale controllato fino a ~95% e stato `Elaborazione...`; 100% impostato solo in callback `success`/redirect.
+  - Prevenzione: nei flussi di upload+processing non usare il solo `uploadProgress` come indicatore di completamento totale, separare fase upload da fase elaborazione server.
+
+- 2026-04-08
+  - Contesto: logo topbar admin renderizzato con URL contenente `/public/` (`.../public/img/...`).
+  - Causa radice: path logo salvato o fallback già prefissato con `public/` e poi passato a `url(...)` senza normalizzazione.
+  - Soluzione: introdotta normalizzazione path (`^/?public/` rimosso) prima del render e uso di `asset(...)` nei main header Backpack.
+  - Prevenzione: per asset pubblici in Blade, evitare hardcode `public/...` negli URL finali e centralizzare una normalizzazione del path.
+
+

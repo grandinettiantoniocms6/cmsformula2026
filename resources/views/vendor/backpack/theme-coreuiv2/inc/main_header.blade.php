@@ -55,6 +55,20 @@
 
   $topbarText = $luminance($topbarBase) > 0.58 ? '#162d58' : '#eef4ff';
   $topbarLinkHoverBg = $luminance($topbarBase) > 0.58 ? 'rgba(0, 0, 0, .06)' : 'rgba(255, 255, 255, .14)';
+
+  $normalizePublicAssetPath = static function (?string $path): string {
+      $value = trim((string) $path);
+      if ($value === '') {
+          return '';
+      }
+
+      $value = str_replace('\\', '/', $value);
+      $value = preg_replace('#^/?public/#', '', $value) ?? $value;
+      return ltrim($value, '/');
+  };
+
+  $adminLogoPath = $normalizePublicAssetPath($website_setting->logo_admin ?? '');
+  $defaultAdminLogoPath = $normalizePublicAssetPath('public/img/commons/admin/logo-cms-formula-5.png');
   ?>
 
   <style>
@@ -89,10 +103,10 @@
   </style>
 
   <a class="navbar-brand" href="{{ url(backpack_theme_config('home_link')) }}" title="{{ backpack_theme_config('project_name') }}">
-    @if($website_setting->logo_admin)
-      <img src="{{ url($website_setting->logo_admin) }}" height="55">
+    @if($adminLogoPath !== '')
+      <img src="{{ asset($adminLogoPath) }}" height="55">
     @else
-      <img src="{{ url('public/img/commons/admin/logo-dashboard-CMS6_s2.png') }}" height="55" alt="Logo admin">
+      <img src="{{ asset($defaultAdminLogoPath) }}" height="55" alt="Logo admin">
     @endif
   </a>
 

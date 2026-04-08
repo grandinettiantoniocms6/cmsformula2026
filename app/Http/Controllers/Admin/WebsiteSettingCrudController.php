@@ -1828,7 +1828,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                 'label' => "Logo pannello admin",
                 'name' => "logo_admin",
                 'type'  => 'browse',
-                'default' => 'public/img/commons/admin/logo-dashboard-CMS6_s2.png',
+                'default' => 'public/img/commons/admin/logo-cms-formula-5.png',
                 'tab' => 'Extra',
                 // 'disk'      => 's3_bucket', // in case you need to show images from a different disk
                 // 'prefix'    => 'uploads/images/profile_pictures/' // in case your db value is only the file name (no path), you can use this to prepend your path to the image src (in HTML), before it's shown to the user;
@@ -1838,7 +1838,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                 'label' => "Logo Accesso admin (Dimensioni: 180x90px)",
                 'name' => "logo_login",
                 'type'  => 'browse',
-                'default' => 'public/img/commons/admin/logo-dashboard-CMS6_s2_login.png',
+                'default' => 'public/img/commons/admin/logo-cms-formula-5_2.png',
                 'tab' => 'Extra',
                 // 'disk'      => 's3_bucket', // in case you need to show images from a different disk
                 // 'prefix'    => 'uploads/images/profile_pictures/' // in case your db value is only the file name (no path), you can use this to prepend your path to the image src (in HTML), before it's shown to the user;

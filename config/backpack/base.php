@@ -71,7 +71,7 @@ return [
     // ------
 
     // Menu logo. You can replace this with an <img> tag if you have a logo.
-    'project_logo'   => '<b>CMS</b>Formula 5.0',
+    'project_logo'   => '<b>CMS</b>Formula 6.0',
 
     // Show / hide breadcrumbs on admin panel pages.
     'breadcrumbs' => true,

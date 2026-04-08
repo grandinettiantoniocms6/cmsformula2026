@@ -1,4 +1,4 @@
-ï»¿# Audit
+# Audit
 
 - 2026-04-07
   - Contesto: inizializzazione memoria persistente progetto in `docs/`.
@@ -18,7 +18,7 @@
   - Rischio/Impatto: basso; impatto limitato alla resa grafica menu laterale.
 - 2026-04-07
   - Contesto: richiesta utente di schiarire il fondo della sidebar admin.
-  - Soluzione: aggiornato gradiente background in `resources/views/vendor/backpack/ui/inc/menu_items.blade.php` da palette blu notte a palette blu piÃ¹ chiara.
+  - Soluzione: aggiornato gradiente background in `resources/views/vendor/backpack/ui/inc/menu_items.blade.php` da palette blu notte a palette blu più chiara.
   - Rischio/Impatto: molto basso; variazione solo estetica.
 - 2026-04-07
   - Contesto: affinamento grafico sidebar su richiesta utente (allineamento topbar + pulsanti chiari).
@@ -30,15 +30,15 @@
   - Rischio/Impatto: molto basso; modifica solo di spaziatura/layout laterale.
 - 2026-04-07
   - Contesto: rifinitura UI richiesta utente su sidebar e dashboard KPI.
-  - Soluzione: submenu aperto sidebar reso con contenitore arrotondato (`border-radius`) e sfondo dedicato; in dashboard migliorata resa grafica dei box statistiche `Totale ordini` e `Totale prenotazioni` con card KPI interne, icone evidenziate e gerarchia tipografica piÃ¹ pulita.
+  - Soluzione: submenu aperto sidebar reso con contenitore arrotondato (`border-radius`) e sfondo dedicato; in dashboard migliorata resa grafica dei box statistiche `Totale ordini` e `Totale prenotazioni` con card KPI interne, icone evidenziate e gerarchia tipografica più pulita.
   - Rischio/Impatto: basso; modifiche solo di presentazione CSS.
 - 2026-04-07
   - Contesto: correzione difetto visivo su submenu aperto sidebar (angoli bianchi residui).
   - Soluzione: reso il contenitore `nav-dropdown.open` la superficie unica del blocco aperto (`border-radius` + `overflow: hidden`), rimosso fondo separato del link/header e del box interno.
   - Rischio/Impatto: molto basso; impatto solo estetico sullo stato open della sidebar.
 - 2026-04-07
-  - Contesto: richiesta utente di rendere piÃ¹ elegante e raffinata la sezione Top 10 in dashboard.
-  - Soluzione: migliorato styling carousel Top 10 (header gradient, titoli, dropdown pill) e tabelle (`table-top-*`) con righe a card, tipografia piÃ¹ pulita, ranking evidenziato e maggiore gerarchia visiva.
+  - Contesto: richiesta utente di rendere più elegante e raffinata la sezione Top 10 in dashboard.
+  - Soluzione: migliorato styling carousel Top 10 (header gradient, titoli, dropdown pill) e tabelle (`table-top-*`) con righe a card, tipografia più pulita, ranking evidenziato e maggiore gerarchia visiva.
   - Rischio/Impatto: basso; solo modifica UI/CSS senza impatto su query e logica dati.
 - 2026-04-07
   - Contesto: richiesta gestione GIF dashboard configurabile da `Website Setting > Extra`.
@@ -66,7 +66,7 @@
 
 - 2026-04-07
   - Contesto: richiesta miglioramento UI topbar admin su link `Anteprima Sito` e dropdown utente (click sulla lettera/avatar).
-  - Soluzione: aggiornati `inc/topbar_right_content` e `inc/menu_user_dropdown` del tema Backpack CoreUIv2 con stile moderno (pill button, avatar circolare gradient, dropdown card con hover e icone piÃ¹ leggibili), senza modificare destinazioni link o permessi.
+  - Soluzione: aggiornati `inc/topbar_right_content` e `inc/menu_user_dropdown` del tema Backpack CoreUIv2 con stile moderno (pill button, avatar circolare gradient, dropdown card con hover e icone più leggibili), senza modificare destinazioni link o permessi.
   - Rischio/Impatto: basso; impatto solo estetico sulla topbar admin.
 
 - 2026-04-07
@@ -92,7 +92,7 @@
 - 2026-04-08
   - Contesto: warning PHP in frontend su `getimagesize(uploads/logo/logo-sbalchiero.png): Failed to open stream` in `resources/views/Crafto/inc/header_menu.blade.php`.
   - Soluzione: introdotto controllo su path filesystem reale con `public_path(...)` + `is_file(...)` prima di invocare `getimagesize`, con fallback sicuro senza attributi `width/height` quando il file non esiste.
-  - Rischio/Impatto: basso; modifica locale alla view Crafto, elimina warning mantenendo invariata la resa quando il logo Ã¨ presente.
+  - Rischio/Impatto: basso; modifica locale alla view Crafto, elimina warning mantenendo invariata la resa quando il logo è presente.
 
 - 2026-04-08
   - Contesto: richiesta ottimizzazione query in `PluginProductsController` mantenendo logica e risultati invariati.
@@ -102,12 +102,12 @@
 - 2026-04-08
   - Contesto: ulteriore ottimizzazione performance frontend (document `/balconiere`) su `PluginProductsController`.
   - Soluzione: ridotte query N+1 su menu frontend introducendo helper `getFrontendMenuTree()` (2 query totali invece di 1+N), ridotto N+1 nel recupero figli categorie in listing, interrotto lookup lingua al primo match e stabilizzato generazione `special_urls` evitando crescita durante iterazione.
-  - Rischio/Impatto: basso; output invariato, possibile minima differenza solo in casi anomali di slug duplicati su piÃ¹ lingue (ora ci si ferma al primo match).
+  - Rischio/Impatto: basso; output invariato, possibile minima differenza solo in casi anomali di slug duplicati su più lingue (ora ci si ferma al primo match).
 
 - 2026-04-08
   - Contesto: richiesta riduzione drastica tempi di caricamento mantenendo invariati i risultati del listing prodotti.
   - Soluzione: introdotta cache frontend a TTL breve (env `FRONTEND_PERF_CACHE_TTL`, default 120s) per menu frontend, settings plugin/website, labels, lista URL speciali e blocchi sidebar (filtri/categorie) con chiavi basate su lingua, slug, querystring e set ID prodotti.
-  - Rischio/Impatto: medio-basso; risultato prodotti invariato, possibile ritardo massimo pari al TTL nellâ€™aggiornamento visuale dei filtri/menu dopo modifiche backoffice.
+  - Rischio/Impatto: medio-basso; risultato prodotti invariato, possibile ritardo massimo pari al TTL nell’aggiornamento visuale dei filtri/menu dopo modifiche backoffice.
 
 - 2026-04-08
   - Contesto: ottimizzazione richiesta su `resources/views/Webshop/plugins/pluginProducts/list.blade.php` e include interni.
@@ -139,6 +139,19 @@
   - Soluzione: restyling scoped in `resources/views/vendor/elfinder/elfinder.blade.php` (shell card con gradient, toolbar rifinita, sidebar/cartelle, tabella file, stati hover/selected, status bar e responsive), senza modificare logica JS e funzioni file manager.
   - Rischio/Impatto: basso; modifica solo visuale sulla schermata Elfinder standalone.
 - 2026-04-08
-  - Contesto: regressione leggibilitÃ  UI Elfinder dopo restyling (icone toolbar poco visibili, testo cartelle/file non leggibile in hover/selected).
+  - Contesto: regressione leggibilità UI Elfinder dopo restyling (icone toolbar poco visibili, testo cartelle/file non leggibile in hover/selected).
   - Soluzione: aggiornato CSS scoped in `resources/views/vendor/elfinder/elfinder.blade.php` aumentando contrasto toolbar (background scuro + hover coerente) e forzando colori testo su tree/cwd per stati normal/hover/selected.
   - Rischio/Impatto: molto basso; fix solo visuale su pagina Elfinder.
+
+
+- 2026-04-08
+  - Contesto: barra progresso import prodotti mostrava 100% immediato anche con elaborazione server lunga.
+  - Soluzione: aggiornata la view `resources/views/vendor/backpack/ui/plugins/pluginProducts/import_export.blade.php` con progresso visuale graduale, stato `Elaborazione...` prima della risposta finale e 100% solo a completamento effettivo.
+  - Rischio/Impatto: molto basso; modifica solo UI/UX JS lato admin import.
+
+- 2026-04-08
+  - Contesto: URL logo topbar admin generato con segmento `/public/` visibile nel browser.
+  - Soluzione: normalizzato il path del logo in `resources/views/vendor/backpack/theme-coreuiv2/inc/main_header.blade.php` e `resources/views/vendor/backpack/base/inc/main_header.blade.php`, rimuovendo prefisso `public/` e usando `asset(...)`.
+  - Rischio/Impatto: molto basso; modifica locale al rendering URL immagine logo admin.
+
+

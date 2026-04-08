@@ -30,10 +30,15 @@
                         {{ csrf_field() }}
 
                         <div class="form-loader" hidden>
-                            <div class="upload-progress-wrapper">
-                                <div class="progress upload-progress">
-                                    <div class="progress-bar upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                            <div class="upload-progress-wrapper" aria-live="polite">
+                                <div class="upload-progress-top">
+                                    <span class="upload-progress-title">Caricamento file</span>
+                                    <span class="upload-progress-value">0%</span>
                                 </div>
+                                <div class="progress upload-progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small class="upload-progress-hint">Preparazione upload...</small>
                             </div>
                         </div>
 
@@ -70,10 +75,15 @@
                         {{ csrf_field() }}
 
                         <div class="form-loader" hidden>
-                            <div class="upload-progress-wrapper">
-                                <div class="progress upload-progress">
-                                    <div class="progress-bar upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                            <div class="upload-progress-wrapper" aria-live="polite">
+                                <div class="upload-progress-top">
+                                    <span class="upload-progress-title">Caricamento file</span>
+                                    <span class="upload-progress-value">0%</span>
                                 </div>
+                                <div class="progress upload-progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small class="upload-progress-hint">Preparazione upload...</small>
                             </div>
                         </div>
 
@@ -138,10 +148,15 @@
 
 
                         <div class="form-loader" hidden>
-                            <div class="upload-progress-wrapper">
-                                <div class="progress upload-progress">
-                                    <div class="progress-bar upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                            <div class="upload-progress-wrapper" aria-live="polite">
+                                <div class="upload-progress-top">
+                                    <span class="upload-progress-title">Caricamento file</span>
+                                    <span class="upload-progress-value">0%</span>
                                 </div>
+                                <div class="progress upload-progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small class="upload-progress-hint">Preparazione upload...</small>
                             </div>
                         </div>
 
@@ -173,20 +188,33 @@
                     </form>
 
                     <?php $postImportUrl = route('pluginProducts.importSpecialPostImportActions'); ?>
-                    <form method="post" action="{{ $postImportUrl }}" class="position-relative mt-4 p-3 border rounded bg-light">
+                    <form method="post" action="{{ $postImportUrl }}" class="position-relative mt-4 p-3 border rounded bg-light js-submit-progress">
                         {{ csrf_field() }}
                         <h6 class="mb-2">Fase successiva post-import</h6>
                         <p class="mb-3">Dopo ogni import file, esegui queste operazioni per aggiornare gli indici.</p>
 
+                        <div class="form-loader" hidden>
+                            <div class="upload-progress-wrapper" aria-live="polite">
+                                <div class="upload-progress-top">
+                                    <span class="upload-progress-title">Esecuzione operazioni</span>
+                                    <span class="upload-progress-value">0%</span>
+                                </div>
+                                <div class="progress upload-progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small class="upload-progress-hint">Avvio operazioni post-import...</small>
+                            </div>
+                        </div>
+
                         <div class="form-group mb-2">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="runProductsSearchPost" name="run_products_search" value="1">
+                                <input type="checkbox" class="custom-control-input" id="runProductsSearchPost" name="run_products_search" value="1" {{ old('run_products_search', 1) == 1 ? 'checked' : '' }}>
                                 <label class="custom-control-label" for="runProductsSearchPost">Aggiorna indice prodotti (`set:products_search`)</label>
                             </div>
                         </div>
                         <div class="form-group mb-3">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="runProductsCategoriesSearchPost" name="run_products_categories_search" value="1">
+                                <input type="checkbox" class="custom-control-input" id="runProductsCategoriesSearchPost" name="run_products_categories_search" value="1" {{ old('run_products_categories_search', 1) == 1 ? 'checked' : '' }}>
                                 <label class="custom-control-label" for="runProductsCategoriesSearchPost">Aggiorna indice categorie (`set:products_categories_search`)</label>
                             </div>
                         </div>
@@ -310,19 +338,60 @@
     <link rel="stylesheet" type="text/css" href="{{ url("css/admin.css") }}">
     <style>
         .upload-progress-wrapper {
-            padding: .25rem 0 .75rem;
+            margin: .35rem 0 .9rem;
+            padding: .75rem .9rem;
+            border: 1px solid #e5e7eb;
+            border-radius: .65rem;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 0 4px 14px rgba(15, 23, 42, .06);
+        }
+
+        .upload-progress-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: .45rem;
+            gap: .5rem;
+        }
+
+        .upload-progress-title {
+            font-size: .78rem;
+            font-weight: 600;
+            color: #334155;
+            letter-spacing: .02em;
+            text-transform: uppercase;
+        }
+
+        .upload-progress-value {
+            min-width: 48px;
+            text-align: center;
+            font-size: .76rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #0f172a;
+            background: #e2e8f0;
+            border-radius: 999px;
+            padding: .2rem .5rem;
         }
 
         .upload-progress {
-            height: 1.25rem;
-            background: #e9ecef;
+            height: .8rem;
+            border-radius: 999px;
+            background: #e2e8f0;
+            overflow: hidden;
         }
 
         .upload-progress-bar {
-            font-size: .75rem;
-            font-weight: 600;
-            line-height: 1.25rem;
+            background-image: linear-gradient(90deg, #1d4ed8 0%, #0ea5e9 100%);
             transition: width .2s ease;
+        }
+
+        .upload-progress-hint {
+            display: block;
+            margin-top: .45rem;
+            color: #64748b;
+            font-size: .74rem;
+            line-height: 1.25;
         }
     </style>
 @endsection
@@ -355,22 +424,99 @@
             var $form = jQuery('#' + id);
             var $loader = $form.find('.form-loader');
             var $progressBar = $form.find('.upload-progress-bar');
+            var $progressValue = $form.find('.upload-progress-value');
+            var $progressHint = $form.find('.upload-progress-hint');
+            var visualProgress = 0;
+            var visualProgressTimer = null;
+            var processingProgressTimer = null;
 
-            function updateProgress(percentComplete) {
+            function clearVisualProgressTimer() {
+                if (visualProgressTimer) {
+                    clearInterval(visualProgressTimer);
+                    visualProgressTimer = null;
+                }
+            }
+
+            function clearProcessingProgressTimer() {
+                if (processingProgressTimer) {
+                    clearInterval(processingProgressTimer);
+                    processingProgressTimer = null;
+                }
+            }
+
+            function updateProgress(percentComplete, label) {
                 var safePercent = Number.isFinite(percentComplete) ? Math.max(0, Math.min(100, Math.round(percentComplete))) : 0;
                 $progressBar
                     .css('width', safePercent + '%')
-                    .attr('aria-valuenow', safePercent)
-                    .text(safePercent + '%');
+                    .attr('aria-valuenow', safePercent);
+                $progressValue.text(safePercent + '%');
+                if (label) {
+                    $progressHint.text(label);
+                } else if (safePercent >= 100) {
+                    $progressHint.text('Upload completato');
+                } else if (safePercent > 0) {
+                    $progressHint.text('Caricamento file in corso...');
+                } else {
+                    $progressHint.text('Preparazione upload...');
+                }
+            }
+
+            function startVisualProgress() {
+                clearVisualProgressTimer();
+                clearProcessingProgressTimer();
+                visualProgress = 2;
+                updateProgress(visualProgress);
+
+                // Avanzamento "morbido" fino al 92% durante upload/elaborazione server.
+                visualProgressTimer = setInterval(function () {
+                    if (visualProgress >= 92) {
+                        return;
+                    }
+
+                    visualProgress += visualProgress < 70 ? 2 : 1;
+                    updateProgress(visualProgress);
+                }, 350);
+            }
+
+            function setProcessingState() {
+                clearVisualProgressTimer();
+                clearProcessingProgressTimer();
+
+                var milestones = [60, 75, 80, 86, 90, 93, 95, 97, 98];
+                var index = 0;
+
+                visualProgress = Math.max(visualProgress, 55);
+                updateProgress(visualProgress, 'Elaborazione dati lato server...');
+
+                processingProgressTimer = setInterval(function () {
+                    if (index >= milestones.length) {
+                        clearProcessingProgressTimer();
+                        return;
+                    }
+
+                    var nextValue = milestones[index];
+                    index++;
+
+                    if (nextValue > visualProgress && nextValue < 100) {
+                        visualProgress = nextValue;
+                        updateProgress(visualProgress, 'Elaborazione dati lato server...');
+                    }
+                }, 700);
             }
 
             jQuery('#'+id).ajaxForm({
                 beforeSend: function() {
-                    updateProgress(0);
+                    startVisualProgress();
                     $loader.attr('hidden', false);
                 },
                 uploadProgress: function(event, position, total, percentComplete) {
-                    updateProgress(percentComplete);
+                    if (percentComplete >= 100) {
+                        setProcessingState();
+                    } else {
+                        var boundedProgress = Math.min(94, Math.round(percentComplete));
+                        visualProgress = Math.max(visualProgress, boundedProgress);
+                        updateProgress(visualProgress);
+                    }
                     $loader.attr('hidden', false);
                 },
                 error: function (response, status, e) {
@@ -386,11 +532,16 @@
                         jQuery('#'+id).prepend('<div class="alert alert-danger py-2">' + message +'</div>');
                     }
 
+                    clearVisualProgressTimer();
+                    clearProcessingProgressTimer();
                     updateProgress(0);
                     $loader.attr('hidden', true);
                 },
                 success: function (data) {
+                    clearVisualProgressTimer();
+                    clearProcessingProgressTimer();
                     if(data.url){
+                        updateProgress(100);
                         window.location.href = data.url;
                     }else{
                         console.log('success', data);
@@ -405,6 +556,41 @@
 
                 }
             });
+        });
+
+        jQuery('form.js-submit-progress').on('submit', function () {
+            var $form = jQuery(this);
+            var $loader = $form.find('.form-loader');
+            var $progressBar = $form.find('.upload-progress-bar');
+            var $progressValue = $form.find('.upload-progress-value');
+            var $progressHint = $form.find('.upload-progress-hint');
+            var current = 0;
+
+            $loader.attr('hidden', false);
+            $form.find('button[type="submit"]').prop('disabled', true);
+
+            function updatePostImportProgress(value, hintText) {
+                current = Math.max(current, Math.min(99, Math.round(value)));
+                $progressBar.css('width', current + '%').attr('aria-valuenow', current);
+                $progressValue.text(current + '%');
+                if (hintText) {
+                    $progressHint.text(hintText);
+                }
+            }
+
+            updatePostImportProgress(8, 'Avvio operazioni post-import...');
+
+            var sequence = [20, 35, 50, 65, 75, 82, 88, 93, 96, 98];
+            var idx = 0;
+            var timer = setInterval(function () {
+                if (idx >= sequence.length) {
+                    clearInterval(timer);
+                    return;
+                }
+
+                updatePostImportProgress(sequence[idx], 'Elaborazione operazioni in corso...');
+                idx++;
+            }, 700);
         });
     </script>
 @endsection
