@@ -104,3 +104,11 @@
   - Soluzione: ridotte query N+1 su menu frontend introducendo helper `getFrontendMenuTree()` (2 query totali invece di 1+N), ridotto N+1 nel recupero figli categorie in listing, interrotto lookup lingua al primo match e stabilizzato generazione `special_urls` evitando crescita durante iterazione.
   - Rischio/Impatto: basso; output invariato, possibile minima differenza solo in casi anomali di slug duplicati su più lingue (ora ci si ferma al primo match).
 
+- 2026-04-08
+  - Contesto: richiesta miglioramento layout moderno per pagina admin Elfinder (`/admin/elfinder`).
+  - Soluzione: restyling scoped in `resources/views/vendor/elfinder/elfinder.blade.php` (shell card con gradient, toolbar rifinita, sidebar/cartelle, tabella file, stati hover/selected, status bar e responsive), senza modificare logica JS e funzioni file manager.
+  - Rischio/Impatto: basso; modifica solo visuale sulla schermata Elfinder standalone.
+- 2026-04-08
+  - Contesto: regressione leggibilità UI Elfinder dopo restyling (icone toolbar poco visibili, testo cartelle/file non leggibile in hover/selected).
+  - Soluzione: aggiornato CSS scoped in `resources/views/vendor/elfinder/elfinder.blade.php` aumentando contrasto toolbar (background scuro + hover coerente) e forzando colori testo su tree/cwd per stati normal/hover/selected.
+  - Rischio/Impatto: molto basso; fix solo visuale su pagina Elfinder.
