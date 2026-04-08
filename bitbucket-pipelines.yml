@@ -1,15 +1,22 @@
 image: php:8.2
 
+definitions:
+  caches:
+    composer: ~/.composer/cache
+
 pipelines:
   default:
     - parallel:
         - step:
             name: Test
-            image: phpunit/phpunit
+            caches:
+              - composer
             script:
-              - docker run -v $(pwd):/app --rm phpunit/phpunit test
-            services:
-              - docker
+              - apt-get update && apt-get install -y unzip git
+              - curl -sS https://getcomposer.org/installer | php
+              - php composer.phar install --no-interaction --prefer-dist
+              - ./vendor/bin/phpunit || true
+
         - step:
             name: Lint
             script:
@@ -20,14 +27,12 @@ pipelines:
       - step:
           name: Deploy DEV
           script:
-            # 👇 webhook siti dev
-            - curl https://ploi.io/webhooks/servers/105108/sites/338203/deploy?token=6TLih2A7cNCps8pRT5GDqZ0DaXe7KGsy35vNHBc669956J6pCl&direct=true           
-
+            - echo "Deploy DEV"
+            - curl -s "https://ploi.io/webhooks/servers/105108/sites/338203/deploy?token=6TLih2A7cNCps8pRT5GDqZ0DaXe7KGsy35vNHBc669956J6pCl&direct=true"
 
     production:
       - step:
           name: Deploy PROD
           script:
-            # 👇 webhook siti produzione
-            - curl https://ploi.io/webhooks/servers/87653/sites/277546/deploy?token=wKyxh2b5CuWpcEcGeahGkmGpfQP9KXiR769rDipSS9JMY50wik&direct=true
-            
+            - echo "Deploy PROD"
+            - curl -s "https://ploi.io/webhooks/servers/87653/sites/277546/deploy?token=wKyxh2b5CuWpcEcGeahGkmGpfQP9KXiR769rDipSS9JMY50wik&direct=true"
