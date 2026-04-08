@@ -1,0 +1,33 @@
+image: php:8.2
+
+pipelines:
+  default:
+    - parallel:
+        - step:
+            name: Test
+            image: phpunit/phpunit
+            script:
+              - docker run -v $(pwd):/app --rm phpunit/phpunit test
+            services:
+              - docker
+        - step:
+            name: Lint
+            script:
+              - find . -name '*.php' -exec php -l {} \;
+
+  branches:
+    dev:
+      - step:
+          name: Deploy DEV
+          script:
+            # 👇 webhook siti dev
+            - curl https://ploi.io/webhooks/servers/105108/sites/338203/deploy?token=6TLih2A7cNCps8pRT5GDqZ0DaXe7KGsy35vNHBc669956J6pCl&direct=true           
+
+
+    master:
+      - step:
+          name: Deploy PROD
+          script:
+            # 👇 webhook siti produzione
+            - curl https://ploi.io/webhooks/servers/87653/sites/277546/deploy?token=wKyxh2b5CuWpcEcGeahGkmGpfQP9KXiR769rDipSS9JMY50wik&direct=true
+            
