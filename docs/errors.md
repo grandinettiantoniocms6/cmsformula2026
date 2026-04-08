@@ -22,3 +22,8 @@
   - Causa radice: interpolazione diretta dello slug in whereRaw("slug LIKE ...") in PluginProductsController, con apice non escapato che spezza la query.
   - Soluzione: sostituite le query raw con placeholder bindati (whereRaw("slug LIKE ?", [...])) nei punti di lookup slug coinvolti nel flusso dettaglio.
   - Prevenzione: per qualunque whereRaw con valori dinamici usare sempre binding parametrico ed evitare concatenazione stringhe SQL.
+- 2026-04-08
+  - Contesto: warning PHP su header frontend Crafto durante render logo (`getimagesize(...): Failed to open stream: No such file or directory`).
+  - Causa radice: `getimagesize` invocato su path relativo DB (`uploads/...`) non risolto come path locale assoluto e senza verifica esistenza file.
+  - Soluzione: conversione preventiva del path con `public_path(ltrim(...))` e guardia `is_file(...)` prima della lettura dimensioni immagine.
+  - Prevenzione: nelle view Blade evitare `getimagesize` su URL/path relativi non verificati; usare sempre path filesystem assoluto e fallback senza warning se risorsa assente.

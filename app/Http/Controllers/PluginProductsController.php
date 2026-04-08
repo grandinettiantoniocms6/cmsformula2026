@@ -96,6 +96,7 @@ class PluginProductsController extends Controller
                 $item = Page::whereRaw("slug LIKE '%\"{$item_lang->name}\":\"$currentSlug\"%'")->first();
                 if($item){
                     App::setLocale($item_lang->name);
+                    break;
                 }
             }
         }
@@ -111,7 +112,8 @@ class PluginProductsController extends Controller
         }
 
         if(count($special_urls)){
-            foreach ($special_urls as $special){
+            $special_urls_base = $special_urls;
+            foreach ($special_urls_base as $special){
                 foreach ($adminLangs as $item_lang){
                     $special_urls[] = "$special-{$item_lang->name}";
                 }
@@ -163,15 +165,7 @@ class PluginProductsController extends Controller
 
         $website = WebsiteSetting::first();
 
-        $menu = Page::where("is_in_menu", 1)->where("is_active", 1)->where("parent_id", null)->orderBy("lft", "asc")->get();
-        if($menu){
-            foreach ($menu as $item){
-                $check = Page::where("is_in_menu", 1)->where("parent_id", $item->id)->orderBy("lft", "asc")->get();
-                if($check){
-                    $item->figli = $check;
-                }
-            }
-        }
+        $menu = $this->getFrontendMenuTree();
 
         $plugin = PluginProductsSettings::first();
         $select_order_by = "$plugin->order_field|$plugin->order_type";
@@ -429,15 +423,21 @@ class PluginProductsController extends Controller
             $v_cat = [];
 
             if($categories){
+                $childrenByParent = collect();
+                if(count($categories)){
+                    $childrenByParent = PluginProductsCategories::where("is_active", 1)
+                        ->whereIn("parent_id", $categories->pluck("id")->toArray())
+                        ->get()
+                        ->groupBy("parent_id");
+                }
+
                 foreach ($categories as $temp_category){
                     $v_cat[] = $temp_category->id;
 
-                    $figli = PluginProductsCategories::where("is_active", 1)->where("parent_id", $temp_category->id)->get();
-                    if($figli){
-                        if($figli){
-                            foreach($figli as $figlio){
-                                $v_cat[] = $figlio->id;
-                            }
+                    $figli = $childrenByParent->get($temp_category->id, collect());
+                    if(count($figli)){
+                        foreach($figli as $figlio){
+                            $v_cat[] = $figlio->id;
                         }
                     }
                 }
@@ -455,13 +455,6 @@ class PluginProductsController extends Controller
             ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
             ->whereRaw("$sql_categories $sql_tags AND langs LIKE '%,$lang,%' AND plugins_products.is_active = 1")
             ->where("plugins_products.is_variant", 0)
-            ->where(function ($query) use ($v_cat) {
-                if ($v_cat) {
-                    foreach ($v_cat as $catId) {
-                        $query->orWhere('categories', 'LIKE', "%,$catId,%");
-                    }
-                }
-            })
             ->when(!empty($brandIds), function ($query) use ($brandIds) {
                 $query->whereIn('plugins_products.brand_id', $brandIds);
             })
@@ -490,13 +483,6 @@ class PluginProductsController extends Controller
         $products_processed = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.attributes, plugins_products_search.options as search_options, plugins_products_search.price as search_price, plugins_products_search.brands as search_brands, plugins_products_search.tags as search_tags")
             ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
             ->whereRaw("$sql_categories $sql_tags AND langs LIKE '%,$lang,%'")
-            ->where(function ($query) use ($v_cat) {
-                if ($v_cat) {
-                    foreach ($v_cat as $catId) {
-                        $query->orWhere('categories', 'LIKE', "%,$catId,%");
-                    }
-                }
-            })
             ->when(!empty($brandIds), function ($query) use ($brandIds) {
                 $query->whereIn('plugins_products.brand_id', $brandIds);
             })
@@ -648,6 +634,7 @@ class PluginProductsController extends Controller
                 )->first();
                 if($item){
                     App::setLocale($item_lang->name);
+                    break;
                 }
             }
         }
@@ -663,15 +650,7 @@ class PluginProductsController extends Controller
         }
 
 
-        $menu = Page::where("is_in_menu", 1)->where("is_active", 1)->where("parent_id", null)->orderBy("lft", "asc")->get();
-        if($menu){
-            foreach ($menu as $item){
-                $check = Page::where("is_in_menu", 1)->where("parent_id", $item->id)->orderBy("lft", "asc")->get();
-                if($check){
-                    $item->figli = $check;
-                }
-            }
-        }
+        $menu = $this->getFrontendMenuTree();
 
 
         $itemProduct = PluginProducts::where("is_active", 1)->whereRaw(
@@ -930,15 +909,7 @@ class PluginProductsController extends Controller
 
     public function not_found(){
         $thema = env('TEMA');
-        $menu = Page::where("is_in_menu", 1)->where("is_active", 1)->where("parent_id", null)->orderBy("lft", "asc")->get();
-        if($menu){
-            foreach ($menu as $item){
-                $check = Page::where("is_in_menu", 1)->where("parent_id", $item->id)->orderBy("lft", "asc")->get();
-                if($check){
-                    $item->figli = $check;
-                }
-            }
-        }
+        $menu = $this->getFrontendMenuTree();
 
         $lang = \App::getLocale();
         $lang_ = strtoupper($lang);
@@ -1645,15 +1616,7 @@ class PluginProductsController extends Controller
 
         $thema = env('TEMA');
 
-        $menu = Page::where("is_in_menu", 1)->where("is_active", 1)->where("parent_id", null)->orderBy("lft", "asc")->get();
-        if($menu){
-            foreach ($menu as $item){
-                $check = Page::where("is_in_menu", 1)->where("parent_id", $item->id)->orderBy("lft", "asc")->get();
-                if($check){
-                    $item->figli = $check;
-                }
-            }
-        }
+        $menu = $this->getFrontendMenuTree();
 
         $page = null;
 
@@ -1698,6 +1661,31 @@ class PluginProductsController extends Controller
 
         return $cart;
 
+    }
+
+    protected function getFrontendMenuTree()
+    {
+        $menu = Page::where("is_in_menu", 1)
+            ->where("is_active", 1)
+            ->where("parent_id", null)
+            ->orderBy("lft", "asc")
+            ->get();
+
+        if(!count($menu)){
+            return $menu;
+        }
+
+        $childrenByParent = Page::where("is_in_menu", 1)
+            ->whereIn("parent_id", $menu->pluck("id")->toArray())
+            ->orderBy("lft", "asc")
+            ->get()
+            ->groupBy("parent_id");
+
+        foreach ($menu as $item){
+            $item->figli = $childrenByParent->get($item->id, collect());
+        }
+
+        return $menu;
     }
 
 

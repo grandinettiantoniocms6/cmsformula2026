@@ -89,3 +89,18 @@
   - Soluzione: impostati default nei campi CRUD (`public/img/commons/admin/logo-dashboard-CMS6_s2.png` e `public/img/commons/admin/logo-dashboard-CMS6_s2_login.png`) e allineati i fallback visuali in header admin/login/reset password.
   - Rischio/Impatto: basso; impatto solo presentazionale, nessuna modifica a permessi o flussi auth.
 
+- 2026-04-08
+  - Contesto: warning PHP in frontend su `getimagesize(uploads/logo/logo-sbalchiero.png): Failed to open stream` in `resources/views/Crafto/inc/header_menu.blade.php`.
+  - Soluzione: introdotto controllo su path filesystem reale con `public_path(...)` + `is_file(...)` prima di invocare `getimagesize`, con fallback sicuro senza attributi `width/height` quando il file non esiste.
+  - Rischio/Impatto: basso; modifica locale alla view Crafto, elimina warning mantenendo invariata la resa quando il logo è presente.
+
+- 2026-04-08
+  - Contesto: richiesta ottimizzazione query in `PluginProductsController` mantenendo logica e risultati invariati.
+  - Soluzione: rimosso doppio filtro categorie ridondante nelle query principali del listing prodotti e aggiunta migration `2026_04_08_121500_add_performance_indexes_plugin_products_queries.php` con indici mirati su tabelle coinvolte (`plugins_products`, `plugins_products_search`, `plugins_products_categories`, `pages`, `shop_attributes_products`, `plugins_products_categories_products`, `shop_promotions`).
+  - Rischio/Impatto: medio-basso; nessuna modifica funzionale lato business, ma aumento costo scrittura su tabelle indicizzate e possibile variazione piani query da validare in staging.
+
+- 2026-04-08
+  - Contesto: ulteriore ottimizzazione performance frontend (document `/balconiere`) su `PluginProductsController`.
+  - Soluzione: ridotte query N+1 su menu frontend introducendo helper `getFrontendMenuTree()` (2 query totali invece di 1+N), ridotto N+1 nel recupero figli categorie in listing, interrotto lookup lingua al primo match e stabilizzato generazione `special_urls` evitando crescita durante iterazione.
+  - Rischio/Impatto: basso; output invariato, possibile minima differenza solo in casi anomali di slug duplicati su più lingue (ora ci si ferma al primo match).
+
