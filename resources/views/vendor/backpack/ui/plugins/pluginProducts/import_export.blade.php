@@ -30,7 +30,11 @@
                         {{ csrf_field() }}
 
                         <div class="form-loader" hidden>
-                            <div class="spinner-border text-primary" role="status"></div>
+                            <div class="upload-progress-wrapper">
+                                <div class="progress upload-progress">
+                                    <div class="progress-bar upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -66,7 +70,11 @@
                         {{ csrf_field() }}
 
                         <div class="form-loader" hidden>
-                            <div class="spinner-border text-primary" role="status"></div>
+                            <div class="upload-progress-wrapper">
+                                <div class="progress upload-progress">
+                                    <div class="progress-bar upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -130,7 +138,11 @@
 
 
                         <div class="form-loader" hidden>
-                            <div class="spinner-border text-primary" role="status"></div>
+                            <div class="upload-progress-wrapper">
+                                <div class="progress upload-progress">
+                                    <div class="progress-bar upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -296,6 +308,23 @@
 
 @section('after_styles')
     <link rel="stylesheet" type="text/css" href="{{ url("css/admin.css") }}">
+    <style>
+        .upload-progress-wrapper {
+            padding: .25rem 0 .75rem;
+        }
+
+        .upload-progress {
+            height: 1.25rem;
+            background: #e9ecef;
+        }
+
+        .upload-progress-bar {
+            font-size: .75rem;
+            font-weight: 600;
+            line-height: 1.25rem;
+            transition: width .2s ease;
+        }
+    </style>
 @endsection
 
 @section('after_scripts')
@@ -319,12 +348,30 @@
 
         jQuery('form').each(function(){
             var id = jQuery(this).attr('id');
+            if (!id) {
+                return;
+            }
+
+            var $form = jQuery('#' + id);
+            var $loader = $form.find('.form-loader');
+            var $progressBar = $form.find('.upload-progress-bar');
+
+            function updateProgress(percentComplete) {
+                var safePercent = Number.isFinite(percentComplete) ? Math.max(0, Math.min(100, Math.round(percentComplete))) : 0;
+                $progressBar
+                    .css('width', safePercent + '%')
+                    .attr('aria-valuenow', safePercent)
+                    .text(safePercent + '%');
+            }
+
             jQuery('#'+id).ajaxForm({
                 beforeSend: function() {
-                    console.log('form: ' + id);
+                    updateProgress(0);
+                    $loader.attr('hidden', false);
                 },
                 uploadProgress: function(event, position, total, percentComplete) {
-                    jQuery('#'+id).find('.form-loader').attr('hidden', false);
+                    updateProgress(percentComplete);
+                    $loader.attr('hidden', false);
                 },
                 error: function (response, status, e) {
                     var message = '';
@@ -339,14 +386,19 @@
                         jQuery('#'+id).prepend('<div class="alert alert-danger py-2">' + message +'</div>');
                     }
 
-                    jQuery('#'+id).find('.form-loader').attr('hidden', true);
+                    updateProgress(0);
+                    $loader.attr('hidden', true);
                 },
                 success: function (data) {
                     if(data.url){
                         window.location.href = data.url;
                     }else{
                         console.log('success', data);
-                        jQuery('#'+id).find('.form-loader').attr('hidden', true);
+                        updateProgress(100);
+                        setTimeout(function () {
+                            updateProgress(0);
+                            $loader.attr('hidden', true);
+                        }, 400);
                         jQuery('#'+id).find('input[type="file"]').val('');
                         jQuery('#'+id).prepend('<div class="alert alert-success py-2">File caricato con successo</div>');
                     }
