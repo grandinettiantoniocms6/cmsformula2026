@@ -24,7 +24,7 @@ pipelines:
             - curl https://ploi.io/webhooks/servers/105108/sites/338203/deploy?token=6TLih2A7cNCps8pRT5GDqZ0DaXe7KGsy35vNHBc669956J6pCl&direct=true           
 
 
-    master:
+    production:
       - step:
           name: Deploy PROD
           script:
