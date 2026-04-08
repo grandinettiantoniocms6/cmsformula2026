@@ -78,6 +78,19 @@
             box-shadow: 0 12px 25px rgba(30, 85, 184, .24);
         }
 
+        .auth-page-meta {
+            margin-top: .95rem;
+            text-align: center;
+            font-size: .84rem;
+            font-weight: 600;
+            color: #d5e3ff;
+        }
+
+        .auth-page-meta a {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
         @media (max-width: 767.98px) {
             .auth-reset-shell {
                 border-radius: 18px;
@@ -89,6 +102,11 @@
             }
 
             .auth-reset-shell .nav-tabs .nav-link {
+                font-size: .8rem;
+            }
+
+            .auth-page-meta {
+                margin-top: .7rem;
                 font-size: .8rem;
             }
         }
@@ -180,6 +198,9 @@
                     </div>
                     {{-- /.tab-content --}}
                 </div>
+            </div>
+            <div class="auth-page-meta">
+                Realizzato da <a target="_blank" rel="noopener" href="{{ config('backpack.base.developer_link') }}">{{ config('backpack.base.developer_name') }}</a> - Ver. 6.0.1.
             </div>
         </div>
     </div>

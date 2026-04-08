@@ -34,6 +34,19 @@
             padding: 0 1rem;
         }
 
+        .auth-page-meta {
+            margin-top: .95rem;
+            text-align: center;
+            font-size: .84rem;
+            font-weight: 600;
+            color: #48689f;
+        }
+
+        .auth-page-meta a {
+            color: #2d67d1;
+            font-weight: 700;
+        }
+
         .auth-login-shell {
             position: relative;
             border-radius: 28px;
@@ -175,6 +188,7 @@
         @media (max-width: 991.98px) {
             .auth-login-wrapper {
                 margin: 1.3rem auto;
+                padding: 0 .85rem;
             }
 
             .auth-login-shell {
@@ -211,6 +225,11 @@
 
             .auth-form-subtitle {
                 text-align: center;
+            }
+
+            .auth-page-meta {
+                margin-top: .7rem;
+                font-size: .8rem;
             }
         }
     </style>
@@ -300,12 +319,9 @@
                 </div>
             </div>
         </div>
-    </div>
-@endsection
-
-@section('footer')
-    <div class="text-center mx-auto">
-        Realizzato da <a target="_blank" rel="noopener" href="{{ config('backpack.base.developer_link') }}">{{ config('backpack.base.developer_name') }}</a>.
+        <div class="auth-page-meta">
+            Realizzato da <a target="_blank" rel="noopener" href="{{ config('backpack.base.developer_link') }}">{{ config('backpack.base.developer_name') }}</a> - Ver. 6.0.1.
+        </div>
     </div>
 @endsection
 
@@ -323,5 +339,3 @@
         });
     </script>
 @endsection
-
-

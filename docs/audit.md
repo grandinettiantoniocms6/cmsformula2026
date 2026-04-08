@@ -155,3 +155,11 @@
   - Rischio/Impatto: molto basso; modifica locale al rendering URL immagine logo admin.
 
 
+- 2026-04-08
+  - Contesto: su mobile nella pagina login admin il footer `Realizzato da ...` si sovrapponeva visivamente al box form.
+  - Soluzione: aggiornato CSS scoped in `resources/views/vendor/backpack/theme-coreuiv2/auth/login.blade.php` impostando `footer.app-footer.sticky-footer` non sovrapposto (position static) con spaziatura inferiore e adattamento mobile.
+  - Rischio/Impatto: molto basso; modifica solo presentazionale sulla pagina login admin.
+- 2026-04-08
+  - Contesto: fix precedente del footer login non allineato alla richiesta (testo spostato lateralmente su mobile).
+  - Soluzione: rimosso uso di `@section('footer')` nella login e introdotto blocco dedicato `auth-page-meta` separato sotto la card; stessa struttura applicata anche a `auth/passwords/email` (`/admin/password/reset`) e `auth/passwords/reset` per evitare sovrapposizioni.
+  - Rischio/Impatto: molto basso; modifica esclusivamente di layout/testo nelle pagine auth admin.
