@@ -52,3 +52,13 @@
   - Prevenzione: per asset pubblici in Blade, evitare hardcode `public/...` negli URL finali e centralizzare una normalizzazione del path.
 
 
+- 2026-04-09
+  - Contesto: sottomenu dropdown `Gestione` tagliato in `admin/pluginProducts` list.
+  - Causa radice: `overflow: hidden` sul selettore `#crudTable` introdotto da restyling, che clipppa i menu assoluti dentro le righe DataTables.
+  - Soluzione: ripristinato `overflow: visible` su tabella/tbody/td e aumento `z-index` su `.dropdown-menu` nella view lista plugin products.
+  - Prevenzione: su DataTables con menu dropdown evitare `overflow: hidden` su contenitori tabellari; applicare arrotondamenti su wrapper non clipping.
+- 2026-04-09
+  - Contesto: errori runtime in Blade (`Undefined variable $website` / `Undefined variable $isModernAdminTemplate`) dopo introduzione toggle tema admin.
+  - Causa radice: uso della sintassi one-line `@php(...)` non compilata correttamente in questo stack Blade, con output PHP malformato e blocchi `@php ... @endphp` successivi non eseguiti.
+  - Soluzione: sostituiti tutti gli `@php(...)` con blocchi espliciti `@php ... @endphp`, mantenendo inizializzazione variabili prima dei relativi `@if`.
+  - Prevenzione: in questo repository evitare la sintassi one-line `@php(...)`; usare sempre blocchi `@php ... @endphp` per variabili di vista.

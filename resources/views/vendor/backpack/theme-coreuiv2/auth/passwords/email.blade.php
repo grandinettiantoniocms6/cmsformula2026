@@ -1,6 +1,11 @@
-@extends(backpack_view('layouts.plain'))
+﻿@extends(backpack_view('layouts.plain'))
+
+@php
+    $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+@endphp
 
 @section('after_styles')
+    @if($isModernAdminTemplate)
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap');
 
@@ -116,6 +121,7 @@
             }
         }
     </style>
+    @endif
 @endsection
 
 {{-- Main Content --}}

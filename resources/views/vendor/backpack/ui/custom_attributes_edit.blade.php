@@ -5,6 +5,7 @@
     trans('backpack::crud.admin') => backpack_url('dashboard'),
     "lista" => "/admin/"
   ];
+  $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
 
   // if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs
   $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
@@ -12,25 +13,87 @@
 @endphp
 @push('after_styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
+    @if($isModernAdminTemplate)
     <style>
         .swal-wide{
             width:850px !important;
         }
+
+        .enhanced-custom-attributes-edit-header {
+            background: linear-gradient(130deg, #ffffff 0%, #f4f8ff 100%);
+            border: 1px solid #dbe6fb;
+            border-radius: 14px;
+            padding: 14px 16px;
+            box-shadow: 0 8px 22px rgba(24, 43, 81, 0.08);
+            margin-bottom: 12px;
+        }
+
+        .enhanced-custom-attributes-edit-header .page-title {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+            color: #182f59;
+            font-weight: 700;
+        }
+
+        .enhanced-custom-attributes-edit-header .page-title small {
+            color: #607197;
+            font-weight: 600;
+        }
+
+        .enhanced-custom-attributes-edit-header .page-title small a {
+            color: #3b5d9f;
+            font-weight: 700;
+        }
+
+        .enhanced-custom-attributes-edit-header .page-title small a:hover {
+            color: #2b4d8d;
+            text-decoration: none;
+        }
+
+        .container-fluid .form-group > label {
+            color: #223a67;
+            font-weight: 700;
+        }
+
+        .container-fluid .form-control,
+        .container-fluid .select2-container--bootstrap .select2-selection {
+            min-height: 42px;
+            border-radius: 9px !important;
+            border-color: #d7e1f2;
+            box-shadow: inset 0 1px 2px rgba(18, 38, 76, 0.04);
+        }
+
+        .container-fluid .form-control:focus {
+            border-color: #89a6dc;
+            box-shadow: 0 0 0 3px rgba(62, 111, 206, 0.13);
+        }
+
+        .container-fluid .btn-success,
+        .container-fluid .btn-primary {
+            border-radius: 10px;
+            font-weight: 700;
+            box-shadow: 0 8px 18px rgba(14, 36, 79, 0.14);
+        }
     </style>
+    @endif
 @endpush
 
 @section('header')
-    <h3 class="page-title mb-0">
-        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-        <small>{!! $crud->getSubheading() ?? trans('backpack::crud.edit').' '.$crud->entity_name !!}.</small>
-        @if(is_numeric(strpos($crud->route, "block")))
-            <small><a href="javascript:history.back()" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> <span>Torna al contenuto pagina</span></a></small>
-        @else
-            @if ($crud->hasAccess('list'))
-                <small><a href="#" onclick="history.back()" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
+    <div class="{{ $isModernAdminTemplate ? 'enhanced-custom-attributes-edit-header' : '' }}">
+        <h3 class="page-title mb-0">
+            <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+            <small>{!! $crud->getSubheading() ?? trans('backpack::crud.edit').' '.$crud->entity_name !!}.</small>
+            @if(is_numeric(strpos($crud->route, "block")))
+                <small><a href="javascript:history.back()" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> <span>Torna al contenuto pagina</span></a></small>
+            @else
+                @if ($crud->hasAccess('list'))
+                    <small><a href="#" onclick="history.back()" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
+                @endif
             @endif
-        @endif
-    </h3>
+        </h3>
+    </div>
 @endsection
 
 @section('content')

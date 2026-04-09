@@ -1,3 +1,8 @@
+@php
+    $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+    $isModernAdminTemplate02 = \App\Models\WebsiteSetting::isAdminModern02Template();
+@endphp
+@if($isModernAdminTemplate)
 <style>
   .topbar-user-dropdown .nav-link.avatar {
     display: inline-flex;
@@ -6,7 +11,7 @@
     width: 42px;
     height: 42px;
     padding: 0 !important;
-    border-radius: 10px;
+    border-radius: 999px;
     background: transparent;
     border: 1px solid rgba(255, 255, 255, .2);
     transition: all .2s ease;
@@ -20,7 +25,7 @@
   .topbar-user-dropdown .backpack-avatar-menu-container {
     width: 36px;
     height: 36px;
-    border-radius: 8px 16px 8px 8px !important;
+    border-radius: 999px !important;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -66,7 +71,26 @@
   .topbar-user-dropdown .dropdown-divider {
     margin: .45rem 0;
   }
+
+  @if($isModernAdminTemplate02)
+  .topbar-user-dropdown .nav-link.avatar {
+    border-color: #d4e4ff;
+    background: #f4f8ff;
+    box-shadow: 0 8px 20px rgba(28, 73, 152, .12);
+  }
+
+  .topbar-user-dropdown .backpack-avatar-menu-container {
+    background: linear-gradient(145deg, #3f7ae8, #4db6ff);
+    box-shadow: 0 10px 18px rgba(46, 106, 202, .28);
+  }
+
+  .topbar-user-dropdown .dropdown-menu {
+    border: 1px solid #d8e6fb;
+    box-shadow: 0 16px 32px rgba(20, 62, 136, .14);
+  }
+  @endif
 </style>
+@endif
 
 <li class="nav-item dropdown pr-4 topbar-user-dropdown">
   <a class="nav-link avatar" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">

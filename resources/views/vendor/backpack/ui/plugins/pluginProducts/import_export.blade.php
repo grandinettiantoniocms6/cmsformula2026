@@ -1,7 +1,13 @@
-@extends(backpack_view('blank'))
+﻿@extends(backpack_view('blank'))
+
+@php
+    $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+@endphp
 
 @section('header')
-    <h3 class="page-title mb-0">Import/Export</h3>
+    <div class="import-export-header-shell">
+        <h3 class="page-title mb-0">Import/Export</h3>
+    </div>
 @endsection
 
 
@@ -336,6 +342,7 @@
 
 @section('after_styles')
     <link rel="stylesheet" type="text/css" href="{{ url("css/admin.css") }}">
+    @if($isModernAdminTemplate)
     <style>
         .upload-progress-wrapper {
             margin: .35rem 0 .9rem;
@@ -394,7 +401,53 @@
             line-height: 1.25;
         }
     </style>
+    @endif
 @endsection
+
+@push('after_styles')
+    @if($isModernAdminTemplate)
+    <style>
+        .import-export-header-shell {
+            background: linear-gradient(125deg, #ffffff 0%, #f2f6ff 100%);
+            border: 1px solid #dae5fb;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 22px rgba(23, 43, 81, 0.08);
+        }
+
+        .import-export-header-shell .page-title {
+            color: #182f59;
+            font-weight: 700;
+        }
+
+        .card.h-100.shadow-none {
+            border: 1px solid #dfe7f6;
+            border-radius: 12px;
+            box-shadow: 0 10px 22px rgba(19, 38, 75, 0.08) !important;
+        }
+
+        .card.h-100.shadow-none .card-header {
+            background: #f5f8ff !important;
+            color: #233e6f;
+            font-weight: 700;
+            border-bottom: 1px solid #e0e8f7;
+        }
+
+        .card.h-100.shadow-none .btn {
+            border-radius: 9px;
+            font-weight: 700;
+        }
+
+        .card.h-100.shadow-none .form-control,
+        .card.h-100.shadow-none .custom-select {
+            border-radius: 8px;
+            border-color: #d5def0;
+            min-height: 40px;
+        }
+    </style>
+    @endif
+@endpush
 
 @section('after_scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>

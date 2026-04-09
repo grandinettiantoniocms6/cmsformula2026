@@ -1,4 +1,8 @@
-@extends(backpack_view('blank'))
+﻿@extends(backpack_view('blank'))
+
+@php
+    $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+@endphp
 
 @php
   $defaultBreadcrumbs = [
@@ -17,10 +21,12 @@
 @endphp
 
 @section('header')
-    <h3 class="page-title mb-0">
-        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-        <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
-    </h3>
+    <div class="users-list-header-shell">
+        <h3 class="page-title mb-0">
+            <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+            <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+        </h3>
+    </div>
 @endsection
 
 @section('content')
@@ -55,7 +61,7 @@
         <div class="row mb-0">
           <div class="col-sm-6">
             @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
-              <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
+              <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }} users-list-toolbar">
 
                 @include('crud::inc.button_stack', ['stack' => 'top'])
 
@@ -190,6 +196,134 @@
   <link rel="stylesheet" href="{{ asset('packages/select2/dist/css/select2.css') }}">
   <!-- CRUD LIST CONTENT - crud_list_styles stack -->
   @stack('crud_list_styles')
+
+  @if($isModernAdminTemplate)
+  <style>
+    .users-list-header-shell {
+      background: linear-gradient(125deg, #ffffff 0%, #f2f6ff 100%);
+      border: 1px solid #dae5fb;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 22px rgba(23, 43, 81, 0.08);
+    }
+
+    .users-list-header-shell .page-title {
+      color: #182f59;
+      font-weight: 700;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .users-list-header-shell #datatable_info_stack {
+      color: #5e7097;
+      font-weight: 600;
+      font-size: .9rem;
+    }
+
+    .users-list-toolbar {
+      background: #f8faff;
+      border: 1px solid #e2e9f7;
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 8px 18px rgba(21, 39, 75, 0.06);
+    }
+
+    .users-list-toolbar .btn,
+    .users-list-toolbar .dropdown .btn {
+      border-radius: 9px;
+      font-weight: 700;
+      box-shadow: none;
+    }
+
+    .users-list-toolbar .btn:hover {
+      transform: translateY(-1px);
+      transition: transform .12s ease;
+    }
+
+    #datatable_search_stack .dataTables_filter {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    #datatable_search_stack .dataTables_filter label {
+      margin: 0;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    #datatable_search_stack .dataTables_filter input {
+      width: 100% !important;
+      min-height: 40px;
+      border-radius: 999px;
+      border: 1px solid #d6dfef;
+      padding: 0 14px;
+      box-shadow: inset 0 1px 2px rgba(19, 39, 76, 0.04);
+    }
+
+    #datatable_search_stack .dataTables_filter input:focus {
+      border-color: #8ea8dc;
+      box-shadow: 0 0 0 3px rgba(66, 116, 214, 0.12);
+      outline: none;
+    }
+
+    #crudTable {
+      border: 1px solid #e1e8f5 !important;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 12px 26px rgba(18, 34, 71, 0.08);
+      margin-top: 14px !important;
+    }
+
+    #crudTable thead th {
+      background: #f5f8ff;
+      color: #23345f;
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      border-bottom: 1px solid #dfe7f6;
+    }
+
+    #crudTable tbody tr:nth-child(odd) {
+      background: #fcfdff;
+    }
+
+    #crudTable tbody tr:nth-child(even) {
+      background: #f6f8fc;
+    }
+
+    #crudTable tbody tr:hover {
+      background: #eaf0ff !important;
+    }
+
+    #crudTable tbody td {
+      border-top: 1px solid #e7ecf7;
+      color: #2f3d62;
+      vertical-align: middle;
+    }
+
+    #crudTable .btn,
+    #crudTable .dropdown .btn {
+      border-radius: 8px;
+      font-weight: 600;
+      box-shadow: none;
+    }
+
+    @media (max-width: 767px) {
+      .users-list-toolbar {
+        padding: 8px;
+      }
+
+      #datatable_search_stack .dataTables_filter {
+        justify-content: flex-start;
+        margin-top: 10px;
+      }
+    }
+  </style>
+  @endif
 @endsection
 
 @section('after_scripts')

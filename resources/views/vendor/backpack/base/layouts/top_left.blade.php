@@ -7,7 +7,17 @@
 
 </head>
 
-<body class="{{ config('backpack.base.body_class') }}">
+@php
+  $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+  $isModernAdminTemplate02 = \App\Models\WebsiteSetting::isAdminModern02Template();
+  $bodyClasses = trim(
+    config('backpack.base.body_class')
+    . ($isModernAdminTemplate ? ' admin-modern-template' : '')
+    . ($isModernAdminTemplate02 ? ' admin-modern-template-02' : '')
+  );
+@endphp
+
+<body class="{{ $bodyClasses }}">
 
   @include(backpack_view('inc.main_header'))
 
@@ -48,6 +58,53 @@
   </button>
 
   <style>
+    @if($isModernAdminTemplate)
+    body.admin-modern-template .main table#crudTable,
+    body.admin-modern-template .main .dataTables_wrapper table.dataTable,
+    body.admin-modern-template .main .dataTables_wrapper .table {
+      margin-top: 18px !important;
+    }
+
+    body.admin-modern-template .main .enhanced-crud-list-toolbar,
+    body.admin-modern-template .main .blocks-list-toolbar,
+    body.admin-modern-template .main .users-list-toolbar,
+    body.admin-modern-template .main [class*="list-toolbar"] {
+      margin-bottom: 14px !important;
+    }
+
+    body.admin-modern-template .main .row.mb-0 > .col-sm-6:first-child > .d-print-none {
+      margin-bottom: 14px !important;
+    }
+
+    body.admin-modern-template .app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1030;
+    }
+
+    body.admin-modern-template .app-body {
+      padding-top: 55px;
+    }
+
+    @media (min-width: 992px) {
+      body.admin-modern-template .app-body > .sidebar {
+        position: fixed;
+        top: 55px;
+        left: 0;
+        bottom: 0;
+        z-index: 1019;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      body.admin-modern-template .app-body > .main {
+        min-height: calc(100vh - 55px);
+      }
+    }
+    @endif
+
     #admin-scroll-top {
       position: fixed;
       right: 18px;
@@ -106,6 +163,41 @@
 
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
+    })();
+
+    (function () {
+      if (!document.body.classList.contains('admin-modern-template')) return;
+
+      var media = window.matchMedia('(min-width: 992px)');
+      var sidebar = document.querySelector('.app-body > .sidebar');
+      var main = document.querySelector('.app-body > .main');
+
+      if (!sidebar || !main) return;
+
+      var syncSidebarOffset = function () {
+        if (!media.matches) {
+          sidebar.style.width = '';
+          main.style.marginLeft = '';
+          main.style.width = '';
+          return;
+        }
+
+        var sidebarWidth = Math.round(sidebar.getBoundingClientRect().width) || sidebar.offsetWidth || 0;
+        if (sidebarWidth <= 0) return;
+
+        sidebar.style.width = sidebarWidth + 'px';
+        main.style.marginLeft = sidebarWidth + 'px';
+        main.style.width = 'calc(100% - ' + sidebarWidth + 'px)';
+      };
+
+      window.addEventListener('resize', syncSidebarOffset);
+      window.addEventListener('load', syncSidebarOffset);
+      document.addEventListener('click', function (event) {
+        if (event.target.closest('.sidebar-toggler')) {
+          setTimeout(syncSidebarOffset, 220);
+        }
+      });
+      syncSidebarOffset();
     })();
   </script>
 

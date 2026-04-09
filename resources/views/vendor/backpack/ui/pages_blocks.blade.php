@@ -1,29 +1,35 @@
-@extends(backpack_view('blank'))
+﻿@extends(backpack_view('blank'))
+
+@php
+    $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+@endphp
 
 @php $blocks_in_page = \App\Models\PageBlock::where("page_id", $page->id)->get(); @endphp
 
 @section('header')
-    <h3 class="page-title mb-0">
-        <span class="text-capitalize">{{ $page->name }}</span>
-        <small>({{ count($blocks_in_page) }} blocchi creati)</small>
-    </h3>
+    <div class="pages-blocks-header-shell">
+        <h3 class="page-title mb-0">
+            <span class="text-capitalize">{{ $page->name }}</span>
+            <small>({{ count($blocks_in_page) }} blocchi creati)</small>
+        </h3>
+    </div>
 @endsection
 
 @section('before_breadcrumbs_widgets')
-    <div class="col-auto">
+    <div class="col-auto pages-blocks-top-actions">
         @if($page->slug == "/")
-            <a href="/" target="_blank" class="btn btn-sm btn-secondary">
+            <a href="/" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
                 <span><i class="la la-eye"></i></span>
                 <span class="d-none d-md-inline">Anteprima</span>
             </a>
         @else
-            <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-secondary">
+            <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
                 <span><i class="la la-eye"></i></span>
                 <span class="d-none d-md-inline">Anteprima</span>
             </a>
         @endif
 
-        <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-dark">
+        <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-dark pages-toolbar-btn">
             <span><i class="la la-pencil"></i></span>
             <span class="d-none d-md-inline">Layout pagina</span>
         </a>
@@ -45,11 +51,131 @@
     <!-- include select2 css-->
     <link href="{{ asset('packages/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('packages/select2-bootstrap-theme/dist/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    @if($isModernAdminTemplate)
     <style>
         input.search::placeholder {
             color: #333;
         }
+
+        .pages-blocks-header-shell {
+            background: linear-gradient(120deg, #ffffff 0%, #f3f7ff 100%);
+            border: 1px solid #dbe5fb;
+            border-radius: 14px;
+            padding: 14px 16px;
+            box-shadow: 0 8px 22px rgba(24, 43, 81, 0.08);
+        }
+
+        .pages-blocks-header-shell .page-title {
+            color: #182b51;
+            font-weight: 700;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pages-blocks-header-shell .page-title small {
+            color: #5f6f95;
+            font-size: .9rem;
+            font-weight: 600;
+        }
+
+        .pages-blocks-top-actions .pages-toolbar-btn {
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 6px 14px rgba(20, 39, 75, 0.12);
+            transition: transform .12s ease, box-shadow .12s ease;
+        }
+
+        .pages-blocks-top-actions .pages-toolbar-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(20, 39, 75, 0.16);
+        }
+
+        .pages-blocks-shell .blocks-section-title {
+            border: 0;
+            border-radius: 12px;
+            font-weight: 700;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            box-shadow: 0 6px 16px rgba(21, 37, 70, 0.12);
+            color: #fff;
+            letter-spacing: .01em;
+        }
+
+        .pages-blocks-shell .blocks-section-title i {
+            opacity: .9;
+            margin-right: 5px;
+        }
+
+        .pages-blocks-shell .blocks-section-title.section-header {
+            background: linear-gradient(90deg, #3f72c2 0%, #5586d6 100%);
+        }
+
+        .pages-blocks-shell .blocks-section-title.section-content {
+            background: linear-gradient(90deg, #31aa8a 0%, #4cc1a2 100%);
+        }
+
+        .pages-blocks-shell .blocks-section-title.section-footer {
+            background: linear-gradient(90deg, #f4b000 0%, #ffc93b 100%);
+            color: #2c2c2c;
+        }
+
+        .pages-blocks-shell .card.my-0 {
+            border: 1px solid #dfe7f5;
+            border-radius: 12px;
+            box-shadow: 0 10px 22px rgba(18, 34, 68, 0.07);
+            overflow: hidden;
+        }
+
+        .pages-blocks-shell .card.my-0 .card-header {
+            background: #f7f9ff;
+            border-bottom: 1px solid #e2e9f7;
+            color: #22375f;
+            font-weight: 700;
+        }
+
+        .pages-blocks-shell .card.my-0 .card-header .btn {
+            border-radius: 9px;
+            font-weight: 700;
+            box-shadow: none;
+        }
+
+        .pages-blocks-shell .card.my-0 .list-group-item {
+            border: 1px solid #e5ebf7 !important;
+            border-radius: 10px;
+            background: #ffffff;
+            margin-bottom: 8px;
+            padding: 12px;
+            transition: border-color .12s ease, box-shadow .12s ease, transform .12s ease;
+        }
+
+        .pages-blocks-shell .card.my-0 .list-group-item:hover {
+            border-color: #cddbf7 !important;
+            box-shadow: 0 8px 16px rgba(28, 50, 93, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .pages-blocks-shell .card.my-0 .list-group-item em {
+            color: #4d6fb2 !important;
+            font-style: italic;
+        }
+
+        .pages-blocks-shell .card.my-0 .list-group-item .btn {
+            border-radius: 8px;
+            min-width: 36px;
+            font-weight: 600;
+        }
+
+        .pages-blocks-shell .text-danger.d-flex.align-items-center.py-1.px-2 {
+            border: 1px solid #f7d1d6;
+            background: #fff3f4;
+            border-radius: 10px;
+            padding: 10px 12px !important;
+            margin-top: 4px;
+        }
     </style>
+    @endif
 @endsection
 
 @section('content')
@@ -71,7 +197,8 @@
     $admin_blocks_exists = [];
 
     ?>
-    <div class="card-header border-0 font-weight-bold pb-1" style="background-color:#467fd0; color:#FFFFFF; padding:6px; margin-bottom: 4px;"> <i class="las la-arrow-circle-up"></i> Header pagina / Parte Alta</div>
+    <div class="pages-blocks-shell">
+    <div class="blocks-section-title section-header"><i class="las la-arrow-circle-up"></i> Header pagina / Parte Alta</div>
     <div class="row gutters-pages mb-3">
         <?php
         $position = "header";
@@ -221,7 +348,7 @@
         } ?>
     </div>
 
-    <div class="card-header border-0 font-weight-bold pb-1" style="background-color:#42ba96; color:#FFFFFF; padding:6px; margin-bottom: 4px;"><i class="las la-arrows-alt-v"></i> Contenuto pagina / Parte Centrale</div>
+    <div class="blocks-section-title section-content"><i class="las la-arrows-alt-v"></i> Contenuto pagina / Parte Centrale</div>
     <div class="row gutters-pages mb-3">
         <?php
         $position = "content";
@@ -407,7 +534,7 @@
         } ?>
     </div>
 
-    <div class="card-header border-0 font-weight-bold pb-1" style="background-color:#ffc107; color:#000000; padding:6px; margin-bottom: 4px;"> <i class="las la-arrow-circle-down"></i>  Footer pagina / Parte Bassa </div>
+    <div class="blocks-section-title section-footer"><i class="las la-arrow-circle-down"></i> Footer pagina / Parte Bassa</div>
     <div class="row gutters-pages mb-4">
         <?php
         $position = "footer";
@@ -634,6 +761,7 @@
         break;
         } ?>
     </div>
+    </div>
 
 @endsection
 
@@ -795,7 +923,7 @@
         function deleteBlock(url) {
             swal({
                 title: "Sicuro di voler cancellare il blocco?",
-                text: "Una volta eseguita, l'operazione non é più reversibile",
+                text: "Una volta eseguita, l'operazione non Ã© piÃ¹ reversibile",
                 icon: "warning",
                 buttons: true,
             })

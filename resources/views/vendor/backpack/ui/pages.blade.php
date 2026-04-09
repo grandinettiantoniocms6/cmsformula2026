@@ -1,4 +1,8 @@
-@extends(backpack_view('blank'))
+﻿@extends(backpack_view('blank'))
+
+@php
+    $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+@endphp
 
 @php
   $defaultBreadcrumbs = [
@@ -23,22 +27,21 @@
 @endphp
 
 @section('header')
-    <h3 class="page-title mb-0">
-        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}
+    <div class="pages-header-shell">
+        <h3 class="page-title mb-1">
+            <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+            <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+        </h3>
 
-        </span>
-        <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
-
-    </h3>
-    <br>
-    @if(backpack_user()->roles[0]->id <= 3)
-        @if($website->number_max_page)
+        @if(backpack_user()->roles[0]->id <= 3)
+            @if($website->number_max_page)
                 <?php $number = $website->number_max_page - $pages_count; ?>
-            <span class="text text-info-light">Puoi inserire ancora {{ $number }} pagine</span>
-        @else
-            <span class="text text-info-light">Puoi inserire pagine illimitate</span>
+                <span class="pages-limit-chip">Puoi inserire ancora {{ $number }} pagine</span>
+            @else
+                <span class="pages-limit-chip">Puoi inserire pagine illimitate</span>
+            @endif
         @endif
-    @endif
+    </div>
 @endsection
 
 @section('content')
@@ -195,6 +198,141 @@
 
   <!-- CRUD LIST CONTENT - crud_list_styles stack -->
   @stack('crud_list_styles')
+
+  @if($isModernAdminTemplate)
+  <style>
+    .pages-header-shell {
+      background: linear-gradient(120deg, #ffffff 0%, #f2f6ff 100%);
+      border: 1px solid #d9e4ff;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(22, 44, 87, 0.08);
+    }
+
+    .pages-header-shell .page-title {
+      font-weight: 700;
+      color: #162c57;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pages-header-shell #datatable_info_stack {
+      color: #526186;
+      font-size: .9rem;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .pages-limit-chip {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 12px;
+      background: #eaf1ff;
+      color: #1f3f79;
+      font-size: .85rem;
+      font-weight: 600;
+      border: 1px solid #cfddff;
+    }
+
+    .d-print-none.with-border .btn,
+    .d-print-none.with-border .btn-group .btn {
+      border-radius: 10px;
+      font-weight: 600;
+      box-shadow: 0 8px 16px rgba(16, 36, 78, 0.12);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    .d-print-none.with-border .btn:hover,
+    .d-print-none.with-border .btn-group .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 18px rgba(16, 36, 78, 0.16);
+    }
+
+    #datatable_search_stack .dataTables_filter {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    #datatable_search_stack .dataTables_filter label {
+      margin: 0;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    #datatable_search_stack .dataTables_filter input {
+      width: 100% !important;
+      border: 1px solid #d7deee;
+      border-radius: 999px;
+      min-height: 40px;
+      padding: 0 14px;
+      box-shadow: inset 0 1px 2px rgba(19, 38, 75, 0.05);
+    }
+
+    #datatable_search_stack .dataTables_filter input:focus {
+      border-color: #8ea8dc;
+      box-shadow: 0 0 0 3px rgba(66, 116, 214, 0.12);
+      outline: none;
+    }
+
+    #crudTable {
+      border: 1px solid #e1e8f5 !important;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 12px 26px rgba(18, 34, 71, 0.08);
+      margin-top: 14px !important;
+    }
+
+    #crudTable thead th {
+      background: #f5f8ff;
+      color: #23345f;
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+      border-bottom: 1px solid #dfe7f6;
+    }
+
+    #crudTable tbody tr:nth-child(odd) {
+      background: #fcfdff;
+    }
+
+    #crudTable tbody tr:nth-child(even) {
+      background: #f6f8fc;
+    }
+
+    #crudTable tbody tr:hover {
+      background: #eaf0ff !important;
+    }
+
+    #crudTable tbody td {
+      border-top: 1px solid #e7ecf7;
+      color: #2f3d62;
+      vertical-align: middle;
+    }
+
+    #crudTable .btn,
+    #crudTable .dropdown .btn {
+      border-radius: 8px;
+      font-weight: 600;
+      box-shadow: none;
+    }
+
+    @media (max-width: 767px) {
+      .pages-header-shell {
+        padding: 14px;
+      }
+
+      #datatable_search_stack .dataTables_filter {
+        justify-content: flex-start;
+        margin-top: 10px;
+      }
+    }
+  </style>
+  @endif
 @endsection
 
 @section('after_scripts')

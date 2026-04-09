@@ -6,6 +6,8 @@
 
   <?php
   $website_setting = \App\Models\WebsiteSetting::first();
+  $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+  $isModernAdminTemplate02 = \App\Models\WebsiteSetting::isAdminModern02Template();
 
   $normalizeHex = static function (?string $color, string $fallback = '#1b2a4e'): string {
       $value = trim((string) $color);
@@ -71,6 +73,7 @@
   $defaultAdminLogoPath = $normalizePublicAssetPath('public/img/commons/admin/logo-cms-formula-5.png');
   ?>
 
+  @if($isModernAdminTemplate)
   <style>
     :root {
       --admin-topbar-bg: {{ $topbarBase }};
@@ -100,7 +103,30 @@
     .app-header .nav-link:hover {
       background: var(--admin-topbar-hover-bg);
     }
+
+    @if($isModernAdminTemplate02)
+    .app-header {
+      background:
+        radial-gradient(520px 150px at 10% -30%, rgba(64, 156, 255, .2), transparent 70%),
+        linear-gradient(180deg, #ffffff 0%, #f5f9ff 100%) !important;
+      border-bottom: 1px solid #d8e5fb;
+      box-shadow: 0 10px 24px rgba(20, 59, 126, .08);
+    }
+
+    .app-header .navbar-brand,
+    .app-header .nav-link,
+    .app-header .navbar-toggler {
+      color: #2b436f !important;
+    }
+
+    .app-header .nav-link:hover {
+      background: #eaf2ff;
+      box-shadow: inset 0 0 0 1px #d5e6ff;
+      border-radius: 12px;
+    }
+    @endif
   </style>
+  @endif
 
   <a class="navbar-brand" href="{{ url(backpack_theme_config('home_link')) }}" title="{{ backpack_theme_config('project_name') }}">
     @if($adminLogoPath !== '')

@@ -1,4 +1,8 @@
-@extends(backpack_view('blank'))
+﻿@extends(backpack_view('blank'))
+
+@php
+    $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+@endphp
 
 @php
   $defaultBreadcrumbs = [
@@ -13,9 +17,50 @@
 
 @push('after_styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
+    @if($isModernAdminTemplate)
+    <style>
+        .plugin-products-edit-header-shell {
+            background: linear-gradient(130deg, #ffffff 0%, #f4f8ff 100%);
+            border: 1px solid #dbe6fb;
+            border-radius: 14px;
+            padding: 14px 16px;
+            box-shadow: 0 8px 22px rgba(24, 43, 81, 0.08);
+            margin-bottom: 12px;
+        }
+        .plugin-products-edit-header-shell .page-title {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+            color: #182f59;
+            font-weight: 700;
+        }
+        .plugin-products-edit-header-shell .page-title small { color: #607197; font-weight: 600; }
+        .plugin-products-edit-header-shell .btn.btn-light {
+            border-radius: 9px;
+            font-weight: 700;
+            border-color: #d6e0f3;
+            color: #2f4f85;
+            background: #eef3fc;
+        }
+        .container-fluid .form-group > label { color: #223a67; font-weight: 700; }
+        .container-fluid .form-control,
+        .container-fluid .select2-container--bootstrap .select2-selection {
+            min-height: 42px;
+            border-radius: 9px !important;
+            border-color: #d7e1f2;
+            box-shadow: inset 0 1px 2px rgba(18, 38, 76, 0.04);
+        }
+        .container-fluid .form-control:focus {
+            border-color: #89a6dc;
+            box-shadow: 0 0 0 3px rgba(62, 111, 206, 0.13);
+        }
+    </style>
+    @endif
 @endpush
 
 @section('header')
+    <div class="plugin-products-edit-header-shell">
     <h3 class="page-title mb-0">
         <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
         <small>{!! $crud->getSubheading() ?? trans('backpack::crud.edit').' '.$crud->entity_name !!}.</small>
@@ -44,6 +89,7 @@
         <a href="{{ $url_anteprima }}" class="btn btn-sm btn-light" target="_blank">ANTEPRIMA</a>
         @endif
     </h3>
+    </div>
 @endsection
 
 @section('content')

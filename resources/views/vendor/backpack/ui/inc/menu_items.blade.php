@@ -2,7 +2,9 @@
 @php
     $adminPanelFontUrl = null;
     $adminPanelFontFamily = null;
-    $websiteSetting = \App\Models\WebsiteSetting::select('admin_panel_font')->first();
+    $websiteSetting = \App\Models\WebsiteSetting::select('admin_panel_font', 'admin_panel_template')->first();
+    $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+    $isModernAdminTemplate02 = \App\Models\WebsiteSetting::isAdminModern02Template();
 
     if ($websiteSetting && !empty($websiteSetting->admin_panel_font)) {
         $candidateFontUrl = trim($websiteSetting->admin_panel_font);
@@ -55,6 +57,7 @@
     </style>
 @endif
 
+@if($isModernAdminTemplate)
 <style>
     .sidebar,
     .sidebar-nav {
@@ -146,7 +149,88 @@
         font-size: .68rem;
         font-weight: 700;
     }
+
+    @if($isModernAdminTemplate02)
+    .sidebar,
+    .sidebar-nav {
+        background:
+            radial-gradient(480px 320px at 20% -15%, rgba(79, 150, 255, .18), transparent 68%),
+            linear-gradient(180deg, #ffffff 0%, #f3f7ff 100%) !important;
+        border-right: 1px solid #d9e6fb;
+    }
+
+    .sidebar .nav-link {
+        background: transparent !important;
+        color: #43608d !important;
+        border: 1px solid transparent;
+        border-radius: 0 !important;
+        position: relative;
+        box-shadow: none !important;
+    }
+
+    .sidebar .nav-link .nav-icon {
+        color: #5a7ebf !important;
+    }
+
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+        background: #eaf2ff !important;
+        color: #1f3a67 !important;
+        border-color: #d3e3ff;
+        box-shadow: none !important;
+    }
+
+    .sidebar .nav-link:hover .nav-icon,
+    .sidebar .nav-link.active .nav-icon {
+        color: #3e6eb5 !important;
+    }
+
+    .sidebar .nav-dropdown.open {
+        background: #edf4ff !important;
+        border-radius: 0;
+    }
+
+    .sidebar .nav-link::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: #2f66b3;
+        opacity: 0;
+        transition: opacity .18s ease;
+    }
+
+    .sidebar .nav-link:hover::before,
+    .sidebar .nav-link.active::before,
+    .sidebar .nav-dropdown.open > .nav-link::before {
+        opacity: 1;
+    }
+
+    .sidebar .nav-dropdown.open > .nav-link,
+    .sidebar .nav-dropdown-items .nav-link {
+        border-radius: 0 !important;
+    }
+
+    .sidebar .nav-dropdown-toggle::before {
+        display: none !important;
+    }
+
+    .sidebar .nav-dropdown-toggle::after {
+        content: "▾";
+        position: absolute;
+        right: .78rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: .78rem;
+        line-height: 1;
+        color: #5a7ebf;
+        opacity: .95;
+    }
+    @endif
 </style>
+@endif
 
 @if(backpack_user()->roles[0]->id < 5)
     <li class="nav-item"><a class="nav-link" href="{{ backpack_url('dashboard') }}"><i class="hgi hgi-stroke hgi-home-09 nav-icon"></i> Bacheca</a></li>

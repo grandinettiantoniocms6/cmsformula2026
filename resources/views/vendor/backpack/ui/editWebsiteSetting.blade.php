@@ -1,4 +1,8 @@
-@extends(backpack_view('blank'))
+﻿@extends(backpack_view('blank'))
+
+@php
+    $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+@endphp
 
 @php
   $defaultBreadcrumbs = [
@@ -10,9 +14,11 @@
 @endphp
 
 @section('header')
-	<h3 class="page-title mb-0">
-		<span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-	</h3>
+    <div class="website-setting-header-shell">
+        <h3 class="page-title mb-0">
+            <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+        </h3>
+    </div>
 @endsection
 
 @section('content')
@@ -75,4 +81,56 @@
 	</div>
 </div>
 @endsection
+
+@php
+    $isModernAdminTemplate = $isModernAdminTemplate ?? \App\Models\WebsiteSetting::isAdminModernTemplate();
+@endphp
+@push('after_styles')
+    @if($isModernAdminTemplate)
+    <style>
+        .website-setting-header-shell {
+            background: linear-gradient(125deg, #ffffff 0%, #f2f6ff 100%);
+            border: 1px solid #dae5fb;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 22px rgba(23, 43, 81, 0.08);
+        }
+
+        .website-setting-header-shell .page-title {
+            color: #182f59;
+            font-weight: 700;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .container-fluid .form-group > label {
+            color: #223a67;
+            font-weight: 700;
+        }
+
+        .container-fluid .form-control,
+        .container-fluid .select2-container--bootstrap .select2-selection {
+            min-height: 42px;
+            border-radius: 9px !important;
+            border-color: #d7e1f2;
+            box-shadow: inset 0 1px 2px rgba(18, 38, 76, 0.04);
+        }
+
+        .container-fluid .form-control:focus {
+            border-color: #89a6dc;
+            box-shadow: 0 0 0 3px rgba(62, 111, 206, 0.13);
+        }
+
+        .container-fluid .btn-success,
+        .container-fluid .btn-primary {
+            border-radius: 10px;
+            font-weight: 700;
+            box-shadow: 0 8px 18px rgba(14, 36, 79, 0.14);
+        }
+    </style>
+    @endif
+@endpush
 

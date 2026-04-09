@@ -1884,6 +1884,20 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             ]);
 
             $this->crud->addField([
+                'name'        => 'admin_panel_template',
+                'label'       => 'Template Pannello Admin',
+                'type'        => 'select_from_array',
+                'options'     => [
+                    'white' => 'White',
+                    'modern_01' => 'Modern 01',
+                    'modern_02' => 'Modern 02',
+                ],
+                'allows_null' => false,
+                'default'     => 'white',
+                'tab'         => 'Extra',
+            ]);
+
+            $this->crud->addField([
                 'label' => "Bacheca da far vedere (nome blade)",
                 'name' => "bacheca",
                 'type'  => 'text',

@@ -163,3 +163,113 @@
   - Contesto: fix precedente del footer login non allineato alla richiesta (testo spostato lateralmente su mobile).
   - Soluzione: rimosso uso di `@section('footer')` nella login e introdotto blocco dedicato `auth-page-meta` separato sotto la card; stessa struttura applicata anche a `auth/passwords/email` (`/admin/password/reset`) e `auth/passwords/reset` per evitare sovrapposizioni.
   - Rischio/Impatto: molto basso; modifica esclusivamente di layout/testo nelle pagine auth admin.
+- 2026-04-09
+  - Contesto: richiesta miglioramento grafico vista admin `Pagine` (CRUD list) con leggibilita e gerarchia visiva deboli.
+  - Soluzione: restyling scoped in `resources/views/vendor/backpack/ui/pages.blade.php` su header (contenitore + chip limite pagine), toolbar pulsanti, campo ricerca DataTables e tabella (header, zebra rows, hover, bordi/ombre), senza modificare query, logica CRUD o permessi.
+  - Rischio/Impatto: basso; intervento solo presentazionale sulla lista pagine admin.
+- 2026-04-09
+  - Contesto: richiesta miglioramento grafico vista admin editor blocchi pagina (`/admin/pages_blocks/{id}`).
+  - Soluzione: restyling scoped in `resources/views/vendor/backpack/ui/pages_blocks.blade.php` con header pagina in card, barre sezione Header/Contenuto/Footer con gradient e tipografia piu chiara, card colonne/blocchi piu leggibili, bottoni toolbar/azioni uniformati e stati hover rifiniti, senza modifiche a logica, route o ordinamento drag&drop.
+  - Rischio/Impatto: basso; impatto solo presentazionale sulla schermata gestione blocchi pagina admin.
+- 2026-04-09
+  - Contesto: richiesta miglioramento grafico vista admin modifica pagina (`/admin/page/{id}/edit`).
+  - Soluzione: creata view dedicata `resources/views/vendor/backpack/ui/pages_edit.blade.php` che estende `crud::edit` con restyling scoped (header card, tipografia, campi input/select/switch, tab e pulsanti) e collegata in `app/Http/Controllers/Admin/PageCrudController.php` tramite `setEditView(backpack_view('pages_edit'))`.
+  - Rischio/Impatto: basso; impatto solo estetico e limitato al CRUD Page in edit, senza variazioni di validazione o salvataggio dati.
+- 2026-04-09
+  - Contesto: errore 500 dopo introduzione view custom edit pagina (`View [backpack.ui::crud::edit] not found`).
+  - Causa radice: nella view `resources/views/vendor/backpack/ui/pages_edit.blade.php` era stato usato `@extends(backpack_view('crud::edit'))`, che risolve in namespace non valido per una view namespaced (`crud::edit`).
+  - Soluzione: corretto extends in `@extends('crud::edit')`; mantenuto invariato il resto del restyling.
+  - Prevenzione: usare `backpack_view(...)` solo con chiavi view Backpack non namespaced (es. `blank`), e `@extends('crud::edit')` per view con namespace `crud::`.
+- 2026-04-09
+  - Contesto: richiesta miglioramento grafico vista admin modifica blocco Header (`/admin/blockImage/{id}/edit`).
+  - Soluzione: creata view dedicata `resources/views/vendor/backpack/ui/block_image_edit.blade.php` (estende `crud::edit`) con restyling scoped su header, card form, campi input/select/file browse e pulsanti; collegata in `app/Http/Controllers/Admin/BlockImageCrudController.php` con `setEditView(backpack_view('block_image_edit'))`.
+  - Rischio/Impatto: basso; intervento esclusivamente estetico e limitato al CRUD BlockImage in edit.
+- 2026-04-09
+  - Contesto: richiesta estensione migliorie layout a tutti i CRUD dei blocchi admin.
+  - Soluzione: applicato restyling trasversale nella view condivisa `resources/views/vendor/backpack/crud/edit.blade.php` con attivazione condizionata su route contenenti `block` (header card, tipografia, campi form/select, pulsanti e focus state); rimosso override specifico `BlockImage` per uniformare la resa su tutti i controller blocco.
+  - Rischio/Impatto: basso; modifica solo presentazionale sulle schermate edit blocchi, logica CRUD invariata.
+- 2026-04-09
+  - Contesto: richiesta miglioramento grafico lista multi dei blocchi (es. `/admin/blockGrid?...`).
+  - Soluzione: restyling scoped in `resources/views/vendor/backpack/ui/custom_list_multi.blade.php` su header con badge blocco, toolbar azioni, campo ricerca DataTables e tabella (header, zebra rows, hover, bordi/ombre), senza modifica di query o logica CRUD.
+  - Rischio/Impatto: basso; impatto esclusivamente estetico sulla vista list multi dei blocchi.
+- 2026-04-09
+  - Contesto: richiesta miglioramento grafico layout schermata `admin/userCustom` (lista utenti custom).
+  - Soluzione: restyling scoped in `resources/views/vendor/backpack/ui/users/list.blade.php` su header, toolbar azioni, ricerca DataTables e tabella (header, zebra rows, hover, bordi/ombre), mantenendo invariata la logica CRUD e azioni bulk.
+  - Rischio/Impatto: basso; modifica solo presentazionale sulla lista utenti custom admin.
+- 2026-04-09
+  - Contesto: richiesta estensione restyling layout alle route `admin/websiteSetting/1/edit`, `admin/adminBlock`, `admin/adminPlugin`, `admin/adminTemplate`, `admin/admin-thumb`, `admin/adminLanguage`, `admin/userNavigation`, `admin/label`, `admin/block-page` e relative schermate edit.
+  - Soluzione: applicato restyling condizionale nella view condivisa `resources/views/vendor/backpack/crud/list.blade.php` e `resources/views/vendor/backpack/crud/edit.blade.php` per i prefissi route target; aggiornate anche view custom `resources/views/vendor/backpack/ui/editWebsiteSetting.blade.php` e `resources/views/vendor/backpack/ui/admin_templates.blade.php` per uniformare le pagine che non usano le view CRUD standard.
+  - Rischio/Impatto: basso; modifiche solo presentazionali (header, toolbar, search, tabella, campi e pulsanti), nessuna variazione a query, validazione o logica di salvataggio.
+- 2026-04-09
+  - Contesto: richiesta applicazione restyling anche alla sezione `admin/pluginTutorial`.
+  - Soluzione: esteso il match route nelle view condivise `resources/views/vendor/backpack/crud/list.blade.php` e `resources/views/vendor/backpack/crud/edit.blade.php` aggiungendo il prefisso `pluginTutorial`, in modo da applicare automaticamente il layout migliorato a lista ed edit dei tutorial.
+  - Rischio/Impatto: basso; modifica solo UI condizionata al prefisso route, nessun impatto su logica CRUD.
+- 2026-04-09
+  - Contesto: richiesta estensione layout migliorato a tutti i PluginController admin.
+  - Soluzione: nelle view condivise `resources/views/vendor/backpack/crud/list.blade.php` e `resources/views/vendor/backpack/crud/edit.blade.php` introdotto rilevamento controller corrente via `request()->route()->getController()` + `class_basename(...)`; quando il nome classe contiene `Plugin`, il restyling viene applicato automaticamente.
+  - Rischio/Impatto: basso; variazione solo presentazionale, logica CRUD invariata.
+- 2026-04-09
+  - Contesto: richiesta applicazione layout migliorato alla sezione `admin/pluginProducts`.
+  - Soluzione: restyling UI su view custom di Plugin Products (`resources/views/vendor/backpack/ui/plugins/pluginProducts/list.blade.php`, `edit.blade.php`, `create.blade.php`) con header card, toolbar, ricerca/tabella e campi form coerenti con il nuovo stile admin.
+  - Rischio/Impatto: basso; modifiche solo presentazionali, logica CRUD e azioni bulk invariati.
+- 2026-04-09
+  - Contesto: richiesta rollback delle modifiche layout su `admin/pluginProducts`.
+  - Soluzione: ripristinate allo stato precedente le view `resources/views/vendor/backpack/ui/plugins/pluginProducts/list.blade.php`, `edit.blade.php`, `create.blade.php` tramite checkout dei file.
+  - Rischio/Impatto: nullo-funzionale; ritorno al layout precedente della sezione pluginProducts.
+- 2026-04-09
+  - Contesto: richiesta riapplicazione layout migliorato alla sezione `admin/pluginProducts` dopo rollback precedente.
+  - Soluzione: ripristinato restyling UI su `resources/views/vendor/backpack/ui/plugins/pluginProducts/list.blade.php`, `edit.blade.php`, `create.blade.php` (header card, toolbar, ricerca/tabella e campi form).
+  - Rischio/Impatto: basso; modifiche solo presentazionali, logica CRUD invariata.
+- 2026-04-09
+  - Contesto: in `admin/pluginProducts` il dropdown `Gestione` mostrava solo parte delle voci del sottomenu.
+  - Causa radice: clipping del menu causato da `overflow: hidden` applicato a `#crudTable` nel restyling della lista prodotti.
+  - Soluzione: in `resources/views/vendor/backpack/ui/plugins/pluginProducts/list.blade.php` impostato `overflow: visible` sulla tabella/body/celle e aumentato z-index dei `.dropdown-menu`.
+  - Rischio/Impatto: basso; fix solo UI su rendering menu dropdown in lista prodotti.
+- 2026-04-09
+  - Contesto: richiesta applicazione nuovo layout a `admin/pluginProductsBrands`, `admin/pluginProductsCategories`, `admin/pluginProductsAttributes`, `admin/pluginProductsContacts`, `admin/pluginProductsRequests`, `admin/plugin/pluginProducts/import_export`, `admin/plugin-product-import`, `admin/pluginProductsSettings`, `admin/shopSettings` (incluse schermate edit).
+  - Soluzione: restyling diretto sulle view custom (`pluginProducts/brands_list|brands_edit|brands_create|categories_list|categories_edit|categories_create`, `pluginProductsRequests/list`, `pluginProducts/import_export`) e ampliamento matcher route nelle view condivise `resources/views/vendor/backpack/crud/list.blade.php` e `edit.blade.php` (aggiunti prefissi `pluginProducts*`, `plugin-product-import`, `shopSettings`, `pluginTutorial`) per coprire anche i CRUD standard.
+  - Rischio/Impatto: basso; modifiche esclusivamente presentazionali, senza impatto su query/validazione/salvataggi.
+- 2026-04-09
+  - Contesto: richiesta estensione layout route-by-route su sezioni shop/admin (shopOrders, shopOrdersRequests, pluginProductsClients, shopPayments, shopShippings, shopOrdersStatus, shopCountries, shopAreas, shopTaxes, shopCartRules, shopPromotions, shopAttributes, shopAttributesOptions, shopSettings, shop-extra) includendo list/edit/create e view custom.
+  - Soluzione: estesi i matcher route in esources/views/vendor/backpack/crud/list.blade.php, esources/views/vendor/backpack/crud/edit.blade.php, esources/views/vendor/backpack/crud/create.blade.php; ripristinato il fallback automatico per tutti i PluginController via equest()->route()->getController(); uniformato il layout anche nelle custom view esources/views/vendor/backpack/ui/custom_attributes_create.blade.php e esources/views/vendor/backpack/ui/custom_attributes_edit.blade.php.
+  - Rischio/Impatto: basso; interventi solo presentazionali (header, toolbar, ricerca/tabella, campi e pulsanti), senza modifiche a logica CRUD, query o validazione.
+- 2026-04-09
+  - Contesto: follow-up documentazione restyling route shop/admin per evitare caratteri corrotti nel log precedente.
+  - Soluzione: confermata estensione del layout su list/edit/create condivisi (resources/views/vendor/backpack/crud/list.blade.php, resources/views/vendor/backpack/crud/edit.blade.php, resources/views/vendor/backpack/crud/create.blade.php) e su custom attributes (resources/views/vendor/backpack/ui/custom_attributes_create.blade.php, resources/views/vendor/backpack/ui/custom_attributes_edit.blade.php), con fallback PluginController riattivato.
+  - Rischio/Impatto: basso; documentazione correttiva, nessun impatto runtime.
+- 2026-04-09
+  - Contesto: richiesta selettore template admin in Website Setting > Extra con switch tra layout precedente e layout migliorato.
+  - Soluzione: aggiunto campo "Template Pannello Admin" (opzioni "White" default e "Modern 01") in WebsiteSettingCrudController; creata migration "2026_04_09_120000_add_admin_panel_template_website_settings_table"; introdotti helper in App\Models\WebsiteSetting ("adminPanelTemplate"/"isAdminModernTemplate") e applicato gating dei CSS moderni su CRUD condivisi (list/edit/create), dashboard, topbar/sidebar, auth admin e principali view custom restilizzate.
+  - Rischio/Impatto: basso-medio; impatto solo presentazionale ma trasversale a molte view admin, necessario verificare in UI che "White" riproduca il comportamento legacy atteso su tutte le sezioni custom.- 2026-04-10
+  - Contesto: in modalità "White" la login admin mostrava struttura moderna senza styling corretto (layout disallineato rispetto al design richiesto).
+  - Soluzione: in `resources/views/vendor/backpack/theme-coreuiv2/auth/login.blade.php` separati markup e CSS tra `Modern 01` e `White`; la variante `White` ora usa layout dedicato (hero sinistra + card login destra) coerente con schermata target.
+  - Rischio/Impatto: basso; modifica solo presentazionale sulla pagina login admin.- 2026-04-10
+  - Contesto: richiesta miglioramento grafico pagina account admin (`admin/edit-account-info`) in template `Modern 01`.
+  - Soluzione: creato override `resources/views/vendor/backpack/theme-coreuiv2/my_account.blade.php` con styling condizionale su `WebsiteSetting::isAdminModernTemplate()` (header card, card form, campi, alert e pulsanti), mantenendo invariata la struttura/validazione form e lasciando comportamento base in `White`.
+  - Rischio/Impatto: basso; modifica solo presentazionale sulla pagina account admin.- 2026-04-10
+  - Contesto: richiesta clonazione tema admin `Modern 01` in nuova variante `Modern 02` con look più futuristico.
+  - Soluzione: esteso selettore `Template Pannello Admin` con opzione `modern_02`; aggiornato `WebsiteSetting` per riconoscere `white|modern_01|modern_02` e helper dedicato `isAdminModern02Template()`; applicato layer grafico `Modern 02` su header/topbar, sidebar/menu, avatar utente, CRUD condivisi list/edit/create e login admin (gradienti cyber/blu, glow neon, contrasto più deciso).
+  - Rischio/Impatto: basso; modifiche presentazionali, logica applicativa invariata.- 2026-04-10
+  - Contesto: feedback utente su `Modern 02` non allineato al riferimento Mifty e richiesta sidebar sinistra fissa durante scroll contenuto.
+  - Soluzione: rifinito `Modern 02` con palette piu chiara e corporate (header/topbar, sidebar, dropdown utente, CRUD shared list/edit/create e login) riducendo effetti neon; introdotta classe body dedicata e sidebar sticky su desktop nei layout `top_left` (theme-coreuiv2 e base) con altezza viewport e scroll interno.
+  - Rischio/Impatto: basso; interventi solo presentazionali, possibile micro-tuning su altezze header custom in installazioni con override CSS esterni.
+- 2026-04-10
+  - Contesto: richiesta affinamento `Modern 02` su sidebar (no arrotondamenti, indicatore sinistro su voce attiva) e fix sidebar non fissa in scroll.
+  - Soluzione: in `resources/views/vendor/backpack/ui/inc/menu_items.blade.php` rimossi border-radius dei nav-link in `modern_02` e introdotta barra verticale sinistra (`::before`) su hover/active/open; in `resources/views/vendor/backpack/theme-coreuiv2/layouts/top_left.blade.php` e `resources/views/vendor/backpack/base/layouts/top_left.blade.php` impostata sidebar `position: fixed` desktop con sync JS dinamico su larghezza sidebar e offset `main`.
+  - Rischio/Impatto: basso; modifica solo presentazionale/layout admin, verificare comportamento su sidebar collassata con eventuali override CSS esterni.
+- 2026-04-10
+  - Contesto: ulteriore affinamento `Modern 02` richiesto su sidebar e topbar.
+  - Soluzione: in `resources/views/vendor/backpack/ui/inc/menu_items.blade.php` resa barra sinistra dei link `modern_02` a tutta altezza e introdotto indicatore freccia giu sui `nav-dropdown-toggle`; in `resources/views/vendor/backpack/theme-coreuiv2/layouts/top_left.blade.php` e `resources/views/vendor/backpack/base/layouts/top_left.blade.php` resa topbar fissa (`position: fixed`) con offset `app-body`.
+  - Rischio/Impatto: basso; modifiche presentazionali, verificare eventuali override CSS esterni su altezza header.
+- 2026-04-10
+  - Contesto: richiesta estensione topbar/sidebar fisse anche al template `Modern 01`.
+  - Soluzione: in `resources/views/vendor/backpack/theme-coreuiv2/layouts/top_left.blade.php` e `resources/views/vendor/backpack/base/layouts/top_left.blade.php` introdotta classe body comune `admin-modern-template` (per `modern_01` e `modern_02`) e riallineati CSS/JS fixed header + fixed sidebar su questa classe.
+  - Rischio/Impatto: basso; modifica layout solo per template moderni, `White` invariato.
+- 2026-04-10
+  - Contesto: richiesta distanziamento uniforme tra toolbar azioni e tabelle nelle viste centrali admin.
+  - Soluzione: nei layout `top_left` moderni (`resources/views/vendor/backpack/theme-coreuiv2/layouts/top_left.blade.php` e `resources/views/vendor/backpack/base/layouts/top_left.blade.php`) aggiunto spacing globale (`margin-top: 18px`) su `#crudTable` e tabelle DataTables nell'area `.main` per tutti i template moderni.
+  - Rischio/Impatto: basso; modifica solo presentazionale su pagine list con DataTables, `White` invariato.
+- 2026-04-10
+  - Contesto: follow-up spacing toolbar/tabelle non visibile in alcune list admin.
+  - Soluzione: rafforzato spacing nei layout moderni (`resources/views/vendor/backpack/theme-coreuiv2/layouts/top_left.blade.php` e `resources/views/vendor/backpack/base/layouts/top_left.blade.php`) aggiungendo `margin-bottom` al contenitore toolbar list (`enhanced/blocks/users/*list-toolbar` e fallback su `.row.mb-0 > .col-sm-6:first-child > .d-print-none`) oltre al `margin-top` tabelle.
+  - Rischio/Impatto: basso; modifica solo presentazionale, possibile lieve aumento spaziatura in alcune list custom.

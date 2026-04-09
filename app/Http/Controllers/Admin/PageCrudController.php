@@ -143,6 +143,7 @@ class PageCrudController extends CrudController
         CRUD::setRoute(config('backpack.base.route_prefix') . '/page');
         CRUD::setEntityNameStrings('pagina', 'pagine');
         $this->crud->setListView(backpack_view('pages'));
+        $this->crud->setEditView(backpack_view('pages_edit'));
 
         $slug_shop_formula = config('config.slug_shop_formula');
         $slug_plugin_booking = config('config.slug_plugin_booking');

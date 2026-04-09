@@ -139,4 +139,28 @@ class WebsiteSetting extends Model
 
         throw new \RuntimeException("File non trovato: {$value}");
     }
+
+    public static function adminPanelTemplate(): string
+    {
+        static $template = null;
+
+        if ($template !== null) {
+            return $template;
+        }
+
+        $rawTemplate = strtolower((string) optional(static::select('admin_panel_template')->first())->admin_panel_template);
+        $template = in_array($rawTemplate, ['white', 'modern_01', 'modern_02'], true) ? $rawTemplate : 'white';
+
+        return $template;
+    }
+
+    public static function isAdminModernTemplate(): bool
+    {
+        return in_array(static::adminPanelTemplate(), ['modern_01', 'modern_02'], true);
+    }
+
+    public static function isAdminModern02Template(): bool
+    {
+        return static::adminPanelTemplate() === 'modern_02';
+    }
 }

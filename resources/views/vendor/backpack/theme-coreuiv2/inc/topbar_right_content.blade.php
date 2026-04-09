@@ -1,5 +1,10 @@
 {{-- This file is used to store topbar (right) items --}}
 
+@php
+    $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+    $isModernAdminTemplate02 = \App\Models\WebsiteSetting::isAdminModern02Template();
+@endphp
+@if($isModernAdminTemplate)
 <style>
     .topbar-preview-link {
         display: inline-flex !important;
@@ -29,7 +34,24 @@
         box-shadow: 0 8px 16px rgba(7, 16, 40, .2);
         text-decoration: none;
     }
+
+    @if($isModernAdminTemplate02)
+    .topbar-preview-link {
+        background: #edf4ff;
+        border-color: #d2e3ff;
+        color: #2a4674 !important;
+        box-shadow: 0 8px 18px rgba(31, 77, 158, .08);
+    }
+
+    .topbar-preview-link:hover {
+        background: #dfeeff;
+        border-color: #bdd8ff;
+        color: #1f3e6d !important;
+        box-shadow: 0 10px 20px rgba(31, 77, 158, .14);
+    }
+    @endif
 </style>
+@endif
 
 @if(env('NASCONDI_FRONTEND') == 0)
     <li class="nav-item d-md-down-none">

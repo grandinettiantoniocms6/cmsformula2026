@@ -6,6 +6,7 @@
     $adminPluginParking = \App\Models\AdminPlugin::where("name", "pluginParking")->where("is_active", 1)->first();
     $shopSetting = \App\Models\ShopSettings::first();
     $websiteSetting = \App\Models\WebsiteSetting::first();
+    $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
     $dashboardGif = url("img/dashboard.gif");
     if($websiteSetting && $websiteSetting->dashboard_gif){
         if(\Illuminate\Support\Str::startsWith($websiteSetting->dashboard_gif, ["http://", "https://"])){
@@ -1065,6 +1066,7 @@
     <link rel="stylesheet" href="{{ asset('packages/select2/dist/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/select2-bootstrap-theme/dist/select2-bootstrap.min.css') }}">
     <link href="{{ url('/css/dashboard.css') }}" rel="stylesheet">
+    @if($isModernAdminTemplate)
     <style>
         .dashboard-subtitle {
             color: #64748b;
@@ -1415,6 +1417,7 @@
             }
         }
     </style>
+    @endif
 @endsection
 
 @section('after_scripts')

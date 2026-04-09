@@ -1,12 +1,16 @@
 @extends(backpack_view('layouts.plain'))
 
 @php
-    $websiteLoginSetting = \App\Models\WebsiteSetting::select('admin_login_background')->first();
+    $websiteLoginSetting = \App\Models\WebsiteSetting::select('admin_login_background', 'admin_panel_template')->first();
     $adminLoginBackground = trim((string) ($websiteLoginSetting->admin_login_background ?? ''));
     $adminLoginBackgroundUrl = $adminLoginBackground !== '' ? url($adminLoginBackground) : null;
+    $templateMode = (string) ($websiteLoginSetting->admin_panel_template ?? 'white');
+    $isModernAdminTemplate = in_array($templateMode, ['modern_01', 'modern_02'], true);
+    $isModernAdminTemplate02 = ($templateMode === 'modern_02');
 @endphp
 
 @section('after_styles')
+    @if($isModernAdminTemplate)
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap');
 
@@ -232,10 +236,185 @@
                 font-size: .8rem;
             }
         }
+
+        @if($isModernAdminTemplate02)
+        body.app.flex-row {
+            @if($adminLoginBackgroundUrl)
+                background:
+                    radial-gradient(1100px 420px at 8% 6%, rgba(76, 148, 255, .24), transparent 62%),
+                    radial-gradient(860px 340px at 96% 10%, rgba(85, 198, 255, .18), transparent 66%),
+                    linear-gradient(145deg, rgba(20, 47, 99, .46), rgba(34, 73, 143, .34)),
+                    url('{{ $adminLoginBackgroundUrl }}') center center / cover no-repeat fixed;
+            @else
+                background:
+                    radial-gradient(1080px 470px at 8% 6%, rgba(64, 143, 255, .18), transparent 62%),
+                    radial-gradient(840px 370px at 96% 12%, rgba(84, 198, 255, .14), transparent 66%),
+                    linear-gradient(150deg, #eef4ff 0%, #f7faff 45%, #ffffff 100%);
+            @endif
+        }
+
+        .auth-login-shell {
+            box-shadow: 0 30px 65px rgba(19, 58, 129, .2);
+            border: 1px solid #d5e5ff;
+        }
+
+        .auth-login-shell::before {
+            background: linear-gradient(112deg, rgba(21, 49, 104, .86) 0%, rgba(37, 88, 173, .78) 40%, rgba(255, 255, 255, 0) 78%);
+        }
+
+        .auth-brand-kicker {
+            background: rgba(234, 243, 255, .95);
+            color: #2a4d84;
+            border: 1px solid #c9ddff;
+        }
+
+        .auth-form-wrap .btn-dark {
+            background: linear-gradient(132deg, #3a6fd6, #59b8ff);
+            box-shadow: 0 14px 30px rgba(26, 82, 170, .28);
+        }
+        @endif
     </style>
+    @else
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap');
+
+        body.app.flex-row {
+            min-height: 100vh;
+            font-family: 'Sora', sans-serif;
+            background: #f4f5f7;
+        }
+
+        .auth-login-white-wrapper {
+            width: 100%;
+            max-width: 1080px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1.5rem 1.2rem;
+        }
+
+        .auth-login-white-row {
+            align-items: center;
+        }
+
+        .auth-white-brand {
+            color: #122b57;
+            padding-right: 2.5rem;
+        }
+
+        .auth-white-logo img {
+            max-width: 170px;
+            width: 100%;
+            height: auto;
+        }
+
+        .auth-white-brand h2 {
+            margin-top: 1rem;
+            font-size: 2.7rem;
+            line-height: 1.15;
+            font-weight: 800;
+            letter-spacing: -.02em;
+        }
+
+        .auth-white-form-card {
+            background: #ffffff;
+            border: 1px solid #e3e8f2;
+            border-radius: 4px;
+            box-shadow: 0 8px 22px rgba(16, 36, 78, .12);
+            padding: 1.55rem 1.5rem 1.2rem;
+        }
+
+        .auth-white-form-card h3 {
+            text-align: center;
+            color: #162f5d;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: .85rem;
+        }
+
+        .auth-white-form-card .control-label {
+            color: #1f3763;
+            font-size: .98rem;
+            font-weight: 700;
+        }
+
+        .auth-white-form-card .form-control {
+            border-radius: 3px;
+            border: 1px solid #d7deea;
+            min-height: 42px;
+            background: #fff;
+            font-weight: 500;
+        }
+
+        .auth-white-form-card .form-control:focus {
+            border-color: #89a3d3;
+            box-shadow: 0 0 0 .15rem rgba(42, 91, 182, .12);
+        }
+
+        .auth-white-form-card .custom-control-label {
+            color: #42587f;
+            font-weight: 500;
+        }
+
+        .auth-white-form-card .btn-dark {
+            border: 0;
+            border-radius: 4px;
+            background: #131c3e;
+            min-height: 44px;
+            font-weight: 700;
+            font-size: 1.02rem;
+        }
+
+        .auth-white-form-card .toggle-link i {
+            color: #7a8eaf;
+        }
+
+        .auth-white-form-card .auth-white-reset-link {
+            margin-top: .7rem;
+        }
+
+        .auth-white-form-card .auth-white-reset-link a {
+            color: #42587f;
+            font-weight: 500;
+            font-size: .95rem;
+        }
+
+        .auth-page-meta-white {
+            margin-top: 1.45rem;
+            text-align: center;
+            color: #42587f;
+            font-size: .9rem;
+            font-weight: 500;
+        }
+
+        .auth-page-meta-white a {
+            color: #2c67d1;
+            font-weight: 700;
+        }
+
+        @media (max-width: 991.98px) {
+            .auth-white-brand {
+                text-align: center;
+                padding-right: 0;
+                margin-bottom: 1.1rem;
+            }
+
+            .auth-white-brand h2 {
+                font-size: 1.9rem;
+            }
+
+            .auth-white-form-card h3 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+    @endif
 @endsection
 
 @section('content')
+    @if($isModernAdminTemplate)
     <div class="auth-login-wrapper">
         <div class="row justify-content-center no-gutters auth-login-shell">
             <div class="col-lg-6">
@@ -323,6 +502,82 @@
             Realizzato da <a target="_blank" rel="noopener" href="{{ config('backpack.base.developer_link') }}">{{ config('backpack.base.developer_name') }}</a> - Ver. 6.0.1.
         </div>
     </div>
+    @else
+    <div class="auth-login-white-wrapper">
+        <div class="row justify-content-center auth-login-white-row">
+            <div class="col-lg-6">
+                <div class="auth-white-brand">
+                    <div class="auth-white-logo">
+                        <?php $website = \App\Models\WebsiteSetting::first(); ?>
+                        @if(!$website->logo_login)
+                            <img src="{{ url('public/img/commons/admin/logo-cms-formula-5_2.png') }}" title="Logo">
+                        @else
+                            <img src="{{ url($website->logo_login) }}" title="Logo">
+                        @endif
+                    </div>
+                    <h2>Sei pronto anche oggi a far crescere il tuo business?</h2>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="auth-white-form-card">
+                    <h3>Accedi</h3>
+                    <form role="form" method="POST" action="{{ route('backpack.auth.login') }}">
+                        {!! csrf_field() !!}
+
+                        <div class="form-group">
+                            <label class="control-label font-weight-semi-bold" for="{{ $username }}">{{ trans(config('backpack.base.authentication_column_name')) }}</label>
+                            <div>
+                                <input type="text" class="form-control{{ $errors->has($username) ? ' is-invalid' : '' }}" name="{{ $username }}" value="{{ old($username) }}" id="{{ $username }}">
+                                @if ($errors->has($username))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first($username) }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="d-flex justify-content-between">
+                                <label class="control-label font-weight-semi-bold" for="password">{{ trans('backpack::base.password') }}</label>
+                                <a class="float-right toggle-link" href="#password" data-toggle="tooltip" title="Mostra/Nascondi Password"><i class="la la-eye-slash" aria-hidden="true"></i></a>
+                            </div>
+                            <div>
+                                <input type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" id="password">
+                                @if ($errors->has('password'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="remember" name="remember"> <label class="custom-control-label" for="remember">{{ trans('backpack::base.remember_me') }}</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <button type="submit" class="btn btn-block btn-dark">
+                                {{ trans('backpack::base.login') }}
+                            </button>
+                        </div>
+
+                        @if (backpack_users_have_email() && backpack_email_column() == 'email' && config('backpack.base.setup_password_recovery_routes', true))
+                            <div class="text-center auth-white-reset-link"><a href="{{ route('backpack.auth.password.reset') }}">{{ trans('backpack::base.forgot_your_password') }}</a></div>
+                        @endif
+                        @if (config('backpack.base.registration_open'))
+                            <div class="text-center"><a href="{{ route('backpack.auth.register') }}">{{ trans('backpack::base.register') }}</a></div>
+                        @endif
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="auth-page-meta-white">
+            Realizzato da <a target="_blank" rel="noopener" href="{{ config('backpack.base.developer_link') }}">{{ config('backpack.base.developer_name') }}</a> - Ver. 6.0.1.
+        </div>
+    </div>
+    @endif
 @endsection
 
 @section('after_scripts')

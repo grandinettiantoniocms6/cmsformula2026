@@ -4,29 +4,83 @@
   $defaultBreadcrumbs = [
     trans('backpack::crud.admin') => url(config('backpack.base.route_prefix'), 'dashboard')
   ];
+  $enhancedCrudNeedles = [
+    'websiteSetting',
+    'adminBlock',
+    'adminPlugin',
+    'adminTemplate',
+    'admin-thumb',
+    'adminLanguage',
+    'userNavigation',
+    'label',
+    'block-page',
+    'pluginProductsBrands',
+    'pluginProductsCategories',
+    'pluginProductsAttributes',
+    'pluginProductsContacts',
+    'pluginProductsRequests',
+    'plugin-product-import',
+    'pluginProductsSettings',
+    'shopSettings',
+    'pluginTutorial',
+    'shopOrders',
+    'shopOrdersRequests',
+    'pluginProductsClients',
+    'shopPayments',
+    'shopShippings',
+    'shopOrdersStatus',
+    'shopCountries',
+    'shopAreas',
+    'shopTaxes',
+    'shopCartRules',
+    'shopPromotions',
+    'shopAttributes',
+    'shopAttributesOptions',
+    'shop-extra',
+  ];
+  $isEnhancedCrudCreate = false;
+  $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+  $isModernAdminTemplate02 = \App\Models\WebsiteSetting::isAdminModern02Template();
+  $routeProbe = (string) ($crud->route ?? '');
+  $pathProbe = (string) request()->path();
+  $routeController = request()->route() ? request()->route()->getController() : null;
+  $controllerName = $routeController ? class_basename(get_class($routeController)) : '';
+  $isPluginController = stripos($controllerName, 'Plugin') !== false;
+  foreach ($enhancedCrudNeedles as $needle) {
+      if (stripos($routeProbe, $needle) !== false || stripos($pathProbe, $needle) !== false) {
+          $isEnhancedCrudCreate = true;
+          break;
+      }
+  }
+  if (!$isEnhancedCrudCreate && $isPluginController) {
+      $isEnhancedCrudCreate = true;
+  }
+  $isEnhancedCrudCreate = $isEnhancedCrudCreate && $isModernAdminTemplate;
 
   // if breadcrumbs aren't defined in the CrudController, use the default breadcrumbs
   $breadcrumbs = $breadcrumbs ?? $defaultBreadcrumbs;
 @endphp
 
 @section('header')
-    <h3 class="page-title mb-0">
-        <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-        <small>{!! $crud->getSubheading() ?? trans('backpack::crud.add').' '.$crud->entity_name !!}.</small>
+    <div class="{{ $isEnhancedCrudCreate ? 'enhanced-crud-create-header-shell' : '' }}">
+        <h3 class="page-title mb-0">
+            <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+            <small>{!! $crud->getSubheading() ?? trans('backpack::crud.add').' '.$crud->entity_name !!}.</small>
 
-        @if ($crud->hasAccess('list'))
-            @if(request()->has('group_id'))
-                <?php $group_id = request()->get('group_id'); ?>
-                <small><a href="{{ url("/admin/shopProductsVariants?group_id=$group_id") }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
-            @else
-                <?php
-                $url_back = $crud->route;
-                $url_back = trim(str_replace(env('APP_URL')."/", "", $url_back));
-                ?>
-                <small><a href="/{{ $url_back }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
+            @if ($crud->hasAccess('list'))
+                @if(request()->has('group_id'))
+                    <?php $group_id = request()->get('group_id'); ?>
+                    <small><a href="{{ url("/admin/shopProductsVariants?group_id=$group_id") }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
+                @else
+                    <?php
+                    $url_back = $crud->route;
+                    $url_back = trim(str_replace(env('APP_URL')."/", "", $url_back));
+                    ?>
+                    <small><a href="/{{ $url_back }}" class="d-print-none font-sm"><i class="la la-angle-{{ config('backpack.base.html_direction') == 'rtl' ? 'right' : 'left' }}"></i> {{ trans('backpack::crud.back_to_all') }} <span>{{ $crud->entity_name_plural }}</span></a></small>
+                @endif
             @endif
-        @endif
-    </h3>
+        </h3>
+    </div>
 @endsection
 
 @section('content')
@@ -131,3 +185,115 @@
     </script>
 
 @endpush
+
+@if($isEnhancedCrudCreate)
+    @push('after_styles')
+        <style>
+            .enhanced-crud-create-header-shell {
+                background: linear-gradient(130deg, #ffffff 0%, #f4f8ff 100%);
+                border: 1px solid #dbe6fb;
+                border-radius: 14px;
+                padding: 14px 16px;
+                box-shadow: 0 8px 22px rgba(24, 43, 81, 0.08);
+                margin-bottom: 12px;
+            }
+
+            .enhanced-crud-create-header-shell .page-title {
+                display: flex;
+                align-items: baseline;
+                gap: 10px;
+                flex-wrap: wrap;
+                color: #182f59;
+                font-weight: 700;
+            }
+
+            .enhanced-crud-create-header-shell .page-title small {
+                color: #607197;
+                font-weight: 600;
+            }
+
+            .enhanced-crud-create-header-shell .page-title small a {
+                color: #3b5d9f;
+                font-weight: 700;
+            }
+
+            .enhanced-crud-create-header-shell .page-title small a:hover {
+                color: #2b4d8d;
+                text-decoration: none;
+            }
+
+            .container-fluid .form-group > label {
+                color: #223a67;
+                font-weight: 700;
+            }
+
+            .container-fluid .form-control,
+            .container-fluid .select2-container--bootstrap .select2-selection {
+                min-height: 42px;
+                border-radius: 9px !important;
+                border-color: #d7e1f2;
+                box-shadow: inset 0 1px 2px rgba(18, 38, 76, 0.04);
+            }
+
+            .container-fluid .form-control:focus {
+                border-color: #89a6dc;
+                box-shadow: 0 0 0 3px rgba(62, 111, 206, 0.13);
+            }
+
+            .container-fluid .input-group .btn {
+                border-radius: 9px;
+                font-weight: 700;
+            }
+
+            .container-fluid .btn-success,
+            .container-fluid .btn-primary {
+                border-radius: 10px;
+                font-weight: 700;
+                box-shadow: 0 8px 18px rgba(14, 36, 79, 0.14);
+            }
+
+            .container-fluid .nav-tabs {
+                border-bottom-color: #dce5f6;
+            }
+
+            .container-fluid .nav-tabs .nav-link {
+                border-radius: 8px 8px 0 0;
+                border-color: transparent;
+                color: #50648f;
+                font-weight: 600;
+            }
+
+            .container-fluid .nav-tabs .nav-link.active {
+                color: #223a68;
+                background: #f5f8ff;
+                border-color: #dce5f6 #dce5f6 #f5f8ff;
+            }
+
+            @if($isModernAdminTemplate02)
+            .enhanced-crud-create-header-shell {
+                background:
+                    radial-gradient(520px 160px at 8% -40%, rgba(57, 140, 255, .18), transparent 70%),
+                    linear-gradient(160deg, #ffffff 0%, #f4f8ff 100%);
+                border: 1px solid #d7e5fb;
+                box-shadow: 0 12px 28px rgba(25, 67, 141, .12);
+            }
+
+            .enhanced-crud-create-header-shell .page-title,
+            .enhanced-crud-create-header-shell .page-title small,
+            .enhanced-crud-create-header-shell .page-title small a {
+                color: #284673;
+            }
+
+            .container-fluid .form-control,
+            .container-fluid .select2-container--bootstrap .select2-selection {
+                border-color: #ccddf9;
+            }
+
+            .container-fluid .btn-success,
+            .container-fluid .btn-primary {
+                box-shadow: 0 10px 22px rgba(31, 77, 158, .18);
+            }
+            @endif
+        </style>
+    @endpush
+@endif
