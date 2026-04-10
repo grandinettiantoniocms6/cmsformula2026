@@ -67,7 +67,7 @@
     };
 
     $adminLogoPath = $normalizePublicAssetPath($website_setting->logo_admin ?? '');
-    $defaultAdminLogoPath = $normalizePublicAssetPath('public/img/commons/admin/logo-cms-formula-5.png');
+    $defaultAdminLogoPath = $normalizePublicAssetPath('public/img/commons/admin/logo-login.png.png');
   ?>
 
   @if($isModernAdminTemplate)

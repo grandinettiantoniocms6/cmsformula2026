@@ -6,7 +6,7 @@
             <h3 class="text-center mb-4">
                 <?php $website = \App\Models\WebsiteSetting::first(); ?>
                 @if(!$website->logo_login)
-                    <img src="/img/commons/admin/logo-cms-formula-5_2.png" title="CMS-Formula 5.0">
+                    <img src="/img/commons/admin/logo-dashboard.png" title="CMS-Formula 6.0">
                 @else
                     <img src="{{ url($website->logo_login) }}" width="180" title="Logo">
                 @endif

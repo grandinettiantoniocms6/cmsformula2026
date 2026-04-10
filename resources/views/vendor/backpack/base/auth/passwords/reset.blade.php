@@ -8,7 +8,7 @@
                 $website = \App\Models\WebsiteSetting::first();
                 ?>
                 @if(!$website->logo_admin)
-                    <img src="/img/commons/admin/logo-cms-formula-5.png" title="Logo CMS-Formula 5.0">
+                    <img src="/img/commons/admin/logo-login.png" title="Logo CMS-Formula 6.0">
                 @else
                     <img src="{{ url($website->logo_admin) }}" width="240" title="Logo">
                 @endif

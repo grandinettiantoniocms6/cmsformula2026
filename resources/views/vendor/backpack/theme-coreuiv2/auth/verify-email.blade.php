@@ -7,7 +7,7 @@
         <h3 class="text-center mb-4">
             <?php $website = \App\Models\WebsiteSetting::first(); ?>
             @if(!$website->logo_login)
-                <img src="/img/commons/admin/logo-cms-formula-5_2.png" title="CMS-Formula 5.0">
+                <img src="/img/commons/admin/logo-dashboard.png" title="CMS-Formula 6.0">
             @else
                 <img src="{{ url($website->logo_login) }}" width="180" title="Logo">
             @endif
@@ -38,9 +38,9 @@
             </form>
             <form method="POST" class="col-md-6" action="{{ backpack_url('logout') }}">
                 @csrf
-                <button type="submit" class="btn btn-sm button-secondary float-end float-right" tabindex="7"><i class="la la-lock me-2"></i>{{ trans('backpack::base.logout') }}</button>   
-            </form>     
-            </div>       
+                <button type="submit" class="btn btn-sm button-secondary float-end float-right" tabindex="7"><i class="la la-lock me-2"></i>{{ trans('backpack::base.logout') }}</button>
+            </form>
+            </div>
         </div>
     </div>
 </div>
