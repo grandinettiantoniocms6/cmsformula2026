@@ -420,17 +420,16 @@
             <div class="col-lg-6">
                 <div class="card bg-transparent border-0 h-100 shadow-none mb-0 auth-brand-wrap">
                     <div class="card-body p-0">
-                        <span class="auth-brand-kicker">Pannello Controllo</span>
                         <h3 class="auth-brand-logo mb-3">
                             <?php $website = \App\Models\WebsiteSetting::first(); ?>
                         @if(!$website->logo_login)
-                                <img src="{{ url('public/img/commons/admin/logo-dashboard.png') }}" title="Logo">
+                                <img src="{{ url('img/commons/admin/logo-dashboard.png') }}" title="Logo">
                         @else
                                 <img src="{{ url($website->logo_login) }}" title="Logo">
                         @endif
                         </h3>
                         <h4>Gestisci il tuo business in modo rapido e professionale.</h4>
-                        <p class="auth-brand-note">Accedi al pannello per monitorare contenuti, ordini e funzionalità operative in un unico ambiente.</p>
+                        <p class="auth-brand-note">Accedi al pannello per gestire contenuti, ordini e funzionalità operative in un unico ambiente.</p>
                     </div>
                 </div>
             </div>
@@ -510,7 +509,7 @@
                     <div class="auth-white-logo">
                         <?php $website = \App\Models\WebsiteSetting::first(); ?>
                         @if(!$website->logo_login)
-                            <img src="{{ url('public/img/commons/admin/logo-dashboard.png') }}" title="Logo">
+                            <img src="{{ url('img/commons/admin/logo-dashboard.png') }}" title="Logo">
                         @else
                             <img src="{{ url($website->logo_login) }}" title="Logo">
                         @endif
