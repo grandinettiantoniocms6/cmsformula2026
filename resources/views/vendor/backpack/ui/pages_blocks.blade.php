@@ -51,6 +51,34 @@
     <!-- include select2 css-->
     <link href="{{ asset('packages/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('packages/select2-bootstrap-theme/dist/select2-bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    @if(!$isModernAdminTemplate)
+    <style>
+        .pages-blocks-shell .blocks-section-title {
+            border: 1px solid #d6dce8;
+            border-radius: 4px;
+            font-weight: 700;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .pages-blocks-shell .blocks-section-title.section-header {
+            background-color: #141b36;
+            border-color: #141b36;
+        }
+
+        .pages-blocks-shell .blocks-section-title.section-content {
+            background-color: #47c29a;
+            border-color: #47c29a;
+        }
+
+        .pages-blocks-shell .blocks-section-title.section-footer {
+            background-color: #f4be00;
+            border-color: #f4be00;
+            color: #1f2a44;
+        }
+    </style>
+    @endif
     @if($isModernAdminTemplate)
     <style>
         input.search::placeholder {
