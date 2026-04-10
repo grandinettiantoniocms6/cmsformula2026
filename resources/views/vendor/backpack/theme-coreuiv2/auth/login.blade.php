@@ -424,7 +424,7 @@
                         <h3 class="auth-brand-logo mb-3">
                             <?php $website = \App\Models\WebsiteSetting::first(); ?>
                         @if(!$website->logo_login)
-                                <img src="{{ url('public/img/commons/admin/logo-cms-formula-5_2.png') }}" title="Logo">
+                                <img src="{{ url('public/img/commons/admin/logo-dashboard.png') }}" title="Logo">
                         @else
                                 <img src="{{ url($website->logo_login) }}" title="Logo">
                         @endif
@@ -510,7 +510,7 @@
                     <div class="auth-white-logo">
                         <?php $website = \App\Models\WebsiteSetting::first(); ?>
                         @if(!$website->logo_login)
-                            <img src="{{ url('public/img/commons/admin/logo-cms-formula-5_2.png') }}" title="Logo">
+                            <img src="{{ url('public/img/commons/admin/logo-dashboard.png') }}" title="Logo">
                         @else
                             <img src="{{ url($website->logo_login) }}" title="Logo">
                         @endif
