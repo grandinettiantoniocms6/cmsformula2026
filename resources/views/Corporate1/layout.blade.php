@@ -20,6 +20,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
     @include('common.consent_solution_iubenda')
     @include('common.gdprtools')
+
     <!-- {!! \NoCaptcha::renderJs() !!} -->
 
     @include('common.css_common')
