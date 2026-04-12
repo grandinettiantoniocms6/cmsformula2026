@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\WebsiteSettingRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Class WebsiteSettingCrudController
@@ -461,7 +463,7 @@ class WebsiteSettingCrudController extends CrudController
         ]);
 
         $this->crud->addField([   // color_picker
-            'label'                => 'Colore sfondo SUB-MENU (Desktop & Mobile)',
+            'label'                => 'Colore sfondo SUB-MENU (Desktop)',
             'name'                 => 'submenu_desktop_bgcolor',
             'type'                 => 'color_picker2',
             'default'              => null,
@@ -471,7 +473,17 @@ class WebsiteSettingCrudController extends CrudController
         ]);
 
         $this->crud->addField([   // color_picker
-            'label'                => 'Colore testo SUB-MENU (Desktop & Mobile)',
+            'label'                => 'Colore sfondo SUB-MENU (Mobile)',
+            'name'                 => 'submenu_mobile_bgcolor',
+            'type'                 => 'color_picker2',
+            'default'              => null,
+            // optional
+            'color_picker_options' => ['customClass' => 'custom-class'],
+            'tab' => 'Header'
+        ]);
+
+        $this->crud->addField([   // color_picker
+            'label'                => 'Colore testo SUB-MENU (Desktop)',
             'name'                 => 'submenu_txt_color',
             'type'                 => 'color_picker2',
             'default'              => null,
@@ -501,8 +513,38 @@ class WebsiteSettingCrudController extends CrudController
         ]);
 
         $this->crud->addField([   // color_picker
+            'label' => 'Colore testo SUB-MENU (Mobile)',
+            'name' => 'submenu_txt_color_mobile',
+            'type' => 'color_picker2',
+            'default' => null,
+            // optional
+            'color_picker_options' => ['customClass' => 'custom-class'],
+            'tab' => 'Header'
+        ]);
+
+        $this->crud->addField([   // color_picker
+            'label' => 'Colore sfondo pannello menu-mobile',
+            'name' => 'menu_mobile_panel_background',
+            'type' => 'color_picker2',
+            'default' => null,
+            // optional
+            'color_picker_options' => ['customClass' => 'custom-class'],
+            'tab' => 'Header'
+        ]);
+
+        $this->crud->addField([   // color_picker
             'label' => 'Colore HAMBURGER MENU',
             'name' => 'bgcolor_menu_mobile',
+            'type' => 'color_picker2',
+            'default' => null,
+            // optional
+            'color_picker_options' => ['customClass' => 'custom-class'],
+            'tab' => 'Header'
+        ]);
+
+        $this->crud->addField([   // color_picker
+            'label' => 'Colore di sfondo HAMBURGER MENU',
+            'name' => 'hamburger_menu_background',
             'type' => 'color_picker2',
             'default' => null,
             // optional
@@ -741,6 +783,16 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
         $this->crud->addField([   // color_picker
             'label'                => 'Colore hover Bottoni',
             'name'                 => 'btn_hover_background',
+            'type'                 => 'color_picker2',
+            'default'              => null,
+            // optional
+            'color_picker_options' => ['customClass' => 'custom-class'],
+            'tab' => 'Style'
+        ]);
+
+        $this->crud->addField([   // color_picker
+            'label'                => 'Colore menu active',
+            'name'                 => 'menu_link_visited_color',
             'type'                 => 'color_picker2',
             'default'              => null,
             // optional
@@ -1923,6 +1975,26 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
         $item = $this->crud->update($request->get($this->crud->model->getKeyName()),
             $this->crud->getStrippedSaveRequest($request));
         $this->data['entry'] = $this->crud->entry = $item;
+
+        if (Schema::hasTable('website_setting_extras')) {
+            $menuLinkVisitedColor = $request->input('menu_link_visited_color');
+            $submenuMobileBgcolor = $request->input('submenu_mobile_bgcolor');
+            $submenuTxtColorMobile = $request->input('submenu_txt_color_mobile');
+            $hamburgerMenuBackground = $request->input('hamburger_menu_background');
+            $menuMobilePanelBackground = $request->input('menu_mobile_panel_background');
+            DB::table('website_setting_extras')->updateOrInsert(
+                ['website_setting_id' => $item->id],
+                [
+                    'menu_link_visited_color' => $menuLinkVisitedColor !== null ? trim((string) $menuLinkVisitedColor) : null,
+                    'submenu_mobile_bgcolor' => $submenuMobileBgcolor !== null ? trim((string) $submenuMobileBgcolor) : null,
+                    'submenu_txt_color_mobile' => $submenuTxtColorMobile !== null ? trim((string) $submenuTxtColorMobile) : null,
+                    'hamburger_menu_background' => $hamburgerMenuBackground !== null ? trim((string) $hamburgerMenuBackground) : null,
+                    'menu_mobile_panel_background' => $menuMobilePanelBackground !== null ? trim((string) $menuMobilePanelBackground) : null,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
+            );
+        }
 
         // show a success message
         \Alert::success(trans('backpack::crud.update_success'))->flash();

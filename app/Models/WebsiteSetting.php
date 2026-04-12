@@ -23,6 +23,8 @@ class WebsiteSetting extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
+    protected $menuLinkVisitedColorTouched = false;
+    protected $menuLinkVisitedColorPending = null;
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
@@ -162,5 +164,91 @@ class WebsiteSetting extends Model
     public static function isAdminModern02Template(): bool
     {
         return static::adminPanelTemplate() === 'modern_02';
+    }
+
+    protected static function booted()
+    {
+        static::saved(function (self $model) {
+            if (!$model->menuLinkVisitedColorTouched || !$model->getKey() || !\Schema::hasTable('website_setting_extras')) {
+                return;
+            }
+
+            $now = now();
+            \DB::table('website_setting_extras')->updateOrInsert(
+                ['website_setting_id' => $model->getKey()],
+                [
+                    'menu_link_visited_color' => $model->menuLinkVisitedColorPending,
+                    'updated_at' => $now,
+                    'created_at' => $now,
+                ]
+            );
+
+            $model->menuLinkVisitedColorTouched = false;
+        });
+    }
+
+    public function getMenuLinkVisitedColorAttribute()
+    {
+        if ($this->menuLinkVisitedColorTouched) {
+            return $this->menuLinkVisitedColorPending;
+        }
+
+        if (!$this->getKey() || !\Schema::hasTable('website_setting_extras')) {
+            return null;
+        }
+
+        return \DB::table('website_setting_extras')
+            ->where('website_setting_id', $this->getKey())
+            ->value('menu_link_visited_color');
+    }
+
+    public function getSubmenuMobileBgcolorAttribute()
+    {
+        if (!$this->getKey() || !\Schema::hasTable('website_setting_extras')) {
+            return null;
+        }
+
+        return \DB::table('website_setting_extras')
+            ->where('website_setting_id', $this->getKey())
+            ->value('submenu_mobile_bgcolor');
+    }
+
+    public function getHamburgerMenuBackgroundAttribute()
+    {
+        if (!$this->getKey() || !\Schema::hasTable('website_setting_extras')) {
+            return null;
+        }
+
+        return \DB::table('website_setting_extras')
+            ->where('website_setting_id', $this->getKey())
+            ->value('hamburger_menu_background');
+    }
+
+    public function getSubmenuTxtColorMobileAttribute()
+    {
+        if (!$this->getKey() || !\Schema::hasTable('website_setting_extras')) {
+            return null;
+        }
+
+        return \DB::table('website_setting_extras')
+            ->where('website_setting_id', $this->getKey())
+            ->value('submenu_txt_color_mobile');
+    }
+
+    public function getMenuMobilePanelBackgroundAttribute()
+    {
+        if (!$this->getKey() || !\Schema::hasTable('website_setting_extras')) {
+            return null;
+        }
+
+        return \DB::table('website_setting_extras')
+            ->where('website_setting_id', $this->getKey())
+            ->value('menu_mobile_panel_background');
+    }
+
+    public function setMenuLinkVisitedColorAttribute($value): void
+    {
+        $this->menuLinkVisitedColorTouched = true;
+        $this->menuLinkVisitedColorPending = is_string($value) ? trim($value) : $value;
     }
 }

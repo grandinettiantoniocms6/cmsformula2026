@@ -1,13 +1,17 @@
 <?php
 $thema = env('TEMA');
 $admin_template = \App\Models\AdminTemplate::where("name", $thema)->first();
+if (!$admin_template && $thema) {
+    $admin_template = \App\Models\AdminTemplate::whereRaw('LOWER(name) = ?', [strtolower($thema)])->first();
+}
+$theme_view = $admin_template ? $admin_template->name : $thema;
 
 $inc = "inc";
-if($admin_template->inc){
+if($admin_template && $admin_template->inc){
     $inc = $admin_template->inc;
 }
 ?>
-@extends("$thema.layout")
+@extends("$theme_view.layout")
 
 @section('recaptcha')
     <?php
@@ -33,11 +37,11 @@ if($admin_template->inc){
 @endsection
 
 @section('head')
-    @include("$thema.$inc.head")
+    @include("$theme_view.$inc.head")
 @endsection
 
 @section('meta')
-    @include("$thema.$inc.meta")
+    @include("$theme_view.$inc.meta")
 @endsection
 
 @if($website->is_online == 1 || backpack_user() || is_numeric(strpos(env('APP_URL'), "stage")))
@@ -48,32 +52,32 @@ if($admin_template->inc){
     @endif
 
     @section('topbar')
-        @if($thema != "Crafto")
-            @include("$thema.$inc.topbar")
+        @if($theme_view != "Crafto")
+            @include("$theme_view.$inc.topbar")
         @endif
     @endsection
 
     @section('header_menu')
-        @include("$thema.$inc.header_menu")
+        @include("$theme_view.$inc.header_menu")
     @endsection
 
     @section('content_header')
-        @include("$thema.$inc.content_header")
+        @include("$theme_view.$inc.content_header")
     @endsection
 
     @section('content')
-        @include("$thema.$inc.content")
+        @include("$theme_view.$inc.content")
     @endsection
 
     @section('content_footer')
-        @include("$thema.$inc.content_footer")
+        @include("$theme_view.$inc.content_footer")
     @endsection
 @else
     @section('topbar')
-        @include("$thema.$inc.topbar")
+        @include("$theme_view.$inc.topbar")
     @endsection
     @section('content')
-         @include("$thema.$inc.content_offline")
+         @include("$theme_view.$inc.content_offline")
     @endsection
 @endif
 

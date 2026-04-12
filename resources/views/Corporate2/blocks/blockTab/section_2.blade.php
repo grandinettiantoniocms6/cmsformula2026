@@ -1,0 +1,102 @@
+<section class="block-tabs style-{{ $item->style }}" id="block-tabs-{{ $item->id }}">
+    <div class="{{ $item->fullwidth }} space-{{ $item->mt }}">
+        <div class="tab">
+            <ul class="nav nav-pills" role="tablist">
+                @if($array)
+                    <?php $i = 0; ?>
+                        <style>
+                            #block-tabs-{{ $item->id }} .nav-item {
+                                background-color: {{ $item->bgcolor }};
+                            }
+                            #block-tabs-{{ $item->id }} .nav-link {
+                                color: {{ $item->btn_txt_color }};
+                                border-radius: 0;
+                            }
+                            #block-tabs-{{ $item->id }} .nav-link:hover {
+                                color: {{ $item->btn_color_hover }};
+                            }
+                            #block-tabs-{{ $item->id }} .nav-link:active, #block-tabs-{{ $item->id }} .nav-link.active {
+                                color: #fff;
+                                background-color: {{ $item->btn_color_active }};
+                                border-color: {{ $item->btn_color_active }};
+                            }
+                            #block-tabs-{{ $item->id }} .tab-content {
+                                background-color: {{ $item->bgcolor }};
+                                padding: 1rem 1.5rem;
+                                color: white;
+                            }
+                        </style>
+                    @foreach($array as $value)
+                        <?php
+
+                        $title = json_decode($value->title, true);
+                        if($title === null){
+                            $title = [];
+                        }
+
+                        $description = json_decode($value->description, true);
+                        if($description === null){
+                            $description = [];
+                        }
+
+                        if(!key_exists(\App::getLocale(), $title)){
+                            $title[\App::getLocale()] = "";
+                        }
+
+                        if(!key_exists(\App::getLocale(), $description)){
+                            $description[\App::getLocale()] = "";
+                        }
+
+                        $active = "";
+                        if($i == 0){
+                            $active = "active";
+                        }
+                        ?>
+                        <li class="nav-item" style="background-color: {{ $item->bgcolor }}; color: {{ $item->btn_txt_color }};">
+                            <a class="nav-link {{ $active }}"
+                               id="li-tab-{{ $value->id }}"
+                               data-bs-toggle="tab"
+                               role="tab"
+                               aria-controls="{{ $value->id }}"
+                               data-bs-target="#tab-{{ $value->id }}"
+                               href="#tab-{{ $value->id }}">{{ $title[\App::getLocale()] }}
+                            </a>
+                        </li>
+                        <?php $i++; ?>
+                    @endforeach
+                @endif
+            </ul>
+            <div class="tab-content" id="tab-content-tab-id-{{ $item->id }}">
+                @if($array)
+                    <?php $i = 0; ?>
+                    @foreach($array as $value)
+                        <?php
+
+                        $title = json_decode($value->title, true);
+                        if($title === null){
+                            $title = [];
+                        }
+
+                        $description = json_decode($value->description, true);
+                        if($description === null){
+                            $description = [];
+                        }
+
+                        $active = "";
+                        $show = "";
+                        if($i == 0){
+                            $active = "active";
+                            $show = "show";
+                        }
+                        ?>
+                        <div class="tab-pane fade {{ $active }} {{ $show }}" id="tab-{{ $value->id }}" role="tabpanel">
+                            {!! $description[\App::getLocale()] !!}
+                        </div>
+                        <?php $i++; ?>
+                    @endforeach
+                @endif
+            </div>
+        </div>
+    </div>
+</section>
+
