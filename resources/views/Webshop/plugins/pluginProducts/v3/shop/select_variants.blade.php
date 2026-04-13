@@ -3,6 +3,7 @@
    $options = null;
    $attribute_item = null;
    $option_selected = null;
+   $optionProduct = null;
 
     $variants_ids = \App\Models\PluginProducts::where("group_id", $itemProduct->group_id)
         ->where("is_variant", 1)
@@ -39,12 +40,15 @@
 
         $variant_attribute_item = \App\Models\ShopAttributes::whereIn("id", $variant_attribute_ids)->orderBy("lft", "asc")->first();
 
-        $variant_option = \App\Models\ShopAttributesOptions::selectRaw("shop_attributes_options.*, shop_attributes_products.id")
-            ->join("shop_attributes_products", "shop_attributes_options.id", "shop_attributes_products.option_id")
-            ->where("attribute_id", $attribute_item->id)
-            ->where("product_id", $itemProduct->id)
-            ->groupBy("value")
-            ->first();
+        $variant_option = null;
+        if($variant_attribute_item){
+            $variant_option = \App\Models\ShopAttributesOptions::selectRaw("shop_attributes_options.*, shop_attributes_products.id")
+                ->join("shop_attributes_products", "shop_attributes_options.id", "shop_attributes_products.option_id")
+                ->where("attribute_id", $variant_attribute_item->id)
+                ->where("product_id", $itemProduct->id)
+                ->groupBy("value")
+                ->first();
+        }
 
         if($variant_option){
             $option_selected = $variant_option->value;
@@ -99,7 +103,7 @@
     </div>
 
     <div id="second_attribute_box">
-         @if($itemProduct->is_variant == 1)
+         @if($itemProduct->is_variant == 1 && $optionProduct)
             <?php
             $option_selected_2 = null;
             //prendi tutti quei prodotti che hanno come option il 7 e attribute_id = 1

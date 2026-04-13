@@ -319,6 +319,7 @@ class PluginProductImportCrudController extends CrudController
                     $options_2 = [];
 
                     foreach ($product as $field => $value){
+                        $value = $this->normalizeImportedValue($value);
                         switch ($field){
                             case "options_1":
                                 if(trim($value) != ""){
@@ -675,7 +676,9 @@ class PluginProductImportCrudController extends CrudController
                             unset($product['parent_sku']);
                         }
 
-                        PluginProducts::where("id", $itemP->id)->update($product);
+                        // Use model update to trigger translatable mutators/casts (eg. description JSON)
+                        $itemP->update($product);
+                        $this->rememberProductInSkuCache($itemP->fresh(), $productBySkuCache);
                         $itemP = $this->getProductBySkuCached($product["sku"], $productBySkuCache, false, true);
                         if($itemP){
                             $importedProductIds[] = $itemP->id;
@@ -877,6 +880,32 @@ class PluginProductImportCrudController extends CrudController
     private function escapeLikeValue($value)
     {
         return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], trim((string) $value));
+    }
+
+    private function normalizeImportedValue($value)
+    {
+        if (is_object($value) && method_exists($value, '__toString')) {
+            $value = (string) $value;
+        }
+
+        if (!is_string($value)) {
+            return $value;
+        }
+
+        $value = trim($value);
+        if ($value === '') {
+            return $value;
+        }
+
+        // Prevent malformed UTF-8 from breaking translatable JSON fields.
+        if (!preg_match('//u', $value)) {
+            $converted = @iconv('Windows-1252', 'UTF-8//IGNORE', $value);
+            if ($converted !== false && $converted !== '') {
+                $value = $converted;
+            }
+        }
+
+        return $value;
     }
 
     private function getOrCreateAttribute($name)
