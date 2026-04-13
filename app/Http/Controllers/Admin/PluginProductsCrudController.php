@@ -974,23 +974,42 @@ class PluginProductsCrudController extends CrudController
         });
 
 
-        $categories = PluginProductsCategories::where("is_active", 1)->orderBy("name", "desc")->get()->pluck("name", "id")->toArray();
+        $categoryItems = PluginProductsCategories::where("is_active", 1)
+            ->orderBy("name", "desc")
+            ->get(['id', 'name', 'parent_id']);
+        $categories = $categoryItems->pluck("name", "id")->toArray();
         if($categories){
+            $categoriesById = $categoryItems->keyBy('id');
             foreach ($categories as $category_id=>$category_label){
-                $item = PluginProductsCategories::find($category_id);
-                if($item->parent_id == 0 || $item->parent_id == null){
+                $item = $categoriesById->get($category_id);
+                if(!$item || $item->parent_id == 0 || $item->parent_id == null){
                     $categories[$category_id] = $category_label;
                 }else{
-                    $parent = PluginProductsCategories::find($item->parent_id);
+                    $parent = $categoriesById->get($item->parent_id);
+                    if(!$parent){
+                        $categories[$category_id] = $category_label;
+                        continue;
+                    }
+
                     if($parent->parent_id == 0 || $parent->parent_id == null){
-                        $categories[$category_id] = "$parent->name > $category_label";
+                        $categories[$category_id] = "{$parent->name} > $category_label";
                     }else{
-                        $parent_parent = PluginProductsCategories::find($parent->parent_id);
+                        $parent_parent = $categoriesById->get($parent->parent_id);
+                        if(!$parent_parent){
+                            $categories[$category_id] = "{$parent->name} > $category_label";
+                            continue;
+                        }
+
                         if($parent_parent->parent_id == 0 || $parent_parent->parent_id == null){
-                            $categories[$category_id] = "$parent_parent->name > $parent->name > $category_label";
+                            $categories[$category_id] = "{$parent_parent->name} > {$parent->name} > $category_label";
                         }else{
-                            $parent_parent_parent = PluginProductsCategories::find($parent_parent->parent_id);
-                            $categories[$category_id] = "$parent_parent_parent->name > $parent_parent->name > $parent->name > $category_label";
+                            $parent_parent_parent = $categoriesById->get($parent_parent->parent_id);
+                            if(!$parent_parent_parent){
+                                $categories[$category_id] = "{$parent_parent->name} > {$parent->name} > $category_label";
+                                continue;
+                            }
+
+                            $categories[$category_id] = "{$parent_parent_parent->name} > {$parent_parent->name} > {$parent->name} > $category_label";
                         }
                     }
                 }
@@ -1276,23 +1295,42 @@ class PluginProductsCrudController extends CrudController
             ]);
         }
 
-        $categories = PluginProductsCategories::where("is_active", 1)->orderBy("name", "desc")->get()->pluck("name", "id")->toArray();
+        $categoryItems = PluginProductsCategories::where("is_active", 1)
+            ->orderBy("name", "desc")
+            ->get(['id', 'name', 'parent_id']);
+        $categories = $categoryItems->pluck("name", "id")->toArray();
         if($categories){
+            $categoriesById = $categoryItems->keyBy('id');
             foreach ($categories as $category_id=>$category_label){
-                $item = PluginProductsCategories::find($category_id);
-                if($item->parent_id == 0 || $item->parent_id == null){
+                $item = $categoriesById->get($category_id);
+                if(!$item || $item->parent_id == 0 || $item->parent_id == null){
                     $categories[$category_id] = $category_label;
                 }else{
-                    $parent = PluginProductsCategories::find($item->parent_id);
+                    $parent = $categoriesById->get($item->parent_id);
+                    if(!$parent){
+                        $categories[$category_id] = $category_label;
+                        continue;
+                    }
+
                     if($parent->parent_id == 0 || $parent->parent_id == null){
-                        $categories[$category_id] = "$parent->name > $category_label";
+                        $categories[$category_id] = "{$parent->name} > $category_label";
                     }else{
-                        $parent_parent = PluginProductsCategories::find($parent->parent_id);
+                        $parent_parent = $categoriesById->get($parent->parent_id);
+                        if(!$parent_parent){
+                            $categories[$category_id] = "{$parent->name} > $category_label";
+                            continue;
+                        }
+
                         if($parent_parent->parent_id == 0 || $parent_parent->parent_id == null){
-                            $categories[$category_id] = "$parent_parent->name > $parent->name > $category_label";
+                            $categories[$category_id] = "{$parent_parent->name} > {$parent->name} > $category_label";
                         }else{
-                            $parent_parent_parent = PluginProductsCategories::find($parent_parent->parent_id);
-                            $categories[$category_id] = "$parent_parent_parent->name > $parent_parent->name > $parent->name > $category_label";
+                            $parent_parent_parent = $categoriesById->get($parent_parent->parent_id);
+                            if(!$parent_parent_parent){
+                                $categories[$category_id] = "{$parent_parent->name} > {$parent->name} > $category_label";
+                                continue;
+                            }
+
+                            $categories[$category_id] = "{$parent_parent_parent->name} > {$parent_parent->name} > {$parent->name} > $category_label";
                         }
                     }
                 }
@@ -1790,7 +1828,10 @@ class PluginProductsCrudController extends CrudController
 
 
         $products = PluginProducts::where("is_active", 1)
-            ->where("is_variant", 0)->get()->pluck("name", "id")->toArray();
+            ->where("is_variant", 0)
+            ->get(['id', 'name'])
+            ->pluck("name", "id")
+            ->toArray();
         if(count($products)){
             $related = [];
             $parameters = \Route::current()->parameters();
@@ -1843,7 +1884,7 @@ class PluginProductsCrudController extends CrudController
                     }
 
                 }else{
-                    $padre = PluginProducts::where("group_id", \request()->get('group_id'))->first();
+                    $padre = PluginProducts::where("group_id", \request()->get('group_id'))->first(['id']);
                     $category_product = PluginProductsCategoriesProducts::where("plugin_product_product_id", $padre['id'])->pluck("plugin_product_category_id", "plugin_product_category_id")->toArray();
 
                     $attributes = ShopAttributesOptions::selectRaw("shop_attributes_options.*")
@@ -1866,22 +1907,12 @@ class PluginProductsCrudController extends CrudController
                 $v_attributes = [];
                 $v_attributes[null] = "seleziona";
                 if ($attributes) {
+                    $attributeIds = $attributes->pluck('shop_attribute_id')->unique()->values()->toArray();
+                    $attributeMap = ShopAttributes::whereIn("id", $attributeIds)
+                        ->get(['id', 'name', 'category_id'])
+                        ->keyBy('id');
                     foreach ($attributes as $attr) {
-
-                        if($category_product){
-                            $item_attribute = ShopAttributes::where("id", $attr->shop_attribute_id)
-                                ->whereIn("category_id", $category_product)
-                                ->first();
-
-                            if(!$item_attribute){
-                                $item_attribute = ShopAttributes::where("id", $attr->shop_attribute_id)
-                                    ->first();
-                            }
-                        }else{
-                            $item_attribute = ShopAttributes::where("id", $attr->shop_attribute_id)
-                                ->first();
-
-                        }
+                        $item_attribute = $attributeMap->get($attr->shop_attribute_id);
 
                         if($item_attribute){
                             /*$attr_name = $item_attribute->getTranslations('name', 'it');
