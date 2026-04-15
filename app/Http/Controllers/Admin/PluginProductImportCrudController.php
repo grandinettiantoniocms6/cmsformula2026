@@ -593,6 +593,12 @@ class PluginProductImportCrudController extends CrudController
                                     ["name" => $product['name']]
                                 );
                             }
+
+                            if(trim($padre->description) == ""){
+                                PluginProducts::where("id", $padre->id)->update(
+                                    ["description" => $product['description']]
+                                );
+                            }
                         }
 
                         // $product['include_photo_padre'] = 1;
