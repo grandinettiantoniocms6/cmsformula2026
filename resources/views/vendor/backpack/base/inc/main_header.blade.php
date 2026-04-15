@@ -141,21 +141,21 @@
     @if($isModernAdminTemplate02)
     .app-header {
       background:
-        radial-gradient(520px 150px at 10% -30%, rgba(64, 156, 255, .2), transparent 70%),
-        linear-gradient(180deg, #ffffff 0%, #f5f9ff 100%) !important;
-      border-bottom: 1px solid #d8e5fb;
-      box-shadow: 0 10px 24px rgba(20, 59, 126, .08);
+        radial-gradient(520px 150px at 10% -30%, rgba(255, 255, 255, .18), transparent 70%),
+        linear-gradient(180deg, var(--admin-topbar-bg-light) 0%, var(--admin-topbar-bg) 100%) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, .24);
+      box-shadow: 0 10px 24px rgba(8, 17, 44, .16);
     }
 
     .app-header .navbar-brand,
     .app-header .nav-link,
     .app-header .navbar-toggler {
-      color: #2b436f !important;
+      color: var(--admin-topbar-text) !important;
     }
 
     .app-header .nav-link:hover {
-      background: #eaf2ff;
-      box-shadow: inset 0 0 0 1px #d5e6ff;
+      background: var(--admin-topbar-hover-bg);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18);
       border-radius: 12px;
     }
     @endif

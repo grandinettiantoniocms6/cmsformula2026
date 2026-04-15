@@ -154,14 +154,14 @@
     .sidebar,
     .sidebar-nav {
         background:
-            radial-gradient(480px 320px at 20% -15%, rgba(79, 150, 255, .18), transparent 68%),
-            linear-gradient(180deg, #ffffff 0%, #f3f7ff 100%) !important;
-        border-right: 1px solid #d9e6fb;
+            radial-gradient(480px 320px at 20% -15%, rgba(255, 255, 255, .16), transparent 68%),
+            linear-gradient(180deg, var(--admin-leftbar-bg-light, #2b477f) 0%, var(--admin-leftbar-bg, #1B2A4E) 100%) !important;
+        border-right: 1px solid rgba(255, 255, 255, .22);
     }
 
     .sidebar .nav-link {
         background: transparent !important;
-        color: #43608d !important;
+        color: rgba(238, 244, 255, .95) !important;
         border: 1px solid transparent;
         border-radius: 0 !important;
         position: relative;
@@ -169,24 +169,24 @@
     }
 
     .sidebar .nav-link .nav-icon {
-        color: #5a7ebf !important;
+        color: rgba(238, 244, 255, .82) !important;
     }
 
     .sidebar .nav-link:hover,
     .sidebar .nav-link.active {
-        background: #eaf2ff !important;
-        color: #1f3a67 !important;
-        border-color: #d3e3ff;
+        background: rgba(255, 255, 255, .18) !important;
+        color: #ffffff !important;
+        border-color: rgba(255, 255, 255, .26);
         box-shadow: none !important;
     }
 
     .sidebar .nav-link:hover .nav-icon,
     .sidebar .nav-link.active .nav-icon {
-        color: #3e6eb5 !important;
+        color: #ffffff !important;
     }
 
     .sidebar .nav-dropdown.open {
-        background: #edf4ff !important;
+        background: rgba(255, 255, 255, .12) !important;
         border-radius: 0;
     }
 
@@ -197,7 +197,7 @@
         top: 0;
         bottom: 0;
         width: 3px;
-        background: #2f66b3;
+        background: rgba(255, 255, 255, .95);
         opacity: 0;
         transition: opacity .18s ease;
     }
@@ -225,7 +225,7 @@
         transform: translateY(-50%);
         font-size: .78rem;
         line-height: 1;
-        color: #5a7ebf;
+        color: rgba(238, 244, 255, .9);
         opacity: .95;
     }
     @endif
