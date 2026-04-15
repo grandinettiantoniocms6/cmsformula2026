@@ -273,3 +273,8 @@
   - Contesto: follow-up spacing toolbar/tabelle non visibile in alcune list admin.
   - Soluzione: rafforzato spacing nei layout moderni (`resources/views/vendor/backpack/theme-coreuiv2/layouts/top_left.blade.php` e `resources/views/vendor/backpack/base/layouts/top_left.blade.php`) aggiungendo `margin-bottom` al contenitore toolbar list (`enhanced/blocks/users/*list-toolbar` e fallback su `.row.mb-0 > .col-sm-6:first-child > .d-print-none`) oltre al `margin-top` tabelle.
   - Rischio/Impatto: basso; modifica solo presentazionale, possibile lieve aumento spaziatura in alcune list custom.
+
+- 2026-04-15
+  - Contesto: ricognizione repository richiesta prima di nuovi interventi, focalizzata su Models/Controllers/Requests/routes/migrations/tests e configurazioni Backpack CRUD.
+  - Soluzione: eseguita analisi statica completa senza modifiche applicative; creati i path documentali mancanti `docs/ai-memory/project-memory.md` e `docs/audits/2026-04-15-ricognizione-repository.md` con convenzioni reali, pattern, fragilita, incoerenze e rischi ricorrenti.
+  - Rischio/Impatto: nullo runtime; impatto solo documentale per allineare memoria persistente e processo operativo.
