@@ -105,8 +105,51 @@
       @if(env('NASCONDI_FRONTEND') == 0)
         <a class="dropdown-item" href="/" target="_blank"><i class="las la la-chrome"></i> Anteprima sito</a>
       @endif
+      @if(backpack_user()->roles[0]->id < 5)
+        <a class="dropdown-item d-lg-none" href="#" id="topbar-news-toggle-mobile">
+          <i class="las la-bell"></i> News
+          <span id="topbar-news-badge-mobile" class="badge badge-pill badge-danger ml-auto d-none"></span>
+        </a>
+      @endif
     @endif
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="{{ backpack_url('logout') }}"><i class="la la-lock"></i> {{ trans('backpack::base.logout') }}</a>
   </div>
 </li>
+
+<script>
+  (function () {
+    var mobileToggle = document.getElementById('topbar-news-toggle-mobile');
+    if (!mobileToggle) return;
+
+    var updateMobileBadge = function () {
+      var desktopBadge = document.querySelector('#topbar-news-toggle .topbar-news-badge');
+      var mobileBadge = document.getElementById('topbar-news-badge-mobile');
+      if (!mobileBadge) return;
+
+      if (desktopBadge) {
+        mobileBadge.textContent = (desktopBadge.textContent || '').trim();
+        mobileBadge.classList.remove('d-none');
+      } else {
+        mobileBadge.textContent = '';
+        mobileBadge.classList.add('d-none');
+      }
+    };
+
+    mobileToggle.addEventListener('click', function (event) {
+      event.preventDefault();
+      var desktopToggle = document.getElementById('topbar-news-toggle');
+      if (desktopToggle) {
+        desktopToggle.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+      }
+    });
+
+    var desktopToggle = document.getElementById('topbar-news-toggle');
+    if (desktopToggle && window.MutationObserver) {
+      var observer = new MutationObserver(updateMobileBadge);
+      observer.observe(desktopToggle, { childList: true, subtree: true, characterData: true });
+    }
+
+    updateMobileBadge();
+  })();
+</script>

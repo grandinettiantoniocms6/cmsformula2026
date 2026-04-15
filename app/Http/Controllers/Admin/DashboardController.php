@@ -102,7 +102,7 @@ class DashboardController extends Controller
             return response()->json(['ok' => false], 403);
         }
 
-        if (env("APP_URL") == "http://cmsformula2025.test") {
+        if (!$this->canQueryAdminNewsConnection()) {
             return response()->json(['ok' => true, 'unread' => 0]);
         }
 
@@ -121,6 +121,40 @@ class DashboardController extends Controller
         }
 
         return response()->json(['ok' => true, 'unread' => 0]);
+    }
+
+    private function canQueryAdminNewsConnection(): bool
+    {
+        $cacheKey = 'admin_news_mysql2_reachable';
+        $cachedReachability = \Cache::get($cacheKey);
+        if ($cachedReachability !== null) {
+            return (bool) $cachedReachability;
+        }
+
+        $isReachable = true;
+        try {
+            $mysql2Config = config('database.connections.mysql_2', []);
+            $mysql2Host = (string) ($mysql2Config['host'] ?? '');
+            $mysql2Port = (int) ($mysql2Config['port'] ?? 3306);
+
+            if ($mysql2Host !== '') {
+                $probeTimeout = (float) env('ADMIN_NEWS_DB_PROBE_TIMEOUT', 0.35);
+                $errno = 0;
+                $errstr = '';
+                $socket = @fsockopen($mysql2Host, $mysql2Port, $errno, $errstr, $probeTimeout);
+                if (is_resource($socket)) {
+                    fclose($socket);
+                } else {
+                    $isReachable = false;
+                }
+            }
+        } catch (\Throwable $e) {
+            $isReachable = false;
+        }
+
+        \Cache::put($cacheKey, $isReachable, now()->addSeconds($isReachable ? 60 : 180));
+
+        return $isReachable;
     }
 
     public function pages_blocks(Page $page){

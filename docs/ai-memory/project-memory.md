@@ -44,4 +44,6 @@
 - Evitare nuove astrazioni se non gia presenti nel modulo target.
 - Per SQL dinamico: preferire binding parametrico o clausole Eloquent.
 - Evitare gate hardcoded su `APP_URL` per feature admin (es. news topbar): in locale devono degradare via `try/catch`, non essere disattivate a priori.
+- Per dipendenze DB esterne (`mysql_2`) in UI admin sincrona: usare probe TCP rapido + cache reachability (circuit breaker breve) prima delle query, per evitare timeout lunghi lato pagina.
+- Le connessioni DB esterne del gestionale devono essere parametrizzate via `.env` (`*_GEST`) e non hardcoded in `config/database.php`.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.

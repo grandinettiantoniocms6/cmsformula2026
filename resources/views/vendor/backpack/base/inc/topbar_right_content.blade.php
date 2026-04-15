@@ -7,25 +7,61 @@
     $adminNewsList = collect();
     $adminNewsMarkSeenUrl = route('dashboard.news.mark_seen');
 
-    if(env("APP_URL") != "http://cmsformula2025.test" && backpack_auth()->check()){
-        try {
-            $baseNewsQuery = \DB::connection('mysql_2')
-                ->table("news")
-                ->whereNull("deleted_at")
-                ->where("is_active", 1);
+    if(backpack_auth()->check()){
+        $newsDbReachableCacheKey = 'admin_news_mysql2_reachable';
+        $newsDbReachable = \Cache::get($newsDbReachableCacheKey);
 
-            $adminNewsList = (clone $baseNewsQuery)
-                ->orderBy("created_at", "desc")
-                ->take(10)
-                ->get();
+        if($newsDbReachable === null){
+            $newsDbReachable = true;
+            try {
+                $mysql2Config = config('database.connections.mysql_2', []);
+                $mysql2Host = (string) ($mysql2Config['host'] ?? '');
+                $mysql2Port = (int) ($mysql2Config['port'] ?? 3306);
 
-            $lastSeenAt = session('admin_news_last_seen_at_' . backpack_user()->id);
-            if($lastSeenAt){
-                $adminNewsUnreadCount = (int) (clone $baseNewsQuery)->where("created_at", ">", $lastSeenAt)->count();
-            } else {
-                $adminNewsUnreadCount = (int) (clone $baseNewsQuery)->count();
+                if($mysql2Host !== ''){
+                    $probeTimeout = (float) env('ADMIN_NEWS_DB_PROBE_TIMEOUT', 0.35);
+                    $errno = 0;
+                    $errstr = '';
+                    $socket = @fsockopen($mysql2Host, $mysql2Port, $errno, $errstr, $probeTimeout);
+                    if(is_resource($socket)){
+                        fclose($socket);
+                    } else {
+                        $newsDbReachable = false;
+                    }
+                }
+            } catch (\Throwable $e) {
+                $newsDbReachable = false;
             }
-        } catch (\Throwable $e) {
+
+            \Cache::put($newsDbReachableCacheKey, $newsDbReachable, now()->addSeconds($newsDbReachable ? 60 : 180));
+        }
+
+        if($newsDbReachable){
+            try {
+                $baseNewsQuery = \DB::connection('mysql_2')
+                    ->table("news")
+                    ->whereNull("deleted_at")
+                    ->where("is_active", 1);
+
+                $adminNewsList = (clone $baseNewsQuery)
+                    ->orderBy("created_at", "desc")
+                    ->take(10)
+                    ->get();
+
+                $lastSeenAt = session('admin_news_last_seen_at_' . backpack_user()->id);
+                if($lastSeenAt){
+                    $adminNewsUnreadCount = (int) (clone $baseNewsQuery)->where("created_at", ">", $lastSeenAt)->count();
+                } else {
+                    $adminNewsUnreadCount = (int) (clone $baseNewsQuery)->count();
+                }
+
+                \Cache::put($newsDbReachableCacheKey, true, now()->addSeconds(60));
+            } catch (\Throwable $e) {
+                $adminNewsUnreadCount = 0;
+                $adminNewsList = collect();
+                \Cache::put($newsDbReachableCacheKey, false, now()->addSeconds(180));
+            }
+        } else {
             $adminNewsUnreadCount = 0;
             $adminNewsList = collect();
         }
