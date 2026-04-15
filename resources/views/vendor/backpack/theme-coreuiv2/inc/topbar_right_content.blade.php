@@ -41,7 +41,14 @@
 
         if($newsDbReachable){
             try {
-                $baseNewsQuery = \DB::connection('mysql_2')
+                $newsConnection = 'mysql_2';
+                try {
+                    \DB::connection($newsConnection)->getPdo();
+                } catch (\Throwable $e) {
+                    $newsConnection = 'mysql_2_fallback';
+                }
+
+                $baseNewsQuery = \DB::connection($newsConnection)
                     ->table("news")
                     ->whereNull("deleted_at")
                     ->where("is_active", 1);
