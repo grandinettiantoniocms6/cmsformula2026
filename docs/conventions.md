@@ -7,3 +7,6 @@
 - Modifiche documentali solo incrementali: non sovrascrivere contenuti esistenti, aggiungere nuove voci.
 - Stile documentazione: conciso, strutturato a bullet, senza testo superfluo.
 - Query SQL raw: non interpolare mai input utente (slug, filtri, query string) dentro `whereRaw`; usare sempre placeholder bindati (`?`) o metodi Eloquent parametrizzati.
+- Memoria persistente canonica:
+  - `docs/ai-memory/project-memory.md` per regole/pattern/rischi stabili.
+  - `docs/audits/*.md` per audit puntuali con data e causa radice.
