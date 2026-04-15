@@ -106,6 +106,23 @@
       padding-top: 55px;
     }
 
+    body.admin-modern-template .app-body > .sidebar {
+      height: calc(100vh - 55px) !important;
+      overflow-y: scroll !important;
+      overflow-x: hidden;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    body.admin-modern-template .app-body > .sidebar .sidebar-nav {
+      height: 100% !important;
+      max-height: calc(100vh - 55px) !important;
+      overflow-y: scroll !important;
+      overflow-x: hidden;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
     @media (min-width: 992px) {
       body.admin-modern-template .app-body > .sidebar {
         position: fixed;
@@ -119,6 +136,13 @@
 
       body.admin-modern-template .app-body > .main {
         min-height: calc(100vh - 55px);
+      }
+    }
+
+    @media (max-width: 991.98px) {
+      body.admin-modern-template .app-body > .sidebar {
+        top: 55px;
+        bottom: 0;
       }
     }
     @endif
@@ -190,8 +214,18 @@
       var media = window.matchMedia('(min-width: 992px)');
       var sidebar = document.querySelector('.app-body > .sidebar');
       var main = document.querySelector('.app-body > .main');
+      var sidebarNav = sidebar ? sidebar.querySelector('.sidebar-nav') : null;
 
       if (!sidebar || !main) return;
+
+      if (sidebarNav) {
+        sidebarNav.addEventListener('wheel', function (event) {
+          event.stopPropagation();
+        }, { passive: true });
+        sidebarNav.addEventListener('touchmove', function (event) {
+          event.stopPropagation();
+        }, { passive: true });
+      }
 
       var syncSidebarOffset = function () {
         if (!media.matches) {

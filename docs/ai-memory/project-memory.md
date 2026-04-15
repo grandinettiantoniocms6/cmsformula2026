@@ -43,4 +43,5 @@
 - Prima di toccare prodotti/pagine: verificare impatti su route multi-lingua, query raw e CRUD admin.
 - Evitare nuove astrazioni se non gia presenti nel modulo target.
 - Per SQL dinamico: preferire binding parametrico o clausole Eloquent.
+- Evitare gate hardcoded su `APP_URL` per feature admin (es. news topbar): in locale devono degradare via `try/catch`, non essere disattivate a priori.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.

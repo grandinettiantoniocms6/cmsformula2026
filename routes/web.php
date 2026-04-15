@@ -70,6 +70,7 @@ Route::get('/test/email/send', function() {
 Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => ['admin'], 'namespace' => 'Admin'], function()
 {
     Route::get('/dashboard', ['as' => 'dashboard', 'uses'=>'DashboardController@index']);
+    Route::post('/dashboard/news/mark-seen', ['as' => 'dashboard.news.mark_seen', 'uses'=>'DashboardController@mark_news_seen']);
     Route::get('/access/{id}', ['as' => 'access', 'uses'=>'DashboardController@access']);
     Route::get('/delete_image_special/{id}', ['as' => 'delete_image_special', 'uses'=>'DashboardController@delete_image_special']);
 

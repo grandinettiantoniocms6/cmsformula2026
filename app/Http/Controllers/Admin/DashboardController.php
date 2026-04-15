@@ -92,6 +92,37 @@ class DashboardController extends Controller
         return view(backpack_view('tutorials'));
     }
 
+    public function mark_news_seen(Request $request)
+    {
+        if (!backpack_auth()->check()) {
+            return response()->json(['ok' => false], 401);
+        }
+
+        if (backpack_user()->roles[0]->id >= 5) {
+            return response()->json(['ok' => false], 403);
+        }
+
+        if (env("APP_URL") == "http://cmsformula2025.test") {
+            return response()->json(['ok' => true, 'unread' => 0]);
+        }
+
+        try {
+            $latestNewsCreatedAt = \DB::connection('mysql_2')
+                ->table("news")
+                ->whereNull("deleted_at")
+                ->where("is_active", 1)
+                ->max("created_at");
+
+            if($latestNewsCreatedAt){
+                session()->put('admin_news_last_seen_at_' . backpack_user()->id, (string) $latestNewsCreatedAt);
+            }
+        } catch (\Throwable $e) {
+            return response()->json(['ok' => false], 500);
+        }
+
+        return response()->json(['ok' => true, 'unread' => 0]);
+    }
+
     public function pages_blocks(Page $page){
         return view(backpack_view('pages_blocks'), compact('page'));
     }

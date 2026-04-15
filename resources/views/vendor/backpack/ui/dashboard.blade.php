@@ -1020,46 +1020,6 @@
         </div>
     @endif
 
-    @if(env("APP_URL") != "http://cmsformula2025.test")
-        <?php
-            $gestDB = \DB::connection('mysql_2');
-            $news = $gestDB->table("news")
-                ->whereNull("deleted_at")
-                ->where("is_active", 1)
-                ->orderBy("lft", "asc")
-                ->take(5)->get();
-        ?>
-
-        @if($news)
-            <div class="card card-dashboard card-dashboard-news mb-4">
-                <div class="card-header">
-                    <h5 class="line-height-xs my-0 d-flex align-items-center">
-                        <span class="dashboard-news-icon"><i class="las la-rss-square"></i></span>
-                        <span>News</span>
-                    </h5>
-                </div>
-                <div class="list-group list-group-flush dashboard-news-list" id="accordion_news">
-                    @php $i = 1; @endphp
-                    @foreach($news as $new)
-                        <div class="list-group-item dashboard-news-item">
-                            <button class="dashboard-news-trigger {{ $i != 1 ? 'collapsed' : '' }}" type="button" data-toggle="collapse" data-target="#collapse_{{ $i }}" aria-expanded="{{ $i == 1 ? 'true' : 'false' }}" aria-controls="collapse_{{ $i }}">
-                                <span class="dashboard-news-caret"><i class="las la-angle-right"></i></span>
-                                <span class="dashboard-news-title">{{ $new->title }}</span>
-                            </button>
-                            <div id="collapse_{{ $i }}" class="collapse {{ $i == 1 ? 'show' : '' }}" data-parent="#accordion_news">
-                                <div class="dashboard-news-content">
-                                    {!! $new->description !!}
-                                    <small class="dashboard-news-date">{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $new->created_at)->format("d/m/Y") }}</small>
-                                </div>
-                            </div>
-                        </div>
-                        @php $i++; @endphp
-                    @endforeach
-                </div>
-            </div>
-        @endif
-    @endif
-
 @endsection
 
 @section('after_styles')
@@ -1300,120 +1260,10 @@
             box-shadow: 0 16px 30px rgba(15, 23, 42, .1);
         }
 
-        .card-dashboard-news .card-header {
-            background: linear-gradient(135deg, #f3f7ff 0%, #eef6ff 48%, #f8fcff 100%);
-            border-bottom: 1px solid #dce8f8;
-        }
-
-        .card-dashboard-news .card-header h5 {
-            color: #16345f;
-            font-weight: 700;
-            gap: .55rem;
-            letter-spacing: .015em;
-        }
-
-        .dashboard-news-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #e6f0ff;
-            color: #0f3f7f;
-            font-size: 1.15rem;
-        }
-
-        .dashboard-news-list .dashboard-news-item {
-            border: 0;
-            border-bottom: 1px solid #edf2fa;
-            padding: .75rem .95rem;
-            transition: background-color .2s ease;
-        }
-
-        .dashboard-news-list .dashboard-news-item:last-child {
-            border-bottom: 0;
-        }
-
-        .dashboard-news-list .dashboard-news-item:hover {
-            background: #f8fbff;
-        }
-
-        .dashboard-news-trigger {
-            width: 100%;
-            border: 0;
-            background: transparent;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            gap: .55rem;
-            text-align: left;
-            color: #11335f;
-            font-size: 1.18rem;
-            font-weight: 700;
-            line-height: 1.35;
-            cursor: pointer;
-        }
-
-        .dashboard-news-caret {
-            width: 22px;
-            height: 22px;
-            border-radius: 6px;
-            background: #e8f0ff;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            color: #0f3f7f;
-            flex-shrink: 0;
-            transition: transform .2s ease;
-        }
-
-        .dashboard-news-trigger .dashboard-news-caret {
-            transform: rotate(90deg);
-        }
-
-        .dashboard-news-trigger.collapsed .dashboard-news-caret {
-            transform: rotate(0deg);
-        }
-
-        .dashboard-news-title {
-            flex: 1;
-        }
-
-        .dashboard-news-content {
-            margin-top: .75rem;
-            margin-left: 1.95rem;
-            color: #334155;
-            line-height: 1.65;
-            font-size: .98rem;
-        }
-
-        .dashboard-news-content p:last-child {
-            margin-bottom: .25rem;
-        }
-
-        .dashboard-news-date {
-            display: inline-block;
-            margin-top: .65rem;
-            color: #64748b;
-            font-size: .78rem;
-            letter-spacing: .03em;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-
         @media (max-width: 992px) {
             .dashboard-subtitle {
                 width: 100%;
                 margin-top: .25rem;
-            }
-
-            .dashboard-news-trigger {
-                font-size: 1.03rem;
-            }
-
-            .dashboard-news-content {
-                margin-left: 0;
             }
         }
     </style>
