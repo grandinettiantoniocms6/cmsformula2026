@@ -153,14 +153,8 @@ $agent = new \Jenssegers\Agent\Agent();
                     </div>
                 </div>
             </div>
-            <div class="banner-scroll wow fadeInDown" data-wow-delay="2s">
-                <a href="#choose" class="scroll-down tj-scroll-btn">
-                    <span><i class="tji-arrow-down-long"></i></span>
-                    Scroll Down
-                </a>
-            </div>
-        </section>
 
+        </section>
 
     @endforeach
 @endif

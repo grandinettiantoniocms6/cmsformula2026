@@ -71,7 +71,9 @@ return [
         'mysql_2' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST_GEST', '138.199.201.92'),
+            'host' => (env('APP_ENV') !== 'local' && in_array((string) env('DB_HOST_GEST', ''), ['', '127.0.0.1', 'localhost'], true))
+                ? '138.199.201.92'
+                : env('DB_HOST_GEST', '138.199.201.92'),
             'port' => env('DB_PORT_GEST', env('DB_PORT', '3306')),
             'database' => env('DB_DATABASE_GEST', 'gest2025wi'),
             'username' => env('DB_USERNAME_GEST', 'gest2025wiag'),

@@ -145,6 +145,73 @@
         bottom: 0;
       }
     }
+
+    body.admin-modern-template.admin-modern-crud-refresh .main .btn.btn-sm,
+    body.admin-modern-template.admin-modern-crud-refresh .main a.btn.btn-sm {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      min-height: 30px;
+      padding: .28rem .64rem;
+      border-radius: 999px;
+      border: 1px solid #d7e2f3;
+      background: #f6f9ff;
+      color: #1f3d70;
+      font-weight: 700;
+      font-size: .75rem;
+      line-height: 1;
+      text-decoration: none;
+      transition: all .16s ease;
+    }
+
+    body.admin-modern-template.admin-modern-crud-refresh .main .btn.btn-sm:hover,
+    body.admin-modern-template.admin-modern-crud-refresh .main a.btn.btn-sm:hover {
+      background: #eaf1ff;
+      border-color: #bed0ef;
+      color: #16335e;
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    body.admin-modern-template.admin-modern-crud-refresh .main [data-button-type='update']:hover,
+    body.admin-modern-template.admin-modern-crud-refresh .main .dropdown-item[data-button-type='update']:hover {
+      background: linear-gradient(180deg, #2ea567 0%, #298f5a 100%) !important;
+      border-color: #298f5a !important;
+      color: #ffffff !important;
+      text-decoration: none !important;
+    }
+
+    body.admin-modern-template.admin-modern-crud-refresh .main [data-button-type='delete']:hover,
+    body.admin-modern-template.admin-modern-crud-refresh .main .dropdown-item[data-button-type='delete']:hover {
+      background: linear-gradient(180deg, #d94b4b 0%, #c53c3c 100%) !important;
+      border-color: #b93939 !important;
+      color: #ffffff !important;
+      text-decoration: none !important;
+    }
+
+    body.admin-modern-template.admin-modern-crud-refresh .main [data-button-type='update']:hover i,
+    body.admin-modern-template.admin-modern-crud-refresh .main [data-button-type='delete']:hover i,
+    body.admin-modern-template.admin-modern-crud-refresh .main .dropdown-item[data-button-type='update']:hover i,
+    body.admin-modern-template.admin-modern-crud-refresh .main .dropdown-item[data-button-type='delete']:hover i,
+    body.admin-modern-template.admin-modern-crud-refresh .main [data-button-type='update']:hover span,
+    body.admin-modern-template.admin-modern-crud-refresh .main [data-button-type='delete']:hover span,
+    body.admin-modern-template.admin-modern-crud-refresh .main .dropdown-item[data-button-type='update']:hover span,
+    body.admin-modern-template.admin-modern-crud-refresh .main .dropdown-item[data-button-type='delete']:hover span {
+      color: #ffffff !important;
+    }
+
+    body.admin-modern-template.admin-modern-crud-refresh .main .btn-success {
+      border: 1px solid #2f9864;
+      background: linear-gradient(180deg, #35b173 0%, #2f9f68 100%);
+      color: #fff;
+    }
+
+    body.admin-modern-template.admin-modern-crud-refresh .main .btn-success:hover {
+      background: linear-gradient(180deg, #2ea567 0%, #298f5a 100%);
+      border-color: #298f5a;
+      color: #fff;
+    }
+
     @endif
 
     #admin-scroll-top {
@@ -210,6 +277,24 @@
 
     (function () {
       if (!document.body.classList.contains('admin-modern-template')) return;
+
+      var modernCrudTargets = [
+        'adminblock',
+        'adminplugin',
+        'admin-thumb',
+        'adminlanguage',
+        'usernavigation',
+        'label',
+        'block-page',
+        'plugintutorial'
+      ];
+      var pathParts = (window.location.pathname || '').toLowerCase().split('/').filter(Boolean);
+      var adminPrefix = '{{ trim(config('backpack.base.route_prefix'), '/') }}'.toLowerCase();
+      var firstSegment = pathParts.length > 0 ? pathParts[0] : '';
+      var secondSegment = pathParts.length > 1 ? pathParts[1] : '';
+      if (firstSegment === adminPrefix && modernCrudTargets.indexOf(secondSegment) !== -1) {
+        document.body.classList.add('admin-modern-crud-refresh');
+      }
 
       var media = window.matchMedia('(min-width: 992px)');
       var sidebar = document.querySelector('.app-body > .sidebar');

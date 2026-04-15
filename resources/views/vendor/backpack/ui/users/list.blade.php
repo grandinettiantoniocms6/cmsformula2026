@@ -2,6 +2,7 @@
 
 @php
     $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+    $isModernAdminTemplate02 = \App\Models\WebsiteSetting::isAdminModern02Template();
 @endphp
 
 @php
@@ -24,7 +25,7 @@
     <div class="users-list-header-shell">
         <h3 class="page-title mb-0">
             <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-            <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+            <small id="datatable_info_stack" class="users-list-subheading">{!! $crud->getSubheading() ?? '' !!}</small>
         </h3>
     </div>
 @endsection
@@ -88,6 +89,7 @@
           @include('crud::inc.filters_navbar')
         @endif
 
+            <div class="users-list-panel">
             <form method="post" action="{{ route('users.actions') }}" id="formSave">
                 {{ csrf_field() }}
 
@@ -166,6 +168,7 @@
           </table>
 
             </form>
+            </div>
 
           @if ( $crud->buttons()->where('stack', 'bottom')->count() )
           <div id="bottom_buttons" class="d-print-none text-center text-sm-left">
@@ -223,12 +226,25 @@
       font-size: .9rem;
     }
 
+    .users-list-panel {
+      margin-top: 10px;
+      border: 1px solid #dfe7f6;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+      padding: 10px 10px 6px;
+      box-shadow: 0 10px 24px rgba(15, 34, 70, 0.08);
+    }
+
     .users-list-toolbar {
       background: #f8faff;
       border: 1px solid #e2e9f7;
       border-radius: 12px;
       padding: 10px;
       box-shadow: 0 8px 18px rgba(21, 39, 75, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .users-list-toolbar .btn,
@@ -312,6 +328,113 @@
       box-shadow: none;
     }
 
+    /* Pulsanti azione riga (Modifica/Elimina/...) in stile moderno */
+    #crudTable td .btn.btn-sm,
+    #crudTable td a.btn.btn-sm {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      min-height: 30px;
+      padding: .26rem .62rem;
+      border-radius: 999px;
+      border: 1px solid #d7e2f3;
+      background: #f6f9ff;
+      color: #1f3d70;
+      font-weight: 700;
+      font-size: .75rem;
+      line-height: 1;
+      text-decoration: none;
+      transition: all .16s ease;
+    }
+
+    #crudTable td .btn.btn-sm:hover,
+    #crudTable td a.btn.btn-sm:hover {
+      background: #eaf1ff;
+      border-color: #bed0ef;
+      color: #16335e;
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    #crudTable td .btn.btn-sm:focus,
+    #crudTable td a.btn.btn-sm:focus {
+      box-shadow: 0 0 0 3px rgba(73, 118, 203, .16);
+      outline: none;
+    }
+
+    #crudTable td .btn.btn-sm i,
+    #crudTable td a.btn.btn-sm i {
+      font-size: .92rem;
+    }
+
+    #crudTable td .btn.btn-sm.text-danger,
+    #crudTable td a.btn.btn-sm.text-danger {
+      background: #fff6f6;
+      border-color: #f2caca;
+      color: #b43a3a;
+    }
+
+    #crudTable td .btn.btn-sm.text-danger:hover,
+    #crudTable td a.btn.btn-sm.text-danger:hover {
+      background: #ffecec;
+      border-color: #e7b2b2;
+      color: #962f2f;
+    }
+
+    .users-list-toolbar .btn-success {
+      border: 1px solid #2f9864;
+      background: linear-gradient(180deg, #35b173 0%, #2f9f68 100%);
+      color: #fff;
+    }
+
+    .users-list-toolbar .btn-success:hover {
+      background: linear-gradient(180deg, #2ea567 0%, #298f5a 100%);
+      border-color: #298f5a;
+      color: #fff;
+    }
+
+    #crudTable .dropdown-menu {
+      border-radius: 12px;
+      border: 1px solid #dde6f6;
+      box-shadow: 0 14px 24px rgba(18, 34, 71, 0.12);
+    }
+
+    @if($isModernAdminTemplate02)
+    .users-list-header-shell {
+      background:
+        radial-gradient(460px 160px at 6% -35%, rgba(86, 137, 242, .14), transparent 70%),
+        linear-gradient(180deg, #ffffff 0%, #f3f7ff 100%);
+      border-color: #d5e3fb;
+      box-shadow: 0 10px 24px rgba(31, 74, 153, 0.10);
+    }
+
+    .users-list-panel {
+      border-color: #d5e3fb;
+      background: linear-gradient(180deg, #ffffff 0%, #f4f8ff 100%);
+      box-shadow: 0 12px 24px rgba(31, 74, 153, 0.10);
+    }
+
+    .users-list-toolbar {
+      background: #f4f8ff;
+      border-color: #d7e5fc;
+      box-shadow: 0 8px 20px rgba(31, 74, 153, 0.09);
+    }
+
+    #crudTable td .btn.btn-sm,
+    #crudTable td a.btn.btn-sm {
+      border-color: #cfe0fb;
+      background: #f1f6ff;
+      color: #21467d;
+    }
+
+    #crudTable td .btn.btn-sm:hover,
+    #crudTable td a.btn.btn-sm:hover {
+      background: #e3eeff;
+      border-color: #b8d0f5;
+      color: #173a6d;
+    }
+    @endif
+
     @media (max-width: 767px) {
       .users-list-toolbar {
         padding: 8px;
@@ -320,6 +443,10 @@
       #datatable_search_stack .dataTables_filter {
         justify-content: flex-start;
         margin-top: 10px;
+      }
+
+      .users-list-panel {
+        padding: 8px 8px 4px;
       }
     }
   </style>
