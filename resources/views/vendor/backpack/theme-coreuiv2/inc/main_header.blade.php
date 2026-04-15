@@ -1,6 +1,6 @@
 <header class="{{ backpack_theme_config('classes.header') }}">
   {{-- Logo --}}
-  <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show" aria-label="{{ trans('backpack::base.toggle_navigation')}}">
+  <button class="navbar-toggler sidebar-toggler modern-sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show" aria-label="{{ trans('backpack::base.toggle_navigation')}}">
     <i class="la la-bars"></i>
   </button>
 
@@ -104,6 +104,43 @@
       background: var(--admin-topbar-hover-bg);
     }
 
+    .app-header .modern-sidebar-toggler {
+      border: 0;
+      width: 46px;
+      height: 36px;
+      border-radius: 12px;
+      position: relative;
+      transition: background-color .15s ease;
+    }
+
+    .app-header .modern-sidebar-toggler i {
+      display: none;
+    }
+
+    .app-header .modern-sidebar-toggler::before,
+    .app-header .modern-sidebar-toggler::after {
+      content: '';
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      height: 2.5px;
+      border-radius: 99px;
+      background: currentColor;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+
+    .app-header .modern-sidebar-toggler::before {
+      top: 12px;
+    }
+
+    .app-header .modern-sidebar-toggler::after {
+      top: 21px;
+    }
+
+    .app-header .modern-sidebar-toggler:hover {
+      background: var(--admin-topbar-hover-bg);
+    }
+
     @if($isModernAdminTemplate02)
     .app-header {
       background:
@@ -136,7 +173,7 @@
     @endif
   </a>
 
-  <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show" aria-label="{{ trans('backpack::base.toggle_navigation')}}">
+  <button class="navbar-toggler sidebar-toggler modern-sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show" aria-label="{{ trans('backpack::base.toggle_navigation')}}">
     <i class="la la-bars"></i>
   </button>
 

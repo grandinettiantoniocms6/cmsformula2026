@@ -18,7 +18,7 @@
   - Rischio/Impatto: basso; impatto limitato alla resa grafica menu laterale.
 - 2026-04-07
   - Contesto: richiesta utente di schiarire il fondo della sidebar admin.
-  - Soluzione: aggiornato gradiente background in `resources/views/vendor/backpack/ui/inc/menu_items.blade.php` da palette blu notte a palette blu più chiara.
+  - Soluzione: aggiornato gradiente background in `resources/views/vendor/backpack/ui/inc/menu_items.blade.php` da palette blu notte a palette blu piï¿½ chiara.
   - Rischio/Impatto: molto basso; variazione solo estetica.
 - 2026-04-07
   - Contesto: affinamento grafico sidebar su richiesta utente (allineamento topbar + pulsanti chiari).
@@ -30,15 +30,15 @@
   - Rischio/Impatto: molto basso; modifica solo di spaziatura/layout laterale.
 - 2026-04-07
   - Contesto: rifinitura UI richiesta utente su sidebar e dashboard KPI.
-  - Soluzione: submenu aperto sidebar reso con contenitore arrotondato (`border-radius`) e sfondo dedicato; in dashboard migliorata resa grafica dei box statistiche `Totale ordini` e `Totale prenotazioni` con card KPI interne, icone evidenziate e gerarchia tipografica più pulita.
+  - Soluzione: submenu aperto sidebar reso con contenitore arrotondato (`border-radius`) e sfondo dedicato; in dashboard migliorata resa grafica dei box statistiche `Totale ordini` e `Totale prenotazioni` con card KPI interne, icone evidenziate e gerarchia tipografica piï¿½ pulita.
   - Rischio/Impatto: basso; modifiche solo di presentazione CSS.
 - 2026-04-07
   - Contesto: correzione difetto visivo su submenu aperto sidebar (angoli bianchi residui).
   - Soluzione: reso il contenitore `nav-dropdown.open` la superficie unica del blocco aperto (`border-radius` + `overflow: hidden`), rimosso fondo separato del link/header e del box interno.
   - Rischio/Impatto: molto basso; impatto solo estetico sullo stato open della sidebar.
 - 2026-04-07
-  - Contesto: richiesta utente di rendere più elegante e raffinata la sezione Top 10 in dashboard.
-  - Soluzione: migliorato styling carousel Top 10 (header gradient, titoli, dropdown pill) e tabelle (`table-top-*`) con righe a card, tipografia più pulita, ranking evidenziato e maggiore gerarchia visiva.
+  - Contesto: richiesta utente di rendere piï¿½ elegante e raffinata la sezione Top 10 in dashboard.
+  - Soluzione: migliorato styling carousel Top 10 (header gradient, titoli, dropdown pill) e tabelle (`table-top-*`) con righe a card, tipografia piï¿½ pulita, ranking evidenziato e maggiore gerarchia visiva.
   - Rischio/Impatto: basso; solo modifica UI/CSS senza impatto su query e logica dati.
 - 2026-04-07
   - Contesto: richiesta gestione GIF dashboard configurabile da `Website Setting > Extra`.
@@ -66,7 +66,7 @@
 
 - 2026-04-07
   - Contesto: richiesta miglioramento UI topbar admin su link `Anteprima Sito` e dropdown utente (click sulla lettera/avatar).
-  - Soluzione: aggiornati `inc/topbar_right_content` e `inc/menu_user_dropdown` del tema Backpack CoreUIv2 con stile moderno (pill button, avatar circolare gradient, dropdown card con hover e icone più leggibili), senza modificare destinazioni link o permessi.
+  - Soluzione: aggiornati `inc/topbar_right_content` e `inc/menu_user_dropdown` del tema Backpack CoreUIv2 con stile moderno (pill button, avatar circolare gradient, dropdown card con hover e icone piï¿½ leggibili), senza modificare destinazioni link o permessi.
   - Rischio/Impatto: basso; impatto solo estetico sulla topbar admin.
 
 - 2026-04-07
@@ -92,7 +92,7 @@
 - 2026-04-08
   - Contesto: warning PHP in frontend su `getimagesize(uploads/logo/logo-sbalchiero.png): Failed to open stream` in `resources/views/Crafto/inc/header_menu.blade.php`.
   - Soluzione: introdotto controllo su path filesystem reale con `public_path(...)` + `is_file(...)` prima di invocare `getimagesize`, con fallback sicuro senza attributi `width/height` quando il file non esiste.
-  - Rischio/Impatto: basso; modifica locale alla view Crafto, elimina warning mantenendo invariata la resa quando il logo è presente.
+  - Rischio/Impatto: basso; modifica locale alla view Crafto, elimina warning mantenendo invariata la resa quando il logo ï¿½ presente.
 
 - 2026-04-08
   - Contesto: richiesta ottimizzazione query in `PluginProductsController` mantenendo logica e risultati invariati.
@@ -102,12 +102,12 @@
 - 2026-04-08
   - Contesto: ulteriore ottimizzazione performance frontend (document `/balconiere`) su `PluginProductsController`.
   - Soluzione: ridotte query N+1 su menu frontend introducendo helper `getFrontendMenuTree()` (2 query totali invece di 1+N), ridotto N+1 nel recupero figli categorie in listing, interrotto lookup lingua al primo match e stabilizzato generazione `special_urls` evitando crescita durante iterazione.
-  - Rischio/Impatto: basso; output invariato, possibile minima differenza solo in casi anomali di slug duplicati su più lingue (ora ci si ferma al primo match).
+  - Rischio/Impatto: basso; output invariato, possibile minima differenza solo in casi anomali di slug duplicati su piï¿½ lingue (ora ci si ferma al primo match).
 
 - 2026-04-08
   - Contesto: richiesta riduzione drastica tempi di caricamento mantenendo invariati i risultati del listing prodotti.
   - Soluzione: introdotta cache frontend a TTL breve (env `FRONTEND_PERF_CACHE_TTL`, default 120s) per menu frontend, settings plugin/website, labels, lista URL speciali e blocchi sidebar (filtri/categorie) con chiavi basate su lingua, slug, querystring e set ID prodotti.
-  - Rischio/Impatto: medio-basso; risultato prodotti invariato, possibile ritardo massimo pari al TTL nell’aggiornamento visuale dei filtri/menu dopo modifiche backoffice.
+  - Rischio/Impatto: medio-basso; risultato prodotti invariato, possibile ritardo massimo pari al TTL nellï¿½aggiornamento visuale dei filtri/menu dopo modifiche backoffice.
 
 - 2026-04-08
   - Contesto: ottimizzazione richiesta su `resources/views/Webshop/plugins/pluginProducts/list.blade.php` e include interni.
@@ -139,7 +139,7 @@
   - Soluzione: restyling scoped in `resources/views/vendor/elfinder/elfinder.blade.php` (shell card con gradient, toolbar rifinita, sidebar/cartelle, tabella file, stati hover/selected, status bar e responsive), senza modificare logica JS e funzioni file manager.
   - Rischio/Impatto: basso; modifica solo visuale sulla schermata Elfinder standalone.
 - 2026-04-08
-  - Contesto: regressione leggibilità UI Elfinder dopo restyling (icone toolbar poco visibili, testo cartelle/file non leggibile in hover/selected).
+  - Contesto: regressione leggibilitï¿½ UI Elfinder dopo restyling (icone toolbar poco visibili, testo cartelle/file non leggibile in hover/selected).
   - Soluzione: aggiornato CSS scoped in `resources/views/vendor/elfinder/elfinder.blade.php` aumentando contrasto toolbar (background scuro + hover coerente) e forzando colori testo su tree/cwd per stati normal/hover/selected.
   - Rischio/Impatto: molto basso; fix solo visuale su pagina Elfinder.
 
@@ -231,7 +231,13 @@
   - Rischio/Impatto: basso; modifiche esclusivamente presentazionali, senza impatto su query/validazione/salvataggi.
 - 2026-04-09
   - Contesto: richiesta estensione layout route-by-route su sezioni shop/admin (shopOrders, shopOrdersRequests, pluginProductsClients, shopPayments, shopShippings, shopOrdersStatus, shopCountries, shopAreas, shopTaxes, shopCartRules, shopPromotions, shopAttributes, shopAttributesOptions, shopSettings, shop-extra) includendo list/edit/create e view custom.
-  - Soluzione: estesi i matcher route in esources/views/vendor/backpack/crud/list.blade.php, esources/views/vendor/backpack/crud/edit.blade.php, esources/views/vendor/backpack/crud/create.blade.php; ripristinato il fallback automatico per tutti i PluginController via equest()->route()->getController(); uniformato il layout anche nelle custom view esources/views/vendor/backpack/ui/custom_attributes_create.blade.php e esources/views/vendor/backpack/ui/custom_attributes_edit.blade.php.
+  - Soluzione: estesi i matcher route in 
+esources/views/vendor/backpack/crud/list.blade.php, 
+esources/views/vendor/backpack/crud/edit.blade.php, 
+esources/views/vendor/backpack/crud/create.blade.php; ripristinato il fallback automatico per tutti i PluginController via 
+equest()->route()->getController(); uniformato il layout anche nelle custom view 
+esources/views/vendor/backpack/ui/custom_attributes_create.blade.php e 
+esources/views/vendor/backpack/ui/custom_attributes_edit.blade.php.
   - Rischio/Impatto: basso; interventi solo presentazionali (header, toolbar, ricerca/tabella, campi e pulsanti), senza modifiche a logica CRUD, query o validazione.
 - 2026-04-09
   - Contesto: follow-up documentazione restyling route shop/admin per evitare caratteri corrotti nel log precedente.
@@ -241,14 +247,14 @@
   - Contesto: richiesta selettore template admin in Website Setting > Extra con switch tra layout precedente e layout migliorato.
   - Soluzione: aggiunto campo "Template Pannello Admin" (opzioni "White" default e "Modern 01") in WebsiteSettingCrudController; creata migration "2026_04_09_120000_add_admin_panel_template_website_settings_table"; introdotti helper in App\Models\WebsiteSetting ("adminPanelTemplate"/"isAdminModernTemplate") e applicato gating dei CSS moderni su CRUD condivisi (list/edit/create), dashboard, topbar/sidebar, auth admin e principali view custom restilizzate.
   - Rischio/Impatto: basso-medio; impatto solo presentazionale ma trasversale a molte view admin, necessario verificare in UI che "White" riproduca il comportamento legacy atteso su tutte le sezioni custom.- 2026-04-10
-  - Contesto: in modalità "White" la login admin mostrava struttura moderna senza styling corretto (layout disallineato rispetto al design richiesto).
+  - Contesto: in modalitï¿½ "White" la login admin mostrava struttura moderna senza styling corretto (layout disallineato rispetto al design richiesto).
   - Soluzione: in `resources/views/vendor/backpack/theme-coreuiv2/auth/login.blade.php` separati markup e CSS tra `Modern 01` e `White`; la variante `White` ora usa layout dedicato (hero sinistra + card login destra) coerente con schermata target.
   - Rischio/Impatto: basso; modifica solo presentazionale sulla pagina login admin.- 2026-04-10
   - Contesto: richiesta miglioramento grafico pagina account admin (`admin/edit-account-info`) in template `Modern 01`.
   - Soluzione: creato override `resources/views/vendor/backpack/theme-coreuiv2/my_account.blade.php` con styling condizionale su `WebsiteSetting::isAdminModernTemplate()` (header card, card form, campi, alert e pulsanti), mantenendo invariata la struttura/validazione form e lasciando comportamento base in `White`.
   - Rischio/Impatto: basso; modifica solo presentazionale sulla pagina account admin.- 2026-04-10
-  - Contesto: richiesta clonazione tema admin `Modern 01` in nuova variante `Modern 02` con look più futuristico.
-  - Soluzione: esteso selettore `Template Pannello Admin` con opzione `modern_02`; aggiornato `WebsiteSetting` per riconoscere `white|modern_01|modern_02` e helper dedicato `isAdminModern02Template()`; applicato layer grafico `Modern 02` su header/topbar, sidebar/menu, avatar utente, CRUD condivisi list/edit/create e login admin (gradienti cyber/blu, glow neon, contrasto più deciso).
+  - Contesto: richiesta clonazione tema admin `Modern 01` in nuova variante `Modern 02` con look piï¿½ futuristico.
+  - Soluzione: esteso selettore `Template Pannello Admin` con opzione `modern_02`; aggiornato `WebsiteSetting` per riconoscere `white|modern_01|modern_02` e helper dedicato `isAdminModern02Template()`; applicato layer grafico `Modern 02` su header/topbar, sidebar/menu, avatar utente, CRUD condivisi list/edit/create e login admin (gradienti cyber/blu, glow neon, contrasto piï¿½ deciso).
   - Rischio/Impatto: basso; modifiche presentazionali, logica applicativa invariata.- 2026-04-10
   - Contesto: feedback utente su `Modern 02` non allineato al riferimento Mifty e richiesta sidebar sinistra fissa durante scroll contenuto.
   - Soluzione: rifinito `Modern 02` con palette piu chiara e corporate (header/topbar, sidebar, dropdown utente, CRUD shared list/edit/create e login) riducendo effetti neon; introdotta classe body dedicata e sidebar sticky su desktop nei layout `top_left` (theme-coreuiv2 e base) con altezza viewport e scroll interno.
@@ -273,3 +279,19 @@
   - Contesto: follow-up spacing toolbar/tabelle non visibile in alcune list admin.
   - Soluzione: rafforzato spacing nei layout moderni (`resources/views/vendor/backpack/theme-coreuiv2/layouts/top_left.blade.php` e `resources/views/vendor/backpack/base/layouts/top_left.blade.php`) aggiungendo `margin-bottom` al contenitore toolbar list (`enhanced/blocks/users/*list-toolbar` e fallback su `.row.mb-0 > .col-sm-6:first-child > .d-print-none`) oltre al `margin-top` tabelle.
   - Rischio/Impatto: basso; modifica solo presentazionale, possibile lieve aumento spaziatura in alcune list custom.
+- 2026-04-15
+  - Contesto: nei template admin Modern 01 e Modern 02 i dropdown azioni (Gestione/Modifica) in fondo alle liste venivano tagliati vicino al footer (es. admin/page).
+  - Causa radice: in varie list modernizzate era presente overflow: hidden su #crudTable, che clipppava i menu .dropdown-menu quando si aprivano verso il basso nelle ultime righe.
+  - Soluzione: fix centralizzato nei layout condivisi resources/views/vendor/backpack/theme-coreuiv2/layouts/top_left.blade.php e resources/views/vendor/backpack/base/layouts/top_left.blade.php, forzando overflow: visible su #crudTable/tbody/tr/td e z-index: 1100 sui dropdown DataTables.
+  - Rischio/Impatto: basso; intervento solo CSS su template moderni, con possibile minima perdita del clipping visivo sugli angoli arrotondati della tabella.
+- 2026-04-15
+  - Contesto: nei template admin moderni con topbar/sidebar fisse, il toggle hamburger non riallineava il contenuto principale: la sidebar si chiudeva ma il `main` restava con offset laterale.
+  - Causa radice: lo script `syncSidebarOffset` impostava sempre margine/larghezza in base alla sidebar, senza considerare le classi body `sidebar-lg-show`/`sidebar-show` e senza reagire a tutti i cambi classe.
+  - Soluzione: in `resources/views/vendor/backpack/theme-coreuiv2/layouts/top_left.blade.php` e `resources/views/vendor/backpack/base/layouts/top_left.blade.php` aggiunto check stato visibilita sidebar (classi body) con reset `main` a piena larghezza quando sidebar nascosta, piu `MutationObserver` su classi body per sync affidabile.
+  - Extra UI: in `resources/views/vendor/backpack/theme-coreuiv2/inc/main_header.blade.php` e `resources/views/vendor/backpack/base/inc/main_header.blade.php` restyling del pulsante hamburger nei template moderni con icona a due barre larghe via CSS.
+  - Rischio/Impatto: basso; modifiche JS/CSS locali al layout admin moderno, senza impatto su CRUD, query o permessi.
+
+- 2026-04-15
+  - Contesto: ricognizione repository richiesta prima di nuovi interventi, focalizzata su Models/Controllers/Requests/routes/migrations/tests e configurazioni Backpack CRUD.
+  - Soluzione: eseguita analisi statica completa senza modifiche applicative; creati i path documentali mancanti `docs/ai-memory/project-memory.md` e `docs/audits/2026-04-15-ricognizione-repository.md` con convenzioni reali, pattern, fragilita, incoerenze e rischi ricorrenti.
+  - Rischio/Impatto: nullo runtime; impatto solo documentale per allineare memoria persistente e processo operativo.

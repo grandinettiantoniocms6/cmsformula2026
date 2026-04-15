@@ -46,7 +46,7 @@
           @yield('before_content_widgets')
 
           @yield('content')
-          
+
           @yield('after_content_widgets')
 
         </div>
@@ -69,6 +69,18 @@
     body.admin-modern-template .main .dataTables_wrapper table.dataTable,
     body.admin-modern-template .main .dataTables_wrapper .table {
       margin-top: 18px !important;
+    }
+
+    body.admin-modern-template .main #crudTable,
+    body.admin-modern-template .main #crudTable tbody,
+    body.admin-modern-template .main #crudTable tbody tr,
+    body.admin-modern-template .main #crudTable tbody td {
+      overflow: visible !important;
+    }
+
+    body.admin-modern-template .main #crudTable .dropdown-menu,
+    body.admin-modern-template .main .dataTables_wrapper .dropdown-menu {
+      z-index: 1100;
     }
 
     body.admin-modern-template .main .enhanced-crud-list-toolbar,
@@ -189,6 +201,15 @@
           return;
         }
 
+        var isSidebarVisible = document.body.classList.contains('sidebar-lg-show')
+          || document.body.classList.contains('sidebar-show');
+        if (!isSidebarVisible) {
+          sidebar.style.width = '';
+          main.style.marginLeft = '0';
+          main.style.width = '100%';
+          return;
+        }
+
         var sidebarWidth = Math.round(sidebar.getBoundingClientRect().width) || sidebar.offsetWidth || 0;
         if (sidebarWidth <= 0) return;
 
@@ -204,6 +225,8 @@
           setTimeout(syncSidebarOffset, 220);
         }
       });
+      var bodyClassObserver = new MutationObserver(syncSidebarOffset);
+      bodyClassObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
       syncSidebarOffset();
     })();
   </script>
