@@ -1,1 +1,1 @@
-@include("Crafto.blocks.blockBrand.section_$item->style")
+@include("Bexo.blocks.blockBrand.section_$item->style")

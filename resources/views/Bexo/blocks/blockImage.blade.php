@@ -29,7 +29,8 @@
         }
     }
 ?>
-    @include("Corporate1.blocks.blockImage.section_$item->style")
+    @include("Bexo.blocks.blockImage.section_$item->style")
+
 @else
     <?php
         $foto = "";

@@ -391,7 +391,7 @@
 
          ?>
 
-        @include("Crafto.blocks.blockLastwork.section_$item->style")
+        @include("Bexo.blocks.blockLastwork.section_$item->style")
 
     @endforeach
 @endif

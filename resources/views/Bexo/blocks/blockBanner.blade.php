@@ -83,7 +83,7 @@
 
                         ?>
 
-                            @include("Crafto.blocks.blockBanner.section_$item->style")
+                            @include("Bexo.blocks.blockBanner.section_$item->style")
 
                     @endforeach
                 @endif

@@ -50,7 +50,8 @@
         .hamburger_close_btn i,
         .mean-container .mean-nav ul li a.mean-expand,
         .mean-container .mean-nav ul li a.mean-expand i {
-            color: {{ $menuIconColor }} !important;
+            color: {{ $mobileMenuTextColor }} !important;
+            -webkit-text-fill-color: {{ $mobileMenuTextColor }} !important;
 
         }
         .mean-container .mean-nav ul > li > a {
@@ -100,11 +101,11 @@
 @endphp
 
 <!-- Header -->
-<header class="header-area header-2 header-absolute section-gap-x" style="background-color: {{ $website->header_background }}!important; height: {{ $website->menubar_height }}!important;">
+<header class="header-area header-1 section-gap-x" style="background-color: {{ $website->header_background }}!important; height: {{ $website->menubar_height }}!important;">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="header-wrapper">
+                <div class="header-wrapper" style="border-radius: 80px;">
                     <div class="site_logo">
                         <a class="logo" href="/">
                             @if($website->logo)
@@ -160,14 +161,18 @@
                         </nav>
                     </div>
 
-                    <div class="header-right-item d-none d-lg-inline-flex">
-                        <div class="header-button">
-                            <a class="tj-primary-btn" href="/contact">
-                                <span class="btn-text"><span>Let's Talk</span></span>
-                                <span class="btn-icon"><i class="tji-arrow-right-long"></i></span>
-                            </a>
+                    <!-- Info extra button menu -->
+                    @if($website->is_extra_button_menu == 1)
+                        <div class="header-right-item d-none d-lg-inline-flex">
+                            <div class="header-button">
+                                    <a href="{{ $website->link_extra_button_menu }}" target="{{ $website->type_href }}" class="tj-primary-btn" style="background-color: {{ $website->bgcolor_extra_button_menu }}; color: {{ $website->txtcolor_extra_button_menu }};">
+                                        <span class="btn-text"><span>{{ $website->label_extra_button_menu }}</span></span>
+                                        <span class="btn-icon"><i class="tji-arrow-right-long"></i></span>
+                                    </a>
+                            </div>
                         </div>
-                    </div>
+                    @endif
+                    <!-- / Info extra button menu -->
 
                     <div class="menu_bar mobile_menu_bar d-lg-none">
                         <span></span>

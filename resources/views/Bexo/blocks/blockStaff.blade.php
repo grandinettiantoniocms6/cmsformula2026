@@ -162,7 +162,7 @@
                 }
 
                 ?>
-                    @include("Crafto.blocks.blockStaff.section_$item->style")
+                    @include("Bexo.blocks.blockStaff.section_$item->style")
 
                 @endforeach
             @endif

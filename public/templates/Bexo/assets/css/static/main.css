@@ -737,7 +737,6 @@ img {
   white-space: nowrap;
 }
 .tj-primary-btn .btn-text {
-  color: var(--tj-color-common-white);
   overflow: hidden;
 }
 .tj-primary-btn .btn-text span {
@@ -2495,28 +2494,28 @@ START: Theme Footer CSS
   background-color: var(--tj-color-theme-bg);
   position: relative;
   z-index: 1;
-  padding-top: 195px;
+  padding-top: 80px;
   border-radius: 12px;
   overflow: hidden;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1399px) {
   .tj-footer-section {
-    padding-top: 150px;
+    padding-top: 70px;
   }
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .tj-footer-section {
-    padding-top: 135px;
+    padding-top: 60px;
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .tj-footer-section {
-    padding-top: 320px;
+    padding-top: 70px;
   }
 }
 @media only screen and (min-width: 576px) and (max-width: 767px), (max-width: 575px) {
   .tj-footer-section {
-    padding-top: 270px;
+    padding-top: 70px;
     margin-bottom: 0;
     border-end-start-radius: 0;
     border-end-end-radius: 0;
@@ -14843,15 +14842,16 @@ START: Breadcrumb CSS
 .tj-page-header {
   padding-top: 133px;
   padding-bottom: 150px;
+  margin: 0 15px 0 15px;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   background-color: var(--tj-color-theme-dark);
-  background-blend-mode: luminosity;
+  /*background-blend-mode: luminosity;*/
   border-radius: 12px;
   position: relative;
   overflow: hidden;
-  z-index: 2;
+  z-index: 1!important;
 }
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .tj-page-header {

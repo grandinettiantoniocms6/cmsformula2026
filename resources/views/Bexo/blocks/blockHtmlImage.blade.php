@@ -1,1 +1,1 @@
-@include("Corporate1.blocks.blockHtmlImage.section_$item->style")
+@include("Bexo.blocks.blockHtmlImage.section_$item->style")

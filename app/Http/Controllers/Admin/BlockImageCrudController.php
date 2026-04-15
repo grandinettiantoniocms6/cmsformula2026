@@ -144,6 +144,17 @@ class BlockImageCrudController extends CrudController
             ],
         ]);
 
+        $this->crud->addField([   // select_from_array
+            'name' => 'style',
+            'label' => "Seleziona uno stile",
+            'type' => 'select_from_array',
+            'options' => [1 => 'Style 1', 2 => 'Style 2', 3 => 'Style 3', 4 => 'Style 4'],
+            'allows_null' => false,
+            'default' => 1,
+            // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+            'wrapperAttributes' => ['class' => 'form-group col-md-6']
+        ]);
+
                     // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
                     if(env('TEMA') == 'Webshop' ) {
 
@@ -174,22 +185,25 @@ class BlockImageCrudController extends CrudController
                             // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
                             'wrapperAttributes' => ['class' => 'form-group col-md-6']
                         ]);
-
-
-
                     } // END CORPORATE1
 
+                        // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
+                        if(env('TEMA') == 'Bexo' ) {
 
-        $this->crud->addField([   // select_from_array
-            'name' => 'style',
-            'label' => "Seleziona uno stile",
-            'type' => 'select_from_array',
-            'options' => [1 => 'Style 1', 2 => 'Style 2', 3 => 'Style 3', 4 => 'Style 4'],
-            'allows_null' => false,
-            'default' => 1,
-            // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-            'wrapperAttributes' => ['class' => 'form-group col-md-6']
-        ]);
+                            $this->crud->addField([   // select_from_array
+                                'name' => 'style',
+                                'label' => "Seleziona uno stile",
+                                'type' => 'select_from_array',
+                                'options' => [1 => 'Style 1'],
+                                'allows_null' => false,
+                                'default' => 1,
+                                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                                'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                            ]);
+                        }
+
+
+
 
 
         $this->crud->addField([   // select_from_array

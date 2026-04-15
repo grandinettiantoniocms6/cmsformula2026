@@ -94,7 +94,7 @@
             }
         </style>
 
-        @include("Crafto.blocks.blockContactgmap.section_$item->style")
+        @include("Bexo.blocks.blockContactgmap.section_$item->style")
 
     @endforeach
 @endif

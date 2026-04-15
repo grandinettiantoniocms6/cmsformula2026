@@ -52,8 +52,9 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 <body>
 <div class="body-overlay"></div>
 
-
-
+<!-- Preloader Start -->
+@include('Bexo.inc.preloader')
+<!-- Preloader end -->
 
 <!-- back to top start -->
 <div id="tj-back-to-top"><span id="tj-back-to-top-percentage"></span></div>
@@ -65,25 +66,22 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 @yield('header_menu')
 
     @if($website->header_background)
-        <header id="header" class="header default fullWidth" style="background-color: {{ $website->header_background }}!important; position:relative!important;">
+        <header id="header" class="header-area header-1 section-gap-x" style="background-color: {{ $website->header_background }}!important; position:relative!important;">
     @else
-        <header id="header" class="header default fullWidth" style="position:relative!important;">
+        <header id="header" class="header-area header-1 section-gap-x">
     @endif
         </header>
 
         <div id="smooth-wrapper">
             <div id="smooth-content">
                 <main id="primary" class="site-main">
-                    <div class="top-space-15"></div>
-
+                    <div class="space-for-header"></div>
                         @yield('content_header')
                         @yield('content')
                         @yield('content_footer')
-
                 </main>
             </div>
         </div>
-
 
     <!-- JS here -->
     <script src="{{ url("templates/Bexo/assets/js/jquery.min.js") }}"></script>

@@ -1,1 +1,1 @@
-@include("Corporate1.blocks.blockScrollbar.section_$item->style")
+@include("Bexo.blocks.blockScrollbar.section_$item->style")

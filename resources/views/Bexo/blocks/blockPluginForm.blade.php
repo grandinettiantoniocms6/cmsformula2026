@@ -66,7 +66,7 @@ if($fields){
                                     $url_pagina = $value['url_pagina'];
                                     $id = $i;
                                     ?>
-                                    @include('Crafto.blocks.blockPluginForm.form_contact_content')
+                                    @include('Bexo.blocks.blockPluginForm.form_contact_content')
                                     <?php $i++; ?>
                                 @endforeach
                             @endif

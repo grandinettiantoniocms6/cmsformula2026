@@ -1,3 +1,3 @@
-@include("Corporate1.blocks.blockHero.section_$item->style")
+@include("Bexo.blocks.blockHero.section_$item->style")
 
 

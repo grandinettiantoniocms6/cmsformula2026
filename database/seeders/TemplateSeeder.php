@@ -29,6 +29,15 @@ class TemplateSeeder extends Seeder
         ]);
         /** fine specifiche tema */
 
+        /** inizio specifiche tema */
+        \App\Models\AdminTemplate::firstOrCreate(["name" => "Bexo"],[
+            "image_name" => "/imagesAdminTemplates/Bexo.jpg",
+            "url" => "https://www.witest.it/Bexo/index.html",
+            "price" => 1500,
+            "description" => "Template Grafico Responsive avanzato, adatto per la tua azienda in quanto ricco di personalizzazioni. Barra del menu a scomparsa, pulsante personalizzabile in top bar e molto altro ancora. Sviluppato con tecnologia Bootstrap 5."
+        ]);
+        /** fine specifiche tema */
+
 
         /** inizio specifiche tema */
         \App\Models\AdminTemplate::firstOrCreate(["name" => "Crafto"],[

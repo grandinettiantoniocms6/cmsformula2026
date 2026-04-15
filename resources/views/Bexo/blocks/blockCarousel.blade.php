@@ -1,1 +1,1 @@
-@include("Corporate1.blocks.blockCarousel.section_$item->style")
+@include("Bexo.blocks.blockCarousel.section_$item->style")

@@ -18,7 +18,8 @@
 <link rel="stylesheet" href="{{ url("templates/Bexo/assets/css/venobox.min.css") }}">
 <link rel="stylesheet" href="{{ url("templates/Bexo/assets/css/odometer-theme-default.css") }}">
 <link rel="stylesheet" href="{{ url("templates/Bexo/assets/css/meanmenu.css") }}">
-<link rel="stylesheet" href="{{ url("templates/Bexo/assets/css/main.css") }}">
+<!-- Main uso static per saltare SCSS -->
+<link rel="stylesheet" href="{{ url("templates/Bexo/assets/css/static/main.css") }}">
 
 <!-- CSS Common Form contact -->
 @if($website->form_contact)

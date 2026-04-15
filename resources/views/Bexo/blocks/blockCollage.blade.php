@@ -1,1 +1,1 @@
-@include("Corporate1.blocks.blockCollage.section_$item->style")
+@include("Bexo.blocks.blockCollage.section_$item->style")

@@ -73,3 +73,24 @@
         </div>
     </div>
 @endif
+
+@once
+    <script>
+        (function () {
+            function moveFooterModalsToBody() {
+                var modals = document.querySelectorAll('.modal[id^="footer_"]');
+                modals.forEach(function (modalElement) {
+                    if (modalElement.parentElement !== document.body) {
+                        document.body.appendChild(modalElement);
+                    }
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', moveFooterModalsToBody);
+            } else {
+                moveFooterModalsToBody();
+            }
+        })();
+    </script>
+@endonce

@@ -128,7 +128,7 @@ $col = "";
                                 ?>
 
                                 <!-- CICLO NEWS -->
-                                    @include("Corporate1.blocks.blockNews.section_$style")
+                                    @include("Bexo.blocks.blockNews.section_$style")
                                 <!-- / CICLO NEWS -->
 
                             @endforeach
