@@ -125,6 +125,10 @@ class DashboardController extends Controller
 
     private function canQueryAdminNewsConnection(): bool
     {
+        if (!app()->environment('local')) {
+            return true;
+        }
+
         $cacheKey = 'admin_news_mysql2_reachable';
         $cachedReachability = \Cache::get($cacheKey);
         if ($cachedReachability !== null) {

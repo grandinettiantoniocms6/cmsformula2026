@@ -10,8 +10,11 @@
     if(backpack_auth()->check()){
         $newsDbReachableCacheKey = 'admin_news_mysql2_reachable';
         $newsDbReachable = \Cache::get($newsDbReachableCacheKey);
+        $useFastProbe = app()->environment('local');
 
-        if($newsDbReachable === null){
+        if(!$useFastProbe){
+            $newsDbReachable = true;
+        } elseif($newsDbReachable === null){
             $newsDbReachable = true;
             try {
                 $mysql2Config = config('database.connections.mysql_2', []);
