@@ -243,8 +243,9 @@ class BlockNewsCrudController extends CrudController
 
             } // FIne Perso per Webshop
 
+            // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
+            if(env('TEMA') == 'Bexo' ) {
 
-            if(env('TEMA') == 'Crafto' ) {
                 // Permette di scegliere uno o stili di un blocco (parte html)
                 $this->crud->addField([   // select_from_array
                     'name' => 'style',
@@ -259,11 +260,38 @@ class BlockNewsCrudController extends CrudController
                     // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
                     'wrapperAttributes' => ['class' => 'form-group col-md-6']
                 ]);
-            }
+
+                $this->crud->addField([   // repeatable
+                    'name'        => 'col',
+                    'label'   => 'Numero di New per riga',
+                    'type'        => 'select_from_array',
+                    'options'     => ['3' => '4 new per riga', '4' => '3 news per riga', '6' => '2 news per riga', '12' => '1 news per riga' ],
+                    'allows_null' => false,
+                    'default'     => '2',
+                    'wrapper' => ['class' => 'form-group col-md-6']
+                ]);
+
+            } // FIne Perso per Crafto
+
 
 
                 // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
                 if(env('TEMA') == 'Crafto' ) {
+
+                    // Permette di scegliere uno o stili di un blocco (parte html)
+                    $this->crud->addField([   // select_from_array
+                        'name' => 'style',
+                        'label' => "Seleziona stile",
+                        'type' => 'select_from_array',
+                        'attributes' => [
+                            'class' => 'custom-select',
+                        ],
+                        'options' => [1 => 'Style 1', 2 => 'Style 2', 3 => 'Style 3'],
+                        'allows_null' => false,
+                        'default' => 1,
+                        // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                        'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                    ]);
 
                     $this->crud->addField([   // repeatable
                         'name'        => 'col',

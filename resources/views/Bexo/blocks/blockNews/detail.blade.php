@@ -178,170 +178,172 @@ if($blockNews->foto6){
 
 @endsection
 
-<!-- Dettaglio news -->
-<div class="blog-single py-120">
+<section class="tj-blog-section section-gap slidebar-stickiy-container">
     <div class="container">
-        <div class="row g-4">
+        <div class="row row-gap-5">
             <div class="col-lg-8">
-                <div class="blog-single-wrap">
-                    <div class="blog-single-content">
 
-                        <div class="blog-info">
+                <div class="post-details-wrapper">
+                    <div class="blog-images wow fadeInUp" data-wow-delay=".1s">
+                        @if($blockNews->foto)
+                            <img src="{{ $foto }}" alt="Immagine news" class="border-radius-5px">
+                        @endif
+                    </div>
+                    <h2 class="title title-anim">{{ $title }}</h2>
+                    <div class="blog-category-two wow fadeInUp" data-wow-delay=".3s">
 
-                            <div class="blog-details">
-                                <h3 class="blog-details-title mb-20">{{ $title }}</h3>
-                                    <p class="mb-10">
-                                        {!! $description !!}
-                                    </p>
-                                <hr>
+                        <div class="category-item">
+                            <div class="cate-icons">
+                                <i class="tji-calendar"></i>
                             </div>
-
-                        </div>
-
-                        <div class="blog-thumb-img">
-                            <!-- commendo per non far vedere la foto 1 nel dettaglio news -->
-                            @if($blockNews->foto)
-                                <img src="{{ $foto }}" alt="" class="border-radius-5px">
-                            @endif
-                        </div>
-
-                        <div class="blog-thumb-img">
-                            @if($blockNews->foto2)
-                                <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
-                                    <img src="{{ $foto2 }}" alt="" class="border-radius-5px">
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="blog-thumb-img">
-                            @if($blockNews->foto3)
-                                <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
-                                    <img src="{{ $foto3 }}" alt="" class="border-radius-5px">
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="blog-thumb-img">
-                            @if($blockNews->foto4)
-                                <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
-                                    <img src="{{ $foto4 }}" alt="" class="border-radius-5px">
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="blog-thumb-img">
-                            @if($blockNews->foto5)
-                                <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
-                                    <img src="{{ $foto5 }}" alt="" class="border-radius-5px">
-                                </div>
-                            @endif
-                        </div>
-
-                        <div class="blog-thumb-img">
-                            @if($blockNews->foto6)
-                                <div class="col-lg-12 mb-6 sm-mb-35px last-paragraph-no-margin text-center">
-                                    <img src="{{ $foto6 }}" alt="" class="border-radius-5px">
-                                </div>
-                            @endif
-
-                        </div>
-
-                        <!-- Torna indietro -->
-                        <div class="blog-author">
-                            <a class="theme-btn" style="background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }}; color: {{ $website->btn_txt_color }};" href="/news">{{ $labelSite['back-to-news'] }}<i class="fas fa-arrow-right"></i></a>
+                            <div class="cate-text">
+                                <span class="degination">Date Released</span>
+                                <h6 class="text">29 December, 2025</h6>
+                            </div>
                         </div>
 
                     </div>
+                    <div class="blog-text">
+                        <p class="wow fadeInUp" data-wow-delay=".3s">{!! $description !!}</p>
+                    </div>
+
+                    <div class="blog-images wow fadeInUp" data-wow-delay=".1s">
+                        @if($blockNews->foto2)
+                            <img src="{{ $foto2 }}" alt="Immagine 2 news" class="border-radius-5px">
+                        @endif
+                    </div>
+
+                    <div class="blog-images wow fadeInUp" data-wow-delay=".1s">
+                        @if($blockNews->foto3)
+                            <img src="{{ $foto3 }}" alt="Immagine news" class="border-radius-5px">
+                        @endif
+                    </div>
+
+                    <div class="blog-images wow fadeInUp" data-wow-delay=".1s">
+                        @if($blockNews->foto4)
+                            <img src="{{ $foto4 }}" alt="Immagine 3 news" class="border-radius-5px">
+                        @endif
+                    </div>
+
+                    <div class="blog-images wow fadeInUp" data-wow-delay=".1s">
+                        @if($blockNews->foto5)
+                            <img src="{{ $foto5 }}" alt="Immagine 4 news" class="border-radius-5px">
+                        @endif
+                    </div>
+
+                    <div class="blog-images wow fadeInUp" data-wow-delay=".1s">
+                        @if($blockNews->foto6)
+                            <img src="{{ $foto6 }}" alt="Immagine 5 news" class="border-radius-5px">
+                        @endif
+                    </div>
+
+
+                    <div class="tj-comments-container">
+                        <div class="tj-comments__container">
+                            <div class="comment-respond">
+                                <div class="row">
+                                    <div class="comments-btn">
+                                        <a class="tj-primary-btn" style="background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }}; color: {{ $website->btn_txt_color }};" href="/news">
+                                            <span class="btn-text"><span>{{ $labelSite['back-to-news'] }}</span></span>
+                                            <span class="btn-icon"><i class="tji-arrow-right-long"></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
-            <div class="col-lg-4">
-                <aside class="blog-sidebar">
+            <?php
+            $lang = \App::getLocale();
+            $page_temp = \App\Models\Page::whereRaw("slug LIKE '%\"$lang\":\"news\"%'")->first();
 
-                    <!-- Categorie -->
-                    @if(count($v_category))
-                        <div class="widget tag">
-                            <h5 class="widget-title"><i class="fas fa-folder"></i> Categoria</h5>
-                            <div class="tag-list">
+            $altre_news  = null;
+            if($page_temp){
+                $pages_blocks = \App\Models\PageBlock::where("type", "blockNews")
+                    //->where("is_active", 1)
+                    ->where("page_id", $page_temp->id)->get()->pluck("obj_id")->toArray();
+
+                $now = \Carbon\Carbon::now()->toDateString();
+                $altre_news = \App\Models\BlockNews::whereIn("block_id", $pages_blocks)
+                    ->whereRaw("(date_end is null OR date_end >= '$now')")
+                    ->where("id", "!=", $blockNews->id)
+                    ->orderBy("id", "DESC")
+
+                    ->take(5) // è il numero di quante ultime news voglio far vedere
+                    ->get();
+            }
+
+            ?>
+
+            <div class="col-lg-4">
+                <div class="tj-main-sidebar slidebar-stickiy">
+                    <div class="tj-sidebar-widget tj-recent-posts wow fadeInUp" data-wow-delay=".3s">
+
+                        <h4 class="widget-title">{{ $labelSite['last-news'] }}</h4>
+
+                        @if($altre_news)
+                            @foreach($altre_news as $altre)
+                                    <?php
+                                    $news_url = route('news.slug', $altre->slug);
+                                    ?>
+                                        <ul>
+                                            <li>
+                                                <div class="post-content">
+                                                    <h6 class="post-title">
+                                                        <a href="{{ $news_url }}">{{ $altre->title }}</a>
+                                                    </h6>
+                                                    <div class="blog-meta">
+                                                        <ul>
+                                                            <li>{{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$altre->date)->format("d/m/Y") }}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li><br>
+
+                                        </ul>
+
+                            @endforeach
+                        @endif
+                    </div>
+
+                    <div class="tj-sidebar-widget widget-categories wow fadeInUp" data-wow-delay=".5s">
+                        <h4 class="widget-title">Categories</h4>
+                        @if(count($v_category))
+                            <ul>
+
                                 @foreach($v_category as $t)
                                         <?php
                                         $news_url_tag = route('news.category', $t);
                                         ?>
-                                       <a href="{{ $news_url_tag }}">{{ $t }}</a>
+                                    <li><a href="{{ $news_url_tag }}">{{ $t }}</a></li>
+
                                 @endforeach
-                    @endif
+                        @endif
 
-                            </div>
-                        </div>
-
-
-                    <!-- Tags -->
-                    <div class="widget tag">
-                        <h5 class="widget-title"><i class="fas fa-tags"></i> Tags</h5>
-                        <div class="tag-list">
-
-                            @foreach($v_tag as $t)
-                                    <?php
-                                    $news_url_tag = route('news.tag', trim($t));
-                                    ?>
-                                <a href="{{ $news_url_tag }}">{{ $t }}</a>
-                            @endforeach
-
-                        </div>
+                            </ul>
                     </div>
 
-                        <!-- Altre news - Related News dettaglio -->
-
-                        <?php
-                        $lang = \App::getLocale();
-                        $page_temp = \App\Models\Page::whereRaw("slug LIKE '%\"$lang\":\"news\"%'")->first();
-
-                        $altre_news  = null;
-                        if($page_temp){
-                            $pages_blocks = \App\Models\PageBlock::where("type", "blockNews")
-                                //->where("is_active", 1)
-                                ->where("page_id", $page_temp->id)->get()->pluck("obj_id")->toArray();
-
-                            $now = \Carbon\Carbon::now()->toDateString();
-                            $altre_news = \App\Models\BlockNews::whereIn("block_id", $pages_blocks)
-                                ->whereRaw("(date_end is null OR date_end >= '$now')")
-                                ->where("id", "!=", $blockNews->id)
-                                ->orderBy("id", "DESC")
-
-                                ->take(5) // è il numero di quante ultime news voglio far vedere
-                                ->get();
-                        }
-
-                        ?>
-
-
-                            <!-- Altre News -->
-                            <div class="widget category">
-                                <h5 class="widget-title"><i class="fas fa-clock"></i> {{ $labelSite['last-news'] }}</h5>
-
-                                @if($altre_news)
-                                    @foreach($altre_news as $altre)
-                                        <?php
-                                            $news_url = route('news.slug', $altre->slug);
-                                        ?>
-
-                                            <div class="category-list">
-                                                <a href="{{ $news_url }}"><i class="far fa-arrow-right"></i>{{ $altre->title }}<br>
-                                                    <i class="far fa-clock"></i> {{ \Carbon\Carbon::createFromFormat("Y-m-d" ,$altre->date)->format("d/m/Y") }}
-                                                </a>
-
-                                            </div>
-
-                                    @endforeach
-                                @endif
+                    <!-- Tags -->
+                    <div class="tj-sidebar-widget widget-tag-cloud wow fadeInUp" data-wow-delay=".7s">
+                        <h4 class="widget-title">Tags</h4>
+                        @foreach($v_tag as $t)
+                                <?php
+                                    $news_url_tag = route('news.tag', trim($t));
+                                ?>
+                        <nav>
+                            <div class="tagcloud">
+                                <a href="{{ $news_url_tag }}">{{ $t }}</a>
+                        @endforeach
 
                             </div>
+                        </nav>
+                    </div>
 
-
-                </aside>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- fine -->
-
+</section>

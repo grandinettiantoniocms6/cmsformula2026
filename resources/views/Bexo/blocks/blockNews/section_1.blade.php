@@ -1,16 +1,17 @@
 <!-- Style 1 Grid -->
-<div class="col-md-6 col-lg-{{ $col }}">
-    <div class="blog-item wow fadeInUp" data-wow-delay=".25s">
+<div class="col-xl-{{ $col }} col-md-{{ $col }}">
+    <div class="blog-item wow fadeInUp" data-wow-delay=".1s">
 
         @if($col != 12)
             @if($value->foto)
-                <div class="blog-item-img">
+
+                <div class="blog-thumb">
                     @if(isset($news_url))
-                        <a href="{{ $news_url }}" class="d-block"><img src="{{ $value->get_foto_list() }}" alt="" /></a>
+                        <a href="{{ $news_url }}"><img src="{{ $value->get_foto_list() }}" alt="" /></a>
                     @endif
 
                     @if($value->date)
-                        <span class="blog-date">
+                            <div class="blog-date">
 
                             <!-- Nuovo metodo per il print dei mesi in ita -->
                                 <strong>
@@ -28,43 +29,42 @@
                                 </span>
                             <!-- / Date -->
 
-                        </span>
+                        </div>
                     @endif
 
                 </div>
 
                 @if(count($v_category))
-                    <div class="blog-item-info">
-                        <div class="blog-item-meta">
+
+                    <div class="blog-content">
+                        <div class="blog-meta">
                             @foreach($v_category as $t)
                                     <?php
                                     $url = route('news.category', trim($t));
                                     ?>
 
-                                <ul>
-                                    <li><a href="{{ $url }}"><i class="far fa-folder"></i> {{ $t }}</a></li>
-                                </ul>
+                                <span class="categories"><a href="{{ $url }}">{{ $t }}</a></span>
 
                             @endforeach
-                            @if(isset($news_url))
-
-                                <h4 class="blog-title">
-                                    <a href="{{ $news_url }}">{{ $title }}</a>
-                                </h4>
-                            @endif
-
-                            @if(isset($abstract))
-                               <p>{{ $abstract }}</p>
-                            @endif
-
-                            @if(isset($news_url))
-                                <a href="{{ $news_url }}" class="theme-btn">{{ $labelSite['read-news'] }}<i class="fas fa-arrow-right"></i></a>
-                            @endif
-
-
 
                         </div>
+
+                        @if(isset($news_url))
+
+                            <h4 class="title">
+                                <a href="{{ $news_url }}">{{ $title }}</a>
+                            </h4>
+                        @endif
+
+                        @if(isset($news_url))
+                            <a href="{{ $news_url }}" class="text-btn">
+                                <span class="btn-text"><span>{{ $labelSite['read-news'] }}</span></span>
+                                <span class="btn-icon"><i class="tji-arrow-right-long"></i></span>
+                            </a>
+                        @endif
                     </div>
+
+
                 @endif
 
             @endif

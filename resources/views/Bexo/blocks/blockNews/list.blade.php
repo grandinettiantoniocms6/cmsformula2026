@@ -37,8 +37,8 @@ $height = null;
 $col = "";
 ?>
 
-<section class="pt-3 ps-11 pe-11 xl-ps-2 xl-pe-1">
-    <div class="blog-area py-120">
+<section class="tj-blog-section section-gap">
+
 
         @if($news)
             @foreach($news as $value)
@@ -66,7 +66,7 @@ $col = "";
         @endif
 
         <div class="{{ $fullwidth }}">
-            <div class="row g-4">
+            <div class="row row-gap-4">
 
 
                         @if($news)
@@ -136,14 +136,8 @@ $col = "";
 
                 </div>
 
-                <!-- Paginazione News -->
-                <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
-                    <ul style="list-style: none!important;" class="pagination pagination-style-01 fs-13 fw-500 mb-0">
-                        @if($news)
-                            {{ $news->links() }}
-                        @endif
-                    </ul>
-                </div>
-            </div>
+            <!-- Paginazione da fare e va qui-->
+
+
         </div>
 </section>
