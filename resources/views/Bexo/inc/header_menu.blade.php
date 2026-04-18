@@ -17,7 +17,7 @@
         return url("img/{$code}.svg");
     };
 @endphp
-<div class="hamburger-area d-lg-none" style="background-color: {{ $menuMobilePanelBg }}!important;">
+<div class="hamburger-area bexo-mobile-only" style="background-color: {{ $menuMobilePanelBg }}!important;">
     <div class="hamburger_bg" style="background-color: {{ $mobileMenuBgLayer }}!important;"></div>
     <div class="hamburger_wrapper">
         <div class="hamburger_inner">
@@ -85,7 +85,7 @@
         $menuIconColor = $website->bgcolor_menu_mobile ?: '#ffffff';
     @endphp
 
-    @media only screen and (min-width: 280px) and (max-width: 991px) {
+    @media only screen and (min-width: 280px) and (max-width: 1340px) {
 
         .menu_bar.mobile_menu_bar { background-color: {{ $hamburgerButtonBgColor }}!important; color: {{ $mobileMenuTextColor }}!important; }
         .menu_bar.mobile_menu_bar span { background-color: {{ $menuIconColor }} !important; }
@@ -139,14 +139,45 @@
 
         return $path === '' ? '/' : $path;
     };
+    $normalizeCssSize = static function ($rawValue, string $fallback): string {
+        $value = trim((string) $rawValue);
+        if ($value === '') {
+            return $fallback;
+        }
+        if (is_numeric($value)) {
+            return $value . 'px';
+        }
+
+        return $value;
+    };
 
     $currentMenuPath = $normalizeMenuPath(request()->path() === '/' ? '/' : request()->path());
+    $headerHeightCss = $normalizeCssSize($website->menubar_height, '96px');
+    $headerWrapperMinHeight = $headerHeightCss;
 @endphp
 
 <style>
-    .bexo-header-cta-group {
-        margin-left: auto;
+    .bexo-mobile-only {
+        display: block;
+    }
+    .bexo-mobile-toggle {
         display: inline-flex;
+    }
+    .bexo-desktop-menu,
+    .bexo-desktop-cta {
+        display: none;
+    }
+    @media (min-width: 1341px) {
+        .bexo-mobile-only,
+        .bexo-mobile-toggle {
+            display: none !important;
+        }
+        .bexo-desktop-menu,
+        .bexo-desktop-cta {
+            display: inline-flex !important;
+        }
+    }
+    .bexo-header-cta-group {
         align-items: center;
         gap: 10px;
     }
@@ -255,7 +286,23 @@
         left: 0 !important;
         right: auto !important;
     }
-    @media (min-width: 992px) {
+    @media (min-width: 1341px) {
+        .header-area.header-1 .header-wrapper {
+            flex-wrap: nowrap;
+        }
+        .header-area.header-1 .site_logo,
+        .header-area.header-1 .bexo-header-cta-group {
+            flex: 0 0 auto;
+        }
+        .header-area.header-1 .menu-area {
+            flex: 1 1 auto;
+            justify-content: center;
+            min-width: 0;
+            padding: 0 14px;
+        }
+        .header-area.header-1 .menu-area .mainmenu > ul {
+            justify-content: center;
+        }
         .bexo-header-cta-group .bexo-lang-switch .bexo-lang-toggle {
             padding: 4px 8px 4px 6px;
             gap: 5px;
@@ -272,7 +319,15 @@
             min-width: 92px;
         }
     }
-    @media (max-width: 991px) {
+    @media (max-width: 1340px) {
+        .header-area.header-1 {
+            margin-bottom: 15px;
+        }
+        .header-area.header-1 .header-wrapper {
+            flex-wrap: nowrap;
+            padding: 0 18px;
+            min-height: {{ $headerWrapperMinHeight }} !important;
+        }
         .hamburger_bottom_actions {
             flex-direction: column;
             align-items: stretch;
@@ -307,14 +362,19 @@
             margin-top: 8px;
         }
     }
+    @media (max-width: 990px) {
+        .header-area.header-1 {
+            margin-bottom: 15px;
+        }
+    }
 </style>
 
 <!-- Header -->
-<header class="header-area header-1 section-gap-x" style="background-color: {{ $website->header_background }}!important; height: {{ $website->menubar_height }}!important;">
+<header class="header-area header-1 section-gap-x" style="background-color: {{ $website->header_background }}!important; height: {{ $headerHeightCss }}!important;">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="header-wrapper" style="border-radius: 80px;">
+                <div class="header-wrapper" style="border-radius: 80px; min-height: {{ $headerWrapperMinHeight }}!important;">
                     <div class="site_logo">
                         <a class="logo" href="/">
                             @if($website->logo)
@@ -325,7 +385,7 @@
                         </a>
                     </div>
 
-                    <div class="menu-area d-none d-lg-inline-flex align-items-center">
+                    <div class="menu-area bexo-desktop-menu align-items-center">
                         <nav id="mobile-menu" class="mainmenu">
                             <ul>
                                 @if($menu)
@@ -370,7 +430,7 @@
                         </nav>
                     </div>
 
-                    <div class="bexo-header-cta-group d-none d-lg-inline-flex">
+                    <div class="bexo-header-cta-group bexo-desktop-cta">
                         <!-- Info extra button menu -->
                         @if($website->is_extra_button_menu == 1)
                             <div class="header-right-item">
@@ -406,7 +466,7 @@
                         @endif
                     </div>
 
-                    <div class="menu_bar mobile_menu_bar d-lg-none">
+                    <div class="menu_bar mobile_menu_bar bexo-mobile-toggle">
                         <span></span>
                         <span></span>
                         <span></span>

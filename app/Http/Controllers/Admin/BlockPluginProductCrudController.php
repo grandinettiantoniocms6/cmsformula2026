@@ -35,7 +35,7 @@ class BlockPluginProductCrudController extends CrudController
 
         $this->crud->setListView(backpack_view('custom_list_multi'));
         $this->crud->setReorderView(backpack_view('custom_reorder_multi'));
-        $this->crud->setCreateView(backpack_view('custom_create_multi'));
+        $this->crud->setCreateView(backpack_view('custom_create_multi_enhanced'));
 
         if(request()->has('block_id')){
             $this->crud->query->where("block_id", request()->get('block_id'));
@@ -255,3 +255,4 @@ class BlockPluginProductCrudController extends CrudController
         return 'success for '.$count.' items';
     }
 }
+

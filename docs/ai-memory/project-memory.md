@@ -46,4 +46,9 @@
 - Evitare gate hardcoded su `APP_URL` per feature admin (es. news topbar): in locale devono degradare via `try/catch`, non essere disattivate a priori.
 - Per dipendenze DB esterne (`mysql_2`) in UI admin sincrona: usare probe TCP rapido + cache reachability (circuit breaker breve) prima delle query, per evitare timeout lunghi lato pagina.
 - Le connessioni DB esterne del gestionale devono essere parametrizzate via `.env` (`*_GEST`) e non hardcoded in `config/database.php`.
+- Nel layout frontend Bexo `header-1`, evitare `margin-left: auto` sul gruppo CTA desktop: sbilancia il flex e puo disallineare il menu centrale rispetto a logo/azioni.
+- Se si cambia il breakpoint del menu mobile Bexo, allineare sempre CSS/Blade (`header_menu.blade.php`) e JS MeanMenu (`public/templates/Bexo/assets/js/main.js`, `meanScreenWidth`) per evitare menu vuoto in fasce intermedie.
+- Nel layout Bexo con mobile esteso oltre `991px`, fissare una `min-height` coerente del `header-wrapper` (idealmente legata a `menubar_height`) per prevenire salti di altezza su tablet e piccoli smartphone.
+- I valori admin di altezza (es. `menubar_height`) possono arrivare senza unita: normalizzarli in CSS (`px` se numerici) prima di usarli in `style` inline per evitare comportamenti incoerenti tra desktop e mobile.
+- Per i CRUD blocchi (`Block*CrudController`) la create standard multi-blocco deve usare `custom_create_multi_enhanced` (non `custom_create_multi`) per coerenza col nuovo layout UI admin.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.

@@ -37,7 +37,7 @@ class BlockImageLinkCrudController extends CrudController
 
         $this->crud->setListView(backpack_view('custom_list_multi'));
         $this->crud->setReorderView(backpack_view('custom_reorder_multi'));
-        $this->crud->setCreateView(backpack_view('custom_create_multi'));
+        $this->crud->setCreateView(backpack_view('custom_create_multi_enhanced'));
 
         if(request()->has('block_id')){
             $this->crud->query->where("block_id", request()->get('block_id'));
@@ -114,6 +114,7 @@ class BlockImageLinkCrudController extends CrudController
         CRUD::setValidation(BlockImageLinkRequest::class);
 
         if(request()->has('multi')){
+
             $this->crud->addField([   // repeatable
                 'name'  => 'name',
                 'label' => 'Nome blocco',
@@ -128,6 +129,56 @@ class BlockImageLinkCrudController extends CrudController
                 'default'     => 30,
                 'wrapperAttributes' => ['class' => 'form-group col-md-6']
             ]);
+
+            // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
+            if(env('TEMA') == 'Bexo' ){
+
+                // Permette di scegliere uno o stili di un blocco (parte html)
+                $this->crud->addField([   // select_from_array
+                    'name'        => 'style',
+                    'label'       => "Seleziona lo style",
+                    'type'        => 'select_from_array',
+                    'options'     => [1 => 'Style 1: Foto a sx - Testo a dx con sfondo sovrapposto a immagine (col 7/5)'
+                        //2 => 'Style 2: Foto a dx - Testo a sx con sfondo sovrapposto a immagine (col 7/5)',
+                        //3 => 'Style 3: Foto a sx - Testo a dx senza sfondo colorato (col 5/7)',
+                        //4 => 'Style 4: Foto a dx - Testo a sx senza sfondo colorato (col 5/7)',
+                        //5 => 'Style 5: Foto a sx - Testo a dx con sfondo sovrapposto a immagine (col 6/6)',
+
+                    ],
+                    'allows_null' => false,
+                    'default'     => 1,
+                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                    'wrapperAttributes' => ['class' => 'form-group col-md-4']
+                ]);
+            }
+            // FINE CAMPI VISUALIZZATI SOLO CON IL TEMA BEXO
+
+                // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
+                            if(env('TEMA') == 'Crafto' ){
+
+                // Permette di scegliere uno o stili di un blocco (parte html)
+                $this->crud->addField([   // select_from_array
+                    'name'        => 'style',
+                    'label'       => "Seleziona lo style",
+                    'type'        => 'select_from_array',
+                    'options'     =>
+                        [
+                            1 => 'Style 1: Immagine a sx, testo a dx e colore titolo e sfondo pilotati da admin ( Impostazioni > Sito web > Style ) ',
+                            2 => 'Style 2: Immagine a dx, testo a sx 3 colore titolo e sfondo pilotati da admin ( Impostazioni > Sito web > Style )',
+                            3 => 'Style 3: Immagine a sx, testo a dx e colore titolo predefinito (nero)',
+                            4 => 'Style 4: Immagine a dx, testo a sx e colore titolo predefinito (nero)',
+                            5 => 'Style 5: Immagine verticale (No-thumb) a dx, testo a sx - Ideale per dettaglio scheda prodotto (es: cantina vini)',
+
+                        ],
+                    'allows_null' => false,
+                    'default'     => 1,
+                    // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                    'wrapperAttributes' => ['class' => 'form-group col-md-12']
+                ]);
+            }
+            // FINE CAMPI VISUALIZZATI SOLO CON IL TEMA CRAFTO
+
+
 
 
             // CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP//////////////////
@@ -162,11 +213,8 @@ class BlockImageLinkCrudController extends CrudController
                 // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
                 'wrapperAttributes' => ['class' => 'form-group col-md-4']
             ]);
-
-
             }
             // FINE CAMPI VISUALIZZATI SOLO CON IL TEMA WEBSHOP
-
 
             $this->crud->addField([   // repeatable
                 'name'        => 'fullwidth',
@@ -178,25 +226,7 @@ class BlockImageLinkCrudController extends CrudController
                 'wrapper' => ['class' => 'form-group col-md-6']
             ]);
 
-            // Permette di scegliere uno o stili di un blocco (parte html)
-            $this->crud->addField([   // select_from_array
-                'name'        => 'style',
-                'label'       => "Seleziona lo style",
-                'type'        => 'select_from_array',
-                'options'     =>
-                    [
-                        1 => 'Style 1: Immagine a sx, testo a dx e colore titolo e sfondo pilotati da admin ( Impostazioni > Sito web > Style ) ',
-                        2 => 'Style 2: Immagine a dx, testo a sx 3 colore titolo e sfondo pilotati da admin ( Impostazioni > Sito web > Style )',
-                        3 => 'Style 3: Immagine a sx, testo a dx e colore titolo predefinito (nero)',
-                        4 => 'Style 4: Immagine a dx, testo a sx e colore titolo predefinito (nero)',
-                        5 => 'Style 5: Immagine verticale (No-thumb) a dx, testo a sx - Ideale per dettaglio scheda prodotto (es: cantina vini)',
 
-                    ],
-                'allows_null' => false,
-                'default'     => 1,
-                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                'wrapperAttributes' => ['class' => 'form-group col-md-12']
-            ]);
 
         }else{
 

@@ -116,7 +116,7 @@ Progressbar js
 	// Mobile Menu Js
 	$("#mobile-menu").meanmenu({
 		meanMenuContainer: ".mobile_menu",
-		meanScreenWidth: "991",
+		meanScreenWidth: "1340",
 		meanExpand: ['<i class="tji-arrow-down"></i>'],
 	});
 	function normalizeMenuPath(rawUrl) {
