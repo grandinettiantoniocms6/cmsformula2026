@@ -53,31 +53,30 @@ case "text":
         $label_iubenda_last_name = "data-cons-subject='last_name'";
     }
     echo "
-    <label class='form-label fw-600 text-dark-gray mb-0'>$title{$required_label}</label>
-    <div class='position-relative form-group mb-25px'>
-        <input class='ps-0 border-radius-0px border-color-extra-medium-gray bg-transparent form-control' type='$type' name='$field' $label_iubenda_first_name $label_iubenda_last_name placeholder='$placeholder' $required />
+    <div class='form-input'>
+        <input type='$type' name='$field' $label_iubenda_first_name $label_iubenda_last_name placeholder='$placeholder' $required />
     </div>
     ";
     break;
+
 case "file":
-    echo "<div class='form-group'>
-            <label for='files' class='form-label'>$title{$required_label}</label>
-            <input type='$type' class='form-control' id='files' name='file' $required>
-         </div>";
+    echo "<div class='form-input reduce'>
+            <label for='files' class='label'>$title{$required_label}</label>
+                <input type='$type' class='form-control' id='files' name='file' $required>
+            </div>   ";
     break;
+
 case "email":
     echo "
-    <label class='form-label fw-600 text-dark-gray mb-0'>$title{$required_label}</label>
-    <div class='position-relative form-group mb-25px'>
-        <input class='ps-0 border-radius-0px border-color-extra-medium-gray bg-transparent form-control' type='$type' name='email' $required data-cons-subject='email' placeholder='$placeholder' />
+    <div class='form-input'>
+        <input type='$type' name='email' $required data-cons-subject='email' placeholder='$placeholder' />
     </div>
     ";
     break;
 case "textarea":
     echo "
-    <label class='form-label fw-600 text-dark-gray mb-0'>$title{$required_label}</label>
-        <div class='position-relative form-group form-textarea mb-0'>
-            <textarea class='ps-0 border-radius-0px border-color-extra-medium-gray bg-transparent form-control' name='$field' placeholder='$placeholder' $required></textarea>
+        <div class='form-input message-input'>
+            <textarea name='$field' placeholder='$placeholder' $required></textarea>
         </div>
     ";
     break;
@@ -180,21 +179,32 @@ case "checkbox":
         echo "<div class='form-group form-check mb-2'><input type='checkbox' name='$field' value='1' class='form-check-input' id='check_$id' $required data-cons-preference='$field'> <label class='form-check-label' for='check_$id'>$title</label></div>";
     }
     break;
+
 case "select":
     $values = explode(",", $value['values']);
     if(count($values)){
-        echo "<div class='position-relative form-group mb-25px'>
-                <label class='form-label fw-600 text-dark-gray mb-0'>$title{$required_label}</label>";
+        echo "
+            <div class='form-input'>
+                <div class='tj-nice-select-box'>
+                    <div class='tj-select'> ";
 
-        echo "<select class='ps-0 border-radius-0px border-color-extra-medium-gray bg-transparent form-control form-select' name='$field' $required>";
-            foreach ($values as $opt){
-                echo "<option value='$opt'>$opt</option>";
-            }
-            echo "</select>";
-        echo "</div>";
+                        echo "<select name='$field' $required>
+                         <option>$placeholder</option>
+
+                        ";
+
+                                foreach ($values as $opt){
+                                    echo "<option value='$opt'>$opt</option>";
+                                }
+                        echo "</select>";
+
+                    echo "</div>";
+                echo "</div>";
+            echo "</div>";
     }
 
     break;
+
 case "button":
     ?>
     <!--
@@ -209,7 +219,16 @@ case "button":
 
     <?php
     $key = config('app.recaptcha_key');
-    echo "<button class='button btn btn-medium btn-dark-gray btn-box-shadow btn-round-edge primary-font submit g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> $title </span></button>";
+    echo "
+    <div class='submit-btn'>
+        <button class='tj-primary-btn submit g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='margin-top: 30px; background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' >
+            <span class='btn-text' style='color: {$website->btn_txt_color}$'><span> $title </span></span>
+            <span class='btn-icon'><i class='tji-arrow-right-long'></i></span>
+        </button>
+    </div>
+
+    ";
+
     break;
 case "attributes":
     if($plugin->show_attributes_form_contact == 1){

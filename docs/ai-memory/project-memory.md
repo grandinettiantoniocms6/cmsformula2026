@@ -1,7 +1,7 @@
 # Project Memory
 
 ## Aggiornato il
-- 2026-04-15
+- 2026-04-18
 
 ## Snapshot tecnico
 - Stack: Laravel + Backpack (tema `backpack.theme-coreuiv2`).
@@ -43,6 +43,7 @@
 - Prima di toccare prodotti/pagine: verificare impatti su route multi-lingua, query raw e CRUD admin.
 - Evitare nuove astrazioni se non gia presenti nel modulo target.
 - Per SQL dinamico: preferire binding parametrico o clausole Eloquent.
+- Nei template `resources/views/*/inc/meta.blade.php`, il fallback SEO del `<title>` deve essere: `meta_title` pagina se valorizzato con formato `meta_title - website->title`, altrimenti solo `website->title` (stessa lingua corrente).
 - Evitare gate hardcoded su `APP_URL` per feature admin (es. news topbar): in locale devono degradare via `try/catch`, non essere disattivate a priori.
 - Per dipendenze DB esterne (`mysql_2`) in UI admin sincrona: usare probe TCP rapido + cache reachability (circuit breaker breve) prima delle query, per evitare timeout lunghi lato pagina.
 - Le connessioni DB esterne del gestionale devono essere parametrizzate via `.env` (`*_GEST`) e non hardcoded in `config/database.php`.

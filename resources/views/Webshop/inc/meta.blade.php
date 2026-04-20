@@ -1,7 +1,7 @@
 @if($page)
-    <title>@if($page && trim($page->meta_title != "")) {{ $website->title }} {{ $page->meta_title }} @else {{ $website->title }} @endif</title>
+    <title>{{ trim((string) $page->meta_title) !== "" ? $page->meta_title." - ".$website->title : $website->title }}</title>
 
-    <meta property="og:title" content="@if($page && trim($page->meta_title != "")) {{ $website->title }} {{ $page->meta_title }} @else {{ $website->title }} @endif" />
+    <meta property="og:title" content="{{ trim((string) $page->meta_title) !== "" ? $page->meta_title." - ".$website->title : $website->title }}" />
     <meta property="og:url" content="{{ env('APP_URL') }}<?php echo $_SERVER['REQUEST_URI'];?>" />
 
     @if($website->favicon)

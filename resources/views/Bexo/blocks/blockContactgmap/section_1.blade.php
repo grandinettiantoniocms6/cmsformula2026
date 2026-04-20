@@ -1,11 +1,11 @@
 <?php
     $labels = \App\Models\Label::get()->pluck("value", "key")->toArray();
 ?>
-<section class="block-contact-map" id="block-contact-map-{{ $value->block_id }}" style="margin-top: {{ $item->margin_top }}px; margin-bottom: {{ $item->margin_bottom }}px;">
-    <div class="container-fluid px-0 overflow-hidden">
-        <div class="row gx-0 align-items-center">
-            <div class="col-lg-6 order-2 order-lg-1 wow animate__fadeInUp" data-wow-duration=".3s">
-                <div>
+<section class="tj-contact-section-2 section-bottom-gap" id="block-contact-map-{{ $value->block_id }}" style="margin-top: {{ $item->margin_top }}px; margin-bottom: {{ $item->margin_bottom }}px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="map-area wow fadeInUp" data-wow-delay=".3s">
                     @if($url)
                         @if(env('IUBENDA') == 1)
                             <iframe class="_iub_cs_activate" data-suppressedsrc="{{ $url }}" width="100%" height="{{ $height_gmap }}" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
@@ -15,10 +15,12 @@
                     @endif
                 </div>
             </div>
-            <div class="col-lg-6 order-1 order-lg-2 wow animate__fadeInDown" data-wow-duration=".3s">
-                <div class="contact-info py-4 px-5">
+
+            <div class="col-lg-6 pin-spacer tj-main-sidebar slidebar-stickiy wow fadeInUp" data-wow-delay=".1s">
+                <div class="tj-main-sidebar slidebar-stickiy">
+                    <div class="tj-sidebar-widget wow fadeInUp" data-wow-delay=".1s" style="background-color: {{ $value->bg_box }};">
                     @if($subtitle[\App::getLocale()])
-                        <h6 class="pretitle">{{ $subtitle[\App::getLocale()] }}</h6>
+                        <h3 class="title">{{ $subtitle[\App::getLocale()] }}</h3>
                     @endif
                     @if($title[\App::getLocale()])
                         <h2 class="title">{{ $title[\App::getLocale()] }}</h2>
@@ -130,6 +132,7 @@
                         <div class="second-description">{!! $description2[\App::getLocale()] !!} </div>
                     @endif
                 </div>
+            </div>
             </div>
         </div>
     </div>

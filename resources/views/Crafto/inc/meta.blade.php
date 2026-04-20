@@ -1,5 +1,5 @@
 @if($page)
-    <title>@if($page && trim($page->meta_title != "")) {{ $website->title }} - {{ $page->meta_title }} @else {{ $website->title }} @endif</title>
+    <title>{{ trim((string) $page->meta_title) !== "" ? $page->meta_title." - ".$website->title : $website->title }}</title>
     @if($page && trim($page->meta_description) != "")
         <meta name="description" content="{{ $page->meta_description }}">
     @else

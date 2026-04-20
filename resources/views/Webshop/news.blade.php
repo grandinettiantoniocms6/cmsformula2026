@@ -159,8 +159,8 @@
     ?>
 
     @section('meta')
-        <title>@if($blockNews && trim($blockNews->meta_title != "")) {{ $website->title }} - {{ $blockNews->meta_title }} @else {{ $blockNews->title }} @endif</title>
-        <meta property="og:title" content="@if($blockNews && trim($blockNews->meta_title != "")) {{ $website->title }} - {{ $blockNews->meta_title }} @else {{ $blockNews->title }} @endif" />
+        <title>{{ trim((string) $blockNews->meta_title) !== "" ? $blockNews->meta_title." - ".$website->title : $website->title }}</title>
+        <meta property="og:title" content="{{ trim((string) $blockNews->meta_title) !== "" ? $blockNews->meta_title." - ".$website->title : $website->title }}" />
         <meta property="og:url" content="{{ env('APP_URL') }}<?php echo $_SERVER['REQUEST_URI'];?>" />
 
         @if($blockNews && (trim($blockNews->meta_description) != ""))
