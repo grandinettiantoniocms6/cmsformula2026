@@ -22,6 +22,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 /**
@@ -812,6 +813,8 @@ class PluginProductImportCrudController extends CrudController
                 }
             }
 
+            $this->rememberLastImportedProductIds($importedProductIds);
+
         }
 
 
@@ -871,8 +874,20 @@ class PluginProductImportCrudController extends CrudController
 
         $executed = [];
         if ($runProductsSearch) {
-            \Artisan::call('set:products_search', ['id' => 0]);
-            $executed[] = "set:products_search";
+            $importedProductIds = $this->getLastImportedProductIds();
+            if (count($importedProductIds) > 0) {
+                \Artisan::call('set:products_search', [
+                    'id' => 0,
+                    '--ids' => implode(',', $importedProductIds),
+                ]);
+                $executed[] = "set:products_search (incrementale: " . count($importedProductIds) . " prodotti)";
+            } else {
+                \Artisan::call('set:products_search', ['id' => 0]);
+                $executed[] = "set:products_search (completo)";
+            }
+
+            // Evita riuso accidentale degli ID dell'ultimo import in esecuzioni successive.
+            $this->clearLastImportedProductIds();
         }
         if ($runProductsCategoriesSearch) {
             \Artisan::call('set:products_categories_search');
@@ -881,6 +896,52 @@ class PluginProductImportCrudController extends CrudController
 
         \Alert::success("Operazioni post-import completate: " . implode(", ", $executed))->flash();
         return redirect()->back();
+    }
+
+    private function getImportSessionCacheKey()
+    {
+        $userId = backpack_user() ? (int) backpack_user()->id : 0;
+        return "plugin_products_import_ids_user_" . $userId;
+    }
+
+    private function rememberLastImportedProductIds(array $ids)
+    {
+        $ids = array_values(array_unique(array_filter(array_map('intval', $ids), function ($id) {
+            return $id > 0;
+        })));
+
+        $cacheKey = $this->getImportSessionCacheKey();
+        if (count($ids) > 0) {
+            Cache::put($cacheKey, $ids, now()->addHours(2));
+            session()->put('plugin_products_last_import_cache_key', $cacheKey);
+            return;
+        }
+
+        session()->forget('plugin_products_last_import_cache_key');
+        Cache::forget($cacheKey);
+    }
+
+    private function getLastImportedProductIds()
+    {
+        $cacheKey = session('plugin_products_last_import_cache_key');
+        if (!$cacheKey) {
+            return [];
+        }
+
+        $ids = Cache::get($cacheKey, []);
+        return array_values(array_unique(array_filter(array_map('intval', (array) $ids), function ($id) {
+            return $id > 0;
+        })));
+    }
+
+    private function clearLastImportedProductIds()
+    {
+        $cacheKey = session('plugin_products_last_import_cache_key');
+        session()->forget('plugin_products_last_import_cache_key');
+
+        if ($cacheKey) {
+            Cache::forget($cacheKey);
+        }
     }
 
     private function escapeLikeValue($value)

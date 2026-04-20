@@ -4,13 +4,10 @@ namespace App\Console\Commands;
 
 use App\Models\PluginProducts;
 use App\Models\PluginProductsCategoriesProducts;
-use App\Models\PluginProductsImages;
 use App\Models\PluginProductsLangs;
 use App\Models\PluginProductsSearch;
-use App\Models\ShopAttributes;
 use App\Models\ShopAttributesProducts;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 
 class SetProductsSearch extends Command
 {
@@ -19,7 +16,7 @@ class SetProductsSearch extends Command
      *
      * @var string
      */
-    protected $signature = 'set:products_search {id}';
+    protected $signature = 'set:products_search {id=0} {--ids=}';
 
     /**
      * The console command description.
@@ -45,95 +42,126 @@ class SetProductsSearch extends Command
      */
     public function handle()
     {
-
-        $id = $this->argument('id');
+        $id = (int) $this->argument('id');
+        $idsFromOption = $this->parseIdsOption($this->option('ids'));
 
         $shopSetting = \App\Models\ShopSettings::first();
 
-        if($id == 0){
+        $runIncremental = count($idsFromOption) > 0;
+        if (!$runIncremental && $id == 0) {
             PluginProductsSearch::truncate();
-            $list = PluginProducts::with("tax")->selectRaw("plugins_products.*")
-                ->where("plugins_products.is_active", 1)
-                ->get();
-        }else{
+        } elseif ($runIncremental) {
+            PluginProductsSearch::whereIn("plugin_product_id", $idsFromOption)->delete();
+        } else {
             PluginProductsSearch::where("plugin_product_id", $id)->delete();
-            $list = PluginProducts::with("tax")->selectRaw("plugins_products.*")
-                ->where("plugins_products.is_active", 1)
-                ->where("id", $id)
-                ->get();
-       }
+        }
 
-       if($list){
-           foreach ($list as $item){
-               $brands = [];
-               $tags = [];
-               $attributes = [];
-               $options = [];
+        $query = PluginProducts::with("tax")->selectRaw("plugins_products.*")
+            ->where("plugins_products.is_active", 1);
 
-                $categories = PluginProductsCategoriesProducts::where("plugin_product_product_id", $item->id)
-                    ->pluck("plugin_product_category_id", "plugin_product_category_id")
-                    ->toArray();
+        if ($runIncremental) {
+            $query->whereIn("id", $idsFromOption);
+        } elseif ($id > 0) {
+            $query->where("id", $id);
+        }
 
-                $langs = PluginProductsLangs::where("product_id", $item->id)
-                   ->where("is_active", 1)
-                   ->pluck("lang", "lang")
-                   ->toArray();
+        $processed = 0;
+        $query->orderBy("id")->chunkById(200, function ($list) use ($shopSetting, &$processed) {
+            if (!$list || $list->isEmpty()) {
+                return;
+            }
 
-               $brands[] = $item->brand_id;
-               $tags[] = $item->tags;
+            $productIds = $list->pluck("id")->all();
 
-               $attributes_shop = ShopAttributesProducts::where("product_id", "=", $item->id)
-                   ->get();
+            $categoriesMap = PluginProductsCategoriesProducts::whereIn("plugin_product_product_id", $productIds)
+                ->get(["plugin_product_product_id", "plugin_product_category_id"])
+                ->groupBy("plugin_product_product_id");
 
-               if($attributes_shop){
-                   foreach ($attributes_shop as $attr){
-                       if(key_exists($attr->attribute_id, $attributes)){
-                           $attributes[$attr->attribute_id][] = $attr->option_id;
-                       }else{
-                           $attributes[$attr->attribute_id] = [];
-                           $attributes[$attr->attribute_id][] = $attr->option_id;
-                       }
+            $langsMap = PluginProductsLangs::whereIn("product_id", $productIds)
+                ->where("is_active", 1)
+                ->get(["product_id", "lang"])
+                ->groupBy("product_id");
 
-                       $options[$attr->option_id] = $attr->option_id;
-                   }
-               }
+            $attributesMap = ShopAttributesProducts::whereIn("product_id", $productIds)
+                ->get(["product_id", "attribute_id", "option_id"])
+                ->groupBy("product_id");
 
-               /*if(env('VIEW_WITH_IVA') == 1){
-                   $vat = $item->tax ? $item->tax->value : 22;
-                   $vat_calculate = ($vat / 100) + 1;
-                   $promo_price = $item->price * $vat_calculate;
-               }else{
-                   $promo_price = $item->price;
-               }*/
+            $rowsToInsert = [];
+            foreach ($list as $item) {
+                $brands = [$item->brand_id];
+                $tags = [$item->tags];
+                $attributes = [];
+                $options = [];
 
-               $promo_price = $item->getFinalPrice();
+                $categoriesRows = $categoriesMap->get($item->id, collect());
+                $categories = $categoriesRows->pluck("plugin_product_category_id", "plugin_product_category_id")->toArray();
 
-               $vet_ids = null;
-               if($item->is_variant == 0){
-                   $vet_ids = $item->get_vet_ids_search($shopSetting);
-                   $encode = json_encode($vet_ids);
-                   $this->info("json $encode");
-               }
+                $langRows = $langsMap->get($item->id, collect());
+                $langs = $langRows->pluck("lang", "lang")->toArray();
 
-               PluginProductsSearch::create([
-                   "plugin_product_id" => $item->id,
-                   "categories" => ','.implode(",", $categories).',',
-                   "langs" => ','.implode(",", $langs).',',
-                   "brands" => ','.implode(",", $brands).',',
-                   "tags" => ','.implode(",", $tags).',',
-                   "attributes" => count($attributes) ? json_encode($attributes) : null,
-                   "options" => ','.implode(",", $options).',',
-                   "price" => $promo_price,
-                   "group_id" => $item->group_id,
-                   "is_variant" => $item->is_variant,
-                   "is_active" => $item->is_active,
-                   "vet_ids_list" => json_encode($vet_ids)
+                $attributesShop = $attributesMap->get($item->id, collect());
+                foreach ($attributesShop as $attr) {
+                    if (array_key_exists($attr->attribute_id, $attributes)) {
+                        $attributes[$attr->attribute_id][] = $attr->option_id;
+                    } else {
+                        $attributes[$attr->attribute_id] = [];
+                        $attributes[$attr->attribute_id][] = $attr->option_id;
+                    }
 
-               ]);
+                    $options[$attr->option_id] = $attr->option_id;
+                }
 
-               $this->info("product $item->id");
+                $promo_price = $item->getFinalPrice();
 
-           }
-       }
+                $vet_ids = null;
+                if ($item->is_variant == 0) {
+                    $vet_ids = $item->get_vet_ids_search($shopSetting);
+                }
+
+                $rowsToInsert[] = [
+                    "plugin_product_id" => $item->id,
+                    "categories" => "," . implode(",", $categories) . ",",
+                    "langs" => "," . implode(",", $langs) . ",",
+                    "brands" => "," . implode(",", $brands) . ",",
+                    "tags" => "," . implode(",", $tags) . ",",
+                    "attributes" => count($attributes) ? json_encode($attributes) : null,
+                    "options" => "," . implode(",", $options) . ",",
+                    "price" => $promo_price,
+                    "group_id" => $item->group_id,
+                    "is_variant" => $item->is_variant,
+                    "is_active" => $item->is_active,
+                    "vet_ids_list" => json_encode($vet_ids),
+                    "created_at" => now(),
+                    "updated_at" => now(),
+                ];
+            }
+
+            if ($rowsToInsert) {
+                PluginProductsSearch::insert($rowsToInsert);
+                $processed += count($rowsToInsert);
+                $this->info("Indicizzazione prodotti: {$processed}");
+            }
+        });
+
+        $this->info("Indicizzazione completata. Totale prodotti elaborati: {$processed}");
+        return 0;
+    }
+
+    private function parseIdsOption($idsOption)
+    {
+        if (!$idsOption) {
+            return [];
+        }
+
+        $parts = explode(",", (string) $idsOption);
+        $ids = [];
+        foreach ($parts as $part) {
+            $id = (int) trim($part);
+            if ($id > 0) {
+                $ids[$id] = $id;
+            }
+        }
+
+        return array_values($ids);
     }
 }
