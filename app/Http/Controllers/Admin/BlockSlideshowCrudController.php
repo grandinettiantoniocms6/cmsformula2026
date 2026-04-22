@@ -148,6 +148,34 @@ class BlockSlideshowCrudController extends CrudController
 
                     } // fine perso input Crafto
 
+                    // CAMPI VISUALIZZATI SOLO CON IL TEMA BEXO//////////////////
+                    if(env('TEMA') == 'Bexo' ) {
+
+                        $this->crud->addField([   // select_from_array
+                            'name' => 'style',
+                            'label' => "Seleziona uno style di slideshow",
+                            'type' => 'select_from_array',
+                            'options' => [
+                                1 => 'Style 1: Box a sinistra con titolo, testo e pulsante + Box immagine fissa a destra',
+                                2 => 'Style 2: Slideshow scorrevole con frecce laterali, descrizione e titolo a sinistra'
+                            ],
+                            'allows_null' => false,
+                            'default' => 1,
+                            // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
+                            'wrapperAttributes' => ['class' => 'form-group col-md-6']
+                        ]);
+
+                        $this->crud->addField([   // repeatable
+                            'name'  => 'alpha',
+                            'label' => 'Filigrana (00 nulla - 10 leggera - 90 pesante - tra 20 e 80 custom)',
+                            'type'  => 'number',
+                            'wrapperAttributes' => [
+                                'class' => 'form-group col-md-6'
+                            ],
+                        ]);
+
+                    } // fine perso input Crafto
+
 
 
                     // CAMPI VISUALIZZATI SOLO CON IL TEMA CORPORATE1 //////////////////
@@ -172,19 +200,7 @@ class BlockSlideshowCrudController extends CrudController
 ////////// SETTAGGI VISIBILE SU TUTTI I TEMPLATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
-            $this->crud->addField([   // select_from_array
-                'name' => 'style',
-                'label' => "Seleziona uno style di slideshow",
-                'type' => 'select_from_array',
-                'options' => [
-                    1 => 'Style 1: Immagini che scorrono con freccie laterali',
 
-                ],
-                'allows_null' => false,
-                'default' => 1,
-                // 'allows_multiple' => true, // OPTIONAL; needs you to cast this to array in your model;
-                'wrapperAttributes' => ['class' => 'form-group col-md-6']
-            ]);
 
             $this->crud->addField([   // repeatable
                 'name'  => 'slide_height',

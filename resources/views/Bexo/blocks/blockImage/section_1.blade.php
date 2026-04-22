@@ -9,7 +9,8 @@
                             {{ $page->title_page }}
                         </h1>
                     @endif
-                    @if($page->subtitle_page)
+
+                    @if(filled($page->subtitle_page))
                         <div class="tj-page-link">
                             <span style="color: {{ $page->color_subtitle_page }};">
                                 {{ $page->subtitle_page }}

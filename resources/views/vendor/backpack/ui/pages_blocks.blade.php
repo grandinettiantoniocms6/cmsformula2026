@@ -951,7 +951,7 @@
         function deleteBlock(url) {
             swal({
                 title: "Sicuro di voler cancellare il blocco?",
-                text: "Una volta eseguita, l'operazione non Ã© piÃ¹ reversibile",
+                text: "Una volta eseguita, l'operazione non è più reversibile",
                 icon: "warning",
                 buttons: true,
             })
