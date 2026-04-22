@@ -71,6 +71,11 @@ Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => 
 {
     Route::get('/dashboard', ['as' => 'dashboard', 'uses'=>'DashboardController@index']);
     Route::post('/dashboard/news/mark-seen', ['as' => 'dashboard.news.mark_seen', 'uses'=>'DashboardController@mark_news_seen']);
+    Route::post('/dashboard/todos', ['as' => 'dashboard.todos.store', 'uses'=>'DashboardController@dashboard_todos_store']);
+    Route::post('/dashboard/todos/reorder', ['as' => 'dashboard.todos.reorder', 'uses'=>'DashboardController@dashboard_todos_reorder']);
+    Route::put('/dashboard/todos/{id}', ['as' => 'dashboard.todos.update', 'uses'=>'DashboardController@dashboard_todos_update']);
+    Route::post('/dashboard/todos/{id}/toggle', ['as' => 'dashboard.todos.toggle', 'uses'=>'DashboardController@dashboard_todos_toggle']);
+    Route::delete('/dashboard/todos/{id}', ['as' => 'dashboard.todos.destroy', 'uses'=>'DashboardController@dashboard_todos_destroy']);
     Route::get('/access/{id}', ['as' => 'access', 'uses'=>'DashboardController@access']);
     Route::get('/delete_image_special/{id}', ['as' => 'delete_image_special', 'uses'=>'DashboardController@delete_image_special']);
 

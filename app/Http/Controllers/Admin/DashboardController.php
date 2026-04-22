@@ -16,6 +16,7 @@ use App\Models\Client;
 use App\Models\ClientNote;
 use App\Models\Course;
 use App\Models\CourseClient;
+use App\Models\DashboardTodo;
 use App\Models\Page;
 use App\Models\PageBlock;
 use App\Models\PluginProductsLangs;
@@ -130,6 +131,164 @@ class DashboardController extends Controller
         return response()->json(['ok' => true, 'unread' => 0]);
     }
 
+    public function dashboard_todos_store(Request $request)
+    {
+        if (!backpack_auth()->check()) {
+            return response()->json(['ok' => false], 401);
+        }
+
+        if (backpack_user()->roles[0]->id >= 5) {
+            return response()->json(['ok' => false], 403);
+        }
+
+        $request->validate([
+            'title' => 'required|string|max:60000',
+        ]);
+
+        $nextSortOrder = (int) DashboardTodo::where('user_id', backpack_user()->id)->max('sort_order') + 1;
+
+        $sanitizedTitle = $this->sanitize_dashboard_todo_html((string) $request->get('title'));
+        if ($sanitizedTitle === '') {
+            return response()->json(['ok' => false, 'message' => 'Titolo non valido'], 422);
+        }
+
+        $todo = DashboardTodo::create([
+            'user_id' => backpack_user()->id,
+            'title' => $sanitizedTitle,
+            'is_done' => 0,
+            'sort_order' => $nextSortOrder,
+        ]);
+
+        return response()->json([
+            'ok' => true,
+            'todo' => $todo,
+        ]);
+    }
+
+    public function dashboard_todos_update($id, Request $request)
+    {
+        if (!backpack_auth()->check()) {
+            return response()->json(['ok' => false], 401);
+        }
+
+        if (backpack_user()->roles[0]->id >= 5) {
+            return response()->json(['ok' => false], 403);
+        }
+
+        $request->validate([
+            'title' => 'required|string|max:60000',
+        ]);
+
+        $todo = DashboardTodo::where('id', $id)
+            ->where('user_id', backpack_user()->id)
+            ->first();
+
+        if (!$todo) {
+            return response()->json(['ok' => false], 404);
+        }
+
+        $sanitizedTitle = $this->sanitize_dashboard_todo_html((string) $request->get('title'));
+        if ($sanitizedTitle === '') {
+            return response()->json(['ok' => false, 'message' => 'Titolo non valido'], 422);
+        }
+
+        $todo->title = $sanitizedTitle;
+        $todo->save();
+
+        return response()->json([
+            'ok' => true,
+            'todo' => $todo,
+        ]);
+    }
+
+    public function dashboard_todos_reorder(Request $request)
+    {
+        if (!backpack_auth()->check()) {
+            return response()->json(['ok' => false], 401);
+        }
+
+        if (backpack_user()->roles[0]->id >= 5) {
+            return response()->json(['ok' => false], 403);
+        }
+
+        $request->validate([
+            'ids' => 'required|array|min:1',
+            'ids.*' => 'integer',
+        ]);
+
+        $ids = array_values(array_unique(array_map('intval', (array) $request->get('ids'))));
+        $validIds = DashboardTodo::where('user_id', backpack_user()->id)
+            ->whereIn('id', $ids)
+            ->pluck('id')
+            ->toArray();
+
+        if (count($ids) !== count($validIds)) {
+            return response()->json(['ok' => false], 422);
+        }
+
+        foreach ($ids as $index => $todoId) {
+            DashboardTodo::where('id', $todoId)
+                ->where('user_id', backpack_user()->id)
+                ->update(['sort_order' => $index + 1]);
+        }
+
+        return response()->json(['ok' => true]);
+    }
+
+    public function dashboard_todos_toggle($id, Request $request)
+    {
+        if (!backpack_auth()->check()) {
+            return response()->json(['ok' => false], 401);
+        }
+
+        if (backpack_user()->roles[0]->id >= 5) {
+            return response()->json(['ok' => false], 403);
+        }
+
+        $todo = DashboardTodo::where('id', $id)
+            ->where('user_id', backpack_user()->id)
+            ->first();
+
+        if (!$todo) {
+            return response()->json(['ok' => false], 404);
+        }
+
+        $isDone = $request->has('is_done')
+            ? (int) $request->boolean('is_done')
+            : (int) !$todo->is_done;
+
+        $todo->is_done = $isDone;
+        $todo->save();
+
+        return response()->json([
+            'ok' => true,
+            'todo' => $todo,
+        ]);
+    }
+
+    public function dashboard_todos_destroy($id)
+    {
+        if (!backpack_auth()->check()) {
+            return response()->json(['ok' => false], 401);
+        }
+
+        if (backpack_user()->roles[0]->id >= 5) {
+            return response()->json(['ok' => false], 403);
+        }
+
+        $todo = DashboardTodo::where('id', $id)
+            ->where('user_id', backpack_user()->id)
+            ->first();
+
+        if (!$todo) {
+            return response()->json(['ok' => false], 404);
+        }
+
+        $todo->delete();
+
+        return response()->json(['ok' => true]);
+    }
+
     private function canQueryAdminNewsConnection(): bool
     {
         if (!app()->environment('local')) {
@@ -166,6 +325,42 @@ class DashboardController extends Controller
         \Cache::put($cacheKey, $isReachable, now()->addSeconds($isReachable ? 60 : 180));
 
         return $isReachable;
+    }
+
+    private function sanitize_dashboard_todo_html(string $value): string
+    {
+        $html = str_replace(["\r\n", "\r"], "\n", $value);
+        $html = preg_replace('#<(script|style)[^>]*>.*?</\1>#is', '', $html);
+        $html = str_ireplace(['<br/>', '<br />'], '<br>', $html);
+        $html = strip_tags($html, '<p><br><strong><b><em><i><u><ul><ol><li><a><blockquote>');
+
+        $html = preg_replace('/\s+on\w+\s*=\s*(".*?"|\'.*?\'|[^\s>]+)/iu', '', $html);
+
+        $html = preg_replace_callback('/<a\b[^>]*>/iu', function ($matches) {
+            $tag = $matches[0];
+            $href = '';
+            if (preg_match('/href\s*=\s*("|\')(.*?)\1/iu', $tag, $hrefMatch)) {
+                $href = trim((string) $hrefMatch[2]);
+            }
+
+            if ($href === '' || !preg_match('/^(https?:\/\/|mailto:|tel:|#|\/)/iu', $href)) {
+                return '<a>';
+            }
+
+            $safeHref = e($href);
+            return '<a href="' . $safeHref . '" target="_blank" rel="noopener noreferrer">';
+        }, $html);
+
+        $html = preg_replace('/<(p|br|strong|b|em|i|u|ul|ol|li|blockquote)\b[^>]*>/iu', '<$1>', $html);
+        $html = preg_replace('/\s{2,}/u', ' ', $html);
+        $html = trim((string) $html);
+
+        $plainText = trim(preg_replace('/\s+/u', ' ', strip_tags($html)));
+        if ($plainText === '') {
+            return '';
+        }
+
+        return $html;
     }
 
     public function pages_blocks(Page $page){

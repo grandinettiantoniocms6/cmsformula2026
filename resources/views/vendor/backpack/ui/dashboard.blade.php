@@ -7,6 +7,10 @@
     $shopSetting = \App\Models\ShopSettings::first();
     $websiteSetting = \App\Models\WebsiteSetting::first();
     $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+    $dashboardTodos = \App\Models\DashboardTodo::where('user_id', backpack_user()->id)
+        ->orderBy('sort_order', 'asc')
+        ->orderBy('id', 'asc')
+        ->get();
     $dashboardGif = url("img/dashboard.gif");
     if($websiteSetting && $websiteSetting->dashboard_gif){
         if(\Illuminate\Support\Str::startsWith($websiteSetting->dashboard_gif, ["http://", "https://"])){
@@ -60,6 +64,11 @@
                         </div>
                     </div>
 
+                    <div class="dashboard-digital-clock mb-3">
+                        <div class="dashboard-digital-clock-label">Ora locale</div>
+                        <div class="dashboard-digital-clock-time" id="dashboardDigitalClock">--:--:--</div>
+                    </div>
+
                     @if(env('NASCONDI_FRONTEND') == 0)
                         <?php
                         $page_count = \App\Models\Page::count();
@@ -103,51 +112,128 @@
     </div>
 
     <div class="row gutter-3">
+        <div class="col-xl-6 mb-3">
+            <div class="row gutter-3">
+                @if(env('NASCONDI_FRONTEND') == 0)
+                    <div class="col-6 col-md-4 mb-3">
+                        <a class="card card-link card-link-modern p-2" href="/admin/page/create">
+                            <i class="hgi hgi-stroke hgi-add-circle"></i>
+                            <h6>Nuova pagina</h6>
+                        </a>
+                    </div>
 
-        @if(env('NASCONDI_FRONTEND') == 0)
-            <div class="col-6 col-sm-4 col-xl-2 mb-3">
-                <a class="card card-link card-link-modern p-2" href="/admin/page/create">
-                    <i class="hgi hgi-stroke hgi-add-circle"></i>
-                    <h6>Nuova pagina</h6>
-                </a>
-            </div><!-- /.col-->
+                    <div class="col-6 col-md-4 mb-3">
+                        <a class="card card-link card-link-modern p-2" href="/admin/page">
+                            <i class="hgi hgi-stroke hgi-file-01"></i>
+                            <h6>Elenco Pagine</h6>
+                        </a>
+                    </div>
 
-            <div class="col-6 col-sm-4 col-xl-2 mb-3">
-                <a class="card card-link card-link-modern p-2" href="/admin/page">
-                    <i class="hgi hgi-stroke hgi-file-01"></i>
-                    <h6>Elenco Pagine</h6>
-                </a>
-            </div><!-- /.col-->
+                    <div class="col-6 col-md-4 mb-3">
+                        <a class="card card-link card-link-modern p-2" href="/admin/elfinder">
+                            <i class="nav-icon hgi hgi-stroke hgi-image-add-02"></i>
+                            <h6>File Manager</h6>
+                        </a>
+                    </div>
+                @endif
 
-            <div class="col-6 col-sm-4 col-xl-2 mb-3">
-                <a class="card card-link card-link-modern p-2" href="/admin/elfinder">
-                    <i class="nav-icon hgi hgi-stroke hgi-image-add-02"></i>
-                    <h6>File Manager</h6>
-                </a>
-            </div><!-- /.col-->
-        @endif
+                <div class="col-6 col-md-4 mb-3">
+                    <a class="card card-link card-link-modern p-2" href="/admin/websiteSetting/1/edit">
+                        <i class="hgi hgi-stroke hgi-settings-05"></i>
+                        <h6>Impostazioni</h6>
+                    </a>
+                </div>
 
-        <div class="col-6 col-sm-4 col-xl-2 mb-3">
-            <a class="card card-link card-link-modern p-2" href="/admin/websiteSetting/1/edit">
-                <i class="hgi hgi-stroke hgi-settings-05"></i>
-                <h6>Impostazioni</h6>
-            </a>
-        </div><!-- /.col-->
+                <div class="col-6 col-md-4 mb-3">
+                    <a class="card card-link card-link-modern p-2" href="/admin/pluginTutorial/view">
+                        <i class="hgi hgi-stroke hgi-youtube"></i>
+                        <h6>Tutorial</h6>
+                    </a>
+                </div>
 
-        <div class="col-6 col-sm-4 col-xl-2 mb-3">
-            <a class="card card-link card-link-modern p-2" href="/admin/pluginTutorial/view">
-                <i class="hgi hgi-stroke hgi-youtube"></i>
-                <h6>Tutorial</h6>
-            </a>
-        </div><!-- /.col-->
+                <div class="col-6 col-md-4 mb-3">
+                    <a class="card card-link card-link-modern p-2" href="https://www.webisland.it/contatti" target="_blank">
+                        <i class="hgi hgi-stroke hgi-file-01"></i>
+                        <h6>Richiedi Assistenza</h6>
+                    </a>
+                </div>
+            </div>
+        </div>
 
-        <div class="col-6 col-sm-4 col-xl-2 mb-3">
-            <a class="card card-link card-link-modern p-2" href="https://www.webisland.it/contatti" target="_blank">
-                <i class="hgi hgi-stroke hgi-file-01"></i>
-                <h6>Richiedi Assistenza</h6>
-            </a>
-        </div><!-- /.col-->
+        <div class="col-xl-6 mb-3">
+            <div class="card card-dashboard h-100">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="line-height-xs my-0">Note</h5>
+                    <small class="text-muted">Appunti amministratore</small>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="dashboardTodoInput" maxlength="255" placeholder="Scrivi una nota e premi Invio">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" id="dashboardTodoAdd">Salva</button>
+                        </div>
+                    </div>
 
+                    <ul class="dashboard-todo-list mb-0" id="dashboardTodoList">
+                        @foreach($dashboardTodos as $todo)
+                            <li class="dashboard-todo-item {{ $todo->is_done ? 'is-done' : '' }}" data-id="{{ $todo->id }}" data-full-title="{{ e($todo->title) }}" draggable="true">
+                                <div class="dashboard-todo-date">{{ optional($todo->created_at)->format('d/m/Y') }}</div>
+                                <div class="dashboard-todo-title">{{ \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags((string) $todo->title))), 100, '...') }}</div>
+                                <div class="dashboard-todo-actions">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-action="toggle">{{ $todo->is_done ? 'Riapri' : 'Fatto' }}</button>
+                                    <button type="button" class="btn btn-sm btn-light" data-action="edit">Modifica</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" data-action="delete">Elimina</button>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <div class="dashboard-todo-empty {{ count($dashboardTodos) ? 'd-none' : '' }}" id="dashboardTodoEmpty">
+                        Nessuna nota presente.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="dashboardTodoEditorModal" tabindex="-1" role="dialog" aria-labelledby="dashboardTodoEditorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dashboardTodoEditorModalLabel">Modifica nota</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Chiudi">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="dashboardTodoEditor"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-primary" id="dashboardTodoEditorSave">Salva modifiche</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="dashboardTodoDeleteModal" tabindex="-1" role="dialog" aria-labelledby="dashboardTodoDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dashboardTodoDeleteModalLabel">Conferma eliminazione</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Chiudi">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Vuoi eliminare questa nota?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-danger" id="dashboardTodoDeleteConfirm">Elimina nota</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     @if($adminPlugin)
@@ -1025,7 +1111,86 @@
 @section('after_styles')
     <link rel="stylesheet" href="{{ asset('packages/select2/dist/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('packages/select2-bootstrap-theme/dist/select2-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('packages/summernote/dist/summernote-bs4.css') }}">
     <link href="{{ url('/css/dashboard.css') }}" rel="stylesheet">
+    <style>
+        .dashboard-digital-clock {
+            border: 1px solid #dbe7f6;
+            border-radius: 12px;
+            background: #f8fbff;
+            padding: .65rem .8rem;
+        }
+
+        .dashboard-digital-clock-label {
+            color: #4a5f84;
+            font-size: .72rem;
+            letter-spacing: .04em;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: .2rem;
+        }
+
+        .dashboard-digital-clock-time {
+            color: #0f2f61;
+            font-size: 1.55rem;
+            font-weight: 700;
+            line-height: 1.1;
+            font-variant-numeric: tabular-nums;
+            font-family: "Consolas", "Menlo", "Monaco", monospace;
+        }
+
+        .dashboard-todo-list {
+            list-style: none;
+            padding: 0;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .dashboard-todo-item {
+            border: 1px solid #dbe7f6;
+            border-radius: 10px;
+            padding: .6rem .7rem;
+            background: #f8fbff;
+            margin-bottom: .55rem;
+            cursor: move;
+        }
+
+        .dashboard-todo-item.is-done .dashboard-todo-title {
+            text-decoration: line-through;
+            opacity: .7;
+        }
+
+        .dashboard-todo-item.is-dragging {
+            opacity: .55;
+            background: #edf4ff;
+        }
+
+        .dashboard-todo-title {
+            font-weight: 600;
+            color: #0f2f61;
+            word-break: break-word;
+            margin-bottom: .45rem;
+            white-space: normal;
+        }
+
+        .dashboard-todo-date {
+            color: #64748b;
+            font-size: .76rem;
+            font-weight: 600;
+            margin-bottom: .25rem;
+        }
+
+        .dashboard-todo-actions {
+            display: flex;
+            gap: .35rem;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-todo-empty {
+            color: #64748b;
+            font-size: .9rem;
+        }
+    </style>
     @if($isModernAdminTemplate)
     <style>
         .dashboard-subtitle {
@@ -1273,10 +1438,385 @@
 @section('after_scripts')
     <script src="{{ asset('packages/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('packages/select2/dist/js/i18n/it.js') }}"></script>
+    <script src="{{ asset('packages/summernote/dist/summernote-bs4.min.js') }}"></script>
+    <script src="{{ asset('packages/summernote/dist/lang/summernote-it-IT.min.js') }}"></script>
 
     <script src="{{ asset('packages/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('js/dashboard.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dashboardDigitalClock = document.getElementById('dashboardDigitalClock');
+            if (dashboardDigitalClock) {
+                const updateDigitalClock = function() {
+                    const now = new Date();
+                    dashboardDigitalClock.textContent = now.toLocaleTimeString('it-IT', {hour: '2-digit', minute: '2-digit', hour12: false});
+                };
+
+                updateDigitalClock();
+                setInterval(updateDigitalClock, 1000);
+            }
+
+            const todoInput = document.getElementById('dashboardTodoInput');
+            const todoAddButton = document.getElementById('dashboardTodoAdd');
+            const todoList = document.getElementById('dashboardTodoList');
+            const todoEmpty = document.getElementById('dashboardTodoEmpty');
+            const todoEditorSaveButton = document.getElementById('dashboardTodoEditorSave');
+            const todoDeleteConfirmButton = document.getElementById('dashboardTodoDeleteConfirm');
+            if (!todoInput || !todoAddButton || !todoList || !todoEmpty) {
+                return;
+            }
+
+            const todoBaseUrl = @json(backpack_url('dashboard/todos'));
+            const csrfToken = '{{ csrf_token() }}';
+            let todoEditingItem = null;
+            let todoDeletingItem = null;
+            let draggingTodoItem = null;
+
+            $('#dashboardTodoEditor').summernote({
+                lang: 'it-IT',
+                height: 180,
+                toolbar: [
+                    ['history', ['undo', 'redo']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['view', ['codeview']]
+                ],
+                callbacks: {
+                    onPaste: function(event) {
+                        event.preventDefault();
+                        const clipboardData = (event.originalEvent || event).clipboardData;
+                        const plainText = clipboardData ? (clipboardData.getData('text/plain') || '') : '';
+                        document.execCommand('insertText', false, plainText);
+                    }
+                }
+            });
+
+            const setTodoEmptyState = function() {
+                todoEmpty.classList.toggle('d-none', todoList.children.length > 0);
+            };
+
+            const getPlainTextFromHtml = function(html) {
+                const htmlWithBreaks = (html || '')
+                    .replace(/<br\s*\/?>/gi, '\n')
+                    .replace(/<\/(p|div|li|h1|h2|h3|h4|h5|h6)>/gi, '\n')
+                    .replace(/<li[^>]*>/gi, '- ');
+
+                const tmp = document.createElement('div');
+                tmp.innerHTML = htmlWithBreaks;
+
+                let text = (tmp.textContent || tmp.innerText || '');
+                text = text.replace(/\u00a0/g, ' ');
+                text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+                text = text.replace(/[ \t]+\n/g, '\n').replace(/\n[ \t]+/g, '\n');
+                text = text.replace(/\n{3,}/g, '\n\n');
+                return text.trim();
+            };
+
+            const normalizeSpaces = function(text) {
+                return (text || '').replace(/\s+/g, ' ').trim();
+            };
+
+            const getTodoPreview = function(html) {
+                const plain = normalizeSpaces(getPlainTextFromHtml(html));
+                if (plain.length <= 100) {
+                    return plain;
+                }
+                return plain.substring(0, 100) + '...';
+            };
+
+            const setTodoDisplay = function(item, html) {
+                const safeHtml = (html || '').trim();
+                item.dataset.fullTitle = safeHtml;
+                const title = item.querySelector('.dashboard-todo-title');
+                if (title) {
+                    title.textContent = getTodoPreview(safeHtml);
+                }
+            };
+
+            const createTodoElement = function(todo) {
+                const item = document.createElement('li');
+                item.className = 'dashboard-todo-item' + (todo.is_done ? ' is-done' : '');
+                item.dataset.id = String(todo.id);
+                item.draggable = true;
+
+                const createdAt = document.createElement('div');
+                createdAt.className = 'dashboard-todo-date';
+                createdAt.textContent = formatTodoDate(todo.created_at);
+
+                const title = document.createElement('div');
+                title.className = 'dashboard-todo-title';
+                title.textContent = getTodoPreview(todo.title);
+
+                const actions = document.createElement('div');
+                actions.className = 'dashboard-todo-actions';
+
+                const toggleBtn = document.createElement('button');
+                toggleBtn.type = 'button';
+                toggleBtn.className = 'btn btn-sm btn-outline-secondary';
+                toggleBtn.dataset.action = 'toggle';
+                toggleBtn.textContent = todo.is_done ? 'Riapri' : 'Fatto';
+
+                const editBtn = document.createElement('button');
+                editBtn.type = 'button';
+                editBtn.className = 'btn btn-sm btn-light';
+                editBtn.dataset.action = 'edit';
+                editBtn.textContent = 'Modifica';
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.type = 'button';
+                deleteBtn.className = 'btn btn-sm btn-outline-danger';
+                deleteBtn.dataset.action = 'delete';
+                deleteBtn.textContent = 'Elimina';
+
+                actions.appendChild(toggleBtn);
+                actions.appendChild(editBtn);
+                actions.appendChild(deleteBtn);
+                item.appendChild(createdAt);
+                item.appendChild(title);
+                item.appendChild(actions);
+                item.dataset.fullTitle = todo.title || '';
+
+                return item;
+            };
+
+            const applyTodoOnElement = function(item, todo) {
+                item.classList.toggle('is-done', !!todo.is_done);
+                const toggleBtn = item.querySelector('[data-action="toggle"]');
+                setTodoDisplay(item, todo.title);
+                if (toggleBtn) {
+                    toggleBtn.textContent = todo.is_done ? 'Riapri' : 'Fatto';
+                }
+            };
+
+            const todoRequest = async function(url, method, payload) {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                    }
+                };
+
+                if (payload) {
+                    options.headers['Content-Type'] = 'application/json';
+                    options.body = JSON.stringify(payload);
+                }
+
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    throw new Error('Request failed');
+                }
+
+                return response.json();
+            };
+
+            const formatTodoDate = function(value) {
+                if (!value) {
+                    return '';
+                }
+                const date = new Date(value);
+                if (Number.isNaN(date.getTime())) {
+                    return '';
+                }
+                return date.toLocaleDateString('it-IT');
+            };
+
+            const addTodo = async function() {
+                const title = todoInput.value.trim();
+                if (!title) {
+                    return;
+                }
+
+                todoAddButton.disabled = true;
+                try {
+                    const result = await todoRequest(todoBaseUrl, 'POST', { title: title });
+                    if (result && result.todo) {
+                        const item = createTodoElement(result.todo);
+                        todoList.append(item);
+                        todoInput.value = '';
+                        setTodoEmptyState();
+                    }
+                } catch (error) {
+                    alert('Errore nel salvataggio della nota.');
+                } finally {
+                    todoAddButton.disabled = false;
+                    todoInput.focus();
+                }
+            };
+
+            const persistTodoOrder = async function() {
+                const ids = Array.from(todoList.querySelectorAll('.dashboard-todo-item'))
+                    .map((el) => parseInt(el.dataset.id, 10))
+                    .filter((id) => Number.isInteger(id));
+
+                if (!ids.length) {
+                    return;
+                }
+
+                try {
+                    await todoRequest(todoBaseUrl + '/reorder', 'POST', { ids: ids });
+                } catch (error) {
+                    alert('Errore durante il salvataggio dell\'ordine note.');
+                }
+            };
+
+            todoList.addEventListener('dragstart', function(event) {
+                const item = event.target.closest('.dashboard-todo-item');
+                if (!item) {
+                    return;
+                }
+                draggingTodoItem = item;
+                item.classList.add('is-dragging');
+                if (event.dataTransfer) {
+                    event.dataTransfer.effectAllowed = 'move';
+                    event.dataTransfer.setData('text/plain', item.dataset.id || '');
+                }
+            });
+
+            todoList.addEventListener('dragover', function(event) {
+                event.preventDefault();
+                if (!draggingTodoItem) {
+                    return;
+                }
+
+                const target = event.target.closest('.dashboard-todo-item');
+                if (!target || target === draggingTodoItem) {
+                    return;
+                }
+
+                const rect = target.getBoundingClientRect();
+                const shouldInsertBefore = event.clientY < rect.top + (rect.height / 2);
+                if (shouldInsertBefore) {
+                    todoList.insertBefore(draggingTodoItem, target);
+                } else {
+                    todoList.insertBefore(draggingTodoItem, target.nextSibling);
+                }
+            });
+
+            todoList.addEventListener('dragend', function() {
+                if (!draggingTodoItem) {
+                    return;
+                }
+                draggingTodoItem.classList.remove('is-dragging');
+                draggingTodoItem = null;
+                persistTodoOrder();
+            });
+
+            todoAddButton.addEventListener('click', addTodo);
+            todoInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    addTodo();
+                }
+            });
+
+            todoList.addEventListener('click', async function(event) {
+                const button = event.target.closest('button[data-action]');
+                if (!button) {
+                    return;
+                }
+
+                const item = button.closest('.dashboard-todo-item');
+                if (!item) {
+                    return;
+                }
+
+                const todoId = item.dataset.id;
+                const action = button.dataset.action;
+
+                if (action === 'edit') {
+                    todoEditingItem = item;
+                    const currentTitleHtml = item.dataset.fullTitle || '';
+                    const hasHtmlTag = /<\/?[a-z][\s\S]*>/i.test(currentTitleHtml);
+                    const editorContent = hasHtmlTag
+                        ? currentTitleHtml
+                        : $('<div/>').text(currentTitleHtml).html().replace(/\n/g, '<br>');
+                    $('#dashboardTodoEditor').summernote('code', editorContent);
+                    $('#dashboardTodoEditorModal').modal('show');
+                    return;
+                }
+
+                if (action === 'toggle') {
+                    try {
+                        const result = await todoRequest(todoBaseUrl + '/' + todoId + '/toggle', 'POST');
+                        if (result && result.todo) {
+                            applyTodoOnElement(item, result.todo);
+                        }
+                    } catch (error) {
+                        alert('Errore durante l\'aggiornamento della nota.');
+                    }
+                    return;
+                }
+
+                if (action === 'delete') {
+                    todoDeletingItem = item;
+                    $('#dashboardTodoDeleteModal').modal('show');
+                }
+            });
+
+            if (todoEditorSaveButton) {
+                todoEditorSaveButton.addEventListener('click', async function() {
+                    if (!todoEditingItem) {
+                        return;
+                    }
+
+                    const todoId = todoEditingItem.dataset.id;
+                    const html = $('#dashboardTodoEditor').summernote('code');
+                    const plainText = getPlainTextFromHtml(html);
+                    if (!plainText) {
+                        alert('La nota non puo essere vuota.');
+                        return;
+                    }
+
+                    todoEditorSaveButton.disabled = true;
+                    try {
+                        const result = await todoRequest(todoBaseUrl + '/' + todoId, 'PUT', { title: html });
+                        if (result && result.todo) {
+                            applyTodoOnElement(todoEditingItem, result.todo);
+                        }
+                        $('#dashboardTodoEditorModal').modal('hide');
+                    } catch (error) {
+                        alert('Errore durante la modifica della nota.');
+                    } finally {
+                        todoEditorSaveButton.disabled = false;
+                    }
+                });
+            }
+
+            $('#dashboardTodoEditorModal').on('hidden.bs.modal', function() {
+                todoEditingItem = null;
+                $('#dashboardTodoEditor').summernote('code', '');
+            });
+
+            if (todoDeleteConfirmButton) {
+                todoDeleteConfirmButton.addEventListener('click', async function() {
+                    if (!todoDeletingItem) {
+                        return;
+                    }
+
+                    const todoId = todoDeletingItem.dataset.id;
+                    todoDeleteConfirmButton.disabled = true;
+                    try {
+                        await todoRequest(todoBaseUrl + '/' + todoId, 'DELETE');
+                        todoDeletingItem.remove();
+                        setTodoEmptyState();
+                        $('#dashboardTodoDeleteModal').modal('hide');
+                    } catch (error) {
+                        alert('Errore durante l\'eliminazione della nota.');
+                    } finally {
+                        todoDeleteConfirmButton.disabled = false;
+                    }
+                });
+            }
+
+            $('#dashboardTodoDeleteModal').on('hidden.bs.modal', function() {
+                todoDeletingItem = null;
+            });
+
+            setTodoEmptyState();
+        });
+    </script>
 @endsection
 
 @section('footer')
