@@ -8,6 +8,7 @@
   $website_setting = \App\Models\WebsiteSetting::first();
   $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
   $isModernAdminTemplate02 = \App\Models\WebsiteSetting::isAdminModern02Template();
+  $isFutureAdminTemplate = \App\Models\WebsiteSetting::isAdminFutureTemplate();
 
   $normalizeHex = static function (?string $color, string $fallback = '#1b2a4e'): string {
       $value = trim((string) $color);
@@ -165,13 +166,135 @@
   </style>
   @endif
 
-  <a class="navbar-brand" href="{{ url(backpack_theme_config('home_link')) }}" title="{{ backpack_theme_config('project_name') }}">
-    @if($adminLogoPath !== '')
-      <img src="{{ asset($adminLogoPath) }}" height="55">
-    @else
-      <img src="{{ asset($defaultAdminLogoPath) }}" height="55" alt="Logo admin">
-    @endif
-  </a>
+  @if($isFutureAdminTemplate)
+  <style>
+    :root {
+      --admin-topbar-bg: {{ $topbarBase }};
+      --admin-topbar-bg-light: {{ $topbarShade }};
+      --admin-leftbar-bg: {{ $leftbarBase }};
+      --admin-leftbar-bg-light: {{ $leftbarShade }};
+    }
+
+    .app-header .navbar-brand {
+      width: var(--future-sidebar-width, 175px);
+      min-width: var(--future-sidebar-width, 175px);
+      max-width: var(--future-sidebar-width, 175px);
+      justify-content: center;
+      background: linear-gradient(160deg, #182654 0%, #101a3d 100%);
+      border-right: 1px solid rgba(255, 255, 255, .08);
+      border-bottom: 0 !important;
+      box-shadow: none !important;
+      outline: 0 !important;
+      overflow: hidden;
+      transition: width .2s ease, min-width .2s ease, max-width .2s ease, opacity .15s ease;
+    }
+
+    .app-header .navbar-brand img {
+      max-height: 44px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    @media (min-width: 992px) {
+      body.admin-future-template .app-header .navbar-brand {
+        width: 0;
+        min-width: 0;
+        max-width: 0;
+        padding: 0;
+        margin: 0;
+        border-right: 0;
+        opacity: 0;
+      }
+
+      body.admin-future-template.sidebar-lg-show .app-header .navbar-brand {
+        width: var(--future-sidebar-width, 175px);
+        min-width: var(--future-sidebar-width, 175px);
+        max-width: var(--future-sidebar-width, 175px);
+        opacity: 1;
+        border-right: 1px solid rgba(255, 255, 255, .08);
+      }
+    }
+
+    body.admin-future-template.sidebar-hide .app-header .navbar-brand,
+    body.admin-future-template.sidebar-lg-hide .app-header .navbar-brand,
+    body.admin-future-template.sidebar-minimized .app-header .navbar-brand,
+    body.admin-future-template:not(.sidebar-lg-show) .app-header .navbar-brand {
+      width: 0;
+      min-width: 0;
+      max-width: 0;
+      padding: 0;
+      margin: 0;
+      border-right: 0;
+      opacity: 0;
+    }
+
+    @media (max-width: 991.98px) {
+      body.admin-future-template .app-header .navbar-brand {
+        width: 0;
+        min-width: 0;
+        max-width: 0;
+        padding: 0;
+        margin: 0;
+        border-right: 0;
+        opacity: 0;
+      }
+
+      body.admin-future-template.sidebar-show .app-header .navbar-brand {
+        width: var(--future-sidebar-width, 175px);
+        min-width: var(--future-sidebar-width, 175px);
+        max-width: var(--future-sidebar-width, 175px);
+        opacity: 1;
+      }
+    }
+
+    .app-header .modern-sidebar-toggler {
+      border: 0;
+      width: 42px;
+      height: 34px;
+      border-radius: 10px;
+      position: relative;
+      color: #2b4779 !important;
+      transition: background-color .15s ease;
+    }
+
+    .app-header .modern-sidebar-toggler i {
+      display: none;
+    }
+
+    .app-header .modern-sidebar-toggler::before,
+    .app-header .modern-sidebar-toggler::after {
+      content: '';
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      height: 2.5px;
+      border-radius: 99px;
+      background: currentColor;
+    }
+
+    .app-header .modern-sidebar-toggler::before {
+      top: 11px;
+    }
+
+    .app-header .modern-sidebar-toggler::after {
+      top: 20px;
+    }
+
+    .app-header .modern-sidebar-toggler:hover {
+      background: rgba(43, 71, 121, .08);
+    }
+  </style>
+  @endif
+
+  @unless($isFutureAdminTemplate)
+    <a class="navbar-brand" href="{{ url(backpack_theme_config('home_link')) }}" title="{{ backpack_theme_config('project_name') }}">
+      @if($adminLogoPath !== '')
+        <img src="{{ asset($adminLogoPath) }}" height="55">
+      @else
+        <img src="{{ asset($defaultAdminLogoPath) }}" height="55" alt="Logo admin">
+      @endif
+    </a>
+  @endunless
 
   <button class="navbar-toggler sidebar-toggler modern-sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show" aria-label="{{ trans('backpack::base.toggle_navigation')}}">
     <i class="la la-bars"></i>

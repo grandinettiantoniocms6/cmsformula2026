@@ -1,6 +1,3 @@
-<?php
-// restare vuoto
-
 <header class="header-with-topbar">
 @if($website->topbar_active == 1 && (env('TOPBAR')) )
 

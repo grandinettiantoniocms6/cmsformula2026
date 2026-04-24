@@ -1943,6 +1943,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                     'white' => 'White',
                     'modern_01' => 'Modern 01',
                     'modern_02' => 'Modern 02',
+                    'future' => 'Future',
                 ],
                 'allows_null' => false,
                 'default'     => 'white',

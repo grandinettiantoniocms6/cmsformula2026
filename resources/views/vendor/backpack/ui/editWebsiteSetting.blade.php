@@ -2,6 +2,8 @@
 
 @php
     $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+    $isFutureAdminTemplate = \App\Models\WebsiteSetting::isAdminFutureTemplate();
+    $isEnhancedAdminTemplate = $isModernAdminTemplate || $isFutureAdminTemplate;
 @endphp
 
 @php
@@ -53,7 +55,7 @@
 		    </div>
 		    @endif
 
-              @if($isModernAdminTemplate)
+              @if($isEnhancedAdminTemplate)
               <div class="website-setting-top-actions" id="website-setting-top-actions">
                   <div class="website-setting-top-actions__left">
                       <strong>Impostazioni sito</strong>
@@ -119,9 +121,11 @@
 
 @php
     $isModernAdminTemplate = $isModernAdminTemplate ?? \App\Models\WebsiteSetting::isAdminModernTemplate();
+    $isFutureAdminTemplate = $isFutureAdminTemplate ?? \App\Models\WebsiteSetting::isAdminFutureTemplate();
+    $isEnhancedAdminTemplate = $isEnhancedAdminTemplate ?? ($isModernAdminTemplate || $isFutureAdminTemplate);
 @endphp
 @push('after_styles')
-    @if($isModernAdminTemplate)
+    @if($isEnhancedAdminTemplate)
     <style>
         .website-setting-header-shell {
             background: linear-gradient(125deg, #ffffff 0%, #f2f6ff 100%);
@@ -349,7 +353,7 @@
 @endpush
 
 @push('after_scripts')
-    @if($isModernAdminTemplate)
+    @if($isEnhancedAdminTemplate)
     <script>
       (function () {
         var form = document.querySelector('form[action*="/websiteSetting/"]');
@@ -377,7 +381,7 @@
           if (!preview) return;
           if (!templateInput) return;
           var templateValue = String(templateInput.value || '');
-          var visible = templateValue === 'modern_01' || templateValue === 'modern_02';
+          var visible = templateValue === 'modern_01' || templateValue === 'modern_02' || templateValue === 'future';
           preview.classList.toggle('d-none', !visible);
           preview.classList.toggle('d-lg-flex', visible);
         };

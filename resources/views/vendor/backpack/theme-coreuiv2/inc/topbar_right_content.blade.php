@@ -3,6 +3,7 @@
 @php
     $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
     $isModernAdminTemplate02 = \App\Models\WebsiteSetting::isAdminModern02Template();
+    $isFutureAdminTemplate = \App\Models\WebsiteSetting::isAdminFutureTemplate();
     $adminNewsUnreadCount = 0;
     $adminNewsList = collect();
     $adminNewsMarkSeenUrl = route('dashboard.news.mark_seen');
@@ -304,6 +305,68 @@
 </style>
 @endif
 
+@if($isFutureAdminTemplate)
+<style>
+    .topbar-news-link {
+        background: #ffffff;
+        border: 1px solid #d5e2f8;
+        color: #36558d !important;
+        transition: all .2s ease;
+    }
+
+    .topbar-news-link:hover {
+        background: #f3f7ff;
+        border-color: #c2d6fb;
+        color: #2a4b83 !important;
+    }
+
+    .topbar-preview-link {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        margin-right: .45rem;
+        border-radius: 999px;
+        background: #ffffff;
+        border: 1px solid #d5e2f8;
+        color: #36558d !important;
+        transition: all .2s ease;
+    }
+
+    .topbar-preview-link:hover {
+        background: #f3f7ff;
+        border-color: #c2d6fb;
+        color: #2a4b83 !important;
+    }
+
+    .topbar-preview-link span {
+        display: none;
+    }
+
+    .topbar-help-link {
+        position: relative;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        margin-right: .45rem;
+        border-radius: 999px;
+        background: #ffffff;
+        border: 1px solid #d5e2f8;
+        color: #36558d !important;
+        transition: all .2s ease;
+    }
+
+    .topbar-help-link:hover {
+        background: #f3f7ff;
+        border-color: #c2d6fb;
+        color: #2a4b83 !important;
+    }
+</style>
+@endif
+
 <li class="nav-item d-md-down-none">
     <a class="nav-link topbar-news-link" href="#" id="topbar-news-toggle" title="News">
         <i class="las la-bell"></i>
@@ -313,7 +376,15 @@
     </a>
 </li>
 
-@if(env('NASCONDI_FRONTEND') == 0)
+@if($isFutureAdminTemplate)
+    <li class="nav-item d-md-down-none">
+        <a class="nav-link topbar-help-link" href="https://www.webisland.it/contatti" target="_blank" title="Assistenza">
+            <i class="las la-question-circle"></i>
+        </a>
+    </li>
+@endif
+
+@if(env('NASCONDI_FRONTEND') == 0 && !$isFutureAdminTemplate)
     <li class="nav-item d-md-down-none">
         <a class="nav-link topbar-preview-link" href="/" target="_blank" title="Anteprima Web">
             <i class="las la-eye"></i>

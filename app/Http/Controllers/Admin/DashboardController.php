@@ -43,6 +43,10 @@ class DashboardController extends Controller
                 return redirect()->to(env('DASHBOARD_ADMIN'));
             }
 
+            if (\App\Models\WebsiteSetting::isAdminFutureTemplate() && $website_setting->bacheca === 'dashboard') {
+                return view(backpack_view('dashboard_future'));
+            }
+
             return view(backpack_view("$website_setting->bacheca"));
         }
 

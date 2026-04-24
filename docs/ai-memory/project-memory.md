@@ -1,7 +1,7 @@
-# Project Memory
+﻿# Project Memory
 
 ## Aggiornato il
-- 2026-04-20
+- 2026-04-23
 
 ## Snapshot tecnico
 - Stack: Laravel + Backpack (tema `backpack.theme-coreuiv2`).
@@ -51,6 +51,10 @@
 - Se si cambia il breakpoint del menu mobile Bexo, allineare sempre CSS/Blade (`header_menu.blade.php`) e JS MeanMenu (`public/templates/Bexo/assets/js/main.js`, `meanScreenWidth`) per evitare menu vuoto in fasce intermedie.
 - Nel layout Bexo con mobile esteso oltre `991px`, fissare una `min-height` coerente del `header-wrapper` (idealmente legata a `menubar_height`) per prevenire salti di altezza su tablet e piccoli smartphone.
 - I valori admin di altezza (es. `menubar_height`) possono arrivare senza unita: normalizzarli in CSS (`px` se numerici) prima di usarli in `style` inline per evitare comportamenti incoerenti tra desktop e mobile.
+- Nei file Blade frontend evitare blocchi `<?php ...` aperti in testa al template: usare direttive Blade o chiudere esplicitamente il tag PHP, altrimenti la compilazione puo fallire con `unexpected token "<"`.
 - Per i CRUD blocchi (`Block*CrudController`) la create standard multi-blocco deve usare `custom_create_multi_enhanced` (non `custom_create_multi`) per coerenza col nuovo layout UI admin.
 - Nel flusso import prodotti (`PluginProductImportCrudController`), le azioni post-import su `set:products_search` devono privilegiare aggiornamenti incrementali sugli ID toccati dall'ultimo `importSpecialMapping` (fallback full rebuild solo se manca il contesto IDs).
+- Il campo `website_settings.admin_panel_template` supporta anche `future`: gli stili del tema devono essere sempre scope-ati su `body.admin-future-template` e non devono alterare `white`, `modern_01`, `modern_02`.
+- Nel template admin `future`, evitare offset dinamici JS su `.app-body > .main`: usare offset CSS desktop stabile della sidebar e breakpoint `lg` per la dashboard, per prevenire stacking verticale e scroll eccessivo.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.
+

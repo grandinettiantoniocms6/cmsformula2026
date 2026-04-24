@@ -5,7 +5,7 @@
     $adminLoginBackground = trim((string) ($websiteLoginSetting->admin_login_background ?? ''));
     $adminLoginBackgroundUrl = $adminLoginBackground !== '' ? url($adminLoginBackground) : null;
     $templateMode = (string) ($websiteLoginSetting->admin_panel_template ?? 'white');
-    $isModernAdminTemplate = in_array($templateMode, ['modern_01', 'modern_02'], true);
+    $isModernAdminTemplate = in_array($templateMode, ['modern_01', 'modern_02', 'future'], true);
     $isModernAdminTemplate02 = ($templateMode === 'modern_02');
 @endphp
 

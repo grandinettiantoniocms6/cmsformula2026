@@ -151,7 +151,7 @@ class WebsiteSetting extends Model
         }
 
         $rawTemplate = strtolower((string) optional(static::select('admin_panel_template')->first())->admin_panel_template);
-        $template = in_array($rawTemplate, ['white', 'modern_01', 'modern_02'], true) ? $rawTemplate : 'white';
+        $template = in_array($rawTemplate, ['white', 'modern_01', 'modern_02', 'future'], true) ? $rawTemplate : 'white';
 
         return $template;
     }
@@ -164,6 +164,11 @@ class WebsiteSetting extends Model
     public static function isAdminModern02Template(): bool
     {
         return static::adminPanelTemplate() === 'modern_02';
+    }
+
+    public static function isAdminFutureTemplate(): bool
+    {
+        return static::adminPanelTemplate() === 'future';
     }
 
     protected static function booted()
