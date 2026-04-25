@@ -7,6 +7,7 @@
     $adminNewsUnreadCount = 0;
     $adminNewsList = collect();
     $adminNewsMarkSeenUrl = route('dashboard.news.mark_seen');
+    $adminSupportSendUrl = route('dashboard.support.send');
 
     if(backpack_auth()->check()){
         $newsDbReachableCacheKey = 'admin_news_mysql2_reachable';
@@ -229,6 +230,146 @@
         color: #5a739d;
         background: #f9fbff;
     }
+
+    .admin-support-drawer-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(6, 12, 26, .45);
+        z-index: 1047;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s ease;
+    }
+
+    .admin-support-drawer {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: min(440px, 94vw);
+        height: 100vh;
+        z-index: 1048;
+        background: #ffffff;
+        box-shadow: -10px 0 28px rgba(10, 20, 45, .22);
+        transform: translateX(100%);
+        transition: transform .24s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .admin-support-drawer.is-open {
+        transform: translateX(0);
+    }
+
+    .admin-support-drawer-overlay.is-open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .admin-support-drawer__header {
+        min-height: 58px;
+        padding: 0 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #e2e9f6;
+    }
+
+    .admin-support-drawer__title {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        font-weight: 700;
+        color: #1e3762;
+    }
+
+    .admin-support-drawer__close {
+        border: 0;
+        background: transparent;
+        color: #50658f;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+    }
+
+    .admin-support-drawer__close:hover {
+        background: #edf3ff;
+        color: #29497c;
+    }
+
+    .admin-support-drawer__body {
+        overflow-y: auto;
+        padding: 14px;
+    }
+
+    .admin-support-form .form-group {
+        margin-bottom: .72rem;
+    }
+
+    .admin-support-form label {
+        display: block;
+        margin-bottom: .25rem;
+        font-size: .78rem;
+        color: #4c6187;
+        font-weight: 700;
+        letter-spacing: .01em;
+    }
+
+    .admin-support-form .form-control {
+        border: 1px solid #d6e2f7;
+        border-radius: 10px;
+        box-shadow: none;
+        font-size: .86rem;
+    }
+
+    .admin-support-form .form-control:focus {
+        border-color: #a8c2ef;
+        box-shadow: 0 0 0 2px rgba(76, 120, 198, .1);
+    }
+
+    .admin-support-form textarea.form-control {
+        min-height: 160px;
+        resize: vertical;
+    }
+
+    .admin-support-form__submit {
+        width: 100%;
+        border: 0;
+        border-radius: 10px;
+        padding: .62rem .8rem;
+        background: #132048;
+        color: #fff;
+        font-weight: 700;
+        font-size: .86rem;
+    }
+
+    .admin-support-form__submit[disabled] {
+        opacity: .7;
+        cursor: not-allowed;
+    }
+
+    .admin-support-form__feedback {
+        display: none;
+        margin-bottom: .62rem;
+        border-radius: 10px;
+        padding: .56rem .7rem;
+        font-size: .8rem;
+    }
+
+    .admin-support-form__feedback.is-visible {
+        display: block;
+    }
+
+    .admin-support-form__feedback--success {
+        border: 1px solid #cae8d4;
+        background: #effcf4;
+        color: #2f6a47;
+    }
+
+    .admin-support-form__feedback--error {
+        border: 1px solid #f0ced0;
+        background: #fff4f5;
+        color: #8f2a33;
+    }
 </style>
 
 @if($isModernAdminTemplate)
@@ -413,7 +554,7 @@
 
 @if($isFutureAdminTemplate)
     <li class="nav-item d-md-down-none">
-        <a class="nav-link topbar-help-link" href="https://www.webisland.it/contatti" target="_blank" title="Assistenza">
+        <a class="nav-link topbar-help-link" href="#" id="topbar-help-toggle" data-admin-support-toggle="1" title="Assistenza">
             <i class="las la-question-circle"></i>
         </a>
     </li>
@@ -458,6 +599,40 @@
         @endif
     </div>
 </aside>
+
+@if($isFutureAdminTemplate)
+<div id="admin-support-drawer-overlay" class="admin-support-drawer-overlay"></div>
+<aside id="admin-support-drawer" class="admin-support-drawer" aria-hidden="true">
+    <div class="admin-support-drawer__header">
+        <span class="admin-support-drawer__title"><i class="las la-life-ring"></i> Richiedi assistenza</span>
+        <button type="button" class="admin-support-drawer__close" id="admin-support-drawer-close" aria-label="Chiudi pannello assistenza">
+            <i class="las la-times"></i>
+        </button>
+    </div>
+    <div class="admin-support-drawer__body">
+        <div id="admin-support-feedback" class="admin-support-form__feedback"></div>
+        <form id="admin-support-form" class="admin-support-form">
+            <div class="form-group">
+                <label for="admin-support-name">Nome</label>
+                <input id="admin-support-name" class="form-control" name="name" type="text" maxlength="120" value="{{ backpack_auth()->check() ? backpack_user()->name : '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="admin-support-email">Email</label>
+                <input id="admin-support-email" class="form-control" name="email" type="email" maxlength="180" value="{{ backpack_auth()->check() ? backpack_user()->email : '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="admin-support-subject">Oggetto</label>
+                <input id="admin-support-subject" class="form-control" name="subject" type="text" maxlength="200" placeholder="Oggetto richiesta" required>
+            </div>
+            <div class="form-group">
+                <label for="admin-support-message">Messaggio</label>
+                <textarea id="admin-support-message" class="form-control" name="message" maxlength="6000" placeholder="Descrivi qui il problema..." required></textarea>
+            </div>
+            <button type="submit" id="admin-support-submit" class="admin-support-form__submit">Invia richiesta</button>
+        </form>
+    </div>
+</aside>
+@endif
 
 <script>
   (function () {
@@ -522,3 +697,124 @@
     });
   })();
 </script>
+
+@if($isFutureAdminTemplate)
+<script>
+  (function () {
+    var supportDrawer = document.getElementById('admin-support-drawer');
+    var supportOverlay = document.getElementById('admin-support-drawer-overlay');
+    var supportClose = document.getElementById('admin-support-drawer-close');
+    var supportForm = document.getElementById('admin-support-form');
+    var supportSubmit = document.getElementById('admin-support-submit');
+    var feedback = document.getElementById('admin-support-feedback');
+    if (!supportDrawer || !supportOverlay || !supportClose || !supportForm || !supportSubmit || !feedback) return;
+
+    var supportSendUrl = @json($adminSupportSendUrl);
+
+    var showFeedback = function (message, isSuccess) {
+      feedback.className = 'admin-support-form__feedback is-visible ' + (isSuccess ? 'admin-support-form__feedback--success' : 'admin-support-form__feedback--error');
+      feedback.textContent = message || '';
+    };
+
+    var clearFeedback = function () {
+      feedback.className = 'admin-support-form__feedback';
+      feedback.textContent = '';
+    };
+
+    var closeNewsIfOpen = function () {
+      var newsDrawer = document.getElementById('admin-news-drawer');
+      var newsOverlay = document.getElementById('admin-news-drawer-overlay');
+      if (newsDrawer) {
+        newsDrawer.classList.remove('is-open');
+        newsDrawer.setAttribute('aria-hidden', 'true');
+      }
+      if (newsOverlay) {
+        newsOverlay.classList.remove('is-open');
+      }
+      document.body.classList.remove('admin-news-drawer-open');
+    };
+
+    var openSupport = function () {
+      closeNewsIfOpen();
+      supportDrawer.classList.add('is-open');
+      supportOverlay.classList.add('is-open');
+      supportDrawer.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('admin-support-drawer-open');
+    };
+
+    var closeSupport = function () {
+      supportDrawer.classList.remove('is-open');
+      supportOverlay.classList.remove('is-open');
+      supportDrawer.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('admin-support-drawer-open');
+    };
+
+    document.addEventListener('click', function (event) {
+      var helpToggle = event.target ? event.target.closest('[data-admin-support-toggle]') : null;
+      if (!helpToggle) return;
+      event.preventDefault();
+      clearFeedback();
+      openSupport();
+    });
+
+    supportClose.addEventListener('click', closeSupport);
+    supportOverlay.addEventListener('click', closeSupport);
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeSupport();
+      }
+    });
+
+    supportForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      clearFeedback();
+
+      var csrf = document.querySelector('meta[name="csrf-token"]');
+      var formData = new FormData(supportForm);
+      var payload = new URLSearchParams();
+      formData.forEach(function (value, key) {
+        payload.append(key, value);
+      });
+
+      supportSubmit.setAttribute('disabled', 'disabled');
+      fetch(supportSendUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'X-Requested-With': 'XMLHttpRequest',
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': csrf ? csrf.getAttribute('content') : ''
+        },
+        body: payload.toString()
+      }).then(function (response) {
+        return response.json().then(function (data) {
+          return { status: response.status, data: data || {} };
+        }).catch(function () {
+          return { status: response.status, data: {} };
+        });
+      }).then(function (result) {
+        if (result.status >= 200 && result.status < 300 && result.data.ok) {
+          showFeedback(result.data.message || 'Richiesta inviata con successo.', true);
+          supportForm.reset();
+          return;
+        }
+
+        var message = (result.data && result.data.message) ? result.data.message : 'Invio non riuscito. Verifica i campi e riprova.';
+        if (result.status === 422 && result.data && result.data.errors) {
+          var firstErrorKey = Object.keys(result.data.errors)[0];
+          var firstErrorList = firstErrorKey ? result.data.errors[firstErrorKey] : null;
+          if (firstErrorList && firstErrorList.length) {
+            message = firstErrorList[0];
+          }
+        }
+        showFeedback(message, false);
+      }).catch(function () {
+        showFeedback('Invio non riuscito. Riprova tra qualche secondo.', false);
+      }).finally(function () {
+        supportSubmit.removeAttribute('disabled');
+      });
+    });
+  })();
+</script>
+@endif

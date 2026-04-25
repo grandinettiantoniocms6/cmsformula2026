@@ -262,6 +262,56 @@ class DashboardController extends Controller
         return response()->json(['ok' => true, 'unread' => 0]);
     }
 
+    public function support_send(Request $request)
+    {
+        if (!backpack_auth()->check()) {
+            return response()->json(['ok' => false], 401);
+        }
+
+        if (backpack_user()->roles[0]->id >= 5) {
+            return response()->json(['ok' => false], 403);
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:120',
+            'email' => 'required|email|max:180',
+            'subject' => 'required|string|max:200',
+            'message' => 'required|string|max:6000',
+        ]);
+
+        try {
+            $destinationEmail = (string) (env('ADMIN_SUPPORT_EMAIL') ?: env('MAIL_FROM_ADDRESS') ?: 'info@webisland.it');
+            $adminUser = backpack_user();
+            $body = implode("\n", [
+                'Nuova richiesta assistenza da pannello admin',
+                '',
+                'Sito: ' . config('app.url'),
+                'Utente admin ID: ' . ($adminUser ? $adminUser->id : '-'),
+                'Nome: ' . $validated['name'],
+                'Email: ' . $validated['email'],
+                '',
+                'Messaggio:',
+                $validated['message'],
+            ]);
+
+            \Mail::raw($body, function ($mail) use ($destinationEmail, $validated) {
+                $mail->to($destinationEmail);
+                $mail->replyTo($validated['email'], $validated['name']);
+                $mail->subject('[CMS Assistenza] ' . trim((string) $validated['subject']));
+            });
+        } catch (\Throwable $e) {
+            return response()->json([
+                'ok' => false,
+                'message' => 'Invio non riuscito. Riprova tra qualche secondo.',
+            ], 500);
+        }
+
+        return response()->json([
+            'ok' => true,
+            'message' => 'Richiesta inviata con successo.',
+        ]);
+    }
+
     public function dashboard_todos_store(Request $request)
     {
         if (!backpack_auth()->check()) {

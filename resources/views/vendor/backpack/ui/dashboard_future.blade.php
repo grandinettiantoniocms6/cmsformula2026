@@ -417,7 +417,7 @@
                     <span class="future-action-icon future-action-icon-violet"><i class="la la-book-open"></i></span>
                     <span>Tutorial</span>
                 </a>
-                <a class="future-action" href="https://www.webisland.it/contatti" target="_blank" rel="noopener">
+                <a class="future-action" href="#" data-admin-support-toggle="1">
                     <span class="future-action-icon future-action-icon-cyan"><i class="la la-headset"></i></span>
                     <span>Richiedi Assistenza</span>
                 </a>

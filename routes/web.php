@@ -73,6 +73,7 @@ Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => 
     Route::get('/dashboard/quick-search', ['as' => 'dashboard.quick_search', 'uses'=>'DashboardController@quick_search']);
     Route::get('/dashboard/quick-search/suggest', ['as' => 'dashboard.quick_search_suggest', 'uses'=>'DashboardController@quick_search_suggest']);
     Route::post('/dashboard/news/mark-seen', ['as' => 'dashboard.news.mark_seen', 'uses'=>'DashboardController@mark_news_seen']);
+    Route::post('/dashboard/support/send', ['as' => 'dashboard.support.send', 'uses'=>'DashboardController@support_send']);
     Route::post('/dashboard/todos', ['as' => 'dashboard.todos.store', 'uses'=>'DashboardController@dashboard_todos_store']);
     Route::post('/dashboard/todos/reorder', ['as' => 'dashboard.todos.reorder', 'uses'=>'DashboardController@dashboard_todos_reorder']);
     Route::put('/dashboard/todos/{id}', ['as' => 'dashboard.todos.update', 'uses'=>'DashboardController@dashboard_todos_update']);
