@@ -526,12 +526,8 @@
       overflow: visible !important;
     }
 
-    body.admin-future-template .main #crudTable .dropdown,
-    body.admin-future-template .main #crudTable .btn-group,
-    body.admin-future-template .main #crudTable .dropup,
     body.admin-future-template .main #crudTable .dropdown-menu {
-      position: relative;
-      z-index: 1120;
+      z-index: 1200 !important;
     }
 
     @media (min-width: 1200px) {
