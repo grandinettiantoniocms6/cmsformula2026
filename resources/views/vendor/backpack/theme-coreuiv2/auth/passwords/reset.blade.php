@@ -1,4 +1,4 @@
-@extends(backpack_view('layouts.plain'))
+﻿@extends(backpack_view('layouts.plain'))
 
 @php
     $websiteLoginSetting = \App\Models\WebsiteSetting::select('admin_login_background', 'admin_panel_template')->first();
@@ -217,7 +217,7 @@
                 </div>
             </div>
             <div class="future-login-meta">
-                Realizzato da <a target="_blank" rel="noopener" href="{{ config('backpack.base.developer_link') }}">{{ config('backpack.base.developer_name') }}</a> - Ver. 6.0.1.
+                Realizzato da <a target="_blank" rel="noopener" href="{{ config('backpack.base.developer_link') }}">{{ config('backpack.base.developer_name') }}</a> - Ver. 6.1.2.
             </div>
         </div>
     @else
@@ -289,7 +289,7 @@
                     </div>
                 </div>
                 <div class="auth-page-meta">
-                    Realizzato da <a target="_blank" rel="noopener" href="{{ config('backpack.base.developer_link') }}">{{ config('backpack.base.developer_name') }}</a> - Ver. 6.0.1.
+                    Realizzato da <a target="_blank" rel="noopener" href="{{ config('backpack.base.developer_link') }}">{{ config('backpack.base.developer_name') }}</a> - Ver. 6.1.2.
                 </div>
             </div>
         </div>

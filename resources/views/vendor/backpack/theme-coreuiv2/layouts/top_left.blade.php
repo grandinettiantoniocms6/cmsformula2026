@@ -463,10 +463,31 @@
 
     body.admin-future-template .main .btn.btn-sm,
     body.admin-future-template .main a.btn.btn-sm {
-      border-radius: 999px;
-      padding: .3rem .7rem;
-      line-height: 1.1;
-      font-size: .75rem;
+        border-radius: 999px;
+        padding: .3rem .7rem;
+        line-height: 1.1;
+        font-size: .75rem;
+    }
+
+    body.admin-future-template.admin-future-uniform-buttons .main .btn:not(.page-block-action-btn):not(.dashboard-todo-icon-btn):not(.btn-link),
+    body.admin-future-template.admin-future-uniform-buttons .main a.btn:not(.page-block-action-btn):not(.dashboard-todo-icon-btn):not(.btn-link) {
+      border-radius: 999px !important;
+      min-height: 32px;
+      padding: .3rem .78rem;
+      font-size: .76rem;
+      line-height: 1.08;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .35rem;
+    }
+
+    body.admin-future-template.admin-future-uniform-buttons .main .btn.btn-sm:not(.page-block-action-btn):not(.dashboard-todo-icon-btn):not(.btn-link),
+    body.admin-future-template.admin-future-uniform-buttons .main a.btn.btn-sm:not(.page-block-action-btn):not(.dashboard-todo-icon-btn):not(.btn-link) {
+      min-height: 30px;
+      padding: .24rem .66rem;
+      font-size: .74rem;
     }
 
     body.admin-future-template .main .btn-primary {
@@ -689,6 +710,11 @@
       var secondSegment = pathParts.length > 1 ? pathParts[1] : '';
       if (isModernTemplate && firstSegment === adminPrefix && modernCrudTargets.indexOf(secondSegment) !== -1) {
         document.body.classList.add('admin-modern-crud-refresh');
+      }
+
+      var futureUniformButtonTargets = ['page', 'pages_blocks', 'usercustom', 'pluginforms'];
+      if (isFutureTemplate && firstSegment === adminPrefix && futureUniformButtonTargets.indexOf(secondSegment) !== -1) {
+        document.body.classList.add('admin-future-uniform-buttons');
       }
 
       var media = window.matchMedia('(min-width: 992px)');

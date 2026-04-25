@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="website-setting-top-actions__right">
-                    <button type="submit" form="website-setting-form" class="btn btn-success">
+                    <button type="submit" form="website-setting-form" class="btn btn-success website-setting-save-btn">
                         <span class="la la-save" aria-hidden="true"></span> Salva
                     </button>
                 </div>
@@ -109,7 +109,7 @@
                           <div class="btn-group" role="group">
                               @endif
 
-                              <button type="submit" class="btn btn-success">
+                              <button type="submit" class="btn btn-success website-setting-save-btn">
                                   <span class="la la-save" role="presentation" aria-hidden="true"></span> &nbsp;
                                   <span data-value="{{ $saveAction['active']['value'] }}">Salva</span>
                               </button>
@@ -173,6 +173,32 @@
             border-radius: 10px;
             font-weight: 700;
             box-shadow: 0 8px 18px rgba(14, 36, 79, 0.14);
+        }
+
+        .website-setting-save-btn {
+            background: #42ba96 !important;
+            border-color: #42ba96 !important;
+            color: #ffffff !important;
+            border-radius: 10px !important;
+            min-height: 34px;
+            padding: .38rem .95rem !important;
+            line-height: 1.1;
+            font-size: .79rem;
+            font-weight: 700;
+            box-shadow: 0 8px 18px rgba(66, 186, 150, .26) !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .35rem;
+        }
+
+        .website-setting-save-btn:hover,
+        .website-setting-save-btn:focus {
+            background: #39ab88 !important;
+            border-color: #39ab88 !important;
+            color: #ffffff !important;
+            box-shadow: 0 10px 20px rgba(66, 186, 150, .32) !important;
+            text-decoration: none !important;
         }
 
         .website-setting-top-actions {
