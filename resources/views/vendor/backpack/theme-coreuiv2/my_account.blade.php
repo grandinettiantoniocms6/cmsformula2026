@@ -10,6 +10,33 @@
             content: ' *';
             color: red;
         }
+
+        .my-account-avatar-help {
+            font-size: .82rem;
+            color: #6f7896;
+            margin-top: .35rem;
+        }
+
+        .my-account-avatar-current {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid #d9e3f5;
+            box-shadow: 0 4px 12px rgba(22, 46, 88, 0.12);
+            display: block;
+            margin-bottom: .55rem;
+        }
+
+        .my-account-avatar-remove {
+            margin-bottom: .5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            color: #6a7290;
+            font-size: .83rem;
+            font-weight: 600;
+        }
     </style>
 
     @if($isModernAdminTemplate)
@@ -123,7 +150,7 @@
 
         {{-- UPDATE INFO FORM --}}
         <div class="col-lg-8">
-            <form class="form" action="{{ route('backpack.account.info.store') }}" method="post">
+            <form class="form" action="{{ route('backpack.account.info.store') }}" method="post" enctype="multipart/form-data">
 
                 {!! csrf_field() !!}
 
@@ -151,6 +178,22 @@
                                 @endphp
                                 <label class="required">{{ $label }}</label>
                                 <input required class="form-control" type="{{ backpack_authentication_column()==backpack_email_column()?'email':'text' }}" name="{{ $field }}" value="{{ old($field) ? old($field) : $user->$field }}">
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label>Foto profilo</label>
+                                @php
+                                    $currentProfilePhoto = method_exists($user, 'getAdminProfilePhotoUrl') ? $user->getAdminProfilePhotoUrl() : null;
+                                @endphp
+                                @if($currentProfilePhoto)
+                                    <img src="{{ $currentProfilePhoto }}" alt="Foto profilo attuale" class="my-account-avatar-current">
+                                    <label class="my-account-avatar-remove" for="remove_profile_photo">
+                                        <input type="checkbox" name="remove_profile_photo" id="remove_profile_photo" value="1" {{ old('remove_profile_photo') ? 'checked' : '' }}>
+                                        Rimuovi foto attuale
+                                    </label>
+                                @endif
+                                <input class="form-control-file" type="file" name="profile_photo" id="profile_photo" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+                                <div class="my-account-avatar-help">Formati ammessi: JPG/JPEG, PNG, WEBP. Peso massimo: 200KB. La foto verra ritagliata automaticamente a 100x100 px.</div>
                             </div>
                         </div>
                     </div>
@@ -218,4 +261,50 @@
         </div>
 
     </div>
+@endsection
+
+@section('after_scripts')
+    <script>
+        (function () {
+            var input = document.getElementById('profile_photo');
+            var removeCheckbox = document.getElementById('remove_profile_photo');
+            if (!input) return;
+
+            input.addEventListener('change', function () {
+                var file = input.files && input.files[0] ? input.files[0] : null;
+                if (!file) return;
+
+                var allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                var maxBytes = 200 * 1024;
+
+                if (allowedTypes.indexOf((file.type || '').toLowerCase()) === -1) {
+                    alert('Formato non valido. Usa un file JPG/JPEG, PNG o WEBP.');
+                    input.value = '';
+                    return;
+                }
+
+                if (file.size > maxBytes) {
+                    alert('Il file supera 200KB. Riduci il peso prima di caricarlo.');
+                    input.value = '';
+                    return;
+                }
+
+                // Le dimensioni vengono gestite lato server con crop automatico 100x100.
+            });
+
+            if (removeCheckbox) {
+                removeCheckbox.addEventListener('change', function () {
+                    if (removeCheckbox.checked) {
+                        input.value = '';
+                    }
+                });
+
+                input.addEventListener('change', function () {
+                    if (input.files && input.files.length > 0 && removeCheckbox.checked) {
+                        removeCheckbox.checked = false;
+                    }
+                });
+            }
+        })();
+    </script>
 @endsection

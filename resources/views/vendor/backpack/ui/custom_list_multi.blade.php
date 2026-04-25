@@ -2,6 +2,8 @@
 
 @php
     $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+    $isFutureAdminTemplate = \App\Models\WebsiteSetting::isAdminFutureTemplate();
+    $isBlockList = request()->has('block');
 @endphp
 
 @php
@@ -370,6 +372,49 @@ if(request()->has('block')){
         justify-content: flex-start;
         margin-top: 10px;
       }
+    }
+
+  </style>
+  @endif
+
+  @if($isFutureAdminTemplate && $isBlockList)
+  <style>
+    body.admin-future-template .main .table,
+    body.admin-future-template .main #crudTable,
+    body.admin-future-template .main #crudTable tbody,
+    body.admin-future-template .main #crudTable tbody tr,
+    body.admin-future-template .main #crudTable tbody td,
+    body.admin-future-template .main .table-responsive,
+    body.admin-future-template .main .dataTables_wrapper,
+    body.admin-future-template .main .dataTables_wrapper .row,
+    body.admin-future-template .main .dataTables_wrapper .col-sm-12 {
+      overflow: visible !important;
+    }
+
+    body.admin-future-template .main #crudTable .dropdown-menu,
+    body.admin-future-template .main .dataTables_wrapper .dropdown-menu {
+      z-index: 1200 !important;
+    }
+
+    body.admin-future-template .main #crudTable .dropdown .btn.btn-dark.dropdown-toggle.btn-sm {
+      min-height: 35px !important;
+      padding: 0 8px !important;
+      line-height: 1 !important;
+      border-radius: 6px !important;
+      background: #132048 !important;
+      border-color: #132048 !important;
+      color: #ffffff !important;
+      box-shadow: none !important;
+    }
+
+    body.admin-future-template .main #crudTable .dropdown .btn.btn-dark.dropdown-toggle.btn-sm:hover,
+    body.admin-future-template .main #crudTable .dropdown .btn.btn-dark.dropdown-toggle.btn-sm:focus,
+    body.admin-future-template .main #crudTable .dropdown .btn.btn-dark.dropdown-toggle.btn-sm:active,
+    body.admin-future-template .main #crudTable .dropdown.show .btn.btn-dark.dropdown-toggle.btn-sm {
+      background: #132048 !important;
+      border-color: #132048 !important;
+      color: #ffffff !important;
+      box-shadow: none !important;
     }
   </style>
   @endif

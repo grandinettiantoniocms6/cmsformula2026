@@ -28,7 +28,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password','code','active','mobile', 'provider', 'provider_id','city','country_id', 'check_privacy', 'check_newsletter',
         'text_privacy', 'text_cookie', 'date_newsletter','business_name', 'vat', 'pec', 'sdi', 'address_invoice',
-        'street_invoice', 'zip_invoice', 'city_invoice', 'province_invoice', 'state_invoice','plugin_product_id', 'user_id', 'type_client'
+        'street_invoice', 'zip_invoice', 'city_invoice', 'province_invoice', 'state_invoice','plugin_product_id', 'user_id', 'type_client',
+        'profile_photo'
     ];
 
     /**
@@ -77,6 +78,20 @@ class User extends Authenticatable
                 return "<span class='badge badge-warning'>Azienda</span>";
             }
         }
+    }
+
+    public function getAdminProfilePhotoUrl()
+    {
+        $photo = trim((string) $this->profile_photo);
+        if ($photo === '') {
+            return null;
+        }
+
+        if (preg_match('/^https?:\/\//i', $photo)) {
+            return $photo;
+        }
+
+        return asset(ltrim($photo, '/'));
     }
 
     public function getSubscription(){

@@ -211,5 +211,8 @@ Route::group([
     })->name('backpack.filemanager');
     Route::crud('plugin-product-import', 'PluginProductImportCrudController');
 
+    Route::get('edit-account-info', 'MyAccountController@getAccountInfoForm')->name('backpack.account.info');
+    Route::post('edit-account-info', 'MyAccountController@postAccountInfoForm')->name('backpack.account.info.store');
+
 }); // this should be the absolute last line of this file
 

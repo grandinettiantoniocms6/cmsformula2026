@@ -1,6 +1,7 @@
 @php
     $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
     $isModernAdminTemplate02 = \App\Models\WebsiteSetting::isAdminModern02Template();
+    $profilePhotoUrl = method_exists(backpack_user(), 'getAdminProfilePhotoUrl') ? backpack_user()->getAdminProfilePhotoUrl() : null;
 @endphp
 @if($isModernAdminTemplate)
 <style>
@@ -34,6 +35,14 @@
     color: #ffffff;
     background: linear-gradient(140deg, #00a65a, #0ec777);
     box-shadow: 0 6px 14px rgba(0, 166, 90, .28);
+  }
+
+  .topbar-user-dropdown .backpack-avatar-menu-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 999px;
+    display: block;
   }
 
   .topbar-user-dropdown .dropdown-menu {
@@ -95,7 +104,11 @@
 <li class="nav-item dropdown pr-4 topbar-user-dropdown">
   <a class="nav-link avatar" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
     <span class="backpack-avatar-menu-container">
-      {{backpack_user()->getAttribute('name') ? mb_substr(backpack_user()->name, 0, 1, 'UTF-8') : 'A'}}
+      @if($profilePhotoUrl)
+        <img src="{{ $profilePhotoUrl }}" alt="{{ backpack_user()->name }}" class="backpack-avatar-menu-image">
+      @else
+        {{ backpack_user()->getAttribute('name') ? mb_substr(backpack_user()->name, 0, 1, 'UTF-8') : 'A' }}
+      @endif
     </span>
   </a>
   <div class="dropdown-menu {{ config('backpack.base.html_direction') == 'rtl' ? 'dropdown-menu-left' : 'dropdown-menu-right' }} mr-4 pb-1 pt-1">

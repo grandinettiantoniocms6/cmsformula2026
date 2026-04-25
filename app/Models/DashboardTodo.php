@@ -14,5 +14,6 @@ class DashboardTodo extends Model
     protected $casts = [
         'is_done' => 'boolean',
         'sort_order' => 'integer',
+        'priority' => 'string',
     ];
 }

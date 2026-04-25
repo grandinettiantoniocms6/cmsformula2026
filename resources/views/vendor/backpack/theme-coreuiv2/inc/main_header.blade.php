@@ -175,6 +175,32 @@
       --admin-leftbar-bg-light: {{ $leftbarShade }};
     }
 
+    body.admin-future-template .app-header {
+      min-height: var(--future-header-height);
+      padding-left: 14px;
+      padding-right: 16px;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    body.admin-future-template .app-header .navbar-nav {
+      align-items: center;
+      gap: .12rem;
+    }
+
+    body.admin-future-template .app-header .nav-item {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--future-header-height);
+    }
+
+    body.admin-future-template .app-header .nav-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+    }
+
     .app-header .navbar-brand {
       width: var(--future-sidebar-width, 175px);
       min-width: var(--future-sidebar-width, 175px);
@@ -249,12 +275,13 @@
 
     .app-header .modern-sidebar-toggler {
       border: 0;
-      width: 42px;
-      height: 34px;
+      width: 40px;
+      height: 40px;
       border-radius: 10px;
       position: relative;
       color: #2b4779 !important;
       transition: background-color .15s ease;
+      margin-right: .55rem;
     }
 
     .app-header .modern-sidebar-toggler i {
@@ -273,15 +300,38 @@
     }
 
     .app-header .modern-sidebar-toggler::before {
-      top: 11px;
+      top: 13px;
     }
 
     .app-header .modern-sidebar-toggler::after {
-      top: 20px;
+      top: 22px;
     }
 
     .app-header .modern-sidebar-toggler:hover {
       background: rgba(43, 71, 121, .08);
+    }
+
+    .future-header-status {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      min-height: 24px;
+      padding: .22rem .62rem;
+      font-size: .67rem;
+      font-weight: 800;
+      letter-spacing: .03em;
+      border: 1px solid #c8d8f3;
+      margin-left: .35rem;
+    }
+
+    .future-header-status.online {
+      background: #e9f7ea;
+      color: #2f8b54;
+    }
+
+    .future-header-status.offline {
+      background: #fff3ee;
+      color: #b15437;
     }
   </style>
   @endif
@@ -299,6 +349,12 @@
   <button class="navbar-toggler sidebar-toggler modern-sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show" aria-label="{{ trans('backpack::base.toggle_navigation')}}">
     <i class="la la-bars"></i>
   </button>
+
+  @if($isFutureAdminTemplate && env('NASCONDI_FRONTEND') == 0)
+    <span class="future-header-status {{ ((int)($website_setting->is_online ?? 0) === 1) ? 'online' : 'offline' }}">
+      {{ ((int)($website_setting->is_online ?? 0) === 1) ? 'SITO ONLINE' : 'SITO OFFLINE' }}
+    </span>
+  @endif
 
   @include(backpack_view('inc.menu'))
 </header>

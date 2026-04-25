@@ -1,4 +1,4 @@
-<div class="p-2 list-group-item d-flex align-items-center">
+<div class="p-2 list-group-item d-flex align-items-center page-block-row">
     <?php
         $admin_blocks_orders = \App\Models\AdminBlock::where("is_active", 1)->get()->pluck("label", "name")->toArray();
         $type = $pb->type;
@@ -37,27 +37,27 @@
            $name = $block_name['it'];
        }
     ?>
-    <span><i class="la la-arrows"></i></span>
-    <div class="px-3" id="block_id_{{ $item->id }}">
-        <h6 class="font-weight-bold mb-1">{{ $name }}</h6>
-        <em class="text-info">
+    <span class="page-block-drag"><i class="la la-arrows"></i></span>
+    <div class="px-3 page-block-meta" id="block_id_{{ $item->id }}">
+        <h6 class="font-weight-bold mb-1 page-block-name">{{ $name }}</h6>
+        <em class="text-info page-block-type">
             @if(key_exists($pb->type, $admin_blocks_orders))
                 {{ $admin_blocks_orders[$pb->type] }}
             @endif
         </em>
     </div>
-    <div class="ml-auto">
+    <div class="ml-auto page-block-actions">
         @if($pb->is_active == 1)
-            <a href="<?php echo $url_attivazione;?>" class="btn btn-light btn-sm text-success" data-toggle="Attivazione" title="Attivazione id {{ $item->id }}"><i class="las la-eye"></i></a>
+            <a href="<?php echo $url_attivazione;?>" class="btn btn-light btn-sm text-success page-block-action-btn page-block-toggle-btn is-on" data-toggle="Attivazione" title="Attivazione id {{ $item->id }}"><i class="las la-eye"></i></a>
         @else
-            <a href="<?php echo $url_attivazione;?>" class="btn btn-light btn-sm text-danger" data-toggle="Attivazione" title="Attivazione id {{ $item->id }}"><i class="las la-eye"></i></a>
+            <a href="<?php echo $url_attivazione;?>" class="btn btn-light btn-sm text-danger page-block-action-btn page-block-toggle-btn is-off" data-toggle="Attivazione" title="Attivazione id {{ $item->id }}"><i class="las la-eye"></i></a>
         @endif
 
         @if($page->is_homepage == 1)
             @if($pb->is_ereditable != 1)
-                <a href="<?php echo $url_eredita;?>" class="btn btn-light btn-sm" data-toggle="Eredita" title="Eredita">Eredita</a>
+                <a href="<?php echo $url_eredita;?>" class="btn btn-light btn-sm page-block-action-btn page-block-inherit-btn" data-toggle="Eredita" title="Eredita">Eredita</a>
             @else
-                <a href="<?php echo $url_eredita;?>" class="btn btn-warning btn-sm" data-toggle="Eredita" title="Eredita">Ereditato</a>
+                <a href="<?php echo $url_eredita;?>" class="btn btn-warning btn-sm page-block-action-btn page-block-inherit-btn" data-toggle="Eredita" title="Eredita">Ereditato</a>
             @endif
         @endif
 
@@ -65,13 +65,13 @@
             @if($pb->is_ereditable_from_id !== null)
 
             @else
-                <a href="<?php echo $url_edit;?>" class="btn btn-light btn-sm" data-toggle="Modifica" title="Modifica"><i class="las la-cog"></i></a>
+                <a href="<?php echo $url_edit;?>" class="btn btn-light btn-sm page-block-action-btn" data-toggle="Modifica" title="Modifica"><i class="las la-cog"></i></a>
 
                 @if($is_multi == 1)
-                 <a href="<?php echo $url_list;?>" class="btn btn-light btn-sm" data-toggle="Lista" title="Lista"><i class="las la-pen"></i></a>
+                 <a href="<?php echo $url_list;?>" class="btn btn-light btn-sm page-block-action-btn" data-toggle="Lista" title="Lista"><i class="las la-pen"></i></a>
                 @endif
 
-                <button class="btn btn-danger btn-sm" aria-label="" onclick="deleteBlock('<?php echo route('pages.blocks.delete', [$page->id, $pb->id]);?>')">
+                <button class="btn btn-danger btn-sm page-block-action-btn page-block-action-btn-danger" aria-label="" onclick="deleteBlock('<?php echo route('pages.blocks.delete', [$page->id, $pb->id]);?>')">
                     <i class="las la-times"></i>
                 </button>
                 <!--<a href="{{ route('pages.blocks.delete', [$page->id, $pb->id]) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Cancella"><i class="las la-times"></i></a>-->
@@ -82,12 +82,12 @@
                 @endif
             @endif
         @else
-            <a href="<?php echo $url_edit;?>" class="btn btn-light btn-sm" data-toggle="Modifica" title="Modifica"><i class="las la-cog"></i></a>
+            <a href="<?php echo $url_edit;?>" class="btn btn-light btn-sm page-block-action-btn" data-toggle="Modifica" title="Modifica"><i class="las la-cog"></i></a>
             @if($is_multi == 1)
-                 <a href="<?php echo $url_list;?>" class="btn btn-light btn-sm" data-toggle="Lista" title="Lista"><i class="las la-pen"></i></a>
+                 <a href="<?php echo $url_list;?>" class="btn btn-light btn-sm page-block-action-btn" data-toggle="Lista" title="Lista"><i class="las la-pen"></i></a>
             @endif
 
-            <button class="btn btn-danger btn-sm" aria-label="" onclick="deleteBlock('<?php echo route('pages.blocks.delete', [$page->id, $pb->id]);?>')">
+            <button class="btn btn-danger btn-sm page-block-action-btn page-block-action-btn-danger" aria-label="" onclick="deleteBlock('<?php echo route('pages.blocks.delete', [$page->id, $pb->id]);?>')">
                 <i class="las la-times"></i>
             </button>
 

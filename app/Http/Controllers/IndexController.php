@@ -23,6 +23,8 @@ use App\Models\WebsiteSetting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class IndexController extends Controller
 {
@@ -125,7 +127,28 @@ class IndexController extends Controller
             }
         }
 
+        $this->trackFrontendPageVisit();
+
         return view('index', compact('menu', 'page','website'));
+    }
+
+    private function trackFrontendPageVisit(): void
+    {
+        try {
+            if (!Schema::hasTable('frontend_page_visits_daily')) {
+                return;
+            }
+
+            $today = now()->toDateString();
+            DB::statement(
+                'INSERT INTO frontend_page_visits_daily (visit_date, visits, created_at, updated_at)
+                 VALUES (?, 1, NOW(), NOW())
+                 ON DUPLICATE KEY UPDATE visits = visits + 1, updated_at = NOW()',
+                [$today]
+            );
+        } catch (\Throwable $e) {
+            // Non bloccare il rendering frontend se il tracking non e' disponibile.
+        }
     }
 
     public function paypal_test(){

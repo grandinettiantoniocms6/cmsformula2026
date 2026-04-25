@@ -70,6 +70,8 @@ Route::get('/test/email/send', function() {
 Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => ['admin'], 'namespace' => 'Admin'], function()
 {
     Route::get('/dashboard', ['as' => 'dashboard', 'uses'=>'DashboardController@index']);
+    Route::get('/dashboard/quick-search', ['as' => 'dashboard.quick_search', 'uses'=>'DashboardController@quick_search']);
+    Route::get('/dashboard/quick-search/suggest', ['as' => 'dashboard.quick_search_suggest', 'uses'=>'DashboardController@quick_search_suggest']);
     Route::post('/dashboard/news/mark-seen', ['as' => 'dashboard.news.mark_seen', 'uses'=>'DashboardController@mark_news_seen']);
     Route::post('/dashboard/todos', ['as' => 'dashboard.todos.store', 'uses'=>'DashboardController@dashboard_todos_store']);
     Route::post('/dashboard/todos/reorder', ['as' => 'dashboard.todos.reorder', 'uses'=>'DashboardController@dashboard_todos_reorder']);

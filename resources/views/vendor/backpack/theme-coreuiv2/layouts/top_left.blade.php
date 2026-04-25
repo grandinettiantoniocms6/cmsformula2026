@@ -31,7 +31,7 @@
 
         <div class="container-fluid page-header">
             <div class="row align-items-end">
-                <div class="col-auto">
+                <div class="{{ $isFutureAdminTemplate ? 'col-12' : 'col-auto' }}">
                     @yield('header')
                 </div>
 
@@ -221,7 +221,7 @@
       background: #f4f7fc;
       color: #223a67;
       --future-sidebar-width: 212px;
-      --future-header-height: 56px;
+      --future-header-height: 70px;
     }
 
     body.admin-future-template .app-header {
@@ -230,10 +230,11 @@
       left: 0;
       right: 0;
       z-index: 1030;
-      min-height: 56px;
+      height: var(--future-header-height);
+      min-height: var(--future-header-height);
       background: linear-gradient(180deg, #fafbfd 0%, #f3f6fb 100%) !important;
-      border-bottom: 0 !important;
-      box-shadow: none;
+      border-bottom: 1px solid #e6edf8 !important;
+      box-shadow: 0 8px 14px -14px rgba(18, 37, 72, .45) !important;
     }
 
     body.admin-future-template .app-header .nav-link,
@@ -430,8 +431,6 @@
       color: #ffffff !important;
     }
 
-    body.admin-future-template .app-header,
-    body.admin-future-template .app-header[class*="bg-"],
     body.admin-future-template .app-header .navbar-brand,
     body.admin-future-template .app-body > .sidebar,
     body.admin-future-template .app-body > .sidebar .sidebar-nav {
@@ -543,65 +542,6 @@
       }
     }
 
-    @media (max-width: 991.98px) {
-      body.admin-future-template .app-body > .sidebar {
-        top: 0;
-        bottom: 0;
-        width: 240px;
-        flex: 0 0 240px;
-        margin-top: 0 !important;
-        margin-left: -240px !important;
-      }
-
-      body.admin-future-template.sidebar-show .app-body > .sidebar {
-        margin-left: 0 !important;
-      }
-
-      body.admin-future-template:not(.sidebar-show) .app-body > .sidebar,
-      body.admin-future-template.sidebar-lg-show:not(.sidebar-show) .app-body > .sidebar {
-        margin-left: -240px !important;
-      }
-
-      body.admin-future-template .app-body > .main {
-        margin-left: 0 !important;
-        width: 100% !important;
-      }
-
-      body.admin-future-template .app-body > .sidebar .sidebar-nav {
-        height: 100% !important;
-        max-height: calc(100vh - var(--future-header-height)) !important;
-      }
-    }
-
-    @media (min-width: 992px) and (max-width: 1199.98px) {
-      body.admin-future-template .app-body > .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 240px !important;
-        flex: 0 0 240px !important;
-        margin-top: 0 !important;
-        margin-left: -240px !important;
-      }
-
-      body.admin-future-template.sidebar-show .app-body > .sidebar,
-      body.admin-future-template.sidebar-lg-show .app-body > .sidebar {
-        margin-left: 0 !important;
-      }
-
-      body.admin-future-template .app-body > .main,
-      body.admin-future-template.sidebar-lg-show .app-body > .main {
-        margin-left: 0 !important;
-        width: 100% !important;
-      }
-
-      body.admin-future-template .app-body > .sidebar .sidebar-nav {
-        height: 100% !important;
-        max-height: calc(100vh - var(--future-header-height)) !important;
-      }
-    }
-
     @media (max-width: 1199.98px) {
       body.admin-future-template .app-body > .sidebar {
         position: fixed;
@@ -609,17 +549,15 @@
         left: 0;
         bottom: 0;
         z-index: 1040;
+        width: 240px !important;
+        flex: 0 0 240px !important;
         transform: translateX(-100%) !important;
-        margin-left: 0 !important;
         transition: transform .22s ease !important;
       }
 
-      body.admin-future-template.sidebar-show .app-body > .sidebar {
+      body.admin-future-template.sidebar-show .app-body > .sidebar,
+      body.admin-future-template.sidebar-lg-show .app-body > .sidebar {
         transform: translateX(0) !important;
-      }
-
-      body.admin-future-template.sidebar-lg-show:not(.sidebar-show) .app-body > .sidebar {
-        transform: translateX(-100%) !important;
       }
 
       body.admin-future-template .app-body > .main,
@@ -633,6 +571,23 @@
       body.admin-future-template.sidebar-lg-show .app-header {
         left: 0 !important;
         width: 100% !important;
+      }
+
+      body.admin-future-template.sidebar-show .app-body > .main,
+      body.admin-future-template.sidebar-lg-show .app-body > .main {
+        margin-left: 240px !important;
+        width: calc(100% - 240px) !important;
+      }
+
+      body.admin-future-template.sidebar-show .app-header,
+      body.admin-future-template.sidebar-lg-show .app-header {
+        left: 240px !important;
+        width: calc(100% - 240px) !important;
+      }
+
+      body.admin-future-template .app-body > .sidebar .sidebar-nav {
+        height: 100% !important;
+        max-height: calc(100vh - var(--future-header-height)) !important;
       }
     }
     @endif

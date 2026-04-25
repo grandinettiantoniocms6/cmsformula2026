@@ -1,7 +1,7 @@
 ﻿# Project Memory
 
 ## Aggiornato il
-- 2026-04-23
+- 2026-04-24
 
 ## Snapshot tecnico
 - Stack: Laravel + Backpack (tema `backpack.theme-coreuiv2`).
@@ -56,5 +56,17 @@
 - Nel flusso import prodotti (`PluginProductImportCrudController`), le azioni post-import su `set:products_search` devono privilegiare aggiornamenti incrementali sugli ID toccati dall'ultimo `importSpecialMapping` (fallback full rebuild solo se manca il contesto IDs).
 - Il campo `website_settings.admin_panel_template` supporta anche `future`: gli stili del tema devono essere sempre scope-ati su `body.admin-future-template` e non devono alterare `white`, `modern_01`, `modern_02`.
 - Nel template admin `future`, evitare offset dinamici JS su `.app-body > .main`: usare offset CSS desktop stabile della sidebar e breakpoint `lg` per la dashboard, per prevenire stacking verticale e scroll eccessivo.
+- Nel template admin `future`, sotto `1200px` il toggler puo usare classi diverse (`sidebar-show` o `sidebar-lg-show`): le regole CSS offcanvas devono considerarle entrambe per evitare sidebar non apribile.
+- Nel template admin `future`, per stabilita responsive `<1200px` conviene normalizzare via JS lo stato sidebar su una sola classe (`sidebar-show`) intercettando eventuali click su toggler `sidebar-lg-show`.
+- Nel template admin `future`, evitare media query responsive sovrapposte per la sidebar: mantenere un solo blocco `<1200px` offcanvas riduce conflitti tra `transform`, `margin-left` e offset del `main`.
+- Nel template admin `future`, se UX richiede sidebar responsive non sovrapposta, sotto `1200px` usare modalita "push": apertura sidebar con offset coerente di `main` e `header` (stessa larghezza sidebar) invece di overlay.
+- Nel dashboard `future`, il widget "Traffico del sito" deve leggere visite frontend reali da tabella giornaliera `frontend_page_visits_daily` (non da ordini o dati fittizi).
+- Nel dashboard `future`, i pulsanti `7/30/90 giorni` del grafico traffico devono aggiornare realmente il range dati e mostrare tooltip con conteggio visite puntuale sul punto.
+- Nel dashboard `future`, per mostrare "chi ha modificato" nelle attivita pagine usare un campo persistente `pages.updated_by`; non usare `users_navigations` (stato URL corrente, non storico modifiche).
+- Nel backend admin, la modifica di un blocco pagina (`/admin/{blockType}/{id}` con `blockType` registrato in `admin_blocks`) deve aggiornare anche `pages.updated_by`/`updated_at` della pagina collegata via `blocks_pages`, cosi la dashboard riflette la modifica reale.
+- Per distinguere in dashboard tra edit pagina ed edit blocco, usare metadati persistenti su `pages` (`updated_context`, `updated_block_type`) e non inferenze da URL/sessione.
+- Per tracciamento blocchi robusto, considerare sia update `PUT/PATCH` sia `POST` su URL con id, e nei blocchi multi risalire da record figlio (`name_table.block_id`) al blocco padre (`blocks_pages.obj_id`).
+- Su installazioni con tabella `website_settings` molto ampia, nuove colonne possono fallire in migration con `SQLSTATE[42000] 1118 Row size too large`: per nuovi setting admin usare preferibilmente `website_setting_extras` (tabella 1:1 esterna) invece di estendere `website_settings`.
+- Per la campanellina news admin, lo stato "letto" deve essere persistente per utente oltre la sessione (cache/DB): evitare solo `session('admin_news_last_seen_at_*')` perche al logout il badge torna a conteggi errati.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.
 

@@ -11,8 +11,9 @@
             display: inline-flex;
             align-items: center;
             border-radius: 999px;
-            padding: .25rem .58rem;
-            font-size: .68rem;
+            min-height: 24px;
+            padding: .22rem .62rem;
+            font-size: .67rem;
             font-weight: 800;
             letter-spacing: .03em;
             border: 1px solid #c8d8f3;
@@ -22,13 +23,15 @@
     </style>
 @endif
 @if(env('NASCONDI_FRONTEND') == 0)
-    @if($website->is_online == 1)
-        <li class="nav-item d-md-down-none">
-            <span class="{{ $isFutureAdminTemplate ? 'future-topbar-status' : 'badge badge-success' }}">SITO ONLINE</span>
-        </li>
-    @else
-        <li class="nav-item d-md-down-none">
-            <span class="{{ $isFutureAdminTemplate ? 'future-topbar-status' : 'badge badge-danger' }}">SITO OFFLINE</span>
-        </li>
+    @if(!$isFutureAdminTemplate)
+        @if($website->is_online == 1)
+            <li class="nav-item d-md-down-none">
+                <span class="badge badge-success">SITO ONLINE</span>
+            </li>
+        @else
+            <li class="nav-item d-md-down-none">
+                <span class="badge badge-danger">SITO OFFLINE</span>
+            </li>
+        @endif
     @endif
 @endif

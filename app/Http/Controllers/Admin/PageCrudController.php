@@ -13,6 +13,7 @@ use App\Models\WebsiteSetting;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Class PageCrudController
@@ -690,6 +691,16 @@ class PageCrudController extends CrudController
                "template_header" => $this->crud->entry->template_header,
                "template_footer" => $this->crud->entry->template_footer
             ]);
+        }
+
+        if (Schema::hasColumn('pages', 'updated_by')) {
+            $this->crud->entry->updated_by = backpack_user()->id;
+        }
+        if (Schema::hasColumn('pages', 'updated_context')) {
+            $this->crud->entry->updated_context = 'page';
+        }
+        if (Schema::hasColumn('pages', 'updated_block_type')) {
+            $this->crud->entry->updated_block_type = null;
         }
 
         $this->crud->entry->save();

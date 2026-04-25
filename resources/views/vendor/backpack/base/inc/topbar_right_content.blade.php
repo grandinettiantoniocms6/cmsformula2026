@@ -58,7 +58,11 @@
                     ->take(10)
                     ->get();
 
-                $lastSeenAt = session('admin_news_last_seen_at_' . backpack_user()->id);
+                $lastSeenKey = 'admin_news_last_seen_at_' . backpack_user()->id;
+                $lastSeenAt = \Cache::get($lastSeenKey);
+                if(!$lastSeenAt){
+                    $lastSeenAt = session($lastSeenKey);
+                }
                 if($lastSeenAt){
                     $adminNewsUnreadCount = (int) (clone $baseNewsQuery)->where("created_at", ">", $lastSeenAt)->count();
                 } else {

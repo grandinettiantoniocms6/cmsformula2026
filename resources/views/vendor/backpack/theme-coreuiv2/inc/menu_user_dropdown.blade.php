@@ -2,6 +2,7 @@
     $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
     $isModernAdminTemplate02 = \App\Models\WebsiteSetting::isAdminModern02Template();
     $isFutureAdminTemplate = \App\Models\WebsiteSetting::isAdminFutureTemplate();
+    $profilePhotoUrl = method_exists(backpack_user(), 'getAdminProfilePhotoUrl') ? backpack_user()->getAdminProfilePhotoUrl() : null;
 @endphp
 @if($isModernAdminTemplate)
 <style>
@@ -35,6 +36,14 @@
         color: #ffffff;
         background: linear-gradient(140deg, #00a65a, #0ec777);
         box-shadow: 0 6px 14px rgba(0, 166, 90, .28);
+    }
+
+    .topbar-user-dropdown .backpack-avatar-menu-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 999px;
+        display: block;
     }
 
     .topbar-user-dropdown .dropdown-menu {
@@ -95,20 +104,53 @@
 
 @if($isFutureAdminTemplate)
 <style>
+    .future-user-meta-item {
+        padding: 0 .2rem 0 .15rem !important;
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .future-user-meta-inline {
+        display: inline-flex;
+        flex-direction: column;
+        line-height: 1.05;
+        min-width: 108px;
+    }
+
+    .future-user-meta-inline strong {
+        font-size: .83rem;
+        font-weight: 800;
+        color: #355387;
+        max-width: 128px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .future-user-meta-inline small {
+        font-size: .69rem;
+        color: #7a90b8;
+        font-weight: 600;
+    }
+
     .topbar-user-dropdown {
-        padding-left: .35rem !important;
-        padding-right: .35rem !important;
+        padding-left: .15rem !important;
+        padding-right: .1rem !important;
     }
 
     .topbar-user-dropdown .nav-link.avatar {
         display: inline-flex;
         align-items: center;
-        gap: .5rem;
-        min-height: 40px;
-        padding: .12rem .5rem .12rem .2rem !important;
-        border-radius: 999px;
-        border: 1px solid #d5e2f8;
-        background: #ffffff;
+        justify-content: center;
+        gap: .28rem;
+        width: auto;
+        height: 40px;
+        padding: .12rem .05rem !important;
+        border-radius: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
         color: #2b4779 !important;
     }
 
@@ -124,31 +166,16 @@
         background: linear-gradient(140deg, #2cad62, #249d57);
     }
 
-    .topbar-user-dropdown .future-user-meta {
-        display: inline-flex;
-        flex-direction: column;
-        line-height: 1.05;
-        padding-right: .15rem;
-    }
-
-    .topbar-user-dropdown .future-user-meta strong {
-        font-size: .76rem;
-        font-weight: 800;
-        color: #355387;
-        max-width: 120px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .topbar-user-dropdown .future-user-meta small {
-        font-size: .67rem;
-        color: #7a90b8;
-        font-weight: 600;
+    .topbar-user-dropdown .backpack-avatar-menu-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 999px;
+        display: block;
     }
 
     .topbar-user-dropdown .future-user-chevron {
-        font-size: .8rem;
+        font-size: .78rem;
         color: #6a84b1;
     }
 
@@ -163,27 +190,32 @@
     }
 
     @media (max-width: 1199.98px) {
-        .topbar-user-dropdown .future-user-meta {
+        .future-user-meta-item {
             display: none;
-        }
-
-        .topbar-user-dropdown .nav-link.avatar {
-            padding-right: .28rem !important;
         }
     }
 </style>
 @endif
 
+@if($isFutureAdminTemplate)
+<li class="nav-item d-md-down-none future-user-meta-item">
+    <span class="future-user-meta-inline">
+        <strong>{{ backpack_user()->name }}</strong>
+        <small>Amministratore</small>
+    </span>
+</li>
+@endif
+
 <li class="nav-item dropdown pl-2 pr-3 topbar-user-dropdown">
     <a class="nav-link avatar" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
     <span class="backpack-avatar-menu-container">
-      {{backpack_user()->getAttribute('name') ? mb_substr(backpack_user()->name, 0, 1, 'UTF-8') : 'A'}}
+      @if($profilePhotoUrl)
+        <img src="{{ $profilePhotoUrl }}" alt="{{ backpack_user()->name }}" class="backpack-avatar-menu-image">
+      @else
+        {{ backpack_user()->getAttribute('name') ? mb_substr(backpack_user()->name, 0, 1, 'UTF-8') : 'A' }}
+      @endif
     </span>
     @if($isFutureAdminTemplate)
-      <span class="future-user-meta">
-          <strong>{{ backpack_user()->name }}</strong>
-          <small>Amministratore</small>
-      </span>
       <i class="la la-angle-down future-user-chevron" aria-hidden="true"></i>
     @endif
     </a>

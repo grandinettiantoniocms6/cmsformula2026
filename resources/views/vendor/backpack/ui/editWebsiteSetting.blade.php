@@ -16,11 +16,51 @@
 @endphp
 
 @section('header')
-    <div class="website-setting-header-shell">
-        <h3 class="page-title mb-0">
-            <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-        </h3>
-    </div>
+    @if($isEnhancedAdminTemplate)
+        <div class="website-setting-header-shell">
+            <div class="website-setting-top-actions" id="website-setting-top-actions">
+                <div class="website-setting-top-actions__left">
+                    <strong>Impostazioni sito</strong>
+                    <small id="website-setting-dirty-status" class="is-clean">Nessuna modifica in sospeso</small>
+                </div>
+
+                <div class="website-setting-top-actions__preview d-none d-lg-flex">
+                    <div class="website-setting-live-preview d-lg-flex" id="website-setting-live-preview">
+                        <div class="website-setting-live-preview__mock">
+                            <div class="website-setting-live-preview__topbar" id="website-preview-topbar">
+                                <span>Topbar admin</span>
+                                <span class="website-setting-live-preview__dot"></span>
+                            </div>
+                            <div class="website-setting-live-preview__body">
+                                <aside class="website-setting-live-preview__sidebar" id="website-preview-sidebar">
+                                    <span>Barra sinistra</span>
+                                </aside>
+                                <div class="website-setting-live-preview__content">
+                                    Anteprima colori Modern
+                                </div>
+                            </div>
+                        </div>
+                        <div class="website-setting-live-preview__meta">
+                            <strong>Preview live</strong>
+                            <small>Si aggiorna con i campi "Sfondo topbar" e "Sfondo barra di sinistra".</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="website-setting-top-actions__right">
+                    <button type="submit" form="website-setting-form" class="btn btn-success">
+                        <span class="la la-save" aria-hidden="true"></span> Salva
+                    </button>
+                </div>
+            </div>
+        </div>
+    @else
+        <div class="website-setting-header-shell">
+            <h3 class="page-title mb-0">
+                <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+            </h3>
+        </div>
+    @endif
 @endsection
 
 @section('content')
@@ -30,7 +70,7 @@
 
 		@include('crud::inc.grouped_errors')
 
-		  <form method="post" class="mb-5 pb-4"
+		  <form id="website-setting-form" method="post" class="mb-5 pb-4"
 		  		action="{{ url($crud->route.'/'.$entry->getKey()) }}"
 				@if ($crud->hasUploadFields('update', $entry->getKey()))
 				enctype="multipart/form-data"
@@ -54,41 +94,6 @@
 				</div>
 		    </div>
 		    @endif
-
-              @if($isEnhancedAdminTemplate)
-              <div class="website-setting-top-actions" id="website-setting-top-actions">
-                  <div class="website-setting-top-actions__left">
-                      <strong>Impostazioni sito</strong>
-                      <small id="website-setting-dirty-status" class="is-clean">Nessuna modifica in sospeso</small>
-                  </div>
-                  <div class="website-setting-top-actions__right">
-                      <button type="submit" class="btn btn-success">
-                          <span class="la la-save" aria-hidden="true"></span> Salva
-                      </button>
-                  </div>
-              </div>
-
-              <div class="website-setting-live-preview d-none d-lg-flex" id="website-setting-live-preview">
-                  <div class="website-setting-live-preview__mock">
-                      <div class="website-setting-live-preview__topbar" id="website-preview-topbar">
-                          <span>Topbar admin</span>
-                          <span class="website-setting-live-preview__dot"></span>
-                      </div>
-                      <div class="website-setting-live-preview__body">
-                          <aside class="website-setting-live-preview__sidebar" id="website-preview-sidebar">
-                              <span>Barra sinistra</span>
-                          </aside>
-                          <div class="website-setting-live-preview__content">
-                              Anteprima colori Modern
-                          </div>
-                      </div>
-                  </div>
-                  <div class="website-setting-live-preview__meta">
-                      <strong>Preview live</strong>
-                      <small>Si aggiorna con i campi "Sfondo topbar" e "Sfondo barra di sinistra".</small>
-                  </div>
-              </div>
-              @endif
 		      <!-- load the view from the application if it exists, otherwise load the one in the package -->
 		      @if(view()->exists('vendor.backpack.crud.form_content'))
 		      	@include('vendor.backpack.crud.form_content', ['fields' => $crud->fields(), 'action' => 'edit'])
@@ -171,8 +176,8 @@
         }
 
         .website-setting-top-actions {
-            position: sticky;
-            top: 66px;
+            position: relative;
+            top: auto;
             z-index: 1021;
             background: linear-gradient(125deg, #ffffff 0%, #f6f9ff 100%);
             border: 1px solid #d9e6fb;
@@ -184,6 +189,11 @@
             justify-content: space-between;
             gap: 10px;
             box-shadow: 0 10px 24px rgba(16, 37, 77, 0.08);
+        }
+
+        .website-setting-top-actions__preview {
+            flex: 1 1 auto;
+            justify-content: center;
         }
 
         .website-setting-top-actions__left {
@@ -212,7 +222,7 @@
             border-radius: 12px;
             background: #f8fbff;
             padding: 12px;
-            margin-bottom: 14px;
+            margin-bottom: 0;
             gap: 12px;
             align-items: center;
         }
@@ -343,9 +353,17 @@
             color: #8e3e1d;
         }
 
+        @media (min-width: 1200px) {
+            body.admin-future-template.sidebar-lg-show #saveActions,
+            body.admin-future-template.sidebar-show #saveActions {
+                left: var(--future-sidebar-width, 212px) !important;
+                width: calc(100% - var(--future-sidebar-width, 212px)) !important;
+            }
+        }
+
         @media (max-width: 991px) {
             .website-setting-top-actions {
-                top: 58px;
+                top: auto;
             }
         }
     </style>

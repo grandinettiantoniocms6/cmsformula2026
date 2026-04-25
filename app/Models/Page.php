@@ -6,6 +6,7 @@ use App\User;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Schema;
 use Spatie\Translatable\HasTranslations;
 
 class Page extends Model
@@ -31,6 +32,34 @@ class Page extends Model
     protected function asJson($value)
     {
         return json_encode($value, JSON_UNESCAPED_UNICODE);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            static $hasUpdatedByColumn = null;
+            if ($hasUpdatedByColumn === null) {
+                $hasUpdatedByColumn = Schema::hasColumn($model->getTable(), 'updated_by');
+            }
+
+            if (!$hasUpdatedByColumn) {
+                return;
+            }
+
+            if (function_exists('backpack_auth') && backpack_auth()->check()) {
+                $model->updated_by = backpack_user()->id;
+
+                if (Schema::hasColumn($model->getTable(), 'updated_context')) {
+                    $model->updated_context = 'page';
+                }
+
+                if (Schema::hasColumn($model->getTable(), 'updated_block_type')) {
+                    $model->updated_block_type = null;
+                }
+            }
+        });
     }
 
     /*public static function boot()

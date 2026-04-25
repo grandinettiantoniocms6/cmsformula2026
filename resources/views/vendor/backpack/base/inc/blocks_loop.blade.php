@@ -16,7 +16,7 @@ if($pages_blocks){
         $item = \DB::table($pb->name_table)->find($pb->obj_id);
         ?>
         @if($item)
-            <div id="header_row_{{ $pb->id }}" data-index="{{ $pb->id }}" data-position="{{ $pb->order }}">
+            <div id="header_row_{{ $pb->id }}" class="page-block-sort-item" data-index="{{ $pb->id }}" data-position="{{ $pb->order }}">
                 @include('vendor.backpack.base.inc.block')
             </div>
         @endif

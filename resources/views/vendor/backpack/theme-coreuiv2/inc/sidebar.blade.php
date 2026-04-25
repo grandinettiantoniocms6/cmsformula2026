@@ -85,6 +85,76 @@
 
 @push('after_scripts')
   <script>
+      (function () {
+        var isFutureTemplate = document.body.classList.contains('admin-future-template');
+        if (!isFutureTemplate) return;
+
+        var mobileTabletMedia = window.matchMedia('(max-width: 1199.98px)');
+        var responsiveSidebarWidth = 240;
+        var main = document.querySelector('.app-body > .main');
+        var header = document.querySelector('.app-header');
+        var syncFutureMainResponsiveLayout = function () {
+          if (!main) return;
+          if (!mobileTabletMedia.matches) {
+            main.style.marginLeft = '';
+            main.style.width = '';
+            if (header) {
+              header.style.left = '';
+              header.style.width = '';
+            }
+            return;
+          }
+
+          var isSidebarOpen = document.body.classList.contains('sidebar-show')
+            || document.body.classList.contains('sidebar-lg-show');
+          if (isSidebarOpen) {
+            main.style.marginLeft = responsiveSidebarWidth + 'px';
+            main.style.width = 'calc(100% - ' + responsiveSidebarWidth + 'px)';
+            if (header) {
+              header.style.left = responsiveSidebarWidth + 'px';
+              header.style.width = 'calc(100% - ' + responsiveSidebarWidth + 'px)';
+            }
+            return;
+          }
+
+          main.style.marginLeft = '0';
+          main.style.width = '100%';
+          if (header) {
+            header.style.left = '0';
+            header.style.width = '100%';
+          }
+        };
+
+        var syncFutureResponsiveSidebarState = function () {
+          if (!mobileTabletMedia.matches) return;
+          // Sotto 1200px usiamo solo la classe offcanvas "sidebar-show".
+          if (document.body.classList.contains('sidebar-lg-show')) {
+            document.body.classList.remove('sidebar-lg-show');
+          }
+        };
+
+        syncFutureResponsiveSidebarState();
+        syncFutureMainResponsiveLayout();
+        window.addEventListener('resize', syncFutureResponsiveSidebarState);
+        window.addEventListener('resize', syncFutureMainResponsiveLayout);
+
+        document.addEventListener('click', function (event) {
+          var toggler = event.target.closest('.sidebar-toggler');
+          if (!toggler) return;
+          if (!mobileTabletMedia.matches) return;
+          if (toggler.getAttribute('data-toggle') !== 'sidebar-lg-show') return;
+
+          event.preventDefault();
+          event.stopPropagation();
+          document.body.classList.remove('sidebar-lg-show');
+          document.body.classList.toggle('sidebar-show');
+          syncFutureMainResponsiveLayout();
+        }, true);
+
+        var bodyClassObserver = new MutationObserver(syncFutureMainResponsiveLayout);
+        bodyClassObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      })();
+
       // Store sidebar state
       document.querySelectorAll('.sidebar-toggler').forEach(function(toggler) {
         toggler.addEventListener('click', function() {

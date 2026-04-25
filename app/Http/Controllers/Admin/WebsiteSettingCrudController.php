@@ -1715,6 +1715,17 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'tab' => 'Manutenzione'
         ]);
 
+        $this->crud->addField([
+            'name' => 'avvisi_help_text',
+            'type' => 'custom_html',
+            'value' => '
+                <div class="alert alert-info mb-3" role="alert">
+                    Da qui puoi impostare la visualizzazione di un messaggio personalizzato (ad esempio: chiusura per festività o partecipazione a una fiera/evento) tramite una finestra modale, definendo un intervallo di tempo con data di inizio e data di fine. Il contenuto del messaggio potrà essere inserito nelle schede dedicate alle lingue attive (IT, EN, ecc.).
+                </div>
+            ',
+            'tab' => 'Avvisi'
+        ]);
+
 
         $this->crud->addField([   // Checkbox
             'name'  => 'popup_start',
@@ -1877,6 +1888,18 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             ]);
 
             $this->crud->addField([
+                'name' => 'server_allocated_space',
+                'label' => 'Spazio server allocato',
+                'type' => 'text',
+                'default' => '500 MB',
+                'hint' => 'Formati accettati: 500 MB, 1GB, 2.5 GB',
+                'wrapperAttributes' => [
+                    'class' => 'form-group col-md-3'
+                ],
+                'tab' => 'Extra'
+            ]);
+
+            $this->crud->addField([
                 'label' => "Logo pannello admin",
                 'name' => "logo_admin",
                 'type'  => 'browse',
@@ -1972,9 +1995,13 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
 
         // execute the FormRequest authorization and validation, if one is required
         $request = $this->crud->validateRequest();
+        $serverAllocatedSpaceRaw = $request->input('server_allocated_space');
+        $request->request->remove('server_allocated_space');
+        $saveRequest = $this->crud->getStrippedSaveRequest($request);
+        unset($saveRequest['server_allocated_space']);
         // update the row in the db
         $item = $this->crud->update($request->get($this->crud->model->getKeyName()),
-            $this->crud->getStrippedSaveRequest($request));
+            $saveRequest);
         $this->data['entry'] = $this->crud->entry = $item;
 
         if (Schema::hasTable('website_setting_extras')) {
@@ -1983,17 +2010,45 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             $submenuTxtColorMobile = $request->input('submenu_txt_color_mobile');
             $hamburgerMenuBackground = $request->input('hamburger_menu_background');
             $menuMobilePanelBackground = $request->input('menu_mobile_panel_background');
+            if (is_array($serverAllocatedSpaceRaw)) {
+                $serverAllocatedSpaceRaw = collect($serverAllocatedSpaceRaw)->first(function ($value) {
+                    return trim((string) $value) !== '';
+                });
+            }
+
+            if ($serverAllocatedSpaceRaw === null) {
+                foreach ($request->all() as $key => $value) {
+                    if (strpos((string) $key, 'server_allocated_space') === 0) {
+                        $serverAllocatedSpaceRaw = is_array($value)
+                            ? collect($value)->first(function ($v) { return trim((string) $v) !== ''; })
+                            : $value;
+                        if (trim((string) $serverAllocatedSpaceRaw) !== '') {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            $serverAllocatedSpace = trim((string) ($serverAllocatedSpaceRaw ?? ''));
+            $serverAllocatedSpace = $serverAllocatedSpace !== '' ? $serverAllocatedSpace : '500 MB';
+
+            $extraPayload = [
+                'menu_link_visited_color' => $menuLinkVisitedColor !== null ? trim((string) $menuLinkVisitedColor) : null,
+                'submenu_mobile_bgcolor' => $submenuMobileBgcolor !== null ? trim((string) $submenuMobileBgcolor) : null,
+                'submenu_txt_color_mobile' => $submenuTxtColorMobile !== null ? trim((string) $submenuTxtColorMobile) : null,
+                'hamburger_menu_background' => $hamburgerMenuBackground !== null ? trim((string) $hamburgerMenuBackground) : null,
+                'menu_mobile_panel_background' => $menuMobilePanelBackground !== null ? trim((string) $menuMobilePanelBackground) : null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+
+            if (Schema::hasColumn('website_setting_extras', 'server_allocated_space')) {
+                $extraPayload['server_allocated_space'] = $serverAllocatedSpace;
+            }
+
             DB::table('website_setting_extras')->updateOrInsert(
                 ['website_setting_id' => $item->id],
-                [
-                    'menu_link_visited_color' => $menuLinkVisitedColor !== null ? trim((string) $menuLinkVisitedColor) : null,
-                    'submenu_mobile_bgcolor' => $submenuMobileBgcolor !== null ? trim((string) $submenuMobileBgcolor) : null,
-                    'submenu_txt_color_mobile' => $submenuTxtColorMobile !== null ? trim((string) $submenuTxtColorMobile) : null,
-                    'hamburger_menu_background' => $hamburgerMenuBackground !== null ? trim((string) $hamburgerMenuBackground) : null,
-                    'menu_mobile_panel_background' => $menuMobilePanelBackground !== null ? trim((string) $menuMobilePanelBackground) : null,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]
+                $extraPayload
             );
         }
 
@@ -2003,6 +2058,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
 
         $lang = new AdminLanguageController();
         $lang->update_lang("website", $this->crud, $request);
+
         $this->crud->entry->save();
 
         // save the redirect choice for next time

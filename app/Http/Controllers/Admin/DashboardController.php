@@ -29,6 +29,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class DashboardController extends Controller
 {
@@ -97,6 +98,127 @@ class DashboardController extends Controller
         return view(backpack_view('tutorials'));
     }
 
+    public function quick_search(Request $request)
+    {
+        if (!backpack_auth()->check()) {
+            return redirect()->to(backpack_url('dashboard'));
+        }
+
+        if (backpack_user()->roles[0]->id >= 5) {
+            return redirect()->to(backpack_url('dashboard'));
+        }
+
+        $searchRaw = trim((string) $request->get('search', $request->get('q', '')));
+        if ($searchRaw === '') {
+            return redirect()->back();
+        }
+
+        $search = Str::lower($searchRaw);
+
+        foreach ($this->getQuickSearchSettingsItems() as $settingItem) {
+            $keywords = array_map(static function ($keyword) {
+                return Str::lower((string) $keyword);
+            }, $settingItem['keywords'] ?? []);
+
+            foreach ($keywords as $keyword) {
+                if ($keyword !== '' && (Str::contains($search, $keyword) || Str::contains($keyword, $search))) {
+                    return redirect()->to($settingItem['url']);
+                }
+            }
+        }
+
+        $hasPageMatch = Page::query()
+            ->whereNull('deleted_at')
+            ->where(function ($query) use ($searchRaw) {
+                $like = '%' . $searchRaw . '%';
+                $query->where('name', 'like', $like)
+                    ->orWhere('title', 'like', $like)
+                    ->orWhere('slug', 'like', $like);
+            })
+            ->exists();
+
+        if ($hasPageMatch) {
+            return redirect()->to(backpack_url('page') . '?search=' . urlencode($searchRaw));
+        }
+
+        return redirect()->to(backpack_url('page') . '?search=' . urlencode($searchRaw));
+    }
+
+    public function quick_search_suggest(Request $request)
+    {
+        if (!backpack_auth()->check()) {
+            return response()->json(['items' => []], 401);
+        }
+
+        if (backpack_user()->roles[0]->id >= 5) {
+            return response()->json(['items' => []], 403);
+        }
+
+        $query = trim((string) $request->get('q', ''));
+        if (Str::length($query) < 2) {
+            return response()->json(['items' => []]);
+        }
+
+        $queryLower = Str::lower($query);
+        $items = [];
+
+        foreach ($this->getQuickSearchSettingsItems() as $settingItem) {
+            $labelLower = Str::lower((string) ($settingItem['label'] ?? ''));
+            $descriptionLower = Str::lower((string) ($settingItem['description'] ?? ''));
+            $keywords = array_map(static function ($keyword) {
+                return Str::lower((string) $keyword);
+            }, $settingItem['keywords'] ?? []);
+
+            $match = Str::contains($labelLower, $queryLower) || Str::contains($descriptionLower, $queryLower);
+            if (!$match) {
+                foreach ($keywords as $keyword) {
+                    if ($keyword !== '' && (Str::contains($keyword, $queryLower) || Str::contains($queryLower, $keyword))) {
+                        $match = true;
+                        break;
+                    }
+                }
+            }
+
+            if ($match) {
+                $items[] = [
+                    'label' => $settingItem['label'],
+                    'description' => $settingItem['description'],
+                    'url' => $settingItem['url'],
+                    'type' => 'setting',
+                ];
+            }
+        }
+
+        $pageMatches = Page::query()
+            ->whereNull('deleted_at')
+            ->where(function ($queryBuilder) use ($query) {
+                $like = '%' . $query . '%';
+                $queryBuilder->where('name', 'like', $like)
+                    ->orWhere('title', 'like', $like)
+                    ->orWhere('slug', 'like', $like);
+            })
+            ->orderByDesc('id')
+            ->limit(8)
+            ->get(['id', 'name', 'title', 'slug']);
+
+        foreach ($pageMatches as $pageItem) {
+            $pageName = trim((string) $pageItem->name);
+            $pageTitle = $this->extractQuickSearchText($pageItem->title);
+            $pageSlug = $this->extractQuickSearchText($pageItem->slug);
+
+            $items[] = [
+                'label' => $pageName !== '' ? $pageName : ($pageTitle !== '' ? $pageTitle : 'Pagina #' . $pageItem->id),
+                'description' => $pageSlug !== '' ? 'Pagina: /' . ltrim($pageSlug, '/') : 'Elenco pagine',
+                'url' => backpack_url('page') . '?search=' . urlencode($pageName !== '' ? $pageName : $query),
+                'type' => 'page',
+            ];
+        }
+
+        return response()->json([
+            'items' => array_slice($items, 0, 10),
+        ]);
+    }
+
     public function mark_news_seen(Request $request)
     {
         if (!backpack_auth()->check()) {
@@ -126,7 +248,12 @@ class DashboardController extends Controller
                 ->max("created_at");
 
             if($latestNewsCreatedAt){
-                session()->put('admin_news_last_seen_at_' . backpack_user()->id, (string) $latestNewsCreatedAt);
+                $userId = (int) backpack_user()->id;
+                $lastSeenAt = (string) $latestNewsCreatedAt;
+                $cacheKey = 'admin_news_last_seen_at_' . $userId;
+
+                \Cache::forever($cacheKey, $lastSeenAt);
+                session()->put($cacheKey, $lastSeenAt);
             }
         } catch (\Throwable $e) {
             return response()->json(['ok' => false], 500);
@@ -147,6 +274,7 @@ class DashboardController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:60000',
+            'priority' => 'nullable|in:bassa,media,alta',
         ]);
 
         $nextSortOrder = (int) DashboardTodo::where('user_id', backpack_user()->id)->max('sort_order') + 1;
@@ -159,6 +287,7 @@ class DashboardController extends Controller
         $todo = DashboardTodo::create([
             'user_id' => backpack_user()->id,
             'title' => $sanitizedTitle,
+            'priority' => $request->get('priority', 'media'),
             'is_done' => 0,
             'sort_order' => $nextSortOrder,
         ]);
@@ -181,6 +310,7 @@ class DashboardController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:60000',
+            'priority' => 'nullable|in:bassa,media,alta',
         ]);
 
         $todo = DashboardTodo::where('id', $id)
@@ -197,6 +327,7 @@ class DashboardController extends Controller
         }
 
         $todo->title = $sanitizedTitle;
+        $todo->priority = (string) $request->get('priority', $todo->priority ?: 'media');
         $todo->save();
 
         return response()->json([
@@ -329,6 +460,63 @@ class DashboardController extends Controller
         \Cache::put($cacheKey, $isReachable, now()->addSeconds($isReachable ? 60 : 180));
 
         return $isReachable;
+    }
+
+    private function getQuickSearchSettingsItems(): array
+    {
+        $websiteSettingUrl = backpack_url('websiteSetting/1/edit');
+
+        return [
+            [
+                'label' => 'Impostazioni sito',
+                'description' => 'Configurazione generale sito',
+                'url' => $websiteSettingUrl,
+                'keywords' => ['impostazioni', 'website setting', 'website settings', 'sito', 'favicon', 'logo', 'mailchimp', 'cookie', 'iubenda', 'consent', 'social', 'seo'],
+            ],
+            [
+                'label' => 'Impostazioni > Header/Topbar',
+                'description' => 'Colori e comportamento header',
+                'url' => $websiteSettingUrl,
+                'keywords' => ['header', 'topbar', 'menu', 'menubar', 'hamburger', 'sidebar', 'sfondo topbar'],
+            ],
+            [
+                'label' => 'Impostazioni > Avvisi',
+                'description' => 'Messaggi popup e periodo pubblicazione',
+                'url' => $websiteSettingUrl,
+                'keywords' => ['avvisi', 'popup', 'data inizio', 'data fine', 'modale', 'messaggio'],
+            ],
+            [
+                'label' => 'Impostazioni > Manutenzione/Extra',
+                'description' => 'Online/offline, extra e pannello admin',
+                'url' => $websiteSettingUrl,
+                'keywords' => ['manutenzione', 'offline', 'online', 'extra', 'watermark', 'admin panel', 'pannello admin', 'whatsapp'],
+            ],
+        ];
+    }
+
+    private function extractQuickSearchText($value): string
+    {
+        if ($value === null) {
+            return '';
+        }
+
+        if (is_array($value)) {
+            $localized = $value[App::getLocale()] ?? $value['it'] ?? reset($value);
+            return trim((string) ($localized ?? ''));
+        }
+
+        $raw = trim((string) $value);
+        if ($raw === '') {
+            return '';
+        }
+
+        $decoded = json_decode($raw, true);
+        if (is_array($decoded)) {
+            $localized = $decoded[App::getLocale()] ?? $decoded['it'] ?? reset($decoded);
+            return trim((string) ($localized ?? ''));
+        }
+
+        return $raw;
     }
 
     private function sanitize_dashboard_todo_html(string $value): string

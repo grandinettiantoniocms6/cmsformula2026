@@ -59,7 +59,11 @@
                     ->take(10)
                     ->get();
 
-                $lastSeenAt = session('admin_news_last_seen_at_' . backpack_user()->id);
+                $lastSeenKey = 'admin_news_last_seen_at_' . backpack_user()->id;
+                $lastSeenAt = \Cache::get($lastSeenKey);
+                if(!$lastSeenAt){
+                    $lastSeenAt = session($lastSeenKey);
+                }
                 if($lastSeenAt){
                     $adminNewsUnreadCount = (int) (clone $baseNewsQuery)->where("created_at", ">", $lastSeenAt)->count();
                 } else {
@@ -307,6 +311,19 @@
 
 @if($isFutureAdminTemplate)
 <style>
+    .topbar-news-link,
+    .topbar-preview-link,
+    .topbar-help-link {
+        width: 46px;
+        height: 46px;
+    }
+
+    .topbar-news-link i,
+    .topbar-preview-link i,
+    .topbar-help-link i {
+        font-size: 1.2rem;
+    }
+
     .topbar-news-link {
         background: #ffffff;
         border: 1px solid #d5e2f8;
@@ -364,7 +381,25 @@
         border-color: #c2d6fb;
         color: #2a4b83 !important;
     }
+
+    .future-topbar-separator {
+        display: inline-flex;
+        align-items: center;
+        color: #ccd7ea;
+        font-weight: 700;
+        font-size: .95rem;
+        padding: 0 .28rem 0 .05rem;
+    }
 </style>
+@endif
+
+@if(env('NASCONDI_FRONTEND') == 0 && $isFutureAdminTemplate)
+    <li class="nav-item d-md-down-none">
+        <a class="nav-link topbar-preview-link" href="/" target="_blank" title="Anteprima Web">
+            <i class="las la-eye"></i>
+            <span>Anteprima Sito</span>
+        </a>
+    </li>
 @endif
 
 <li class="nav-item d-md-down-none">
@@ -381,6 +416,9 @@
         <a class="nav-link topbar-help-link" href="https://www.webisland.it/contatti" target="_blank" title="Assistenza">
             <i class="las la-question-circle"></i>
         </a>
+    </li>
+    <li class="nav-item d-md-down-none">
+        <span class="future-topbar-separator">|</span>
     </li>
 @endif
 

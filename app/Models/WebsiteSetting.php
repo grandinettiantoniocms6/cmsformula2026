@@ -207,6 +207,21 @@ class WebsiteSetting extends Model
             ->value('menu_link_visited_color');
     }
 
+    public function getServerAllocatedSpaceAttribute()
+    {
+        if (!$this->getKey() || !\Schema::hasTable('website_setting_extras')) {
+            return '500 MB';
+        }
+
+        if (!\Schema::hasColumn('website_setting_extras', 'server_allocated_space')) {
+            return '500 MB';
+        }
+
+        return \DB::table('website_setting_extras')
+            ->where('website_setting_id', $this->getKey())
+            ->value('server_allocated_space') ?: '500 MB';
+    }
+
     public function getSubmenuMobileBgcolorAttribute()
     {
         if (!$this->getKey() || !\Schema::hasTable('website_setting_extras')) {
