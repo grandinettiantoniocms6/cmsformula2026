@@ -280,7 +280,7 @@ class DashboardController extends Controller
         ]);
 
         try {
-            $destinationEmail = (string) (env('ADMIN_SUPPORT_EMAIL') ?: env('MAIL_FROM_ADDRESS') ?: 'info@webisland.it');
+            $destinationEmail = 'info@webisland.it';
             $adminUser = backpack_user();
             $body = implode("\n", [
                 'Nuova richiesta assistenza da pannello admin',
