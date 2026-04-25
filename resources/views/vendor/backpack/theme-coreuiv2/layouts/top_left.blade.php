@@ -515,6 +515,25 @@
       z-index: 1100;
     }
 
+    /* Prevent dropdown clipping in CRUD lists (eg. /admin/page actions menu). */
+    body.admin-future-template .main .dataTables_wrapper,
+    body.admin-future-template .main .table-responsive,
+    body.admin-future-template .main #crudTable_wrapper,
+    body.admin-future-template .main #crudTable,
+    body.admin-future-template .main #crudTable tbody,
+    body.admin-future-template .main #crudTable tbody tr,
+    body.admin-future-template .main #crudTable tbody td {
+      overflow: visible !important;
+    }
+
+    body.admin-future-template .main #crudTable .dropdown,
+    body.admin-future-template .main #crudTable .btn-group,
+    body.admin-future-template .main #crudTable .dropup,
+    body.admin-future-template .main #crudTable .dropdown-menu {
+      position: relative;
+      z-index: 1120;
+    }
+
     @media (min-width: 1200px) {
       body.admin-future-template .app-body > .sidebar {
         width: var(--future-sidebar-width) !important;
