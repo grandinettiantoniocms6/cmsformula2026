@@ -669,6 +669,10 @@ class DashboardController extends Controller
                 $page_block->obj_id = $lastCreated->id;
                 $page_block->save();
 
+                if($request->has('quick_add')){
+                    return redirect()->back();
+                }
+
                 if($adminBlock->is_multi == 1){
                     return redirect()->back();
                 }

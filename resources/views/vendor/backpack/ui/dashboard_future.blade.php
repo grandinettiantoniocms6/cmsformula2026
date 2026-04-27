@@ -227,6 +227,56 @@
             'cta' => null,
         ]);
     }
+    $latestNewsItems = collect();
+    $newsDbReachable = true;
+    if (app()->environment('local')) {
+        $newsDbReachableCacheKey = 'admin_news_mysql2_reachable';
+        $cachedNewsDbReachable = \Cache::get($newsDbReachableCacheKey);
+        if ($cachedNewsDbReachable !== null) {
+            $newsDbReachable = (bool) $cachedNewsDbReachable;
+        } else {
+            try {
+                $mysql2Config = config('database.connections.mysql_2', []);
+                $mysql2Host = (string) ($mysql2Config['host'] ?? '');
+                $mysql2Port = (int) ($mysql2Config['port'] ?? 3306);
+                if ($mysql2Host !== '') {
+                    $probeTimeout = (float) env('ADMIN_NEWS_DB_PROBE_TIMEOUT', 0.35);
+                    $errno = 0;
+                    $errstr = '';
+                    $socket = @fsockopen($mysql2Host, $mysql2Port, $errno, $errstr, $probeTimeout);
+                    if (is_resource($socket)) {
+                        fclose($socket);
+                    } else {
+                        $newsDbReachable = false;
+                    }
+                }
+            } catch (\Throwable $e) {
+                $newsDbReachable = false;
+            }
+            \Cache::put($newsDbReachableCacheKey, $newsDbReachable, now()->addSeconds($newsDbReachable ? 60 : 180));
+        }
+    }
+
+    if ($newsDbReachable) {
+        try {
+            $newsConnection = 'mysql_2';
+            try {
+                \DB::connection($newsConnection)->getPdo();
+            } catch (\Throwable $e) {
+                $newsConnection = 'mysql_2_fallback';
+            }
+
+            $latestNewsItems = \DB::connection($newsConnection)
+                ->table('news')
+                ->whereNull('deleted_at')
+                ->where('is_active', 1)
+                ->orderBy('created_at', 'desc')
+                ->take(3)
+                ->get();
+        } catch (\Throwable $e) {
+            $latestNewsItems = collect();
+        }
+    }
 
     $kpiCards = [
         [
@@ -374,23 +424,16 @@
                 <div class="col-lg-4 mb-3">
                     <div class="card card-dashboard future-panel h-100">
                         <div class="card-header future-panel-header d-flex align-items-center">
-                            <h5 class="mb-0">Insight AI <span class="future-beta-badge">BETA</span></h5>
+                            <h5 class="mb-0">Stato del sito</h5>
                         </div>
                         <div class="card-body">
-                            <ul class="future-insight-list mb-0">
-                                @foreach($insights as $insight)
-                                    <li class="future-insight-item">
-                                        <span class="future-insight-dot {{ $insight['type'] }}"></span>
-                                        <div class="future-insight-content">
-                                            <div class="future-insight-title">{{ $insight['title'] }}</div>
-                                            <div class="future-insight-text">{{ $insight['text'] }}</div>
-                                        </div>
-                                        @if(!empty($insight['url']) && !empty($insight['cta']))
-                                            <a class="btn btn-sm btn-light {{ $insight['url'] === '#dashboardFutureTasks' ? 'future-insight-open-task' : '' }}" href="{{ $insight['url'] }}" @if($insight['url'] === '#dashboardFutureTasks') data-open-filter="open" @endif>{{ $insight['cta'] }}</a>
-                                        @endif
-                                    </li>
-                                @endforeach
-                            </ul>
+                            <div class="future-status {{ $onlineStatus ? 'online' : 'offline' }}">
+                                <span class="future-status-dot"></span>
+                                {{ $onlineStatus ? 'Online' : 'Offline' }}
+                            </div>
+                            <small class="d-block mt-2 text-muted">
+                                {{ $onlineStatus ? 'Tutto funziona correttamente.' : 'Verifica la tab Manutenzione.' }}
+                            </small>
                         </div>
                     </div>
                 </div>
@@ -507,16 +550,58 @@
             </div>
         </div>
         <div class="col-lg-3">
-            <div class="card card-dashboard future-side-card future-side-card-status mb-3">
+            <div class="card card-dashboard future-side-card mb-3">
                 <div class="card-body">
-                    <h6 class="mb-2">Stato del sito</h6>
-                    <div class="future-status {{ $onlineStatus ? 'online' : 'offline' }}">
-                        <span class="future-status-dot"></span>
-                        {{ $onlineStatus ? 'Online' : 'Offline' }}
-                    </div>
-                    <small class="d-block mt-2 text-muted">
-                        {{ $onlineStatus ? 'Tutto funziona correttamente.' : 'Verifica la tab Manutenzione.' }}
-                    </small>
+                    <h6 class="mb-2">Insight AI <span class="future-beta-badge">BETA</span></h6>
+                    <ul class="future-insight-list mb-0">
+                        @foreach($insights as $insight)
+                            <li class="future-insight-item">
+                                <span class="future-insight-dot {{ $insight['type'] }}"></span>
+                                <div class="future-insight-content">
+                                    <div class="future-insight-title">{{ $insight['title'] }}</div>
+                                    <div class="future-insight-text">{{ $insight['text'] }}</div>
+                                </div>
+                                @if(!empty($insight['url']) && !empty($insight['cta']))
+                                    <a class="btn btn-sm btn-light {{ $insight['url'] === '#dashboardFutureTasks' ? 'future-insight-open-task' : '' }}" href="{{ $insight['url'] }}" @if($insight['url'] === '#dashboardFutureTasks') data-open-filter="open" @endif>{{ $insight['cta'] }}</a>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card card-dashboard future-side-card mb-3">
+                <div class="card-body">
+                    <h6 class="mb-2">Ultime News</h6>
+                    @if($latestNewsItems->isNotEmpty())
+                        <div id="futureNewsCarousel" class="carousel slide future-news-carousel" data-interval="false">
+                            <ol class="carousel-indicators future-news-indicators">
+                                @foreach($latestNewsItems as $newsIndex => $newsItem)
+                                    <li data-target="#futureNewsCarousel" data-slide-to="{{ $newsIndex }}" class="{{ $newsIndex === 0 ? 'active' : '' }}"></li>
+                                @endforeach
+                            </ol>
+                            <div class="carousel-inner">
+                                @foreach($latestNewsItems as $newsIndex => $newsItem)
+                                    @php
+                                        $newsTitle = \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags((string) ($newsItem->title ?? 'News')))), 80);
+                                        $newsDescription = \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/', ' ', strip_tags((string) ($newsItem->description ?? '')))), 180);
+                                        $newsPublishedAt = $newsItem->published_at ?? $newsItem->publication_date ?? $newsItem->data_pubblicazione ?? $newsItem->created_at ?? null;
+                                    @endphp
+                                    <div class="carousel-item {{ $newsIndex === 0 ? 'active' : '' }}">
+                                        <article class="future-news-slide" role="button" tabindex="0" aria-label="Apri pannello news">
+                                            <div class="future-news-title">{{ $newsTitle !== '' ? $newsTitle : 'News' }}</div>
+                                            <div class="future-news-text">{{ $newsDescription !== '' ? $newsDescription : 'Contenuto non disponibile.' }}</div>
+                                            @if($newsPublishedAt)
+                                                <small class="future-news-date">{{ \Carbon\Carbon::parse($newsPublishedAt)->format('d/m/Y H:i') }}</small>
+                                            @endif
+                                        </article>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <div class="future-news-empty">Nessuna news disponibile al momento.</div>
+                    @endif
                 </div>
             </div>
 
@@ -572,8 +657,8 @@
     </div>
 
     <div class="future-dashboard-footer">
-        <span>&copy; {{ now()->format('Y') }} Webisland S.r.l. - CMS-Formula</span>
-        <span>Versione 3.2.0</span>
+        <span>&copy; {{ now()->format('Y') }} {{ config('backpack.base.developer_name') }}</span>
+        <span> {{ config('backpack.base.developer_name') }}</span>
     </div>
 
     <div class="modal fade" id="dashboardTodoEditorModal" tabindex="-1" role="dialog" aria-labelledby="dashboardTodoEditorModalLabel" aria-hidden="true">
@@ -676,7 +761,7 @@
         .future-link-more { color: #4a67a0; font-size: .78rem; font-weight: 700; text-decoration: none; }
         .future-link-more:hover { color: #35588e; text-decoration: underline; }
         .future-insight-list { list-style: none; padding: 0; }
-        .future-insight-item { display: flex; align-items: flex-start; gap: .65rem; border: 1px solid #dce7fb; background: #f9fbff; border-radius: 12px; padding: .58rem .62rem; margin-bottom: .5rem; }
+        .future-insight-item { display: flex; align-items: flex-start; gap: .65rem; border: 1px solid #dce7fb; background: #f9fbff; border-radius: 12px; padding: .58rem .62rem; margin-bottom: .5rem; min-height: 100%; }
         .future-insight-dot { width: 9px; height: 9px; border-radius: 50%; margin-top: .44rem; flex: 0 0 auto; }
         .future-insight-dot.warning { background: #f39a25; }
         .future-insight-dot.info { background: #3f79ee; }
@@ -686,6 +771,16 @@
         .future-insight-title { color: #1f3f70; font-weight: 700; font-size: .9rem; }
         .future-insight-text { color: #5f7397; font-size: .82rem; }
         .future-beta-badge { display: inline-flex; align-items: center; margin-left: .38rem; padding: .08rem .42rem; border-radius: 999px; font-size: .64rem; font-weight: 800; letter-spacing: .03em; color: #6b4e00; background: #fff2c9; border: 1px solid #f5d77a; vertical-align: middle; }
+        .future-news-carousel { position: relative; border: 1px solid #dce7fb; border-radius: 12px; background: #f9fbff; padding: .55rem .65rem 1.45rem; min-height: 164px; }
+        .future-news-slide { display: flex; flex-direction: column; gap: .38rem; min-height: 120px; }
+        .future-news-slide[role="button"] { cursor: pointer; }
+        .future-news-title { color: #1f3f70; font-weight: 700; font-size: .9rem; line-height: 1.32; }
+        .future-news-text { color: #5f7397; font-size: .81rem; line-height: 1.46; }
+        .future-news-date { color: #7b8eb3; font-size: .72rem; font-weight: 700; margin-top: auto; }
+        .future-news-empty { border: 1px dashed #cfdbf0; border-radius: 12px; padding: .75rem .7rem; color: #5a739d; background: #f9fbff; font-size: .84rem; text-align: center; }
+        .future-news-indicators { position: absolute; left: 0; right: 0; bottom: .38rem; margin: 0; justify-content: center; }
+        .future-news-indicators li { width: 7px; height: 7px; border-radius: 50%; background: #c4d3ec; border: 0; opacity: 1; margin: 0 .2rem; }
+        .future-news-indicators li.active { background: #4a76d8; }
         .future-actions-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .7rem; }
         .future-action { border: 1px solid #dce7fb; border-radius: 12px; min-height: 66px; display: inline-flex; align-items: center; justify-content: flex-start; gap: .62rem; background: #fff; color: #1f3f70; font-weight: 700; font-size: .82rem; text-decoration: none !important; transition: all .2s ease; padding: .55rem .62rem; }
         .future-action i { font-size: 1rem; line-height: 1; }
@@ -708,8 +803,19 @@
         .future-activity-scroll::-webkit-scrollbar { width: 8px; }
         .future-activity-scroll::-webkit-scrollbar-thumb { background: #c9d5ec; border-radius: 10px; }
         .future-activity-scroll::-webkit-scrollbar-track { background: transparent; }
-        .future-side-card { border-radius: 14px; border: 1px solid #dce7fb; }
-        .future-side-card .card-body { padding: .9rem .95rem; }
+        .future-side-card {
+            border-radius: 14px;
+            border: 1px solid #dce7fb;
+            height: auto !important;
+            min-height: 0 !important;
+            flex: 0 0 auto;
+            align-self: flex-start;
+        }
+        .future-side-card .card-body {
+            padding: .9rem .95rem;
+            height: auto !important;
+            min-height: 0 !important;
+        }
         .future-side-card-status { width: 100%; max-width: 100%; margin-left: 0; }
         .future-side-label { color: #6a80a8; text-transform: uppercase; letter-spacing: .04em; font-size: .73rem; font-weight: 700; }
         .future-digital-clock { margin-top: .35rem; font-size: 1.9rem; font-weight: 800; color: #1b3b6d; font-family: "Consolas","Menlo","Monaco",monospace; line-height: 1; }
@@ -781,7 +887,9 @@
         .dashboard-todo-icon-btn:hover { filter: brightness(.97); }
         .dashboard-todo-empty { color: #64748b; font-size: .9rem; }
         #futureOrdersChart { width: 100%; display: block; }
-        @media (max-width: 1199.98px) { .future-kpi-grid, .future-actions-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 1199.98px) {
+            .future-kpi-grid, .future-actions-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
         @media (max-width: 767.98px) {
             .future-dashboard-header { flex-direction: column; align-items: flex-start; }
             .future-dashboard-date { margin-left: 0; text-align: left; }
@@ -898,6 +1006,34 @@
                 const tick = function() { clock.textContent = new Date().toLocaleTimeString('it-IT', {hour: '2-digit', minute: '2-digit', hour12: false}); };
                 tick();
                 setInterval(tick, 1000);
+            }
+
+            const newsCarousel = document.getElementById('futureNewsCarousel');
+            if (newsCarousel && window.jQuery && typeof window.jQuery.fn.carousel === 'function') {
+                window.jQuery(newsCarousel).carousel({
+                    interval: false,
+                    pause: false,
+                    ride: false
+                }).carousel('pause');
+            }
+            if (newsCarousel) {
+                const newsToggle = document.getElementById('topbar-news-toggle');
+                const openNewsDrawer = function() {
+                    if (!newsToggle) return;
+                    newsToggle.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+                };
+
+                newsCarousel.querySelectorAll('.future-news-slide').forEach(function(slide) {
+                    slide.addEventListener('click', function() {
+                        openNewsDrawer();
+                    });
+                    slide.addEventListener('keydown', function(event) {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            openNewsDrawer();
+                        }
+                    });
+                });
             }
 
             const todoNewButton = document.getElementById('dashboardTodoNewButton');

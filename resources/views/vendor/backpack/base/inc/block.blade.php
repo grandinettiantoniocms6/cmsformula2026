@@ -45,6 +45,9 @@
                 {{ $admin_blocks_orders[$pb->type] }}
             @endif
         </em>
+        <span class="page-block-status {{ $pb->is_active == 1 ? 'is-on' : 'is-off' }}">
+            {{ $pb->is_active == 1 ? 'Attivo' : 'Disattivo' }}
+        </span>
     </div>
     <div class="ml-auto page-block-actions">
         @if($pb->is_active == 1)

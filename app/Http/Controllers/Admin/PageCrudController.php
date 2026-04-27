@@ -198,12 +198,10 @@ class PageCrudController extends CrudController
 
         $pages_count = Page::count();
         $website = WebsiteSetting::first();
-        $number = null;
-        if($website->number_max_page){
-            $number = $website->number_max_page - $pages_count;
-        }
+        $hasPageLimit = $website && (int) $website->number_max_page > 0;
+        $number = $hasPageLimit ? (int) $website->number_max_page - $pages_count : null;
 
-        if($number <= 0){
+        if($hasPageLimit && $number <= 0){
             $this->crud->removeButton("create");
         }
 

@@ -73,7 +73,7 @@
                 <div class="text-center"><a href="{{ route('backpack.auth.register') }}">{{ trans('backpack::base.register') }}</a></div>
             @endif
             <div class="text-center">
-                Realizzato da <a target="_blank" rel="noopener" href="{{ config('backpack.base.developer_link') }}">{{ config('backpack.base.developer_name') }}</a>.
+                Realizzato da <a target="_blank" rel="noopener" href="{{ config('backpack.base.developer_link') }}"> {{ config('backpack.base.developer_name') }}</a>.
             </div>
         </div>
     </div>

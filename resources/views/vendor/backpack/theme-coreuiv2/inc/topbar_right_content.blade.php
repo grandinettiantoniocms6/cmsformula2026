@@ -482,7 +482,9 @@
         display: inline-flex !important;
         align-items: center;
         justify-content: center;
-        width: 38px;
+        gap: .42rem;
+        width: auto;
+        padding: .38rem .82rem !important;
         height: 38px;
         margin-right: .45rem;
         border-radius: 999px;
@@ -499,7 +501,10 @@
     }
 
     .topbar-preview-link span {
-        display: none;
+        display: inline;
+        font-weight: 700;
+        font-size: .84rem;
+        letter-spacing: .01em;
     }
 
     .topbar-help-link {
@@ -531,6 +536,65 @@
         font-size: .95rem;
         padding: 0 .28rem 0 .05rem;
     }
+
+    @media (max-width: 1499.98px) {
+        .topbar-preview-link {
+            width: 38px;
+            min-width: 38px;
+            padding: 0 !important;
+            margin-right: .32rem;
+            gap: 0;
+        }
+
+        .topbar-preview-link span {
+            display: none !important;
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        body.admin-future-template .app-header .navbar-nav.ml-auto > li.nav-item.d-md-down-none:not(.future-user-meta-item) {
+            display: inline-flex !important;
+            min-height: 40px;
+        }
+
+        body.admin-future-template .app-header .navbar-nav.ml-auto .future-topbar-separator {
+            display: none !important;
+        }
+
+        .topbar-news-link,
+        .topbar-preview-link,
+        .topbar-help-link {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            margin-right: .2rem;
+        }
+
+        .topbar-news-link i,
+        .topbar-preview-link i,
+        .topbar-help-link i {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 767.98px) {
+        .topbar-news-link,
+        .topbar-preview-link,
+        .topbar-help-link {
+            width: 34px;
+            height: 34px;
+            min-width: 34px;
+            margin-right: .12rem;
+        }
+    }
+
+    @media (max-width: 459.98px) {
+        .topbar-preview-link,
+        .topbar-news-link,
+        .topbar-help-link {
+            display: none !important;
+        }
+    }
 </style>
 @endif
 
@@ -555,7 +619,7 @@
 @if($isFutureAdminTemplate)
     <li class="nav-item d-md-down-none">
         <a class="nav-link topbar-help-link" href="#" id="topbar-help-toggle" data-admin-support-toggle="1" title="Assistenza">
-            <i class="las la-question-circle"></i>
+            <i class="la la-headset"></i>
         </a>
     </li>
     <li class="nav-item d-md-down-none">

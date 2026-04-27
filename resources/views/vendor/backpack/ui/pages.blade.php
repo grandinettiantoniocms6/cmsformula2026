@@ -2,6 +2,7 @@
 
 @php
     $isModernAdminTemplate = \App\Models\WebsiteSetting::isAdminModernTemplate();
+    $isFutureAdminTemplate = \App\Models\WebsiteSetting::isAdminFutureTemplate();
 @endphp
 
 @php
@@ -17,37 +18,53 @@
 
   $pages_count = \App\Models\Page::count();
   $website = \App\Models\WebsiteSetting::first();
-  $number = null;
-  if($website->number_max_page){
-    $number = $website->number_max_page - $pages_count;
-  }
-
-  $pages_count = \App\Models\Page::count();
-  $website = \App\Models\WebsiteSetting::first();
+  $hasPageLimit = $website && (int) $website->number_max_page > 0;
+  $number = $hasPageLimit ? (int) $website->number_max_page - $pages_count : null;
 @endphp
 
 @section('header')
-    <div class="pages-header-shell">
-        <h3 class="page-title mb-1">
-            <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
-            <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
-        </h3>
-
-        @if(backpack_user()->roles[0]->id <= 3)
-            @if($website->number_max_page)
-                <?php $number = $website->number_max_page - $pages_count; ?>
-                <span class="pages-limit-chip">Puoi inserire ancora {{ $number }} pagine</span>
-            @else
-                <span class="pages-limit-chip">Puoi inserire pagine illimitate</span>
+    @if($isFutureAdminTemplate)
+        <div class="future-pages-commandbar">
+            <div class="future-pages-commandbar__left">
+                <h3 class="page-title mb-0">
+                    <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+                </h3>
+                <small id="datatable_info_stack" class="future-pages-commandbar__meta">{!! $crud->getSubheading() ?? '' !!}</small>
+            </div>
+            @if(backpack_user()->roles[0]->id <= 3)
+                @if($hasPageLimit)
+                    <span class="pages-limit-chip {{ $number <= 0 ? 'pages-limit-chip-warning' : 'pages-limit-chip-ok' }}">
+                        {{ $number > 0 ? "Puoi inserire ancora {$number} pagine" : 'Limite pagine raggiunto' }}
+                    </span>
+                @else
+                    <span class="pages-limit-chip pages-limit-chip-unlimited">Pagine illimitate</span>
+                @endif
             @endif
-        @endif
-    </div>
+        </div>
+    @else
+        <div class="pages-header-shell">
+            <h3 class="page-title mb-1">
+                <span class="text-capitalize">{!! $crud->getHeading() ?? $crud->entity_name_plural !!}</span>
+                <small id="datatable_info_stack">{!! $crud->getSubheading() ?? '' !!}</small>
+            </h3>
+
+            @if(backpack_user()->roles[0]->id <= 3)
+                @if($hasPageLimit)
+                    <span class="pages-limit-chip {{ $number <= 0 ? 'pages-limit-chip-warning' : 'pages-limit-chip-ok' }}">
+                        {{ $number > 0 ? "Puoi inserire ancora {$number} pagine" : 'Limite pagine raggiunto' }}
+                    </span>
+                @else
+                    <span class="pages-limit-chip pages-limit-chip-unlimited">Pagine illimitate</span>
+                @endif
+            @endif
+        </div>
+    @endif
 @endsection
 
 @section('content')
 
-  @if($number <= 0)
-     <div class="alert alert-warning-light">Hai superato il limite di pagine acquistato. Per sbloccare il limite contatta Webisland.</div>
+  @if($hasPageLimit && $number <= 0)
+     <div class="alert alert-warning-light pages-limit-alert">Hai raggiunto il limite di pagine acquistato. Per sbloccare il limite contatta Webisland.</div>
   @endif
 
   @if(count($vCheckSlug) > 0)
@@ -77,11 +94,11 @@
   <div class="row">
 
     <!-- THE ACTUAL CONTENT -->
-    <div class="{{ $crud->getListContentClass() }}">
-        <div class="row mb-0">
+    <div class="{{ $crud->getListContentClass() }} {{ $isFutureAdminTemplate ? 'future-pages-shell' : '' }}">
+        <div class="row mb-0 {{ $isFutureAdminTemplate ? 'future-pages-toolbar' : '' }}">
           <div class="col-sm-6">
             @if ( $crud->buttons()->where('stack', 'top')->count() ||  $crud->exportButtons())
-              <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }}">
+              <div class="d-print-none {{ $crud->hasAccess('create')?'with-border':'' }} {{ $isFutureAdminTemplate ? 'future-pages-toolbar__buttons' : '' }}">
                 @if(backpack_user()->roles[0]->id <= 3)
                    @include('crud::inc.button_stack', ['stack' => 'top'])
                 @endif
@@ -89,7 +106,7 @@
             @endif
           </div>
           <div class="col-sm-6">
-            <div id="datatable_search_stack" class="mt-sm-0 mt-2 d-print-none"></div>
+            <div id="datatable_search_stack" class="mt-sm-0 mt-2 d-print-none {{ $isFutureAdminTemplate ? 'future-pages-toolbar__search' : '' }}"></div>
           </div>
         </div>
 
@@ -98,7 +115,7 @@
           @include('crud::inc.filters_navbar')
         @endif
 
-        <table id="crudTable" class="bg-white table table-striped table-hover nowrap rounded shadow-xs border-xs mt-2" cellspacing="0">
+        <table id="crudTable" class="bg-white table {{ $isFutureAdminTemplate ? 'table-borderless future-pages-table' : 'table-striped table-hover' }} nowrap rounded shadow-xs border-xs mt-2" cellspacing="0">
             <thead>
               <tr>
                 {{-- Table columns --}}
@@ -329,6 +346,179 @@
       #datatable_search_stack .dataTables_filter {
         justify-content: flex-start;
         margin-top: 10px;
+      }
+    }
+  </style>
+  @endif
+  @if($isFutureAdminTemplate)
+  <style>
+    .future-pages-commandbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      border: 1px solid #dce7fb;
+      border-radius: 14px;
+      background: #ffffff;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 18px rgba(13, 34, 74, .07);
+    }
+
+    .future-pages-commandbar .page-title {
+      color: #1e3762;
+      font-weight: 800;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .future-pages-commandbar__meta {
+      color: #5d7299;
+      font-size: .85rem;
+      font-weight: 600;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .future-pages-commandbar .pages-limit-chip {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: .28rem .68rem;
+      background: #edf4ff;
+      border: 1px solid #d0def7;
+      color: #31558e;
+      font-size: .78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .future-pages-commandbar .pages-limit-chip-ok {
+      background: #ecfbf3;
+      border-color: #bfe8d1;
+      color: #207d50;
+    }
+
+    .future-pages-commandbar .pages-limit-chip-warning {
+      background: #fff4e8;
+      border-color: #f0d1ad;
+      color: #9b5a18;
+    }
+
+    .future-pages-commandbar .pages-limit-chip-unlimited {
+      background: #edf4ff;
+      border-color: #d0def7;
+      color: #31558e;
+    }
+
+    body.admin-future-template .pages-limit-alert {
+      border: 1px solid #f0d1ad;
+      border-radius: 10px;
+      background: #fff7ed;
+      color: #8d5018;
+      font-weight: 700;
+      box-shadow: 0 6px 14px rgba(133, 79, 25, .08);
+    }
+
+    .future-pages-shell .future-pages-toolbar {
+      border: 1px solid #dce7fb;
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 10px 12px;
+      margin: 0 0 10px;
+      box-shadow: 0 6px 14px rgba(13, 34, 74, .05);
+      align-items: center;
+    }
+
+    .future-pages-shell .future-pages-toolbar__buttons .btn,
+    .future-pages-shell .future-pages-toolbar__buttons .btn-group .btn {
+      border-radius: 999px;
+      font-weight: 700;
+      min-height: 34px;
+      padding: .34rem .82rem;
+      box-shadow: none;
+    }
+
+    .future-pages-shell .future-pages-toolbar__search .dataTables_filter {
+      display: flex;
+      justify-content: flex-end;
+      margin: 0;
+    }
+
+    .future-pages-shell .future-pages-toolbar__search .dataTables_filter label {
+      margin: 0;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .future-pages-shell .future-pages-toolbar__search .dataTables_filter input {
+      width: 100% !important;
+      border: 1px solid #d5e2f8;
+      border-radius: 10px;
+      min-height: 36px;
+      padding: 0 .72rem;
+      background: #fdfefe;
+      color: #2b4779;
+      font-weight: 600;
+      box-shadow: none;
+    }
+
+    .future-pages-shell .future-pages-toolbar__search .dataTables_filter input:focus {
+      outline: none;
+      border-color: #9fb8e4;
+      box-shadow: 0 0 0 3px rgba(66, 114, 199, .12);
+    }
+
+    .future-pages-shell #crudTable.future-pages-table {
+      border: 1px solid #dce7fb !important;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 12px 24px rgba(13, 34, 74, .06);
+      margin-top: 10px !important;
+    }
+
+    .future-pages-shell #crudTable.future-pages-table thead th {
+      background: #f4f8ff;
+      color: #233f70;
+      font-size: .77rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      border-bottom: 1px solid #dce7fb;
+    }
+
+    .future-pages-shell #crudTable.future-pages-table tbody tr:nth-child(odd) {
+      background: #ffffff;
+    }
+
+    .future-pages-shell #crudTable.future-pages-table tbody tr:nth-child(even) {
+      background: #f8fbff;
+    }
+
+    .future-pages-shell #crudTable.future-pages-table tbody tr:hover {
+      background: #edf4ff !important;
+    }
+
+    .future-pages-shell #crudTable.future-pages-table tbody td {
+      color: #2b4779;
+      border-top: 1px solid #e6eefb;
+      vertical-align: middle;
+    }
+
+    .future-pages-shell #crudTable.future-pages-table .dropdown .btn,
+    .future-pages-shell #crudTable.future-pages-table .btn {
+      border-radius: 999px;
+      font-weight: 700;
+      box-shadow: none;
+    }
+
+    @media (max-width: 991.98px) {
+      .future-pages-shell .future-pages-toolbar__search .dataTables_filter {
+        justify-content: flex-start;
+        margin-top: 8px;
       }
     }
   </style>

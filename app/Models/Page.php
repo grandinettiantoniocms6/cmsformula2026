@@ -154,13 +154,11 @@ class Page extends Model
 
         $pages_count = Page::count();
         $website = WebsiteSetting::first();
-        $number = null;
-        if($website->number_max_page){
-            $number = $website->number_max_page - $pages_count;
-        }
+        $hasPageLimit = $website && (int) $website->number_max_page > 0;
+        $number = $hasPageLimit ? (int) $website->number_max_page - $pages_count : null;
 
         $link_duplica = "";
-        if($number > 0){
+        if(!$hasPageLimit || $number > 0){
             $link_duplica = '<a href="javascript:void(0)" onclick="cloneEntry(this)" data-route="/admin/page/'.$this->id.'/clone" class="dropdown-item" data-button-type="clone">Duplica</a>';
         }
 

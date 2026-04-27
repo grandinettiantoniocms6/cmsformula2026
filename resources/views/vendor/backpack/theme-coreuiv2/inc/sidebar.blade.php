@@ -169,36 +169,67 @@
           }, 300);
         })
       });
-      // Set active state on menu element
-      var full_url = "{{ Request::fullUrl() }}";
-      var $navLinks = $(".sidebar-nav li a, .app-header li a");
+      // Set active state on sidebar menu element
+      var fullUrl = window.location.href;
+      var $sidebarLinks = $(".sidebar-nav li a[href]");
 
-      // First look for an exact match including the search string
-      var $curentPageLink = $navLinks.filter(
-          function() { return $(this).attr('href') === full_url; }
-      );
+      var toAbsolute = function(url) {
+        if (!url) return '';
+        try {
+          return new URL(url, window.location.origin);
+        } catch (e) {
+          return null;
+        }
+      };
 
-      // If not found, look for the link that starts with the url
-      if(!$curentPageLink.length > 0){
-          $curentPageLink = $navLinks.filter( function() {
-            if ($(this).attr('href')?.startsWith(full_url)) {
-              return true;
-            }
+      var normalizePath = function(path) {
+        var clean = decodeURIComponent((path || '').replace(/\/+$/, ''));
+        return clean.toLowerCase();
+      };
 
-            if (full_url.startsWith($(this).attr('href'))) {
-              return true;
-            }
+      var currentUrl = toAbsolute(fullUrl);
+      var currentPath = normalizePath(currentUrl ? currentUrl.pathname : '');
+      var currentSearch = currentUrl ? (currentUrl.search || '') : '';
 
-            return false;
-          });
-      }
+      var $currentPageLink = $();
+      var bestScore = -1;
 
-      // for the found links that can be considered current, make sure
-      // - the parent item is open
-      $curentPageLink.parents('li').addClass('open');
-      // - the actual element is active
-      $curentPageLink.each(function() {
-        $(this).addClass('active');
+      $sidebarLinks.each(function() {
+        var $link = $(this);
+        var href = $link.attr('href');
+        if (!href || href === '#' || href.indexOf('javascript:') === 0) {
+          return;
+        }
+
+        var linkUrl = toAbsolute(href);
+        if (!linkUrl) return;
+
+        var linkPath = normalizePath(linkUrl.pathname);
+        if (!linkPath) return;
+
+        var exactPathMatch = currentPath === linkPath;
+        var childPathMatch = currentPath.indexOf(linkPath + '/') === 0;
+        var pathMatch = exactPathMatch || childPathMatch;
+        if (!pathMatch) return;
+
+        var linkSearch = linkUrl.search || '';
+        var searchMatches = !linkSearch || currentSearch === linkSearch;
+        var score = linkPath.length + (searchMatches ? 1000 : 0);
+
+        if (score > bestScore) {
+          bestScore = score;
+          $currentPageLink = $link;
+        }
       });
+
+      if ($currentPageLink.length) {
+        // - the parent dropdown is open
+        $currentPageLink.parents('li.nav-dropdown').addClass('open');
+        // - the current submenu item is active
+        $currentPageLink.addClass('active');
+        $currentPageLink.closest('li.nav-item').addClass('active');
+        // - parent dropdown toggle stays active too
+        $currentPageLink.parents('li.nav-dropdown').children('a.nav-link.nav-dropdown-toggle').addClass('active');
+      }
   </script>
 @endpush

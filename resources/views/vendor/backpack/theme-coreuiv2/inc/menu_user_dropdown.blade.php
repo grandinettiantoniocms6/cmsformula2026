@@ -194,6 +194,32 @@
             display: none;
         }
     }
+
+    @media (max-width: 991.98px) {
+        .future-user-meta-item {
+            display: none !important;
+        }
+
+        .topbar-user-dropdown {
+            padding-left: .05rem !important;
+            padding-right: 0 !important;
+        }
+
+        .topbar-user-dropdown .nav-link.avatar {
+            min-height: 36px;
+            height: 36px;
+            padding: 0 !important;
+        }
+
+        .topbar-user-dropdown .backpack-avatar-menu-container {
+            width: 28px;
+            height: 28px;
+        }
+
+        .topbar-user-dropdown .future-user-chevron {
+            display: none;
+        }
+    }
 </style>
 @endif
 

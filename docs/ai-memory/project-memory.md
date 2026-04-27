@@ -1,7 +1,7 @@
 ﻿# Project Memory
 
 ## Aggiornato il
-- 2026-04-24
+- 2026-04-27
 
 ## Snapshot tecnico
 - Stack: Laravel + Backpack (tema `backpack.theme-coreuiv2`).
@@ -68,5 +68,6 @@
 - Per tracciamento blocchi robusto, considerare sia update `PUT/PATCH` sia `POST` su URL con id, e nei blocchi multi risalire da record figlio (`name_table.block_id`) al blocco padre (`blocks_pages.obj_id`).
 - Su installazioni con tabella `website_settings` molto ampia, nuove colonne possono fallire in migration con `SQLSTATE[42000] 1118 Row size too large`: per nuovi setting admin usare preferibilmente `website_setting_extras` (tabella 1:1 esterna) invece di estendere `website_settings`.
 - Per la campanellina news admin, lo stato "letto" deve essere persistente per utente oltre la sessione (cache/DB): evitare solo `session('admin_news_last_seen_at_*')` perche al logout il badge torna a conteggi errati.
+- In `admin/page`, `website_settings.number_max_page` vuoto/0 significa pagine illimitate: non confrontare `null <= 0`, altrimenti si blocca erroneamente creazione/duplicazione e compare il warning limite raggiunto.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.
 
