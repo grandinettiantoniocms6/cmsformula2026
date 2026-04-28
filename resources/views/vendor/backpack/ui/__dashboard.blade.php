@@ -611,6 +611,8 @@
         </div>
     <!-- / Messaggi da Webisland Gest -->
 @endif
+
+@include('vendor.backpack.ui.inc.dashboard_plugin_products_cards')
 @endsection
 
 @section('after_scripts')

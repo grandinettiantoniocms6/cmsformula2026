@@ -19,6 +19,10 @@
     $hasShopDashboardPlugin = \App\Models\AdminPlugin::where('name', 'pluginProducts')
         ->where('is_active', 1)
         ->exists();
+    $hasProductsDashboardCards = \App\Models\AdminPlugin::where('name', 'pluginProducts')
+        ->where('is_active', 1)
+        ->where('version', 3)
+        ->exists();
 
     $today = \Carbon\Carbon::today();
     $pageCount = $hasPagesTable ? \App\Models\Page::count() : 0;
@@ -466,6 +470,11 @@
                 </a>
             </div>
 
+            @if($hasProductsDashboardCards)
+                <?php $dashboardProductsInitialSlide = 'clients'; ?>
+                @include('vendor.backpack.ui.inc.dashboard_plugin_products_cards')
+            @endif
+
             <div class="row gutter-3">
                 <div class="col-lg-6 mb-3">
                     <div class="card card-dashboard future-panel h-100">
@@ -611,33 +620,6 @@
                         <h6 class="mb-2">Ordini oggi</h6>
                         <div class="future-revenue-value">EUR {{ number_format($ordersTodayRevenue, 2, ',', '.') }}</div>
                         <small class="text-muted">Totale economico della giornata</small>
-                    </div>
-                </div>
-
-                <div class="card card-dashboard future-side-card mb-3">
-                    <div class="card-body">
-                        <h6 class="mb-2">Notifiche</h6>
-                        <ul class="future-notify-list mb-3">
-                            @if($recentOrders->isNotEmpty())
-                                @foreach($recentOrders as $ord)
-                                    <li>
-                                        <span class="future-notify-dot blue"></span>
-                                        <div>
-                                            <strong>Ordine #{{ $ord->id }}</strong>
-                                            <small>{{ optional($ord->created_at)->format('d/m/Y H:i') }} - EUR {{ number_format((float) $ord->total, 2, ',', '.') }}</small>
-                                        </div>
-                                    </li>
-                                @endforeach
-                            @else
-                                <li>
-                                    <span class="future-notify-dot gray"></span>
-                                    <div>
-                                        <strong>Nessun nuovo ordine</strong>
-                                        <small>Nessuna notifica recente disponibile</small>
-                                    </div>
-                                </li>
-                            @endif
-                        </ul>
                     </div>
                 </div>
 
