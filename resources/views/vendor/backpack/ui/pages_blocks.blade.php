@@ -38,24 +38,24 @@
                         <span class="future-page-blocks-kpi is-muted"><i class="la la-eye-slash"></i> Disattivi: {{ $blocks_inactive_count }}</span>
                     </div>
                 </div>
-                <div class="future-page-blocks-commandbar__primary-actions">
-                    @if($page->slug == "/")
-                        <a href="/" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
-                            <span><i class="la la-eye"></i></span>
-                            <span>Anteprima</span>
-                        </a>
-                    @else
-                        <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
-                            <span><i class="la la-eye"></i></span>
-                            <span>Anteprima</span>
-                        </a>
-                    @endif
-
-                    <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-dark pages-toolbar-btn">
-                        <span><i class="la la-pencil"></i></span>
-                        <span>Layout pagina</span>
+            </div>
+            <div class="future-page-blocks-commandbar__primary-actions">
+                @if($page->slug == "/")
+                    <a href="/" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
+                        <span><i class="la la-eye"></i></span>
+                        <span>Anteprima</span>
                     </a>
-                </div>
+                @else
+                    <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
+                        <span><i class="la la-eye"></i></span>
+                        <span>Anteprima</span>
+                    </a>
+                @endif
+
+                <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-dark pages-toolbar-btn">
+                    <span><i class="la la-pencil"></i></span>
+                    <span>Layout pagina</span>
+                </a>
             </div>
             <div class="future-page-blocks-commandbar__row future-page-blocks-commandbar__row--tools">
                 <label class="future-page-blocks-search mb-0">
@@ -650,6 +650,7 @@
             gap: 6px;
             box-shadow: 0 2px 8px rgba(19, 41, 84, 0.05);
             transition: border-color .14s ease, box-shadow .14s ease, transform .14s ease;
+            cursor: move;
         }
 
         .pages-blocks-shell .page-block-row:hover {
@@ -670,6 +671,7 @@
             border: 1px solid #d9e6fc;
             cursor: move;
             flex: 0 0 30px;
+            pointer-events: none;
         }
 
         .pages-blocks-shell .page-block-drag i {
@@ -680,12 +682,12 @@
             min-width: 0;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 5px;
         }
 
         .pages-blocks-shell .page-block-name {
             color: #1a3568;
-            font-size: .82rem;
+            font-size: .78rem;
             font-weight: 700;
             line-height: 1.25;
             max-width: 460px;
@@ -716,11 +718,12 @@
             border-radius: 999px;
             min-height: 20px;
             padding: 1px 7px;
-            margin-left: 5px;
+            margin-left: 0;
             font-size: .68rem;
             font-weight: 800;
             letter-spacing: .01em;
             border: 1px solid transparent;
+            width: max-content;
         }
 
         .pages-blocks-shell .page-block-status.is-on {
@@ -1222,6 +1225,7 @@
             justify-content: space-between;
             border-bottom: 1px solid rgba(255, 255, 255, .22);
             padding-bottom: 8px;
+            width: 100%;
         }
 
         body.admin-future-template .future-page-blocks-commandbar__row--tools {
@@ -1232,13 +1236,15 @@
         body.admin-future-template .future-page-blocks-commandbar__primary-actions {
             display: inline-flex;
             align-items: center;
+            justify-content: flex-end;
             gap: 6px;
             flex-wrap: wrap;
+            margin-left: auto;
         }
 
         body.admin-future-template .future-page-blocks-commandbar__title {
             color: #fff;
-            font-size: .9rem;
+            font-size: 1.7rem;
         }
 
         body.admin-future-template .future-page-blocks-commandbar__meta {
@@ -1465,7 +1471,9 @@
             border-radius: 7px;
             background: #fff;
             box-shadow: 0 2px 8px rgba(18, 42, 90, .06);
-            min-height: 48px;
+            min-height: 72px;
+            padding-top: 9px !important;
+            padding-bottom: 9px !important;
         }
 
         body.admin-future-template .pages-blocks-shell .page-block-row:hover {
@@ -1483,17 +1491,19 @@
 
         body.admin-future-template .pages-blocks-shell .page-block-name {
             color: #173564;
-            font-size: .8rem;
+            font-size: .77rem;
             font-weight: 800;
         }
 
         body.admin-future-template .pages-blocks-shell .page-block-type {
-            font-size: .68rem;
+            font-size: .76rem;
             padding: 1px 6px;
             border-radius: 6px;
             color: #416191 !important;
             background: #eef4ff;
             border-color: #d6e4fb;
+            width: max-content;
+            font-weight: 800;
         }
 
         body.admin-future-template .pages-blocks-shell .page-block-status {
@@ -1667,11 +1677,38 @@
             box-shadow: 0 2px 10px rgba(17, 38, 76, .06) !important;
             border-radius: 8px !important;
             gap: 6px !important;
+            display: grid !important;
+            grid-template-columns: minmax(0, 1fr) auto !important;
+            grid-template-areas:
+                "title actions"
+                "tools tools" !important;
+            align-items: center !important;
+            width: 100% !important;
         }
 
         body.admin-future-template .future-page-blocks-commandbar__row--primary {
             border-bottom: 1px solid #e7edf7 !important;
             padding-bottom: 7px !important;
+            width: 100% !important;
+            display: flex !important;
+            grid-area: title !important;
+            align-items: center !important;
+            column-gap: 12px !important;
+        }
+
+        body.admin-future-template .future-page-blocks-commandbar__row--tools {
+            grid-area: tools !important;
+        }
+
+        body.admin-future-template .future-page-blocks-commandbar__row--primary .future-page-blocks-commandbar__left {
+            min-width: 0 !important;
+        }
+
+        body.admin-future-template .future-page-blocks-commandbar__primary-actions {
+            grid-area: actions !important;
+            justify-self: end !important;
+            margin-left: 0 !important;
+            white-space: nowrap !important;
         }
 
         body.admin-future-template .future-page-blocks-commandbar__title,
@@ -1730,6 +1767,10 @@
             background: #1f4ea5 !important;
             border-color: #1f4ea5 !important;
             color: #fff !important;
+        }
+
+        body.admin-future-template .future-page-blocks-section.is-filter-hidden {
+            display: none !important;
         }
 
         body.admin-future-template .future-page-blocks-view-btn.is-active {
@@ -1795,7 +1836,7 @@
             border: 1px solid #dce5f3 !important;
             box-shadow: none !important;
             border-radius: 7px !important;
-            min-height: 46px !important;
+            min-height: 72px !important;
         }
 
         body.admin-future-template .pages-blocks-shell .page-block-row:hover {
@@ -1810,8 +1851,18 @@
                 padding-bottom: 0 !important;
             }
 
+            body.admin-future-template .future-page-blocks-commandbar.future-page-blocks-commandbar--board {
+                grid-template-columns: 1fr !important;
+                grid-template-areas:
+                    "title"
+                    "actions"
+                    "tools" !important;
+            }
+
             body.admin-future-template .future-page-blocks-commandbar__primary-actions {
                 width: 100%;
+                justify-self: stretch !important;
+                justify-content: flex-end !important;
             }
         }
 
@@ -2755,7 +2806,7 @@
                 }
 
                 $container.sortable({
-                    handle: '.page-block-drag',
+                    handle: '.page-block-row',
                     cancel: '.page-block-actions, .page-block-actions *, a, button, input, select, textarea',
                     placeholder: 'future-sortable-placeholder',
                     forcePlaceholderSize: true,
@@ -3178,7 +3229,7 @@
                         var $section = $(this);
                         var sectionName = ($section.data('section') || '') + '';
                         var shouldShow = normalized === 'all' || sectionName === normalized;
-                        $section.toggleClass('d-none', !shouldShow);
+                        $section.toggleClass('is-filter-hidden', !shouldShow);
                     });
                 };
 
