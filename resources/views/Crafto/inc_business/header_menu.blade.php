@@ -113,6 +113,84 @@ $lang_ = strtoupper($lang);
                     @endif
                 </a>
             </div>
+
+            <!-- Style inline per gestire input pilotati da admin in vista mobile     ####mobile_menu_color#### -->
+
+            <!-- a riga 154 forzo attivazione del mobile menu -->
+            <style>
+                @media only screen and (min-width: 280px) and (max-width: 1450px) {
+
+                    #navbarNav { background-color: {{ $website->mobile_menu_bgcolor }}!important; color: {{ $website->mobile_menu_color }}!important; }
+                    .navbar .navbar-nav .dropdown .dropdown-menu { background-color: {{ $website->bgcolor_menu_mobile }}!important; color: {{ $website->mobile_menu_color }} }
+                    dropdown-menu .nav-item { color: {{ $website->mobile_menu_color }}; }
+                    .nav-link { color: {{ $website->mobile_menu_color }}!important; }
+
+                }
+
+
+                @media only screen and (max-width: 1450px) {
+
+
+                    .crafto-inc-busines-nav.navbar-expand-lg .navbar-toggler {
+                        display: flex;
+                        align-self: center;
+                        box-shadow: none;
+                    }
+
+                    .crafto-inc-busines-nav.navbar-expand-lg .navbar-collapse {
+                        display: block !important;
+                    }
+
+                    .crafto-inc-busines-nav.navbar-expand-lg .navbar-collapse.collapse:not(.show) {
+                        display: none !important;
+                    }
+
+                    .crafto-inc-busines-nav.navbar-expand-lg .navbar-nav {
+                        display: block;
+                        width: 100%;
+                    }
+
+                    .crafto-inc-busines-nav.navbar-expand-lg .navbar-nav .dropdown-menu {
+                        position: static;
+                    }
+
+                    .crafto-inc-busines-nav .menu-order {
+                        order: 5;
+                    }
+
+                    .crafto-inc-busines-nav > .container-fluid {
+                        position: relative;
+                    }
+
+                    .crafto-inc-busines-nav .navbar-collapse {
+                        position: absolute;
+                        top: 100%;
+                        left: 0;
+                        width: 100%;
+                        overflow: hidden;
+                        box-shadow: 0 20px 15px 0 rgba(23, 23, 23, 0.05);
+                        max-height: calc(100vh - 72px);
+                    }
+
+                    .crafto-inc-busines-nav [class*="col-"] .navbar-nav .nav-item,
+                    .crafto-inc-busines-nav [class*="col-"] .navbar-nav .nav-item a {
+                        display: block;
+                    }
+
+                }
+
+                @media only screen and (min-width: 992px) and (max-width: 2800px) {
+
+                    .navbar .navbar-nav .dropdown .dropdown-menu .nav-link a:hover { color: {{ $website->header_color_hover }}!important; }
+
+                }
+
+                header .navbar [class*="col-"] .navbar-nav .nav-item a:hover { color: {{ $website->header_color_hover }}!important; }
+                header .navbar [class*="col-"] .navbar-nav .dropdown .dropdown-menu a:hover { color: {{ $website->header_color_hover }}!important; }
+
+            </style>
+
+
             <div class="col-auto menu-order position-static">
                 <button class="navbar-toggler float-start" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
                     <span class="navbar-toggler-line"></span>

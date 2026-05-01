@@ -77,10 +77,10 @@ $lang_ = strtoupper($lang);
 
     <!-- NAVBAR + header fixed -->
     @if($website->is_topbar_fixed_desktop == 1)
-        <nav class="navbar navbar-expand-lg header-reverse" style="background-color: {{ $website->header_background }}!important; height: {{ $website->menubar_height }}!important;">
+        <nav class="navbar navbar-expand-lg header-reverse crafto-inc-center-nav" style="background-color: {{ $website->header_background }}!important; height: {{ $website->menubar_height }}!important;">
 
             @else
-                <nav class="navbar navbar-expand-lg disable-fixed border-bottom" style="background-color: {{ $website->header_background }}!important; height: {{ $website->menubar_height }}!important;">
+                <nav class="navbar navbar-expand-lg disable-fixed border-bottom crafto-inc-center-nav" style="background-color: {{ $website->header_background }}!important; height: {{ $website->menubar_height }}!important;">
                     @endif
 
                     @if($website->is_online == 0 && backpack_user() && !is_numeric(strpos(env('APP_URL'), "stage")))
@@ -95,22 +95,40 @@ $lang_ = strtoupper($lang);
                             <a class="navbar-brand" href="/">
                                 @if($website->logo)
                                         <?php
+                                        $logoWidth = null;
+                                        $logoHeight = null;
                                         if(env('LOCAL') == 0){
-                                            list($width, $height, $type, $attr) = getimagesize("$website->logo");
+                                            $logoPath = public_path(ltrim((string) $website->logo, '/'));
+                                            if (is_file($logoPath)) {
+                                                $logoSize = @getimagesize($logoPath);
+                                                if ($logoSize) {
+                                                    $logoWidth = $logoSize[0];
+                                                    $logoHeight = $logoSize[1];
+                                                }
+                                            }
                                         }
                                         ?>
-                                    <img src="{{ url($website->logo) }}" class="default-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
-                                    <img src="{{ url($website->logo) }}" class="alt-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+                                    <img src="{{ url($website->logo) }}" class="default-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0 && $logoWidth && $logoHeight) width="{{ $logoWidth }}" height="{{ $logoHeight }}" @endif>
+                                    <img src="{{ url($website->logo) }}" class="alt-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0 && $logoWidth && $logoHeight) width="{{ $logoWidth }}" height="{{ $logoHeight }}" @endif>
 
                                     @if($website->logo2)
                                             <?php
+                                            $logo2Width = null;
+                                            $logo2Height = null;
                                             if(env('LOCAL') == 0){
-                                                list($width, $height, $type, $attr) = getimagesize("$website->logo2");
+                                                $logo2Path = public_path(ltrim((string) $website->logo2, '/'));
+                                                if (is_file($logo2Path)) {
+                                                    $logo2Size = @getimagesize($logo2Path);
+                                                    if ($logo2Size) {
+                                                        $logo2Width = $logo2Size[0];
+                                                        $logo2Height = $logo2Size[1];
+                                                    }
+                                                }
                                             }
                                             ?>
-                                        <img src="{{ url($website->logo2) }}" class="mobile-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+                                        <img src="{{ url($website->logo2) }}" class="mobile-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0 && $logo2Width && $logo2Height) width="{{ $logo2Width }}" height="{{ $logo2Height }}" @endif>
                                     @else
-                                        <img src="{{ url($website->logo) }}" class="mobile-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+                                        <img src="{{ url($website->logo) }}" class="mobile-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0 && $logoWidth && $logoHeight) width="{{ $logoWidth }}" height="{{ $logoHeight }}" @endif>
                                     @endif
                                 @else
                                     {{ $website->title }}
@@ -120,13 +138,67 @@ $lang_ = strtoupper($lang);
 
 
                         <!-- Style inline per gestire input pilotati da admin in vista mobile     ####mobile_menu_color#### -->
+
+                        <!-- a riga 154 forzo attivazione del mobile menu -->
                         <style>
-                            @media only screen and (min-width: 280px) and (max-width: 991px) {
+                            @media only screen and (min-width: 280px) and (max-width: 1450px) {
 
                                 #navbarNav { background-color: {{ $website->mobile_menu_bgcolor }}!important; color: {{ $website->mobile_menu_color }}!important; }
                                 .navbar .navbar-nav .dropdown .dropdown-menu { background-color: {{ $website->bgcolor_menu_mobile }}!important; color: {{ $website->mobile_menu_color }} }
                                 dropdown-menu .nav-item { color: {{ $website->mobile_menu_color }}; }
                                 .nav-link { color: {{ $website->mobile_menu_color }}!important; }
+
+                            }
+
+
+                            @media only screen and (max-width: 1450px) {
+
+
+                                .crafto-inc-center-nav.navbar-expand-lg .navbar-toggler {
+                                    display: flex;
+                                    align-self: center;
+                                    box-shadow: none;
+                                }
+
+                                .crafto-inc-center-nav.navbar-expand-lg .navbar-collapse {
+                                    display: block !important;
+                                }
+
+                                .crafto-inc-center-nav.navbar-expand-lg .navbar-collapse.collapse:not(.show) {
+                                    display: none !important;
+                                }
+
+                                .crafto-inc-center-nav.navbar-expand-lg .navbar-nav {
+                                    display: block;
+                                    width: 100%;
+                                }
+
+                                .crafto-inc-center-nav.navbar-expand-lg .navbar-nav .dropdown-menu {
+                                    position: static;
+                                }
+
+                                .crafto-inc-center-nav .menu-order {
+                                    order: 5;
+                                }
+
+                                .crafto-inc-center-nav > .container-fluid {
+                                    position: relative;
+                                }
+
+                                .crafto-inc-center-nav .navbar-collapse {
+                                    position: absolute;
+                                    top: 100%;
+                                    left: 0;
+                                    width: 100%;
+                                    overflow: hidden;
+                                    box-shadow: 0 20px 15px 0 rgba(23, 23, 23, 0.05);
+                                    max-height: calc(100vh - 72px);
+                                }
+
+                                .crafto-inc-center-nav [class*="col-"] .navbar-nav .nav-item,
+                                .crafto-inc-center-nav [class*="col-"] .navbar-nav .nav-item a {
+                                    display: block;
+                                }
 
                             }
 
