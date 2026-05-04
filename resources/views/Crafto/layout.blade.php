@@ -98,18 +98,16 @@ if($admin_template->nav_style){
     <!-- end scroll progress -->
 
     <!-- javascript libraries -->
-    <script src="{{ url("templates/Crafto/js/jquery.js") }}"></script>
-    <script src="{{ url("templates/Crafto/js/vendors.min.js") }}"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="{{ url("templates/Crafto/js/jquery.js") }}" defer></script>
+    <script src="{{ url("templates/Crafto/js/vendors.min.js") }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js" defer></script>
     <script src="{{ url("templates/Crafto/js/main.js") }}" defer></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js" defer></script>
 
     @include('common.engine_customerly')
     @include('common.engine_popup_modal_crafto')
     @include('common.engine_wapp')
-    @include('common.js_common')
+    <!--include('common.js_common') -->
     <script>
         $( "div.alert-success" ).fadeIn( 300 ).delay( 5000 ).fadeOut( 500 );
         $( "div.alert-warning" ).fadeIn( 300 ).delay( 5000 ).fadeOut( 500 );
@@ -120,7 +118,7 @@ if($admin_template->nav_style){
     @if(trim($website->iubenda_cookie_banner) != "")
        {!! $website->iubenda_cookie_banner !!}
     @else
-        <script src="js_common/cookieconsent.min.js"></script>
+        <script src="js_common/cookieconsent.min.js" defer></script>
         <script>
             window.addEventListener('load', function(){
                 window.cookieconsent.initialise({
@@ -149,9 +147,9 @@ if($admin_template->nav_style){
     @endif
 
     <!-- wapp JS file -->
-    <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment.min.js") }}"></script>
-    <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment-timezone-with-data-10-year-range.min.js") }}"></script>
-    <script src="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.js") }}"></script>
+    <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment.min.js") }}" defer></script>
+    <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment-timezone-with-data-10-year-range.min.js") }}" defer></script>
+    <script src="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.js") }}" defer></script>
     <script>
         $('#chat').whatsappChatSupport({
             defaultMsg : '',
