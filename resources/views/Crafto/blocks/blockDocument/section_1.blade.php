@@ -21,6 +21,8 @@ if($descriptionBlocco){
 }
 
 ?>
+
+
 @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
 
     <section class="position-relative overflow-hidden pt-5">
