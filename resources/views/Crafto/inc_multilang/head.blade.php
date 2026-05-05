@@ -6,6 +6,10 @@
 @if($website->favicon)
 <link rel="shortcut icon" href="{{ url("$website->favicon") }}" />
 @endif
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- font -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
 <!-- CSS -->
@@ -53,9 +57,13 @@
     if(key_exists(1, $temp)){
         $v_family = explode(":", $temp[1]);
     }
+    $h_family_url = $website->h_family;
+    if(is_string($h_family_url) && strpos($h_family_url, 'fonts.googleapis.com') !== false && strpos($h_family_url, 'display=') === false){
+        $h_family_url .= (strpos($h_family_url, '?') === false ? '?' : '&') . 'display=swap';
+    }
     ?>
     @if(key_exists(1, $temp))
-        <link rel="stylesheet" href="{{ $website->h_family }}">
+        <link rel="stylesheet" href="{{ $h_family_url }}">
         <style>
             h1, h2, h3, h4, h5, h6 {
                 font-family: '{{ $v_family[0] }}'/**, sans-serif; **/
@@ -70,9 +78,13 @@
     if(key_exists(1, $temp)){
         $v_family = explode(":", $temp[1]);
     }
+    $p_family_url = $website->p_family;
+    if(is_string($p_family_url) && strpos($p_family_url, 'fonts.googleapis.com') !== false && strpos($p_family_url, 'display=') === false){
+        $p_family_url .= (strpos($p_family_url, '?') === false ? '?' : '&') . 'display=swap';
+    }
     ?>
     @if(key_exists(1, $temp))
-        <link rel="stylesheet" href="{{ $website->p_family }}">
+        <link rel="stylesheet" href="{{ $p_family_url }}">
         <style>
             a, button, input, body, btn, btn-product, span, p {
                 font-family: '{{ $v_family[0] }}'; /**, sans-serif; **/

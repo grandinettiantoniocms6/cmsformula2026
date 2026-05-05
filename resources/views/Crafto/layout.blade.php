@@ -17,7 +17,9 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
     <link rel="canonical" href="{{ env('APP_URL') }}<?php echo $_SERVER['REQUEST_URI'];?>">
 
-    @include('common.consent_solution_iubenda')
+    @if(env('IUBENDA') == 1 && $website->consent_solution_iubenda)
+        {!! $website->consent_solution_iubenda !!}
+    @endif
     @include('common.gdprtools')
 
     @include('common.css_common')

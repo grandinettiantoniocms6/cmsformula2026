@@ -97,23 +97,27 @@
                     <!-- MENU -->
                     <a class="navbar-brand" href="/">
                         @if($website->logo)
-                                <?php
-                                if(env('LOCAL') == 0){
-                                    list($width, $height, $type, $attr) = getimagesize("$website->logo");
-                                }
-                                ?>
-                            <img src="{{ url($website->logo) }}" class="default-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
-                            <img src="{{ url($website->logo) }}" class="alt-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+                            <?php
+                            $logoDimensions = null;
+                            $logoPath = public_path(ltrim($website->logo, '/'));
+                            if(is_file($logoPath)){
+                                $logoDimensions = @getimagesize($logoPath);
+                            }
+                            ?>
+                            <img src="{{ url($website->logo) }}" class="default-logo" alt="{{ $website->title }}" @if($logoDimensions) width="{{ $logoDimensions[0] }}" height="{{ $logoDimensions[1] }}" @endif loading="eager" fetchpriority="high" decoding="async">
+                            <img src="{{ url($website->logo) }}" class="alt-logo" alt="{{ $website->title }}" @if($logoDimensions) width="{{ $logoDimensions[0] }}" height="{{ $logoDimensions[1] }}" @endif loading="eager" fetchpriority="high" decoding="async">
 
                             @if($website->logo2)
-                                    <?php
-                                    if(env('LOCAL') == 0){
-                                        list($width, $height, $type, $attr) = getimagesize("$website->logo2");
-                                    }
-                                    ?>
-                                <img src="{{ url($website->logo2) }}" class="mobile-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+                                <?php
+                                $mobileLogoDimensions = null;
+                                $mobileLogoPath = public_path(ltrim($website->logo2, '/'));
+                                if(is_file($mobileLogoPath)){
+                                    $mobileLogoDimensions = @getimagesize($mobileLogoPath);
+                                }
+                                ?>
+                                <img src="{{ url($website->logo2) }}" class="mobile-logo" alt="{{ $website->title }}" @if($mobileLogoDimensions) width="{{ $mobileLogoDimensions[0] }}" height="{{ $mobileLogoDimensions[1] }}" @endif loading="eager" fetchpriority="high" decoding="async">
                             @else
-                                <img src="{{ url($website->logo) }}" class="mobile-logo" alt="{{ $website->title }}" @if(env('LOCAL') == 0) width="{{ $width }}" height="{{ $height }}" @endif>
+                                <img src="{{ url($website->logo) }}" class="mobile-logo" alt="{{ $website->title }}" @if($logoDimensions) width="{{ $logoDimensions[0] }}" height="{{ $logoDimensions[1] }}" @endif loading="eager" fetchpriority="high" decoding="async">
                             @endif
                         @else
                             {{ $website->title }}

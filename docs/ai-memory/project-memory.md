@@ -1,7 +1,7 @@
 ﻿# Project Memory
 
 ## Aggiornato il
-- 2026-04-30
+- 2026-05-05
 
 ## Snapshot tecnico
 - Stack: Laravel + Backpack (tema `backpack.theme-coreuiv2`).
@@ -71,5 +71,7 @@
 - Per la campanellina news admin, lo stato "letto" deve essere persistente per utente oltre la sessione (cache/DB): evitare solo `session('admin_news_last_seen_at_*')` perche al logout il badge torna a conteggi errati.
 - In `admin/page`, `website_settings.number_max_page` vuoto/0 significa pagine illimitate: non confrontare `null <= 0`, altrimenti si blocca erroneamente creazione/duplicazione e compare il warning limite raggiunto.
 - Nei template frontend, non chiamare `getimagesize()` direttamente su path salvati da admin: risolvere il file con `public_path()`, verificare `is_file()` e aggiungere `width`/`height` solo se le dimensioni sono disponibili, cosi immagini mancanti in locale non rompono il rendering.
+- Nel layout frontend Crafto evitare doppio caricamento del cookie banner: `common.consent_solution_iubenda` include anche fallback/banner cookie e puo introdurre CSS/JS bloccanti in `<head>`; se il layout gestisce gia il banner in fondo pagina, caricare in head solo la consent solution Iubenda quando serve.
+- Per PageSpeed senza toccare CSS/JS, preferire interventi su header HTTP/cache, preconnect/font `display=swap`, attributi HTML immagine (`width`/`height`, `fetchpriority`, `decoding`) e caricamento condizionale di terze parti.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.
 
