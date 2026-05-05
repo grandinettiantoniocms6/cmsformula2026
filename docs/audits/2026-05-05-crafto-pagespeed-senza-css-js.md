@@ -14,6 +14,7 @@
 - Aggiunti header cache/Expires e compressione gzip in `public/.htaccess`.
 - Nel layout Crafto, in `<head>` viene caricata solo la consent solution Iubenda quando `IUBENDA=1`; il banner cookie resta gestito nel blocco gia presente a fondo pagina.
 - Nel layout Crafto il reCAPTCHA non viene piu caricato globalmente: il layout espone `@yield('recaptcha')` e `index.blade.php` lo abilita solo quando la pagina contiene blocchi `blockContact`, `blockPluginForm` o `blockPluginParking`.
+- SweetAlert viene caricato solo insieme a reCAPTCHA/form; il CSS fallback cookieconsent viene caricato solo quando non e' presente un banner Iubenda; CSS/JS WhatsApp vengono caricati solo quando il widget e' attivo.
 - In `inc_multilang/head.blade.php` aggiunti preconnect per CDN/font e `display=swap` automatico sui Google Fonts configurati da admin.
 - In `inc_multilang/header_menu.blade.php` le dimensioni dei loghi sono risolte con `public_path()`, `is_file()` e `@getimagesize()`, poi usate come `width`/`height`; aggiunti `loading="eager"`, `fetchpriority="high"` e `decoding="async"` sui loghi.
 

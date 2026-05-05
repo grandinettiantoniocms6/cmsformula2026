@@ -20,7 +20,9 @@ if($admin_template && $admin_template->inc){
         ->first();
     ?>
     @if($check_form)
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
         {!! \NoCaptcha::renderJs() !!}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js" defer></script>
         @include('common.recaptcha')
     @endif
 @endsection

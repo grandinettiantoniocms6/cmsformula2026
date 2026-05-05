@@ -40,15 +40,17 @@
 @endif
 
 <!-- WhatsApp Widget -->
-@if($website->wapp_css1)
-    <link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css1") }}" />
-@else
-    <link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/css/wapp.css") }}" />
-@endif
-@if($website->wapp_css2)
-    <link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css2") }}" />
-@else
-    <link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" />
+@if($website->whatsapp_active == 1 && env('WAPP'))
+    @if($website->wapp_css1)
+        <link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css1") }}" />
+    @else
+        <link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/css/wapp.css") }}" />
+    @endif
+    @if($website->wapp_css2)
+        <link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css2") }}" />
+    @else
+        <link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" />
+    @endif
 @endif
 
 @if($website->h_family)

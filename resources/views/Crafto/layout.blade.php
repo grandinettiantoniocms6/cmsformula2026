@@ -33,14 +33,14 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
         <link rel="stylesheet" href="{{ url("$website->custom_css") }}">
     @endif
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
     @if($website->custom_css_style)
         <style>
             {!! $website->custom_css_style !!}
         </style>
     @endif
-    <!-- Cookie Consent -->
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+    @if(trim($website->iubenda_cookie_banner) == "")
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+    @endif
 
     @include('common.tag_analytics')
     @include('common.mailchimp')
@@ -100,7 +100,6 @@ if($admin_template->nav_style){
     <script src="{{ url("templates/Crafto/js/vendors.min.js") }}" defer></script>
     <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js" defer></script>
     <script src="{{ url("templates/Crafto/js/main.js") }}" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js" defer></script>
 
     @include('common.engine_customerly')
     @include('common.engine_popup_modal_crafto')
@@ -145,16 +144,18 @@ if($admin_template->nav_style){
     @endif
 
     <!-- wapp JS file -->
-    <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment.min.js") }}" defer></script>
-    <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment-timezone-with-data-10-year-range.min.js") }}" defer></script>
-    <script src="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.js") }}" defer></script>
-    <script>
-        $('#chat').whatsappChatSupport({
-            defaultMsg : '',
-        });
-        // serve nel caso uso anche pulsante in un blocco
-        $('#chat-btn').whatsappChatSupport();
-    </script>
+    @if($website->whatsapp_active == 1 && env('WAPP'))
+        <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment.min.js") }}" defer></script>
+        <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment-timezone-with-data-10-year-range.min.js") }}" defer></script>
+        <script src="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.js") }}" defer></script>
+        <script>
+            $('#chat').whatsappChatSupport({
+                defaultMsg : '',
+            });
+            // serve nel caso uso anche pulsante in un blocco
+            $('#chat-btn').whatsappChatSupport();
+        </script>
+    @endif
 
     @yield('after_scripts')
 </body>
