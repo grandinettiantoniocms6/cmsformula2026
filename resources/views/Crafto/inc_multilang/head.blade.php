@@ -21,9 +21,11 @@
 <!-- CSS Common Form contact -->
 @if(!isset($craftoHasFormCss) || $craftoHasFormCss)
     @if($website->form_contact)
-        <link rel="stylesheet" type="text/css" href="{{ url("$website->form_contact") }}" />
+        <link rel="preload" as="style" href="{{ url("$website->form_contact") }}" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" type="text/css" href="{{ url("$website->form_contact") }}" /></noscript>
     @else
-        <link rel="stylesheet" type="text/css" href="{{ url("css_common/form_contact.css") }}" />
+        <link rel="preload" as="style" href="{{ url("css_common/form_contact.css") }}" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" type="text/css" href="{{ url("css_common/form_contact.css") }}" /></noscript>
     @endif
 @endif
 <!-- Responsive -->

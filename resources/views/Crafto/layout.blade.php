@@ -122,14 +122,18 @@ if($admin_template->nav_style){
     @include('common.engine_popup_modal_crafto')
     @if($website->whatsapp_active == 1 && env('WAPP'))
         @if($website->wapp_css1)
-            <link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css1") }}" />
+            <link rel="preload" as="style" href="{{ url("$website->wapp_css1") }}" onload="this.onload=null;this.rel='stylesheet'">
+            <noscript><link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css1") }}" /></noscript>
         @else
-            <link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/css/wapp.css") }}" />
+            <link rel="preload" as="style" href="{{ url("css_common/whatsapp/css/wapp.css") }}" onload="this.onload=null;this.rel='stylesheet'">
+            <noscript><link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/css/wapp.css") }}" /></noscript>
         @endif
         @if($website->wapp_css2)
-            <link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css2") }}" />
+            <link rel="preload" as="style" href="{{ url("$website->wapp_css2") }}" onload="this.onload=null;this.rel='stylesheet'">
+            <noscript><link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css2") }}" /></noscript>
         @else
-            <link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" />
+            <link rel="preload" as="style" href="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" onload="this.onload=null;this.rel='stylesheet'">
+            <noscript><link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" /></noscript>
         @endif
     @endif
     @include('common.engine_wapp')
