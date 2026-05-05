@@ -75,6 +75,7 @@
 - Nel layout frontend Crafto non caricare reCAPTCHA globalmente: usare `@yield('recaptcha')` e attivarlo dalle view solo quando la pagina contiene blocchi form/contatto, altrimenti peggiora FCP/LCP con script terzi inutili.
 - Nel layout/frontend Crafto caricare risorse SweetAlert e WhatsApp solo quando servono: SweetAlert insieme a reCAPTCHA/form, WhatsApp solo con `website->whatsapp_active == 1` ed `env('WAPP')`.
 - Nel layout Crafto evitare `common.css_common` globale: caricare `sidebar.css`, `products.css`, `cart.css`, `form_contact.css`, `glightbox.min.css`, cookieconsent e WhatsApp in modo condizionale in base a template/blocchi pagina, senza toccare CSS strutturali del tema/header.
+- Su Crafto `inc_multilang` di Casa Bianca non sostituire `style.css`/`responsive.css` con `style.min.css`/`responsive.min.css`: il cambio ha rotto resa header, dimensione logo e posizione social.
 - Per PageSpeed senza toccare CSS/JS, preferire interventi su header HTTP/cache, preconnect/font `display=swap`, attributi HTML immagine (`width`/`height`, `fetchpriority`, `decoding`) e caricamento condizionale di terze parti.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.
 

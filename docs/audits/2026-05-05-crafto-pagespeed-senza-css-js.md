@@ -18,6 +18,7 @@
 - Rimossi dal caricamento globale Crafto i CSS comuni non necessari su ogni pagina: `form_contact.css`, `sidebar.css`, `products.css`, `cart.css`, `glightbox.min.css`, cookieconsent e WhatsApp ora sono condizionali o spostati fuori dal percorso critico.
 - I CSS non critici rimasti per form e WhatsApp sono caricati con `rel="preload" as="style"` e conversione a stylesheet su `onload`, con fallback `noscript`, cosi non bloccano il rendering iniziale.
 - Per togliere completamente dal percorso critico le risorse ancora segnalate da PageSpeed, `form_contact.css` viene ora inserito via JavaScript dopo `window.load`; Google Fonts e FontAwesome usano `media="print"` con rimozione del media su `onload`; CSS e JS WhatsApp vengono inseriti dopo `window.load`.
+- Tentativo annullato: il passaggio a `style.min.css` e `responsive.min.css` su `inc_multilang` rompeva resa header/logo/social. Il template deve restare su `style.css` e `responsive.css`.
 - In `inc_multilang/head.blade.php` aggiunti preconnect per CDN/font e `display=swap` automatico sui Google Fonts configurati da admin.
 - In `inc_multilang/header_menu.blade.php` le dimensioni dei loghi sono risolte con `public_path()`, `is_file()` e `@getimagesize()`, poi usate come `width`/`height`; aggiunti `loading="eager"`, `fetchpriority="high"` e `decoding="async"` sui loghi.
 
@@ -32,3 +33,4 @@
 - Il miglioramento effettivo va misurato su stage dopo deploy e svuotamento cache.
 - Il caricamento asincrono dei CSS form/WhatsApp puo produrre un brevissimo ritardo di stile su quei componenti, ma non coinvolge header, logo o topbar.
 - Il caricamento non bloccante di Google Fonts/FontAwesome puo produrre un breve flash con font o icone non ancora applicati; e' stato scelto per evitare interventi sui CSS strutturali Crafto.
+- Non sostituire i CSS strutturali Crafto con versioni minificate su questo sito senza verifica visuale puntuale di header, logo, topbar e social.
