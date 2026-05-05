@@ -1,6 +1,4 @@
 <?php
-//$adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
-//$plugin = \App\Models\PluginProductsSettings::first();
 $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 ?>
 <?php $thema = env('TEMA'); ?>
