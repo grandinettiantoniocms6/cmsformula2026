@@ -74,6 +74,7 @@
 - Nel layout frontend Crafto evitare doppio caricamento del cookie banner: `common.consent_solution_iubenda` include anche fallback/banner cookie e puo introdurre CSS/JS bloccanti in `<head>`; se il layout gestisce gia il banner in fondo pagina, caricare in head solo la consent solution Iubenda quando serve.
 - Nel layout frontend Crafto non caricare reCAPTCHA globalmente: usare `@yield('recaptcha')` e attivarlo dalle view solo quando la pagina contiene blocchi form/contatto, altrimenti peggiora FCP/LCP con script terzi inutili.
 - Nel layout/frontend Crafto caricare risorse SweetAlert e WhatsApp solo quando servono: SweetAlert insieme a reCAPTCHA/form, WhatsApp solo con `website->whatsapp_active == 1` ed `env('WAPP')`.
+- Nel layout Crafto evitare `common.css_common` globale: caricare `sidebar.css`, `products.css`, `cart.css`, `form_contact.css`, `glightbox.min.css`, cookieconsent e WhatsApp in modo condizionale in base a template/blocchi pagina, senza toccare CSS strutturali del tema/header.
 - Per PageSpeed senza toccare CSS/JS, preferire interventi su header HTTP/cache, preconnect/font `display=swap`, attributi HTML immagine (`width`/`height`, `fetchpriority`, `decoding`) e caricamento condizionale di terze parti.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.
 

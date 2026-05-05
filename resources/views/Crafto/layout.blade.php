@@ -1,5 +1,16 @@
 <?php
 $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
+$craftoPageBlockTypes = collect();
+if (isset($page) && $page && $page->id) {
+    $craftoPageBlockTypes = \App\Models\PageBlock::where("page_id", $page->id)
+        ->where("is_active", 1)
+        ->pluck("type");
+}
+$craftoHasFormCss = $craftoPageBlockTypes->intersect(["blockContact", "blockPluginForm", "blockPluginParking"])->isNotEmpty();
+$craftoHasSidebarCss = isset($page) && $page && in_array($page->template, ["sidebar_left", "sidebar_right"], true);
+$craftoHasProductsCss = $craftoPageBlockTypes->intersect(["blockPluginCounter"])->isNotEmpty();
+$craftoHasCartCss = request()->is("cart*") || request()->is("checkout*");
+$craftoHasLightbox = $craftoPageBlockTypes->intersect(["blockGallery", "blockLastwork", "blockPortfolio", "blockReference"])->isNotEmpty();
 ?>
 <?php $thema = env('TEMA'); ?>
 <!DOCTYPE html>
@@ -14,7 +25,9 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
         <meta name="robots" content="index, follow">
     @endif
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    @if($craftoHasLightbox)
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    @endif
     <link rel="canonical" href="{{ env('APP_URL') }}<?php echo $_SERVER['REQUEST_URI'];?>">
 
     @if(env('IUBENDA') == 1 && $website->consent_solution_iubenda)
@@ -22,7 +35,15 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
     @endif
     @include('common.gdprtools')
 
-    @include('common.css_common')
+    @if($craftoHasSidebarCss)
+        <link rel="stylesheet" type="text/css" href="{{ url("css_common/sidebar.css") }}" />
+    @endif
+    @if($craftoHasProductsCss)
+        <link rel="stylesheet" type="text/css" href="{{ url("css_common/products.css") }}" />
+    @endif
+    @if($craftoHasCartCss)
+        <link rel="stylesheet" type="text/css" href="{{ url("css_common/cart.css") }}" />
+    @endif
     @include('common.engine_body_style')
     @include('common.engine_header_style')
     @include('common.engine_footer_style')
@@ -38,10 +59,6 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
             {!! $website->custom_css_style !!}
         </style>
     @endif
-    @if(trim($website->iubenda_cookie_banner) == "")
-        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
-    @endif
-
     @include('common.tag_analytics')
     @include('common.mailchimp')
 </head>
@@ -103,6 +120,18 @@ if($admin_template->nav_style){
 
     @include('common.engine_customerly')
     @include('common.engine_popup_modal_crafto')
+    @if($website->whatsapp_active == 1 && env('WAPP'))
+        @if($website->wapp_css1)
+            <link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css1") }}" />
+        @else
+            <link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/css/wapp.css") }}" />
+        @endif
+        @if($website->wapp_css2)
+            <link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css2") }}" />
+        @else
+            <link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" />
+        @endif
+    @endif
     @include('common.engine_wapp')
     <!--include('common.js_common') -->
     <script>
@@ -115,6 +144,7 @@ if($admin_template->nav_style){
     @if(trim($website->iubenda_cookie_banner) != "")
        {!! $website->iubenda_cookie_banner !!}
     @else
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
         <script src="js_common/cookieconsent.min.js" defer></script>
         <script>
             window.addEventListener('load', function(){

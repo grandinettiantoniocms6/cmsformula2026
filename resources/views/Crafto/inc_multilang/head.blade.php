@@ -19,10 +19,12 @@
 <link rel="stylesheet" href="{{ url("templates/Crafto/css/responsive.css") }}"/>
 
 <!-- CSS Common Form contact -->
-@if($website->form_contact)
-    <link rel="stylesheet" type="text/css" href="{{ url("$website->form_contact") }}" />
-@else
-    <link rel="stylesheet" type="text/css" href="{{ url("css_common/form_contact.css") }}" />
+@if(!isset($craftoHasFormCss) || $craftoHasFormCss)
+    @if($website->form_contact)
+        <link rel="stylesheet" type="text/css" href="{{ url("$website->form_contact") }}" />
+    @else
+        <link rel="stylesheet" type="text/css" href="{{ url("css_common/form_contact.css") }}" />
+    @endif
 @endif
 <!-- Responsive -->
 @if($website->resposive_css)
@@ -36,20 +38,6 @@
     @endif
     @if($website->custom_css)
         <link rel="stylesheet" type="text/css" href="{{ url("$website->custom_css") }}" />
-    @endif
-@endif
-
-<!-- WhatsApp Widget -->
-@if($website->whatsapp_active == 1 && env('WAPP'))
-    @if($website->wapp_css1)
-        <link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css1") }}" />
-    @else
-        <link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/css/wapp.css") }}" />
-    @endif
-    @if($website->wapp_css2)
-        <link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css2") }}" />
-    @else
-        <link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" />
     @endif
 @endif
 
