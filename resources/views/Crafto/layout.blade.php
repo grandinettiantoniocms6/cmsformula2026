@@ -120,22 +120,6 @@ if($admin_template->nav_style){
 
     @include('common.engine_customerly')
     @include('common.engine_popup_modal_crafto')
-    @if($website->whatsapp_active == 1 && env('WAPP'))
-        @if($website->wapp_css1)
-            <link rel="preload" as="style" href="{{ url("$website->wapp_css1") }}" onload="this.onload=null;this.rel='stylesheet'">
-            <noscript><link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css1") }}" /></noscript>
-        @else
-            <link rel="preload" as="style" href="{{ url("css_common/whatsapp/css/wapp.css") }}" onload="this.onload=null;this.rel='stylesheet'">
-            <noscript><link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/css/wapp.css") }}" /></noscript>
-        @endif
-        @if($website->wapp_css2)
-            <link rel="preload" as="style" href="{{ url("$website->wapp_css2") }}" onload="this.onload=null;this.rel='stylesheet'">
-            <noscript><link rel="stylesheet" type="text/css" href="{{ url("$website->wapp_css2") }}" /></noscript>
-        @else
-            <link rel="preload" as="style" href="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" onload="this.onload=null;this.rel='stylesheet'">
-            <noscript><link rel="stylesheet" type="text/css" href="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" /></noscript>
-        @endif
-    @endif
     @include('common.engine_wapp')
     <!--include('common.js_common') -->
     <script>
@@ -179,16 +163,43 @@ if($admin_template->nav_style){
 
     <!-- wapp JS file -->
     @if($website->whatsapp_active == 1 && env('WAPP'))
-        <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment.min.js") }}" defer></script>
-        <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment-timezone-with-data-10-year-range.min.js") }}" defer></script>
-        <script src="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.js") }}" defer></script>
         <script>
-            $('#chat').whatsappChatSupport({
-                defaultMsg : '',
+            window.addEventListener('load', function () {
+                var loadStylesheet = function (href) {
+                    var link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = href;
+                    document.head.appendChild(link);
+                };
+                var loadScript = function (src, callback) {
+                    var script = document.createElement('script');
+                    script.src = src;
+                    script.onload = callback;
+                    document.body.appendChild(script);
+                };
+
+                loadStylesheet('{{ $website->wapp_css1 ? url("$website->wapp_css1") : url("css_common/whatsapp/css/wapp.css") }}');
+                loadStylesheet('{{ $website->wapp_css2 ? url("$website->wapp_css2") : url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}');
+
+                loadScript('{{ url("css_common/whatsapp/plugin/components/moment/moment.min.js") }}', function () {
+                    loadScript('{{ url("css_common/whatsapp/plugin/components/moment/moment-timezone-with-data-10-year-range.min.js") }}', function () {
+                        loadScript('{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.js") }}', function () {
+                            if (window.jQuery && jQuery.fn.whatsappChatSupport) {
+                                jQuery('#chat').whatsappChatSupport({
+                                    defaultMsg : '',
+                                });
+                                // serve nel caso uso anche pulsante in un blocco
+                                jQuery('#chat-btn').whatsappChatSupport();
+                            }
+                        });
+                    });
+                });
             });
-            // serve nel caso uso anche pulsante in un blocco
-            $('#chat-btn').whatsappChatSupport();
         </script>
+        <noscript>
+            <link rel="stylesheet" type="text/css" href="{{ $website->wapp_css1 ? url("$website->wapp_css1") : url("css_common/whatsapp/css/wapp.css") }}" />
+            <link rel="stylesheet" type="text/css" href="{{ $website->wapp_css2 ? url("$website->wapp_css2") : url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" />
+        </noscript>
     @endif
 
     @yield('after_scripts')

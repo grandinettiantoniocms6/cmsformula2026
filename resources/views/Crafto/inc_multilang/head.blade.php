@@ -11,7 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- font -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" media="print" onload="this.onload=null;this.removeAttribute('media');">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"></noscript>
 <!-- CSS -->
 <link rel="stylesheet" href="{{ url("templates/Crafto/css/vendors.min.css") }}"/>
 <link rel="stylesheet" href="{{ url("templates/Crafto/css/icon.min.css") }}"/>
@@ -21,10 +22,24 @@
 <!-- CSS Common Form contact -->
 @if(!isset($craftoHasFormCss) || $craftoHasFormCss)
     @if($website->form_contact)
-        <link rel="preload" as="style" href="{{ url("$website->form_contact") }}" onload="this.onload=null;this.rel='stylesheet'">
+        <script>
+            window.addEventListener('load', function () {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = '{{ url("$website->form_contact") }}';
+                document.head.appendChild(link);
+            });
+        </script>
         <noscript><link rel="stylesheet" type="text/css" href="{{ url("$website->form_contact") }}" /></noscript>
     @else
-        <link rel="preload" as="style" href="{{ url("css_common/form_contact.css") }}" onload="this.onload=null;this.rel='stylesheet'">
+        <script>
+            window.addEventListener('load', function () {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = '{{ url("css_common/form_contact.css") }}';
+                document.head.appendChild(link);
+            });
+        </script>
         <noscript><link rel="stylesheet" type="text/css" href="{{ url("css_common/form_contact.css") }}" /></noscript>
     @endif
 @endif
@@ -55,7 +70,8 @@
     }
     ?>
     @if(key_exists(1, $temp))
-        <link rel="stylesheet" href="{{ $h_family_url }}">
+        <link rel="stylesheet" href="{{ $h_family_url }}" media="print" onload="this.onload=null;this.removeAttribute('media');">
+        <noscript><link rel="stylesheet" href="{{ $h_family_url }}"></noscript>
         <style>
             h1, h2, h3, h4, h5, h6 {
                 font-family: '{{ $v_family[0] }}'/**, sans-serif; **/
@@ -76,7 +92,8 @@
     }
     ?>
     @if(key_exists(1, $temp))
-        <link rel="stylesheet" href="{{ $p_family_url }}">
+        <link rel="stylesheet" href="{{ $p_family_url }}" media="print" onload="this.onload=null;this.removeAttribute('media');">
+        <noscript><link rel="stylesheet" href="{{ $p_family_url }}"></noscript>
         <style>
             a, button, input, body, btn, btn-product, span, p {
                 font-family: '{{ $v_family[0] }}'; /**, sans-serif; **/
