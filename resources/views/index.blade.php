@@ -16,10 +16,11 @@ if($admin_template && $admin_template->inc){
 @section('recaptcha')
     <?php
     $check_form = \App\Models\PageBlock::where("page_id", $page->id)
-        ->whereIn("type", ["blockPluginForm", "blockPluginParking"])
+        ->whereIn("type", ["blockContact", "blockPluginForm", "blockPluginParking"])
         ->first();
     ?>
     @if($check_form)
+        {!! \NoCaptcha::renderJs() !!}
         @include('common.recaptcha')
     @endif
 @endsection

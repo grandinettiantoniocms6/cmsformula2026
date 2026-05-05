@@ -26,7 +26,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
     @include('common.engine_body_style')
     @include('common.engine_header_style')
     @include('common.engine_footer_style')
-    {!! \NoCaptcha::renderJs() !!}
+    @yield('recaptcha')
 
     <!-- Css per personalizzazioni extra commons -->
     @if($website->custom_css)
@@ -44,8 +44,6 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 
     @include('common.tag_analytics')
     @include('common.mailchimp')
-    @include('common.recaptcha')
-
 </head>
 <?php
 //serve per leggere le label da amdin

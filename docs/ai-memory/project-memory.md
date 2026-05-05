@@ -72,6 +72,7 @@
 - In `admin/page`, `website_settings.number_max_page` vuoto/0 significa pagine illimitate: non confrontare `null <= 0`, altrimenti si blocca erroneamente creazione/duplicazione e compare il warning limite raggiunto.
 - Nei template frontend, non chiamare `getimagesize()` direttamente su path salvati da admin: risolvere il file con `public_path()`, verificare `is_file()` e aggiungere `width`/`height` solo se le dimensioni sono disponibili, cosi immagini mancanti in locale non rompono il rendering.
 - Nel layout frontend Crafto evitare doppio caricamento del cookie banner: `common.consent_solution_iubenda` include anche fallback/banner cookie e puo introdurre CSS/JS bloccanti in `<head>`; se il layout gestisce gia il banner in fondo pagina, caricare in head solo la consent solution Iubenda quando serve.
+- Nel layout frontend Crafto non caricare reCAPTCHA globalmente: usare `@yield('recaptcha')` e attivarlo dalle view solo quando la pagina contiene blocchi form/contatto, altrimenti peggiora FCP/LCP con script terzi inutili.
 - Per PageSpeed senza toccare CSS/JS, preferire interventi su header HTTP/cache, preconnect/font `display=swap`, attributi HTML immagine (`width`/`height`, `fetchpriority`, `decoding`) e caricamento condizionale di terze parti.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.
 
