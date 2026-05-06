@@ -278,6 +278,9 @@
             <li class="nav-item"><a class="nav-link" href="/sitemap.xml" target="_blank"><i class="nav-icon las la-sitemap"></i> <span>Sitemap</span></a></li>
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('label') }}'><i class="nav-icon las la-spell-check"></i> Etichette</a></li>
             <li class='nav-item'><a class='nav-link' href='{{ backpack_url('block-page') }}'><i class='nav-icon la la-question'></i> Storico Blocchi</a></li>
+            @if(backpack_user()->id == 1)
+                <li class='nav-item'><a class='nav-link' href='{{ backpack_url('superadminsettings') }}'><i class='nav-icon la la-user-shield'></i> SuperAdmin</a></li>
+            @endif
         </ul>
     </li>
 

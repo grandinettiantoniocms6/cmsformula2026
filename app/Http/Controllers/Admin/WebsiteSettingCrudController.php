@@ -1760,230 +1760,6 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             'tab' => 'Avvisi'
         ]);
 
-        /*  ### TAB IMPOSTAZIONI EXTRA ###  */
-
-        $this->crud->addField([   // Checkbox
-            'name'  => 'whatsapp_active',
-            'label' => 'Attiva Widget WhatsApp',
-            'type'  => 'switch',
-            'wrapperAttributes' => [
-                'class' => 'form-group col-md-12'
-            ],
-            'tab' => 'Extra'
-        ]);
-
-
-        if(backpack_user()->roles[0]->id == 1) {
-
-
-             $this->crud->addField([   // Checkbox
-                 'name'  => 'watermark_url',
-                 'label' => 'Url',
-                 'type'  => 'browse',
-                 'wrapperAttributes' => [
-                     'class' => 'form-group col-md-12'
-                 ],
-                 'tab' => 'Watermark'
-             ]);
-
-            $this->crud->addField([   // Checkbox
-                'name'  => 'watermark_position',
-                'label' => 'Posizione',
-                'type'  => 'text',
-                'hint' => "top-left, top, top-right, left, center, right, bottom-left, bottom, bottom-right",
-                'default' => "bottom-right",
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-4'
-                ],
-                'tab' => 'Watermark'
-            ]);
-
-            $this->crud->addField([   // Checkbox
-                'name'  => 'watermark_x',
-                'label' => 'Posizione X',
-                'hint' => "Optional relative offset of the new image on x-axis of the current image. Offset will be calculated relative to the position parameter. Default: 0",
-                'type'  => 'text',
-                'default' => 10,
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-4'
-                ],
-                'tab' => 'Watermark'
-            ]);
-
-            $this->crud->addField([   // Checkbox
-                'name'  => 'watermark_y',
-                'label' => 'Posizione Y',
-                'hint' => "Optional relative offset of the new image on y-axis of the current image. Offset will be calculated relative to the position parameter. Default: 0",
-                'type'  => 'text',
-                'default' => 10,
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-4'
-                ],
-                'tab' => 'Watermark'
-            ]);
-
-            $this->crud->addField([   // Checkbox
-                'name'  => 'is_megamenu',
-                'label' => 'Attiva megamenu sulla pagina PRODOTTI',
-                'type'  => 'switch',
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-12'
-                ],
-                'tab' => 'Extra'
-            ]);
-
-            $this->crud->addField([   // Checkbox
-                'name'  => 'is_search_one_col',
-                'label' => 'Megamenu (se attivo) monocolonna',
-                'type'  => 'switch',
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-2'
-                ],
-                'tab' => 'Impostazioni Extra'
-            ]);
-
-            $this->crud->addField([
-                'name'  => 'azzera_ordini',
-                'type'  => 'custom_html',
-                'value' => '
-                    <a href="'.route('azzera_ordini').'"
-                       class="btn btn-danger"
-                       onclick="return confirm(\'Sei sicuro di voler azzerare tutti gli ordini?\')">
-                        Azzera ordini
-                    </a>
-                ',
-                'tab' => 'Impostazioni Extra',
-            ]);
-
-
-            $abilitato = !\Schema::hasTable('shop_areas');
-
-            $this->crud->addField([
-                'name'  => 'set_shop_areas',
-                'type'  => 'custom_html',
-                'value' => '
-        <a href="'.route('set_shop_areas').'"
-           class="btn btn-danger '.(!$abilitato ? 'disabled' : '').'"
-           '.($abilitato
-                        ? 'onclick="return confirm(\'Sei sicuro di voler caricare shop areas?\')"'
-                        : 'onclick="return false;"').'>
-            Carica shop area zone
-        </a>
-        '.(!$abilitato
-                        ? '<small class="text-muted d-block mt-1">Shop areas già presenti</small>'
-                        : '').'
-    ',
-                'tab' => 'Impostazioni Extra',
-            ]);
-
-
-            $this->crud->addField([   // Checkbox
-                'name' => 'number_max_page',
-                'label' => 'Numero di pagine',
-                'type' => 'number',
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-2'
-                ],
-                'tab' => 'Extra'
-            ]);
-
-            $this->crud->addField([
-                'name' => 'server_allocated_space',
-                'label' => 'Spazio server allocato',
-                'type' => 'text',
-                'default' => '500 MB',
-                'hint' => 'Formati accettati: 500 MB, 1GB, 2.5 GB',
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-3'
-                ],
-                'tab' => 'Extra'
-            ]);
-
-            $this->crud->addField([
-                'label' => "Logo pannello admin",
-                'name' => "logo_admin",
-                'type'  => 'browse',
-                'default' => 'public/img/commons/admin/logo-cms-formula-5.png',
-                'tab' => 'Extra',
-                // 'disk'      => 's3_bucket', // in case you need to show images from a different disk
-                // 'prefix'    => 'uploads/images/profile_pictures/' // in case your db value is only the file name (no path), you can use this to prepend your path to the image src (in HTML), before it's shown to the user;
-            ]);
-
-            $this->crud->addField([
-                'label' => "Logo Accesso admin (Dimensioni: 180x90px)",
-                'name' => "logo_login",
-                'type'  => 'browse',
-                'default' => 'public/img/commons/admin/logo-cms-formula-5_2.png',
-                'tab' => 'Extra',
-                // 'disk'      => 's3_bucket', // in case you need to show images from a different disk
-                // 'prefix'    => 'uploads/images/profile_pictures/' // in case your db value is only the file name (no path), you can use this to prepend your path to the image src (in HTML), before it's shown to the user;
-            ]);
-
-            $this->crud->addField([
-                'label' => "GIF Dashboard (se vuoto usa quella di default)",
-                'name' => "dashboard_gif",
-                'type'  => 'browse',
-                'tab' => 'Extra'
-            ]);
-
-            $this->crud->addField([   // color_picker
-                'label'                => 'Sfondo topbar',
-                'name'                 => 'admin_topbar_background',
-                'type'                 => 'color_picker2',
-                'default'              => '#1b2a4e',
-                'color_picker_options' => ['customClass' => 'custom-class'],
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-6'
-                ],
-                'tab' => 'Extra'
-            ]);
-
-            $this->crud->addField([   // color_picker
-                'label'                => 'Sfondo barra di sinistra',
-                'name'                 => 'admin_leftbar_background',
-                'type'                 => 'color_picker2',
-                'default'              => '#1b2a4e',
-                'color_picker_options' => ['customClass' => 'custom-class'],
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-6'
-                ],
-                'tab' => 'Extra'
-            ]);
-
-            $this->crud->addField([
-                'label' => "Sfondo login pannello admin (responsive)",
-                'name' => "admin_login_background",
-                'type'  => 'browse',
-                'hint'  => "Se vuoto resta lo sfondo bianco di default",
-                'tab' => 'Extra'
-            ]);
-
-            $this->crud->addField([
-                'name'        => 'admin_panel_template',
-                'label'       => 'Template Pannello Admin',
-                'type'        => 'select_from_array',
-                'options'     => [
-                    'white' => 'White',
-                    'modern_01' => 'Modern 01',
-                    'modern_02' => 'Modern 02',
-                    'future' => 'Future',
-                ],
-                'allows_null' => false,
-                'default'     => 'white',
-                'tab'         => 'Extra',
-            ]);
-
-            $this->crud->addField([
-                'label' => "Bacheca da far vedere (nome blade)",
-                'name' => "bacheca",
-                'type'  => 'text',
-                'tab' => 'Extra'
-            ]);
-
-
-
-        }
-
         $trans = new AdminLanguageController();
         $trans->fields_lang("website", $this->crud);
 
@@ -1995,6 +1771,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
 
         // execute the FormRequest authorization and validation, if one is required
         $request = $this->crud->validateRequest();
+        $hasServerAllocatedSpaceInput = $request->has('server_allocated_space');
         $serverAllocatedSpaceRaw = $request->input('server_allocated_space');
         $request->request->remove('server_allocated_space');
         $saveRequest = $this->crud->getStrippedSaveRequest($request);
@@ -2019,6 +1796,7 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
             if ($serverAllocatedSpaceRaw === null) {
                 foreach ($request->all() as $key => $value) {
                     if (strpos((string) $key, 'server_allocated_space') === 0) {
+                        $hasServerAllocatedSpaceInput = true;
                         $serverAllocatedSpaceRaw = is_array($value)
                             ? collect($value)->first(function ($v) { return trim((string) $v) !== ''; })
                             : $value;
@@ -2028,9 +1806,6 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                     }
                 }
             }
-
-            $serverAllocatedSpace = trim((string) ($serverAllocatedSpaceRaw ?? ''));
-            $serverAllocatedSpace = $serverAllocatedSpace !== '' ? $serverAllocatedSpace : '500 MB';
 
             $extraPayload = [
                 'menu_link_visited_color' => $menuLinkVisitedColor !== null ? trim((string) $menuLinkVisitedColor) : null,
@@ -2042,7 +1817,9 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
                 'updated_at' => now(),
             ];
 
-            if (Schema::hasColumn('website_setting_extras', 'server_allocated_space')) {
+            if ($hasServerAllocatedSpaceInput && Schema::hasColumn('website_setting_extras', 'server_allocated_space')) {
+                $serverAllocatedSpace = trim((string) ($serverAllocatedSpaceRaw ?? ''));
+                $serverAllocatedSpace = $serverAllocatedSpace !== '' ? $serverAllocatedSpace : '500 MB';
                 $extraPayload['server_allocated_space'] = $serverAllocatedSpace;
             }
 
