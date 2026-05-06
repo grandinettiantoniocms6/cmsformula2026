@@ -61,7 +61,7 @@ class Handler extends ExceptionHandler
                         \Mail::send('common.emails.error', ['error' => $exception->getMessage(), 'file' => $exception->getFile(), 'line' => $exception->getLine(), 'store' => "", 'trace' =>  $exception->getTraceAsString(), 'url' => \Request::url()], function ($m) use ($exception) {
                             $m->from("info@cmsformula5.it", "CMSFORMULA 6");
                             $m->to('info@webisland.it', 'Webisland')
-                                ->cc('keivantg@gmail.com', 'Webisland')
+                                //->cc('keivantg@gmail.com', 'Webisland')
                                 ->subject("BUG CMSFORMULA 6 {$exception->getMessage()}");
                         });
                     }catch (\Throwable $e) {
