@@ -1,7 +1,7 @@
 ﻿# Project Memory
 
 ## Aggiornato il
-- 2026-04-30
+- 2026-05-05
 
 ## Snapshot tecnico
 - Stack: Laravel + Backpack (tema `backpack.theme-coreuiv2`).
@@ -71,5 +71,15 @@
 - Per la campanellina news admin, lo stato "letto" deve essere persistente per utente oltre la sessione (cache/DB): evitare solo `session('admin_news_last_seen_at_*')` perche al logout il badge torna a conteggi errati.
 - In `admin/page`, `website_settings.number_max_page` vuoto/0 significa pagine illimitate: non confrontare `null <= 0`, altrimenti si blocca erroneamente creazione/duplicazione e compare il warning limite raggiunto.
 - Nei template frontend, non chiamare `getimagesize()` direttamente su path salvati da admin: risolvere il file con `public_path()`, verificare `is_file()` e aggiungere `width`/`height` solo se le dimensioni sono disponibili, cosi immagini mancanti in locale non rompono il rendering.
+- Se un ambiente usa `QUEUE_CONNECTION=database` o un worker `queue:work`, deve esistere la tabella Laravel `jobs`: il repository include `failed_jobs`, ma il worker legge comunque `jobs` per estrarre i job pendenti.
+- Gli avvisi errore di `app/Exceptions/Handler.php` sono configurabili dal tab "Avvisi errori" di `/admin/superadminsettings`, visibile solo a `backpack_user()->id == 1`: abilitazione invio, destinatario, email in copia e intervallo di reinvio dello stesso errore sono salvati in `website_setting_extras`.
+- La pagina `/admin/superadminsettings`, visibile solo a `backpack_user()->id == 1`, e' il contenitore generale per impostazioni SuperAdmin spostate fuori da `/admin/websiteSetting`: nel tab "Sito web" gestisce `website_settings.number_max_page`, `website_settings.whatsapp_active` e `website_setting_extras.server_allocated_space`, nel tab "Template Admin" gestisce i campi admin/template ex tab `Extra` di `websiteSetting`, e nel tab "Prodotti V2/V3/V4" gestisce `website_settings.is_megamenu`, `website_settings.is_search_one_col`, le azioni operative ex tab `Impostazioni Extra` e i campi watermark (`watermark_url`, `watermark_position`, `watermark_x`, `watermark_y`).
+- Il reinvio dello stesso avviso errore usa cache Laravel con chiave basata su messaggio, file e linea dell'eccezione; se il cache driver non e' persistente tra richieste/processi, il throttling degli avvisi puo' non essere efficace.
+- Nel layout frontend Crafto evitare doppio caricamento del cookie banner: `common.consent_solution_iubenda` include anche fallback/banner cookie e puo introdurre CSS/JS bloccanti in `<head>`; se il layout gestisce gia il banner in fondo pagina, caricare in head solo la consent solution Iubenda quando serve.
+- Nel layout frontend Crafto non caricare reCAPTCHA globalmente: usare `@yield('recaptcha')` e attivarlo dalle view solo quando la pagina contiene blocchi form/contatto, altrimenti peggiora FCP/LCP con script terzi inutili.
+- Nel layout/frontend Crafto caricare risorse SweetAlert e WhatsApp solo quando servono: SweetAlert insieme a reCAPTCHA/form, WhatsApp solo con `website->whatsapp_active == 1` ed `env('WAPP')`.
+- Nel layout Crafto evitare `common.css_common` globale: caricare `sidebar.css`, `products.css`, `cart.css`, `form_contact.css`, `glightbox.min.css`, cookieconsent e WhatsApp in modo condizionale in base a template/blocchi pagina, senza toccare CSS strutturali del tema/header.
+- Su Crafto `inc_multilang` di Casa Bianca non sostituire `style.css`/`responsive.css` con `style.min.css`/`responsive.min.css`: il cambio ha rotto resa header, dimensione logo e posizione social.
+- Per PageSpeed senza toccare CSS/JS, preferire interventi su header HTTP/cache, preconnect/font `display=swap`, attributi HTML immagine (`width`/`height`, `fetchpriority`, `decoding`) e caricamento condizionale di terze parti.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.
 

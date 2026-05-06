@@ -862,6 +862,7 @@ class PluginProductImportCrudController extends CrudController
 
     }
 
+
     public function importSpecialPostImportActions(Request $req)
     {
         $runProductsSearch = (bool) $req->boolean('run_products_search');

@@ -1,7 +1,16 @@
 <?php
-//$adminPlugin = \App\Models\AdminPlugin::where("name", "pluginProducts")->first();
-//$plugin = \App\Models\PluginProductsSettings::first();
 $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
+$craftoPageBlockTypes = collect();
+if (isset($page) && $page && $page->id) {
+    $craftoPageBlockTypes = \App\Models\PageBlock::where("page_id", $page->id)
+        ->where("is_active", 1)
+        ->pluck("type");
+}
+$craftoHasFormCss = $craftoPageBlockTypes->intersect(["blockContact", "blockPluginForm", "blockPluginParking"])->isNotEmpty();
+$craftoHasSidebarCss = isset($page) && $page && in_array($page->template, ["sidebar_left", "sidebar_right"], true);
+$craftoHasProductsCss = $craftoPageBlockTypes->intersect(["blockPluginCounter"])->isNotEmpty();
+$craftoHasCartCss = request()->is("cart*") || request()->is("checkout*");
+$craftoHasLightbox = $craftoPageBlockTypes->intersect(["blockGallery", "blockLastwork", "blockPortfolio", "blockReference"])->isNotEmpty();
 ?>
 <?php $thema = env('TEMA'); ?>
 <!DOCTYPE html>
@@ -16,36 +25,42 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
         <meta name="robots" content="index, follow">
     @endif
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    @if($craftoHasLightbox)
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    @endif
     <link rel="canonical" href="{{ env('APP_URL') }}<?php echo $_SERVER['REQUEST_URI'];?>">
 
-    @include('common.consent_solution_iubenda')
+    @if(env('IUBENDA') == 1 && $website->consent_solution_iubenda)
+        {!! $website->consent_solution_iubenda !!}
+    @endif
     @include('common.gdprtools')
 
-    @include('common.css_common')
+    @if($craftoHasSidebarCss)
+        <link rel="stylesheet" type="text/css" href="{{ url("css_common/sidebar.css") }}" />
+    @endif
+    @if($craftoHasProductsCss)
+        <link rel="stylesheet" type="text/css" href="{{ url("css_common/products.css") }}" />
+    @endif
+    @if($craftoHasCartCss)
+        <link rel="stylesheet" type="text/css" href="{{ url("css_common/cart.css") }}" />
+    @endif
     @include('common.engine_body_style')
     @include('common.engine_header_style')
     @include('common.engine_footer_style')
-    {!! \NoCaptcha::renderJs() !!}
+    @yield('recaptcha')
 
     <!-- Css per personalizzazioni extra commons -->
     @if($website->custom_css)
         <link rel="stylesheet" href="{{ url("$website->custom_css") }}">
     @endif
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
     @if($website->custom_css_style)
         <style>
             {!! $website->custom_css_style !!}
         </style>
     @endif
-    <!-- Cookie Consent -->
-    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
-
     @include('common.tag_analytics')
     @include('common.mailchimp')
-    @include('common.recaptcha')
-
 </head>
 <?php
 //serve per leggere le label da amdin
@@ -98,18 +113,15 @@ if($admin_template->nav_style){
     <!-- end scroll progress -->
 
     <!-- javascript libraries -->
-    <script src="{{ url("templates/Crafto/js/jquery.js") }}"></script>
-    <script src="{{ url("templates/Crafto/js/vendors.min.js") }}"></script>
-    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="{{ url("templates/Crafto/js/jquery.js") }}" defer></script>
+    <script src="{{ url("templates/Crafto/js/vendors.min.js") }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js" defer></script>
     <script src="{{ url("templates/Crafto/js/main.js") }}" defer></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-
 
     @include('common.engine_customerly')
     @include('common.engine_popup_modal_crafto')
     @include('common.engine_wapp')
-    @include('common.js_common')
+    <!--include('common.js_common') -->
     <script>
         $( "div.alert-success" ).fadeIn( 300 ).delay( 5000 ).fadeOut( 500 );
         $( "div.alert-warning" ).fadeIn( 300 ).delay( 5000 ).fadeOut( 500 );
@@ -120,7 +132,8 @@ if($admin_template->nav_style){
     @if(trim($website->iubenda_cookie_banner) != "")
        {!! $website->iubenda_cookie_banner !!}
     @else
-        <script src="js_common/cookieconsent.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+        <script src="js_common/cookieconsent.min.js" defer></script>
         <script>
             window.addEventListener('load', function(){
                 window.cookieconsent.initialise({
@@ -149,16 +162,45 @@ if($admin_template->nav_style){
     @endif
 
     <!-- wapp JS file -->
-    <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment.min.js") }}"></script>
-    <script src="{{ url("css_common/whatsapp/plugin/components/moment/moment-timezone-with-data-10-year-range.min.js") }}"></script>
-    <script src="{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.js") }}"></script>
-    <script>
-        $('#chat').whatsappChatSupport({
-            defaultMsg : '',
-        });
-        // serve nel caso uso anche pulsante in un blocco
-        $('#chat-btn').whatsappChatSupport();
-    </script>
+    @if($website->whatsapp_active == 1 && env('WAPP'))
+        <script>
+            window.addEventListener('load', function () {
+                var loadStylesheet = function (href) {
+                    var link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = href;
+                    document.head.appendChild(link);
+                };
+                var loadScript = function (src, callback) {
+                    var script = document.createElement('script');
+                    script.src = src;
+                    script.onload = callback;
+                    document.body.appendChild(script);
+                };
+
+                loadStylesheet('{{ $website->wapp_css1 ? url("$website->wapp_css1") : url("css_common/whatsapp/css/wapp.css") }}');
+                loadStylesheet('{{ $website->wapp_css2 ? url("$website->wapp_css2") : url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}');
+
+                loadScript('{{ url("css_common/whatsapp/plugin/components/moment/moment.min.js") }}', function () {
+                    loadScript('{{ url("css_common/whatsapp/plugin/components/moment/moment-timezone-with-data-10-year-range.min.js") }}', function () {
+                        loadScript('{{ url("css_common/whatsapp/plugin/whatsapp-chat-support.js") }}', function () {
+                            if (window.jQuery && jQuery.fn.whatsappChatSupport) {
+                                jQuery('#chat').whatsappChatSupport({
+                                    defaultMsg : '',
+                                });
+                                // serve nel caso uso anche pulsante in un blocco
+                                jQuery('#chat-btn').whatsappChatSupport();
+                            }
+                        });
+                    });
+                });
+            });
+        </script>
+        <noscript>
+            <link rel="stylesheet" type="text/css" href="{{ $website->wapp_css1 ? url("$website->wapp_css1") : url("css_common/whatsapp/css/wapp.css") }}" />
+            <link rel="stylesheet" type="text/css" href="{{ $website->wapp_css2 ? url("$website->wapp_css2") : url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" />
+        </noscript>
+    @endif
 
     @yield('after_scripts')
 </body>

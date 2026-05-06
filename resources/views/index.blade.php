@@ -16,10 +16,13 @@ if($admin_template && $admin_template->inc){
 @section('recaptcha')
     <?php
     $check_form = \App\Models\PageBlock::where("page_id", $page->id)
-        ->whereIn("type", ["blockPluginForm", "blockPluginParking"])
+        ->whereIn("type", ["blockContact", "blockPluginForm", "blockPluginParking"])
         ->first();
     ?>
     @if($check_form)
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"/>
+        {!! \NoCaptcha::renderJs() !!}
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js" defer></script>
         @include('common.recaptcha')
     @endif
 @endsection

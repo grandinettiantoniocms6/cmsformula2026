@@ -10,6 +10,10 @@ Route::get('/test-errore-500', function () {
     throw new \Exception("Simulazione errore 500");
 });
 
+Route::get('/test-errore-404', function () {
+    throw new \Exception("Simulazione errore 404");
+});
+
 Route::get('/test_db_gest', function () {
     $anapiDB = \DB::connection('mysql_2');
 

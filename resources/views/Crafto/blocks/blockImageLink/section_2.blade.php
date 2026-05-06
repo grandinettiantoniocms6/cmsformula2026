@@ -143,7 +143,7 @@
 
                             <div class="d-inline-flex flex-wrap">
                                 @if(trim($button[\App::getLocale()])!="")
-                                    <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-large btn-dark-gray btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" >
+                                    <a href="{{ $url }}" target="{{ $type_href }}" style="background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }}; color: {{ $website->btn_txt_color }};" class="btn btn-large btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" >
                                             <span>
                                                 <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
                                                 <span class="btn-icon">
@@ -180,7 +180,7 @@
 
                             <div class="d-inline-flex flex-wrap">
                                 @if(trim($button[\App::getLocale()])!="")
-                                    <a href="{{ $url }}" target="{{ $type_href }}" class="btn btn-large btn-dark-gray btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" >
+                                    <a href="{{ $url }}" target="{{ $type_href }}" style="background-color: {{ $website->btn_background }}; border-color: {{ $website->btn_colorborder }}; color: {{ $website->btn_txt_color }};" class="btn btn-large btn-hover-animation-switch btn-box-shadow btn-rounded me-25px xs-me-0" >
                                         <span>
                                             <span class="btn-text">{{ $button[\App::getLocale()] }}</span>
                                             <span class="btn-icon">

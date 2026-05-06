@@ -76,6 +76,282 @@
     $onlineStatus = ($websiteSetting && (int) $websiteSetting->is_online === 1);
     $alertsCount = ($onlineStatus ? 0 : 1) + ($pendingTodosCount > 0 ? 1 : 0);
 
+    $hasBlocksPagesTable = \Schema::hasTable('blocks_pages');
+    $hasAdminBlocksTable = \Schema::hasTable('admin_blocks');
+    $hasPluginFormsTable = \Schema::hasTable('plugins_forms');
+    $hasPluginFormsRequestsTable = \Schema::hasTable('plugins_forms_requests');
+    $hasPluginProductsRequestsTable = \Schema::hasTable('plugins_products_requests');
+
+    $applyNotDeleted = static function ($query, string $table) {
+        if (\Schema::hasColumn($table, 'deleted_at')) {
+            $query->whereNull($table.'.deleted_at');
+        }
+
+        return $query;
+    };
+
+    $isDashboardValueEmpty = static function ($value) use (&$isDashboardValueEmpty): bool {
+        if ($value === null) {
+            return true;
+        }
+
+        if (is_array($value)) {
+            foreach ($value as $item) {
+                if (!$isDashboardValueEmpty($item)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        if (is_object($value)) {
+            return $isDashboardValueEmpty((array) $value);
+        }
+
+        $rawValue = trim((string) $value);
+        if ($rawValue === '') {
+            return true;
+        }
+
+        $decodedValue = json_decode($rawValue, true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($decodedValue)) {
+            return $isDashboardValueEmpty($decodedValue);
+        }
+
+        return trim(strip_tags($rawValue)) === '';
+    };
+
+    $pagesBaseQuery = static function () use ($applyNotDeleted) {
+        return $applyNotDeleted(\DB::table('pages'), 'pages');
+    };
+
+    $hasPagesIsActiveColumn = $hasPagesTable && \Schema::hasColumn('pages', 'is_active');
+    $pagesActiveCount = ($hasPagesTable && $hasPagesIsActiveColumn)
+        ? $pagesBaseQuery()->where('is_active', 1)->count()
+        : 0;
+    $pagesInactiveCount = ($hasPagesTable && $hasPagesIsActiveColumn)
+        ? $pagesBaseQuery()->where(function ($query) {
+            $query->whereNull('is_active')->orWhere('is_active', 0);
+        })->count()
+        : 0;
+    $pagesMissingImagesCount = ($hasPagesTable && \Schema::hasColumn('pages', 'photo_background'))
+        ? $pagesBaseQuery()->where(function ($query) {
+            $query->whereNull('photo_background')->orWhereRaw("TRIM(COALESCE(photo_background, '')) = ''");
+        })->count()
+        : 0;
+
+    $formsWithoutRecipientsCount = ($hasPluginFormsTable
+            && \Schema::hasColumn('plugins_forms', 'email')
+            && \Schema::hasColumn('plugins_forms', 'cc')
+            && \Schema::hasColumn('plugins_forms', 'ccn'))
+        ? $applyNotDeleted(\DB::table('plugins_forms'), 'plugins_forms')
+            ->whereRaw("TRIM(COALESCE(email, '')) = ''")
+            ->whereRaw("TRIM(COALESCE(cc, '')) = ''")
+            ->whereRaw("TRIM(COALESCE(ccn, '')) = ''")
+            ->count()
+        : 0;
+
+    $blocksWithoutContentCount = 0;
+    if ($hasBlocksPagesTable && $hasAdminBlocksTable && \Schema::hasColumn('blocks_pages', 'type') && \Schema::hasColumn('blocks_pages', 'obj_id')) {
+        $adminBlocksByType = $applyNotDeleted(\DB::table('admin_blocks'), 'admin_blocks')
+            ->whereNotNull('name')
+            ->whereNotNull('name_table')
+            ->pluck('name_table', 'name');
+        $blockRowsQuery = $applyNotDeleted(\DB::table('blocks_pages'), 'blocks_pages');
+        if (\Schema::hasColumn('blocks_pages', 'is_active')) {
+            $blockRowsQuery->where('is_active', 1);
+        }
+        $blockRows = $blockRowsQuery->get(['type', 'obj_id']);
+        $blockContentColumnsByTable = [];
+        $blockContentColumnCandidates = [
+            'title', 'subtitle', 'description', 'description_short', 'content', 'text', 'html', 'abstract',
+            'body', 'image', 'foto', 'photo', 'photo_background', 'file', 'video', 'url', 'link',
+        ];
+
+        foreach ($blockRows as $blockRow) {
+            $blockType = (string) ($blockRow->type ?? '');
+            $blockObjectId = (int) ($blockRow->obj_id ?? 0);
+            $blockTable = (string) ($adminBlocksByType[$blockType] ?? '');
+
+            if ($blockType === '' || $blockObjectId <= 0 || $blockTable === '' || !\Schema::hasTable($blockTable)) {
+                $blocksWithoutContentCount++;
+                continue;
+            }
+
+            if (!array_key_exists($blockTable, $blockContentColumnsByTable)) {
+                $blockColumns = \Schema::getColumnListing($blockTable);
+                $blockContentColumnsByTable[$blockTable] = array_values(array_intersect($blockContentColumnCandidates, $blockColumns));
+            }
+
+            $blockContentColumns = $blockContentColumnsByTable[$blockTable];
+            if (count($blockContentColumns) === 0 || !\Schema::hasColumn($blockTable, 'id')) {
+                continue;
+            }
+
+            $contentRow = $applyNotDeleted(\DB::table($blockTable), $blockTable)
+                ->where('id', $blockObjectId)
+                ->first(array_merge(['id'], $blockContentColumns));
+
+            if (!$contentRow) {
+                $blocksWithoutContentCount++;
+                continue;
+            }
+
+            $hasBlockContent = false;
+            foreach ($blockContentColumns as $blockContentColumn) {
+                if (!$isDashboardValueEmpty($contentRow->{$blockContentColumn} ?? null)) {
+                    $hasBlockContent = true;
+                    break;
+                }
+            }
+
+            if (!$hasBlockContent) {
+                $blocksWithoutContentCount++;
+            }
+        }
+    }
+
+    $sitemapFilePath = public_path('sitemap.xml');
+    $sitemapHasLocalFile = is_file($sitemapFilePath) && filesize($sitemapFilePath) > 0;
+    $sitemapHasRoute = collect(app('router')->getRoutes())->contains(function ($route) {
+        return in_array('GET', $route->methods(), true) && ltrim($route->uri(), '/') === 'sitemap.xml';
+    });
+    $sitemapReachable = $sitemapHasLocalFile || $sitemapHasRoute;
+
+    $unreadFormsRequestsCount = ($hasPluginFormsRequestsTable && \Schema::hasColumn('plugins_forms_requests', 'is_read'))
+        ? $applyNotDeleted(\DB::table('plugins_forms_requests'), 'plugins_forms_requests')->where('is_read', 0)->count()
+        : 0;
+    $unreadProductRequestsCount = ($hasPluginProductsRequestsTable
+            && \Schema::hasColumn('plugins_products_requests', 'is_read')
+            && \Schema::hasColumn('plugins_products_requests', 'product_id'))
+        ? $applyNotDeleted(\DB::table('plugins_products_requests'), 'plugins_products_requests')
+            ->where('is_read', 0)
+            ->whereNotNull('product_id')
+            ->count()
+        : 0;
+    $unreadShopOrdersRequestsCount = ($hasPluginProductsRequestsTable
+            && \Schema::hasColumn('plugins_products_requests', 'is_read')
+            && \Schema::hasColumn('plugins_products_requests', 'order_id'))
+        ? $applyNotDeleted(\DB::table('plugins_products_requests'), 'plugins_products_requests')
+            ->where('is_read', 0)
+            ->whereNotNull('order_id')
+            ->count()
+        : 0;
+    $totalUnreadRequestsCount = $unreadFormsRequestsCount + $unreadProductRequestsCount + $unreadShopOrdersRequestsCount;
+
+    $pagesMissingMetaTitleCount = ($hasPagesTable && \Schema::hasColumn('pages', 'meta_title'))
+        ? $pagesBaseQuery()->where(function ($query) {
+            $query->whereNull('meta_title')->orWhereRaw("TRIM(COALESCE(meta_title, '')) = ''");
+        })->count()
+        : 0;
+    $pagesMissingMetaDescriptionCount = ($hasPagesTable && \Schema::hasColumn('pages', 'meta_description'))
+        ? $pagesBaseQuery()->where(function ($query) {
+            $query->whereNull('meta_description')->orWhereRaw("TRIM(COALESCE(meta_description, '')) = ''");
+        })->count()
+        : 0;
+    $duplicateSlugCount = ($hasPagesTable && \Schema::hasColumn('pages', 'slug'))
+        ? $pagesBaseQuery()
+            ->select('slug', \DB::raw('COUNT(*) as duplicate_count'))
+            ->whereRaw("TRIM(COALESCE(slug, '')) <> ''")
+            ->where('slug', '<>', '/')
+            ->groupBy('slug')
+            ->havingRaw('COUNT(*) > 1')
+            ->get()
+            ->sum('duplicate_count')
+        : 0;
+    $pagesWithoutBlocksCount = ($hasPagesTable && $hasBlocksPagesTable && \Schema::hasColumn('blocks_pages', 'page_id'))
+        ? $pagesBaseQuery()
+            ->leftJoin('blocks_pages', function ($join) {
+                $join->on('pages.id', '=', 'blocks_pages.page_id');
+                if (\Schema::hasColumn('blocks_pages', 'deleted_at')) {
+                    $join->whereNull('blocks_pages.deleted_at');
+                }
+                if (\Schema::hasColumn('blocks_pages', 'is_active')) {
+                    $join->where('blocks_pages.is_active', 1);
+                }
+            })
+            ->whereNull('blocks_pages.id')
+            ->count('pages.id')
+        : 0;
+
+    $siteHealthChecks = [
+        [
+            'label' => 'Pagine attive/disattive',
+            'value' => number_format($pagesActiveCount, 0, ',', '.').' / '.number_format($pagesInactiveCount, 0, ',', '.'),
+            'detail' => 'Attive / disattive',
+            'tone' => $pagesInactiveCount > 0 ? 'warning' : 'success',
+        ],
+        [
+            'label' => 'Immagini mancanti',
+            'value' => number_format($pagesMissingImagesCount, 0, ',', '.'),
+            'detail' => 'Pagine senza immagine di sfondo',
+            'tone' => $pagesMissingImagesCount > 0 ? 'warning' : 'success',
+        ],
+        [
+            'label' => 'Blocchi senza contenuto',
+            'value' => number_format($blocksWithoutContentCount, 0, ',', '.'),
+            'detail' => 'Blocchi attivi vuoti o scollegati',
+            'tone' => $blocksWithoutContentCount > 0 ? 'warning' : 'success',
+        ],
+        [
+            'label' => 'Form senza destinatari',
+            'value' => number_format($formsWithoutRecipientsCount, 0, ',', '.'),
+            'detail' => 'Email, CC e CCN vuoti',
+            'tone' => $formsWithoutRecipientsCount > 0 ? 'danger' : 'success',
+        ],
+        [
+            'label' => 'Sitemap',
+            'value' => $sitemapReachable ? 'Raggiungibile' : 'Non raggiungibile',
+            'detail' => $sitemapHasLocalFile ? 'File sitemap.xml presente' : ($sitemapHasRoute ? 'Route sitemap.xml presente' : 'File o route non trovati'),
+            'tone' => $sitemapReachable ? 'success' : 'danger',
+        ],
+    ];
+
+    $requestsToRead = [
+        [
+            'label' => 'Form contatto',
+            'value' => number_format($unreadFormsRequestsCount, 0, ',', '.'),
+            'url' => backpack_url('pluginFormsRequests'),
+            'tone' => $unreadFormsRequestsCount > 0 ? 'warning' : 'success',
+        ],
+        [
+            'label' => 'Richieste prodotti',
+            'value' => number_format($unreadProductRequestsCount, 0, ',', '.'),
+            'url' => backpack_url('pluginProductsRequests'),
+            'tone' => $unreadProductRequestsCount > 0 ? 'warning' : 'success',
+        ],
+        [
+            'label' => 'Richieste ordini',
+            'value' => number_format($unreadShopOrdersRequestsCount, 0, ',', '.'),
+            'url' => backpack_url('shopOrdersRequests'),
+            'tone' => $unreadShopOrdersRequestsCount > 0 ? 'warning' : 'success',
+        ],
+    ];
+
+    $seoQuickChecks = [
+        [
+            'label' => 'Meta title mancanti',
+            'value' => number_format($pagesMissingMetaTitleCount, 0, ',', '.'),
+            'tone' => $pagesMissingMetaTitleCount > 0 ? 'warning' : 'success',
+        ],
+        [
+            'label' => 'Meta description mancanti',
+            'value' => number_format($pagesMissingMetaDescriptionCount, 0, ',', '.'),
+            'tone' => $pagesMissingMetaDescriptionCount > 0 ? 'warning' : 'success',
+        ],
+        [
+            'label' => 'Slug duplicati',
+            'value' => number_format($duplicateSlugCount, 0, ',', '.'),
+            'tone' => $duplicateSlugCount > 0 ? 'danger' : 'success',
+        ],
+        [
+            'label' => 'Pagine senza blocchi',
+            'value' => number_format($pagesWithoutBlocksCount, 0, ',', '.'),
+            'tone' => $pagesWithoutBlocksCount > 0 ? 'warning' : 'success',
+        ],
+    ];
+
     $orderChartLabels = [];
     $orderChartSeries = [];
     $trafficDaysWindow = 90;
@@ -426,9 +702,10 @@
                 </div>
 
                 <div class="col-lg-4 mb-3">
-                    <div class="card card-dashboard future-panel h-100">
+                    <div class="future-dashboard-side-stack">
+                    <div class="card card-dashboard future-panel">
                         <div class="card-header future-panel-header d-flex align-items-center">
-                            <h5 class="mb-0">Stato del sito</h5>
+                            <h5 class="mb-0">Stato salute sito</h5>
                         </div>
                         <div class="card-body">
                             <div class="future-status {{ $onlineStatus ? 'online' : 'offline' }}">
@@ -438,7 +715,19 @@
                             <small class="d-block mt-2 text-muted">
                                 {{ $onlineStatus ? 'Tutto funziona correttamente.' : 'Verifica la tab Manutenzione.' }}
                             </small>
+                            <ul class="future-health-list mt-3 mb-0">
+                                @foreach($siteHealthChecks as $healthCheck)
+                                    <li>
+                                        <span>
+                                            <strong>{{ $healthCheck['label'] }}</strong>
+                                            <small>{{ $healthCheck['detail'] }}</small>
+                                        </span>
+                                        <span class="future-health-value {{ $healthCheck['tone'] }}">{{ $healthCheck['value'] }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -573,6 +862,45 @@
                                 @if(!empty($insight['url']) && !empty($insight['cta']))
                                     <a class="btn btn-sm btn-light {{ $insight['url'] === '#dashboardFutureTasks' ? 'future-insight-open-task' : '' }}" href="{{ $insight['url'] }}" @if($insight['url'] === '#dashboardFutureTasks') data-open-filter="open" @endif>{{ $insight['cta'] }}</a>
                                 @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card card-dashboard future-side-card mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Form/Richieste da leggere</h6>
+                        <span class="future-health-value {{ $totalUnreadRequestsCount > 0 ? 'warning' : 'success' }}">{{ number_format($totalUnreadRequestsCount, 0, ',', '.') }}</span>
+                    </div>
+                    <ul class="future-health-list mb-0">
+                        @foreach($requestsToRead as $requestItem)
+                            <li>
+                                <span>
+                                    <strong>
+                                        <a href="{{ $requestItem['url'] }}">{{ $requestItem['label'] }}</a>
+                                    </strong>
+                                    <small>Non lette</small>
+                                </span>
+                                <span class="future-health-value {{ $requestItem['tone'] }}">{{ $requestItem['value'] }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card card-dashboard future-side-card mb-3">
+                <div class="card-body">
+                    <h6 class="mb-2">Controlli SEO rapidi</h6>
+                    <ul class="future-health-list mb-0">
+                        @foreach($seoQuickChecks as $seoCheck)
+                            <li>
+                                <span>
+                                    <strong>{{ $seoCheck['label'] }}</strong>
+                                    <small>Pagine</small>
+                                </span>
+                                <span class="future-health-value {{ $seoCheck['tone'] }}">{{ $seoCheck['value'] }}</span>
                             </li>
                         @endforeach
                     </ul>
@@ -805,6 +1133,18 @@
         .future-status.online { background: #e8f8ef; color: #1d8148; }
         .future-status.offline { background: #fff2ed; color: #ad4b2c; }
         .future-status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+        .future-dashboard-side-stack { display: flex; flex-direction: column; gap: .75rem; height: 100%; }
+        .future-health-list { list-style: none; padding: 0; }
+        .future-health-list li { display: flex; align-items: flex-start; justify-content: space-between; gap: .7rem; padding: .42rem 0; border-bottom: 1px solid #edf2fb; }
+        .future-health-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+        .future-health-list strong { display: block; color: #21406f; font-size: .8rem; line-height: 1.2; font-weight: 700; }
+        .future-health-list strong a { color: #21406f; text-decoration: none; }
+        .future-health-list strong a:hover { color: #2c67d1; text-decoration: underline; }
+        .future-health-list small { display: block; color: #6f85ad; font-size: .72rem; line-height: 1.2; margin-top: .12rem; }
+        .future-health-value { display: inline-flex; align-items: center; justify-content: center; min-width: 42px; border-radius: 999px; padding: .16rem .46rem; font-size: .72rem; line-height: 1.1; font-weight: 800; text-align: center; white-space: nowrap; }
+        .future-health-value.success { background: #e8f8ef; color: #1d8148; }
+        .future-health-value.warning { background: #fff4df; color: #a86f14; }
+        .future-health-value.danger { background: #fff2ed; color: #ad4b2c; }
         .future-revenue-value { font-size: 1.25rem; font-weight: 800; color: #1f3f70; margin-bottom: .15rem; }
         .future-notify-list { list-style: none; padding: 0; }
         .future-notify-list li { display: flex; gap: .5rem; align-items: flex-start; padding: .35rem 0; border-bottom: 1px solid #edf2fb; }

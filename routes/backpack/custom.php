@@ -30,6 +30,10 @@ Route::group([
     Route::crud('websiteSetting', 'WebsiteSettingCrudController');
     Route::crud('userCustom', 'CustomUserCrudController');
     Route::crud('admin-thumb', 'AdminThumbCrudController');
+    Route::get('superadminsettings', 'SuperAdminController@settings')->name('superadmin.settings');
+    Route::post('superadminsettings', 'SuperAdminController@updateSettings')->name('superadmin.settings.update');
+    Route::get('superadmin/error-alerts', 'SuperAdminController@edit')->name('superadmin.error_alerts.edit');
+    Route::post('superadmin/error-alerts', 'SuperAdminController@update')->name('superadmin.error_alerts.update');
 
     // rotte blocchi
     Route::crud('blockHtml', 'BlockHtmlCrudController');
