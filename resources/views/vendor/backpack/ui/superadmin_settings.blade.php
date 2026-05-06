@@ -178,21 +178,44 @@
 
                         <div class="form-group col-md-6">
                             <label for="admin_topbar_background">Sfondo topbar</label>
-                            <input type="text" name="admin_topbar_background" id="admin_topbar_background" class="form-control" value="{{ old('admin_topbar_background', $adminTopbarBackground) }}">
+                            <div class="input-group colorpicker-component superadmin-jscolor-field">
+                                <input
+                                    type="text"
+                                    name="admin_topbar_background"
+                                    id="admin_topbar_background"
+                                    class="form-control"
+                                    value="{{ old('admin_topbar_background', $adminTopbarBackground) }}"
+                                    data-jscolor="{format: 'hexa'}"
+                                >
+                            </div>
                         </div>
 
                         <div class="form-group col-md-6">
                             <label for="admin_leftbar_background">Sfondo barra di sinistra</label>
-                            <input type="text" name="admin_leftbar_background" id="admin_leftbar_background" class="form-control" value="{{ old('admin_leftbar_background', $adminLeftbarBackground) }}">
+                            <div class="input-group colorpicker-component superadmin-jscolor-field">
+                                <input
+                                    type="text"
+                                    name="admin_leftbar_background"
+                                    id="admin_leftbar_background"
+                                    class="form-control"
+                                    value="{{ old('admin_leftbar_background', $adminLeftbarBackground) }}"
+                                    data-jscolor="{format: 'hexa'}"
+                                >
+                            </div>
                         </div>
 
                         <div class="form-group col-md-4">
                             <label for="admin_panel_template">Template Pannello Admin</label>
-                            <select name="admin_panel_template" id="admin_panel_template" class="form-control custom-select">
-                                @foreach(['white' => 'White', 'modern_01' => 'Modern 01', 'modern_02' => 'Modern 02', 'future' => 'Future'] as $value => $label)
-                                    <option value="{{ $value }}" @if(old('admin_panel_template', $adminPanelTemplate) === $value) selected @endif>{{ $label }}</option>
-                                @endforeach
-                            </select>
+                            <div class="superadmin-select-field">
+                                <i class="la la-layer-group" aria-hidden="true"></i>
+                                <select name="admin_panel_template" id="admin_panel_template" class="form-control custom-select">
+                                    @foreach(['white' => 'White', 'modern_01' => 'Modern 01', 'modern_02' => 'Modern 02', 'future' => 'Future'] as $value => $label)
+                                        <option value="{{ $value }}" @if(old('admin_panel_template', $adminPanelTemplate) === $value) selected @endif>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="superadmin-select-arrow la la-angle-down" aria-hidden="true"></span>
+                            </div>
+                            <small class="form-text text-muted">Seleziona il layout del pannello amministrativo.</small>
                         </div>
 
                         <div class="form-group col-md-8">
@@ -532,6 +555,40 @@
             flex: 0 0 auto;
         }
 
+        .superadmin-select-field {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .superadmin-select-field > i {
+            position: absolute;
+            left: 13px;
+            z-index: 2;
+            color: #45699e;
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        .superadmin-select-field .custom-select {
+            padding-left: 38px;
+            padding-right: 42px;
+            appearance: none;
+            background-image: none;
+            cursor: pointer;
+            color: #1f3f70;
+            font-weight: 600;
+        }
+
+        .superadmin-select-arrow {
+            position: absolute;
+            right: 13px;
+            z-index: 2;
+            color: #45699e;
+            font-size: 1.05rem;
+            pointer-events: none;
+        }
+
         .superadmin-settings-empty {
             min-height: 120px;
             display: flex;
@@ -572,6 +629,7 @@
 
 @push('after_scripts')
     @basset('https://cdn.jsdelivr.net/npm/jquery-colorbox@1.6.4/jquery.colorbox-min.js')
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.5.1/jscolor.min.js"></script>
 
     <script>
         var elfinderTarget = false;
