@@ -52,6 +52,7 @@
 - Nel layout Bexo con mobile esteso oltre `991px`, fissare una `min-height` coerente del `header-wrapper` (idealmente legata a `menubar_height`) per prevenire salti di altezza su tablet e piccoli smartphone.
 - I valori admin di altezza (es. `menubar_height`) possono arrivare senza unita: normalizzarli in CSS (`px` se numerici) prima di usarli in `style` inline per evitare comportamenti incoerenti tra desktop e mobile.
 - Nei file Blade frontend evitare blocchi `<?php ...` aperti in testa al template: usare direttive Blade o chiudere esplicitamente il tag PHP, altrimenti la compilazione puo fallire con `unexpected token "<"`.
+- La sitemap XML deve usare `lastmod` basato su `updated_at`/`created_at` reale dei record e non su `Carbon::now()`: date uguali generate a ogni richiesta rendono il segnale poco affidabile per Google. Evitare query DB dentro `resources/views/sitemap.blade.php`.
 - Per i CRUD blocchi (`Block*CrudController`) la create standard multi-blocco deve usare `custom_create_multi_enhanced` (non `custom_create_multi`) per coerenza col nuovo layout UI admin.
 - Nel flusso import prodotti (`PluginProductImportCrudController`), le azioni post-import su `set:products_search` devono privilegiare aggiornamenti incrementali sugli ID toccati dall'ultimo `importSpecialMapping` (fallback full rebuild solo se manca il contesto IDs).
 - Il campo `website_settings.admin_panel_template` supporta anche `future`: gli stili del tema devono essere sempre scope-ati su `body.admin-future-template` e non devono alterare `white`, `modern_01`, `modern_02`.
