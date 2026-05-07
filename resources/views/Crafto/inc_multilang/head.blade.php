@@ -7,10 +7,25 @@
 <link rel="shortcut icon" href="{{ url("$website->favicon") }}" />
 @endif
 <!-- font -->
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+@if((isset($website->h_family) && strpos($website->h_family, 'fonts.googleapis.com') !== false) || (isset($website->p_family) && strpos($website->p_family, 'fonts.googleapis.com') !== false))
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+@endif
+@if($website->logo)
+    <link rel="preload" as="image" href="{{ url($website->logo2 ?: $website->logo) }}" fetchpriority="high">
+@endif
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" media="print" onload="this.onload=null;this.removeAttribute('media');">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"></noscript>
 <!-- CSS SEO-->
-<link rel="stylesheet" href="{{ url("templates/Crafto/css/vendors.min.css") }}"/>
+<link rel="preload"
+      href="{{ url("templates/Crafto/css/vendors.min.css") }}"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+    <link rel="stylesheet" href="{{ url("templates/Crafto/css/vendors.min.css") }}">
+</noscript>
 <link rel="preload"
       href="{{ url("templates/Crafto/css/icon.min.css") }}"
       as="style"
@@ -27,7 +42,13 @@
     <link rel="stylesheet"
           href="{{ url("templates/Crafto/css/responsive.css") }}">
 </noscript>
-<link rel="stylesheet" href="{{ url("css_custom/crafto_custom.css") }}"/>
+<link rel="preload"
+      href="{{ url("css_custom/crafto_custom.css") }}"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+    <link rel="stylesheet" href="{{ url("css_custom/crafto_custom.css") }}">
+</noscript>
 
 <!-- CSS Common Form contact -->
 @if(!isset($craftoHasFormCss) || $craftoHasFormCss)

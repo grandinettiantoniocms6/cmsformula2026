@@ -12,6 +12,8 @@
 
 ## Implementazione
 - In `resources/views/Crafto/inc_multilang/head.blade.php`, `icon.min.css` viene caricato con `preload` + `onload`, mantenendo fallback `noscript`.
+- Dopo il secondo controllo Lighthouse, anche `vendors.min.css` e `crafto_custom.css` vengono caricati con `preload` + `onload`, per ridurre ulteriormente le richieste render-blocking.
+- Aggiunti `preconnect` verso CDN/font e `preload` del logo mobile/primario per anticipare le risorse del primo viewport.
 - In `resources/views/Crafto/layout.blade.php`, lo script GLightbox viene caricato solo quando la pagina contiene blocchi che richiedono lightbox.
 - In `public/templates/Crafto/js/main.js`, l'inizializzazione lightbox ora verifica anche `typeof GLightbox === 'function'`.
 - Lo script inline degli alert ora aspetta `window.load` e verifica `window.jQuery`.
@@ -23,4 +25,5 @@
 ## Rischi e controlli
 - Rischio basso: le pagine con gallery continuano a caricare GLightbox; le pagine senza gallery evitano il download.
 - Su pagine che usano classi icona nel primo viewport puo comparire un breve ritardo nella resa dell'icona, ma il layout non dipende da `icon.min.css`.
+- Su pagine che dipendono da CSS plugin sopra la piega, verificare che il caricamento differito di `vendors.min.css` non introduca flash visivo; Casa Bianca usa soprattutto header/logo/testo nel primo viewport.
 - Rieseguire Lighthouse mobile su URL pubblico con cache pulita per misurare il miglioramento effettivo.
