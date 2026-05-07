@@ -8,30 +8,17 @@
 @endif
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<!--
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
--->
 <!-- font -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" media="print" onload="this.onload=null;this.removeAttribute('media');">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"></noscript>
-
 <!-- CSS SEO-->
-<link rel="preload" href="{{ url("templates/Crafto/css/vendors.min.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{ url("templates/Crafto/css/vendors.min.css") }}"></noscript>
-
+<link rel="stylesheet" href="{{ url("templates/Crafto/css/vendors.min.css") }}"/>
 <link rel="preload" href="{{ url("templates/Crafto/css/icon.min.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{{ url("templates/Crafto/css/icon.min.css") }}"></noscript>
-
-<link rel="preload" href="{{ url("templates/Crafto/css/style.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{ url("templates/Crafto/css/style.css") }}"></noscript>
-
+<link rel="stylesheet" href="{{ url("templates/Crafto/css/style.css") }}"/>
 <link rel="preload" href="{{ url("templates/Crafto/css/responsive.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{{ url("templates/Crafto/css/responsive.css") }}"></noscript>
-
-<link rel="preload" href="{{ url("css_custom/crafto_custom.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{ url("css_custom/crafto_custom.css") }}"></noscript>
-
+<link rel="stylesheet" href="{{ url("css_custom/crafto_custom.css") }}"/>
 
 <!-- CSS Common Form contact -->
 @if(!isset($craftoHasFormCss) || $craftoHasFormCss)
