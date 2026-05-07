@@ -826,7 +826,7 @@
     }
 
     // Group gallery light box
-    if (typeof $.fn.magnificPopup === 'function') {
+    if (typeof $.fn.magnificPopup === 'function' && typeof GLightbox === 'function') {
 
         // var lightboxgallerygroups = {};
         // $('.portfolio-box [data-group], .gallery-box [data-group]').each(function () {

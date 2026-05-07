@@ -115,7 +115,9 @@ if($admin_template->nav_style){
     <!-- javascript libraries -->
     <script src="{{ url("templates/Crafto/js/jquery.js") }}" defer></script>
     <script src="{{ url("templates/Crafto/js/vendors.min.js") }}" defer></script>
-    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js" defer></script>
+    @if($craftoHasLightbox)
+        <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js" defer></script>
+    @endif
     <script src="{{ url("templates/Crafto/js/main.js") }}" defer></script>
 
     @include('common.engine_customerly')
@@ -123,9 +125,15 @@ if($admin_template->nav_style){
     @include('common.engine_wapp')
     <!--include('common.js_common') -->
     <script>
-        $( "div.alert-success" ).fadeIn( 300 ).delay( 5000 ).fadeOut( 500 );
-        $( "div.alert-warning" ).fadeIn( 300 ).delay( 5000 ).fadeOut( 500 );
-        $( "div.alert-close" ).fadeIn( 300 ).delay( 2500 ).fadeOut( 500 );
+        window.addEventListener('load', function () {
+            if (!window.jQuery) {
+                return;
+            }
+
+            jQuery("div.alert-success").fadeIn(300).delay(5000).fadeOut(500);
+            jQuery("div.alert-warning").fadeIn(300).delay(5000).fadeOut(500);
+            jQuery("div.alert-close").fadeIn(300).delay(2500).fadeOut(500);
+        });
     </script>
 
     <!-- Cookie Banner Crafto o Iubenda -->
