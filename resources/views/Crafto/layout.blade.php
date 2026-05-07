@@ -51,8 +51,7 @@ $craftoHasLightbox = $craftoPageBlockTypes->intersect(["blockGallery", "blockLas
 
     <!-- Css per personalizzazioni extra commons -->
     @if($website->custom_css)
-        <link rel="preload" href="{{ url("$website->custom_css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="{{ url("$website->custom_css") }}"></noscript>
+        <link rel="stylesheet" href="{{ url("$website->custom_css") }}">
     @endif
 
     @if($website->custom_css_style)
