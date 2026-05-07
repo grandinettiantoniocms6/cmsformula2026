@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="CMS-Formula 5.0 by Webisland.it" />
+<meta name="author" content="CMS-Formula 6.0 by Webisland.it" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Favicon -->
 @if($website->favicon)
@@ -13,11 +13,9 @@
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"></noscript>
 <!-- CSS SEO-->
 <link rel="stylesheet" href="{{ url("templates/Crafto/css/vendors.min.css") }}"/>
-<link rel="preload" href="{{ url("templates/Crafto/css/icon.min.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{ url("templates/Crafto/css/icon.min.css") }}"></noscript>
+<link rel="stylesheet" href="{{ url("templates/Crafto/css/icon.min.css") }}"/>
 <link rel="stylesheet" href="{{ url("templates/Crafto/css/style.css") }}"/>
-<link rel="preload" href="{{ url("templates/Crafto/css/responsive.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{ url("templates/Crafto/css/responsive.css") }}"></noscript>
+<link rel="stylesheet" href="{{ url("templates/Crafto/css/responsive.css") }}"/>
 <link rel="stylesheet" href="{{ url("css_custom/crafto_custom.css") }}"/>
 
 <!-- CSS Common Form contact -->
