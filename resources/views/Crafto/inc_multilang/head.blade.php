@@ -8,16 +8,30 @@
 @endif
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<!--
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+-->
 <!-- font -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" media="print" onload="this.onload=null;this.removeAttribute('media');">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"></noscript>
-<!-- CSS -->
-<link rel="stylesheet" href="{{ url("templates/Crafto/css/vendors.min.css") }}"/>
-<link rel="stylesheet" href="{{ url("templates/Crafto/css/icon.min.css") }}"/>
-<link rel="stylesheet" href="{{ url("templates/Crafto/css/style.css") }}"/>
-<link rel="stylesheet" href="{{ url("templates/Crafto/css/responsive.css") }}"/>
+
+<!-- CSS SEO-->
+<link rel="preload" href="{{ url("templates/Crafto/css/vendors.min.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ url("templates/Crafto/css/vendors.min.css") }}"></noscript>
+
+<link rel="preload" href="{{ url("templates/Crafto/css/icon.min.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ url("templates/Crafto/css/icon.min.css") }}"></noscript>
+
+<link rel="preload" href="{{ url("templates/Crafto/css/style.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ url("templates/Crafto/css/style.css") }}"></noscript>
+
+<link rel="preload" href="{{ url("templates/Crafto/css/responsive.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ url("templates/Crafto/css/responsive.css") }}"></noscript>
+
+<link rel="preload" href="{{ url("css_custom/crafto_custom.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ url("css_custom/crafto_custom.css") }}"></noscript>
+
 
 <!-- CSS Common Form contact -->
 @if(!isset($craftoHasFormCss) || $craftoHasFormCss)
@@ -41,20 +55,6 @@
             });
         </script>
         <noscript><link rel="stylesheet" type="text/css" href="{{ url("css_common/form_contact.css") }}" /></noscript>
-    @endif
-@endif
-<!-- Responsive -->
-@if($website->resposive_css)
-    <link rel="stylesheet" type="text/css" href="{{ url("$website->responsive_css") }}" />
-@endif
-
-<!-- Prima vanno messi i css style e tipografy del tema e poi metto questa regola qui sotto che carica i Font Color Style css di Crafto da admin -->
-@if($website->style_css || $website->custom_css)
-    @if($website->style_css)
-        <link rel="stylesheet" type="text/css" href="{{ url("$website->style_css") }}" />
-    @endif
-    @if($website->custom_css)
-        <link rel="stylesheet" type="text/css" href="{{ url("$website->custom_css") }}" />
     @endif
 @endif
 
