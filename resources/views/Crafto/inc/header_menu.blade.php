@@ -2,6 +2,18 @@
 <?php
     $lang = \App::getLocale();
     $lang_ = strtoupper($lang);
+    $menubarHeightValue = trim((string) $website->menubar_height);
+    if ($menubarHeightValue === '') {
+        $menubarHeightCss = '80px';
+    } elseif (is_numeric($menubarHeightValue)) {
+        $menubarHeightCss = $menubarHeightValue . 'px';
+    } elseif (preg_match('/^\d+(\.\d+)?(px|rem|em|vh|vw)$/', $menubarHeightValue)) {
+        $menubarHeightCss = $menubarHeightValue;
+    } else {
+        $menubarHeightCss = '80px';
+    }
+    $headerBackgroundCss = $website->header_background ?: '#ffffff';
+    $mobileStickyBackgroundCss = '#ffffff';
 ?>
 <header class="header-with-topbar">
     @if($website->topbar_active == 1 && (env('TOPBAR')) )
@@ -77,10 +89,10 @@
 
     <!-- NAVBAR + header fixed -->
     @if($website->is_topbar_fixed_desktop == 1)
-    <nav class="navbar navbar-expand-lg header-reverse" style="background-color: {{ $website->header_background }}!important; height: {{ $website->menubar_height }}!important;">
+    <nav class="navbar navbar-expand-lg header-reverse crafto-inc-nav" style="background-color: {{ $headerBackgroundCss }}!important; height: {{ $menubarHeightCss }}!important;">
 
     @else
-    <nav class="navbar navbar-expand-lg" style="background-color: {{ $website->header_background }}!important; height: {{ $website->menubar_height }}!important;">
+    <nav class="navbar navbar-expand-lg crafto-inc-nav" style="background-color: {{ $headerBackgroundCss }}!important; height: {{ $menubarHeightCss }}!important;">
     @endif
 
             @if($website->is_online == 0 && backpack_user() && !is_numeric(strpos(env('APP_URL'), "stage")))
@@ -136,6 +148,103 @@
                         .navbar .navbar-nav .dropdown .dropdown-menu { background-color: {{ $website->bgcolor_menu_mobile }}!important; color: {{ $website->mobile_menu_color }} }
                          dropdown-menu .nav-item { color: {{ $website->mobile_menu_color }}; }
                         .nav-link { color: {{ $website->mobile_menu_color }}!important; }
+
+                    }
+
+                    @media only screen and (max-width: 991px) {
+
+                        header.header-with-topbar .crafto-inc-nav,
+                        header.sticky .crafto-inc-nav,
+                        header.sticky.sticky-active .crafto-inc-nav {
+                            height: {{ $menubarHeightCss }} !important;
+                            min-height: {{ $menubarHeightCss }} !important;
+                            max-height: {{ $menubarHeightCss }} !important;
+                            padding-top: 0 !important;
+                            padding-bottom: 0 !important;
+                            background-color: {{ $mobileStickyBackgroundCss }} !important;
+                            overflow: visible !important;
+                            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+                            z-index: 1100;
+                        }
+
+                        header.header-with-topbar .crafto-inc-nav > .container-fluid,
+                        header.sticky .crafto-inc-nav > .container-fluid,
+                        header.sticky.sticky-active .crafto-inc-nav > .container-fluid {
+                            height: {{ $menubarHeightCss }} !important;
+                            min-height: {{ $menubarHeightCss }} !important;
+                            max-height: {{ $menubarHeightCss }} !important;
+                            align-items: center !important;
+                            background-color: {{ $mobileStickyBackgroundCss }} !important;
+                            overflow: visible !important;
+                        }
+
+                        header.header-with-topbar .crafto-inc-nav .navbar-brand,
+                        header.sticky .crafto-inc-nav .navbar-brand,
+                        header.sticky .crafto-inc-nav.disable-fixed .navbar-brand,
+                        header.sticky .crafto-inc-nav.fixed-header .navbar-brand,
+                        header.sticky.sticky-active .crafto-inc-nav .navbar-brand {
+                            display: flex !important;
+                            align-items: center !important;
+                            height: {{ $menubarHeightCss }} !important;
+                            max-height: {{ $menubarHeightCss }} !important;
+                            padding-top: 0 !important;
+                            padding-bottom: 0 !important;
+                            overflow: hidden !important;
+                        }
+
+                        header.header-with-topbar .crafto-inc-nav .navbar-brand .default-logo,
+                        header.header-with-topbar .crafto-inc-nav .navbar-brand .alt-logo,
+                        header.sticky .crafto-inc-nav .navbar-brand .default-logo,
+                        header.sticky .crafto-inc-nav .navbar-brand .alt-logo,
+                        header.sticky.sticky-active .crafto-inc-nav .navbar-brand .default-logo,
+                        header.sticky.sticky-active .crafto-inc-nav .navbar-brand .alt-logo {
+                            visibility: hidden !important;
+                            opacity: 0 !important;
+                            width: 0 !important;
+                            max-width: 0 !important;
+                        }
+
+                        header.header-with-topbar .crafto-inc-nav .navbar-brand .mobile-logo,
+                        header.sticky .crafto-inc-nav .navbar-brand .mobile-logo,
+                        header.sticky.sticky-active .crafto-inc-nav .navbar-brand .mobile-logo {
+                            display: block !important;
+                            visibility: visible !important;
+                            opacity: 1 !important;
+                            width: auto !important;
+                            max-width: min(55vw, 220px) !important;
+                            max-height: calc({{ $menubarHeightCss }} - 12px) !important;
+                            object-fit: contain !important;
+                        }
+
+                        header.header-with-topbar .crafto-inc-nav .navbar-collapse,
+                        header.sticky .crafto-inc-nav .navbar-collapse,
+                        header.sticky.sticky-active .crafto-inc-nav .navbar-collapse {
+                            z-index: 1200;
+                            overflow: visible !important;
+                            background-color: {{ $website->mobile_menu_bgcolor ?: $mobileStickyBackgroundCss }} !important;
+                        }
+
+                        header.header-with-topbar .crafto-inc-nav .navbar-collapse.collapsing,
+                        header.sticky .crafto-inc-nav .navbar-collapse.collapsing,
+                        header.sticky.sticky-active .crafto-inc-nav .navbar-collapse.collapsing {
+                            overflow: hidden !important;
+                            background-color: {{ $website->mobile_menu_bgcolor ?: $mobileStickyBackgroundCss }} !important;
+                            transition: height 0.25s ease !important;
+                        }
+
+                        header.header-with-topbar .crafto-inc-nav .navbar-collapse .navbar-nav,
+                        header.sticky .crafto-inc-nav .navbar-collapse .navbar-nav,
+                        header.sticky.sticky-active .crafto-inc-nav .navbar-collapse .navbar-nav {
+                            background-color: {{ $website->mobile_menu_bgcolor ?: $mobileStickyBackgroundCss }} !important;
+                        }
+
+                        header.header-with-topbar .crafto-inc-nav .navbar-toggler,
+                        header.sticky .crafto-inc-nav .navbar-toggler,
+                        header.sticky.sticky-active .crafto-inc-nav .navbar-toggler {
+                            align-self: center !important;
+                            margin-top: 0 !important;
+                            margin-bottom: 0 !important;
+                        }
 
                     }
 
