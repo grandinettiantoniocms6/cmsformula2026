@@ -1485,7 +1485,7 @@ class PluginProductsController extends Controller
         return $categories;
     }
 
-    public function get_all_products_sidebar($products_processed, $pluginSetting){
+    public function get_all_products_sidebar($products_processed = null, $pluginSetting){
         $productsAll = $products_processed;
         $productsAllVet = $products_processed->pluck("id")->toArray();
         //$productsAllVetAttributes = $products_processed->whereNotNull("attributes")->pluck("attributes", "id")->toArray();

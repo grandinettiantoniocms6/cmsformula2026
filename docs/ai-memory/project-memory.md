@@ -1,4 +1,4 @@
-﻿﻿﻿# Project Memory
+﻿﻿﻿﻿# Project Memory
 
 ## Aggiornato il
 - 2026-05-05
@@ -85,4 +85,3 @@
 - Su Crafto `inc_center`, lo sticky header sotto il breakpoint mobile reale (`max-width:1450px`) deve mantenere la stessa altezza/logo del primo render usando `menubar_height` normalizzato, con background opaco e `overflow: visible` su navbar/container per non tagliare il collapse; durante `.navbar-collapse.collapsing` usare invece `overflow:hidden` e stesso background del menu per far muovere testo e sfondo insieme. Nascondere `default-logo`/`alt-logo`, mostrare solo `mobile-logo` e azzerare i padding sticky della brand. Nel range `992-1450px`, la colonna logo `col-lg-2` va forzata ad auto-width, altrimenti Bootstrap la stringe e taglia il logo.
 - Per PageSpeed senza toccare CSS/JS, preferire interventi su header HTTP/cache, preconnect/font `display=swap`, attributi HTML immagine (`width`/`height`, `fetchpriority`, `decoding`) e caricamento condizionale di terze parti.
 - Se emerge una regola stabile o un bug ricorrente: aggiornare subito `docs/ai-memory/project-memory.md` e un file in `docs/audits/`.
-- Nel frontend `pluginProducts`, non salvare in cache Laravel collection Eloquent complete o payload con `productsAll` per la sidebar: su cataloghi grandi il cache driver `file` puo' generare file enormi e causare errori 500 intermittenti. Cache-are solo array scalari minimi per filtri, brand, attributi, tag e prezzi.
