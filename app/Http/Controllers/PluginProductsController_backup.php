@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class PluginProductsController extends Controller
+class PluginProductsController_backup extends Controller
 {
 
     public function search_results(Request $request){
@@ -461,7 +461,7 @@ class PluginProductsController extends Controller
             ->groupBy("plugins_products.id")
             ->paginate($select_show_number);
 
-        $products_processed = PluginProducts::selectRaw("plugins_products.id, plugins_products.price, plugins_products.tax_id, plugins_products.brand_id, plugins_products.tags, plugins_products_search.attributes, plugins_products_search.options as search_options, plugins_products_search.price as search_price, plugins_products_search.brands as search_brands, plugins_products_search.tags as search_tags")
+        $products_processed = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.attributes, plugins_products_search.options as search_options, plugins_products_search.price as search_price, plugins_products_search.brands as search_brands, plugins_products_search.tags as search_tags")
             ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
             ->whereRaw("$sql_categories $sql_tags AND langs LIKE '%,$lang,%'")
             ->when(!empty($brandIds), function ($query) use ($brandIds) {
@@ -1485,7 +1485,7 @@ class PluginProductsController extends Controller
         return $categories;
     }
 
-    public function get_all_products_sidebar($products_processed, $pluginSetting){
+    public function get_all_products_sidebar($products_processed = null, $pluginSetting){
         $productsAll = $products_processed;
         $productsAllVet = $products_processed->pluck("id")->toArray();
         //$productsAllVetAttributes = $products_processed->whereNotNull("attributes")->pluck("attributes", "id")->toArray();
@@ -1670,7 +1670,7 @@ class PluginProductsController extends Controller
         asort($tags);
         $tags = array_unique($tags);
 
-        return ["tags" => $tags, "attributes_v" => $attributes_v, "brands" => $brands, "brands_ids" => $brands_ids,  "prices" => $vet_prices];
+        return ["tags" => $tags, "productsAll" => $productsAll, "attributes_v" => $attributes_v, "brands" => $brands, "brands_ids" => $brands_ids,  "prices" => $vet_prices];
     }
 
     public function comparatore()
