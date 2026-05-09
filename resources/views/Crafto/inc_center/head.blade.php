@@ -19,7 +19,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" media="print" onload="this.onload=null;this.removeAttribute('media');">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css"></noscript>
 <!-- CSS SEO-->
-<link rel="stylesheet" href="{{ url("templates/Crafto/css/critical.css") }}"/>
+
+<link rel="stylesheet" href="{{ url("templates/Crafto/css/critical.css") }}">
+
 <link rel="preload"
       href="{{ url("templates/Crafto/css/vendors.min.css") }}"
       as="style"
@@ -27,6 +29,7 @@
 <noscript>
     <link rel="stylesheet" href="{{ url("templates/Crafto/css/vendors.min.css") }}">
 </noscript>
+
 <link rel="preload"
       href="{{ url("templates/Crafto/css/icon.min.css") }}"
       as="style"
@@ -44,6 +47,7 @@
     <link rel="stylesheet"
           href="{{ url("templates/Crafto/css/style.css") }}">
 </noscript>
+
 <link rel="preload"
       href="{{ url("templates/Crafto/css/responsive.css") }}"
       as="style"
@@ -52,6 +56,7 @@
     <link rel="stylesheet"
           href="{{ url("templates/Crafto/css/responsive.css") }}">
 </noscript>
+
 <link rel="preload"
       href="{{ url("css_custom/crafto_custom.css") }}"
       as="style"

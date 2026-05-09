@@ -3128,3 +3128,210 @@ button:focus {
 .header-demo.navbar.header-dark .navbar-nav .nav-item:first-child .dropdown-menu a {
     color: var(--white);
 }
+
+/* ===================================
+   12. Layout
+====================================== */
+/* Sidebar */
+.sidebar-list li {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 15px;
+    line-height: 18px;
+}
+.sidebar-list li a {
+    display: inline-block;
+    text-align: left;
+}
+.sidebar-list li a:hover {
+    color: var(--base-color) !important;
+}
+.sidebar-list li .item-qty {
+    font-size: 14px;
+    position: absolute;
+    top: 1px;
+    right: 0;
+    text-align: right;
+}
+.sidebar-list li:last-child {
+    margin-bottom: 0;
+}
+.latest-post-sidebar {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.latest-post-sidebar li {
+    margin-bottom: 25px;
+}
+.latest-post-sidebar li figure {
+    height: 65px;
+    width: 80px;
+    margin: 0;
+}
+.latest-post-sidebar li .media-body {
+    line-height: normal;
+    padding-left: 30px;
+    position: relative;
+    top: -3px;
+}
+.latest-post-sidebar li:last-child {
+    margin-bottom: 0;
+}
+.popular-post-sidebar {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.popular-post-sidebar li {
+    margin-bottom: 25px;
+}
+.popular-post-sidebar li figure {
+    height: 100px;
+    width: 100px;
+    margin: 0;
+}
+.popular-post-sidebar li .media-body {
+    line-height: normal;
+    padding-left: 30px;
+    position: relative;
+}
+.popular-post-sidebar li:last-child {
+    margin-bottom: 0;
+}
+.category-list-sidebar {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.category-list-sidebar li {
+    margin-bottom: 15px;
+}
+.category-list-sidebar li .btn {
+    right: -10%;
+    opacity: 0;
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+    -webkit-transition: all 300ms cubic-bezier(0.37, 0.8, 0.63, 1);
+    transition: all 300ms cubic-bezier(0.37, 0.8, 0.63, 1);
+}
+.category-list-sidebar li:last-child {
+    margin-bottom: 0;
+}
+.category-list-sidebar li:hover .btn {
+    right: -8%;
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+.post-sidebar.blog-side-image li {
+    margin-bottom: 35px;
+    width: 100%;
+}
+.post-sidebar.blog-side-image li .blog-box .blog-image {
+    min-height: 1px;
+}
+.post-sidebar.blog-side-image li:last-child {
+    margin-bottom: 0;
+}
+.tag-cloud a {
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0 6px 10px 0;
+    padding: 7px 18px;
+    border-radius: 4px;
+    border: 1px solid var(--extra-medium-gray);
+}
+.tag-cloud a:hover, .tag-cloud a.active {
+    box-shadow: 0 0 10px rgba(23, 23, 23, 0.1);
+    color: var(--dark-gray);
+    background-color: var(--white);
+}
+/* Grid */
+.grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+/* Grid column and gutter spacing */
+.grid li img {
+    width: 100%;
+}
+.grid .grid-sizer {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+.grid.gutter-very-small li {
+    padding: 3px 3px;
+}
+.grid.gutter-small li {
+    padding: 5px 5px;
+}
+.grid.gutter-medium li {
+    padding: 7px 7px;
+}
+.grid.gutter-large li {
+    padding: 10px 10px;
+}
+.grid.gutter-extra-large li {
+    padding: 15px;
+}
+.grid.gutter-double-extra-large li {
+    padding: 20px;
+}
+.grid.gutter-triple-extra-large li {
+    padding: 30px;
+}
+.grid.grid-6col li {
+    width: 16.67%;
+}
+.grid.grid-6col li.grid-item-double {
+    width: 33.33%;
+}
+.grid.grid-6col li.grid-item-single {
+    width: 100%;
+}
+.grid.grid-5col li {
+    width: 20%;
+}
+.grid.grid-5col li.grid-item-double {
+    width: 40%;
+}
+.grid.grid-5col li.grid-item-single {
+    width: 100%;
+}
+.grid.grid-4col li {
+    width: 25%;
+}
+.grid.grid-4col li.grid-item-double {
+    width: 50%;
+}
+.grid.grid-4col li.grid-item-single {
+    width: 100%;
+}
+.grid.grid-3col li {
+    width: 33.33%;
+}
+.grid.grid-3col li.grid-item-double {
+    width: 66.67%;
+}
+.grid.grid-3col li.grid-item-single {
+    width: 100%;
+}
+.grid.grid-2col li {
+    width: 50%;
+}
+.grid.grid-2col li.grid-item-double {
+    width: 100%;
+}
+.grid.grid-2col li.grid-item-single {
+    width: 100%;
+}
+.grid .gutter-large {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin: 0 10px;
+}
