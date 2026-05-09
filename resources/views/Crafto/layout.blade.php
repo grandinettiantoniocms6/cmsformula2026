@@ -112,13 +112,7 @@ if($admin_template->nav_style){
     </div>
     <!-- end scroll progress -->
 
-    <!-- javascript libraries -->
-    <script src="{{ url("templates/Crafto/js/jquery.js") }}" defer></script>
-    <script src="{{ url("templates/Crafto/js/vendors.min.js") }}" defer></script>
-    @if($craftoHasLightbox)
-        <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js" defer></script>
-    @endif
-    <script src="{{ url("templates/Crafto/js/main.js") }}" defer></script>
+
 
     @include('common.engine_customerly')
     @include('common.engine_popup_modal_crafto')
@@ -209,6 +203,14 @@ if($admin_template->nav_style){
             <link rel="stylesheet" type="text/css" href="{{ $website->wapp_css2 ? url("$website->wapp_css2") : url("css_common/whatsapp/plugin/whatsapp-chat-support.css") }}" />
         </noscript>
     @endif
+
+<!-- javascript libraries -->
+<script src="{{ url("templates/Crafto/js/jquery.js") }}" defer></script>
+<script src="{{ url("templates/Crafto/js/vendors.min.js") }}" defer></script>
+@if($craftoHasLightbox)
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js" defer></script>
+@endif
+<script src="{{ url("templates/Crafto/js/main.js") }}" defer></script>
 
     @yield('after_scripts')
 </body>
