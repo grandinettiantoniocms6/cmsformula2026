@@ -27,7 +27,7 @@ if($descriptionBlocco){
     <section class="position-relative overflow-hidden ml pt-{{ $item->pt }}">
         <div class="container">
             <div class="row justify-content-center mb-2">
-                <div class="col-xl-12 col-lg-9 col-md-10 text-center" data-anime='{ "translateY": [30, 0], "opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                <div class="col-xl-12 col-lg-9 col-md-10 text-center" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
                     <span class="ps-25px pe-25px mb-15px text-uppercase fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" style="background-color: {{ $item->bgcolor }}; color: {{ $item->color_title }}!important;" >{{ $titleBlocco[\App::getLocale()] }}</span>
                     <p>{!! $descriptionBlocco[\App::getLocale()] !!}</p>
                 </div>

@@ -150,7 +150,7 @@
 
                         <!-- A -->
 
-                        <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
+                        <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
                             @if(trim($foto) != "")
                                 <figure class="position-relative m-0">
                                     <img class="lg-w-100 border-radius-0px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
@@ -163,7 +163,7 @@
                         <!-- primo item -->
                         <!-- A -->
 
-                        <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"opacity": [0,1], "duration": 600, "delay": 0, "staggervalue": 200, "easing": "easeOutQuad" }'>
+                        <div class="col-lg-6 col-md-10 md-mb-50px" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
                             @if(trim($foto) != "")
                                 <figure class="position-relative m-0">
                                     <img class="lg-w-100 border-radius-0px" src="{{ $foto }}" alt="{{ $title[\App::getLocale()] }}">
@@ -173,7 +173,7 @@
 
                         <!-- B -->
 
-                        <div class="col-md-10 col-xl-5 offset-xl-1 col-lg-6" data-anime='{ "el": "childs", "translateY": [50, 0], "opacity": [0,1], "duration": 1200, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
+                        <div class="col-md-10 col-xl-5 offset-xl-1 col-lg-6" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
 
                             @if(trim($title[\App::getLocale()])!="")
                                 <h3 style="color: {{ $value->txtcolor }};" class="fw-700 ls-minus-1px mb-20px" class="ps-25px pe-25px mb-15px text-uppercase fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" data-anime='{ "translateY": [50, 0], "opacity": [0,1], "duration": 800, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>{{ $title[\App::getLocale()] }}</h3>

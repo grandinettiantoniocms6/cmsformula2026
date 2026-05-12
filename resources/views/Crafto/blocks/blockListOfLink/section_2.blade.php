@@ -11,7 +11,7 @@ if($titleBlocco){
 
 ?>
 
-<section style="margin-top: {{ $item->mt }}px;" data-anime='{"translateY": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }' >
+<section style="margin-top: {{ $item->mt }}px;" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }' >
     <div class="container-fluid col-lg-12 mx-auto">
 
                 @if($titleBlocco[\App::getLocale()] != "" )

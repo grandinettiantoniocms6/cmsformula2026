@@ -22,11 +22,11 @@ if($descriptionBlocco){
 
 ?>
 
-<section class="pt-{{ $item->pt }} pb-{{ $item->pb }}" style="background-color: {{ $item->bg_section_icon }}!important;" data-anime='{"translateX": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }' >
+<section class="pt-{{ $item->pt }} pb-{{ $item->pb }}" style="background-color: {{ $item->bg_section_icon }}!important;">
     <div class="{{ $item->fullwidth }}">
         <div class="row justify-content-center mb-4">
             @if($titleBlocco[\App::getLocale()] != "" || $descriptionBlocco[\App::getLocale()] != "")
-                <div class="col-12 col-lg-12 text-center" data-anime='{"translateY": [-50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                <div class="col-12 col-lg-12 text-center" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
                     <span class="ps-25px pe-25px mb-15px text-uppercase text-dark-gray text-base-color fs-12 lh-40 fw-700 border-radius-100px d-inline-flex" style="background-color: {{ $website->color_gen2 }}; color: {{ $website->color_gen3 }}!important;" >{{ $titleBlocco[\App::getLocale()] }}</span>
                     <p>{!! $descriptionBlocco[\App::getLocale()] !!} </p>
                 </div>
@@ -118,7 +118,7 @@ if($descriptionBlocco){
 
 
 
-                    <div class="col-lg-{{ $item->col }} icon-with-text-style-03 md-mb-30px transition-inner-all" style="background-color: {{ $value->bgcolor }}!important;" data-anime='{"scale": [0.1, 1], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
+                    <div class="col-lg-{{ $item->col }} icon-with-text-style-03 md-mb-30px transition-inner-all" style="background-color: {{ $value->bgcolor }}!important;" data-anime='{"translateX": [50, 0], "opacity": [0,1], "duration": 800, "staggervalue": 300, "easing": "easeOutQuad" }'>
                         <div class="feature-box ps-7 pe-7 sm-ps-4 sm-pe-4">
 
                             @if($value->icon)
