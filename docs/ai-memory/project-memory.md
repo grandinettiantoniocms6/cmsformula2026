@@ -1,7 +1,7 @@
 ﻿﻿﻿﻿# Project Memory
 
 ## Aggiornato il
-- 2026-05-05
+- 2026-05-12
 
 ## Snapshot tecnico
 - Stack: Laravel + Backpack (tema `backpack.theme-coreuiv2`).
@@ -76,6 +76,7 @@
 - Gli avvisi errore di `app/Exceptions/Handler.php` sono configurabili dal tab "Avvisi errori" di `/admin/superadminsettings`, visibile solo a `backpack_user()->id == 1`: abilitazione invio, destinatario, email in copia e intervallo di reinvio dello stesso errore sono salvati in `website_setting_extras`.
 - La pagina `/admin/superadminsettings`, visibile solo a `backpack_user()->id == 1`, e' il contenitore generale per impostazioni SuperAdmin spostate fuori da `/admin/websiteSetting`: nel tab "Sito web" gestisce `website_settings.number_max_page`, `website_settings.whatsapp_active` e `website_setting_extras.server_allocated_space`, nel tab "Template Admin" gestisce i campi admin/template ex tab `Extra` di `websiteSetting`, e nel tab "Prodotti V2/V3/V4" gestisce `website_settings.is_megamenu`, `website_settings.is_search_one_col`, le azioni operative ex tab `Impostazioni Extra` e i campi watermark (`watermark_url`, `watermark_position`, `watermark_x`, `watermark_y`).
 - Il reinvio dello stesso avviso errore usa cache Laravel con chiave basata su messaggio, file e linea dell'eccezione; se il cache driver non e' persistente tra richieste/processi, il throttling degli avvisi puo' non essere efficace.
+- In `PluginProductsController`, non cacheare la sidebar prodotti calcolata da `$products_processed` con cache driver `file`: su cataloghi grandi il payload serializzato e le chiavi basate sugli ID prodotto possono generare file cache enormi e memory exhaustion in `Illuminate\Cache\FileStore`.
 - Nel layout frontend Crafto evitare doppio caricamento del cookie banner: `common.consent_solution_iubenda` include anche fallback/banner cookie e puo introdurre CSS/JS bloccanti in `<head>`; se il layout gestisce gia il banner in fondo pagina, caricare in head solo la consent solution Iubenda quando serve.
 - Nel layout frontend Crafto non caricare reCAPTCHA globalmente: usare `@yield('recaptcha')` e attivarlo dalle view solo quando la pagina contiene blocchi form/contatto, altrimenti peggiora FCP/LCP con script terzi inutili.
 - Nel layout/frontend Crafto caricare risorse SweetAlert e WhatsApp solo quando servono: SweetAlert insieme a reCAPTCHA/form, WhatsApp solo con `website->whatsapp_active == 1` ed `env('WAPP')`.

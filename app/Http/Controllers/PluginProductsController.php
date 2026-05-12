@@ -517,10 +517,7 @@ class PluginProductsController extends Controller
         $endTime = (microtime(true) - $startTime);
         //echo $endTime;
 
-        $sidebarCacheKey = $this->buildSidebarCacheKey($request, $lang, $slug, $products_processed->pluck('id')->toArray());
-        $variable = Cache::remember($sidebarCacheKey, now()->addSeconds($this->getFrontendCacheTtl()), function () use ($products_processed, $plugin) {
-            return $this->get_all_products_sidebar($products_processed, $plugin);
-        });
+        $variable = $this->get_all_products_sidebar($products_processed, $plugin);
 
         $tags = $variable['tags'];
         $brands = $variable['brands_ids'];
@@ -1849,20 +1846,6 @@ class PluginProductsController extends Controller
 
             return array_values(array_unique($expanded));
         });
-    }
-
-    protected function buildSidebarCacheKey(Request $request, $lang, $slug, $productIds)
-    {
-        $query = $request->query();
-        ksort($query);
-        sort($productIds);
-
-        return 'plugin_products:sidebar:' . md5(json_encode([
-            'lang' => $lang,
-            'slug' => (string) $slug,
-            'query' => $query,
-            'ids' => $productIds
-        ]));
     }
 
     protected function buildCategoriesSidebarCacheKey($lang, $slug, $categories)
