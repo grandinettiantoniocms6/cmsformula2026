@@ -2781,10 +2781,12 @@ class PluginProductsCrudController extends CrudController
 
         if($category_id == 0){
             $products = PluginProducts::whereRaw("is_active = 1")
+                ->with("tax")
                 ->orderBy("sku", "asc")
                 ->get();
         }else{
             $products = PluginProducts::selectRaw("plugins_products.*")
+                ->with("tax")
                 ->join("plugins_products_categories_products", "plugins_products_categories_products.plugin_product_product_id", "=", "plugins_products.id")
                 ->whereRaw("plugins_products.is_active = 1")
                 ->where("plugins_products_categories_products.plugin_product_category_id", $category_id)
@@ -3021,7 +3023,7 @@ class PluginProductsCrudController extends CrudController
                 }
 
                 if($adminPlugin->version == 3) {
-                    $v[] = $product->tax->value;
+                    $v[] = optional($product->tax)->value ?? 22;
 
                     $padre = PluginProducts::where("group_id", $product->group_id)->where("is_variant", 0)->first();
                     if($padre){
