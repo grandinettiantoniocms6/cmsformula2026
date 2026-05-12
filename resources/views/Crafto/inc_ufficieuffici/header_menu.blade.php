@@ -11,7 +11,7 @@ if ($menubarHeightValue === '') {
     $menubarHeightCss = '80px';
 }
 $headerBackgroundCss = $website->header_background ?: '#ffffff';
-$mobileStickyBackgroundCss = '#ffffff';
+$mobileStickyBackgroundCss = '';
 ?>
 <header class="header-with-topbar">
     @if($website->topbar_active == 1 && (env('TOPBAR')) )
