@@ -136,7 +136,7 @@ $agent = new \Jenssegers\Agent\Agent();
 
                                         @if($abstract[\App::getLocale()])
                                             <span data-anime='{ "el": "childs", "translateY": [0, 0], "opacity": [0,0.7], "duration": 1500, "delay": 200, "staggervalue": 300, "easing": "easeOutQuad" }'>
-                                                    <span class="fw-300 fs-22 opacity-7 mb-15px d-inline-block">{!! $abstract[\App::getLocale()] !!}</span>
+                                                    <span class="fw-300 fs-22 mb-15px d-inline-block">{!! $abstract[\App::getLocale()] !!}</span>
                                                 </span>
                                         @endif
 
