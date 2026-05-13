@@ -216,6 +216,43 @@
   <!-- CRUD LIST CONTENT - crud_list_styles stack -->
   @stack('crud_list_styles')
 
+  <style>
+    .page-inline-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .page-inline-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border: 1px solid #d9dee7;
+      border-radius: 4px;
+      color: #4c5a6f;
+      background: #fff;
+      line-height: 1;
+      text-decoration: none;
+      transition: color .12s ease, border-color .12s ease, background-color .12s ease;
+    }
+
+    .page-inline-action:hover {
+      color: #1f3f79;
+      border-color: #b8c8e8;
+      background: #f4f8ff;
+      text-decoration: none;
+    }
+
+    .page-inline-action i {
+      font-size: 14px;
+      line-height: 1;
+    }
+  </style>
+
   @if($isModernAdminTemplate)
   <style>
     .pages-header-shell {

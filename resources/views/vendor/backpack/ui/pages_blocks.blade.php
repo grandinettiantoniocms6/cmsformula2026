@@ -40,22 +40,25 @@
                 </div>
             </div>
             <div class="future-page-blocks-commandbar__primary-actions">
-                @if($page->slug == "/")
-                    <a href="/" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
-                        <span><i class="la la-eye"></i></span>
-                        <span>Anteprima</span>
-                    </a>
-                @else
-                    <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
-                        <span><i class="la la-eye"></i></span>
-                        <span>Anteprima</span>
-                    </a>
-                @endif
+                <div class="future-page-blocks-commandbar__buttons">
+                    @if($page->slug == "/")
+                        <a href="/" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
+                            <span><i class="la la-eye"></i></span>
+                            <span>Anteprima</span>
+                        </a>
+                    @else
+                        <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
+                            <span><i class="la la-eye"></i></span>
+                            <span>Anteprima</span>
+                        </a>
+                    @endif
 
-                <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-dark pages-toolbar-btn">
-                    <span><i class="la la-pencil"></i></span>
-                    <span>Layout pagina</span>
-                </a>
+                    <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-dark pages-toolbar-btn">
+                        <span><i class="la la-cog"></i></span>
+                        <span>Modifica pagina</span>
+                    </a>
+                </div>
+                <a href="/admin/page" class="future-page-blocks-back-link">Torna alla lista di pagine</a>
             </div>
             <div class="future-page-blocks-commandbar__row future-page-blocks-commandbar__row--tools">
                 <label class="future-page-blocks-search mb-0">
@@ -81,22 +84,25 @@
 @section('before_breadcrumbs_widgets')
     @if(!$isFutureAdminTemplate)
         <div class="col-auto pages-blocks-top-actions">
-            @if($page->slug == "/")
-                <a href="/" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
-                    <span><i class="la la-eye"></i></span>
-                    <span class="d-none d-md-inline">Anteprima</span>
-                </a>
-            @else
-                <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
-                    <span><i class="la la-eye"></i></span>
-                    <span class="d-none d-md-inline">Anteprima</span>
-                </a>
-            @endif
+            <div class="pages-blocks-action-buttons">
+                @if($page->slug == "/")
+                    <a href="/" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
+                        <span><i class="la la-eye"></i></span>
+                        <span class="d-none d-md-inline">Anteprima</span>
+                    </a>
+                @else
+                    <a href="/{{ $page->slug }}" target="_blank" class="btn btn-sm btn-secondary pages-toolbar-btn">
+                        <span><i class="la la-eye"></i></span>
+                        <span class="d-none d-md-inline">Anteprima</span>
+                    </a>
+                @endif
 
-            <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-dark pages-toolbar-btn">
-                <span><i class="la la-pencil"></i></span>
-                <span class="d-none d-md-inline">Layout pagina</span>
-            </a>
+                <a href="/admin/page/{{ $page->id }}/edit" class="btn btn-sm btn-outline-dark pages-toolbar-btn">
+                    <span><i class="la la-cog"></i></span>
+                    <span class="d-none d-md-inline">Modifica pagina</span>
+                </a>
+            </div>
+            <a href="/admin/page" class="pages-blocks-back-link">Torna alla lista di pagine</a>
         </div>
     @endif
 @endsection
@@ -650,7 +656,12 @@
             gap: 6px;
             box-shadow: 0 2px 8px rgba(19, 41, 84, 0.05);
             transition: border-color .14s ease, box-shadow .14s ease, transform .14s ease;
-            cursor: move;
+            cursor: grab;
+        }
+
+        .pages-blocks-shell .page-block-row:active,
+        .pages-blocks-shell .future-dragging .page-block-row {
+            cursor: grabbing;
         }
 
         .pages-blocks-shell .page-block-row:hover {
@@ -667,15 +678,17 @@
             align-items: center;
             justify-content: center;
             color: #4d6fa8;
-            background: #edf3ff;
-            border: 1px solid #d9e6fc;
-            cursor: move;
+            background: transparent;
+            border: 0;
+            cursor: grab;
             flex: 0 0 30px;
             pointer-events: none;
         }
 
         .pages-blocks-shell .page-block-drag i {
-            font-size: .9rem;
+            font-size: 1.1rem;
+            line-height: 1;
+            opacity: .82;
         }
 
         .pages-blocks-shell .page-block-meta {
@@ -1235,11 +1248,35 @@
 
         body.admin-future-template .future-page-blocks-commandbar__primary-actions {
             display: inline-flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            gap: 6px;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            margin-left: auto;
+        }
+
+        body.admin-future-template .future-page-blocks-commandbar__buttons {
+            display: inline-flex;
             align-items: center;
             justify-content: flex-end;
             gap: 6px;
             flex-wrap: wrap;
-            margin-left: auto;
+        }
+
+        body.admin-future-template .future-page-blocks-back-link,
+        .pages-blocks-back-link {
+            color: #31558e;
+            font-size: .78rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-decoration: none;
+        }
+
+        body.admin-future-template .future-page-blocks-back-link:hover,
+        .pages-blocks-back-link:hover {
+            color: #1f3a67;
+            text-decoration: underline;
         }
 
         body.admin-future-template .future-page-blocks-commandbar__title {
@@ -1483,10 +1520,7 @@
         }
 
         body.admin-future-template .pages-blocks-shell .page-block-drag {
-            border-radius: 5px;
-            background: #eef3ff;
-            border-color: #d8e4fb;
-            color: #3860a5;
+            color: #4b5563;
         }
 
         body.admin-future-template .pages-blocks-shell .page-block-name {
@@ -1806,6 +1840,35 @@
             font-size: .8rem !important;
         }
 
+        body.admin-future-template .pages-blocks-shell .blocks-section-title.section-header.future-page-blocks-section-title {
+            background: #79aaec !important;
+            border-bottom-color: #79aaec !important;
+            color: #0f2f5e !important;
+        }
+
+        body.admin-future-template .pages-blocks-shell .blocks-section-title.section-content.future-page-blocks-section-title {
+            background: #bde4d8 !important;
+            border-bottom-color: #bde4d8 !important;
+            color: #143f34 !important;
+        }
+
+        body.admin-future-template .pages-blocks-shell .blocks-section-title.section-footer.future-page-blocks-section-title {
+            background: #f2d3a0 !important;
+            border-bottom-color: #f2d3a0 !important;
+            color: #553b12 !important;
+        }
+
+        body.admin-future-template .blocks-section-title.future-page-blocks-section-title .future-page-blocks-section-label i,
+        body.admin-future-template .blocks-section-title.future-page-blocks-section-title .future-page-blocks-section-chevron {
+            color: currentColor !important;
+        }
+
+        body.admin-future-template .blocks-section-title.future-page-blocks-section-title .future-page-blocks-section-count {
+            background: rgba(255, 255, 255, .55) !important;
+            border-color: rgba(255, 255, 255, .8) !important;
+            color: currentColor !important;
+        }
+
         body.admin-future-template .future-page-blocks-section-body {
             overflow: visible !important;
             background: #ffffff !important;
@@ -2095,6 +2158,53 @@
 
     </style>
     @endif
+    <style>
+        .pages-blocks-top-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .pages-blocks-action-buttons {
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .pages-blocks-back-link {
+            color: #31558e;
+            font-size: .78rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-decoration: none;
+        }
+
+        .pages-blocks-back-link:hover {
+            color: #1f3a67;
+            text-decoration: underline;
+        }
+
+        .pages-blocks-shell .blocks-section-title.section-header {
+            background: #79aaec !important;
+            border-color: #79aaec !important;
+            color: #0f2f5e !important;
+        }
+
+        .pages-blocks-shell .blocks-section-title.section-content {
+            background: #bde4d8 !important;
+            border-color: #bde4d8 !important;
+            color: #143f34 !important;
+        }
+
+        .pages-blocks-shell .blocks-section-title.section-footer {
+            background: #f2d3a0 !important;
+            border-color: #f2d3a0 !important;
+            color: #553b12 !important;
+        }
+    </style>
 @endsection
 
 @section('content')

@@ -37,7 +37,7 @@
            $name = $block_name['it'];
        }
     ?>
-    <span class="page-block-drag"><i class="la la-arrows"></i></span>
+    <span class="page-block-drag" aria-hidden="true"><i class="las la-grip-vertical"></i></span>
     <div class="px-3 page-block-meta" id="block_id_{{ $item->id }}">
         <h6 class="font-weight-bold mb-1 page-block-name">{{ $name }}</h6>
         <em class="text-info page-block-type">

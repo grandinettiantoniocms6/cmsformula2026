@@ -348,11 +348,37 @@ class Page extends Model
 
     public function get_name()
     {
-        if($this->parent_id === null){
-            return $this->name;
+        $name = e($this->name);
+        $indent = '';
+
+        if($this->parent_id !== null){
+            $indent = '&nbsp;&nbsp;&nbsp;';
         }
 
-        return "&nbsp;&nbsp;&nbsp;$this->name";
+        $slug_shop_formula = config('config.slug_shop_formula');
+        $slug_plugin_booking = config('config.slug_plugin_booking');
+
+        if(in_array($this->name, $slug_shop_formula) || in_array($this->name, $slug_plugin_booking)){
+            return $indent.$name;
+        }
+
+        if(backpack_user()->roles[0]->id > 3){
+            return $indent.$name;
+        }
+
+        $linkBlocchi = route('pages.blocks', $this->id);
+        $urlEdit = "/admin/page/$this->id/edit";
+
+        $actions = '<span class="page-inline-actions">
+            <a class="page-inline-action" href="'.$linkBlocchi.'" title="Modifica blocchi" aria-label="Modifica blocchi">
+                <i class="la la-pencil"></i>
+            </a>
+            <a class="page-inline-action" href="'.$urlEdit.'" title="Impostazioni pagina" aria-label="Impostazioni pagina">
+                <i class="la la-cog"></i>
+            </a>
+        </span>';
+
+        return $indent.$name.$actions;
 
     }
     /*
