@@ -349,21 +349,44 @@ class Page extends Model
     public function get_name()
     {
         $name = e($this->name);
-        $indent = '';
+        $isChildPage = $this->parent_id !== null;
+        $treeClass = '';
 
-        if($this->parent_id !== null){
-            $indent = '&nbsp;&nbsp;&nbsp;';
+        if($isChildPage){
+            static $siblingBounds = [];
+            $parentKey = (string) $this->parent_id;
+
+            if(!isset($siblingBounds[$parentKey])){
+                $siblingIds = Page::where('parent_id', $this->parent_id)
+                    ->orderBy('lft', 'asc')
+                    ->pluck('id');
+
+                $siblingBounds[$parentKey] = [
+                    'first' => $siblingIds->first(),
+                    'last' => $siblingIds->last(),
+                ];
+            }
+
+            $treeClass = ' page-tree-name--child';
+            if($siblingBounds[$parentKey]['first'] == $this->id){
+                $treeClass .= ' page-tree-name--child-first';
+            }
+            if($siblingBounds[$parentKey]['last'] == $this->id){
+                $treeClass .= ' page-tree-name--child-last';
+            }
         }
+
+        $nameHtml = '<span class="page-tree-name'.$treeClass.'"><span class="page-tree-name__label">'.$name.'</span></span>';
 
         $slug_shop_formula = config('config.slug_shop_formula');
         $slug_plugin_booking = config('config.slug_plugin_booking');
 
         if(in_array($this->name, $slug_shop_formula) || in_array($this->name, $slug_plugin_booking)){
-            return $indent.$name;
+            return $nameHtml;
         }
 
         if(backpack_user()->roles[0]->id > 3){
-            return $indent.$name;
+            return $nameHtml;
         }
 
         $linkBlocchi = route('pages.blocks', $this->id);
@@ -378,7 +401,7 @@ class Page extends Model
             </a>
         </span>';
 
-        return $indent.$name.$actions;
+        return $nameHtml.$actions;
 
     }
     /*

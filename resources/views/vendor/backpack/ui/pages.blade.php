@@ -225,6 +225,57 @@
       vertical-align: middle;
     }
 
+    .page-tree-name {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      position: relative;
+      vertical-align: middle;
+    }
+
+    .page-tree-name--child {
+      margin-left: 28px;
+      padding-left: 24px;
+    }
+
+    .page-tree-name--child::before,
+    .page-tree-name--child::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      background: #b8c8e8;
+    }
+
+    .page-tree-name--child::before {
+      top: -18px;
+      bottom: -18px;
+      width: 1px;
+    }
+
+    .page-tree-name--child-first::before {
+      top: -39px;
+    }
+
+    .page-tree-name--child-last::before {
+      bottom: 50%;
+    }
+
+    .page-tree-name--child::after {
+      top: 50%;
+      width: 18px;
+      height: 1px;
+      transform: translateY(-50%);
+    }
+
+    .page-tree-name__label {
+      display: inline-block;
+    }
+
+    #crudTable tbody td {
+      padding-top: .4rem;
+      padding-bottom: .4rem;
+    }
+
     .page-inline-action {
       display: inline-flex;
       align-items: center;
