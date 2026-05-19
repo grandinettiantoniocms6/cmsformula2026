@@ -205,7 +205,9 @@ class PluginParkingController extends Controller
 
             }
 
-            $date_start_carbon = $date_start_carbon->subDay();
+            $date_start_period = $date_start_carbon->format("Y-m-d");
+            $date_end_period = $date_end_carbon->format("Y-m-d");
+            $availability_date = $date_start_carbon->copy()->subDay();
 
             $discount = 0;
 
@@ -213,7 +215,7 @@ class PluginParkingController extends Controller
             $cont_no_disp = 0;
 
             for($i=0; $i<$diff; $i++){
-                $gg = $date_start_carbon->addDay()->format("Y-m-d");
+                $gg = $availability_date->addDay()->format("Y-m-d");
 
                 $gg_ita = Carbon::createFromFormat("Y-m-d", $gg)->format("d/m/Y");
 
@@ -256,8 +258,10 @@ class PluginParkingController extends Controller
             }
 
 
-            for($i=0; $i<=$diff; $i++){
-                $gg = $date_start_carbon->addDay()->format("Y-m-d");
+            $rule_date = $date_start_carbon->copy()->subDay();
+
+            for($i=0; $i<$diff; $i++){
+                $gg = $rule_date->addDay()->format("Y-m-d");
 
                 $rule = PluginParkingPriceRule::where("plugin_parking_price_id", $item->id)
                     ->whereRaw("(date_start <= '$gg' AND date_end >= '$gg')")
@@ -297,7 +301,10 @@ class PluginParkingController extends Controller
                 }
             }
 
-            $rules = PluginParkingPriceRule::where("plugin_parking_price_id", $item->id)->get();
+            $rules = PluginParkingPriceRule::where("plugin_parking_price_id", $item->id)
+                ->where("condition_discount", $type)
+                ->whereRaw("(date_start <= '$date_end_period' AND date_end >= '$date_start_period')")
+                ->get();
 
             $price_view = "&euro; ".number_format($price,2,",",".");
             if($discount > 0){

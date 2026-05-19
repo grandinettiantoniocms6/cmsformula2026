@@ -1,7 +1,7 @@
 ﻿﻿﻿﻿# Project Memory
 
 ## Aggiornato il
-- 2026-05-12
+- 2026-05-19
 
 ## Snapshot tecnico
 - Stack: Laravel + Backpack (tema `backpack.theme-coreuiv2`).
@@ -78,6 +78,7 @@
 - Il reinvio dello stesso avviso errore usa cache Laravel con chiave basata su messaggio, file e linea dell'eccezione; se il cache driver non e' persistente tra richieste/processi, il throttling degli avvisi puo' non essere efficace.
 - In `PluginProductsController`, non cacheare la sidebar prodotti calcolata da `$products_processed` con cache driver `file`: su cataloghi grandi il payload serializzato e le chiavi basate sugli ID prodotto possono generare file cache enormi e memory exhaustion in `Illuminate\Cache\FileStore`.
 - Nell'export prodotti v3 (`PluginProductsCrudController::export`), i prodotti senza relazione `tax` valida devono esportare IVA `22` come fallback, evitando accessi diretti a `$product->tax->value`.
+- Nel calcolo prezzi del plugin parking, non riusare la stessa istanza `Carbon` tra ciclo disponibilita e ciclo regole prezzo: `addDay()`/`subDay()` mutano l'oggetto e possono spostare il controllo promo oltre il periodo richiesto. Usare `copy()` e cursori separati per ogni ciclo.
 - Nel layout frontend Crafto evitare doppio caricamento del cookie banner: `common.consent_solution_iubenda` include anche fallback/banner cookie e puo introdurre CSS/JS bloccanti in `<head>`; se il layout gestisce gia il banner in fondo pagina, caricare in head solo la consent solution Iubenda quando serve.
 - Nel layout frontend Crafto non caricare reCAPTCHA globalmente: usare `@yield('recaptcha')` e attivarlo dalle view solo quando la pagina contiene blocchi form/contatto, altrimenti peggiora FCP/LCP con script terzi inutili.
 - Nel layout/frontend Crafto caricare risorse SweetAlert e WhatsApp solo quando servono: SweetAlert insieme a reCAPTCHA/form, WhatsApp solo con `website->whatsapp_active == 1` ed `env('WAPP')`.
