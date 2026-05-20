@@ -95,12 +95,8 @@ if($admin_template->nav_style){
     @else
         <header id="header" class="header default fullWidth" style="position:relative!important;">
     @endif
-
 -->
-
-
     @yield('content_header')
-
     @yield('content')
     @yield('content_footer')
 
