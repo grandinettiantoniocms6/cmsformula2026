@@ -139,7 +139,9 @@ case "button":
 <!--
 if(env('NOCAPTCHA_SITEKEY'))
 <br><div class="form-group{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
-    {!! app('captcha')->display() !!}
+    @if(env('RECAPTCHA_SITE_KEY') != "")
+        {!! app('captcha')->display() !!}
+    @endif
     @if ($errors->has('g-recaptcha-response'))
         <span class="help-block text-danger">
             <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
@@ -150,7 +152,10 @@ endif -->
 
 <?php
 $key = config('app.recaptcha_key');
-echo "<button class='button btn g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> $title </span></button>";
+$recaptchaEnabled = env('RECAPTCHA_SITE_KEY') != "";
+$recaptchaClass = $recaptchaEnabled ? " g-recaptcha" : "";
+$recaptchaAttributes = $recaptchaEnabled ? " data-sitekey='$key' data-callback='onSubmit' data-action='submit'" : "";
+echo "<button class='button btn{$recaptchaClass}'{$recaptchaAttributes} style='background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' > <span style='color: {$website->btn_txt_color}'> $title </span></button>";
 break;
 
 case "attributes":

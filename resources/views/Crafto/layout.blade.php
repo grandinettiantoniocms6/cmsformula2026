@@ -16,6 +16,7 @@ $craftoHasLightbox = $craftoPageBlockTypes->intersect(["blockGallery", "blockLas
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    @include('common.google_public_key_credential_fallback')
     @yield('head')
     @yield('meta')
 

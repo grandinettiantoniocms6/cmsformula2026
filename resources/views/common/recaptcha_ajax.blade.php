@@ -3,6 +3,7 @@
        // $labels = \App\Models\PluginParkingLabel::get()->pluck("value", "key")->toArray();
     ?>
 
+    @include('common.google_public_key_credential_fallback')
     <!-- v3 -->
     <script class="_iub_cs_activate" src="https://www.google.com/recaptcha/api.js?render={{config('app.recaptcha_key')}}"></script>
     <script>

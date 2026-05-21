@@ -1,3 +1,5 @@
+@include('common.google_public_key_credential_fallback')
+
 @if($website->analytics)
     <!-- Nuovo Google Analytics 4 -->
     @if(env('IUBENDA') == 1)

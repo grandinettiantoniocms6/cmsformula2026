@@ -317,7 +317,10 @@ $setting  = \App\Models\PluginParkingSetting::first();
 
                         <?php
                         $key = config('app.recaptcha_key');
-                        echo "<button class='button btn btn-lg btn-primary w-100 g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' type='submit' id='submit_button' disabled>".@$labels['parking-invia-prenotazione'] ."</button>";
+                        $recaptchaEnabled = env('RECAPTCHA_SITE_KEY') != "";
+                        $recaptchaClass = $recaptchaEnabled ? " g-recaptcha" : "";
+                        $recaptchaAttributes = $recaptchaEnabled ? " data-sitekey='$key' data-callback='onSubmit' data-action='submit'" : "";
+                        echo "<button class='button btn btn-lg btn-primary w-100{$recaptchaClass}'{$recaptchaAttributes} type='submit' id='submit_button' disabled>".@$labels['parking-invia-prenotazione'] ."</button>";
                         ?>
                     </div>
                 </form>

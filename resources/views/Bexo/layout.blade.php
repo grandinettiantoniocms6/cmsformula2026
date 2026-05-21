@@ -7,6 +7,7 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    @include('common.google_public_key_credential_fallback')
     @yield('head')
     @yield('meta')
 
@@ -21,14 +22,12 @@ $labelSite = \App\Models\Label::get()->pluck("value", "key")->toArray();
     @include('common.consent_solution_iubenda')
     @include('common.gdprtools')
 
-    <!-- {!! \NoCaptcha::renderJs() !!} -->
+    {{-- {!! \NoCaptcha::renderJs() !!} --}}
 
     @include('common.css_common')
     @include('common.engine_body_style')
     @include('common.engine_header_style')
     @include('common.engine_footer_style')
-    {!! \NoCaptcha::renderJs() !!}
-
     <!-- Css per personalizzazioni extra commons -->
     @if($website->custom_css)
         <link rel="stylesheet" href="{{ url("$website->custom_css") }}">

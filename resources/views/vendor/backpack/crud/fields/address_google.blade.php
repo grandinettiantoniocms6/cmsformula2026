@@ -128,6 +128,7 @@ if (isset($field['value']) && (is_array($field['value']) || is_object($field['va
             }
 
         </script>
+        @include('common.google_public_key_credential_fallback')
         <script src="https://maps.googleapis.com/maps/api/js?key={{ $field['api_key'] ?? config('services.google_places.key') }}&libraries=places&callback=initGoogleAddressAutocomplete" async defer></script>
 
     @endpush

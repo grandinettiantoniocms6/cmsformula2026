@@ -8,6 +8,7 @@ $labelPlugins = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    @include('common.google_public_key_credential_fallback')
     @yield('head')
     @yield('meta')
 
@@ -26,7 +27,7 @@ $labelPlugins = \App\Models\PluginProductsLabels::get()->pluck("value", "key")->
 
     @include('common.consent_solution_iubenda')
     @include('common.gdprtools')
-    <!-- {!! \NoCaptcha::renderJs() !!} -->
+    {{-- {!! \NoCaptcha::renderJs() !!} --}}
     @include('common.tag_analytics')
     @include('common.mailchimp')
 

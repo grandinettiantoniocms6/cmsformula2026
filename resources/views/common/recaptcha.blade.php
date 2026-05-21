@@ -1,12 +1,23 @@
-@if(env('RECAPTCHA_SITE_KEY') != "")
-    <?php
-       // $labels = \App\Models\PluginParkingLabel::get()->pluck("value", "key")->toArray();
-    ?>
+<?php
+   // $labels = \App\Models\PluginParkingLabel::get()->pluck("value", "key")->toArray();
+?>
 
+@if(env('RECAPTCHA_SITE_KEY') != "")
+    @include('common.google_public_key_credential_fallback')
     <!-- v3 -->
     <script class="_iub_cs_activate" type="text/plain" src="https://www.google.com/recaptcha/api.js?render={{config('app.recaptcha_key')}}"></script>
-    <script>
-        function onSubmit(token) {
+@endif
+
+<script>
+    (function () {
+        var recaptchaEnabled = @json(env('RECAPTCHA_SITE_KEY') != "");
+        var submitting = false;
+
+        window.onSubmit = function (token, event) {
+            if (event && typeof event.preventDefault === 'function') {
+                event.preventDefault();
+            }
+
             var error = 0;
             $('form#form').find('input').each(function() {
                 if ($(this).prop('required')) {
@@ -64,15 +75,19 @@
                         {
                             success: function(response) {
                                 console.log("ok", response);
-                                $("#form").submit();
+                                submitting = true;
+                                document.getElementById("form").submit();
                             },
                             error: function(response) {
-                                e.preventDefault();
+                                if (event && typeof event.preventDefault === 'function') {
+                                    event.preventDefault();
+                                }
                             }
                         }
                     ]);
                 @else
-                    $("#form").submit();
+                    submitting = true;
+                    document.getElementById("form").submit();
                 @endif
             }else{
                 Swal.fire({
@@ -81,6 +96,23 @@
                     icon: "error"
                 });
             }
+        };
+
+        if (!recaptchaEnabled) {
+            $(document).on('submit', 'form#form', function (event) {
+                if (submitting) {
+                    return true;
+                }
+
+                window.onSubmit(null, event);
+                return false;
+            });
+
+            $(document).on('click', '#submit_button', function (event) {
+                if ($(this).attr('type') === 'button') {
+                    window.onSubmit(null, event);
+                }
+            });
         }
-    </script>
-@endif
+    })();
+</script>

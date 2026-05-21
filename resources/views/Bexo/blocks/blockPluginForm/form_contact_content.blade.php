@@ -219,9 +219,12 @@ case "button":
 
     <?php
     $key = config('app.recaptcha_key');
+    $recaptchaEnabled = env('RECAPTCHA_SITE_KEY') != "";
+    $recaptchaClass = $recaptchaEnabled ? " g-recaptcha" : "";
+    $recaptchaAttributes = $recaptchaEnabled ? " data-sitekey='$key' data-callback='onSubmit' data-action='submit'" : "";
     echo "
     <div class='submit-btn'>
-        <button class='tj-primary-btn submit g-recaptcha' data-sitekey='$key' data-callback='onSubmit' data-action='submit' style='margin-top: 30px; background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' >
+        <button class='tj-primary-btn submit{$recaptchaClass}'{$recaptchaAttributes} style='margin-top: 30px; background-color: {$website->btn_background}; border-color: {$website->btn_colorborder};' type='submit' id='submit_button' >
             <span class='btn-text' style='color: {$website->btn_txt_color}$'><span> $title </span></span>
             <span class='btn-icon'><i class='tji-arrow-right-long'></i></span>
         </button>
