@@ -85,7 +85,12 @@
         }
     }
 
-    $productCountDashboard = $canShowProductsDashboardCards ? \App\Models\PluginProducts::count() : 0;
+    $parentProductCountDashboard = $canShowProductsDashboardCards
+        ? \App\Models\PluginProducts::where('is_variant', 0)->count()
+        : 0;
+    $variantProductCountDashboard = $canShowProductsDashboardCards
+        ? \App\Models\PluginProducts::where('is_variant', 1)->count()
+        : 0;
     $latestOrdersDashboard = $canShowProductsDashboardCards
         ? \App\Models\Order::with('user')->orderBy('created_at', 'desc')->take(5)->get()
         : collect();
@@ -313,8 +318,16 @@
                             <div class="media align-items-center">
                                 <i class="hgi hgi-stroke hgi-sharp hgi-delivery-box-01 font-5xl line-height-sm"></i>
                                 <div class="media-body ml-3">
-                                    <h4 class="font-2xl mb-0 line-height-sm">{{ $productCountDashboard }}</h4>
-                                    <div class="text-uppercase font-sm">Prodotti inseriti</div>
+                                    <div class="d-flex">
+                                        <div class="mr-4">
+                                            <h4 class="font-2xl mb-0 line-height-sm">{{ $parentProductCountDashboard }}</h4>
+                                            <div class="text-uppercase font-sm">Prodotti padre</div>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-2xl mb-0 line-height-sm">{{ $variantProductCountDashboard }}</h4>
+                                            <div class="text-uppercase font-sm">Varianti</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

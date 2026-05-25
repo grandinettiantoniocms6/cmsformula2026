@@ -484,7 +484,8 @@
                         <?php
                         $order_sum = \App\Models\Order::where("status_id", $shopSetting->status_default_order_dashboard)->sum("total_tax");
                         $order_count = \App\Models\Order::where("status_id", $shopSetting->status_default_order_dashboard)->count();
-                        $product_count = \App\Models\PluginProducts::count();
+                        $parent_product_count = \App\Models\PluginProducts::where("is_variant", 0)->count();
+                        $variant_product_count = \App\Models\PluginProducts::where("is_variant", 1)->count();
                         ?>
 
                         <div class="row align-items-end border-bottom">
@@ -501,8 +502,16 @@
                                 <div class="media align-items-center">
                                     <i class="hgi hgi-stroke hgi-sharp hgi-delivery-box-01 font-5xl line-height-sm"></i>
                                     <div class="media-body ml-3">
-                                        <h4 class="font-2xl mb-0 line-height-sm">{{ $product_count }}</h4>
-                                        <div class="text-uppercase font-sm">Prodotti inseriti</div>
+                                        <div class="d-flex">
+                                            <div class="mr-4">
+                                                <h4 class="font-2xl mb-0 line-height-sm">{{ $parent_product_count }}</h4>
+                                                <div class="text-uppercase font-sm">Prodotti padre</div>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-2xl mb-0 line-height-sm">{{ $variant_product_count }}</h4>
+                                                <div class="text-uppercase font-sm">Varianti</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

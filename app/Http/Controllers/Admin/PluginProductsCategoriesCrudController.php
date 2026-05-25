@@ -118,7 +118,7 @@ class PluginProductsCategoriesCrudController extends CrudController
             [
                 // run a function on the CRUD model and show its return value
                 'name'  => 'num',
-                'label' => 'N.Prod', // Table column heading
+                'label' => 'N.Prod (Padri / Varianti)', // Table column heading
                 'type'  => 'model_function',
                 'function_name' => 'getNumber', // the method in your Model
                 // 'function_parameters' => [$one, $two], // pass one/more parameters to that method

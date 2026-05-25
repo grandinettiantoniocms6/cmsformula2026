@@ -38,10 +38,14 @@ class PluginProductsCategories extends Model
     }
 
     public function getNumber(){
-        return PluginProductsCategoriesProducts::join("plugins_products", "plugins_products.id", "=", "plugin_product_product_id")
+        $counts = PluginProductsCategoriesProducts::join("plugins_products", "plugins_products.id", "=", "plugin_product_product_id")
+            ->selectRaw("SUM(CASE WHEN plugins_products.is_variant = 1 THEN 0 ELSE 1 END) as parent_count")
+            ->selectRaw("SUM(CASE WHEN plugins_products.is_variant = 1 THEN 1 ELSE 0 END) as variant_count")
             ->whereNull("plugins_products.deleted_at")
             ->where("plugin_product_category_id", $this->id)
-            ->count();
+            ->first();
+
+        return "Padri: ".(int) $counts->parent_count." | Varianti: ".(int) $counts->variant_count;
     }
 
     public function getPadre(){
