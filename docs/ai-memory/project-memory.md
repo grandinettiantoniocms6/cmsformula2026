@@ -1,7 +1,7 @@
 ﻿﻿﻿﻿# Project Memory
 
 ## Aggiornato il
-- 2026-05-19
+- 2026-05-25
 
 ## Snapshot tecnico
 - Stack: Laravel + Backpack (tema `backpack.theme-coreuiv2`).
@@ -57,6 +57,7 @@
 - Nel flusso import prodotti (`PluginProductImportCrudController`), le azioni post-import su `set:products_search` devono privilegiare aggiornamenti incrementali sugli ID toccati dall'ultimo `importSpecialMapping` (fallback full rebuild solo se manca il contesto IDs).
 - Nel flusso import prodotti (`PluginProductImportCrudController`), i campi testuali traducibili opzionali del mapping (es. `description`) non sono sempre presenti in `$product`: prima di usarli per completare il prodotto padre verificare sempre la chiave e salvarli tramite istanza Eloquent, evitando `Undefined array key` e bypass dei mutator/translations.
 - Nel flusso import prodotti, l'estensione `.xls` richiede un file Excel OLE reale: intercettare le eccezioni PhpSpreadsheet per file rinominati o in formato non coerente e mostrarle come errore di caricamento leggibile, senza HTTP 500.
+- Per import prodotti SPECIAL con configurazione esistente e molti record, elaborare in coda `database_imports` con run persistita in `plugin_product_import_runs`; il worker deve usare `--queue=imports` e un `retry_after` superiore alla durata massima per evitare esecuzioni duplicate.
 - Il campo `website_settings.admin_panel_template` supporta anche `future`: gli stili del tema devono essere sempre scope-ati su `body.admin-future-template` e non devono alterare `white`, `modern_01`, `modern_02`.
 - Nel template admin `future`, evitare offset dinamici JS su `.app-body > .main`: usare offset CSS desktop stabile della sidebar e breakpoint `lg` per la dashboard, per prevenire stacking verticale e scroll eccessivo.
 - Nel template admin `future`, sotto `1200px` il toggler puo usare classi diverse (`sidebar-show` o `sidebar-lg-show`): le regole CSS offcanvas devono considerarle entrambe per evitare sidebar non apribile.

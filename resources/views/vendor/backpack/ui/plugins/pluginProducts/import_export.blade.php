@@ -146,13 +146,6 @@
                     <form method="post" action="{{ $url }}" enctype="multipart/form-data" class="position-relative" id="form-import-special">
                         {{ csrf_field() }}
 
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @endif
-
-
                         <div class="form-loader" hidden>
                             <div class="upload-progress-wrapper" aria-live="polite">
                                 <div class="upload-progress-top">
@@ -190,8 +183,31 @@
                         @if(count($configs))
                         <button type="submit" name="submit" value="view" id="view_config" class="btn btn-light btn-block" style="display: none;"><span>Vedi configurazione</span></button>
                         @endif
-                        <button type="submit" name="submit" value="load" class="btn btn-dark btn-block"><span>Importa</span></button>
+                        <button type="submit" name="submit" value="load" class="btn btn-dark btn-block js-special-import-submit"><span>Importa</span></button>
                     </form>
+
+                    <div class="mt-4 p-3 border rounded bg-light" id="import-special-runs" data-url="{{ route('pluginProducts.importSpecialRuns') }}">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="mb-0">Esecuzioni import recenti</h6>
+                            <small class="text-muted">Aggiornamento automatico</small>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-sm mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>File / Configurazione</th>
+                                        <th>Stato</th>
+                                        <th style="min-width: 180px;">Avanzamento</th>
+                                        <th>Avviata</th>
+                                        <th>Completata</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="js-import-runs-body">
+                                    <tr><td colspan="5" class="text-muted">Caricamento esecuzioni...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
                     <?php $postImportUrl = route('pluginProducts.importSpecialPostImportActions'); ?>
                     <form method="post" action="{{ $postImportUrl }}" class="position-relative mt-4 p-3 border rounded bg-light js-submit-progress">
@@ -225,7 +241,8 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-outline-dark btn-block"><span>Esegui operazioni post-import</span></button>
+                        <button type="submit" class="btn btn-outline-dark btn-block js-post-import-actions-button"><span>Esegui operazioni post-import</span></button>
+                        <small class="form-text text-muted js-post-import-actions-hint" style="display: none;">Attendi il completamento degli import in corso prima di aggiornare gli indici.</small>
                     </form>
 
                     @if(\request()->has('id'))
@@ -468,6 +485,89 @@
             }
         });
 
+        var $importRunsMonitor = jQuery('#import-special-runs');
+
+        function refreshImportRuns() {
+            if (!$importRunsMonitor.length) {
+                return;
+            }
+
+            jQuery.getJSON($importRunsMonitor.data('url'), function (response) {
+                var $tbody = $importRunsMonitor.find('.js-import-runs-body').empty();
+                var runs = response.runs || [];
+                var hasActiveRuns = runs.some(function (run) {
+                    return run.status === 'queued' || run.status === 'processing';
+                });
+
+                jQuery('.js-post-import-actions-button').prop('disabled', hasActiveRuns);
+                jQuery('.js-post-import-actions-hint').toggle(hasActiveRuns);
+                jQuery('.js-special-import-submit').prop('disabled', hasActiveRuns);
+
+                if (!runs.length) {
+                    $tbody.append(jQuery('<tr/>').append(jQuery('<td/>', {
+                        colspan: 5,
+                        'class': 'text-muted',
+                        text: 'Nessuna esecuzione disponibile.'
+                    })));
+                    return;
+                }
+
+                jQuery.each(runs, function (_, run) {
+                    var statusLabels = {
+                        queued: 'In coda',
+                        processing: 'In lavorazione',
+                        completed: 'Completata',
+                        failed: 'Errore'
+                    };
+                    var statusClasses = {
+                        queued: 'badge-secondary',
+                        processing: 'badge-info',
+                        completed: 'badge-success',
+                        failed: 'badge-danger'
+                    };
+                    var $fileCell = jQuery('<td/>')
+                        .append(jQuery('<div/>', { text: run.file_name }))
+                        .append(jQuery('<small/>', { 'class': 'text-muted', text: run.config_name }));
+                    var $statusCell = jQuery('<td/>').append(jQuery('<span/>', {
+                        'class': 'badge ' + (statusClasses[run.status] || 'badge-secondary'),
+                        text: statusLabels[run.status] || run.status
+                    }));
+                    if (run.error_message) {
+                        $statusCell.append(jQuery('<div/>', {
+                            'class': 'small text-danger mt-1',
+                            text: run.error_message
+                        }));
+                    }
+                    var progressText = run.processed_rows + ' / ' + run.total_rows + ' (' + run.percentage + '%)';
+                    var $progressCell = jQuery('<td/>')
+                        .append(jQuery('<div/>', {
+                            'class': 'progress mb-1',
+                            style: 'height: 8px;'
+                        }).append(jQuery('<div/>', {
+                            'class': 'progress-bar' + (run.status === 'failed' ? ' bg-danger' : ''),
+                            role: 'progressbar',
+                            style: 'width: ' + run.percentage + '%;',
+                            'aria-valuenow': run.percentage,
+                            'aria-valuemin': 0,
+                            'aria-valuemax': 100
+                        })))
+                        .append(jQuery('<small/>', { text: progressText }));
+
+                    $tbody.append(jQuery('<tr/>')
+                        .append($fileCell)
+                        .append($statusCell)
+                        .append($progressCell)
+                        .append(jQuery('<td/>', { text: run.queued_at || '-' }))
+                        .append(jQuery('<td/>', { text: run.completed_at || '-' })));
+                });
+            });
+        }
+
+        refreshImportRuns();
+        if ($importRunsMonitor.length) {
+            setInterval(refreshImportRuns, 4000);
+        }
+
         jQuery('form').each(function(){
             var id = jQuery(this).attr('id');
             if (!id) {
@@ -559,6 +659,7 @@
 
             jQuery('#'+id).ajaxForm({
                 beforeSend: function() {
+                    $form.find('.js-import-feedback').remove();
                     startVisualProgress();
                     $loader.attr('hidden', false);
                 },
@@ -583,7 +684,7 @@
                         }
 
                         jQuery('<div/>', {
-                            'class': 'alert alert-danger py-2',
+                            'class': 'alert alert-danger py-2 js-import-feedback',
                             text: message
                         }).prependTo(jQuery('#'+id));
                     }
@@ -600,14 +701,19 @@
                         updateProgress(100);
                         window.location.href = data.url;
                     }else{
-                        console.log('success', data);
                         updateProgress(100);
                         setTimeout(function () {
                             updateProgress(0);
                             $loader.attr('hidden', true);
                         }, 400);
                         jQuery('#'+id).find('input[type="file"]').val('');
-                        jQuery('#'+id).prepend('<div class="alert alert-success py-2">File caricato con successo</div>');
+                        jQuery('<div/>', {
+                            'class': 'alert alert-success py-2 js-import-feedback',
+                            text: data.message || 'File caricato con successo.'
+                        }).prependTo(jQuery('#'+id));
+                        if (data.queued) {
+                            refreshImportRuns();
+                        }
                     }
 
                 }

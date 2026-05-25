@@ -41,6 +41,13 @@ return [
             'retry_after' => 90,
         ],
 
+        'database_imports' => [
+            'driver' => 'database',
+            'table' => 'jobs',
+            'queue' => 'imports',
+            'retry_after' => env('PLUGIN_PRODUCTS_IMPORT_RETRY_AFTER', 7500),
+        ],
+
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => 'localhost',

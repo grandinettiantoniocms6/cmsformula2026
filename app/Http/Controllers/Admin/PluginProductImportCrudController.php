@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Jobs\ProcessPluginProductImport;
 use App\Http\Requests\PluginProductImportRequest;
 use App\Models\AdminLanguage;
 use App\Models\PluginProductImport;
+use App\Models\PluginProductImportRun;
 use App\Models\PluginProducts;
 use App\Models\PluginProductsBrands;
 use App\Models\PluginProductsCategories;
@@ -22,7 +24,9 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -163,6 +167,8 @@ class PluginProductImportCrudController extends CrudController
 
         $config_id = (int) $req->get('config_id');
         $button = $req->get('submit');
+        $queuedExecution = (bool) $req->get('queued_execution');
+        $importRun = $queuedExecution ? PluginProductImportRun::find((int) $req->get('run_id')) : null;
 
         $shopSetting = ShopSettings::first();
 
@@ -172,8 +178,14 @@ class PluginProductImportCrudController extends CrudController
             $name_original = $req->file_special->getClientOriginalName();
             $extension = strtolower($req->file_special->getClientOriginalExtension());
 
-            $fileName = "import.$extension";
-            $req->file('file_special')->storeAs('/', $fileName, 'public_plugin_products');
+            if (!$queuedExecution && $config_id > 0 && $button != "view") {
+                return $this->queueSpecialImport($req, $config_id, $name_original, $extension);
+            }
+
+            if (!$queuedExecution) {
+                $fileName = "import.$extension";
+                $req->file('file_special')->storeAs('/', $fileName, 'public_plugin_products');
+            }
 
             if($extension == "xlsx" || $extension == "xls"){
                 if($config_id == 0){
@@ -195,6 +207,8 @@ class PluginProductImportCrudController extends CrudController
                         "name" => "$name_original",
                         "mapping" => json_encode($result)
                     ]);
+
+                    session()->flash('success', 'File caricato con successo. Configura il mapping e salvalo per completare l\'import.');
 
                     return response()->json([
                         "url" => "/admin/plugin/pluginProducts/import_export?id={$plugin->id}"
@@ -248,7 +262,7 @@ class PluginProductImportCrudController extends CrudController
                     }
                 }
             }else{
-                $file = url("/plugins/pluginProducts/import.csv");
+                $file = $req->file('file_special')->getRealPath();
                 if (($handle = fopen($file, "r")) !== FALSE) {
                     while (($data = fgetcsv($handle, 10000, ";")) !== FALSE) {
                         break;
@@ -314,12 +328,20 @@ class PluginProductImportCrudController extends CrudController
                 }
             }
 
+            if ($importRun) {
+                $importRun->update([
+                    'total_rows' => count($products ?? []),
+                    'processed_rows' => 0,
+                ]);
+            }
+
             if(count($products)){
                 $productBySkuCache = [];
                 $maxGroupId = (int) PluginProducts::whereNotNull("group_id")->max("group_id");
                 $importedProductIds = [];
 
                 $row = 1;
+                $processedRows = 0;
                 foreach ($products as $k=>$product){
 
                     $images = null;
@@ -783,6 +805,10 @@ class PluginProductImportCrudController extends CrudController
                     }
 
                     $row++;
+                    $processedRows++;
+                    if ($importRun && ($processedRows % 25 === 0 || $processedRows === count($products))) {
+                        $importRun->update(['processed_rows' => $processedRows]);
+                    }
 
                     /*if($row == 150){
                         break;
@@ -821,7 +847,14 @@ class PluginProductImportCrudController extends CrudController
                 }
             }
 
-            $this->rememberLastImportedProductIds($importedProductIds);
+            if ($importRun) {
+                $importRun->update([
+                    'imported_product_ids' => json_encode($importedProductIds),
+                ]);
+                $this->rememberLastImportedProductIds($importedProductIds, $importRun->user_id, false);
+            } else {
+                $this->rememberLastImportedProductIds($importedProductIds);
+            }
 
         }
 
@@ -861,9 +894,11 @@ class PluginProductImportCrudController extends CrudController
             }
         }
 
+        $importedRows = count($products ?? []);
+
         return response()->json([
             "url" => null,
-            "message" => "Caricati $row righe"
+            "message" => "Import completato con successo: caricate $importedRows righe."
         ]);
 
        // return redirect()->back()->withInput();
@@ -907,26 +942,115 @@ class PluginProductImportCrudController extends CrudController
         return redirect()->back();
     }
 
-    private function getImportSessionCacheKey()
+    public function importSpecialRuns()
     {
-        $userId = backpack_user() ? (int) backpack_user()->id : 0;
+        $runs = PluginProductImportRun::with('config')
+            ->orderBy('id', 'desc')
+            ->limit(20)
+            ->get()
+            ->map(function ($run) {
+                $percentage = $run->total_rows > 0
+                    ? min(100, (int) floor(($run->processed_rows / $run->total_rows) * 100))
+                    : ($run->status === 'completed' ? 100 : 0);
+
+                return [
+                    'id' => $run->id,
+                    'file_name' => $run->file_name,
+                    'config_name' => $run->config ? $run->config->name : '-',
+                    'status' => $run->status,
+                    'total_rows' => (int) $run->total_rows,
+                    'processed_rows' => (int) $run->processed_rows,
+                    'percentage' => $percentage,
+                    'error_message' => $run->error_message,
+                    'queued_at' => optional($run->queued_at)->format('d/m/Y H:i:s'),
+                    'completed_at' => optional($run->completed_at)->format('d/m/Y H:i:s'),
+                ];
+            });
+
+        return response()->json(['runs' => $runs]);
+    }
+
+    public function processQueuedImport(PluginProductImportRun $run)
+    {
+        $path = Storage::disk('public_plugin_products')->path($run->file_path);
+        if (!is_file($path)) {
+            throw new \RuntimeException('File da importare non disponibile nello storage.');
+        }
+
+        $request = Request::create('/plugin/pluginProducts/importSpecialMapping', 'POST', [
+            'config_id' => $run->plugin_product_import_id,
+            'submit' => 'load',
+            'queued_execution' => 1,
+            'run_id' => $run->id,
+        ]);
+        $request->files->set('file_special', new UploadedFile($path, $run->file_name, null, null, true));
+
+        return $this->importSpecialMapping($request);
+    }
+
+    private function queueSpecialImport(Request $req, $configId, $fileName, $extension)
+    {
+        $config = PluginProductImport::find($configId);
+        if (!$config) {
+            return response()->json(['message' => 'Configurazione import non trovata.'], 422);
+        }
+
+        if (PluginProductImportRun::whereIn('status', ['queued', 'processing'])->exists()) {
+            return response()->json([
+                'message' => 'Esiste gia\' un import in coda o in lavorazione. Attendi il completamento prima di avviarne un altro.'
+            ], 422);
+        }
+
+        $filePath = $req->file('file_special')->store('imports/queued', 'public_plugin_products');
+        $run = PluginProductImportRun::create([
+            'plugin_product_import_id' => $config->id,
+            'user_id' => backpack_user() ? (int) backpack_user()->id : null,
+            'file_name' => $fileName,
+            'file_path' => $filePath,
+            'file_extension' => $extension,
+            'status' => 'queued',
+            'queued_at' => now(),
+        ]);
+
+        ProcessPluginProductImport::dispatch($run->id)
+            ->onConnection('database_imports')
+            ->onQueue('imports');
+
+        return response()->json([
+            'url' => null,
+            'queued' => true,
+            'run_id' => $run->id,
+            'message' => 'Import accodato correttamente. Puoi seguire l\'avanzamento nell\'elenco esecuzioni.',
+        ]);
+    }
+
+    private function getImportSessionCacheKey($userId = null)
+    {
+        if ($userId === null) {
+            $userId = backpack_user() ? (int) backpack_user()->id : 0;
+        }
+
         return "plugin_products_import_ids_user_" . $userId;
     }
 
-    private function rememberLastImportedProductIds(array $ids)
+    private function rememberLastImportedProductIds(array $ids, $userId = null, $rememberInSession = true)
     {
         $ids = array_values(array_unique(array_filter(array_map('intval', $ids), function ($id) {
             return $id > 0;
         })));
 
-        $cacheKey = $this->getImportSessionCacheKey();
+        $cacheKey = $this->getImportSessionCacheKey($userId);
         if (count($ids) > 0) {
             Cache::put($cacheKey, $ids, now()->addHours(2));
-            session()->put('plugin_products_last_import_cache_key', $cacheKey);
+            if ($rememberInSession) {
+                session()->put('plugin_products_last_import_cache_key', $cacheKey);
+            }
             return;
         }
 
-        session()->forget('plugin_products_last_import_cache_key');
+        if ($rememberInSession) {
+            session()->forget('plugin_products_last_import_cache_key');
+        }
         Cache::forget($cacheKey);
     }
 
@@ -934,7 +1058,7 @@ class PluginProductImportCrudController extends CrudController
     {
         $cacheKey = session('plugin_products_last_import_cache_key');
         if (!$cacheKey) {
-            return [];
+            $cacheKey = $this->getImportSessionCacheKey();
         }
 
         $ids = Cache::get($cacheKey, []);
@@ -948,9 +1072,7 @@ class PluginProductImportCrudController extends CrudController
         $cacheKey = session('plugin_products_last_import_cache_key');
         session()->forget('plugin_products_last_import_cache_key');
 
-        if ($cacheKey) {
-            Cache::forget($cacheKey);
-        }
+        Cache::forget($cacheKey ?: $this->getImportSessionCacheKey());
     }
 
     private function escapeLikeValue($value)
