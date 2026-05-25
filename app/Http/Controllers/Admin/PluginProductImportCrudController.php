@@ -26,6 +26,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -343,6 +345,13 @@ class PluginProductImportCrudController extends CrudController
                 $row = 1;
                 $processedRows = 0;
                 foreach ($products as $k=>$product){
+                    if ($importRun && $processedRows % 25 === 0 && $this->isImportCancellationRequested($importRun)) {
+                        return response()->json([
+                            'url' => null,
+                            'cancelled' => true,
+                            'message' => 'Import annullato su richiesta utente.',
+                        ]);
+                    }
 
                     $images = null;
                     $categories = [];
@@ -816,6 +825,14 @@ class PluginProductImportCrudController extends CrudController
                 }
             }
 
+            if ($importRun && $this->isImportCancellationRequested($importRun)) {
+                return response()->json([
+                    'url' => null,
+                    'cancelled' => true,
+                    'message' => 'Import annullato su richiesta utente.',
+                ]);
+            }
+
             $importedProductIds = array_values(array_unique($importedProductIds ?? []));
             if (count($importedProductIds) > 0) {
                 $langNames = array_keys($langs);
@@ -962,12 +979,64 @@ class PluginProductImportCrudController extends CrudController
                     'processed_rows' => (int) $run->processed_rows,
                     'percentage' => $percentage,
                     'error_message' => $run->error_message,
+                    'can_cancel' => in_array($run->status, ['queued', 'processing']),
+                    'can_delete' => in_array($run->status, ['completed', 'failed', 'cancelled']),
+                    'cancel_url' => route('pluginProducts.importSpecialRuns.cancel', ['id' => $run->id]),
+                    'delete_url' => route('pluginProducts.importSpecialRuns.delete', ['id' => $run->id]),
                     'queued_at' => optional($run->queued_at)->format('d/m/Y H:i:s'),
                     'completed_at' => optional($run->completed_at)->format('d/m/Y H:i:s'),
                 ];
             });
 
         return response()->json(['runs' => $runs]);
+    }
+
+    public function cancelImportSpecialRun($id)
+    {
+        $run = PluginProductImportRun::findOrFail($id);
+
+        if ($run->status === 'queued') {
+            if ($run->queue_job_id) {
+                DB::table('jobs')->where('id', $run->queue_job_id)->where('queue', 'imports')->delete();
+            }
+
+            $run->update([
+                'status' => 'cancelled',
+                'completed_at' => now(),
+                'error_message' => null,
+            ]);
+            Storage::disk('public_plugin_products')->delete($run->file_path);
+
+            return response()->json(['message' => 'Import rimosso dalla coda.']);
+        }
+
+        if ($run->status === 'processing') {
+            $run->update(['status' => 'cancelling']);
+
+            return response()->json([
+                'message' => 'Annullamento richiesto. Il processo si fermera\' al prossimo blocco di righe.'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'L\'import non e\' piu\' annullabile nello stato corrente.'
+        ], 422);
+    }
+
+    public function deleteImportSpecialRun($id)
+    {
+        $run = PluginProductImportRun::findOrFail($id);
+
+        if (!in_array($run->status, ['completed', 'failed', 'cancelled'])) {
+            return response()->json([
+                'message' => 'Prima di eliminare questa esecuzione devi attendere la fine oppure annullarla.'
+            ], 422);
+        }
+
+        Storage::disk('public_plugin_products')->delete($run->file_path);
+        $run->delete();
+
+        return response()->json(['message' => 'Esecuzione eliminata dallo storico.']);
     }
 
     public function processQueuedImport(PluginProductImportRun $run)
@@ -995,7 +1064,7 @@ class PluginProductImportCrudController extends CrudController
             return response()->json(['message' => 'Configurazione import non trovata.'], 422);
         }
 
-        if (PluginProductImportRun::whereIn('status', ['queued', 'processing'])->exists()) {
+        if (PluginProductImportRun::whereIn('status', ['queued', 'processing', 'cancelling'])->exists()) {
             return response()->json([
                 'message' => 'Esiste gia\' un import in coda o in lavorazione. Attendi il completamento prima di avviarne un altro.'
             ], 422);
@@ -1012,9 +1081,12 @@ class PluginProductImportCrudController extends CrudController
             'queued_at' => now(),
         ]);
 
-        ProcessPluginProductImport::dispatch($run->id)
-            ->onConnection('database_imports')
-            ->onQueue('imports');
+        $queueJobId = Queue::connection('database_imports')->push(
+            new ProcessPluginProductImport($run->id),
+            '',
+            'imports'
+        );
+        $run->update(['queue_job_id' => $queueJobId]);
 
         return response()->json([
             'url' => null,
@@ -1031,6 +1103,14 @@ class PluginProductImportCrudController extends CrudController
         }
 
         return "plugin_products_import_ids_user_" . $userId;
+    }
+
+    private function isImportCancellationRequested(PluginProductImportRun $run)
+    {
+        return in_array(
+            PluginProductImportRun::whereKey($run->id)->value('status'),
+            ['cancelling', 'cancelled']
+        );
     }
 
     private function rememberLastImportedProductIds(array $ids, $userId = null, $rememberInSession = true)

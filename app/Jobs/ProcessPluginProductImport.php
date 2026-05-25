@@ -28,12 +28,32 @@ class ProcessPluginProductImport implements ShouldQueue
 
     public function handle()
     {
-        $run = PluginProductImportRun::findOrFail($this->runId);
-        $run->update([
+        $run = PluginProductImportRun::find($this->runId);
+        if (!$run) {
+            return;
+        }
+
+        if (in_array($run->status, ['cancelling', 'cancelled'])) {
+            $this->markCancelled($run);
+            return;
+        }
+
+        $started = PluginProductImportRun::whereKey($run->id)->where('status', 'queued')->update([
             'status' => 'processing',
             'started_at' => now(),
             'error_message' => null,
         ]);
+        if (!$started) {
+            $run = PluginProductImportRun::find($this->runId);
+            if (!$run) {
+                return;
+            }
+            if (in_array($run->status, ['cancelling', 'cancelled'])) {
+                $this->markCancelled($run);
+            }
+            return;
+        }
+        $run->refresh();
 
         try {
             $response = (new PluginProductImportCrudController())->processQueuedImport($run);
@@ -41,6 +61,11 @@ class ProcessPluginProductImport implements ShouldQueue
 
             if ($response->getStatusCode() >= 400) {
                 throw new \RuntimeException($data['message'] ?? 'Errore durante l\'elaborazione del file.');
+            }
+
+            if (($data['cancelled'] ?? false) || in_array($run->fresh()->status, ['cancelling', 'cancelled'])) {
+                $this->markCancelled($run);
+                return;
             }
 
             $run->refresh()->update([
@@ -70,5 +95,15 @@ class ProcessPluginProductImport implements ShouldQueue
                 'error_message' => mb_substr($exception->getMessage(), 0, 1000),
             ]);
         }
+    }
+
+    private function markCancelled(PluginProductImportRun $run)
+    {
+        $run->refresh()->update([
+            'status' => 'cancelled',
+            'completed_at' => now(),
+            'error_message' => null,
+        ]);
+        Storage::disk('public_plugin_products')->delete($run->file_path);
     }
 }

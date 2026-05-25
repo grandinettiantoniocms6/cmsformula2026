@@ -191,6 +191,7 @@
                             <h6 class="mb-0">Esecuzioni import recenti</h6>
                             <small class="text-muted">Aggiornamento automatico</small>
                         </div>
+                        <div class="js-import-runs-feedback"></div>
                         <div class="table-responsive">
                             <table class="table table-sm mb-0">
                                 <thead>
@@ -200,10 +201,11 @@
                                         <th style="min-width: 180px;">Avanzamento</th>
                                         <th>Avviata</th>
                                         <th>Completata</th>
+                                        <th>Azioni</th>
                                     </tr>
                                 </thead>
                                 <tbody class="js-import-runs-body">
-                                    <tr><td colspan="5" class="text-muted">Caricamento esecuzioni...</td></tr>
+                                    <tr><td colspan="6" class="text-muted">Caricamento esecuzioni...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -496,7 +498,7 @@
                 var $tbody = $importRunsMonitor.find('.js-import-runs-body').empty();
                 var runs = response.runs || [];
                 var hasActiveRuns = runs.some(function (run) {
-                    return run.status === 'queued' || run.status === 'processing';
+                    return run.status === 'queued' || run.status === 'processing' || run.status === 'cancelling';
                 });
 
                 jQuery('.js-post-import-actions-button').prop('disabled', hasActiveRuns);
@@ -505,7 +507,7 @@
 
                 if (!runs.length) {
                     $tbody.append(jQuery('<tr/>').append(jQuery('<td/>', {
-                        colspan: 5,
+                        colspan: 6,
                         'class': 'text-muted',
                         text: 'Nessuna esecuzione disponibile.'
                     })));
@@ -516,12 +518,16 @@
                     var statusLabels = {
                         queued: 'In coda',
                         processing: 'In lavorazione',
+                        cancelling: 'Annullamento richiesto',
+                        cancelled: 'Annullata',
                         completed: 'Completata',
                         failed: 'Errore'
                     };
                     var statusClasses = {
                         queued: 'badge-secondary',
                         processing: 'badge-info',
+                        cancelling: 'badge-warning',
+                        cancelled: 'badge-warning',
                         completed: 'badge-success',
                         failed: 'badge-danger'
                     };
@@ -552,16 +558,81 @@
                             'aria-valuemax': 100
                         })))
                         .append(jQuery('<small/>', { text: progressText }));
+                    var $actionsCell = jQuery('<td/>');
+
+                    if (run.can_cancel) {
+                        $actionsCell.append(jQuery('<button/>', {
+                            type: 'button',
+                            'class': 'btn btn-sm btn-outline-warning mr-1 js-cancel-import-run',
+                            'data-url': run.cancel_url,
+                            text: 'Annulla'
+                        }));
+                    }
+                    if (run.can_delete) {
+                        $actionsCell.append(jQuery('<button/>', {
+                            type: 'button',
+                            'class': 'btn btn-sm btn-outline-danger js-delete-import-run',
+                            'data-url': run.delete_url,
+                            text: 'Elimina'
+                        }));
+                    }
 
                     $tbody.append(jQuery('<tr/>')
                         .append($fileCell)
                         .append($statusCell)
                         .append($progressCell)
                         .append(jQuery('<td/>', { text: run.queued_at || '-' }))
-                        .append(jQuery('<td/>', { text: run.completed_at || '-' })));
+                        .append(jQuery('<td/>', { text: run.completed_at || '-' }))
+                        .append($actionsCell));
                 });
             });
         }
+
+        function showImportRunsFeedback(message, isError) {
+            var $feedback = $importRunsMonitor.find('.js-import-runs-feedback').empty();
+            if (!message) {
+                return;
+            }
+
+            $feedback.append(jQuery('<div/>', {
+                'class': 'alert py-2 ' + (isError ? 'alert-danger' : 'alert-success'),
+                text: message
+            }));
+        }
+
+        $importRunsMonitor.on('click', '.js-cancel-import-run', function () {
+            if (!window.confirm('Vuoi annullare questa importazione? Le righe gia elaborate non verranno ripristinate.')) {
+                return;
+            }
+
+            jQuery.post(jQuery(this).data('url'), { _token: '{{ csrf_token() }}' })
+                .done(function (response) {
+                    showImportRunsFeedback(response.message, false);
+                    refreshImportRuns();
+                })
+                .fail(function (response) {
+                    showImportRunsFeedback(response.responseJSON ? response.responseJSON.message : 'Impossibile annullare l\'import.', true);
+                });
+        });
+
+        $importRunsMonitor.on('click', '.js-delete-import-run', function () {
+            if (!window.confirm('Vuoi eliminare questa esecuzione dallo storico?')) {
+                return;
+            }
+
+            jQuery.ajax({
+                url: jQuery(this).data('url'),
+                method: 'POST',
+                data: { _token: '{{ csrf_token() }}', _method: 'DELETE' }
+            })
+                .done(function (response) {
+                    showImportRunsFeedback(response.message, false);
+                    refreshImportRuns();
+                })
+                .fail(function (response) {
+                    showImportRunsFeedback(response.responseJSON ? response.responseJSON.message : 'Impossibile eliminare l\'esecuzione.', true);
+                });
+        });
 
         refreshImportRuns();
         if ($importRunsMonitor.length) {

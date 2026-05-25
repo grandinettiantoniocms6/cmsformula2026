@@ -158,6 +158,8 @@ Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => 
     Route::post('plugin/pluginProducts/importSpecialMappingSave',['as' => 'pluginProducts.importSpecialMappingSave', 'uses'=>'PluginProductImportCrudController@importSpecialMappingSave']);
     Route::post('plugin/pluginProducts/importSpecialPostImportActions',['as' => 'pluginProducts.importSpecialPostImportActions', 'uses'=>'PluginProductImportCrudController@importSpecialPostImportActions']);
     Route::get('plugin/pluginProducts/importSpecialRuns',['as' => 'pluginProducts.importSpecialRuns', 'uses'=>'PluginProductImportCrudController@importSpecialRuns']);
+    Route::post('plugin/pluginProducts/importSpecialRuns/{id}/cancel',['as' => 'pluginProducts.importSpecialRuns.cancel', 'uses'=>'PluginProductImportCrudController@cancelImportSpecialRun']);
+    Route::delete('plugin/pluginProducts/importSpecialRuns/{id}',['as' => 'pluginProducts.importSpecialRuns.delete', 'uses'=>'PluginProductImportCrudController@deleteImportSpecialRun']);
 
     Route::post('plugin/pluginProducts/create_combinations',['as' => 'pluginProducts.create_combinations', 'uses'=>'PluginProductsCrudController@create_combinations']);
     Route::post('plugin/pluginProducts/associate_combinations',['as' => 'pluginProducts.associate_combinations', 'uses'=>'PluginProductsCrudController@associate_combinations']);
