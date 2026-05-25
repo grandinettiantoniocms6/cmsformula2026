@@ -170,7 +170,7 @@ class PluginProductImportCrudController extends CrudController
 
         if($req->file()) {
             $name_original = $req->file_special->getClientOriginalName();
-            $extension = $req->file_special->getClientOriginalExtension();
+            $extension = strtolower($req->file_special->getClientOriginalExtension());
 
             $fileName = "import.$extension";
             $req->file('file_special')->storeAs('/', $fileName, 'public_plugin_products');
@@ -178,7 +178,11 @@ class PluginProductImportCrudController extends CrudController
             if($extension == "xlsx" || $extension == "xls"){
                 if($config_id == 0){
                     // Legge tutte le righe come collection
-                    $data = \Excel::toCollection(null, $req->file('file_special'))->first();
+                    try {
+                        $data = \Excel::toCollection(null, $req->file('file_special'))->first();
+                    } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $exception) {
+                        return $this->invalidSpreadsheetResponse($extension);
+                    }
 
                     // Prima riga come intestazioni
                     $headers = array_map('strtolower', $data->shift()->toArray());
@@ -207,7 +211,11 @@ class PluginProductImportCrudController extends CrudController
                     }
 
                     // Legge tutte le righe come collection
-                    $data = \Excel::toCollection(null, $req->file('file_special'))->first();
+                    try {
+                        $data = \Excel::toCollection(null, $req->file('file_special'))->first();
+                    } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $exception) {
+                        return $this->invalidSpreadsheetResponse($extension);
+                    }
 
                     // Prima riga come intestazioni
                     $headers = array_map('strtolower', $data->shift()->toArray());
@@ -589,14 +597,14 @@ class PluginProductImportCrudController extends CrudController
                             $product['sku'] = $skuTemp;
 
                         }else{
-                            if(trim($padre->name) == ""){
-                                PluginProducts::where("id", $padre->id)->update(
+                            if(trim((string) $padre->name) == ""){
+                                $padre->update(
                                     ["name" => $product['name']]
                                 );
                             }
 
-                            if(trim($padre->description) == ""){
-                                PluginProducts::where("id", $padre->id)->update(
+                            if(key_exists("description", $product) && trim((string) $padre->description) == ""){
+                                $padre->update(
                                     ["description" => $product['description']]
                                 );
                             }
@@ -974,6 +982,15 @@ class PluginProductImportCrudController extends CrudController
         }
 
         return $value;
+    }
+
+    private function invalidSpreadsheetResponse($extension)
+    {
+        $extension = strtolower((string) $extension);
+
+        return response()->json([
+            "message" => "Il file .$extension caricato non e' un file Excel valido per il formato dichiarato. Salvalo nuovamente come .xls o .xlsx reale, oppure caricalo come .csv con separatore ;."
+        ], 422);
     }
 
     private function getOrCreateAttribute($name)

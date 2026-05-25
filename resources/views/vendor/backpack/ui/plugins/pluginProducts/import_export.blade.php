@@ -168,8 +168,8 @@
 
                         <div class="form-group">
                             <div class="custom-file">
-                                <input type="file" name="file_special" class="form-control form-control-file invisible" id="file-special" value="{{ old('file') }}">
-                                <label class="custom-file-label" for="file-special">Scegli file (csv con separatore ; oppure xls)</label>
+                                <input type="file" name="file_special" accept=".csv,.xls,.xlsx" class="form-control form-control-file invisible" id="file-special" value="{{ old('file') }}">
+                                <label class="custom-file-label" for="file-special">Scegli file (csv con separatore ;, xls oppure xlsx)</label>
                             </div>
                         </div>
 
@@ -579,10 +579,13 @@
                         if (response.responseJSON.message === "validation.required"  ) {
                             message = 'Campo File obbligatorio';
                         } else {
-                            message = 'Nessun messaggio disponibile';
+                            message = response.responseJSON.message;
                         }
 
-                        jQuery('#'+id).prepend('<div class="alert alert-danger py-2">' + message +'</div>');
+                        jQuery('<div/>', {
+                            'class': 'alert alert-danger py-2',
+                            text: message
+                        }).prependTo(jQuery('#'+id));
                     }
 
                     clearVisualProgressTimer();
