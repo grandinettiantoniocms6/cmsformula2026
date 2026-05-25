@@ -211,41 +211,10 @@
                         </div>
                     </div>
 
-                    <?php $postImportUrl = route('pluginProducts.importSpecialPostImportActions'); ?>
-                    <form method="post" action="{{ $postImportUrl }}" class="position-relative mt-4 p-3 border rounded bg-light js-submit-progress">
-                        {{ csrf_field() }}
-                        <h6 class="mb-2">Fase successiva post-import</h6>
-                        <p class="mb-3">Dopo ogni import file, esegui queste operazioni per aggiornare gli indici.</p>
-
-                        <div class="form-loader" hidden>
-                            <div class="upload-progress-wrapper" aria-live="polite">
-                                <div class="upload-progress-top">
-                                    <span class="upload-progress-title">Esecuzione operazioni</span>
-                                    <span class="upload-progress-value">0%</span>
-                                </div>
-                                <div class="progress upload-progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <small class="upload-progress-hint">Avvio operazioni post-import...</small>
-                            </div>
-                        </div>
-
-                        <div class="form-group mb-2">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="runProductsSearchPost" name="run_products_search" value="1" {{ old('run_products_search', 1) == 1 ? 'checked' : '' }}>
-                                <label class="custom-control-label" for="runProductsSearchPost">Aggiorna indice prodotti (`set:products_search`)</label>
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="runProductsCategoriesSearchPost" name="run_products_categories_search" value="1" {{ old('run_products_categories_search', 1) == 1 ? 'checked' : '' }}>
-                                <label class="custom-control-label" for="runProductsCategoriesSearchPost">Aggiorna indice categorie (`set:products_categories_search`)</label>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-outline-dark btn-block js-post-import-actions-button"><span>Esegui operazioni post-import</span></button>
-                        <small class="form-text text-muted js-post-import-actions-hint" style="display: none;">Attendi il completamento degli import in corso prima di aggiornare gli indici.</small>
-                    </form>
+                    <div class="mt-4 p-3 border rounded bg-light">
+                        <h6 class="mb-2">Indicizzazione automatica</h6>
+                        <p class="mb-0 text-muted">Al termine di ogni import in coda vengono eseguiti automaticamente <code>set:products_search</code> e <code>set:products_categories_search</code>. Lo stato delle fasi compare nell'elenco sopra.</p>
+                    </div>
 
                     @if(\request()->has('id'))
                         <?php
@@ -501,8 +470,6 @@
                     return run.status === 'queued' || run.status === 'processing' || run.status === 'cancelling';
                 });
 
-                jQuery('.js-post-import-actions-button').prop('disabled', hasActiveRuns);
-                jQuery('.js-post-import-actions-hint').toggle(hasActiveRuns);
                 jQuery('.js-special-import-submit').prop('disabled', hasActiveRuns);
 
                 if (!runs.length) {
@@ -584,6 +551,45 @@
                         .append(jQuery('<td/>', { text: run.queued_at || '-' }))
                         .append(jQuery('<td/>', { text: run.completed_at || '-' }))
                         .append($actionsCell));
+
+                    jQuery.each(run.steps || [], function (_, step) {
+                        var stepProgressText = step.total_rows > 0
+                            ? step.processed_rows + ' / ' + step.total_rows + ' (' + step.percentage + '%)'
+                            : 'In attesa';
+                        var $stepStatusCell = jQuery('<td/>').append(jQuery('<span/>', {
+                            'class': 'badge ' + (statusClasses[step.status] || 'badge-secondary'),
+                            text: statusLabels[step.status] || step.status
+                        }));
+                        if (step.error_message) {
+                            $stepStatusCell.append(jQuery('<div/>', {
+                                'class': 'small text-danger mt-1',
+                                text: step.error_message
+                            }));
+                        }
+
+                        $tbody.append(jQuery('<tr/>', { 'class': 'bg-white' })
+                            .append(jQuery('<td/>').append(jQuery('<div/>', {
+                                'class': 'pl-4 text-muted',
+                                text: step.label
+                            })))
+                            .append($stepStatusCell)
+                            .append(jQuery('<td/>')
+                                .append(jQuery('<div/>', {
+                                    'class': 'progress mb-1',
+                                    style: 'height: 8px;'
+                                }).append(jQuery('<div/>', {
+                                    'class': 'progress-bar' + (step.status === 'failed' ? ' bg-danger' : ''),
+                                    role: 'progressbar',
+                                    style: 'width: ' + step.percentage + '%;',
+                                    'aria-valuenow': step.percentage,
+                                    'aria-valuemin': 0,
+                                    'aria-valuemax': 100
+                                })))
+                                .append(jQuery('<small/>', { text: stepProgressText })))
+                            .append(jQuery('<td/>', { text: '-' }))
+                            .append(jQuery('<td/>', { text: '-' }))
+                            .append(jQuery('<td/>')));
+                    });
                 });
             });
         }
@@ -791,39 +797,5 @@
             });
         });
 
-        jQuery('form.js-submit-progress').on('submit', function () {
-            var $form = jQuery(this);
-            var $loader = $form.find('.form-loader');
-            var $progressBar = $form.find('.upload-progress-bar');
-            var $progressValue = $form.find('.upload-progress-value');
-            var $progressHint = $form.find('.upload-progress-hint');
-            var current = 0;
-
-            $loader.attr('hidden', false);
-            $form.find('button[type="submit"]').prop('disabled', true);
-
-            function updatePostImportProgress(value, hintText) {
-                current = Math.max(current, Math.min(99, Math.round(value)));
-                $progressBar.css('width', current + '%').attr('aria-valuenow', current);
-                $progressValue.text(current + '%');
-                if (hintText) {
-                    $progressHint.text(hintText);
-                }
-            }
-
-            updatePostImportProgress(8, 'Avvio operazioni post-import...');
-
-            var sequence = [20, 35, 50, 65, 75, 82, 88, 93, 96, 98];
-            var idx = 0;
-            var timer = setInterval(function () {
-                if (idx >= sequence.length) {
-                    clearInterval(timer);
-                    return;
-                }
-
-                updatePostImportProgress(sequence[idx], 'Elaborazione operazioni in corso...');
-                idx++;
-            }, 700);
-        });
     </script>
 @endsection

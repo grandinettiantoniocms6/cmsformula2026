@@ -16,7 +16,8 @@
 - Il CSV viene letto dal file specifico della run, evitando collisioni sul precedente file pubblico fisso.
 - Aggiunto endpoint stato e pannello nella pagina Import SPECIAL con polling, badge di stato e progress bar.
 - Gli ID prodotti importati continuano a essere conservati per l'aggiornamento incrementale post-import.
-- Le operazioni post-import vengono disabilitate nell'interfaccia mentre esiste una run in coda o in elaborazione, per evitare indici aggiornati su dati parziali.
+- Aggiunta la tabella `plugin_product_import_run_steps`: ogni run espone le fasi `Import file prodotti`, `Aggiorna indice prodotti` e `Aggiorna indice categorie` con stato e avanzamento.
+- Alla conclusione della fase import il worker esegue automaticamente `set:products_search` limitato agli ID importati e poi `set:products_categories_search`; la UI non richiede piu' il lancio manuale.
 - Un nuovo import viene impedito quando ne esiste gia' uno attivo, sia lato controller sia lato interfaccia, per evitare scritture concorrenti sul catalogo.
 - Il file temporaneo di una run completata viene eliminato dallo storage; i file delle run fallite restano disponibili per diagnosi e richiedono pulizia periodica.
 - Memorizzato l'id del job database sulla run: un import ancora in coda puo' essere annullato rimuovendo il job prima dell'esecuzione.
@@ -25,7 +26,7 @@
 - L'avvio del job aggiorna lo stato da `queued` a `processing` in modo condizionale, cosi' una cancellazione concorrente non puo' essere sovrascritta dal worker.
 
 ## Requisiti operativi
-- Eseguire le migration per creare `plugin_product_import_runs` e assicurare la presenza di `jobs`.
+- Eseguire le migration per creare `plugin_product_import_runs`, `plugin_product_import_run_steps` e assicurare la presenza di `jobs`.
 - Avviare un worker per la coda dedicata: `php artisan queue:work database_imports --queue=imports --timeout=7200`.
 - In produzione gestire il worker con Supervisor/Ploi e riavviarlo dopo il deploy.
 
@@ -34,6 +35,8 @@
 - Verificata la route `pluginProducts.importSpecialRuns` con `php artisan route:list`.
 - Applicata localmente la migration `2026_05_25_120000_create_plugin_product_import_runs_table`.
 - Applicata localmente la migration `2026_05_25_130000_add_queue_job_id_to_plugin_product_import_runs_table` e verificate le route di annullamento/eliminazione run.
+- Applicata localmente la migration `2026_05_25_140000_create_plugin_product_import_run_steps_table`; l'indice usa un nome esplicito breve compatibile con il limite MySQL sugli identificatori.
+- Verificati lint PHP del job, controller, model run/step, migration e view Blade dopo l'introduzione delle fasi automatiche.
 - La verifica visuale della pagina locale si arresta al login admin, non essendo stata utilizzata una sessione autenticata.
 
 ## Rischi e controlli
@@ -41,3 +44,4 @@
 - Il `retry_after` della connessione import e' impostato a 7500 secondi, superiore al timeout worker/job di 7200 secondi, per evitare che import lunghi vengano avviati due volte.
 - Testare un file piccolo e uno voluminoso, verificando transizioni `In coda` -> `In lavorazione` -> `Completata` e il conteggio righe.
 - Testare `Annulla` sia su una run ancora in coda sia durante l'elaborazione; nel secondo caso verificare lo stato finale `Annullata` e considerare che i record gia' elaborati restano nel catalogo.
+- L'annullamento e' cooperativo anche tra le fasi: un comando Artisan di indicizzazione gia' avviato termina prima che il worker possa arrestare la fase successiva.

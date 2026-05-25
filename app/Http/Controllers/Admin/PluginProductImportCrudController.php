@@ -7,6 +7,7 @@ use App\Http\Requests\PluginProductImportRequest;
 use App\Models\AdminLanguage;
 use App\Models\PluginProductImport;
 use App\Models\PluginProductImportRun;
+use App\Models\PluginProductImportRunStep;
 use App\Models\PluginProducts;
 use App\Models\PluginProductsBrands;
 use App\Models\PluginProductsCategories;
@@ -335,6 +336,12 @@ class PluginProductImportCrudController extends CrudController
                     'total_rows' => count($products ?? []),
                     'processed_rows' => 0,
                 ]);
+                PluginProductImportRunStep::where('plugin_product_import_run_id', $importRun->id)
+                    ->where('step_type', 'import')
+                    ->update([
+                        'total_rows' => count($products ?? []),
+                        'processed_rows' => 0,
+                    ]);
             }
 
             if(count($products)){
@@ -817,6 +824,9 @@ class PluginProductImportCrudController extends CrudController
                     $processedRows++;
                     if ($importRun && ($processedRows % 25 === 0 || $processedRows === count($products))) {
                         $importRun->update(['processed_rows' => $processedRows]);
+                        PluginProductImportRunStep::where('plugin_product_import_run_id', $importRun->id)
+                            ->where('step_type', 'import')
+                            ->update(['processed_rows' => $processedRows]);
                     }
 
                     /*if($row == 150){
@@ -961,7 +971,7 @@ class PluginProductImportCrudController extends CrudController
 
     public function importSpecialRuns()
     {
-        $runs = PluginProductImportRun::with('config')
+        $runs = PluginProductImportRun::with(['config', 'steps'])
             ->orderBy('id', 'desc')
             ->limit(20)
             ->get()
@@ -985,6 +995,20 @@ class PluginProductImportCrudController extends CrudController
                     'delete_url' => route('pluginProducts.importSpecialRuns.delete', ['id' => $run->id]),
                     'queued_at' => optional($run->queued_at)->format('d/m/Y H:i:s'),
                     'completed_at' => optional($run->completed_at)->format('d/m/Y H:i:s'),
+                    'steps' => $run->steps->map(function ($step) {
+                        $percentage = $step->total_rows > 0
+                            ? min(100, (int) floor(($step->processed_rows / $step->total_rows) * 100))
+                            : ($step->status === 'completed' ? 100 : 0);
+
+                        return [
+                            'label' => $step->label,
+                            'status' => $step->status,
+                            'total_rows' => (int) $step->total_rows,
+                            'processed_rows' => (int) $step->processed_rows,
+                            'percentage' => $percentage,
+                            'error_message' => $step->error_message,
+                        ];
+                    })->values(),
                 ];
             });
 
@@ -1004,6 +1028,10 @@ class PluginProductImportCrudController extends CrudController
                 'status' => 'cancelled',
                 'completed_at' => now(),
                 'error_message' => null,
+            ]);
+            $run->steps()->whereIn('status', ['queued', 'processing', 'cancelling'])->update([
+                'status' => 'cancelled',
+                'completed_at' => now(),
             ]);
             Storage::disk('public_plugin_products')->delete($run->file_path);
 
@@ -1034,6 +1062,7 @@ class PluginProductImportCrudController extends CrudController
         }
 
         Storage::disk('public_plugin_products')->delete($run->file_path);
+        $run->steps()->delete();
         $run->delete();
 
         return response()->json(['message' => 'Esecuzione eliminata dallo storico.']);
@@ -1079,6 +1108,23 @@ class PluginProductImportCrudController extends CrudController
             'file_extension' => $extension,
             'status' => 'queued',
             'queued_at' => now(),
+        ]);
+        $run->steps()->createMany([
+            [
+                'step_type' => 'import',
+                'label' => 'Import file prodotti',
+                'status' => 'queued',
+            ],
+            [
+                'step_type' => 'products_search',
+                'label' => 'Aggiorna indice prodotti (set:products_search)',
+                'status' => 'queued',
+            ],
+            [
+                'step_type' => 'categories_search',
+                'label' => 'Aggiorna indice categorie (set:products_categories_search)',
+                'status' => 'queued',
+            ],
         ]);
 
         $queueJobId = Queue::connection('database_imports')->push(

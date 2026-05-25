@@ -21,4 +21,9 @@ class PluginProductImportRun extends Model
     {
         return $this->belongsTo(PluginProductImport::class, 'plugin_product_import_id');
     }
+
+    public function steps()
+    {
+        return $this->hasMany(PluginProductImportRunStep::class, 'plugin_product_import_run_id')->orderBy('id');
+    }
 }
