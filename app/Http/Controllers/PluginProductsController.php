@@ -312,17 +312,15 @@ class PluginProductsController extends Controller
                     ->where("parent_id", null)
                     ->where("is_in_list_shop_page", 0)
                     ->whereRaw("list_pages LIKE '%$slug%'")
-                    ->where("is_purchasable", 1)
-                    ->orderBy("lft", "asc")
-                    ->get();
+                    ->where("is_purchasable", 1);
+                $categories = $this->get_ordered_categories_sidebar($categories);
             }else{
                 if(is_numeric(strpos(\Request::url(), "/$slug_prodotti/"))){
                     $categories = PluginProductsCategories::where("is_active", 1)
                         ->where("parent_id", null)
                         ->where("is_purchasable", 1)
-                        ->where("is_in_list_shop_page", 1)
-                        ->orderBy("lft", "asc")
-                        ->get();
+                        ->where("is_in_list_shop_page", 1);
+                    $categories = $this->get_ordered_categories_sidebar($categories);
                 }else{
                     $trovato = 0;
                     foreach ($special_urls as $special){
@@ -331,9 +329,8 @@ class PluginProductsController extends Controller
                                 ->where("parent_id", null)
                                 ->where("is_in_list_shop_page", 0)
                                 ->whereRaw("list_pages LIKE '%$special%'")
-                                ->where("is_purchasable", 1)
-                                ->orderBy("lft", "asc")
-                                ->get();
+                                ->where("is_purchasable", 1);
+                            $categories = $this->get_ordered_categories_sidebar($categories);
 
                             if($categories){
                                 $trovato = 1;
@@ -346,9 +343,8 @@ class PluginProductsController extends Controller
                         $categories = PluginProductsCategories::where("is_active", 1)
                             ->where("parent_id", null)
                             ->where("is_purchasable", 1)
-                            ->where("is_in_list_shop_page", 1)
-                            ->orderBy("lft", "asc")
-                            ->get();
+                            ->where("is_in_list_shop_page", 1);
+                        $categories = $this->get_ordered_categories_sidebar($categories);
                     }
                 }
             }
@@ -356,9 +352,8 @@ class PluginProductsController extends Controller
             $categories = PluginProductsCategories::where("is_active", 1)
                 ->where("parent_id", null)
                 ->where("is_purchasable", 1)
-                ->where("is_in_list_shop_page", 1)
-                ->orderBy("lft", "asc")
-                ->get();
+                ->where("is_in_list_shop_page", 1);
+            $categories = $this->get_ordered_categories_sidebar($categories);
         }
 
         if($slug_temp){
@@ -1438,12 +1433,29 @@ class PluginProductsController extends Controller
     }
 
 
+    private function get_ordered_categories_sidebar($query){
+        $categories = $query
+            ->orderByRaw("CASE WHEN lft IS NULL THEN 1 ELSE 0 END")
+            ->orderBy("lft", "asc")
+            ->get();
+
+        if($categories->whereNotNull("lft")->isEmpty()){
+            return $categories->sortBy(function($category){
+                return mb_strtolower((string) $category->name);
+            }, SORT_NATURAL | SORT_FLAG_CASE)->values();
+        }
+
+        return $categories;
+    }
+
     public function get_categories_sidebar($categories, $productsAllVet_Temp = null){
         if($categories){
 
             foreach ($categories as $k=>$item){
                 $item->count = PluginProductsSearch::whereRaw("categories LIKE '%,$item->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
-                $check = PluginProductsCategories::where("parent_id", $item->id)->where("is_active", 1)->orderBy("lft", "asc")->get();
+                $check = $this->get_ordered_categories_sidebar(
+                    PluginProductsCategories::where("parent_id", $item->id)->where("is_active", 1)
+                );
                 if($check){
                     $item->figli = $check;
                     if($item->figli){
@@ -1452,12 +1464,16 @@ class PluginProductsController extends Controller
                             $figlio->count = PluginProductsSearch::whereRaw("categories LIKE '%,$figlio->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
                             $tot_figli = $tot_figli + $figlio->count;
 
-                            $check_2 = PluginProductsCategories::where("parent_id", $figlio->id)->where("is_active", 1)->orderBy("lft", "asc")->get();
+                            $check_2 = $this->get_ordered_categories_sidebar(
+                                PluginProductsCategories::where("parent_id", $figlio->id)->where("is_active", 1)
+                            );
                             if($check_2){
                                 $figlio->figli_2 = $check_2;
                                 foreach($figlio->figli_2 as $figlio2){
                                     $figlio2->count = PluginProductsSearch::whereRaw("categories LIKE '%,$figlio2->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
-                                    $check_3 = PluginProductsCategories::where("parent_id", $figlio2->id)->where("is_active", 1)->orderBy("lft", "asc")->get();
+                                    $check_3 = $this->get_ordered_categories_sidebar(
+                                        PluginProductsCategories::where("parent_id", $figlio2->id)->where("is_active", 1)
+                                    );
                                     if($check_3) {
                                         $figlio2->figli_3 = $check_3;
                                         foreach($figlio2->figli_3 as $figlio3) {
