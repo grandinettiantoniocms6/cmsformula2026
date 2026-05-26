@@ -213,6 +213,11 @@
         border-radius: 0 !important;
     }
 
+    .sidebar .nav-dropdown.open > .nav-dropdown-items {
+        display: block !important;
+        max-height: none !important;
+    }
+
     .sidebar .nav-dropdown-toggle::before {
         display: none !important;
     }
@@ -501,15 +506,15 @@ $catalogoMenuOpen = request()->is('admin/pluginProducts*')
 
         @if($aP->name == "pluginForms")
             @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
-                <li class="nav-item nav-dropdown">
+                <li class="nav-item nav-dropdown open">
                     <a class="nav-link nav-dropdown-toggle" href="#"><i class="nav-icon lab la-wpforms"></i> {{ $aP->label }}</a>
                     <ul class="nav-dropdown-items">
-                        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginForms') }}"><i class="nav-icon lab la-wpforms"></i> Form</a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('admin/pluginForms') || request()->is('admin/pluginForms/*') ? 'active' : '' }}" href="{{ backpack_url('pluginForms') }}"><i class="nav-icon lab la-wpforms"></i> Form</a></li>
                             <?php
                             $count_not_read = \App\Models\PluginFormsRequests::where("is_read", 0)->count();
                             ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ backpack_url('pluginFormsRequests') }}"><i class="nav-icon las la-box-open"></i> <span> Richieste
+                            <a class="nav-link {{ request()->is('admin/pluginFormsRequests*') ? 'active' : '' }}" href="{{ backpack_url('pluginFormsRequests') }}"><i class="nav-icon las la-box-open"></i> <span> Richieste
                                 @if($count_not_read > 0)
                                         <span class="badge badge-info">{{ $count_not_read }}</span>
                                     @endif
@@ -517,7 +522,7 @@ $catalogoMenuOpen = request()->is('admin/pluginProducts*')
                             </a>
                         </li>
 
-                        <li class="nav-item"><a class="nav-link" href="{{ backpack_url('pluginFormsSettings') }}/1/edit"><i class="nav-icon las la-toolbox"></i> <span>Impostazioni</span></a></li>
+                        <li class="nav-item"><a class="nav-link {{ request()->is('admin/pluginFormsSettings*') ? 'active' : '' }}" href="{{ backpack_url('pluginFormsSettings') }}/1/edit"><i class="nav-icon las la-toolbox"></i> <span>Impostazioni</span></a></li>
                     </ul>
                 </li>
             @endif

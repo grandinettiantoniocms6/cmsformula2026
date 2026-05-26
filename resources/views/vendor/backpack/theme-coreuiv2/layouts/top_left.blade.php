@@ -511,7 +511,7 @@
     body.admin-future-template.admin-future-uniform-buttons .main a.btn.btn-sm:not(.page-block-action-btn):not(.dashboard-todo-icon-btn):not(.btn-link) {
       min-height: 30px;
       padding: .24rem .66rem;
-      font-size: .74rem;
+      font-size: .88rem !important;
     }
 
     body.admin-future-template .main .btn-primary {
@@ -651,6 +651,24 @@
       }
     }
     @endif
+
+    body .main .btn:not(.btn-link),
+    body .main a.btn:not(.btn-link),
+    body .main button.btn:not(.btn-link),
+    body .main .dt-button,
+    body .main .page-block-action-btn,
+    body .main .dashboard-todo-icon-btn,
+    body .main .future-new-note-btn,
+    body .main .future-mini-tabs button,
+    body .main .future-task-tabs button,
+    body .modal .btn:not(.btn-link) {
+      border-radius: 8px !important;
+    }
+
+    body .main [id="dropdownMenuButton"].btn {
+      font-weight: 300 !important;
+      font-size: .88rem !important;
+    }
 
     #admin-scroll-top {
       position: fixed;

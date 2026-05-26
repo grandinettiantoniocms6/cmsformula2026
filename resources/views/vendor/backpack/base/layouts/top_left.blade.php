@@ -208,6 +208,21 @@
 
     @endif
 
+    body .main .btn:not(.btn-link),
+    body .main a.btn:not(.btn-link),
+    body .main button.btn:not(.btn-link),
+    body .main .dt-button,
+    body .main .page-block-action-btn,
+    body .main .dashboard-todo-icon-btn,
+    body .modal .btn:not(.btn-link) {
+      border-radius: 8px !important;
+    }
+
+    body .main [id="dropdownMenuButton"].btn {
+      font-weight: 300 !important;
+      font-size: .88rem !important;
+    }
+
     #admin-scroll-top {
       position: fixed;
       right: 18px;

@@ -523,8 +523,8 @@
 
     .future-pages-shell .future-pages-toolbar__buttons .btn,
     .future-pages-shell .future-pages-toolbar__buttons .btn-group .btn {
-      border-radius: 999px;
-      font-weight: 700;
+      border-radius: 8px !important;
+      font-weight: 300;
       min-height: 34px;
       padding: .34rem .82rem;
       box-shadow: none;
@@ -598,9 +598,21 @@
 
     .future-pages-shell #crudTable.future-pages-table .dropdown .btn,
     .future-pages-shell #crudTable.future-pages-table .btn {
-      border-radius: 999px;
-      font-weight: 700;
+      border-radius: 8px !important;
+      font-weight: 300 !important;
+      font-size: .88rem !important;
       box-shadow: none;
+    }
+
+    body.admin-future-template .future-pages-shell .future-pages-toolbar .d-print-none.with-border .btn,
+    body.admin-future-template .future-pages-shell .future-pages-toolbar__buttons .btn,
+    body.admin-future-template .future-pages-shell .future-pages-toolbar__buttons .btn-group .btn,
+    body.admin-future-template .future-pages-shell #crudTable.future-pages-table .dropdown-toggle.btn,
+    body.admin-future-template .future-pages-shell #crudTable.future-pages-table .dropdown .btn,
+    body.admin-future-template .future-pages-shell #crudTable.future-pages-table .btn {
+      border-radius: 8px !important;
+      font-weight: 300 !important;
+      font-size: .88rem !important;
     }
 
     @media (max-width: 991.98px) {

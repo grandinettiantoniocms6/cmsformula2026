@@ -386,7 +386,7 @@
         }
 
         .future-category-pills .btn {
-            border-radius: 999px;
+            border-radius: 8px;
             border: 1px solid #d3def3;
             color: #274074;
             background: #f7faff;
@@ -1381,6 +1381,16 @@
             color: #153a87;
         }
 
+        body.admin-future-template .future-page-blocks-commandbar .pages-toolbar-btn,
+        body.admin-future-template .future-page-blocks-chip,
+        body.admin-future-template .future-page-blocks-view-switch,
+        body.admin-future-template .future-page-blocks-view-btn,
+        body.admin-future-template .pages-blocks-shell .card.my-0 .card-header .btn,
+        body.admin-future-template .pages-blocks-shell .page-block-action-btn,
+        body.admin-future-template .pages-blocks-shell .page-block-actions .page-block-inherit-btn {
+            border-radius: 8px !important;
+        }
+
         body.admin-future-template .pages-blocks-shell {
             display: grid;
             gap: 10px;
@@ -2250,7 +2260,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna unica</span>
-                                <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-dark btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
                             <input type="hidden" name="position" value="<?php echo $position;?>">
                             <input type="hidden" name="col" value="<?php echo $col;?>">
@@ -2277,7 +2287,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna sinistra</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
                             <input type="hidden" name="position" value="<?php echo $position;?>">
                             <input type="hidden" name="col" value="<?php echo $col;?>">
@@ -2297,7 +2307,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna destra</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
                             <input type="hidden" name="position" value="<?php echo $position;?>">
                             <input type="hidden" name="col" value="<?php echo $col;?>">
@@ -2325,7 +2335,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna sinistra</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
                             <input type="hidden" name="position" value="<?php echo $position;?>">
                             <input type="hidden" name="col" value="<?php echo $col;?>">
@@ -2345,7 +2355,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna centrale</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
                             <input type="hidden" name="position" value="<?php echo $position;?>">
                             <input type="hidden" name="col" value="<?php echo $col;?>">
@@ -2365,7 +2375,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna destra</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
 
                             <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2409,7 +2419,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna unica</span>
-                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-success btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
 
                             <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2434,7 +2444,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Sidebar Sinistra</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
 
                             <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2454,7 +2464,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Contenuto Destro</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
 
                             <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2480,7 +2490,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Contenuto Sinistro</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
 
                             <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2499,7 +2509,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Sidebar Destra</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
 
                             <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2524,7 +2534,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna Sinistra</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
 
                             <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2543,7 +2553,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna Centrale</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
 
                             <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2562,7 +2572,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna Destra</span>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
 
                             <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2604,7 +2614,7 @@
                         <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                             <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                                 <span>Colonna unica</span>
-                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                                <button type="button" class="btn btn-warning btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                             </div>
 
                             <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2629,7 +2639,7 @@
                 <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                     <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                         <span>Colonna sinistra</span>
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                        <button type="button" class="btn btn-warning btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                     </div>
 
                     <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2648,7 +2658,7 @@
                 <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                     <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                         <span>Colonna destra</span>
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                        <button type="button" class="btn btn-warning btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                     </div>
 
                     <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2674,7 +2684,7 @@
                 <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                     <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                         <span>Colonna sinistra</span>
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                        <button type="button" class="btn btn-warning btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                     </div>
 
                     <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2693,7 +2703,7 @@
                 <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                     <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                         <span>Colonna centrale</span>
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                        <button type="button" class="btn btn-warning btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                     </div>
 
                     <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2712,7 +2722,7 @@
                 <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                     <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                         <span>Colonna destra</span>
-                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                        <button type="button" class="btn btn-warning btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                     </div>
 
                     <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2742,7 +2752,7 @@
                 <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                     <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                         <span>Colonna 1</span>
-                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                        <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                     </div>
 
                     <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2761,7 +2771,7 @@
                     <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                         <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                             <span>Colonna 2</span>
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                         </div>
 
                         <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2780,7 +2790,7 @@
                     <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                         <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                             <span>Colonna 3</span>
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                         </div>
 
                         <input type="hidden" name="position" value="<?php echo $position;?>">
@@ -2799,7 +2809,7 @@
                     <form method="post" action="{{ route('pages.blocks.switch', [$page->id]) }}">
                         <div class="card-header border-0 d-flex justify-content-between align-items-center py-2 px-3">
                             <span>Colonna 4</span>
-                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
+                            <button type="button" class="btn btn-info btn-sm" style="border-radius: 8px !important;" data-toggle="modal" data-target="#modal_{{ $position }}_col{{ $col }}_block"><i class="la la-plus"></i> Aggiungi Blocco</button>
                         </div>
 
                         <input type="hidden" name="position" value="<?php echo $position;?>">

@@ -231,5 +231,24 @@
         // - parent dropdown toggle stays active too
         $currentPageLink.parents('li.nav-dropdown').children('a.nav-link.nav-dropdown-toggle').addClass('active');
       }
+
+      var $pluginFormsLink = $sidebarLinks.filter(function () {
+        var linkUrl = toAbsolute($(this).attr('href'));
+        return linkUrl && normalizePath(linkUrl.pathname) === '/admin/pluginformsrequests';
+      }).first();
+
+      if ($pluginFormsLink.length) {
+        var $pluginFormsDropdown = $pluginFormsLink.parents('li.nav-dropdown').first();
+        $pluginFormsDropdown.addClass('open');
+
+        if (currentPath.indexOf('/admin/pluginforms') === 0) {
+          $pluginFormsDropdown.children('a.nav-link.nav-dropdown-toggle').addClass('active');
+        }
+
+        if (currentPath.indexOf('/admin/pluginformsrequests') === 0) {
+          $pluginFormsLink.addClass('active');
+          $pluginFormsLink.closest('li.nav-item').addClass('active');
+        }
+      }
   </script>
 @endpush

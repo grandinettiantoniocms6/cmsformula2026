@@ -62,6 +62,7 @@
 - Al completamento dell'import prodotti SPECIAL in coda, `set:products_search` (incrementale sugli ID importati) e `set:products_categories_search` sono fasi automatiche persistite e monitorate della stessa run; non devono richiedere un'azione manuale dell'operatore.
 - Nella sidebar shop delle categorie prodotti, `lft` viene valorizzato dal reorder admin: se un gruppo di categorie non ha ancora valori `lft`, mostrarlo ordinato A-Z sul nome tradotto; quando `lft` e' presente, rispettare l'ordine manuale.
 - Il campo `website_settings.admin_panel_template` supporta anche `future`: gli stili del tema devono essere sempre scope-ati su `body.admin-future-template` e non devono alterare `white`, `modern_01`, `modern_02`.
+- Nel backend admin, i pulsanti devono usare forma rettangolare con angoli moderati (`border-radius: 8px`), non pill/tondi: mantenere l'override globale nei layout Backpack per `.btn` e bottoni custom.
 - Nel template admin `future`, evitare offset dinamici JS su `.app-body > .main`: usare offset CSS desktop stabile della sidebar e breakpoint `lg` per la dashboard, per prevenire stacking verticale e scroll eccessivo.
 - Nel template admin `future`, sotto `1200px` il toggler puo usare classi diverse (`sidebar-show` o `sidebar-lg-show`): le regole CSS offcanvas devono considerarle entrambe per evitare sidebar non apribile.
 - Nel template admin `future`, per stabilita responsive `<1200px` conviene normalizzare via JS lo stato sidebar su una sola classe (`sidebar-show`) intercettando eventuali click su toggler `sidebar-lg-show`.

@@ -452,30 +452,56 @@
 
 @if($isFutureAdminTemplate)
 <style>
-    .topbar-news-link,
+    .topbar-news-link {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        margin-right: .6rem;
+        background: transparent;
+        border: 0;
+        color: #67778e !important;
+        transition: color .2s ease;
+    }
+
+    .topbar-news-link:hover {
+        background: transparent;
+        border-color: transparent;
+        color: #52647c !important;
+    }
+
+    .topbar-news-link i {
+        font-size: 1.42rem;
+        line-height: 1;
+    }
+
+    .topbar-news-link .topbar-news-badge {
+        top: 0;
+        right: -2px;
+        width: 18px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0;
+        border-radius: 50% !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #ef5248;
+        color: #ffffff;
+        font-size: .67rem;
+        font-weight: 700;
+        line-height: 1;
+        box-shadow: none;
+    }
+
     .topbar-preview-link,
     .topbar-help-link {
         width: 46px;
         height: 46px;
     }
 
-    .topbar-news-link i,
     .topbar-preview-link i,
     .topbar-help-link i {
         font-size: 1.2rem;
-    }
-
-    .topbar-news-link {
-        background: #ffffff;
-        border: 1px solid #d5e2f8;
-        color: #36558d !important;
-        transition: all .2s ease;
-    }
-
-    .topbar-news-link:hover {
-        background: #f3f7ff;
-        border-color: #c2d6fb;
-        color: #2a4b83 !important;
     }
 
     .topbar-preview-link {
@@ -561,7 +587,6 @@
             display: none !important;
         }
 
-        .topbar-news-link,
         .topbar-preview-link,
         .topbar-help-link {
             width: 36px;
@@ -570,10 +595,16 @@
             margin-right: .2rem;
         }
 
-        .topbar-news-link i,
         .topbar-preview-link i,
         .topbar-help-link i {
             font-size: 1rem;
+        }
+
+        .topbar-news-link {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            margin-right: .32rem;
         }
     }
 

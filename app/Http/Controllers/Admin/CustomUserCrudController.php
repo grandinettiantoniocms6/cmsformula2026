@@ -97,7 +97,7 @@ class CustomUserCrudController extends CrudController
 
     public function setupCreateOperation()
     {
-        $this->addUserFields();
+        $this->addUserFields(true);
         $this->crud->setValidation(StoreRequest::class);
     }
 
@@ -179,9 +179,10 @@ class CustomUserCrudController extends CrudController
         return $request;
     }
 
-    protected function addUserFields()
+    protected function addUserFields($usePasswordMeter = false)
     {
         $countries = Country::get()->pluck("name", "id")->toArray();
+        $passwordFieldType = $usePasswordMeter ? 'password_meter' : 'password';
 
         if(backpack_user()->roles[0]->id == 2){
             $role = null;
@@ -212,7 +213,8 @@ class CustomUserCrudController extends CrudController
                 [
                     'name'  => 'password',
                     'label' => trans('backpack::permissionmanager.password'),
-                    'type'  => 'password',
+                    'type'  => $passwordFieldType,
+                    'confirmation_field' => 'password_confirmation',
                 ],
                 [
                     'name'  => 'password_confirmation',
@@ -268,7 +270,8 @@ class CustomUserCrudController extends CrudController
                 [
                     'name'  => 'password',
                     'label' => trans('backpack::permissionmanager.password'),
-                    'type'  => 'password',
+                    'type'  => $passwordFieldType,
+                    'confirmation_field' => 'password_confirmation',
                 ],
                 [
                     'name'  => 'password_confirmation',

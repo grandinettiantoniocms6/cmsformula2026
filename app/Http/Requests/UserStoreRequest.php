@@ -27,7 +27,7 @@ class UserStoreRequest extends FormRequest
         return [
             'email'    => 'required|unique:'.config('permission.table_names.users', 'users').',email',
             'name'     => 'required',
-            'password' => 'required|confirmed',
+            'password' => ['required', 'confirmed', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/'],
             'roles_show' => 'required'
         ];
     }
@@ -38,6 +38,9 @@ class UserStoreRequest extends FormRequest
             'email.unique'    => 'Email già esistente',
             'email.required'    => 'Email obbligatoria',
             'password.required'    => 'Password obbligatoria',
+            'password.confirmed'    => 'La conferma password non coincide',
+            'password.min'    => 'La password deve contenere almeno 8 caratteri',
+            'password.regex'    => 'La password deve contenere almeno una minuscola, una maiuscola e un numero',
             'roles_show.unique'    => 'Ruolo obbligatorio',
             'validation.required'    => 'Campi obbligatori',
             'validation.confirmed'    => 'Campi obbligatori',
