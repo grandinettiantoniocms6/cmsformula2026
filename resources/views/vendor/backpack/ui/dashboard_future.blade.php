@@ -16,6 +16,7 @@
     $hasPagesUpdatedContextColumn = $hasPagesTable && \Schema::hasColumn('pages', 'updated_context');
     $hasPagesUpdatedBlockTypeColumn = $hasPagesTable && \Schema::hasColumn('pages', 'updated_block_type');
     $hasFrontendVisitsTable = \Schema::hasTable('frontend_page_visits_daily');
+    $hasFrontendPageVisitsTable = \Schema::hasTable('frontend_page_visits_by_page_daily');
     $hasShopDashboardPlugin = \App\Models\AdminPlugin::where('name', 'pluginProducts')
         ->where('is_active', 1)
         ->exists();
@@ -392,6 +393,39 @@
 
     $trafficSparkPath = 'M '.implode(' L ', $trafficSparkPoints);
 
+    $pageVisitsChartRanges = [];
+    foreach ([7, 30, 90] as $pageVisitsDays) {
+        $pageVisitsStartDate = $today->copy()->subDays($pageVisitsDays - 1)->toDateString();
+        $pageVisitsRows = $hasFrontendPageVisitsTable
+            ? \DB::table('frontend_page_visits_by_page_daily')
+                ->select(
+                    'page_id',
+                    \DB::raw('MAX(page_label) as page_label'),
+                    \DB::raw('MAX(page_slug) as page_slug'),
+                    \DB::raw('SUM(visits) as visits')
+                )
+                ->whereBetween('visit_date', [$pageVisitsStartDate, $today->toDateString()])
+                ->groupBy('page_id')
+                ->orderByDesc('visits')
+                ->limit(10)
+                ->get()
+            : collect();
+
+        $pageVisitsChartRanges[$pageVisitsDays] = [
+            'labels' => $pageVisitsRows->map(function ($row) {
+                $label = trim((string) ($row->page_label ?? ''));
+                if ($label === '') {
+                    $label = trim((string) ($row->page_slug ?? ''));
+                }
+
+                return $label !== '' ? $label : 'Pagina #'.$row->page_id;
+            })->toArray(),
+            'series' => $pageVisitsRows->map(function ($row) {
+                return (int) ($row->visits ?? 0);
+            })->toArray(),
+        ];
+    }
+
     $recentPagesColumns = ['id', 'title', 'updated_at'];
     if ($hasPagesUpdatedByColumn) {
         $recentPagesColumns[] = 'updated_by';
@@ -558,6 +592,32 @@
         }
     }
 
+    $topVisitedPagesKpiItems = $hasFrontendPageVisitsTable
+        ? \DB::table('frontend_page_visits_by_page_daily')
+            ->select(
+                'page_id',
+                \DB::raw('MAX(page_label) as page_label'),
+                \DB::raw('MAX(page_slug) as page_slug'),
+                \DB::raw('SUM(visits) as visits')
+            )
+            ->groupBy('page_id')
+            ->orderByDesc('visits')
+            ->limit(3)
+            ->get()
+            ->map(function ($row) {
+                $label = trim((string) ($row->page_label ?? ''));
+                if ($label === '') {
+                    $label = trim((string) ($row->page_slug ?? ''));
+                }
+
+                return [
+                    'label' => $label !== '' ? $label : 'Pagina #'.$row->page_id,
+                    'visits' => (int) ($row->visits ?? 0),
+                ];
+            })
+            ->toArray()
+        : [];
+
     $kpiCards = [
         [
             'icon' => 'hgi-user-group',
@@ -568,6 +628,17 @@
             'delta_class' => 'up',
             'spark_type' => 'dynamic_line',
             'spark_path' => $trafficSparkPath,
+        ],
+        [
+            'icon' => 'la-chart-bar',
+            'icon_library' => 'la',
+            'class' => 'bg-amber',
+            'label' => "LE PRIME 3 PAGINE PIU' VISTE",
+            'value' => null,
+            'delta' => null,
+            'delta_class' => 'flat',
+            'spark_type' => 'top_pages',
+            'items' => $topVisitedPagesKpiItems,
         ],
         [
             'icon' => 'la-server',
@@ -594,16 +665,6 @@
             'spark_x' => $pagesSparkX,
             'spark_percent' => $pagesPercent,
             'spark_color' => 'violet',
-        ],
-        [
-            'icon' => 'la-users',
-            'icon_library' => 'la',
-            'class' => 'bg-amber',
-            'label' => 'Utenti creati',
-            'value' => number_format($usersCount, 0, ',', '.'),
-            'delta' => null,
-            'delta_class' => 'flat',
-            'spark_type' => 'none',
         ],
     ];
 ?>
@@ -635,12 +696,28 @@
                         </div>
                         <div class="future-kpi-body">
                             <div class="future-kpi-label">{{ $card['label'] }}</div>
-                            <div class="future-kpi-row">
-                                <div class="future-kpi-value">{{ $card['value'] }}</div>
-                                @if(!empty($card['delta']))
-                                    <div class="future-kpi-delta {{ $card['delta_class'] }}">{{ $card['delta'] }}</div>
-                                @endif
-                            </div>
+                            @if(($card['spark_type'] ?? 'line') === 'top_pages')
+                                <ul class="future-kpi-top-pages mb-0">
+                                    @forelse(($card['items'] ?? []) as $topPage)
+                                        <li>
+                                            <span>{{ \Illuminate\Support\Str::limit($topPage['label'], 22) }}</span>
+                                            <strong>{{ number_format($topPage['visits'], 0, ',', '.') }}</strong>
+                                        </li>
+                                    @empty
+                                        <li>
+                                            <span>Nessun dato</span>
+                                            <strong>0</strong>
+                                        </li>
+                                    @endforelse
+                                </ul>
+                            @else
+                                <div class="future-kpi-row">
+                                    <div class="future-kpi-value">{{ $card['value'] }}</div>
+                                    @if(!empty($card['delta']))
+                                        <div class="future-kpi-delta {{ $card['delta_class'] }}">{{ $card['delta'] }}</div>
+                                    @endif
+                                </div>
+                            @endif
                             @if(($card['spark_type'] ?? 'line') === 'progress')
                                 <div class="future-kpi-progress-row">
                                     <svg class="future-kpi-spark future-kpi-spark-progress {{ !empty($card['spark_color']) ? 'future-kpi-spark-progress-'.$card['spark_color'] : '' }}" viewBox="0 0 120 24" aria-hidden="true">
@@ -703,31 +780,75 @@
 
                 <div class="col-lg-4 mb-3">
                     <div class="future-dashboard-side-stack">
-                    <div class="card card-dashboard future-panel">
-                        <div class="card-header future-panel-header d-flex align-items-center">
-                            <h5 class="mb-0">Stato salute sito</h5>
+                        <div class="card card-dashboard future-panel">
+                            <div class="card-header future-panel-header d-flex align-items-center">
+                                <h5 class="mb-0">Stato salute sito</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="future-status {{ $onlineStatus ? 'online' : 'offline' }}">
+                                    <span class="future-status-dot"></span>
+                                    {{ $onlineStatus ? 'Online' : 'Offline' }}
+                                </div>
+                                <small class="d-block mt-2 text-muted">
+                                    {{ $onlineStatus ? 'Tutto funziona correttamente.' : 'Verifica la tab Manutenzione.' }}
+                                </small>
+                                <ul class="future-health-list mt-3 mb-0">
+                                    @foreach($siteHealthChecks as $healthCheck)
+                                        <li>
+                                            <span>
+                                                <strong>{{ $healthCheck['label'] }}</strong>
+                                                <small>{{ $healthCheck['detail'] }}</small>
+                                            </span>
+                                            <span class="future-health-value {{ $healthCheck['tone'] }}">{{ $healthCheck['value'] }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8 mb-3">
+                    <div class="card card-dashboard future-panel h-100">
+                        <div class="card-header future-panel-header d-flex align-items-center justify-content-between">
+                            <div>
+                                <h5 class="mb-0">Pagine viste</h5>
+                                <small id="futurePageViewsSubtitle" class="text-muted">Pagine piu viste (ultimi 7 giorni)</small>
+                            </div>
+                            <div class="future-mini-tabs">
+                                <button type="button" class="active future-page-views-range" data-days="7">7 giorni</button>
+                                <button type="button" class="future-page-views-range" data-days="30">30 giorni</button>
+                                <button type="button" class="future-page-views-range" data-days="90">90 giorni</button>
+                            </div>
                         </div>
                         <div class="card-body">
-                            <div class="future-status {{ $onlineStatus ? 'online' : 'offline' }}">
-                                <span class="future-status-dot"></span>
-                                {{ $onlineStatus ? 'Online' : 'Offline' }}
+                            <div id="futurePageViewsLeaderboard" class="future-page-views-leaderboard"></div>
+                            <div id="futurePageViewsEmpty" class="future-chart-empty d-none">Nessuna visita per pagina registrata nel periodo.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-3">
+                    <div class="card card-dashboard future-panel h-100">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <h6 class="mb-0">Form/Richieste da leggere</h6>
+                                <span class="future-health-value {{ $totalUnreadRequestsCount > 0 ? 'warning' : 'success' }}">{{ number_format($totalUnreadRequestsCount, 0, ',', '.') }}</span>
                             </div>
-                            <small class="d-block mt-2 text-muted">
-                                {{ $onlineStatus ? 'Tutto funziona correttamente.' : 'Verifica la tab Manutenzione.' }}
-                            </small>
-                            <ul class="future-health-list mt-3 mb-0">
-                                @foreach($siteHealthChecks as $healthCheck)
+                            <ul class="future-health-list mb-0">
+                                @foreach($requestsToRead as $requestItem)
                                     <li>
                                         <span>
-                                            <strong>{{ $healthCheck['label'] }}</strong>
-                                            <small>{{ $healthCheck['detail'] }}</small>
+                                            <strong>
+                                                <a href="{{ $requestItem['url'] }}">{{ $requestItem['label'] }}</a>
+                                            </strong>
+                                            <small>Non lette</small>
                                         </span>
-                                        <span class="future-health-value {{ $healthCheck['tone'] }}">{{ $healthCheck['value'] }}</span>
+                                        <span class="future-health-value {{ $requestItem['tone'] }}">{{ $requestItem['value'] }}</span>
                                     </li>
                                 @endforeach
                             </ul>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -862,28 +983,6 @@
                                 @if(!empty($insight['url']) && !empty($insight['cta']))
                                     <a class="btn btn-sm btn-light {{ $insight['url'] === '#dashboardFutureTasks' ? 'future-insight-open-task' : '' }}" href="{{ $insight['url'] }}" @if($insight['url'] === '#dashboardFutureTasks') data-open-filter="open" @endif>{{ $insight['cta'] }}</a>
                                 @endif
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-
-            <div class="card card-dashboard future-side-card mb-3">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <h6 class="mb-0">Form/Richieste da leggere</h6>
-                        <span class="future-health-value {{ $totalUnreadRequestsCount > 0 ? 'warning' : 'success' }}">{{ number_format($totalUnreadRequestsCount, 0, ',', '.') }}</span>
-                    </div>
-                    <ul class="future-health-list mb-0">
-                        @foreach($requestsToRead as $requestItem)
-                            <li>
-                                <span>
-                                    <strong>
-                                        <a href="{{ $requestItem['url'] }}">{{ $requestItem['label'] }}</a>
-                                    </strong>
-                                    <small>Non lette</small>
-                                </span>
-                                <span class="future-health-value {{ $requestItem['tone'] }}">{{ $requestItem['value'] }}</span>
                             </li>
                         @endforeach
                     </ul>
@@ -1035,7 +1134,8 @@
         .future-kpi-welcome-col { display: flex; align-items: stretch; }
         .future-kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .62rem; }
         .future-kpi-card { display: flex; align-items: center; gap: .66rem; background: #fff; border: 1px solid #dbe6fb; border-radius: 14px; padding: .68rem .72rem; box-shadow: 0 8px 18px rgba(13, 34, 74, .08); min-height: var(--future-kpi-equal-height); height: 100%; }
-        .future-kpi-icon { width: 42px; height: 42px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 2.1rem; }
+        .future-kpi-icon { width: 42px; height: 42px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 2.1rem; flex: 0 0 42px; }
+        .future-kpi-body { flex: 1 1 auto; width: calc(100% - 52px); max-width: 90%; min-width: 0; }
         .future-kpi-icon.bg-green { background: linear-gradient(135deg, #2cad62, #26a35b); }
         .future-kpi-icon.bg-blue { background: linear-gradient(135deg, #3d7df0, #2f6ad8); }
         .future-kpi-icon.bg-violet { background: linear-gradient(135deg, #8064e8, #6d53d4); }
@@ -1047,13 +1147,18 @@
         .future-kpi-delta.up { color: #21a35f; }
         .future-kpi-delta.down { color: #d35757; }
         .future-kpi-delta.flat { color: #7b90b7; }
-        .future-kpi-spark { width: 100%; height: 22px; margin-top: .18rem; }
+        .future-kpi-top-pages { list-style: none; padding: 0; margin-top: .22rem; width: 100%; }
+        .future-kpi-top-pages li { display: flex; align-items: center; justify-content: space-between; gap: .45rem; border-bottom: 1px solid #edf2fb; padding: .13rem 0; color: #24446f; font-size: .72rem; font-weight: 700; line-height: 1.18; }
+        .future-kpi-top-pages li:last-child { border-bottom: 0; }
+        .future-kpi-top-pages span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .future-kpi-top-pages strong { color: #15834b; background: #e8f8ef; border-radius: 999px; padding: .04rem .36rem; font-size: .68rem; flex: 0 0 auto; }
+        .future-kpi-spark { width: 90%; min-width: 130px; height: 22px; margin-top: .18rem; }
         .future-kpi-spark path { fill: none; stroke: #86aef5; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
         .future-kpi-spark-dynamic path { stroke: #57b380; stroke-width: 2.2; }
         .future-kpi-spark-progress .future-kpi-spark-base { stroke: #d6e3fa; stroke-width: 3; }
         .future-kpi-spark-progress .future-kpi-spark-value { stroke: #3d7df0; stroke-width: 3; }
         .future-kpi-spark-progress-violet .future-kpi-spark-value { stroke: #7f63e6; }
-        .future-kpi-progress-row { display: flex; align-items: center; gap: .45rem; margin-top: .08rem; }
+        .future-kpi-progress-row { display: flex; align-items: center; gap: .45rem; margin-top: .08rem; width: 90%; min-width: 150px; }
         .future-kpi-progress-row .future-kpi-spark { flex: 1 1 auto; margin-top: 0; }
         .future-kpi-progress-text { color: #4b6799; font-size: .72rem; font-weight: 700; white-space: nowrap; }
         .future-kpi-card-welcome { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: .15rem; min-height: var(--future-kpi-equal-height); height: 100%; width: 100%; margin-top: 0; }
@@ -1208,7 +1313,17 @@
         .dashboard-todo-icon-btn-delete { background: #fff1ef; color: #bd5c4b; border-color: #f8dfdb; }
         .dashboard-todo-icon-btn:hover { filter: brightness(.97); }
         .dashboard-todo-empty { color: #64748b; font-size: .9rem; }
+        .future-chart-empty { color: #64748b; font-size: .88rem; text-align: center; padding: 1.5rem .75rem; }
         #futureOrdersChart { width: 100%; display: block; }
+        .future-page-views-leaderboard { display: flex; flex-direction: column; gap: .58rem; padding: .1rem 0; }
+        .future-page-view-item { display: grid; grid-template-columns: 38px minmax(0, 1fr) 76px; align-items: center; gap: .7rem; border: 1px solid #e1eaf8; border-radius: 12px; padding: .58rem .68rem; background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%); }
+        .future-page-view-rank { width: 30px; height: 30px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: #eaf5ef; color: #18864c; font-weight: 800; font-size: .78rem; }
+        .future-page-view-main { min-width: 0; }
+        .future-page-view-title { display: flex; align-items: center; justify-content: space-between; gap: .65rem; color: #1f3f70; font-size: .88rem; font-weight: 800; line-height: 1.2; margin-bottom: .32rem; }
+        .future-page-view-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .future-page-view-track { position: relative; height: 8px; border-radius: 999px; background: #edf4fb; overflow: hidden; }
+        .future-page-view-bar { height: 100%; min-width: 6px; border-radius: inherit; background: linear-gradient(90deg, #2cad62 0%, #6bd291 100%); }
+        .future-page-view-count { justify-self: end; display: inline-flex; align-items: center; justify-content: center; min-width: 58px; border-radius: 999px; padding: .2rem .52rem; color: #15834b; background: #e8f8ef; font-weight: 800; font-size: .78rem; white-space: nowrap; }
         @media (max-width: 1199.98px) {
             .future-kpi-grid, .future-actions-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
@@ -1217,6 +1332,8 @@
             .future-dashboard-date { margin-left: 0; text-align: left; }
             .future-kpi-grid, .future-actions-grid { grid-template-columns: 1fr; }
             .future-mini-tabs { width: 100%; justify-content: flex-start; margin-top: .35rem; }
+            .future-page-view-item { grid-template-columns: 34px minmax(0, 1fr); }
+            .future-page-view-count { grid-column: 2; justify-self: start; }
             .future-dashboard-footer { flex-direction: column; gap: .2rem; align-items: flex-start; }
         }
     </style>
@@ -1234,6 +1351,11 @@
             const chartSeries = rawChartSeries.map(v => Number(v) || 0);
             const trafficRangeButtons = document.querySelectorAll('.future-traffic-range');
             const trafficSubtitle = document.getElementById('futureTrafficSubtitle');
+            const pageViewsLeaderboard = document.getElementById('futurePageViewsLeaderboard');
+            const pageViewsRanges = @json($pageVisitsChartRanges);
+            const pageViewsRangeButtons = document.querySelectorAll('.future-page-views-range');
+            const pageViewsSubtitle = document.getElementById('futurePageViewsSubtitle');
+            const pageViewsEmpty = document.getElementById('futurePageViewsEmpty');
             const getRangeData = function(days) {
                 const safeDays = Math.max(1, Math.min(chartSeries.length, Number(days) || 7));
                 return {
@@ -1319,6 +1441,71 @@
                 trafficRangeButtons.forEach(function(button) {
                     button.addEventListener('click', function() {
                         setActiveRange(button.dataset.days);
+                    });
+                });
+            }
+
+            const getPageViewsRangeData = function(days) {
+                const safeDays = [7, 30, 90].includes(Number(days)) ? Number(days) : 7;
+                const range = pageViewsRanges[safeDays] || {labels: [], series: []};
+
+                return {
+                    labels: Array.isArray(range.labels) ? range.labels : [],
+                    series: Array.isArray(range.series) ? range.series.map(v => Number(v) || 0) : [],
+                    days: safeDays
+                };
+            };
+
+            if (pageViewsLeaderboard) {
+                const escapeHtml = function(value) {
+                    return String(value)
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#039;');
+                };
+                const setActivePageViewsRange = function(days) {
+                    const range = getPageViewsRangeData(days);
+                    const maxVisits = Math.max(1, ...range.series);
+
+                    if (pageViewsSubtitle) {
+                        pageViewsSubtitle.textContent = 'Pagine piu viste (ultimi ' + range.days + ' giorni)';
+                    }
+
+                    if (pageViewsEmpty) {
+                        pageViewsEmpty.classList.toggle('d-none', range.series.length > 0);
+                    }
+
+                    pageViewsLeaderboard.classList.toggle('d-none', range.series.length === 0);
+                    pageViewsLeaderboard.innerHTML = range.labels.map(function(label, index) {
+                        const visits = range.series[index] || 0;
+                        const percent = Math.max(3, Math.round((visits / maxVisits) * 100));
+
+                        return '<div class="future-page-view-item">' +
+                            '<span class="future-page-view-rank">#' + (index + 1) + '</span>' +
+                            '<div class="future-page-view-main">' +
+                                '<div class="future-page-view-title">' +
+                                    '<span class="future-page-view-name">' + escapeHtml(label) + '</span>' +
+                                '</div>' +
+                                '<div class="future-page-view-track">' +
+                                    '<div class="future-page-view-bar" style="width:' + percent + '%"></div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<span class="future-page-view-count">' + visits.toLocaleString('it-IT') + ' visite</span>' +
+                        '</div>';
+                    }).join('');
+
+                    pageViewsRangeButtons.forEach(function(button) {
+                        button.classList.toggle('active', Number(button.dataset.days) === range.days);
+                    });
+                };
+
+                setActivePageViewsRange(7);
+
+                pageViewsRangeButtons.forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        setActivePageViewsRange(button.dataset.days);
                     });
                 });
             }

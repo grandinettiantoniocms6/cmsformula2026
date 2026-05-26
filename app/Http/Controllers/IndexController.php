@@ -127,12 +127,12 @@ class IndexController extends Controller
             }
         }
 
-        $this->trackFrontendPageVisit();
+        $this->trackFrontendPageVisit($page);
 
         return view('index', compact('menu', 'page','website'));
     }
 
-    private function trackFrontendPageVisit(): void
+    private function trackFrontendPageVisit(?Page $page = null): void
     {
         try {
             if (!Schema::hasTable('frontend_page_visits_daily')) {
@@ -145,6 +145,30 @@ class IndexController extends Controller
                  VALUES (?, 1, NOW(), NOW())
                  ON DUPLICATE KEY UPDATE visits = visits + 1, updated_at = NOW()',
                 [$today]
+            );
+
+            if (!$page || !Schema::hasTable('frontend_page_visits_by_page_daily')) {
+                return;
+            }
+
+            $pageLabel = trim((string) ($page->name ?? ''));
+            if ($pageLabel === '') {
+                $pageLabel = trim((string) ($page->title ?? ''));
+            }
+            if ($pageLabel === '') {
+                $pageLabel = $page->is_homepage ? 'Home' : 'Pagina #'.$page->id;
+            }
+
+            $pageSlug = trim((string) ($page->slug ?? ''));
+            if ($pageSlug === '') {
+                $pageSlug = $page->is_homepage ? '/' : null;
+            }
+
+            DB::statement(
+                'INSERT INTO frontend_page_visits_by_page_daily (visit_date, page_id, page_label, page_slug, visits, created_at, updated_at)
+                 VALUES (?, ?, ?, ?, 1, NOW(), NOW())
+                 ON DUPLICATE KEY UPDATE visits = visits + 1, page_label = VALUES(page_label), page_slug = VALUES(page_slug), updated_at = NOW()',
+                [$today, $page->id, $pageLabel, $pageSlug]
             );
         } catch (\Throwable $e) {
             // Non bloccare il rendering frontend se il tracking non e' disponibile.
