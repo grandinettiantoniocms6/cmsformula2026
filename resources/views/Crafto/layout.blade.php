@@ -48,6 +48,26 @@ $craftoHasLightbox = $craftoPageBlockTypes->intersect(["blockGallery", "blockLas
     @include('common.engine_body_style')
     @include('common.engine_header_style')
     @include('common.engine_footer_style')
+    @if($craftoHasFormCss)
+        <style>
+            form[data-crafto-contact-form="1"] .form-control.is-invalid,
+            form[data-crafto-contact-form="1"] .form-select.is-invalid {
+                border-color: #dc3545 !important;
+            }
+
+            form[data-crafto-contact-form="1"] .form-check-input.is-invalid,
+            form[data-crafto-contact-form="1"] .check-box.is-invalid {
+                outline: 1px solid #dc3545;
+                outline-offset: 2px;
+            }
+
+            form[data-crafto-contact-form="1"] .check-box.is-invalid + .box,
+            form[data-crafto-contact-form="1"] .form-check-input.is-invalid + .form-check-label,
+            form[data-crafto-contact-form="1"] .terms-condition.is-invalid + .box {
+                color: #dc3545;
+            }
+        </style>
+    @endif
     @yield('recaptcha')
 
     <!-- Css per personalizzazioni extra commons -->
@@ -132,6 +152,88 @@ if($admin_template->nav_style){
             jQuery("div.alert-close").fadeIn(300).delay(2500).fadeOut(500);
         });
     </script>
+    @if($craftoHasFormCss)
+        <script>
+            (function () {
+                var formSelector = 'form[data-crafto-contact-form="1"]';
+                var requiredSelector = 'input[required], textarea[required], select[required]';
+
+                function getForm(target) {
+                    if (!target) {
+                        return null;
+                    }
+
+                    if (target.matches && target.matches(formSelector)) {
+                        return target;
+                    }
+
+                    return target.closest ? target.closest(formSelector) : null;
+                }
+
+                function validateField(field) {
+                    var isValid = field.checkValidity ? field.checkValidity() : !!field.value;
+                    field.classList.toggle('is-invalid', !isValid);
+
+                    return isValid;
+                }
+
+                document.addEventListener('submit', function (event) {
+                    var form = getForm(event.target);
+
+                    if (!form) {
+                        return;
+                    }
+
+                    var invalidFields = [];
+                    Array.prototype.forEach.call(form.querySelectorAll(requiredSelector), function (field) {
+                        if (!validateField(field)) {
+                            invalidFields.push(field);
+                        }
+                    });
+
+                    if (!invalidFields.length) {
+                        return;
+                    }
+
+                    event.preventDefault();
+                    form.classList.add('was-validated');
+
+                    if (invalidFields[0].focus) {
+                        invalidFields[0].focus();
+                    }
+
+                    if (form.reportValidity) {
+                        form.reportValidity();
+                    }
+                }, true);
+
+                document.addEventListener('invalid', function (event) {
+                    var form = getForm(event.target);
+
+                    if (form && event.target.classList) {
+                        event.target.classList.add('is-invalid');
+                        form.classList.add('was-validated');
+                    }
+                }, true);
+
+                document.addEventListener('input', function (event) {
+                    var form = getForm(event.target);
+
+                    if (form && event.target.matches && event.target.matches(requiredSelector)) {
+                        validateField(event.target);
+                    }
+                });
+
+                document.addEventListener('change', function (event) {
+                    var form = getForm(event.target);
+
+                    if (form && event.target.matches && event.target.matches(requiredSelector)) {
+                        validateField(event.target);
+                    }
+                });
+            })();
+        </script>
+    @endif
 
     <!-- Cookie Banner Crafto o Iubenda -->
     @if(trim($website->iubenda_cookie_banner) != "")

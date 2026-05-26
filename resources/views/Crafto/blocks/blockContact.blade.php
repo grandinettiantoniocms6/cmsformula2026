@@ -57,7 +57,8 @@ if(is_array($content[\App::getLocale()])){
                     @endif
 
                     @if($item)
-                        <form method="post" action="{{ route('contact_form.send') }}" id="form-{{ $item->id }}">
+                        <form method="post" action="{{ route('contact_form.send') }}" id="form-{{ $item->id }}" data-crafto-contact-form="1">
+                            @honeypot
                             {{ csrf_field() }}
                             <input type="hidden" name="block_contact_id" value="{{ $item->id }}">
                             <div class="row">
