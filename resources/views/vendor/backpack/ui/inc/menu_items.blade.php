@@ -579,6 +579,13 @@ $catalogoMenuOpen = request()->is('admin/pluginProducts*')
                     </ul>
                 </li>
             @endif
+            @if(backpack_user()->roles[0]->id == 1 || backpack_user()->roles[0]->id == 2)
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->is('admin/reports*') ? 'active' : '' }}" href="{{ backpack_url('reports') }}">
+                        <i class="nav-icon las la-chart-bar"></i> Reports
+                    </a>
+                </li>
+            @endif
         @endif
 
         @if($aP->name == "pluginCounters")

@@ -98,6 +98,152 @@ class DashboardController extends Controller
         return view(backpack_view('tutorials'));
     }
 
+    public function reports(Request $request)
+    {
+        if (backpack_user()->roles[0]->id >= 5) {
+            return redirect()->to(backpack_url('dashboard'));
+        }
+
+        $today = Carbon::today();
+        $allowedDays = [7, 30, 90, 180, 365];
+        $days = (int) $request->get('days', 30);
+        if (!in_array($days, $allowedDays, true)) {
+            $days = 30;
+        }
+
+        $fromDate = $today->copy()->subDays($days - 1);
+        $toDate = $today->copy();
+        $fromRaw = trim((string) $request->get('from', ''));
+        $toRaw = trim((string) $request->get('to', ''));
+        $parseReportDate = static function (string $value) {
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
+                return null;
+            }
+
+            try {
+                $date = Carbon::createFromFormat('Y-m-d', $value);
+            } catch (\Throwable $e) {
+                return null;
+            }
+
+            return $date && $date->format('Y-m-d') === $value ? $date->startOfDay() : null;
+        };
+
+        $parsedFromDate = $parseReportDate($fromRaw);
+        if ($parsedFromDate) {
+            $fromDate = $parsedFromDate;
+        }
+        $parsedToDate = $parseReportDate($toRaw);
+        if ($parsedToDate) {
+            $toDate = $parsedToDate;
+        }
+        if ($fromDate->gt($toDate)) {
+            [$fromDate, $toDate] = [$toDate, $fromDate];
+        }
+
+        $maxReportDays = 365;
+        if ((int) $fromDate->diffInDays($toDate) >= $maxReportDays) {
+            $fromDate = $toDate->copy()->subDays($maxReportDays - 1);
+        }
+
+        $fromDateString = $fromDate->toDateString();
+        $toDateString = $toDate->toDateString();
+        $selectedDays = (int) $fromDate->diffInDays($toDate) + 1;
+        $pageSearch = trim((string) $request->get('page', ''));
+
+        $hasFrontendVisitsTable = \Schema::hasTable('frontend_page_visits_daily');
+        $hasFrontendPageVisitsTable = \Schema::hasTable('frontend_page_visits_by_page_daily');
+
+        $trafficRawByDate = $hasFrontendVisitsTable
+            ? \DB::table('frontend_page_visits_daily')
+                ->whereBetween('visit_date', [$fromDateString, $toDateString])
+                ->pluck('visits', 'visit_date')
+                ->toArray()
+            : [];
+
+        $trafficLabels = [];
+        $trafficSeries = [];
+        for ($dayIndex = 0; $dayIndex < $selectedDays; $dayIndex++) {
+            $day = $fromDate->copy()->addDays($dayIndex);
+            $trafficLabels[] = $day->format('d M');
+            $trafficSeries[] = (int) ($trafficRawByDate[$day->toDateString()] ?? 0);
+        }
+
+        $pageVisitsRows = collect();
+        if ($hasFrontendPageVisitsTable) {
+            $pageVisitsQuery = \DB::table('frontend_page_visits_by_page_daily')
+                ->select(
+                    'page_id',
+                    \DB::raw('MAX(page_label) as page_label'),
+                    \DB::raw('MAX(page_slug) as page_slug'),
+                    \DB::raw('SUM(visits) as visits')
+                )
+                ->whereBetween('visit_date', [$fromDateString, $toDateString]);
+
+            if ($pageSearch !== '') {
+                $pageVisitsQuery->where(function ($query) use ($pageSearch) {
+                    $like = '%' . $pageSearch . '%';
+                    $query->where('page_label', 'like', $like)
+                        ->orWhere('page_slug', 'like', $like);
+
+                    if (is_numeric($pageSearch)) {
+                        $query->orWhere('page_id', (int) $pageSearch);
+                    }
+                });
+            }
+
+            $pageVisitsRows = $pageVisitsQuery
+                ->groupBy('page_id')
+                ->orderByDesc('visits')
+                ->get();
+        }
+
+        $pageVisitsLabels = $pageVisitsRows->map(function ($row) {
+            $label = trim((string) ($row->page_label ?? ''));
+            if ($label === '') {
+                $label = trim((string) ($row->page_slug ?? ''));
+            }
+
+            return $label !== '' ? $label : 'Pagina #' . $row->page_id;
+        })->toArray();
+        $pageVisitsSeries = $pageVisitsRows->map(function ($row) {
+            return (int) ($row->visits ?? 0);
+        })->toArray();
+        $pageVisitsSlugs = $pageVisitsRows->map(function ($row) {
+            return trim((string) ($row->page_slug ?? ''));
+        })->toArray();
+
+        $trafficTotal = array_sum($trafficSeries);
+        $trafficAverage = $selectedDays > 0 ? round($trafficTotal / $selectedDays, 1) : 0;
+        $pageVisitsTotal = array_sum($pageVisitsSeries);
+        $trackedPagesCount = count($pageVisitsRows);
+        $topPageLabel = $pageVisitsLabels[0] ?? '-';
+        $topPageVisits = $pageVisitsSeries[0] ?? 0;
+
+        return view(backpack_view('reports'), compact(
+            'allowedDays',
+            'days',
+            'fromDateString',
+            'toDateString',
+            'selectedDays',
+            'pageSearch',
+            'hasFrontendVisitsTable',
+            'hasFrontendPageVisitsTable',
+            'trafficLabels',
+            'trafficSeries',
+            'trafficTotal',
+            'trafficAverage',
+            'pageVisitsRows',
+            'pageVisitsLabels',
+            'pageVisitsSeries',
+            'pageVisitsSlugs',
+            'pageVisitsTotal',
+            'trackedPagesCount',
+            'topPageLabel',
+            'topPageVisits'
+        ));
+    }
+
     public function quick_search(Request $request)
     {
         if (!backpack_auth()->check()) {

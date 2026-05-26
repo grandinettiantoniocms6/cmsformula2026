@@ -407,7 +407,7 @@
                 ->whereBetween('visit_date', [$pageVisitsStartDate, $today->toDateString()])
                 ->groupBy('page_id')
                 ->orderByDesc('visits')
-                ->limit(10)
+                ->limit(5)
                 ->get()
             : collect();
 
@@ -809,11 +809,11 @@
                 </div>
 
                 <div class="col-lg-8 mb-3">
-                    <div class="card card-dashboard future-panel h-100">
+                    <div class="card card-dashboard future-panel future-page-views-card h-100">
                         <div class="card-header future-panel-header d-flex align-items-center justify-content-between">
                             <div>
                                 <h5 class="mb-0">Pagine viste</h5>
-                                <small id="futurePageViewsSubtitle" class="text-muted">Pagine piu viste (ultimi 7 giorni)</small>
+                                <small id="futurePageViewsSubtitle" class="text-muted">Top 5 pagine piu viste (ultimi 7 giorni)</small>
                             </div>
                             <div class="future-mini-tabs">
                                 <button type="button" class="active future-page-views-range" data-days="7">7 giorni</button>
@@ -824,6 +824,11 @@
                         <div class="card-body">
                             <div id="futurePageViewsLeaderboard" class="future-page-views-leaderboard"></div>
                             <div id="futurePageViewsEmpty" class="future-chart-empty d-none">Nessuna visita per pagina registrata nel periodo.</div>
+                            <div class="future-page-views-actions">
+                                <a id="futurePageViewsReportsLink" href="{{ backpack_url('reports') }}?days=7" class="btn btn-sm btn-outline-primary">
+                                    Altre pagine
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1316,13 +1321,18 @@
         .future-chart-empty { color: #64748b; font-size: .88rem; text-align: center; padding: 1.5rem .75rem; }
         #futureOrdersChart { width: 100%; display: block; }
         .future-page-views-leaderboard { display: flex; flex-direction: column; gap: .58rem; padding: .1rem 0; }
-        .future-page-view-item { display: grid; grid-template-columns: 38px minmax(0, 1fr) 76px; align-items: center; gap: .7rem; border: 1px solid #e1eaf8; border-radius: 12px; padding: .58rem .68rem; background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%); }
+        .future-page-views-card .card-body { height: 330px; min-height: 330px; display: flex; flex-direction: column; min-width: 0; }
+        .future-page-views-card .future-page-views-leaderboard { flex: 1 1 auto; overflow: hidden; gap: .45rem; }
+        .future-page-views-card .future-chart-empty { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; }
+        .future-page-views-actions { flex: 0 0 auto; display: flex; justify-content: flex-end; margin-top: .62rem; padding-top: .62rem; border-top: 1px solid #edf2fb; }
+        .future-page-view-item { display: grid; grid-template-columns: 38px minmax(0, 1fr) 76px; align-items: center; gap: .7rem; border: 0; border-radius: 12px; padding: .58rem .68rem; background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%); }
+        .future-page-views-card .future-page-view-item { padding: .45rem .6rem; }
         .future-page-view-rank { width: 30px; height: 30px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: #eaf5ef; color: #18864c; font-weight: 800; font-size: .78rem; }
         .future-page-view-main { min-width: 0; }
         .future-page-view-title { display: flex; align-items: center; justify-content: space-between; gap: .65rem; color: #1f3f70; font-size: .88rem; font-weight: 800; line-height: 1.2; margin-bottom: .32rem; }
         .future-page-view-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .future-page-view-track { position: relative; height: 8px; border-radius: 999px; background: #edf4fb; overflow: hidden; }
-        .future-page-view-bar { height: 100%; min-width: 6px; border-radius: inherit; background: linear-gradient(90deg, #2cad62 0%, #6bd291 100%); }
+        .future-page-view-track { position: relative; height: 5px; border-radius: 999px; background: #edf4fb; overflow: hidden; }
+        .future-page-view-bar { height: 100%; min-width: 4px; border-radius: inherit; background: linear-gradient(90deg, #2cad62 0%, #6bd291 100%); }
         .future-page-view-count { justify-self: end; display: inline-flex; align-items: center; justify-content: center; min-width: 58px; border-radius: 999px; padding: .2rem .52rem; color: #15834b; background: #e8f8ef; font-weight: 800; font-size: .78rem; white-space: nowrap; }
         @media (max-width: 1199.98px) {
             .future-kpi-grid, .future-actions-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1356,6 +1366,8 @@
             const pageViewsRangeButtons = document.querySelectorAll('.future-page-views-range');
             const pageViewsSubtitle = document.getElementById('futurePageViewsSubtitle');
             const pageViewsEmpty = document.getElementById('futurePageViewsEmpty');
+            const pageViewsReportsLink = document.getElementById('futurePageViewsReportsLink');
+            const reportsBaseUrl = @json(backpack_url('reports'));
             const getRangeData = function(days) {
                 const safeDays = Math.max(1, Math.min(chartSeries.length, Number(days) || 7));
                 return {
@@ -1470,11 +1482,14 @@
                     const maxVisits = Math.max(1, ...range.series);
 
                     if (pageViewsSubtitle) {
-                        pageViewsSubtitle.textContent = 'Pagine piu viste (ultimi ' + range.days + ' giorni)';
+                        pageViewsSubtitle.textContent = 'Top 5 pagine piu viste (ultimi ' + range.days + ' giorni)';
                     }
 
                     if (pageViewsEmpty) {
                         pageViewsEmpty.classList.toggle('d-none', range.series.length > 0);
+                    }
+                    if (pageViewsReportsLink) {
+                        pageViewsReportsLink.href = reportsBaseUrl + '?days=' + range.days;
                     }
 
                     pageViewsLeaderboard.classList.toggle('d-none', range.series.length === 0);

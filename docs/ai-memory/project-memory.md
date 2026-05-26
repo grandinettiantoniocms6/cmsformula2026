@@ -1,7 +1,7 @@
 ﻿﻿﻿﻿# Project Memory
 
 ## Aggiornato il
-- 2026-05-25
+- 2026-05-26
 
 ## Snapshot tecnico
 - Stack: Laravel + Backpack (tema `backpack.theme-coreuiv2`).
@@ -69,6 +69,7 @@
 - Nel template admin `future`, se UX richiede sidebar responsive non sovrapposta, sotto `1200px` usare modalita "push": apertura sidebar con offset coerente di `main` e `header` (stessa larghezza sidebar) invece di overlay.
 - Nel dashboard `future`, il widget "Traffico del sito" deve leggere visite frontend reali da tabella giornaliera `frontend_page_visits_daily` (non da ordini o dati fittizi).
 - Nel dashboard `future`, il widget "Pagine viste" deve leggere le visite aggregate per pagina dalla tabella giornaliera `frontend_page_visits_by_page_daily`; il tracking frontend aggiorna questa tabella insieme al totale generale.
+- Nel dashboard `future`, il widget "Pagine viste" deve restare sintetico: mostrare solo la Top 5 con altezza fissa e link a `/admin/reports` per il dettaglio completo di visite e pagine viste.
 - I widget Dashboard di `pluginProducts` v3 (Top 10 Prodotti/Clienti, andamento ordini, totale ordini, prodotti inseriti, ordini ricevuti e ultimi ordini) devono essere disponibili anche sui template admin `modern_01`, `modern_02` e `future`: usare il partial condiviso `resources/views/vendor/backpack/ui/inc/dashboard_plugin_products_cards.blade.php` quando si aggiungono nuove bacheche.
 - Nel dashboard `future`, i pulsanti `7/30/90 giorni` del grafico traffico devono aggiornare realmente il range dati e mostrare tooltip con conteggio visite puntuale sul punto.
 - Nel dashboard `future`, per mostrare "chi ha modificato" nelle attivita pagine usare un campo persistente `pages.updated_by`; non usare `users_navigations` (stato URL corrente, non storico modifiche).

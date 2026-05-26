@@ -122,6 +122,7 @@ Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => 
     Route::get('/pluginTutorial/view', ['as' => 'pluginTutorial.view', 'uses'=>'PluginTutorialCrudController@view']);
 
     Route::get('/tutorials', ['as' => 'tutorials', 'uses'=>'DashboardController@tutorials']);
+    Route::get('/reports', ['as' => 'reports', 'uses'=>'DashboardController@reports']);
     Route::get('changeEnv/{key}/{value}', ['as'=>'putPermanentEnv', 'uses'=>'DashboardController@putPermanentEnv']);
     Route::post('changeTemplate', ['as'=>'changeTemplate', 'uses'=>'DashboardController@changeTemplate']);
 
