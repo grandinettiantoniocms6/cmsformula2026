@@ -898,7 +898,9 @@
 @section('after_scripts')
     <script>
         /** Show/Hide Password */
-        $('.toggle-link').click(function() {
+        $('.toggle-link').click(function(event) {
+            event.preventDefault();
+
             $(this).children('i').toggleClass('la-eye la-eye-slash');
             var el = $($(this).attr("href"));
             if (el.attr('type') == 'password') {
