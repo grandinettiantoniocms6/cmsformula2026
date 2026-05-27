@@ -8,6 +8,8 @@ use App\Models\PluginProductsLangs;
 use App\Models\PluginProductsSearch;
 use App\Models\ShopAttributesProducts;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class SetProductsSearch extends Command
 {
@@ -46,14 +48,24 @@ class SetProductsSearch extends Command
         $idsFromOption = $this->parseIdsOption($this->option('ids'));
 
         $shopSetting = \App\Models\ShopSettings::first();
+        $syncCategoryIndex = Schema::hasTable('plugins_products_search_categories');
 
         $runIncremental = count($idsFromOption) > 0;
         if (!$runIncremental && $id == 0) {
             PluginProductsSearch::truncate();
+            if ($syncCategoryIndex) {
+                DB::table('plugins_products_search_categories')->truncate();
+            }
         } elseif ($runIncremental) {
             PluginProductsSearch::whereIn("plugin_product_id", $idsFromOption)->delete();
+            if ($syncCategoryIndex) {
+                DB::table('plugins_products_search_categories')->whereIn("plugin_product_id", $idsFromOption)->delete();
+            }
         } else {
             PluginProductsSearch::where("plugin_product_id", $id)->delete();
+            if ($syncCategoryIndex) {
+                DB::table('plugins_products_search_categories')->where("plugin_product_id", $id)->delete();
+            }
         }
 
         $query = PluginProducts::with("tax")->selectRaw("plugins_products.*")
@@ -66,7 +78,7 @@ class SetProductsSearch extends Command
         }
 
         $processed = 0;
-        $query->orderBy("id")->chunkById(200, function ($list) use ($shopSetting, &$processed) {
+        $query->orderBy("id")->chunkById(200, function ($list) use ($shopSetting, $syncCategoryIndex, &$processed) {
             if (!$list || $list->isEmpty()) {
                 return;
             }
@@ -87,6 +99,7 @@ class SetProductsSearch extends Command
                 ->groupBy("product_id");
 
             $rowsToInsert = [];
+            $categoryRowsToInsert = [];
             foreach ($list as $item) {
                 $brands = [$item->brand_id];
                 $tags = [$item->tags];
@@ -134,10 +147,30 @@ class SetProductsSearch extends Command
                     "created_at" => now(),
                     "updated_at" => now(),
                 ];
+
+                if ($syncCategoryIndex && count($categories) && count($langs)) {
+                    foreach ($categories as $categoryId) {
+                        foreach ($langs as $lang) {
+                            $categoryRowsToInsert[] = [
+                                "plugin_product_id" => $item->id,
+                                "category_id" => $categoryId,
+                                "lang" => $lang,
+                                "group_id" => $item->group_id,
+                                "is_variant" => $item->is_variant,
+                                "is_active" => $item->is_active,
+                                "created_at" => now(),
+                                "updated_at" => now(),
+                            ];
+                        }
+                    }
+                }
             }
 
             if ($rowsToInsert) {
                 PluginProductsSearch::insert($rowsToInsert);
+                if ($categoryRowsToInsert) {
+                    DB::table('plugins_products_search_categories')->insert($categoryRowsToInsert);
+                }
                 $processed += count($rowsToInsert);
                 $this->info("Indicizzazione prodotti: {$processed}");
             }

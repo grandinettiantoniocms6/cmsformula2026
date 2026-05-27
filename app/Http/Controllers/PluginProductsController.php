@@ -39,6 +39,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class PluginProductsController extends Controller
 {
@@ -427,9 +428,19 @@ class PluginProductsController extends Controller
             }
         }
 
+        $useSearchCategoriesTable = Schema::hasTable('plugins_products_search_categories') && count($v_cat);
+
         $products = PluginProducts::selectRaw("plugins_products.*, plugins_products_search.vet_ids_list")
             ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-            ->whereRaw("$sql_categories $sql_tags AND langs LIKE '%,$lang,%' AND plugins_products.is_active = 1")
+            ->when($useSearchCategoriesTable, function ($query) use ($v_cat, $lang, $sql_tags) {
+                $query->join("plugins_products_search_categories as ppsc", "ppsc.plugin_product_id", "=", "plugins_products.id")
+                    ->whereIn("ppsc.category_id", $v_cat)
+                    ->where("ppsc.lang", $lang)
+                    ->whereRaw("1=1 $sql_tags");
+            }, function ($query) use ($sql_categories, $sql_tags, $lang) {
+                $query->whereRaw("$sql_categories $sql_tags AND langs LIKE '%,$lang,%'");
+            })
+            ->where("plugins_products.is_active", 1)
             ->where("plugins_products.is_variant", 0)
             ->when(!empty($brandIds), function ($query) use ($brandIds) {
                 $query->whereIn('plugins_products.brand_id', $brandIds);
@@ -458,7 +469,14 @@ class PluginProductsController extends Controller
 
         $products_processed = PluginProducts::selectRaw("plugins_products.id, plugins_products.price, plugins_products.tax_id, plugins_products.brand_id, plugins_products.tags, plugins_products_search.attributes, plugins_products_search.options as search_options, plugins_products_search.price as search_price, plugins_products_search.brands as search_brands, plugins_products_search.tags as search_tags")
             ->join("plugins_products_search", "plugins_products_search.plugin_product_id", "=", "plugins_products.id")
-            ->whereRaw("$sql_categories $sql_tags AND langs LIKE '%,$lang,%'")
+            ->when($useSearchCategoriesTable, function ($query) use ($v_cat, $lang, $sql_tags) {
+                $query->join("plugins_products_search_categories as ppsc", "ppsc.plugin_product_id", "=", "plugins_products.id")
+                    ->whereIn("ppsc.category_id", $v_cat)
+                    ->where("ppsc.lang", $lang)
+                    ->whereRaw("1=1 $sql_tags");
+            }, function ($query) use ($sql_categories, $sql_tags, $lang) {
+                $query->whereRaw("$sql_categories $sql_tags AND langs LIKE '%,$lang,%'");
+            })
             ->when(!empty($brandIds), function ($query) use ($brandIds) {
                 $query->whereIn('plugins_products.brand_id', $brandIds);
             })
@@ -1448,11 +1466,15 @@ class PluginProductsController extends Controller
         return $categories;
     }
 
-    public function get_categories_sidebar($categories, $productsAllVet_Temp = null){
+    public function get_categories_sidebar($categories, $productsAllVet_Temp = null, $categoryCounts = null){
+        if($categoryCounts === null){
+            $categoryCounts = $this->getCategoryProductCountsFromSearchIndex();
+        }
+
         if($categories){
 
             foreach ($categories as $k=>$item){
-                $item->count = PluginProductsSearch::whereRaw("categories LIKE '%,$item->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
+                $item->count = $this->getCategorySidebarProductCount($item->id, $categoryCounts);
                 $check = $this->get_ordered_categories_sidebar(
                     PluginProductsCategories::where("parent_id", $item->id)->where("is_active", 1)
                 );
@@ -1461,7 +1483,7 @@ class PluginProductsController extends Controller
                     if($item->figli){
                         $tot_figli = 0;
                         foreach($item->figli as $figlio){
-                            $figlio->count = PluginProductsSearch::whereRaw("categories LIKE '%,$figlio->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
+                            $figlio->count = $this->getCategorySidebarProductCount($figlio->id, $categoryCounts);
                             $tot_figli = $tot_figli + $figlio->count;
 
                             $check_2 = $this->get_ordered_categories_sidebar(
@@ -1470,14 +1492,14 @@ class PluginProductsController extends Controller
                             if($check_2){
                                 $figlio->figli_2 = $check_2;
                                 foreach($figlio->figli_2 as $figlio2){
-                                    $figlio2->count = PluginProductsSearch::whereRaw("categories LIKE '%,$figlio2->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
+                                    $figlio2->count = $this->getCategorySidebarProductCount($figlio2->id, $categoryCounts);
                                     $check_3 = $this->get_ordered_categories_sidebar(
                                         PluginProductsCategories::where("parent_id", $figlio2->id)->where("is_active", 1)
                                     );
                                     if($check_3) {
                                         $figlio2->figli_3 = $check_3;
                                         foreach($figlio2->figli_3 as $figlio3) {
-                                            $figlio3->count = PluginProductsSearch::whereRaw("categories LIKE '%,$figlio3->id,%'")->where("is_active", 1)->where("is_variant", 0)->count();
+                                            $figlio3->count = $this->getCategorySidebarProductCount($figlio3->id, $categoryCounts);
                                         }
                                     }
                                 }
@@ -1496,6 +1518,36 @@ class PluginProductsController extends Controller
         }
 
         return $categories;
+    }
+
+    protected function getCategoryProductCountsFromSearchIndex()
+    {
+        if(!Schema::hasTable('plugins_products_search_categories')){
+            return null;
+        }
+
+        return DB::table('plugins_products_search_categories')
+            ->selectRaw('category_id, COUNT(DISTINCT plugin_product_id) as total')
+            ->where("is_active", 1)
+            ->where("is_variant", 0)
+            ->groupBy("category_id")
+            ->pluck("total", "category_id")
+            ->map(function ($value) {
+                return (int) $value;
+            })
+            ->toArray();
+    }
+
+    protected function getCategorySidebarProductCount($categoryId, $categoryCounts = null)
+    {
+        if(is_array($categoryCounts)){
+            return (int) ($categoryCounts[$categoryId] ?? 0);
+        }
+
+        return PluginProductsSearch::whereRaw("categories LIKE '%,$categoryId,%'")
+            ->where("is_active", 1)
+            ->where("is_variant", 0)
+            ->count();
     }
 
     public function get_all_products_sidebar($products_processed = null, $pluginSetting){
@@ -1536,11 +1588,24 @@ class PluginProductsController extends Controller
             }
 
             if($attributes_v){
+                $optionIds = collect($attributes_v)
+                    ->flatten()
+                    ->filter()
+                    ->unique()
+                    ->values()
+                    ->toArray();
+
+                $optionNames = [];
+                if(count($optionIds)){
+                    $optionNames = ShopAttributesOptions::whereIn("id", $optionIds)
+                        ->pluck("value", "id")
+                        ->toArray();
+                }
+
                 foreach ($attributes_v as $k=>$options){
                     foreach ($options as $k2=>$optionsId){
-                        $option_name = ShopAttributesOptions::find($optionsId);
-                        if($option_name){
-                            $attributes_v[$k][$k2] = $option_name->value;
+                        if(array_key_exists($optionsId, $optionNames)){
+                            $attributes_v[$k][$k2] = $optionNames[$optionsId];
                         }
                     }
                 }
@@ -1648,7 +1713,7 @@ class PluginProductsController extends Controller
                         }
                     }
 
-                    if ($pluginSetting->show_tags) {
+                    if ($pluginSetting->show_tags && $product->tags) {
                         $itemTags = explode(",", $product->tags);
                         if (count($itemTags)) {
                             foreach ($itemTags as $item) {
@@ -1662,12 +1727,12 @@ class PluginProductsController extends Controller
             }
 
             if (count($brands_v)) {
-                foreach ($brands_v as $brand_id) {
-                    $temp = PluginProductsBrands::find($brand_id);
-                    if ($temp) {
-                        $brands[$temp->slug] = $temp->name;
-                        $brands_ids[] = $brand_id;
-                    }
+                $brandsRows = PluginProductsBrands::whereIn("id", array_values($brands_v))
+                    ->get(["id", "slug", "name"]);
+
+                foreach ($brandsRows as $temp) {
+                    $brands[$temp->slug] = $temp->name;
+                    $brands_ids[] = $temp->id;
                 }
             }
         }

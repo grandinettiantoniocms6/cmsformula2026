@@ -43,6 +43,9 @@ class PluginProducts extends Model
     protected static $listingSessionCartByProduct = null;
     protected static $listingShopSetting = null;
     protected static $promoPriceMemo = [];
+    protected static $promoPricePluginSetting = null;
+    protected static $promoPriceAdminPlugin = null;
+    protected static $promoPriceForcedCountByNow = [];
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
@@ -801,8 +804,15 @@ class PluginProducts extends Model
         $now = Carbon::now()->toDateTimeString();
         $now_base = Carbon::now();
 
-        $plugin = PluginProductsSettings::first();
-        $adminPlugin = AdminPlugin::where("name", "pluginProducts")->first();
+        if(self::$promoPricePluginSetting === null){
+            self::$promoPricePluginSetting = PluginProductsSettings::first();
+        }
+        if(self::$promoPriceAdminPlugin === null){
+            self::$promoPriceAdminPlugin = AdminPlugin::where("name", "pluginProducts")->first();
+        }
+
+        $plugin = self::$promoPricePluginSetting;
+        $adminPlugin = self::$promoPriceAdminPlugin;
 
         $priceStart = $this->price;
 
@@ -828,8 +838,12 @@ class PluginProducts extends Model
             $priceStart = $priceStart + $sum_price_options;
         }
 
-        $promo_priority = Promotion::whereRaw("(start_date <= '$now' AND expiration_date >='$now') AND is_forced = 1")
-            ->count();
+        if(!array_key_exists($now, self::$promoPriceForcedCountByNow)){
+            self::$promoPriceForcedCountByNow[$now] = Promotion::whereRaw("(start_date <= '$now' AND expiration_date >='$now') AND is_forced = 1")
+                ->count();
+        }
+
+        $promo_priority = self::$promoPriceForcedCountByNow[$now];
 
         if($promo_priority > 0){
             $categories_ids = PluginProductsCategoriesProducts::where("plugin_product_product_id", $this->id)->get()
