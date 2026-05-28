@@ -158,6 +158,7 @@ Route::group(['prefix' => config('backpack.base.route_prefix'), 'middleware' => 
     Route::post('plugin/pluginProducts/importSpecialMapping',['as' => 'pluginProducts.importSpecialMapping', 'uses'=>'PluginProductImportCrudController@importSpecialMapping']);
     Route::post('plugin/pluginProducts/importSpecialMappingSave',['as' => 'pluginProducts.importSpecialMappingSave', 'uses'=>'PluginProductImportCrudController@importSpecialMappingSave']);
     Route::post('plugin/pluginProducts/importSpecialPostImportActions',['as' => 'pluginProducts.importSpecialPostImportActions', 'uses'=>'PluginProductImportCrudController@importSpecialPostImportActions']);
+    Route::post('plugin/pluginProducts/queueSearchCommands',['as' => 'pluginProducts.queueSearchCommands', 'uses'=>'PluginProductImportCrudController@queueSearchCommands']);
     Route::get('plugin/pluginProducts/importSpecialRuns',['as' => 'pluginProducts.importSpecialRuns', 'uses'=>'PluginProductImportCrudController@importSpecialRuns']);
     Route::post('plugin/pluginProducts/importSpecialRuns/{id}/cancel',['as' => 'pluginProducts.importSpecialRuns.cancel', 'uses'=>'PluginProductImportCrudController@cancelImportSpecialRun']);
     Route::delete('plugin/pluginProducts/importSpecialRuns/{id}',['as' => 'pluginProducts.importSpecialRuns.delete', 'uses'=>'PluginProductImportCrudController@deleteImportSpecialRun']);

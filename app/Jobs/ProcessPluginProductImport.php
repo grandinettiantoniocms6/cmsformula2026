@@ -56,27 +56,30 @@ class ProcessPluginProductImport implements ShouldQueue
             return;
         }
         $run->refresh();
-        $this->startStep($run, 'import');
 
         try {
-            $response = $run->plugin_product_import_id
-                ? (new PluginProductImportCrudController())->processQueuedImport($run)
-                : (new PluginProductsCrudController())->processQueuedNormalImport($run);
-            $data = $response->getData(true);
+            if (!$this->isSearchCommandsOnlyRun($run)) {
+                $this->startStep($run, 'import');
 
-            if ($response->getStatusCode() >= 400) {
-                throw new \RuntimeException($data['message'] ?? 'Errore durante l\'elaborazione del file.');
-            }
+                $response = $run->plugin_product_import_id
+                    ? (new PluginProductImportCrudController())->processQueuedImport($run)
+                    : (new PluginProductsCrudController())->processQueuedNormalImport($run);
+                $data = $response->getData(true);
 
-            if ($data['cancelled'] ?? false) {
-                $this->markCancelled($run);
-                return;
-            }
+                if ($response->getStatusCode() >= 400) {
+                    throw new \RuntimeException($data['message'] ?? 'Errore durante l\'elaborazione del file.');
+                }
 
-            $this->completeStep($run, 'import');
-            if ($this->cancellationRequested($run)) {
-                $this->markCancelled($run);
-                return;
+                if ($data['cancelled'] ?? false) {
+                    $this->markCancelled($run);
+                    return;
+                }
+
+                $this->completeStep($run, 'import');
+                if ($this->cancellationRequested($run)) {
+                    $this->markCancelled($run);
+                    return;
+                }
             }
 
             $this->runProductsSearchStep($run);
@@ -92,7 +95,7 @@ class ProcessPluginProductImport implements ShouldQueue
                 'completed_at' => now(),
                 'error_message' => null,
             ]);
-            Storage::disk('public_plugin_products')->delete($run->file_path);
+            $this->deleteRunFile($run);
         } catch (Throwable $exception) {
             $run->refresh()->update([
                 'status' => 'failed',
@@ -146,7 +149,7 @@ class ProcessPluginProductImport implements ShouldQueue
             'completed_at' => now(),
             'error_message' => null,
         ]);
-        Storage::disk('public_plugin_products')->delete($run->file_path);
+        $this->deleteRunFile($run);
     }
 
     private function runProductsSearchStep(PluginProductImportRun $run)
@@ -217,5 +220,21 @@ class ProcessPluginProductImport implements ShouldQueue
     private function cancellationRequested(PluginProductImportRun $run)
     {
         return in_array($run->fresh()->status, ['cancelling', 'cancelled']);
+    }
+
+    private function isSearchCommandsOnlyRun(PluginProductImportRun $run)
+    {
+        $options = is_array($run->import_options)
+            ? $run->import_options
+            : (json_decode((string) $run->import_options, true) ?: []);
+
+        return !empty($options['only_search_commands']);
+    }
+
+    private function deleteRunFile(PluginProductImportRun $run)
+    {
+        if ($run->file_path) {
+            Storage::disk('public_plugin_products')->delete($run->file_path);
+        }
     }
 }

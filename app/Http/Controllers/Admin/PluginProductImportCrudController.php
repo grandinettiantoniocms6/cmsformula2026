@@ -983,7 +983,7 @@ class PluginProductImportCrudController extends CrudController
                 return [
                     'id' => $run->id,
                     'file_name' => $run->file_name,
-                    'config_name' => $run->config ? $run->config->name : 'Import normale',
+                    'config_name' => $this->getRunDisplayType($run),
                     'status' => $run->status,
                     'total_rows' => (int) $run->total_rows,
                     'processed_rows' => (int) $run->processed_rows,
@@ -1015,6 +1015,54 @@ class PluginProductImportCrudController extends CrudController
         return response()->json(['runs' => $runs]);
     }
 
+    public function queueSearchCommands()
+    {
+        if (PluginProductImportRun::whereIn('status', ['queued', 'processing', 'cancelling'])->exists()) {
+            return response()->json([
+                'message' => 'Esiste gia\' un import o una indicizzazione in coda o in lavorazione. Attendi il completamento prima di avviarne un altro.'
+            ], 422);
+        }
+
+        $run = PluginProductImportRun::create([
+            'plugin_product_import_id' => null,
+            'user_id' => backpack_user() ? (int) backpack_user()->id : null,
+            'file_name' => 'Indicizzazione prodotti',
+            'file_path' => '',
+            'file_extension' => null,
+            'import_options' => [
+                'only_search_commands' => true,
+            ],
+            'status' => 'queued',
+            'queued_at' => now(),
+        ]);
+        $run->steps()->createMany([
+            [
+                'step_type' => 'products_search',
+                'label' => 'Aggiorna indice prodotti (set:products_search)',
+                'status' => 'queued',
+            ],
+            [
+                'step_type' => 'categories_search',
+                'label' => 'Aggiorna indice categorie (set:products_categories_search)',
+                'status' => 'queued',
+            ],
+        ]);
+
+        $queueJobId = Queue::connection('database_imports')->push(
+            new ProcessPluginProductImport($run->id),
+            '',
+            'imports'
+        );
+        $run->update(['queue_job_id' => $queueJobId]);
+
+        return response()->json([
+            'url' => null,
+            'queued' => true,
+            'run_id' => $run->id,
+            'message' => 'Indicizzazione accodata correttamente. Puoi seguire l\'avanzamento nell\'elenco esecuzioni.',
+        ]);
+    }
+
     public function cancelImportSpecialRun($id)
     {
         $run = PluginProductImportRun::findOrFail($id);
@@ -1033,7 +1081,9 @@ class PluginProductImportCrudController extends CrudController
                 'status' => 'cancelled',
                 'completed_at' => now(),
             ]);
-            Storage::disk('public_plugin_products')->delete($run->file_path);
+            if ($run->file_path) {
+                Storage::disk('public_plugin_products')->delete($run->file_path);
+            }
 
             return response()->json(['message' => 'Import rimosso dalla coda.']);
         }
@@ -1061,7 +1111,9 @@ class PluginProductImportCrudController extends CrudController
             ], 422);
         }
 
-        Storage::disk('public_plugin_products')->delete($run->file_path);
+        if ($run->file_path) {
+            Storage::disk('public_plugin_products')->delete($run->file_path);
+        }
         $run->steps()->delete();
         $run->delete();
 
@@ -1140,6 +1192,21 @@ class PluginProductImportCrudController extends CrudController
             'run_id' => $run->id,
             'message' => 'Import accodato correttamente. Puoi seguire l\'avanzamento nell\'elenco esecuzioni.',
         ]);
+    }
+
+    private function getRunDisplayType(PluginProductImportRun $run)
+    {
+        if ($run->config) {
+            return $run->config->name;
+        }
+
+        $options = is_array($run->import_options)
+            ? $run->import_options
+            : (json_decode((string) $run->import_options, true) ?: []);
+
+        return !empty($options['only_search_commands'])
+            ? 'Indicizzazione manuale'
+            : 'Import normale';
     }
 
     private function getImportSessionCacheKey($userId = null)
