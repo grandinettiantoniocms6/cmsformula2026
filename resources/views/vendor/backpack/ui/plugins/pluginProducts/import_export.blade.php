@@ -135,32 +135,6 @@
             </div>
         </div>
 
-        <div class="col-sm-6 mt-4">
-            <div class="card h-100 shadow-none">
-                <div class="card-header bg-light font-weight-bold">Indicizzazione</div>
-                <div class="card-body">
-                    <form method="post" action="{{ route('pluginProducts.queueSearchCommands') }}" class="position-relative" id="form-search-commands">
-                        {{ csrf_field() }}
-
-                        <div class="form-loader" hidden>
-                            <div class="upload-progress-wrapper" aria-live="polite">
-                                <div class="upload-progress-top">
-                                    <span class="upload-progress-title">Accodamento</span>
-                                    <span class="upload-progress-value">0%</span>
-                                </div>
-                                <div class="progress upload-progress">
-                                    <div class="progress-bar progress-bar-striped progress-bar-animated upload-progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <small class="upload-progress-hint">Preparazione operazione...</small>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-dark btn-block js-search-commands-submit"><span>Aggiorna indici prodotti</span></button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
         @if(env('IMPORT_SPECIAL') != 1)
         <div class="col-sm-12 mt-4">
             <div class="mt-4 p-3 border rounded bg-light" id="import-special-runs" data-url="{{ route('pluginProducts.importSpecialRuns') }}">
@@ -530,7 +504,7 @@
                     return run.status === 'queued' || run.status === 'processing' || run.status === 'cancelling';
                 });
 
-                jQuery('.js-special-import-submit, .js-normal-import-submit, .js-search-commands-submit').prop('disabled', hasActiveRuns);
+                jQuery('.js-special-import-submit, .js-normal-import-submit').prop('disabled', hasActiveRuns);
 
                 if (!runs.length) {
                     $tbody.append(jQuery('<tr/>').append(jQuery('<td/>', {
