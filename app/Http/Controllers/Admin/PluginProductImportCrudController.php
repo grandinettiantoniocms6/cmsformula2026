@@ -983,7 +983,7 @@ class PluginProductImportCrudController extends CrudController
                 return [
                     'id' => $run->id,
                     'file_name' => $run->file_name,
-                    'config_name' => $run->config ? $run->config->name : '-',
+                    'config_name' => $run->config ? $run->config->name : 'Import normale',
                     'status' => $run->status,
                     'total_rows' => (int) $run->total_rows,
                     'processed_rows' => (int) $run->processed_rows,

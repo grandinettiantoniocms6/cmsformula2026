@@ -129,11 +129,45 @@
                             </div>
                         @endif
 
-                        <button type="submit" name="submit" class="btn btn-dark btn-block"><span>Carica</span></button>
+                        <button type="submit" name="submit" class="btn btn-dark btn-block js-normal-import-submit"><span>Carica</span></button>
                     </form>
                 </div>
             </div>
         </div>
+
+        @if(env('IMPORT_SPECIAL') != 1)
+        <div class="col-sm-12 mt-4">
+            <div class="mt-4 p-3 border rounded bg-light" id="import-special-runs" data-url="{{ route('pluginProducts.importSpecialRuns') }}">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="mb-0">Esecuzioni import recenti</h6>
+                    <small class="text-muted">Aggiornamento automatico</small>
+                </div>
+                <div class="js-import-runs-feedback"></div>
+                <div class="table-responsive">
+                    <table class="table table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>File / Configurazione</th>
+                                <th>Stato</th>
+                                <th style="min-width: 180px;">Avanzamento</th>
+                                <th>Avviata</th>
+                                <th>Completata</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody class="js-import-runs-body">
+                            <tr><td colspan="6" class="text-muted">Caricamento esecuzioni...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 border rounded bg-light">
+                <h6 class="mb-2">Indicizzazione automatica</h6>
+                <p class="mb-0 text-muted">Al termine di ogni import in coda vengono eseguiti automaticamente <code>set:products_search</code> e <code>set:products_categories_search</code>. Lo stato delle fasi compare nell'elenco sopra.</p>
+            </div>
+        </div>
+        @endif
 
         @if(env('IMPORT_SPECIAL') == 1)
         <div class="col-sm-12 mt-4">
@@ -470,7 +504,7 @@
                     return run.status === 'queued' || run.status === 'processing' || run.status === 'cancelling';
                 });
 
-                jQuery('.js-special-import-submit').prop('disabled', hasActiveRuns);
+                jQuery('.js-special-import-submit, .js-normal-import-submit').prop('disabled', hasActiveRuns);
 
                 if (!runs.length) {
                     $tbody.append(jQuery('<tr/>').append(jQuery('<td/>', {

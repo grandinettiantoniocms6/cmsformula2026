@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Http\Controllers\Admin\PluginProductImportCrudController;
+use App\Http\Controllers\Admin\PluginProductsCrudController;
 use App\Models\PluginProductImportRun;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -58,7 +59,9 @@ class ProcessPluginProductImport implements ShouldQueue
         $this->startStep($run, 'import');
 
         try {
-            $response = (new PluginProductImportCrudController())->processQueuedImport($run);
+            $response = $run->plugin_product_import_id
+                ? (new PluginProductImportCrudController())->processQueuedImport($run)
+                : (new PluginProductsCrudController())->processQueuedNormalImport($run);
             $data = $response->getData(true);
 
             if ($response->getStatusCode() >= 400) {

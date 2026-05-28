@@ -15,6 +15,7 @@ class PluginProductImportRun extends Model
         'queued_at' => 'datetime',
         'started_at' => 'datetime',
         'completed_at' => 'datetime',
+        'import_options' => 'array',
     ];
 
     public function config()
