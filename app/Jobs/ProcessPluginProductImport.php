@@ -224,6 +224,10 @@ class ProcessPluginProductImport implements ShouldQueue
 
     private function isSearchCommandsOnlyRun(PluginProductImportRun $run)
     {
+        if (trim((string) $run->file_path) === '') {
+            return true;
+        }
+
         $options = is_array($run->import_options)
             ? $run->import_options
             : (json_decode((string) $run->import_options, true) ?: []);

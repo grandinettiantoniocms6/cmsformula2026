@@ -17,7 +17,7 @@
 - Ridotte query ripetute con cache runtime per brand, tasse, prodotti per SKU, categorie, attributi/opzioni e configurazione thumb.
 - La generazione delle righe `plugins_products_langs` mancanti usa batch per chunk invece di query per prodotto/lingua.
 - La UI mostra/disabilita anche il pulsante dell'import normale quando una run e' attiva; se `IMPORT_SPECIAL` e' spento, lo storico run resta visibile anche per il normale.
-- Aggiunto un pulsante "Aggiorna indici prodotti" che accoda una run senza file (`import_options.only_search_commands = true`) ed esegue in background solo `set:products_search` e `set:products_categories_search`.
+- Aggiunto un pulsante "Aggiorna indici prodotti" che accoda una run senza file (`file_path` vuoto, `import_options.only_search_commands = true`) ed esegue in background solo `set:products_search` e `set:products_categories_search`.
 
 ## Verifiche
 - Lint PHP sui controller, job, model e migration modificati: nessun errore di sintassi.
