@@ -418,7 +418,7 @@ if($admin_template->nav_style){
                                 jQuery('#chat').whatsappChatSupport({
                                     defaultMsg : '',
                                 });
-                                // serve nel caso uso anche pulsante in un blocco
+                                // serve nel caso uso anche pulsante in un blocco diverso
                                 jQuery('#chat-btn').whatsappChatSupport();
                             }
                         });
