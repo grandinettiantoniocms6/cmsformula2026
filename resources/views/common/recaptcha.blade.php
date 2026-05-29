@@ -18,6 +18,13 @@
                 event.preventDefault();
             }
 
+            var form = document.getElementById("form");
+            var craftoLoading = window.CraftoContactFormLoading;
+
+            if (craftoLoading && !craftoLoading.validate(form)) {
+                return;
+            }
+
             var error = 0;
             $('form#form').find('input').each(function() {
                 if ($(this).prop('required')) {
@@ -52,6 +59,9 @@
 
             if(error == 0){
                // $("#submit_button").attr("disabled", true);
+                if (craftoLoading) {
+                    craftoLoading.setLoading(form);
+                }
 
                 @if($website->consent_solution_iubenda)
                     _iub.cons_instructions.push(["submit",
@@ -79,6 +89,10 @@
                                 document.getElementById("form").submit();
                             },
                             error: function(response) {
+                                if (craftoLoading) {
+                                    craftoLoading.resetLoading(form);
+                                }
+
                                 if (event && typeof event.preventDefault === 'function') {
                                     event.preventDefault();
                                 }
@@ -90,6 +104,10 @@
                     document.getElementById("form").submit();
                 @endif
             }else{
+                if (craftoLoading) {
+                    craftoLoading.resetLoading(form);
+                }
+
                 Swal.fire({
                     title: "Controllo / Check",
                     text: "Tutti i campi sono obbligatori / All fields are mandatory",

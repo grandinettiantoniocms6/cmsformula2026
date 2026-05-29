@@ -32,7 +32,7 @@ if(is_array($form->content)){
                 @endif
 
                 @if($form)
-                    <form method="post" action="{{ route('blockPluginForm.contact_form.send') }}" enctype="multipart/form-data" id="form" class="contact-form-style-03" data-crafto-contact-form="1">
+                    <form method="post" action="{{ route('blockPluginForm.contact_form.send') }}" enctype="multipart/form-data" id="form" class="contact-form-style-03" data-crafto-contact-form="1" data-crafto-loading-submit="1">
                         @honeypot
 
                         {{ csrf_field() }}

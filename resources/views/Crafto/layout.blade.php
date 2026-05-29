@@ -66,6 +66,30 @@ $craftoHasLightbox = $craftoPageBlockTypes->intersect(["blockGallery", "blockLas
             form[data-crafto-contact-form="1"] .terms-condition.is-invalid + .box {
                 color: #dc3545;
             }
+
+            form[data-crafto-loading-submit="1"] button[type="submit"].is-loading {
+                cursor: wait;
+                opacity: .85;
+                pointer-events: none;
+            }
+
+            form[data-crafto-loading-submit="1"] .crafto-form-submit-spinner {
+                display: inline-block;
+                width: 1em;
+                height: 1em;
+                margin-left: .6em;
+                vertical-align: -0.15em;
+                border: 2px solid currentColor;
+                border-top-color: transparent;
+                border-radius: 50%;
+                animation: crafto-form-submit-spin .7s linear infinite;
+            }
+
+            @keyframes crafto-form-submit-spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
         </style>
     @endif
     @yield('recaptcha')
@@ -156,6 +180,7 @@ if($admin_template->nav_style){
         <script>
             (function () {
                 var formSelector = 'form[data-crafto-contact-form="1"]';
+                var loadingFormSelector = 'form[data-crafto-loading-submit="1"]';
                 var requiredSelector = 'input[required], textarea[required], select[required]';
 
                 function getForm(target) {
@@ -177,11 +202,13 @@ if($admin_template->nav_style){
                     return isValid;
                 }
 
-                document.addEventListener('submit', function (event) {
-                    var form = getForm(event.target);
+                function getSubmitButton(form) {
+                    return form.querySelector('button[type="submit"], input[type="submit"]');
+                }
 
+                function validateRequiredFields(form, focusInvalid) {
                     if (!form) {
-                        return;
+                        return true;
                     }
 
                     var invalidFields = [];
@@ -192,25 +219,121 @@ if($admin_template->nav_style){
                     });
 
                     if (!invalidFields.length) {
-                        return;
+                        return true;
                     }
 
-                    event.preventDefault();
                     form.classList.add('was-validated');
 
-                    if (invalidFields[0].focus) {
+                    if (focusInvalid && invalidFields[0].focus) {
                         invalidFields[0].focus();
                     }
 
-                    if (form.reportValidity) {
+                    if (focusInvalid && form.reportValidity) {
                         form.reportValidity();
                     }
+
+                    return false;
+                }
+
+                function setSubmitLoading(form) {
+                    if (!form || !form.matches(loadingFormSelector) || form.dataset.craftoSubmitting === '1') {
+                        return;
+                    }
+
+                    var button = getSubmitButton(form);
+                    form.dataset.craftoSubmitting = '1';
+
+                    if (!button) {
+                        return;
+                    }
+
+                    button.dataset.craftoLoading = '1';
+                    button.dataset.craftoWasDisabled = button.disabled ? '1' : '0';
+                    button.disabled = true;
+                    button.classList.add('is-loading');
+                    button.setAttribute('aria-busy', 'true');
+
+                    if (!button.querySelector('.crafto-form-submit-spinner')) {
+                        var spinner = document.createElement('span');
+                        var label = button.querySelector('span');
+
+                        spinner.className = 'crafto-form-submit-spinner';
+                        spinner.setAttribute('aria-hidden', 'true');
+
+                        if (label && window.getComputedStyle) {
+                            spinner.style.color = window.getComputedStyle(label).color;
+                        }
+
+                        button.appendChild(spinner);
+                    }
+                }
+
+                function resetSubmitLoading(form) {
+                    if (!form) {
+                        return;
+                    }
+
+                    var button = getSubmitButton(form);
+                    delete form.dataset.craftoSubmitting;
+
+                    if (!button || button.dataset.craftoLoading !== '1') {
+                        return;
+                    }
+
+                    button.disabled = button.dataset.craftoWasDisabled === '1';
+                    button.classList.remove('is-loading');
+                    button.removeAttribute('aria-busy');
+
+                    var spinner = button.querySelector('.crafto-form-submit-spinner');
+                    if (spinner) {
+                        spinner.remove();
+                    }
+
+                    delete button.dataset.craftoLoading;
+                    delete button.dataset.craftoWasDisabled;
+                }
+
+                window.CraftoContactFormLoading = {
+                    setLoading: setSubmitLoading,
+                    resetLoading: resetSubmitLoading,
+                    validate: function (form) {
+                        return validateRequiredFields(form, true);
+                    }
+                };
+
+                document.addEventListener('submit', function (event) {
+                    var form = getForm(event.target);
+
+                    if (!form) {
+                        return;
+                    }
+
+                    if (form.dataset.craftoSubmitting === '1') {
+                        event.preventDefault();
+                        return;
+                    }
+
+                    if (!validateRequiredFields(form, true)) {
+                        event.preventDefault();
+                        return;
+                    }
+
+                    setSubmitLoading(form);
                 }, true);
+
+                window.addEventListener('pageshow', function (event) {
+                    if (!event.persisted) {
+                        return;
+                    }
+
+                    Array.prototype.forEach.call(document.querySelectorAll(loadingFormSelector), resetSubmitLoading);
+                });
 
                 document.addEventListener('invalid', function (event) {
                     var form = getForm(event.target);
 
                     if (form && event.target.classList) {
+                        resetSubmitLoading(form);
                         event.target.classList.add('is-invalid');
                         form.classList.add('was-validated');
                     }
