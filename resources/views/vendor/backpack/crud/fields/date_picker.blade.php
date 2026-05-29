@@ -75,6 +75,12 @@
             }, $fake.data('bs-datepicker'));
             $picker = $fake.bootstrapDP($customConfig);
 
+            $fake.closest('.input-group').find('.input-group-append, .input-group-text').css('cursor', 'pointer').off('click.bpDatePicker').on('click.bpDatePicker', function(e) {
+                e.preventDefault();
+                $fake.trigger('focus');
+                $fake.bootstrapDP('show');
+            });
+
             var $existingVal = $field.val();
 
                 if( $existingVal.length ){

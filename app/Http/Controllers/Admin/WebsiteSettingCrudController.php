@@ -1730,7 +1730,13 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
         $this->crud->addField([   // Checkbox
             'name'  => 'popup_start',
             'label' => 'Data inizio',
-            'type'  => 'date',
+            'type'  => 'date_picker',
+            'date_picker_options' => [
+                'format' => 'dd/mm/yyyy',
+                'language' => 'it',
+                'autoclose' => true,
+                'todayHighlight' => true,
+            ],
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
@@ -1740,7 +1746,13 @@ Una volta recuperata la stringa html del relativo font (esempio: https://fonts.g
         $this->crud->addField([   // Checkbox
             'name'  => 'popup_end',
             'label' => 'Data fine',
-            'type'  => 'date',
+            'type'  => 'date_picker',
+            'date_picker_options' => [
+                'format' => 'dd/mm/yyyy',
+                'language' => 'it',
+                'autoclose' => true,
+                'todayHighlight' => true,
+            ],
             'wrapperAttributes' => [
                 'class' => 'form-group col-md-12'
             ],
