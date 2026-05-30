@@ -10,8 +10,6 @@
     @include("$thema.inc.meta")
 @endsection
 
-
-
 @if($website->is_online == 1 || backpack_user() || is_numeric(strpos(env('APP_URL'), "stage")))
     @section('topbar')
         @include("$thema.inc.topbar")
